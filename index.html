@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTop DATA | Kỷ Nguyên Đầu Tư Mới</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+
+    <!-- GSAP via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+    <!-- Custom JS -->
+    <script src="assets/js/scroll-animation.js" defer></script>
+    <script src="assets/js/counter.js" defer></script>
+
+    <style>
+        /* === FIXED BACKGROUND VIDEO === */
+        .video-bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -100;
+            overflow: hidden;
+            pointer-events: none;
+            background: var(--bg-primary);
+        }
+
+        .video-bg {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            /* Phóng to lấp đầy màn hình để xóa khoảng đen */
+            object-position: center;
+            /* Luôn giữ trọng tâm video ở giữa */
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 10, 15, 0.5);
+            z-index: -99;
+        }
+
+        .neon-logo {
+            height: 70px;
+            width: auto;
+            /* Do logo gốc của bạn đã lả viền trắng trong suốt, chỉ cần nhúng thêm luồng sáng Neon tím */
+            filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 15px rgba(168, 85, 247, 0.8));
+            transition: all 0.3s ease;
+        }
+
+        .neon-logo:hover {
+            filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 25px rgba(192, 132, 252, 1));
+            transform: scale(1.05);
+        }
+
+        /* Modern TradingView-style Navbar styling */
+        .tv-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+            height: 72px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+            border-bottom: none;
+            transition: background 0.3s ease;
+        }
+
+        .tv-header.scrolled {
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tv-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .tv-search-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            padding: 8px 16px;
+            color: #94A3B8;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: text;
+        }
+
+        .tv-search-bar:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .tv-nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .tv-nav a {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .tv-nav a:hover {
+            opacity: 1;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        .tv-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .tv-right .icon-link {
+            color: #fff;
+            font-size: 1.1rem;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .tv-right .icon-link:hover {
+            opacity: 1;
+        }
+
+        .btn-tv-blue {
+            background: #2962FF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 24px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-tv-blue:hover {
+            background: #1E53E5;
+        }
+
+        /* === CINEMATIC CONTAINER SCENES === */
+        #cinematic-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            perspective: 1000px;
+            /* 3D perspective cho cảnh */
+        }
+
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flash-overlay {
+            position: absolute;
+            inset: 0;
+            background: #a855f7;
+            opacity: 0;
+            z-index: 10;
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        /* Scene 1 (Original Hero) */
+        .scene-1 .hero-content {
+            z-index: 1;
+            text-align: center;
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #ffffff, #a855f7);
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline-block;
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+        }
+
+        .hero-title {
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            color: #E2E8F0;
+            font-weight: 500;
+            margin-bottom: 40px;
+        }
+
+        .hero-cta-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-white-huge {
+            background: #FFFFFF;
+            color: #000000;
+            border: none;
+            border-radius: 999px;
+            padding: 16px 48px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .ai-assistant-widget {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            z-index: 2;
+            background: rgba(15, 15, 20, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 16px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            max-width: 360px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(168, 85, 247, 0.15);
+            animation: float-ai 5s ease-in-out infinite;
+        }
+
+        @keyframes float-ai {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .ai-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
+        }
+
+        .ai-message {
+            text-align: left;
+        }
+
+        .ai-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #fff;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #22c55e;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .ai-text {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-style: italic;
+        }
+
+        /* Scene 2 (Data Features) */
+        .scene-2 {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .ai-cube {
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.4));
+        }
+
+        .panels-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            z-index: 2;
+            max-width: 1200px;
+        }
+
+        .panel {
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: left;
+            flex: 1;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            position: relative;
+            padding: 5rem 5%;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            background: rgba(15, 15, 26, 0.7);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid var(--purple-border);
+            border-bottom: 1px solid var(--purple-border);
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            color: var(--gold-light);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Showcase Section */
+        .product-showcase {
+            position: relative;
+            padding: 8rem 5% 5rem;
+            text-align: center;
+            background: rgba(10, 10, 15, 0.4);
+            z-index: 5;
+        }
+
+        .showcase-header h2 {
+            margin-bottom: 20px;
+        }
+
+        .showcase-header p {
+            font-size: 1.2rem;
+            color: #94A3B8;
+            max-width: 650px;
+            margin: 0 auto 4rem;
+            line-height: 1.6;
+        }
+
+        .showcase-mockup-wrapper {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-radius: 12px;
+            padding: 3px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.8), rgba(41, 98, 255, 0.8));
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.2);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .showcase-mockup-wrapper:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 80px rgba(168, 85, 247, 0.4);
+        }
+
+        .mockup-img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            /* Ép cứng tỷ lệ màn hình Widescreen 16:9 */
+            display: block;
+            border-radius: 10px;
+            background: #111;
+            object-fit: cover;
+            /* Phần ảnh dư theo chiều dọc tự động bị xén đi */
+            object-position: top center;
+            /* Thường sẽ lấy từ thanh công cụ bên trên xuống */
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            position: relative;
+            padding: 8rem 5%;
+            text-align: center;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .pricing-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            max-width: 1300px;
+            margin: 4rem auto 0;
+            text-align: left;
+        }
+
+        @media (max-width: 1024px) {
+            .tv-nav {
+                display: none;
+            }
+
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .panels-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .panel {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .author-card {
+                display: none;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-section {
+                flex-direction: column;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- VIDEO BACKGROUND THỐNG NHẤT LERP 60FPS -->
+    <div class="video-bg-container">
+        <!-- Áp dụng Lerp JS để giả lập 60fps scrubbing -->
+        <video autoplay loop muted playsinline class="video-bg" id="hero-video" preload="auto">
+            <source src="Smooth_transition_between_202604222134.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay" style="background-color: rgba(5, 5, 10, 0.4);"></div>
+    </div>
+
+    <!-- TRADINGVIEW STYLE HEADER -->
+    <header class="tv-header" id="mainHeader">
+        <div class="tv-left">
+            <a href="/" class="logo-link">
+                <!-- Đã Sửa Lại Đúng Tên Folder images của bạn -->
+                <img src="assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo">
+            </a>
+            <div class="tv-search-bar">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                </svg>
+                Tìm kiếm (Ctrl+K)
+            </div>
+        </div>
+        <ul class="tv-nav">
+            <li><a href="fintop-data/index.html">Trang chủ</a></li>
+            <li><a href="chuyen-gia/index.html">Hội viên</a></li>
+            <li><a href="stock-data/index.html">FinTop AI</a></li>
+            <li><a href="hoi-vien/index.html">Dữ liệu cổ phiếu</a></li>
+            <li><a href="huong-dan/index.html">Hướng dẫn</a></li>
+        </ul>
+        <div class="tv-right">
+            <span class="icon-link">🌐 VI</span>
+            <span class="icon-link">👤</span>
+            <button class="btn-tv-blue">Bắt đầu</button>
+        </div>
+    </header>
+
+    <!-- CINEMATIC SCROLL CONTAINER -->
+    <div id="cinematic-container">
+
+        <!-- Flash Overlay for Transition -->
+        <div class="flash-overlay"></div>
+
+        <!-- SCENE 1: HERO -->
+        <section class="scene scene-1">
+            <div class="hero-content">
+                <h1 class="hero-title gradient-text">Kỷ Nguyên Đầu Tư Cùng FinTop DATA.</h1>
+                <p class="hero-subtitle">Nơi hội tụ Data - Chuyên gia - Công nghệ & AI. Tinh gọn và hiệu quả.</p>
+                <div class="hero-cta-wrapper">
+                    <button class="btn-white-huge" onclick="location.href='hoi-vien/index.html'">Bắt đầu miễn
+                        phí</button>
+                    <span style="font-size: 0.9rem; color: #94A3B8; letter-spacing: 0.5px;"></span>
+                </div>
+            </div>
+
+            <!-- AI Assistant Widget Mockup -->
+            <div class="ai-assistant-widget">
+                <div class="ai-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+                </div>
+                <div class="ai-message">
+                    <div class="ai-name">
+                        FinTop AI
+                        <div class="ai-status-dot"></div>
+                    </div>
+                    <div class="ai-text">"Phát hiện dòng tiền lớn thâm nhập mã FPT. Khuyến nghị Tích lũy vùng giá 132. Bạn muốn mở phân tích chuyên sâu chứ?"</div>
+                </div>
+            </div>
+
+            <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); opacity: 0.5;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </div>
+        </section>
+
+        <!-- SCENE 2: FEATURES -->
+        <section class="scene scene-2">
+            <div class="ai-cube gradient-text">Dữ Liệu Thế Hệ Mới</div>
+            <div class="panels-container">
+                <div class="panel">
+                    <h3 style="color:var(--text-primary); margin-bottom:1rem;">DATA</h3>
+                    <ul style="color: var(--text-secondary); line-height: 2;">
+                        <li>✓ Tra cứu Cổ phiếu</li>
+                        <li>✓ Bộ lọc Tín hiệu</li>
+                        <li>✓ Stock Data API</li>
+                    </ul>
+                </div>
+                <div class="panel">
+                    <h3 style="color:var(--text-primary); margin-bottom:1rem;">CHUYÊN GIA</h3>
+                    <ul style="color: var(--text-secondary); line-height: 2;">
+                        <li>✓ Nhận định Tín hiệu</li>
+                        <li>✓ Danh mục Khuyến nghị</li>
+                        <li>✓ Cố vấn 1-1</li>
+                    </ul>
+                </div>
+                <div class="panel">
+                    <h3 style="color:var(--text-primary); margin-bottom:1rem;">AI PHÂN TÍCH</h3>
+                    <ul style="color: var(--text-secondary); line-height: 2;">
+                        <li>✓ Công cụ FinTop AI</li>
+                        <li>✓ Tự động hóa điểm mua/bán</li>
+                        <li>✓ Phân tích Sentiment</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- SECTION 2.5: TERMINAL SHOWCASE -->
+    <section class="product-showcase">
+        <div class="showcase-header">
+            <h2 class="gradient-text">Hệ Sinh Thái Phân Tích Đầu Tư Đỉnh Cao</h2>
+            <p>Đồng hành cùng hàng nghìn nhà đầu tư Việt Nam làm chủ dòng tiền thông minh bằng bộ công cụ dữ liệu chuẩn
+                quốc tế.</p>
+        </div>
+        <div class="showcase-mockup-wrapper">
+            <img src="assets/images/fintop_terminal_mockup.png" alt="FinTop DATA Terminal Dashboard" class="mockup-img">
+        </div>
+    </section>
+
+    <!-- SECTION 3: STATS -->
+    <section class="stats-section">
+        <div class="stat-item">
+            <h3 class="stat-number" data-target="1500" data-suffix="+">0</h3>
+            <p>Cổ phiếu được Cover</p>
+        </div>
+        <div class="stat-item">
+            <h3 class="stat-number" data-target="50" data-suffix="+">0</h3>
+            <p>Chuyên gia Thị trường</p>
+        </div>
+        <div class="stat-item">
+            <h3 class="stat-number" data-target="98" data-suffix="%">0</h3>
+            <p>Độ chính xác AI Model</p>
+        </div>
+    </section>
+
+    <!-- SECTION 4: PRICING -->
+    <section class="pricing-section" id="pricing">
+        <h2 class="gradient-text" style="position: relative; z-index: 1;">Chọn Gói Hội Viên</h2>
+        <p style="margin-top: 1rem; position: relative; z-index: 1;">Nâng cấp trải nghiệm đầu tư của bạn ngay hôm nay
+        </p>
+
+        <div class="pricing-grid">
+            <div class="pricing-card glass-card">
+                <div class="pricing-title">Standard</div>
+                <h3 style="font-size: 2.5rem;">Free</h3>
+                <ul style="color: var(--text-secondary); line-height: 2; margin-bottom: auto;">
+                    <li>✓ Tra cứu Cổ phiếu cơ bản</li>
+                    <li>✓ Các truy cập miễn phí</li>
+                    <li>✓ Đăng ký Tài khoản (Free)</li>
+                </ul>
+                <button class="btn-ghost" style="width: 100%;">Đăng ký ngay</button>
+            </div>
+
+            <div class="pricing-card glass-card card-pro">
+                <div class="pricing-title" style="color: var(--purple-glow);">PRO ⭐</div>
+                <div style="font-size: 0.8rem; color: var(--gold-light);">Phổ biến nhất</div>
+                <h3 style="font-size: 2.5rem;">99k<span
+                        style="font-size: 1rem; color: var(--text-secondary);">/tháng</span></h3>
+                <ul style="color: var(--text-secondary); line-height: 2; margin-bottom: auto;">
+                    <li>✓ Toàn bộ tính năng Standard</li>
+                    <li>✓ Bộ lọc Cổ phiếu Nâng cao</li>
+                    <li>✓ Pro Analysis Data</li>
+                </ul>
+                <button class="btn-primary" style="width: 100%;">Mua gói Pro →</button>
+            </div>
+
+            <div class="pricing-card glass-card">
+                <div class="pricing-title">V.I.P</div>
+                <div style="font-size: 0.8rem; color: var(--status-very-pos);">Dành cho KH giao dịch VPS</div>
+                <h3 style="font-size: 2.5rem;">Khách hàng</h3>
+                <ul style="color: var(--text-secondary); line-height: 2; margin-bottom: auto;">
+                    <li>✓ Tín hiệu Chuyên gia Realtime</li>
+                    <li>✓ Danh mục Chuyên gia</li>
+                    <li>✓ Yêu cầu Gắn ID VPS</li>
+                </ul>
+                <button class="btn-ghost" style="width: 100%;">Liên hệ gắn ID</button>
+            </div>
+
+            <div class="pricing-card glass-card card-diamond">
+                <div class="pricing-title gold-text">Diamond 💎</div>
+                <div style="font-size: 0.8rem; color: var(--status-ok);">NAV từ 1 tỷ VND</div>
+                <h3 style="font-size: 2.5rem;">Đặc quyền</h3>
+                <ul style="color: var(--text-secondary); line-height: 2; margin-bottom: auto;">
+                    <li>✓ Toàn quyền truy cập V.I.P + Pro</li>
+                    <li>✓ Cố vấn Đầu tư 1-1 riêng biệt</li>
+                    <li>✓ Giao dịch theo Deal nội bộ</li>
+                </ul>
+                <button class="btn-solid-gold" style="width: 100%; padding: 12px; font-size: 1rem;">Kết nối Chuyên
+                    gia</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="position: relative; z-index: 10; background: #07070D;">
+        <div class="footer-grid">
+            <div>
+                <h2 class="logo">FinTop DATA</h2>
+                <p style="margin-top: 1rem;">Nơi hội tụ Data - Chuyên gia - Công nghệ & AI.</p>
+            </div>
+            <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
+                <a href="hoi-vien/index.html">Hội Viên</a>
+                <a href="fintop-data/index.html">FinTop Data</a>
+                <a href="chuyen-gia/index.html">Chuyên Gia</a>
+                <a href="fintop-ai/index.html">FinTop AI</a>
+                <a href="stock-data/index.html">Stock Data</a>
+                <a href="huong-dan/index.html">Hướng Dẫn</a>
+            </div>
+            <div style="text-align: right;">
+                <p>© 2026 FinTop DATA. All rights reserved.</p>
+            </div>
+        </div>
+        <div class="footer-disclaimer">
+            <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư.
+            Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>

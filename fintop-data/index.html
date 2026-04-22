@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra Cứu Cổ Phiếu | FinTop DATA</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    
+    <!-- Custom JS -->
+    <script src="../assets/js/table.js" defer></script>
+    
+    <style>
+        .inner-page-layout {
+            padding: 100px 5% 4rem;
+            min-height: 100vh;
+        }
+        .page-header {
+            margin-bottom: 2rem;
+        }
+        .page-header h1 {
+            color: var(--inner-accent);
+            font-size: var(--font-h2);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="light-mode"> <!-- Kích hoạt màu nền sáng cho inner page -->
+
+    <!-- HEADER (Có thể chuyển sang màu tối hoặc màu light tuỳ thích, ở đây giữ nguyên Dark như Spec header sticky) -->
+    <header class="sticky-nav">
+        <a href="../index.html" class="logo">FinTop DATA</a>
+        <ul class="nav-menu">
+            <li><a href="../hoi-vien/index.html">Hội Viên</a></li>
+            <li>
+                <a href="index.html" style="color: var(--purple-glow);">FinTop Data ▾</a>
+                <div class="dropdown-menu">
+                    <a href="index.html">Tra cứu CP</a>
+                    <a href="bo-loc/index.html">Bộ Lọc CP</a>
+                    <a href="tin-hieu/index.html">Tín Hiệu CG</a>
+                    <a href="danh-muc/index.html">Danh Mục CG</a>
+                </div>
+            </li>
+            <li><a href="../chuyen-gia/index.html">Chuyên Gia</a></li>
+            <li><a href="../fintop-ai/index.html">FinTop AI</a></li>
+            <li><a href="../stock-data/index.html">Stock Data</a></li>
+            <li><a href="../huong-dan/index.html">Hướng Dẫn</a></li>
+        </ul>
+        <div class="header-actions">
+            <!-- Icon/User profile mock -->
+            <button class="btn-primary btn-sm">Tài khoản</button>
+        </div>
+    </header>
+
+    <main class="inner-page-layout">
+        <div class="page-header">
+            <h1>Tra Cứu Cổ Phiếu</h1>
+            <p>Dữ liệu tổng hợp theo mô hình AI định lượng FinTop DATA</p>
+        </div>
+
+        <div class="data-table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã CP</th>
+                        <th>Sàn</th>
+                        <th>Ngành HĐKD</th>
+                        <th>Trạng thái Model</th>
+                        <th>Kết quả Model</th>
+                        <th>Vùng giá TC</th>
+                        <th>Vùng Kháng cự</th>
+                        <th>Điểm QTRR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>VEA</strong></td>
+                        <td>UPCOM</td>
+                        <td>SX ô tô, xe máy</td>
+                        <td><span class="badge very-pos">RẤT TÍCH CỰC</span></td>
+                        <td><button class="btn-solid-gold">STRONG ENTRY</button></td>
+                        <td>36.5 - 37.0</td>
+                        <td>40.0 - 41.5</td>
+                        <td>8/10</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>DGW</strong></td>
+                        <td>HOSE</td>
+                        <td>Bán lẻ IT</td>
+                        <td><span class="badge pos">TÍCH CỰC</span></td>
+                        <td><button class="btn-outline-purple">ENTRY</button></td>
+                        <td>45.0 - 46.2</td>
+                        <td>50.1 - 52.0</td>
+                        <td>7/10</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>DST</strong></td>
+                        <td>HNX</td>
+                        <td>Tài chính</td>
+                        <td><span class="badge neutral">TRUNG LẬP</span></td>
+                        <td><button class="btn-outline-gray">SMALL ENTRY</button></td>
+                        <td>5.0 - 5.1</td>
+                        <td>6.5 - 7.0</td>
+                        <td>5/10</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>VNM</strong></td>
+                        <td>HOSE</td>
+                        <td>Sản xuất sữa</td>
+                        <td><span class="badge neg">TIÊU CỰC</span></td>
+                        <td><span style="color: var(--text-muted); font-size: 0.8rem;">BỎ QUA</span></td>
+                        <td>66.0 - 67.5</td>
+                        <td>70.0 - 72.0</td>
+                        <td>3/10</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><strong>FPT</strong></td>
+                        <td>HOSE</td>
+                        <td>Công nghệ</td>
+                        <td><span class="badge ok">KHẢ QUAN</span></td>
+                        <td><button class="btn-outline-purple">ENTRY</button></td>
+                        <td>112.0 - 114.5</td>
+                        <td>125.0 - 130.0</td>
+                        <td>8/10</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- FOOTER CHUNG (Nên dùng JS include hoặc SSR, nhưng tĩnh ta copy lại) -->
+    <footer style="margin-top: 2rem;">
+        <div class="footer-disclaimer" style="padding: 2rem 5%; text-align: center;">
+            <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
+        </div>
+    </footer>
+
+</body>
+</html>
