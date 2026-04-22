@@ -501,10 +501,14 @@
 
     <!-- VIDEO BACKGROUND THỐNG NHẤT LERP 60FPS -->
     <div class="video-bg-container">
-        <!-- Áp dụng Lerp JS để giả lập 60fps scrubbing -->
+        <!-- Áp dụng giảm tốc độ mượt mà -->
         <video autoplay loop muted playsinline class="video-bg" id="hero-video" preload="auto">
             <source src="Smooth_transition_between_202604222134.mp4" type="video/mp4">
         </video>
+        <script>
+            // Hãm tốc độ phát video xuống 70% để tạo cảm giác Cinematic mượt mà (60fps gốc -> ~42fps thực tế)
+            document.getElementById('hero-video').playbackRate = 0.7;
+        </script>
         <div class="video-overlay" style="background-color: rgba(5, 5, 10, 0.4);"></div>
     </div>
 
