@@ -206,9 +206,9 @@
             -webkit-background-clip: text;
             color: transparent;
             display: inline-block;
-            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-size: clamp(2.2rem, 6vw, 5rem); /* Tối ưu co giãn cho Mobile */
             font-weight: 900;
-            line-height: 1.1;
+            line-height: 1.2;
         }
 
         .hero-title {
@@ -455,12 +455,13 @@
         }
 
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.8rem;
-            }
-
-            .author-card {
-                display: none;
+            .ai-assistant-widget {
+                bottom: 20px;
+                right: 20px;
+                max-width: calc(100vw - 40px);
+                padding: 12px;
+                transform: scale(0.85); /* Thu nhỏ widget trên giao diện hẹp */
+                transform-origin: bottom right;
             }
 
             .pricing-grid {
