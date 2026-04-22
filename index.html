@@ -206,7 +206,8 @@
             -webkit-background-clip: text;
             color: transparent;
             display: inline-block;
-            font-size: clamp(2.2rem, 6vw, 5rem); /* Tối ưu co giãn cho Mobile */
+            font-size: clamp(2.2rem, 6vw, 5rem);
+            /* Tối ưu co giãn cho Mobile */
             font-weight: 900;
             line-height: 1.2;
         }
@@ -259,9 +260,17 @@
         }
 
         @keyframes float-ai {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
-            100% { transform: translateY(0px); }
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
 
         .ai-avatar {
@@ -300,9 +309,20 @@
         }
 
         @keyframes pulse-dot {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1); }
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .ai-text {
@@ -460,7 +480,8 @@
                 right: 20px;
                 max-width: calc(100vw - 40px);
                 padding: 12px;
-                transform: scale(0.85); /* Thu nhỏ widget trên giao diện hẹp */
+                transform: scale(0.85);
+                /* Thu nhỏ widget trên giao diện hẹp */
                 transform-origin: bottom right;
             }
 
@@ -537,14 +558,23 @@
             <!-- AI Assistant Widget Mockup -->
             <div class="ai-assistant-widget">
                 <div class="ai-avatar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+                        <path d="M5 3v4" />
+                        <path d="M19 17v4" />
+                        <path d="M3 5h4" />
+                        <path d="M17 19h4" />
+                    </svg>
                 </div>
                 <div class="ai-message">
                     <div class="ai-name">
                         FinTop AI
                         <div class="ai-status-dot"></div>
                     </div>
-                    <div class="ai-text">"Phát hiện dòng tiền lớn thâm nhập mã FPT. Khuyến nghị Tích lũy vùng giá 132. Bạn muốn mở phân tích chuyên sâu chứ?"</div>
+                    <div class="ai-text">"Phát hiện dòng tiền lớn thâm nhập mã FPT. Khuyến nghị Tích lũy vùng giá 132.
+                        Bạn muốn mở phân tích chuyên sâu chứ?"</div>
                 </div>
             </div>
 
@@ -557,7 +587,7 @@
 
         <!-- SCENE 2: FEATURES -->
         <section class="scene scene-2">
-            <div class="ai-cube gradient-text">Dữ Liệu Thế Hệ Mới</div>
+            <div class="ai-cube gradient-text">Dữ Liệu Cho Nhà Đầu Tư Thế Hệ Mới!</div>
             <div class="panels-container">
                 <div class="panel">
                     <h3 style="color:var(--text-primary); margin-bottom:1rem;">DATA</h3>
