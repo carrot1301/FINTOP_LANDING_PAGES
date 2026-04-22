@@ -500,13 +500,41 @@
 
     <!-- VIDEO BACKGROUND THỐNG NHẤT LERP 60FPS -->
     <div class="video-bg-container">
-        <!-- Áp dụng giảm tốc độ mượt mà -->
-        <video autoplay loop muted playsinline class="video-bg" id="hero-video" preload="auto">
+        <!-- Thay đổi logic phát video theo chu kỳ thủ công -->
+        <video muted playsinline class="video-bg" id="hero-video" preload="auto">
             <source src="Smooth_transition_between_202604222134.mp4" type="video/mp4">
         </video>
         <script>
+            const video = document.getElementById('hero-video');
             // Hãm tốc độ video xuống 10% (0.9x) để không khựng khung hình
-            document.getElementById('hero-video').playbackRate = 0.9;
+            video.playbackRate = 0.9;
+            
+            function startVideoCycle() {
+                // 1. Dừng ở hình ảnh đầu tiên 4 giây (khoảng 3-5s theo yêu cầu)
+                video.currentTime = 0;
+                video.pause();
+                
+                setTimeout(() => {
+                    // 2. Chuyển động (tầm 5s)
+                    video.play().catch(e => console.log("Video play error:", e));
+                }, 4000);
+            }
+
+            // 3. Khi video kết thúc, dừng ở khung hình cuối (cái thứ 2)
+            video.addEventListener('ended', () => {
+                // Dừng ở khung hình cuối thêm 5 giây (lâu lâu 1 chút)
+                // Tổng chu kỳ rơi vào khoảng ~14s rồi lặp quay lại
+                setTimeout(() => {
+                    startVideoCycle();
+                }, 5000);
+            });
+
+            // Khởi động khi video đã tải đủ dữ liệu frame đầu
+            if (video.readyState >= 2) {
+                startVideoCycle();
+            } else {
+                video.addEventListener('loadeddata', startVideoCycle);
+            }
         </script>
         <div class="video-overlay" style="background-color: rgba(5, 5, 10, 0.4);"></div>
     </div>
