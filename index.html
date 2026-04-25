@@ -113,6 +113,13 @@
         .tv-nav {
             display: flex;
             gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+            list-style: none;
+            padding: 15px 0;
         }
 
         .tv-nav a {
@@ -121,11 +128,62 @@
             color: #fff;
             opacity: 0.8;
             transition: opacity 0.2s;
+            text-decoration: none;
         }
 
         .tv-nav a:hover {
             opacity: 1;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Glassmorphism Dropdown */
+        .dropdown-content {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 240px;
+            background: rgba(15, 15, 20, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            transform: translateY(15px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 8px 0;
+            z-index: 1000;
+        }
+
+        .dropdown:hover .dropdown-content {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            padding: 12px 20px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.08);
+            padding-left: 26px;
+            text-shadow: none;
+            color: #c084fc; /* Neon purple text on hover */
         }
 
         .tv-right {
@@ -285,7 +343,7 @@
         }
 
         .ai-message {
-            text-align: left;
+            text-align: left;\n            align-items: stretch;
         }
 
         .ai-name {
@@ -362,7 +420,7 @@
             -webkit-backdrop-filter: blur(16px); /* Hỗ trợ Safari */
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); /* Tạo chiều sâu cho khối kính */
             padding: 2rem;
-            text-align: left;
+            text-align: left;\n            align-items: stretch;
             flex: 1;
         }
 
@@ -452,7 +510,8 @@
             gap: 1.5rem;
             max-width: 1300px;
             margin: 4rem auto 0;
-            text-align: left;
+            text-align: left;\n            align-items: stretch;
+            align-items: stretch;
         }
 
         @media (max-width: 1024px) {
@@ -482,7 +541,6 @@
                 max-width: calc(100vw - 40px);
                 padding: 12px;
                 transform: scale(0.85);
-                /* Thu nhỏ widget trên giao diện hẹp */
                 transform-origin: bottom right;
             }
 
@@ -493,6 +551,571 @@
             .stats-section {
                 flex-direction: column;
                 gap: 2rem;
+            }
+        }
+
+        /* LIQUID GLASS EFFECT - Base */
+        .liquid-glass-card {
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            opacity: 1 !important;
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            height: 100%;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        /* STANDARD - Cyan/Blue */
+        .liquid-glass-card.card-standard {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.04));
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-top: 1px solid rgba(56, 189, 248, 0.4);
+            border-left: 1px solid rgba(56, 189, 248, 0.4);
+            box-shadow: inset 0 0 20px rgba(56, 189, 248, 0.05), 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .liquid-glass-card.card-standard:hover {
+            box-shadow: inset 0 0 20px rgba(56, 189, 248, 0.08), 0 12px 40px rgba(56, 189, 248, 0.15);
+            transform: translateY(-6px) !important;
+        }
+        .card-standard .pricing-title { color: #38bdf8; }
+        .card-standard .check-icon { color: #38bdf8; }
+        .card-standard .btn-tier {
+            background: transparent;
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .card-standard .btn-tier:hover {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+
+        /* PRO - Purple */
+        .liquid-glass-card.card-pro {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(139, 92, 246, 0.06));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-top: 1px solid rgba(168, 85, 247, 0.5);
+            border-left: 1px solid rgba(168, 85, 247, 0.5);
+            box-shadow: inset 0 0 20px rgba(168, 85, 247, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .liquid-glass-card.card-pro:hover {
+            box-shadow: inset 0 0 20px rgba(168, 85, 247, 0.12), 0 16px 50px rgba(168, 85, 247, 0.25);
+            transform: translateY(-6px) !important;
+        }
+        .card-pro .pricing-title { color: #c084fc; }
+        .card-pro .check-icon { color: #a855f7; }
+        .card-pro .btn-tier {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.35);
+            transition: all 0.3s ease;
+        }
+        .card-pro .btn-tier:hover {
+            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* V.I.P - Emerald Green */
+        .liquid-glass-card.card-vip {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.05));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-top: 1px solid rgba(16, 185, 129, 0.45);
+            border-left: 1px solid rgba(16, 185, 129, 0.45);
+            box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.06), 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .liquid-glass-card.card-vip:hover {
+            box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.1), 0 12px 40px rgba(16, 185, 129, 0.18);
+            transform: translateY(-6px) !important;
+        }
+        .card-vip .pricing-title { color: #34d399; }
+        .card-vip .check-icon { color: #10b981; }
+        .card-vip .btn-tier {
+            background: transparent;
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .card-vip .btn-tier:hover {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: #34d399;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+
+        /* DIAMOND - Gold */
+        .liquid-glass-card.card-diamond {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.05));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-top: 1px solid rgba(245, 158, 11, 0.5);
+            border-left: 1px solid rgba(245, 158, 11, 0.5);
+            box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.06), 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .liquid-glass-card.card-diamond:hover {
+            box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.1), 0 12px 40px rgba(245, 158, 11, 0.2);
+            transform: translateY(-6px) !important;
+        }
+        .card-diamond .pricing-title { color: #f59e0b; }
+        .card-diamond .check-icon { color: #fbbf24; }
+        .card-diamond .btn-tier {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+            transition: all 0.3s ease;
+        }
+        .card-diamond .btn-tier:hover {
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .pricing-subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .pricing-features {
+            color: var(--text-secondary);
+            line-height: 2.2;
+            flex: 1 1 auto;
+            margin-bottom: 1.5rem;
+            padding-left: 0;
+            list-style: none;
+        }
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* === TEAM SECTION === */
+        .team-section {
+            position: relative;
+            padding: 8rem 5%;
+            text-align: center;
+            background: rgba(10, 10, 15, 0.6);
+            backdrop-filter: blur(10px);
+            z-index: 5;
+        }
+
+        .team-row {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .team-row-1 {
+            margin-top: 4rem;
+        }
+
+        .team-member {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 260px;
+            text-align: center;
+            transition: transform 0.4s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-8px);
+        }
+
+        .team-avatar-wrapper {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            padding: 4px;
+            margin-bottom: 1.2rem;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .team-avatar-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .team-member:hover .team-avatar-wrapper::before {
+            opacity: 1;
+        }
+
+        /* Avatar color variants */
+        .avatar-gold {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+        }
+        .avatar-gold::before { background: rgba(245, 158, 11, 0.25); filter: blur(15px); }
+        .team-member:hover .avatar-gold { box-shadow: 0 0 35px rgba(245, 158, 11, 0.5); }
+
+        .avatar-cyan {
+            background: linear-gradient(135deg, #06b6d4, #38bdf8, #06b6d4);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+        .avatar-cyan::before { background: rgba(56, 189, 248, 0.25); filter: blur(15px); }
+        .team-member:hover .avatar-cyan { box-shadow: 0 0 35px rgba(56, 189, 248, 0.5); }
+
+        .avatar-pink {
+            background: linear-gradient(135deg, #ec4899, #f472b6, #ec4899);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+        .avatar-pink::before { background: rgba(236, 72, 153, 0.25); filter: blur(15px); }
+        .team-member:hover .avatar-pink { box-shadow: 0 0 35px rgba(236, 72, 153, 0.5); }
+
+        .avatar-green {
+            background: linear-gradient(135deg, #10b981, #34d399, #10b981);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+        .avatar-green::before { background: rgba(16, 185, 129, 0.25); filter: blur(15px); }
+        .team-member:hover .avatar-green { box-shadow: 0 0 35px rgba(16, 185, 129, 0.5); }
+
+        .avatar-purple {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa, #8b5cf6);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        .avatar-purple::before { background: rgba(139, 92, 246, 0.25); filter: blur(15px); }
+        .team-member:hover .avatar-purple { box-shadow: 0 0 35px rgba(139, 92, 246, 0.5); }
+
+        .team-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .team-name {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .team-role {
+            color: #c084fc;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            font-style: italic;
+        }
+
+        .team-desc {
+            color: #94A3B8;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .team-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 2.5rem;
+            }
+        }
+
+        /* === ABOUT / GIỚI THIỆU SECTION === */
+        .about-section {
+            position: relative;
+            padding: 8rem 5%;
+            text-align: center;
+            background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 5;
+        }
+
+        .about-description {
+            max-width: 900px;
+            margin: 2.5rem auto 4rem;
+            color: #cbd5e1;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            text-align: justify;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2.5rem;
+        }
+
+        .about-services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Last row with 2 cards — center them */
+        .about-services-grid .about-card:nth-child(4),
+        .about-services-grid .about-card:nth-child(5) {
+            grid-column: span 1;
+        }
+
+        .about-card {
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: left;\n            align-items: stretch;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .about-card-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .about-card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .about-card-desc {
+            color: #94A3B8;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .about-card-team {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .about-card-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .about-card-team span {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Card color variants */
+        .about-card-cyan {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.03));
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-top: 1px solid rgba(56, 189, 248, 0.4);
+            border-left: 1px solid rgba(56, 189, 248, 0.35);
+        }
+        .about-card-cyan .about-card-title { color: #38bdf8; }
+        .about-card-cyan .about-card-team span { color: #7dd3fc; }
+        .about-card-cyan:hover { box-shadow: 0 12px 40px rgba(56, 189, 248, 0.12); }
+
+        .about-card-pink {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(244, 114, 182, 0.03));
+            border: 1px solid rgba(236, 72, 153, 0.25);
+            border-top: 1px solid rgba(236, 72, 153, 0.4);
+            border-left: 1px solid rgba(236, 72, 153, 0.35);
+        }
+        .about-card-pink .about-card-title { color: #f472b6; }
+        .about-card-pink .about-card-team span { color: #f9a8d4; }
+        .about-card-pink:hover { box-shadow: 0 12px 40px rgba(236, 72, 153, 0.12); }
+
+        .about-card-green {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.03));
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-top: 1px solid rgba(16, 185, 129, 0.4);
+            border-left: 1px solid rgba(16, 185, 129, 0.35);
+        }
+        .about-card-green .about-card-title { color: #34d399; }
+        .about-card-green .about-card-team span { color: #6ee7b7; }
+        .about-card-green:hover { box-shadow: 0 12px 40px rgba(16, 185, 129, 0.12); }
+
+        .about-card-purple {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(167, 139, 250, 0.03));
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            border-top: 1px solid rgba(139, 92, 246, 0.4);
+            border-left: 1px solid rgba(139, 92, 246, 0.35);
+        }
+        .about-card-purple .about-card-title { color: #a78bfa; }
+        .about-card-purple .about-card-team span { color: #c4b5fd; }
+        .about-card-purple:hover { box-shadow: 0 12px 40px rgba(139, 92, 246, 0.12); }
+
+        .about-card-gold {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(251, 191, 36, 0.03));
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            border-top: 1px solid rgba(245, 158, 11, 0.4);
+            border-left: 1px solid rgba(245, 158, 11, 0.35);
+        }
+        .about-card-gold .about-card-title { color: #fbbf24; }
+        .about-card-gold .about-card-team span { color: #fcd34d; }
+        .about-card-gold:hover { box-shadow: 0 12px 40px rgba(245, 158, 11, 0.12); }
+
+        /* Center the last 2 cards when only 5 */
+        @media (min-width: 769px) {
+            .about-services-grid {
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+            }
+            .about-card:nth-child(1) { grid-column: 1 / 3; }
+            .about-card:nth-child(2) { grid-column: 3 / 5; }
+            .about-card:nth-child(3) { grid-column: 5 / 7; }
+            .about-card:nth-child(4) { grid-column: 2 / 4; }
+            .about-card:nth-child(5) { grid-column: 4 / 6; }
+        }
+
+        @media (max-width: 768px) {
+            .about-services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* === TESTIMONIAL CARDS === */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .testimonial-quote {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            font-style: italic;
+            flex-grow: 1;
+        }
+
+        .quote-mark {
+            font-size: 1.8rem;
+            font-weight: 900;
+            font-style: normal;
+            line-height: 0;
+            vertical-align: -0.3em;
+            margin: 0 2px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center top;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .testimonial-name {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .testimonial-role {
+            color: #94A3B8;
+            font-size: 0.85rem;
+        }
+
+        /* Testimonial color variants */
+        .testimonial-cyan {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.03));
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-top: 1px solid rgba(56, 189, 248, 0.35);
+            border-left: 1px solid rgba(56, 189, 248, 0.3);
+        }
+        .testimonial-cyan .quote-mark { color: #38bdf8; }
+        .testimonial-cyan .testimonial-avatar { border-color: rgba(56, 189, 248, 0.4); }
+        .testimonial-cyan:hover { box-shadow: 0 12px 40px rgba(56, 189, 248, 0.12); }
+
+        .testimonial-pink {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(244, 114, 182, 0.03));
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            border-top: 1px solid rgba(236, 72, 153, 0.35);
+            border-left: 1px solid rgba(236, 72, 153, 0.3);
+        }
+        .testimonial-pink .quote-mark { color: #f472b6; }
+        .testimonial-pink .testimonial-avatar { border-color: rgba(236, 72, 153, 0.4); }
+        .testimonial-pink:hover { box-shadow: 0 12px 40px rgba(236, 72, 153, 0.12); }
+
+        .testimonial-green {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.03));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-top: 1px solid rgba(16, 185, 129, 0.35);
+            border-left: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .testimonial-green .quote-mark { color: #34d399; }
+        .testimonial-green .testimonial-avatar { border-color: rgba(16, 185, 129, 0.4); }
+        .testimonial-green:hover { box-shadow: 0 12px 40px rgba(16, 185, 129, 0.12); }
+
+        @media (max-width: 768px) {
+            .testimonial-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -525,11 +1148,37 @@
             </div>
         </div>
         <ul class="tv-nav">
-            <li><a href="fintop-data/index.html">Trang chủ</a></li>
-            <li><a href="chuyen-gia/index.html">Hội viên</a></li>
-            <li><a href="stock-data/index.html">FinTop AI</a></li>
-            <li><a href="hoi-vien/index.html">Dữ liệu cổ phiếu</a></li>
-            <li><a href="huong-dan/index.html">Hướng dẫn</a></li>
+            <li class="nav-item"><a href="/">Trang chủ</a></li>
+            <li class="nav-item"><a href="hoi-vien/index.html">Hội viên</a></li>
+            <li class="nav-item dropdown">
+                <a href="fintop-data/index.html">FinTop Data <span style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="#">Tra cứu cổ phiếu</a>
+                    <a href="#">Bộ lọc cổ phiếu</a>
+                    <a href="#">Tín hiệu từ chuyên gia</a>
+                    <a href="#">Danh mục của chuyên gia</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="chuyen-gia/index.html">Chuyên gia <span style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="#">Thị trường</a>
+                    <a href="#">PRO analysis</a>
+                    <a href="#">Doanh nghiệp</a>
+                    <a href="#">PTĐT Ngành</a>
+                </div>
+            </li>
+            <li class="nav-item"><a href="fintop-ai/index.html">FinTop AI</a></li>
+            <li class="nav-item dropdown">
+                <a href="stock-data/index.html">Stock Data <span style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="#">Quant Data</a>
+                    <a href="#">PRO Data</a>
+                    <a href="#">Dữ liệu ngành</a>
+                    <a href="#">Báo cáo</a>
+                </div>
+            </li>
+            <li class="nav-item"><a href="huong-dan/index.html">Hướng dẫn</a></li>
         </ul>
         <div class="tv-right">
             <span class="icon-link">🌐 VI</span>
@@ -654,75 +1303,228 @@
         </p>
 
         <div class="pricing-grid">
-            <div class="pricing-card glass-card">
-                <div class="pricing-title">Standard</div>
-                <h3 style="font-size: 2.5rem;">Free</h3>
-                <ul style="color: var(--text-secondary); line-height: 2; margin-bottom: auto;">
-                    <li>✓ Tra cứu Cổ phiếu cơ bản</li>
-                    <li>✓ Các truy cập miễn phí</li>
-                    <li>✓ Đăng ký Tài khoản (Free)</li>
+            <!-- STANDARD - Cyan -->
+            <div class="pricing-card liquid-glass-card card-standard">
+                <div class="pricing-title">STANDARD</div>
+                <div class="pricing-subtitle" style="color: #7dd3fc;">(Tiêu chuẩn)</div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✦</span> Tra cứu CP</li>
+                    <li><span class="check-icon">✦</span> Báo cáo phân tích</li>
+                    <li><span class="check-icon">✦</span> Tool & Dữ liệu cơ bản</li>
                 </ul>
-                <button class="btn-ghost" style="width: 100%;">Đăng ký ngay</button>
+                <button class="btn-tier">Đăng ký</button>
             </div>
 
-            <div class="pricing-card glass-card card-pro">
-                <div class="pricing-title" style="color: var(--purple-glow);">PRO ⭐</div>
-                <div style="font-size: 0.8rem; color: var(--gold-light);">Phổ biến nhất</div>
-                <h3 style="font-size: 2.5rem;">99k<span
-                        style="font-size: 1rem; color: var(--text-secondary);">/tháng</span></h3>
-                <ul style="color: var(--text-secondary); line-height: 2; margin-bottom: auto;">
-                    <li>✓ Toàn bộ tính năng Standard</li>
-                    <li>✓ Bộ lọc Cổ phiếu Nâng cao</li>
-                    <li>✓ Pro Analysis Data</li>
+            <!-- PRO - Purple -->
+            <div class="pricing-card liquid-glass-card card-pro">
+                <div class="pricing-title">PRO ⭐</div>
+                <div class="pricing-subtitle" style="color: #c4b5fd;">(Chuyên nghiệp)</div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✦</span> Bộ Lọc CP</li>
+                    <li><span class="check-icon">✦</span> Pro Analysis</li>
+                    <li><span class="check-icon">✦</span> Pro Data</li>
                 </ul>
-                <button class="btn-primary" style="width: 100%;">Mua gói Pro →</button>
+                <button class="btn-tier">Đăng ký</button>
             </div>
 
-            <div class="pricing-card glass-card">
+            <!-- V.I.P - Emerald -->
+            <div class="pricing-card liquid-glass-card card-vip">
                 <div class="pricing-title">V.I.P</div>
-                <div style="font-size: 0.8rem; color: var(--status-very-pos);">Dành cho KH giao dịch VPS</div>
-                <h3 style="font-size: 2.5rem;">Khách hàng</h3>
-                <ul style="color: var(--text-secondary); line-height: 2; margin-bottom: auto;">
-                    <li>✓ Tín hiệu Chuyên gia Realtime</li>
-                    <li>✓ Danh mục Chuyên gia</li>
-                    <li>✓ Yêu cầu Gắn ID VPS</li>
+                <div class="pricing-subtitle" style="color: #6ee7b7;">(Cao cấp)</div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✦</span> Tín Hiệu CG</li>
+                    <li><span class="check-icon">✦</span> Danh Mục CG</li>
+                    <li><span class="check-icon">✦</span> Pro Analysis</li>
                 </ul>
-                <button class="btn-ghost" style="width: 100%;">Liên hệ gắn ID</button>
+                <button class="btn-tier">Đăng ký</button>
             </div>
 
-            <div class="pricing-card glass-card card-diamond">
-                <div class="pricing-title gold-text">Diamond 💎</div>
-                <div style="font-size: 0.8rem; color: var(--status-ok);">NAV từ 1 tỷ VND</div>
-                <h3 style="font-size: 2.5rem;">Đặc quyền</h3>
-                <ul style="color: var(--text-secondary); line-height: 2; margin-bottom: auto;">
-                    <li>✓ Toàn quyền truy cập V.I.P + Pro</li>
-                    <li>✓ Cố vấn Đầu tư 1-1 riêng biệt</li>
-                    <li>✓ Giao dịch theo Deal nội bộ</li>
+            <!-- DIAMOND - Gold -->
+            <div class="pricing-card liquid-glass-card card-diamond">
+                <div class="pricing-title">DIAMOND 💎</div>
+                <div class="pricing-subtitle" style="color: #fcd34d;">(Kim cương)</div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✦</span> Đặc quyền V.I.P</li>
+                    <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
+                    <li><span class="check-icon">✦</span> Cố vấn 1-1</li>
                 </ul>
-                <button class="btn-solid-gold" style="width: 100%; padding: 12px; font-size: 1rem;">Kết nối Chuyên
-                    gia</button>
+                <button class="btn-tier">Đăng ký</button>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer style="position: relative; z-index: 10; background: #07070D;">
-        <div class="footer-grid">
+    <!-- SECTION 5: EXPERT TEAM -->
+    <section class="team-section" id="team">
+        <h2 class="gradient-text" style="position: relative; z-index: 1;">Đội Ngũ Chuyên Gia VPS</h2>
+        <p style="margin-top: 1rem; position: relative; z-index: 1; color: #94A3B8; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+            Hợp tác độc quyền cùng Chuyên gia VPS trên nền tảng Công nghệ & Dữ liệu FinTop DATA
+        </p>
+
+        <!-- Row 1: 1 person (CEO) -->
+        <div class="team-row team-row-1">
+            <div class="team-member">
+                <div class="team-avatar-wrapper avatar-gold">
+                    <img src="assets/images/anh_Hai.png" alt="Nguyễn Đình Hải" class="team-avatar">
+                </div>
+                <h3 class="team-name">Nguyễn Đình Hải</h3>
+                <p class="team-role">Founder & CEO FinTop Ltd.</p>
+                <p class="team-desc">Chuyên gia Phân tích Chiến lược & QTRR.</p>
+            </div>
+        </div>
+
+        <!-- Row 2: 2 people -->
+        <div class="team-row team-row-2">
+            <div class="team-member">
+                <div class="team-avatar-wrapper avatar-cyan">
+                    <img src="assets/images/anh_Linh.png" alt="Trần Khánh Linh" class="team-avatar">
+                </div>
+                <h3 class="team-name">Trần Khánh Linh</h3>
+                <p class="team-role">Co-Founder FinTop, Dữ liệu FinTop.Data</p>
+                <p class="team-desc">Chuyên gia NC&PT Thị trường chứng khoán.</p>
+            </div>
+            <div class="team-member">
+                <div class="team-avatar-wrapper avatar-pink">
+                    <img src="assets/images/chi_Hanh.png" alt="Nguyễn Minh Hạnh" class="team-avatar">
+                </div>
+                <h3 class="team-name">Nguyễn Minh Hạnh</h3>
+                <p class="team-role">Chuyên gia Phân tích Ngành - Vĩ mô FinTop</p>
+                <p class="team-desc">Thạc sĩ Kinh tế chiến lược (FSU JENA, Đức).</p>
+            </div>
+        </div>
+
+        <!-- Row 3: 2 people -->
+        <div class="team-row team-row-2">
+            <div class="team-member">
+                <div class="team-avatar-wrapper avatar-green">
+                    <img src="assets/images/anh_Tu.png" alt="Trần Thiện Tú" class="team-avatar">
+                </div>
+                <h3 class="team-name">Trần Thiện Tú</h3>
+                <p class="team-role">Chuyên gia NC&PT Cổ phiếu DN</p>
+                <p class="team-desc">Nghiên cứu chuyên động Ngành, Phân tích triển vọng tăng trưởng Doanh nghiệp.</p>
+            </div>
+            <div class="team-member">
+                <div class="team-avatar-wrapper avatar-purple">
+                    <img src="assets/images/anh_Dung.png" alt="Mai Tiến Dũng" class="team-avatar">
+                </div>
+                <h3 class="team-name">Mai Tiến Dũng</h3>
+                <p class="team-role">Chuyên gia NC&PT Cổ phiếu DN</p>
+                <p class="team-desc">Thạc sĩ Tài chính số - FinTech (Loughborough University, London, Anh).</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: GIỚI THIỆU FINTOP -->
+    <section class="about-section" id="about">
+        <h2 class="gradient-text" style="position: relative; z-index: 1;">Giới Thiệu FINTOP</h2>
+        <div class="about-description">
+            <p>
+                <strong style="color: #c084fc;">Công Ty TNHH Đầu Tư & Phát Triển FINTOP</strong> là doanh nghiệp
+                <em>Fintech & Data</em> hoạt động và định hướng phát triển trong lĩnh vực
+                <strong style="color: #38bdf8;">Công nghệ Tài chính</strong>,
+                Nghiên cứu - Phân tích - Xử lý - Xuất bản Dữ liệu với các
+                <strong style="color: #f59e0b;">"Mô hình tiên tiến" (Model)</strong> chuẩn hóa cho hiệu quả cao,
+                ứng dụng <strong style="color: #34d399;">"Công nghệ AI"</strong> trong phân tích, nghiên cứu cùng
+                Đội ngũ Chuyên gia giàu kinh nghiệm nhằm mang đến những công cụ và dữ liệu bổ trợ mạnh mẽ
+                cho hoạt động phân tích, nghiên cứu và ra quyết định đầu tư.
+            </p>
+            <p style="margin-top: 1rem;">
+                FINTOP không ngừng mở rộng, hợp tác phát triển, cung cấp các sản phẩm/dịch vụ trọng yếu,
+                đa dạng về dữ liệu cho thị trường <strong style="color: #c084fc;">Tài chính & Đầu tư</strong>.
+            </p>
+        </div>
+
+        <!-- Testimonial Cards -->
+        <div class="testimonial-grid">
+            <div class="testimonial-card testimonial-cyan">
+                <div class="testimonial-quote">
+                    <span class="quote-mark">&ldquo;</span>
+                    FinTop là đơn vị uy tín chuyên cung cấp dữ liệu, kiến thức thực tế, chiến lược đầu tư và các báo cáo phân tích kịp thời, vô cùng hữu dụng cho nhà đầu tư và cả các chuyên gia về chứng khoán. Với chiến lược và cách làm chuyên nghiệp, đặc biệt Đội ngũ FinTop với nhiều năm kinh nghiệm trên thị trường sẽ giúp nhà đầu tư tối ưu hiệu quả và đạt được lợi nhuận tốt nhất trong quá trình giao dịch. Với sự hỗ trợ từ FinTop nhà đầu tư sẽ thông thái, chủ động với việc đầu tư và kỷ luật với chiến lược giao dịch đã đề ra.
+                    <span class="quote-mark">&rdquo;</span>
+                </div>
+                <div class="testimonial-author">
+                    <img src="assets/images/anh_Long.png" alt="Anh Lê Văn Long" class="testimonial-avatar">
+                    <div>
+                        <h4 class="testimonial-name">Anh Lê Văn Long</h4>
+                        <p class="testimonial-role">Giám đốc Tư vấn đầu tư — Công ty Cổ phần Chứng khoán VPS</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card testimonial-pink">
+                <div class="testimonial-quote">
+                    <span class="quote-mark">&ldquo;</span>
+                    FINTOP là nơi tập hợp tinh hoa của đội ngũ chuyên gia trẻ, năng động, có kinh nghiệm thực chiến trên thị trường chứng khoán, vừa có kiến thức chuyên sâu về phân tích cơ bản và vừa có độ nhạy bén trong phân tích kỹ thuật. Đây là một trang web uy tín, đáng tin cậy, giúp cung cấp các phân tích và cập nhật thị trường, chọn lọc cổ phiếu. Ngoài ra, đội ngũ chuyên gia của FINTOP cũng thường xuyên cung cấp các phân tích chiến lược đầu tư hay có các báo cáo phân tích ngành và phân tích doanh nghiệp, giúp cho nhà đầu tư có căn cứ để đưa ra các quyết định đầu tư sáng suốt. Nếu nhà đầu tư chưa có nhiều kiến thức, kinh nghiệm, hoặc không có nhiều thời gian để tìm hiểu và nghiên cứu về chứng khoán thì FINTOP chính là người đồng hành tuyệt vời của nhà đầu tư.
+                    <span class="quote-mark">&rdquo;</span>
+                </div>
+                <div class="testimonial-author">
+                    <img src="assets/images/chi_Helena.png" alt="Chị Helena Hạnh Đặng" class="testimonial-avatar">
+                    <div>
+                        <h4 class="testimonial-name">Chị Helena Hạnh Đặng</h4>
+                        <p class="testimonial-role">Chuyên gia Đào tạo Tài chính cá nhân — Khách hàng đối tác</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card testimonial-green">
+                <div class="testimonial-quote">
+                    <span class="quote-mark">&ldquo;</span>
+                    FinTop là một đội ngũ chuyên nghiệp, không ngừng nghiên cứu, học hỏi, cầu thị và luôn luôn lắng nghe khách hàng, đối tác. Những báo cáo phân tích, đánh giá của Team mang lại nhiều hữu ích cho mình là một người công tác trong lĩnh vực Tài chính với các báo cáo phân tích ngành, dữ liệu kinh tế vĩ mô, phân tích đánh giá doanh nghiệp. Đặc biệt có phần tra cứu xu hướng cổ phiếu rất hay bên cạnh chia sẻ cẩm nang, phương pháp đầu tư để mọi người cùng tìm hiểu. Chúc FinTop Team sẽ tiếp tục phát huy và luôn có những báo cáo phân tích chất lượng nhất đến khách hàng.
+                    <span class="quote-mark">&rdquo;</span>
+                </div>
+                <div class="testimonial-author">
+                    <img src="assets/images/chi_Lich.png" alt="Chị Trần Thị Hồng Lịch" class="testimonial-avatar">
+                    <div>
+                        <h4 class="testimonial-name">Chị Trần Thị Hồng Lịch</h4>
+                        <p class="testimonial-role">Nhà Đầu Tư — Khách Hàng Đối Tác FinTop</p>
+                    </div>
+                </div>
+            </div>
+
+    </section>
+
+        <footer style="position: relative; z-index: 10; background: #07070D;">
+        <div class="footer-grid" style="grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 2rem;">
             <div>
                 <h2 class="logo">FinTop DATA</h2>
-                <p style="margin-top: 1rem;">Nơi hội tụ Data - Chuyên gia - Công nghệ & AI.</p>
+                <p style="margin-top: 1rem;">Nơi hội tụ Data - Chuyên gia - Công nghệ &amp; AI.</p>
             </div>
-            <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
-                <a href="hoi-vien/index.html">Hội Viên</a>
-                <a href="fintop-data/index.html">FinTop Data</a>
-                <a href="chuyen-gia/index.html">Chuyên Gia</a>
-                <a href="fintop-ai/index.html">FinTop AI</a>
-                <a href="stock-data/index.html">Stock Data</a>
-                <a href="huong-dan/index.html">Hướng Dẫn</a>
+            <div>
+                <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Sản phẩm</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                    <a href="hoi-vien/index.html">Hội Viên</a>
+                    <a href="fintop-data/index.html">FinTop Data</a>
+                    <a href="chuyen-gia/index.html">Chuyên Gia</a>
+                    <a href="fintop-ai/index.html">FinTop AI</a>
+                    <a href="stock-data/index.html">Stock Data</a>
+                    <a href="huong-dan/index.html">Hướng Dẫn</a>
+                </div>
             </div>
-            <div style="text-align: right;">
-                <p>© 2026 FinTop DATA. All rights reserved.</p>
+            <div>
+                <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Liên hệ</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.6rem; color: #94A3B8;">
+                    <p>📞 Hotline: <a href="tel:0862348886" style="color: #c084fc;">086.234.8886</a></p>
+                    <p>📧 Email: <a href="mailto:DVKH@fintopdata.vn" style="color: #c084fc;">DVKH@fintopdata.vn</a></p>
+                    <p>📍 65 Ô Chợ Dừa, Đống Đa, Hà Nội</p>
+                </div>
             </div>
+            <div style="text-align: center;">
+                <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Tải ứng dụng</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; align-items: center;">
+                    <a href="#" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
+                        🍎 App Store
+                    </a>
+                    <a href="#" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
+                        ▶️ Google Play
+                    </a>
+                    <div style="margin-top: 0.5rem; background: #fff; border-radius: 8px; padding: 8px; display: inline-block;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&amp;data=https://zalo.me/fintopdata" alt="QR Zalo" width="80" height="80" style="display: block;">
+                    </div>
+                    <span style="font-size: 0.8rem; color: #94A3B8;">Zalo FinTop</span>
+                </div>
+            </div>
+        </div>
+        <div style="max-width: 1200px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+            <p>© 2026 FinTop DATA. All rights reserved.</p>
         </div>
         <div class="footer-disclaimer">
             <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư.
