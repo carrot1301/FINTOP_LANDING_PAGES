@@ -136,54 +136,448 @@
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
         }
 
-        /* Glassmorphism Dropdown */
+        /* === MEGA MENU NGANG === */
         .dropdown-content {
             visibility: hidden;
             opacity: 0;
-            position: absolute;
-            top: 100%;
+            position: fixed;
+            top: 72px;
             left: 0;
-            min-width: 240px;
-            background: rgba(15, 15, 20, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            right: 0;
+            width: 100%;
+            background: rgba(10, 10, 18, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid rgba(168, 85, 247, 0.3);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(168, 85, 247, 0.08);
             display: flex;
-            flex-direction: column;
-            transform: translateY(15px);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            padding: 8px 0;
-            z-index: 1000;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            transform: translateY(-8px);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 0;
+            z-index: 999;
         }
 
-        .dropdown:hover .dropdown-content {
+        .dropdown:hover .dropdown-content,
+        .dropdown-content.pinned {
             visibility: visible;
             opacity: 1;
             transform: translateY(0);
         }
 
         .dropdown-content a {
-            padding: 12px 20px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 16px 28px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            opacity: 0.75;
+            border-bottom: none;
+            border-right: 1px solid rgba(255, 255, 255, 0.04);
             transition: all 0.3s ease;
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            position: relative;
+            letter-spacing: 0.02em;
         }
 
         .dropdown-content a:last-child {
+            border-right: none;
+        }
+
+        .dropdown-content a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #a855f7, transparent);
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-content a:hover,
+        .dropdown-content a.active-submenu {
+            opacity: 1;
+            background: rgba(168, 85, 247, 0.1);
+            color: #c084fc;
+        }
+
+        .dropdown-content a:hover::after,
+        .dropdown-content a.active-submenu::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* === CONTENT PANELS (Tra cứu / Bộ lọc) === */
+        .submenu-panel {
+            display: none;
+            position: fixed;
+            top: 72px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 998;
+            background: rgba(7, 7, 13, 0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            overflow-y: auto;
+            padding: 70px 5% 3rem;
+            animation: panelSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .submenu-panel.active {
+            display: block;
+        }
+
+        @keyframes panelSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .panel-header {
+            max-width: 1300px;
+            margin: 0 auto 2rem;
+        }
+
+        .panel-header h2 {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            margin-bottom: 0.5rem;
+        }
+
+        .panel-header p {
+            color: #94A3B8;
+            font-size: 0.95rem;
+        }
+
+        /* === STOCK SEARCH BOX === */
+        .stock-search-box {
+            max-width: 1300px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .stock-search-input {
+            flex: 0 0 280px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            background: rgba(15, 15, 25, 0.8);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .stock-search-input::placeholder {
+            color: #475569;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .stock-search-input:focus {
+            border-color: #a855f7;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.25), inset 0 0 10px rgba(168, 85, 247, 0.08);
+        }
+
+        .stock-search-btn {
+            padding: 12px 28px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stock-search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(168, 85, 247, 0.5);
+        }
+
+        .stock-search-hint {
+            color: #475569;
+            font-size: 0.8rem;
+            margin-left: 8px;
+        }
+
+        /* === DARK DATA TABLE === */
+        .dark-table-wrapper {
+            max-width: 1300px;
+            margin: 0 auto;
+            border-radius: 16px;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            overflow: hidden;
+            background: rgba(15, 15, 25, 0.6);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .dark-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .dark-table thead {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(99, 102, 241, 0.1));
+        }
+
+        .dark-table th {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #c084fc;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+            white-space: nowrap;
+        }
+
+        .dark-table td {
+            padding: 12px 16px;
+            font-size: 0.88rem;
+            color: #e2e8f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .dark-table tbody tr {
+            transition: all 0.25s ease;
+        }
+
+        .dark-table tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .dark-table tbody tr:hover {
+            background: rgba(168, 85, 247, 0.08);
+        }
+
+        .dark-table tbody tr:last-child td {
             border-bottom: none;
         }
 
-        .dropdown-content a:hover {
-            opacity: 1;
-            background: rgba(255, 255, 255, 0.08);
-            padding-left: 26px;
-            text-shadow: none;
-            color: #c084fc; /* Neon purple text on hover */
+        .dark-table .ticker-cell {
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.04em;
+        }
+
+        .dark-table .desc-cell {
+            color: #94A3B8;
+            font-size: 0.82rem;
+            max-width: 280px;
+        }
+
+        .dark-table .time-cell {
+            font-size: 0.78rem;
+            color: #64748b;
+            white-space: pre-line;
+            line-height: 1.4;
+        }
+
+        /* === STATUS BADGES (Dark Theme) === */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+
+        .status-badge.very-positive {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
+        }
+
+        .status-badge.positive {
+            background: rgba(56, 189, 248, 0.12);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .status-badge.ok {
+            background: rgba(251, 191, 36, 0.12);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .status-badge.neutral {
+            background: rgba(148, 163, 184, 0.1);
+            color: #94A3B8;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        .status-badge.negative {
+            background: rgba(248, 113, 113, 0.12);
+            color: #f87171;
+            border: 1px solid rgba(248, 113, 113, 0.3);
+        }
+
+        /* === RESULT BADGES === */
+        .result-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+
+        .result-badge.strong-entry {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.1));
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+        }
+
+        .result-badge.entry {
+            background: rgba(168, 85, 247, 0.12);
+            color: #c084fc;
+            border: 1px solid rgba(168, 85, 247, 0.35);
+        }
+
+        .result-badge.small-entry {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        /* === TABLE ROW ENTRANCE ANIMATION === */
+        @keyframes rowFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .dark-table tbody tr.animate-in {
+            animation: rowFadeIn 0.3s ease forwards;
+        }
+
+        /* === EMPTY STATE === */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #475569;
+        }
+
+        .empty-state svg {
+            margin-bottom: 1rem;
+            opacity: 0.4;
+        }
+
+        .empty-state p {
+            font-size: 0.95rem;
+            color: #475569;
+        }
+
+        /* === CLOSE PANEL BUTTON === */
+        .panel-close-btn {
+            position: fixed;
+            top: 82px;
+            right: 24px;
+            z-index: 1000;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(15, 15, 20, 0.8);
+            color: #94A3B8;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .panel-close-btn:hover {
+            background: rgba(168, 85, 247, 0.2);
+            color: #fff;
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+
+        /* === PRICE/SCORE CELLS === */
+        .dark-table .price-cell {
+            color: #c084fc;
+            font-weight: 600;
+            font-size: 0.84rem;
+            white-space: nowrap;
+        }
+
+        .dark-table .score-cell {
+            font-weight: 700;
+            color: #fbbf24;
+            font-size: 0.88rem;
+        }
+
+        /* Chart Neon Border Pulse */
+        @keyframes chartNeonPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 15px rgba(168, 85, 247, 0.15), 0 0 30px rgba(168, 85, 247, 0.06);
+            }
+
+            50% {
+                box-shadow: 0 0 25px rgba(168, 85, 247, 0.3), 0 0 50px rgba(168, 85, 247, 0.12);
+            }
+        }
+
+        /* Clickable ticker cells */
+        .dark-table .ticker-clickable {
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-color: rgba(192, 132, 252, 0.4);
+            text-underline-offset: 3px;
+            transition: all 0.2s ease;
+        }
+
+        .dark-table .ticker-clickable:hover {
+            color: #c084fc;
+            text-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+            text-decoration-color: #c084fc;
         }
 
         .tv-right {
@@ -261,7 +655,8 @@
 
         .gradient-text {
             color: #ffffff;
-            text-shadow: 0 0 20px rgba(168, 85, 247, 0.4); /* Hiệu ứng tỏa sáng Neon Tím nhẹ nhàng */
+            text-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            /* Hiệu ứng tỏa sáng Neon Tím nhẹ nhàng */
             display: inline-block;
             font-size: clamp(2.2rem, 6vw, 5rem);
             /* Tối ưu co giãn cho Mobile */
@@ -343,7 +738,8 @@
         }
 
         .ai-message {
-            text-align: left;\n            align-items: stretch;
+            text-align: left;
+            \n align-items: stretch;
         }
 
         .ai-name {
@@ -413,15 +809,46 @@
         }
 
         .panel {
-            background: rgba(15, 10, 25, 0.65); /* Nền tối nhẹ để làm nổi bật chữ */
-            border: 1px solid rgba(168, 85, 247, 0.4);
+            background: rgba(15, 10, 25, 0.65);
+            border: 1px solid rgba(168, 85, 247, 0.5);
             border-radius: 16px;
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px); /* Hỗ trợ Safari */
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); /* Tạo chiều sâu cho khối kính */
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.15), 0 0 30px rgba(168, 85, 247, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
             padding: 2rem;
-            text-align: left;\n            align-items: stretch;
+            text-align: left;
             flex: 1;
+            animation: neonPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes neonPulse {
+
+            0%,
+            100% {
+                border-color: rgba(168, 85, 247, 0.45);
+                box-shadow: 0 0 12px rgba(168, 85, 247, 0.12), 0 0 25px rgba(168, 85, 247, 0.06), 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+
+            50% {
+                border-color: rgba(168, 85, 247, 0.7);
+                box-shadow: 0 0 20px rgba(168, 85, 247, 0.25), 0 0 40px rgba(168, 85, 247, 0.12), 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .panel h3 {
+            text-shadow: 0 0 8px rgba(168, 85, 247, 0.6), 0 0 18px rgba(168, 85, 247, 0.35), 0 0 35px rgba(168, 85, 247, 0.15);
+        }
+
+        .panel ul li {
+            color: #e2d4ff;
+            font-weight: 500;
+            text-shadow: 0 0 6px rgba(192, 132, 252, 0.45), 0 0 14px rgba(168, 85, 247, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .panel ul li:hover {
+            color: #f0e8ff;
+            text-shadow: 0 0 8px rgba(192, 132, 252, 0.7), 0 0 20px rgba(168, 85, 247, 0.4), 0 0 35px rgba(168, 85, 247, 0.15);
         }
 
         /* Stats Section */
@@ -510,7 +937,8 @@
             gap: 1.5rem;
             max-width: 1300px;
             margin: 4rem auto 0;
-            text-align: left;\n            align-items: stretch;
+            text-align: left;
+            \n align-items: stretch;
             align-items: stretch;
         }
 
@@ -576,12 +1004,20 @@
             border-left: 1px solid rgba(56, 189, 248, 0.4);
             box-shadow: inset 0 0 20px rgba(56, 189, 248, 0.05), 0 8px 32px rgba(0, 0, 0, 0.3);
         }
+
         .liquid-glass-card.card-standard:hover {
             box-shadow: inset 0 0 20px rgba(56, 189, 248, 0.08), 0 12px 40px rgba(56, 189, 248, 0.15);
             transform: translateY(-6px) !important;
         }
-        .card-standard .pricing-title { color: #38bdf8; }
-        .card-standard .check-icon { color: #38bdf8; }
+
+        .card-standard .pricing-title {
+            color: #38bdf8;
+        }
+
+        .card-standard .check-icon {
+            color: #38bdf8;
+        }
+
         .card-standard .btn-tier {
             background: transparent;
             color: #38bdf8;
@@ -595,6 +1031,7 @@
             margin-top: 1.5rem;
             transition: all 0.3s ease;
         }
+
         .card-standard .btn-tier:hover {
             background: rgba(56, 189, 248, 0.15);
             border-color: #38bdf8;
@@ -609,12 +1046,20 @@
             border-left: 1px solid rgba(168, 85, 247, 0.5);
             box-shadow: inset 0 0 20px rgba(168, 85, 247, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
         }
+
         .liquid-glass-card.card-pro:hover {
             box-shadow: inset 0 0 20px rgba(168, 85, 247, 0.12), 0 16px 50px rgba(168, 85, 247, 0.25);
             transform: translateY(-6px) !important;
         }
-        .card-pro .pricing-title { color: #c084fc; }
-        .card-pro .check-icon { color: #a855f7; }
+
+        .card-pro .pricing-title {
+            color: #c084fc;
+        }
+
+        .card-pro .check-icon {
+            color: #a855f7;
+        }
+
         .card-pro .btn-tier {
             background: linear-gradient(135deg, #a855f7, #7c3aed);
             color: white;
@@ -629,6 +1074,7 @@
             box-shadow: 0 4px 20px rgba(168, 85, 247, 0.35);
             transition: all 0.3s ease;
         }
+
         .card-pro .btn-tier:hover {
             box-shadow: 0 8px 30px rgba(168, 85, 247, 0.5);
             transform: translateY(-2px);
@@ -642,12 +1088,20 @@
             border-left: 1px solid rgba(16, 185, 129, 0.45);
             box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.06), 0 8px 32px rgba(0, 0, 0, 0.3);
         }
+
         .liquid-glass-card.card-vip:hover {
             box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.1), 0 12px 40px rgba(16, 185, 129, 0.18);
             transform: translateY(-6px) !important;
         }
-        .card-vip .pricing-title { color: #34d399; }
-        .card-vip .check-icon { color: #10b981; }
+
+        .card-vip .pricing-title {
+            color: #34d399;
+        }
+
+        .card-vip .check-icon {
+            color: #10b981;
+        }
+
         .card-vip .btn-tier {
             background: transparent;
             color: #34d399;
@@ -661,6 +1115,7 @@
             margin-top: 1.5rem;
             transition: all 0.3s ease;
         }
+
         .card-vip .btn-tier:hover {
             background: rgba(16, 185, 129, 0.15);
             border-color: #34d399;
@@ -675,12 +1130,20 @@
             border-left: 1px solid rgba(245, 158, 11, 0.5);
             box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.06), 0 8px 32px rgba(0, 0, 0, 0.3);
         }
+
         .liquid-glass-card.card-diamond:hover {
             box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.1), 0 12px 40px rgba(245, 158, 11, 0.2);
             transform: translateY(-6px) !important;
         }
-        .card-diamond .pricing-title { color: #f59e0b; }
-        .card-diamond .check-icon { color: #fbbf24; }
+
+        .card-diamond .pricing-title {
+            color: #f59e0b;
+        }
+
+        .card-diamond .check-icon {
+            color: #fbbf24;
+        }
+
         .card-diamond .btn-tier {
             background: linear-gradient(135deg, #f59e0b, #d97706);
             color: #000;
@@ -695,6 +1158,7 @@
             box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
             transition: all 0.3s ease;
         }
+
         .card-diamond .btn-tier:hover {
             box-shadow: 0 8px 30px rgba(245, 158, 11, 0.5);
             transform: translateY(-2px);
@@ -704,6 +1168,7 @@
             font-size: 0.9rem;
             margin-bottom: 1rem;
         }
+
         .pricing-features {
             color: var(--text-secondary);
             line-height: 2.2;
@@ -712,6 +1177,7 @@
             padding-left: 0;
             list-style: none;
         }
+
         .pricing-features li {
             display: flex;
             align-items: center;
@@ -781,36 +1247,71 @@
             background: linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b);
             box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
         }
-        .avatar-gold::before { background: rgba(245, 158, 11, 0.25); filter: blur(15px); }
-        .team-member:hover .avatar-gold { box-shadow: 0 0 35px rgba(245, 158, 11, 0.5); }
+
+        .avatar-gold::before {
+            background: rgba(245, 158, 11, 0.25);
+            filter: blur(15px);
+        }
+
+        .team-member:hover .avatar-gold {
+            box-shadow: 0 0 35px rgba(245, 158, 11, 0.5);
+        }
 
         .avatar-cyan {
             background: linear-gradient(135deg, #06b6d4, #38bdf8, #06b6d4);
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
         }
-        .avatar-cyan::before { background: rgba(56, 189, 248, 0.25); filter: blur(15px); }
-        .team-member:hover .avatar-cyan { box-shadow: 0 0 35px rgba(56, 189, 248, 0.5); }
+
+        .avatar-cyan::before {
+            background: rgba(56, 189, 248, 0.25);
+            filter: blur(15px);
+        }
+
+        .team-member:hover .avatar-cyan {
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.5);
+        }
 
         .avatar-pink {
             background: linear-gradient(135deg, #ec4899, #f472b6, #ec4899);
             box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
         }
-        .avatar-pink::before { background: rgba(236, 72, 153, 0.25); filter: blur(15px); }
-        .team-member:hover .avatar-pink { box-shadow: 0 0 35px rgba(236, 72, 153, 0.5); }
+
+        .avatar-pink::before {
+            background: rgba(236, 72, 153, 0.25);
+            filter: blur(15px);
+        }
+
+        .team-member:hover .avatar-pink {
+            box-shadow: 0 0 35px rgba(236, 72, 153, 0.5);
+        }
 
         .avatar-green {
             background: linear-gradient(135deg, #10b981, #34d399, #10b981);
             box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
         }
-        .avatar-green::before { background: rgba(16, 185, 129, 0.25); filter: blur(15px); }
-        .team-member:hover .avatar-green { box-shadow: 0 0 35px rgba(16, 185, 129, 0.5); }
+
+        .avatar-green::before {
+            background: rgba(16, 185, 129, 0.25);
+            filter: blur(15px);
+        }
+
+        .team-member:hover .avatar-green {
+            box-shadow: 0 0 35px rgba(16, 185, 129, 0.5);
+        }
 
         .avatar-purple {
             background: linear-gradient(135deg, #8b5cf6, #a78bfa, #8b5cf6);
             box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
         }
-        .avatar-purple::before { background: rgba(139, 92, 246, 0.25); filter: blur(15px); }
-        .team-member:hover .avatar-purple { box-shadow: 0 0 35px rgba(139, 92, 246, 0.5); }
+
+        .avatar-purple::before {
+            background: rgba(139, 92, 246, 0.25);
+            filter: blur(15px);
+        }
+
+        .team-member:hover .avatar-purple {
+            box-shadow: 0 0 35px rgba(139, 92, 246, 0.5);
+        }
 
         .team-avatar {
             width: 100%;
@@ -892,7 +1393,8 @@
             -webkit-backdrop-filter: blur(24px);
             border-radius: 16px;
             padding: 2rem;
-            text-align: left;\n            align-items: stretch;
+            text-align: left;
+            \n align-items: stretch;
             display: flex;
             flex-direction: column;
             gap: 0.8rem;
@@ -950,9 +1452,18 @@
             border-top: 1px solid rgba(56, 189, 248, 0.4);
             border-left: 1px solid rgba(56, 189, 248, 0.35);
         }
-        .about-card-cyan .about-card-title { color: #38bdf8; }
-        .about-card-cyan .about-card-team span { color: #7dd3fc; }
-        .about-card-cyan:hover { box-shadow: 0 12px 40px rgba(56, 189, 248, 0.12); }
+
+        .about-card-cyan .about-card-title {
+            color: #38bdf8;
+        }
+
+        .about-card-cyan .about-card-team span {
+            color: #7dd3fc;
+        }
+
+        .about-card-cyan:hover {
+            box-shadow: 0 12px 40px rgba(56, 189, 248, 0.12);
+        }
 
         .about-card-pink {
             background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(244, 114, 182, 0.03));
@@ -960,9 +1471,18 @@
             border-top: 1px solid rgba(236, 72, 153, 0.4);
             border-left: 1px solid rgba(236, 72, 153, 0.35);
         }
-        .about-card-pink .about-card-title { color: #f472b6; }
-        .about-card-pink .about-card-team span { color: #f9a8d4; }
-        .about-card-pink:hover { box-shadow: 0 12px 40px rgba(236, 72, 153, 0.12); }
+
+        .about-card-pink .about-card-title {
+            color: #f472b6;
+        }
+
+        .about-card-pink .about-card-team span {
+            color: #f9a8d4;
+        }
+
+        .about-card-pink:hover {
+            box-shadow: 0 12px 40px rgba(236, 72, 153, 0.12);
+        }
 
         .about-card-green {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.03));
@@ -970,9 +1490,18 @@
             border-top: 1px solid rgba(16, 185, 129, 0.4);
             border-left: 1px solid rgba(16, 185, 129, 0.35);
         }
-        .about-card-green .about-card-title { color: #34d399; }
-        .about-card-green .about-card-team span { color: #6ee7b7; }
-        .about-card-green:hover { box-shadow: 0 12px 40px rgba(16, 185, 129, 0.12); }
+
+        .about-card-green .about-card-title {
+            color: #34d399;
+        }
+
+        .about-card-green .about-card-team span {
+            color: #6ee7b7;
+        }
+
+        .about-card-green:hover {
+            box-shadow: 0 12px 40px rgba(16, 185, 129, 0.12);
+        }
 
         .about-card-purple {
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(167, 139, 250, 0.03));
@@ -980,9 +1509,18 @@
             border-top: 1px solid rgba(139, 92, 246, 0.4);
             border-left: 1px solid rgba(139, 92, 246, 0.35);
         }
-        .about-card-purple .about-card-title { color: #a78bfa; }
-        .about-card-purple .about-card-team span { color: #c4b5fd; }
-        .about-card-purple:hover { box-shadow: 0 12px 40px rgba(139, 92, 246, 0.12); }
+
+        .about-card-purple .about-card-title {
+            color: #a78bfa;
+        }
+
+        .about-card-purple .about-card-team span {
+            color: #c4b5fd;
+        }
+
+        .about-card-purple:hover {
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.12);
+        }
 
         .about-card-gold {
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(251, 191, 36, 0.03));
@@ -990,9 +1528,18 @@
             border-top: 1px solid rgba(245, 158, 11, 0.4);
             border-left: 1px solid rgba(245, 158, 11, 0.35);
         }
-        .about-card-gold .about-card-title { color: #fbbf24; }
-        .about-card-gold .about-card-team span { color: #fcd34d; }
-        .about-card-gold:hover { box-shadow: 0 12px 40px rgba(245, 158, 11, 0.12); }
+
+        .about-card-gold .about-card-title {
+            color: #fbbf24;
+        }
+
+        .about-card-gold .about-card-team span {
+            color: #fcd34d;
+        }
+
+        .about-card-gold:hover {
+            box-shadow: 0 12px 40px rgba(245, 158, 11, 0.12);
+        }
 
         /* Center the last 2 cards when only 5 */
         @media (min-width: 769px) {
@@ -1000,11 +1547,26 @@
                 display: grid;
                 grid-template-columns: repeat(6, 1fr);
             }
-            .about-card:nth-child(1) { grid-column: 1 / 3; }
-            .about-card:nth-child(2) { grid-column: 3 / 5; }
-            .about-card:nth-child(3) { grid-column: 5 / 7; }
-            .about-card:nth-child(4) { grid-column: 2 / 4; }
-            .about-card:nth-child(5) { grid-column: 4 / 6; }
+
+            .about-card:nth-child(1) {
+                grid-column: 1 / 3;
+            }
+
+            .about-card:nth-child(2) {
+                grid-column: 3 / 5;
+            }
+
+            .about-card:nth-child(3) {
+                grid-column: 5 / 7;
+            }
+
+            .about-card:nth-child(4) {
+                grid-column: 2 / 4;
+            }
+
+            .about-card:nth-child(5) {
+                grid-column: 4 / 6;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1089,9 +1651,18 @@
             border-top: 1px solid rgba(56, 189, 248, 0.35);
             border-left: 1px solid rgba(56, 189, 248, 0.3);
         }
-        .testimonial-cyan .quote-mark { color: #38bdf8; }
-        .testimonial-cyan .testimonial-avatar { border-color: rgba(56, 189, 248, 0.4); }
-        .testimonial-cyan:hover { box-shadow: 0 12px 40px rgba(56, 189, 248, 0.12); }
+
+        .testimonial-cyan .quote-mark {
+            color: #38bdf8;
+        }
+
+        .testimonial-cyan .testimonial-avatar {
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+
+        .testimonial-cyan:hover {
+            box-shadow: 0 12px 40px rgba(56, 189, 248, 0.12);
+        }
 
         .testimonial-pink {
             background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(244, 114, 182, 0.03));
@@ -1099,9 +1670,18 @@
             border-top: 1px solid rgba(236, 72, 153, 0.35);
             border-left: 1px solid rgba(236, 72, 153, 0.3);
         }
-        .testimonial-pink .quote-mark { color: #f472b6; }
-        .testimonial-pink .testimonial-avatar { border-color: rgba(236, 72, 153, 0.4); }
-        .testimonial-pink:hover { box-shadow: 0 12px 40px rgba(236, 72, 153, 0.12); }
+
+        .testimonial-pink .quote-mark {
+            color: #f472b6;
+        }
+
+        .testimonial-pink .testimonial-avatar {
+            border-color: rgba(236, 72, 153, 0.4);
+        }
+
+        .testimonial-pink:hover {
+            box-shadow: 0 12px 40px rgba(236, 72, 153, 0.12);
+        }
 
         .testimonial-green {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.03));
@@ -1109,9 +1689,18 @@
             border-top: 1px solid rgba(16, 185, 129, 0.35);
             border-left: 1px solid rgba(16, 185, 129, 0.3);
         }
-        .testimonial-green .quote-mark { color: #34d399; }
-        .testimonial-green .testimonial-avatar { border-color: rgba(16, 185, 129, 0.4); }
-        .testimonial-green:hover { box-shadow: 0 12px 40px rgba(16, 185, 129, 0.12); }
+
+        .testimonial-green .quote-mark {
+            color: #34d399;
+        }
+
+        .testimonial-green .testimonial-avatar {
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        .testimonial-green:hover {
+            box-shadow: 0 12px 40px rgba(16, 185, 129, 0.12);
+        }
 
         @media (max-width: 768px) {
             .testimonial-grid {
@@ -1150,13 +1739,16 @@
         <ul class="tv-nav">
             <li class="nav-item"><a href="/">Trang chủ</a></li>
             <li class="nav-item"><a href="hoi-vien/index.html">Hội viên</a></li>
-            <li class="nav-item dropdown">
-                <a href="fintop-data/index.html">FinTop Data <span style="font-size: 0.7em;">▼</span></a>
-                <div class="dropdown-content">
-                    <a href="#">Tra cứu cổ phiếu</a>
-                    <a href="#">Bộ lọc cổ phiếu</a>
-                    <a href="#">Tín hiệu từ chuyên gia</a>
-                    <a href="#">Danh mục của chuyên gia</a>
+            <li class="nav-item dropdown" id="dropdown-fintop-data">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content" id="dc-fintop-data">
+                    <a href="javascript:void(0)" data-panel="panel-tracuu" onclick="openPanel('panel-tracuu', this)">📊
+                        Tra cứu cổ phiếu</a>
+                    <a href="javascript:void(0)" data-panel="panel-boloc" onclick="openPanel('panel-boloc', this)">🔍 Bộ
+                        lọc cổ phiếu</a>
+                    <a href="fintop-data/tin-hieu/index.html">📡 Tín hiệu từ chuyên gia</a>
+                    <a href="fintop-data/danh-muc/index.html">📋 Danh mục của chuyên gia</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -1186,6 +1778,134 @@
             <button class="btn-tv-blue">Bắt đầu</button>
         </div>
     </header>
+
+    <!-- ============================================ -->
+    <!-- PANEL: TRA CỨU CỔ PHIẾU                     -->
+    <!-- ============================================ -->
+    <div class="submenu-panel" id="panel-tracuu">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Tra Cứu Cổ Phiếu</h2>
+            <p>Dữ liệu tổng hợp theo mô hình AI định lượng FinTop DATA — Tối đa 10 mã gần nhất</p>
+        </div>
+        <div class="stock-search-box">
+            <input type="text" class="stock-search-input" id="stockSearchInput"
+                placeholder="Nhập mã CP (VD: FPT, VNM...)" maxlength="10" autocomplete="off">
+            <button class="stock-search-btn" onclick="addStockTicker()">⚡ Tra cứu</button>
+            <span class="stock-search-hint">Nhấn Enter hoặc nút Tra cứu • Tối đa 10 mã</span>
+        </div>
+        <div class="dark-table-wrapper">
+            <table class="dark-table" id="tracuuTable">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã CP</th>
+                        <th>Sàn</th>
+                        <th>Ngành HĐKD</th>
+                        <th>Update time</th>
+                        <th>Mô tả Mô hình kỹ thuật (Model)</th>
+                        <th>Trạng thái Model</th>
+                    </tr>
+                </thead>
+                <tbody id="tracuuBody">
+                </tbody>
+            </table>
+            <div class="empty-state" id="tracuuEmpty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.5">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <p>Nhập mã cổ phiếu ở trên để bắt đầu tra cứu</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PANEL: BỘ LỌC CỔ PHIẾU                      -->
+    <!-- ============================================ -->
+    <div class="submenu-panel" id="panel-boloc">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Bộ Lọc Cổ Phiếu</h2>
+            <p>TOP trạng thái kỹ thuật Ngành đầu tư — Dữ liệu phân tích mô hình AI FinTop DATA</p>
+        </div>
+
+        <!-- HƯỚNG DẪN SỊ DỤNG -->
+        <div
+            style="max-width: 1300px; margin: 0 auto 1.5rem; padding: 1.5rem 2rem; border-radius: 14px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(99, 102, 241, 0.04)); border: 1px solid rgba(168, 85, 247, 0.25); border-left: 3px solid #a855f7;">
+            <h4
+                style="color: #c084fc; font-size: 0.9rem; font-weight: 800; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.06em;">
+                <span style="font-size: 1.2rem;">📖</span> Hướng Dẫn Sử Dụng Bộ Lọc
+            </h4>
+            <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.8; margin-bottom: 0.8rem;">
+                Bảng tổng hợp danh mục cổ phiếu theo <strong style="color: #c084fc;">Trạng thái</strong> và <strong
+                    style="color: #c084fc;">Kết quả thuật toán</strong> của Mô hình (Model) theo phương pháp phân tích
+                định lượng được trích xuất hoàn toàn tự động và tổng hợp theo các nhóm ngành. Đây là công cụ lọc và phân
+                loại dữ liệu khách quan, hỗ trợ người dùng có thêm góc nhìn tổng quan về thị trường.
+            </p>
+            <p style="color: #94A3B8; font-size: 0.84rem; line-height: 1.7; font-style: italic;">
+                Thuật toán Mô hình (Model) sử dụng AI phân tích và các Indicators (MA, Bollinger Band - Kênh xu hướng,
+                RSI, Nến, ...) trên các khung thời gian để hiển thị các Trạng thái Mô hình (Model).
+            </p>
+        </div>
+
+        <div class="dark-table-wrapper">
+            <table class="dark-table" id="bolocTable">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã CP</th>
+                        <th>Sàn</th>
+                        <th>Ngành HĐKD</th>
+                        <th>Update time</th>
+                        <th>Mô tả Mô hình kỹ thuật (Model)</th>
+                        <th>Trạng thái Model</th>
+                        <th>Kết quả Model</th>
+                        <th>Vùng giá Tham chiếu</th>
+                        <th>Vùng giá Kháng cự</th>
+                        <th>Điểm QTRR</th>
+                    </tr>
+                </thead>
+                <tbody id="bolocBody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TRADINGVIEW CHART WITH NEON BORDER -->
+        <div style="max-width: 1300px; margin: 1.5rem auto 0;">
+            <h3
+                style="color: #c084fc; font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2rem;">📈</span> Biểu Đồ Kỹ Thuật
+            </h3>
+            <div
+                style="border-radius: 14px; padding: 3px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.6)); box-shadow: 0 0 20px rgba(168, 85, 247, 0.2), 0 0 40px rgba(168, 85, 247, 0.08); animation: chartNeonPulse 3s ease-in-out infinite;">
+                <div id="tradingview-chart-container"
+                    style="border-radius: 12px; overflow: hidden; height: 500px; background: #131722;">
+                    <!-- TradingView Widget BEGIN -->
+                    <div class="tradingview-widget-container" style="height:100%;width:100%">
+                        <div id="tradingview_chart" style="height:100%;width:100%"></div>
+                    </div>
+                    <!-- TradingView Widget END -->
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 0.5rem; font-size: 0.72rem; color: #475569;">
+                Biểu đồ cung cấp bởi TradingView • Nhấn vào mã CP trong bảng để thay đổi biểu đồ
+            </p>
+        </div>
+
+        <!-- MIỄN TRỪ TRÁCH NHIỆM -->
+        <div
+            style="max-width: 1300px; margin: 1.5rem auto 0; padding: 1.2rem 2rem; border-radius: 12px; background: rgba(248, 113, 113, 0.06); border: 1px solid rgba(248, 113, 113, 0.2); text-align: center;">
+            <h4
+                style="color: #f87171; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.06em; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <span style="font-size: 1.1rem;">⚠️</span> Miễn Trừ Trách Nhiệm !
+            </h4>
+            <p style="color: #94A3B8; font-size: 0.84rem; line-height: 1.7;">
+                Dữ liệu chỉ mang tính chất tham khảo, <strong style="color: #f87171;">không khuyến nghị đầu
+                    tư</strong>.<br>
+                Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.
+            </p>
+        </div>
+    </div>
 
     <!-- CINEMATIC SCROLL CONTAINER -->
     <div id="cinematic-container">
@@ -1356,7 +2076,8 @@
     <!-- SECTION 5: EXPERT TEAM -->
     <section class="team-section" id="team">
         <h2 class="gradient-text" style="position: relative; z-index: 1;">Đội Ngũ Chuyên Gia VPS</h2>
-        <p style="margin-top: 1rem; position: relative; z-index: 1; color: #94A3B8; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+        <p
+            style="margin-top: 1rem; position: relative; z-index: 1; color: #94A3B8; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
             Hợp tác độc quyền cùng Chuyên gia VPS trên nền tảng Công nghệ & Dữ liệu FinTop DATA
         </p>
 
@@ -1438,7 +2159,12 @@
             <div class="testimonial-card testimonial-cyan">
                 <div class="testimonial-quote">
                     <span class="quote-mark">&ldquo;</span>
-                    FinTop là đơn vị uy tín chuyên cung cấp dữ liệu, kiến thức thực tế, chiến lược đầu tư và các báo cáo phân tích kịp thời, vô cùng hữu dụng cho nhà đầu tư và cả các chuyên gia về chứng khoán. Với chiến lược và cách làm chuyên nghiệp, đặc biệt Đội ngũ FinTop với nhiều năm kinh nghiệm trên thị trường sẽ giúp nhà đầu tư tối ưu hiệu quả và đạt được lợi nhuận tốt nhất trong quá trình giao dịch. Với sự hỗ trợ từ FinTop nhà đầu tư sẽ thông thái, chủ động với việc đầu tư và kỷ luật với chiến lược giao dịch đã đề ra.
+                    FinTop là đơn vị uy tín chuyên cung cấp dữ liệu, kiến thức thực tế, chiến lược đầu tư và các báo cáo
+                    phân tích kịp thời, vô cùng hữu dụng cho nhà đầu tư và cả các chuyên gia về chứng khoán. Với chiến
+                    lược và cách làm chuyên nghiệp, đặc biệt Đội ngũ FinTop với nhiều năm kinh nghiệm trên thị trường sẽ
+                    giúp nhà đầu tư tối ưu hiệu quả và đạt được lợi nhuận tốt nhất trong quá trình giao dịch. Với sự hỗ
+                    trợ từ FinTop nhà đầu tư sẽ thông thái, chủ động với việc đầu tư và kỷ luật với chiến lược giao dịch
+                    đã đề ra.
                     <span class="quote-mark">&rdquo;</span>
                 </div>
                 <div class="testimonial-author">
@@ -1453,7 +2179,14 @@
             <div class="testimonial-card testimonial-pink">
                 <div class="testimonial-quote">
                     <span class="quote-mark">&ldquo;</span>
-                    FINTOP là nơi tập hợp tinh hoa của đội ngũ chuyên gia trẻ, năng động, có kinh nghiệm thực chiến trên thị trường chứng khoán, vừa có kiến thức chuyên sâu về phân tích cơ bản và vừa có độ nhạy bén trong phân tích kỹ thuật. Đây là một trang web uy tín, đáng tin cậy, giúp cung cấp các phân tích và cập nhật thị trường, chọn lọc cổ phiếu. Ngoài ra, đội ngũ chuyên gia của FINTOP cũng thường xuyên cung cấp các phân tích chiến lược đầu tư hay có các báo cáo phân tích ngành và phân tích doanh nghiệp, giúp cho nhà đầu tư có căn cứ để đưa ra các quyết định đầu tư sáng suốt. Nếu nhà đầu tư chưa có nhiều kiến thức, kinh nghiệm, hoặc không có nhiều thời gian để tìm hiểu và nghiên cứu về chứng khoán thì FINTOP chính là người đồng hành tuyệt vời của nhà đầu tư.
+                    FINTOP là nơi tập hợp tinh hoa của đội ngũ chuyên gia trẻ, năng động, có kinh nghiệm thực chiến trên
+                    thị trường chứng khoán, vừa có kiến thức chuyên sâu về phân tích cơ bản và vừa có độ nhạy bén trong
+                    phân tích kỹ thuật. Đây là một trang web uy tín, đáng tin cậy, giúp cung cấp các phân tích và cập
+                    nhật thị trường, chọn lọc cổ phiếu. Ngoài ra, đội ngũ chuyên gia của FINTOP cũng thường xuyên cung
+                    cấp các phân tích chiến lược đầu tư hay có các báo cáo phân tích ngành và phân tích doanh nghiệp,
+                    giúp cho nhà đầu tư có căn cứ để đưa ra các quyết định đầu tư sáng suốt. Nếu nhà đầu tư chưa có
+                    nhiều kiến thức, kinh nghiệm, hoặc không có nhiều thời gian để tìm hiểu và nghiên cứu về chứng khoán
+                    thì FINTOP chính là người đồng hành tuyệt vời của nhà đầu tư.
                     <span class="quote-mark">&rdquo;</span>
                 </div>
                 <div class="testimonial-author">
@@ -1468,7 +2201,12 @@
             <div class="testimonial-card testimonial-green">
                 <div class="testimonial-quote">
                     <span class="quote-mark">&ldquo;</span>
-                    FinTop là một đội ngũ chuyên nghiệp, không ngừng nghiên cứu, học hỏi, cầu thị và luôn luôn lắng nghe khách hàng, đối tác. Những báo cáo phân tích, đánh giá của Team mang lại nhiều hữu ích cho mình là một người công tác trong lĩnh vực Tài chính với các báo cáo phân tích ngành, dữ liệu kinh tế vĩ mô, phân tích đánh giá doanh nghiệp. Đặc biệt có phần tra cứu xu hướng cổ phiếu rất hay bên cạnh chia sẻ cẩm nang, phương pháp đầu tư để mọi người cùng tìm hiểu. Chúc FinTop Team sẽ tiếp tục phát huy và luôn có những báo cáo phân tích chất lượng nhất đến khách hàng.
+                    FinTop là một đội ngũ chuyên nghiệp, không ngừng nghiên cứu, học hỏi, cầu thị và luôn luôn lắng nghe
+                    khách hàng, đối tác. Những báo cáo phân tích, đánh giá của Team mang lại nhiều hữu ích cho mình là
+                    một người công tác trong lĩnh vực Tài chính với các báo cáo phân tích ngành, dữ liệu kinh tế vĩ mô,
+                    phân tích đánh giá doanh nghiệp. Đặc biệt có phần tra cứu xu hướng cổ phiếu rất hay bên cạnh chia sẻ
+                    cẩm nang, phương pháp đầu tư để mọi người cùng tìm hiểu. Chúc FinTop Team sẽ tiếp tục phát huy và
+                    luôn có những báo cáo phân tích chất lượng nhất đến khách hàng.
                     <span class="quote-mark">&rdquo;</span>
                 </div>
                 <div class="testimonial-author">
@@ -1482,7 +2220,7 @@
 
     </section>
 
-        <footer style="position: relative; z-index: 10; background: #07070D;">
+    <footer style="position: relative; z-index: 10; background: #07070D;">
         <div class="footer-grid" style="grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 2rem;">
             <div>
                 <h2 class="logo">FinTop DATA</h2>
@@ -1502,28 +2240,42 @@
             <div>
                 <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Liên hệ</h4>
                 <div style="display: flex; flex-direction: column; gap: 0.6rem; color: #94A3B8;">
-                    <p>📞 Hotline: <a href="tel:0862348886" style="color: #c084fc;">086.234.8886</a></p>
-                    <p>📧 Email: <a href="mailto:DVKH@fintopdata.vn" style="color: #c084fc;">DVKH@fintopdata.vn</a></p>
-                    <p>📍 65 Ô Chợ Dừa, Đống Đa, Hà Nội</p>
+                    <p style="display: flex; align-items: center; gap: 6px;"><img
+                            src="assets/images/icons8-phone-color-hand-drawn-favicons/web/icons8-phone-color-hand-drawn-32.png"
+                            alt="Phone" width="20" height="20" style="vertical-align: middle;"> Hotline: <a
+                            href="tel:0862348886" style="color: #c084fc;">086.234.8886</a></p>
+                    <p style="display: flex; align-items: center; gap: 6px;">📧 Email: <a
+                            href="mailto:DVKH@fintopdata.vn" style="color: #c084fc;">DVKH@fintopdata.vn</a></p>
+                    <p style="display: flex; align-items: center; gap: 6px;">📍 65 Ô Chợ Dừa, Đống Đa, Hà Nội</p>
                 </div>
             </div>
             <div style="text-align: center;">
                 <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Tải ứng dụng</h4>
                 <div style="display: flex; flex-direction: column; gap: 0.8rem; align-items: center;">
-                    <a href="#" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
-                        🍎 App Store
+                    <a href="#"
+                        style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
+                        <img src="assets/images/icons8-app-store-color-favicons/web/icons8-app-store-color-32.png"
+                            alt="App Store" width="20" height="20"> App Store
                     </a>
-                    <a href="#" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
-                        ▶️ Google Play
+                    <a href="#"
+                        style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
+                        <img src="assets/images/icons8-google-play-windows-11-color-favicons/web/icons8-google-play-windows-11-color-32.png"
+                            alt="Google Play" width="20" height="20"> Google Play
                     </a>
-                    <div style="margin-top: 0.5rem; background: #fff; border-radius: 8px; padding: 8px; display: inline-block;">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&amp;data=https://zalo.me/fintopdata" alt="QR Zalo" width="80" height="80" style="display: block;">
+                    <div
+                        style="margin-top: 0.5rem; background: #fff; border-radius: 8px; padding: 8px; display: inline-block;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&amp;data=https://zalo.me/fintopdata"
+                            alt="QR Zalo" width="80" height="80" style="display: block;">
                     </div>
-                    <span style="font-size: 0.8rem; color: #94A3B8;">Zalo FinTop</span>
+                    <span
+                        style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem; color: #94A3B8;"><img
+                            src="assets/images/icons8-zalo-color-hand-drawn-favicons/web/icons8-zalo-color-hand-drawn-32.png"
+                            alt="Zalo" width="18" height="18"> Zalo FinTop</span>
                 </div>
             </div>
         </div>
-        <div style="max-width: 1200px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+        <div
+            style="max-width: 1200px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
             <p>© 2026 FinTop DATA. All rights reserved.</p>
         </div>
         <div class="footer-disclaimer">
@@ -1542,6 +2294,308 @@
                 header.classList.remove('scrolled');
             }
         });
+
+        // ==============================================
+        // MEGA MENU + CONTENT PANEL SYSTEM
+        // ==============================================
+
+        // Sample stock data for Tra cứu
+        const STOCK_DB = {
+            'VEA': { san: 'UPCOM', nganh: 'Bán buôn, bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang tăng nhẹ.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
+            'DST': { san: 'HNX', nganh: 'Bán buôn, bán lẻ', time: '23:27\n05/03', desc: 'Mẫu nến suy giảm chạm hỗ trợ MA200.', status: 'positive', statusText: 'TÍCH CỰC' },
+            'DGW': { san: 'HOSE', nganh: 'Bán buôn, bán lẻ', time: '23:28\n05/03', desc: 'Mẫu nến đi ngang trên hỗ trợ MA50.', status: 'ok', statusText: 'KHẢ QUAN' },
+            'MWG': { san: 'HOSE', nganh: 'Bán lẻ', time: '23:32\n05/03', desc: 'Mẫu nến suy giảm.', status: 'neutral', statusText: 'TRUNG LẬP' },
+            'PNJ': { san: 'HOSE', nganh: 'Bán lẻ', time: '23:33\n05/03', desc: 'Mẫu hình 2 đỉnh, nếu suy giảm.', status: 'negative', statusText: 'KO TÍCH CỰC' },
+            'FPT': { san: 'HOSE', nganh: 'Công nghệ', time: '23:35\n05/03', desc: 'Kênh xu hướng tăng trung hạn.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
+            'VNM': { san: 'HOSE', nganh: 'Sản xuất sữa', time: '23:36\n05/03', desc: 'Mẫu nến đi ngang tích lũy.', status: 'ok', statusText: 'KHẢ QUAN' },
+            'FRT': { san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu suy giảm.', status: 'ok', statusText: 'KHẢ QUAN' },
+            'MSN': { san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Kênh xu hướng giảm.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
+            'PLX': { san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến giảm ngắn, chạm hỗ trợ MA5.', status: 'positive', statusText: 'TÍCH CỰC' },
+            'PET': { san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang tích lũy, kênh xu hướng tăng.', status: 'ok', statusText: 'KHẢ QUAN' },
+            'BVH': { san: 'HOSE', nganh: 'Bảo hiểm', time: '23:26\n05/03', desc: 'Mẫu nến giảm, thủng hỗ trợ MA20.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
+            'BIC': { san: 'HOSE', nganh: 'Bảo hiểm', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang.', status: 'positive', statusText: 'TÍCH CỰC' },
+            'HPG': { san: 'HOSE', nganh: 'Thép', time: '23:40\n05/03', desc: 'Kênh xu hướng tăng mạnh.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
+            'SSI': { san: 'HOSE', nganh: 'Chứng khoán', time: '23:41\n05/03', desc: 'Mẫu nến đi ngang trên MA20.', status: 'positive', statusText: 'TÍCH CỰC' },
+            'VCB': { san: 'HOSE', nganh: 'Ngân hàng', time: '23:42\n05/03', desc: 'Kênh giá tăng ổn định.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
+            'TCB': { san: 'HOSE', nganh: 'Ngân hàng', time: '23:43\n05/03', desc: 'Mẫu nến tăng nhẹ.', status: 'positive', statusText: 'TÍCH CỰC' },
+            'VHM': { san: 'HOSE', nganh: 'Bất động sản', time: '23:44\n05/03', desc: 'Mẫu nến giảm chạm hỗ trợ.', status: 'neutral', statusText: 'TRUNG LẬP' },
+        };
+
+        // Bộ lọc data (extended)
+        const BOLOC_DATA = [
+            { ticker: 'VEA', san: 'UPCOM', nganh: 'Bán buôn, bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang tăng nhẹ.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC', result: 'strong-entry', resultText: 'STRONG ENTRY', giaTc: '34 - 34.5', giaKc: '38 - 42', qtrr: '33' },
+            { ticker: 'DST', san: 'HNX', nganh: 'Bán buôn, bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến suy giảm chạm hỗ trợ MA200.', status: 'positive', statusText: 'TÍCH CỰC', result: 'entry', resultText: 'ENTRY', giaTc: '9.3 - 9.5', giaKc: '10.2 - 10.7', qtrr: '21' },
+            { ticker: 'DGW', san: 'HOSE', nganh: 'Bán buôn, bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang trên hỗ trợ MA50.', status: 'ok', statusText: 'KHẢ QUAN', result: 'small-entry', resultText: 'SMALL ENTRY', giaTc: '45.5 - 46.5', giaKc: '38 - 42', qtrr: '18' },
+            { ticker: 'MWG', san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến suy giảm.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC', result: 'strong-entry', resultText: 'STRONG ENTRY', giaTc: '85 - 86', giaKc: '10.2 - 10.7', qtrr: '33' },
+            { ticker: 'PNJ', san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu hình 2 đỉnh, nếu suy giảm.', status: 'positive', statusText: 'TÍCH CỰC', result: 'entry', resultText: 'ENTRY', giaTc: '114 - 117', giaKc: '38 - 42', qtrr: '21' },
+            { ticker: 'FRT', san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu suy giảm.', status: 'ok', statusText: 'KHẢ QUAN', result: 'small-entry', resultText: 'SMALL ENTRY', giaTc: '158 - 160', giaKc: '10.2 - 10.7', qtrr: '18' },
+            { ticker: 'MSN', san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Kênh xu hướng giảm.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC', result: 'strong-entry', resultText: 'STRONG ENTRY', giaTc: '75 - 76', giaKc: '38 - 42', qtrr: '33' },
+            { ticker: 'PLX', san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến giảm ngắn, chạm hỗ trợ MA5.', status: 'positive', statusText: 'TÍCH CỰC', result: 'entry', resultText: 'ENTRY', giaTc: '64 - 65.5', giaKc: '10.2 - 10.7', qtrr: '21' },
+            { ticker: 'PET', san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang tích lũy, kênh xu hướng tăng.', status: 'ok', statusText: 'KHẢ QUAN', result: 'small-entry', resultText: 'SMALL ENTRY', giaTc: '39 - 40', giaKc: '38 - 42', qtrr: '18' },
+            { ticker: 'BVH', san: 'HOSE', nganh: 'Bảo hiểm', time: '23:26\n05/03', desc: 'Mẫu nến giảm, thủng hỗ trợ MA20.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC', result: 'strong-entry', resultText: 'STRONG ENTRY', giaTc: '75.5 - 76.5', giaKc: '10.2 - 10.7', qtrr: '21' },
+            { ticker: 'BIC', san: 'HOSE', nganh: 'Bảo hiểm', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang.', status: 'positive', statusText: 'TÍCH CỰC', result: 'entry', resultText: 'ENTRY', giaTc: '23 - 24.5', giaKc: '50 - 52', qtrr: '18' },
+        ];
+
+        // Track searched tickers
+        let searchedTickers = [];
+        let bolocRendered = false;
+
+        // Toggle dropdown pin
+        function toggleDropdownPin(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const dc = dropdown.querySelector('.dropdown-content');
+
+            // Close other dropdowns
+            document.querySelectorAll('.dropdown-content.pinned').forEach(d => {
+                if (d !== dc) d.classList.remove('pinned');
+            });
+
+            dc.classList.toggle('pinned');
+        }
+
+        // Open content panel
+        function openPanel(panelId, clickedLink) {
+            // Close all panels first
+            document.querySelectorAll('.submenu-panel').forEach(p => p.classList.remove('active'));
+
+            // Remove active from all submenu links
+            document.querySelectorAll('.dropdown-content a').forEach(a => a.classList.remove('active-submenu'));
+
+            // Activate this panel
+            const panel = document.getElementById(panelId);
+            panel.classList.add('active');
+
+            // Mark clicked link active
+            if (clickedLink) clickedLink.classList.add('active-submenu');
+
+            // Pin the parent dropdown
+            const parentDC = clickedLink.closest('.dropdown-content');
+            if (parentDC) parentDC.classList.add('pinned');
+
+            // Auto-render Bộ lọc table on first open
+            if (panelId === 'panel-boloc' && !bolocRendered) {
+                renderBolocTable();
+                bolocRendered = true;
+            }
+
+            // Focus search input if tra cứu
+            if (panelId === 'panel-tracuu') {
+                setTimeout(() => document.getElementById('stockSearchInput').focus(), 300);
+            }
+        }
+
+        // Close all panels
+        function closeAllPanels() {
+            document.querySelectorAll('.submenu-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('pinned'));
+            document.querySelectorAll('.dropdown-content a').forEach(a => a.classList.remove('active-submenu'));
+        }
+
+        // Click outside to close
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-item.dropdown') &&
+                !e.target.closest('.submenu-panel') &&
+                !e.target.closest('.panel-close-btn')) {
+                // Don't close if clicking inside a panel or dropdown
+                const anyPanelActive = document.querySelector('.submenu-panel.active');
+                if (!anyPanelActive) {
+                    document.querySelectorAll('.dropdown-content.pinned').forEach(d => d.classList.remove('pinned'));
+                }
+            }
+        });
+
+        // Escape key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeAllPanels();
+        });
+
+        // =====================
+        // STOCK SEARCH LOGIC
+        // =====================
+
+        // Enter key on search input
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('stockSearchInput');
+            if (input) {
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') addStockTicker();
+                });
+            }
+        });
+
+        function addStockTicker() {
+            const input = document.getElementById('stockSearchInput');
+            const ticker = input.value.trim().toUpperCase();
+
+            if (!ticker) return;
+
+            // Check if ticker exists in DB
+            if (!STOCK_DB[ticker]) {
+                // Shake animation for invalid ticker
+                input.style.borderColor = '#f87171';
+                input.style.boxShadow = '0 0 15px rgba(248, 113, 113, 0.3)';
+                input.classList.add('shake');
+                setTimeout(() => {
+                    input.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+                    input.style.boxShadow = 'none';
+                }, 1500);
+                input.value = '';
+                return;
+            }
+
+            // Check if already in list
+            const existingIdx = searchedTickers.indexOf(ticker);
+            if (existingIdx !== -1) {
+                searchedTickers.splice(existingIdx, 1);
+            }
+
+            // Add to list
+            searchedTickers.push(ticker);
+
+            // Max 10 — remove oldest
+            if (searchedTickers.length > 10) {
+                searchedTickers.shift();
+            }
+
+            // Re-render table
+            renderTracuuTable();
+            input.value = '';
+            input.focus();
+        }
+
+        function renderTracuuTable() {
+            const tbody = document.getElementById('tracuuBody');
+            const empty = document.getElementById('tracuuEmpty');
+
+            if (searchedTickers.length === 0) {
+                tbody.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+            tbody.innerHTML = '';
+
+            searchedTickers.forEach((ticker, i) => {
+                const d = STOCK_DB[ticker];
+                if (!d) return;
+
+                const tr = document.createElement('tr');
+                tr.className = 'animate-in';
+                tr.style.animationDelay = `${i * 0.05}s`;
+                tr.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td class="ticker-cell">${ticker}</td>
+                    <td>${d.san}</td>
+                    <td>${d.nganh}</td>
+                    <td class="time-cell">${d.time}</td>
+                    <td class="desc-cell">${d.desc}</td>
+                    <td><span class="status-badge ${d.status}">${d.statusText}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // =====================
+        // BỘ LỌC TABLE RENDER
+        // =====================
+        function renderBolocTable() {
+            const tbody = document.getElementById('bolocBody');
+            tbody.innerHTML = '';
+
+            BOLOC_DATA.forEach((d, i) => {
+                const tr = document.createElement('tr');
+                tr.className = 'animate-in';
+                tr.style.animationDelay = `${i * 0.04}s`;
+                tr.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td class="ticker-cell">${d.ticker}</td>
+                    <td>${d.san}</td>
+                    <td>${d.nganh}</td>
+                    <td class="time-cell">${d.time}</td>
+                    <td class="desc-cell">${d.desc}</td>
+                    <td><span class="status-badge ${d.status}">${d.statusText}</span></td>
+                    <td><span class="result-badge ${d.result}">${d.resultText}</span></td>
+                    <td class="price-cell">${d.giaTc}</td>
+                    <td class="price-cell">${d.giaKc}</td>
+                    <td class="score-cell">${d.qtrr}</td>
+                `;
+                // Make ticker cell clickable to change chart
+                const tickerTd = tr.querySelector('.ticker-cell');
+                if (tickerTd) {
+                    tickerTd.classList.add('ticker-clickable');
+                    tickerTd.title = `Nhấn để xem biểu đồ ${d.ticker}`;
+                    tickerTd.addEventListener('click', () => loadChart(d.ticker));
+                }
+                tbody.appendChild(tr);
+            });
+        }
+        // =====================
+        // TRADINGVIEW CHART
+        // =====================
+        let tvWidget = null;
+        let tvScriptLoaded = false;
+
+        function loadTVScript(callback) {
+            if (tvScriptLoaded) { callback(); return; }
+            const s = document.createElement('script');
+            s.src = 'https://s3.tradingview.com/tv.js';
+            s.onload = () => { tvScriptLoaded = true; callback(); };
+            document.head.appendChild(s);
+        }
+
+        function loadChart(ticker) {
+            const label = document.getElementById('chartTickerLabel');
+            if (label) label.textContent = ticker || 'VN30';
+
+            const symbol = ticker ? `HOSE:${ticker}` : 'HOSE:VN30';
+
+            loadTVScript(() => {
+                const container = document.getElementById('tradingview_chart');
+                container.innerHTML = ''; // Clear previous
+
+                try {
+                    tvWidget = new TradingView.widget({
+                        "autosize": true,
+                        "symbol": symbol,
+                        "interval": "D",
+                        "timezone": "Asia/Ho_Chi_Minh",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "vi_VN",
+                        "toolbar_bg": "#131722",
+                        "enable_publishing": false,
+                        "hide_top_toolbar": false,
+                        "hide_legend": false,
+                        "save_image": false,
+                        "container_id": "tradingview_chart",
+                        "studies": ["MASimple@tv-basicstudies", "BB@tv-basicstudies", "RSI@tv-basicstudies"],
+                        "show_popup_button": true,
+                        "popup_width": "1000",
+                        "popup_height": "650"
+                    });
+                } catch (e) {
+                    container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#475569;font-size:0.9rem;">Biểu đồ không khả dụng cho mã ' + ticker + '</div>';
+                }
+            });
+
+            // Scroll to chart
+            const chartSection = document.getElementById('tradingview-chart-container');
+            if (chartSection) {
+                chartSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Auto-load chart when Bộ lọc panel opens
+        const originalOpenPanel = openPanel;
+        openPanel = function (panelId, clickedLink) {
+            originalOpenPanel(panelId, clickedLink);
+            if (panelId === 'panel-boloc') {
+                setTimeout(() => {
+                    if (!tvWidget) loadChart('VN30');
+                }, 500);
+            }
+        };
     </script>
 </body>
 

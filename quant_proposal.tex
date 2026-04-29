@@ -1,0 +1,484 @@
+\documentclass[12pt,a4paper]{article}
+
+% === PACKAGES ===
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+
+\geometry{margin=2.5cm}
+
+% === COLORS ===
+\definecolor{purple-core}{HTML}{7C3AED}
+\definecolor{gold-primary}{HTML}{F59E0B}
+\definecolor{bg-dark}{HTML}{0A0A0F}
+\definecolor{green-pos}{HTML}{10B981}
+\definecolor{red-neg}{HTML}{F87171}
+\definecolor{blue-ok}{HTML}{60A5FA}
+\definecolor{gray-muted}{HTML}{94A3B8}
+
+% === HEADER/FOOTER ===
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{purple-core}{\textbf{FinTop DATA}}}
+\fancyhead[R]{\textcolor{gray-muted}{Đề Xuất Quant — Nội Bộ}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+
+% === TCOLORBOX STYLES ===
+\tcbuselibrary{skins,breakable}
+
+\newtcolorbox{infobox}[1][]{
+  colback=purple-core!5, colframe=purple-core!60,
+  fonttitle=\bfseries, title=#1,
+  arc=4pt, boxrule=0.8pt, breakable
+}
+
+\newtcolorbox{examplebox}[1][]{
+  colback=gold-primary!5, colframe=gold-primary!70,
+  fonttitle=\bfseries, title=#1,
+  arc=4pt, boxrule=0.8pt, breakable
+}
+
+\newtcolorbox{warningbox}[1][]{
+  colback=red-neg!5, colframe=red-neg!60,
+  fonttitle=\bfseries, title=#1,
+  arc=4pt, boxrule=0.8pt
+}
+
+\newtcolorbox{greenbox}[1][]{
+  colback=green-pos!5, colframe=green-pos!60,
+  fonttitle=\bfseries, title=#1,
+  arc=4pt, boxrule=0.8pt
+}
+
+% === DOCUMENT ===
+\begin{document}
+
+% ===================== TITLE PAGE =====================
+\begin{titlepage}
+\centering
+\vspace*{3cm}
+
+{\Huge\bfseries\textcolor{purple-core}{ĐỀ XUẤT ỨNG DỤNG}\par}
+\vspace{0.5cm}
+{\Huge\bfseries\textcolor{purple-core}{QUANTITATIVE ANALYSIS}\par}
+\vspace{0.3cm}
+{\Huge\bfseries\textcolor{gold-primary}{CHO FINTOP DATA}\par}
+
+\vspace{2cm}
+
+{\Large Bổ sung trụ cột thứ 3 — \textbf{QUANT}}\\[0.3cm]
+{\Large bên cạnh TA và FA hiện có\par}
+
+\vspace{2cm}
+
+\begin{tabular}{ll}
+\textbf{Đối tượng:} & NĐT cá nhân — TTCK Việt Nam \\
+\textbf{Phiên bản:} & v1.0 — Tháng 04/2026 \\
+\textbf{Bảo mật:} & Nội bộ \\
+\end{tabular}
+
+\vfill
+{\large\textcolor{purple-core}{\textbf{FinTop DATA}} — Data · Chuyên Gia · AI\par}
+\end{titlepage}
+
+% ===================== TABLE OF CONTENTS =====================
+\tableofcontents
+\newpage
+
+% ===================== SECTION 1 =====================
+\section{Quant là gì?}
+
+\begin{infobox}[Giải thích đơn giản]
+\textbf{Quant} = dùng \textbf{toán học và thuật toán} để phân tích cổ phiếu, thay vì chỉ dựa vào cảm tính hay kinh nghiệm.
+
+\textit{Ví von:} Quant giống bác sĩ đọc xét nghiệm máu — thay vì ``nhìn mặt đoán bệnh'' (TA) hay ``hỏi thăm tiền sử'' (FA), Quant \textbf{đo bằng con số chính xác}.
+\end{infobox}
+
+\vspace{0.5cm}
+
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Phương pháp} & \textbf{Câu hỏi trả lời} & \textbf{Công cụ} \\
+\midrule
+\textbf{TA} (Kỹ thuật) & ``Giá đang đi đâu?'' & Đồ thị, RSI, MACD \\
+\textbf{FA} (Cơ bản) & ``Công ty có tốt không?'' & P/E, EPS, doanh thu \\
+\textbf{QUANT} (Định lượng) & ``Dữ liệu nói gì? Rủi ro?'' & Thuật toán, mô hình toán \\
+\bottomrule
+\end{tabularx}
+
+% ===================== SECTION 2 =====================
+\section{Tổng quan 5 phương pháp đề xuất}
+
+\begin{tabularx}{\textwidth}{c l c c c}
+\toprule
+\textbf{\#} & \textbf{Phương pháp} & \textbf{Độ khó} & \textbf{Giá trị} & \textbf{Ưu tiên} \\
+\midrule
+1 & Quant Score (Chấm điểm đa yếu tố) & $\star$ & Rất cao & Phase 1 \\
+2 & Momentum Ranking (Xếp hạng động lượng) & $\star$ & Cao & Phase 1 \\
+3 & Risk Metrics (Đo lường rủi ro) & $\star\star$ & Rất cao & Phase 2 \\
+4 & Mean Reversion Scanner (Z-Score) & $\star\star$ & Cao & Phase 2 \\
+5 & Correlation Heatmap (Bản đồ tương quan) & $\star$ & TB-Cao & Phase 3 \\
+\bottomrule
+\end{tabularx}
+
+% ===================== SECTION 3: QUANT SCORE =====================
+\newpage
+\section{Phương pháp 1 — Quant Score}
+
+\subsection{Ý tưởng}
+Mỗi cổ phiếu được \textbf{chấm điểm từ 0 đến 100} dựa trên nhiều yếu tố. Điểm càng cao $=$ cổ phiếu càng ``hấp dẫn'' về mặt dữ liệu.
+
+\subsection{Công thức}
+
+\begin{infobox}[Công thức Quant Score]
+\begin{equation}
+\boxed{
+  Q = w_1 \cdot S_{\text{Value}} + w_2 \cdot S_{\text{Growth}} + w_3 \cdot S_{\text{Quality}} + w_4 \cdot S_{\text{Momentum}}
+}
+\end{equation}
+
+Trong đó:
+\begin{itemize}[nosep]
+  \item $Q$ = Quant Score tổng (0--100)
+  \item $w_1, w_2, w_3, w_4$ = trọng số, tổng $= 1$ (mặc định mỗi cái 0.25)
+  \item $S_{\text{Value}}, S_{\text{Growth}}, \ldots$ = điểm thành phần (0--100), tính bằng percentile rank
+\end{itemize}
+\end{infobox}
+
+\subsection{Chi tiết từng yếu tố}
+
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Yếu tố} & \textbf{Chỉ số} & \textbf{Logic chấm điểm} \\
+\midrule
+Value (Giá trị) & P/E, P/B & P/E thấp hơn trung bình ngành $\rightarrow$ điểm cao \\
+Growth (Tăng trưởng) & EPS growth, Revenue growth & Tăng trưởng EPS $> 15\%$/năm $\rightarrow$ điểm cao \\
+Quality (Chất lượng) & ROE, D/E, Biên LN & ROE $> 15\%$, Nợ/Vốn $< 1$ $\rightarrow$ điểm cao \\
+Momentum & Return 3M, 6M & Giá tăng đều đặn $\rightarrow$ điểm cao \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Cách chuẩn hóa: Percentile Rank}
+
+\begin{equation}
+S_i = \frac{\text{Số CP có giá trị thấp hơn CP}_i}{\text{Tổng số CP}} \times 100
+\end{equation}
+
+\begin{examplebox}[Ví dụ: Chuẩn hóa ROE]
+Có 100 CP, FPT có ROE = 22\%, xếp thứ 12 từ cao xuống $\Rightarrow$ có 88 CP ROE thấp hơn.
+$$S_{\text{Quality}}^{\text{FPT}} = \frac{88}{100} \times 100 = 88 \text{ điểm}$$
+\end{examplebox}
+
+\subsection{Ví dụ tính Quant Score}
+
+Với trọng số đều $w_1 = w_2 = w_3 = w_4 = 0.25$:
+
+\begin{tabularx}{\textwidth}{l c c c c c}
+\toprule
+\textbf{Mã CP} & $S_{\text{Value}}$ & $S_{\text{Growth}}$ & $S_{\text{Quality}}$ & $S_{\text{Mom}}$ & \textbf{Quant Score} \\
+\midrule
+\textbf{FPT} & 55 & 85 & 90 & 80 & $\mathbf{77.5}$ \textcolor{green-pos}{\checkmark} \\
+\textbf{HPG} & 60 & 70 & 65 & 75 & $\mathbf{67.5}$ \\
+\textbf{VNM} & 80 & 40 & 85 & 30 & $\mathbf{58.8}$ \\
+\bottomrule
+\end{tabularx}
+
+\vspace{0.3cm}
+Ví dụ FPT: $Q = 0.25 \times 55 + 0.25 \times 85 + 0.25 \times 90 + 0.25 \times 80 = \mathbf{77.5}$
+
+% ===================== SECTION 4: MOMENTUM =====================
+\newpage
+\section{Phương pháp 2 — Momentum Ranking}
+
+\subsection{Ý tưởng}
+CP đã tăng mạnh gần đây \textbf{có xu hướng tiếp tục tăng} (hiệu ứng momentum — được chứng minh qua nhiều nghiên cứu học thuật). Xếp hạng tất cả CP theo ``sức mạnh giá''.
+
+\begin{infobox}[Ví von]
+Giống xếp hạng vận động viên — ai chạy nhanh nhất trong 3 cuộc đua gần nhất thì được xếp hạng cao nhất.
+\end{infobox}
+
+\subsection{Công thức}
+
+\begin{equation}
+\boxed{
+  M = 0.5 \times R_{12} + 0.3 \times R_6 + 0.2 \times R_3
+}
+\end{equation}
+
+Trong đó:
+\begin{itemize}[nosep]
+  \item $R_{12}$ = Lợi suất 12 tháng (bỏ tháng gần nhất để tránh nhiễu ngắn hạn)
+  \item $R_6$ = Lợi suất 6 tháng gần nhất
+  \item $R_3$ = Lợi suất 3 tháng gần nhất
+  \item Lợi suất: $R_n = \dfrac{P_{\text{hiện tại}} - P_{n\text{ tháng trước}}}{P_{n\text{ tháng trước}}} \times 100\%$
+\end{itemize}
+
+\subsection{Ví dụ}
+
+\begin{tabularx}{\textwidth}{c l c c c c}
+\toprule
+\textbf{Hạng} & \textbf{Mã CP} & $R_{12}$ & $R_6$ & $R_3$ & \textbf{M Score} \\
+\midrule
+1 & FPT & +45\% & +28\% & +12\% & \textbf{33.3} \\
+2 & MWG & +38\% & +25\% & +15\% & \textbf{30.4} \\
+3 & VCB & +30\% & +18\% & +8\% & \textbf{22.0} \\
+\bottomrule
+\end{tabularx}
+
+FPT: $M = 0.5 \times 45 + 0.3 \times 28 + 0.2 \times 12 = 22.5 + 8.4 + 2.4 = \mathbf{33.3}$
+
+\subsection{Cách sử dụng}
+\begin{itemize}
+  \item \textbf{Top 20\%} momentum $\rightarrow$ Danh sách ``CP mạnh nhất thị trường''
+  \item \textbf{Bottom 20\%} $\rightarrow$ Cảnh báo CP yếu
+\end{itemize}
+
+% ===================== SECTION 5: RISK =====================
+\newpage
+\section{Phương pháp 3 — Risk Metrics}
+
+\subsection{Ý tưởng}
+Đo lường \textbf{rủi ro thực sự} bằng con số, thay vì chỉ nói ``rủi ro cao/thấp''.
+
+\subsection{3 chỉ số rủi ro chính}
+
+\subsubsection{a) Volatility — Độ biến động}
+
+\begin{equation}
+\boxed{
+  \sigma_{\text{annual}} = \sigma_{\text{daily}} \times \sqrt{252}
+}
+\end{equation}
+
+$\sigma_{\text{daily}}$ = Độ lệch chuẩn của lợi suất hàng ngày, 252 = số ngày giao dịch/năm.
+
+\begin{examplebox}[Ví dụ]
+FPT có $\sigma_{\text{annual}} = 28\%$ $\Rightarrow$ ``Giá FPT dao động $\pm 28\%$ trong 1 năm là bình thường.''
+\end{examplebox}
+
+\subsubsection{b) Maximum Drawdown — Sụt giảm tối đa}
+
+\begin{equation}
+\boxed{
+  \text{MaxDD} = \frac{P_{\text{đáy}} - P_{\text{đỉnh}}}{P_{\text{đỉnh}}} \times 100\%
+}
+\end{equation}
+
+\begin{examplebox}[Ví dụ]
+HPG từ đỉnh 55.000 VNĐ xuống đáy 19.000 VNĐ:
+$$\text{MaxDD} = \frac{19.000 - 55.000}{55.000} = -65.5\%$$
+$\Rightarrow$ ``Nếu mua đúng đỉnh, bạn có thể lỗ tối đa 65.5\%.''
+\end{examplebox}
+
+\subsubsection{c) Sharpe Ratio — Lợi nhuận trên mỗi đơn vị rủi ro}
+
+\begin{equation}
+\boxed{
+  \text{Sharpe} = \frac{R_p - R_f}{\sigma_p}
+}
+\end{equation}
+
+\begin{itemize}[nosep]
+  \item $R_p$ = Lợi suất danh mục/CP
+  \item $R_f$ = Lãi suất phi rủi ro (lãi suất tiết kiệm $\approx 5\%$)
+  \item $\sigma_p$ = Volatility
+\end{itemize}
+
+\begin{examplebox}[Ví dụ]
+FPT: lãi 30\%/năm, tiết kiệm 5\%, Vol 28\%:
+$$\text{Sharpe} = \frac{30\% - 5\%}{28\%} = 0.89$$
+$\Rightarrow$ ``Cứ 1 đơn vị rủi ro, FPT sinh ra 0.89 đơn vị lợi nhuận.''
+\end{examplebox}
+
+\subsection{Bảng đánh giá Sharpe Ratio}
+
+\begin{tabularx}{\textwidth}{c l l}
+\toprule
+\textbf{Sharpe} & \textbf{Đánh giá} & \textbf{Ý nghĩa} \\
+\midrule
+$< 0$ & Tệ & Lỗ tiền, rủi ro không được bù đắp \\
+$0 - 0.5$ & Trung bình & Chấp nhận được \\
+$0.5 - 1.0$ & Tốt & Lợi nhuận tương xứng rủi ro \\
+$> 1.0$ & Xuất sắc & Hiệu quả cao \\
+\bottomrule
+\end{tabularx}
+
+% ===================== SECTION 6: Z-SCORE =====================
+\newpage
+\section{Phương pháp 4 — Mean Reversion Scanner (Z-Score)}
+
+\subsection{Ý tưởng}
+Khi giá CP \textbf{lệch quá xa} so với giá trung bình, nó có xu hướng \textbf{quay về}. Z-Score đo mức độ ``lệch chuẩn'' này.
+
+\begin{infobox}[Ví von]
+Z-Score giống ``nhiệt kế'' cho giá cổ phiếu — đo xem giá đang ``nóng'' hay ``lạnh'' so với bình thường.
+\end{infobox}
+
+\subsection{Công thức}
+
+\begin{equation}
+\boxed{
+  Z = \frac{P - \mu_{60}}{\sigma_{60}}
+}
+\end{equation}
+
+\begin{itemize}[nosep]
+  \item $P$ = Giá hiện tại
+  \item $\mu_{60}$ = Giá trung bình 60 ngày
+  \item $\sigma_{60}$ = Độ lệch chuẩn giá 60 ngày
+\end{itemize}
+
+\subsection{Bảng tín hiệu}
+
+\begin{tabularx}{\textwidth}{c l l}
+\toprule
+\textbf{Z-Score} & \textbf{Ý nghĩa} & \textbf{Tín hiệu} \\
+\midrule
+$< -2.0$ & Giá thấp bất thường & Có thể đang Oversold \\
+$-2.0 \to -1.0$ & Giá thấp hơn bình thường & Theo dõi \\
+$-1.0 \to +1.0$ & Bình thường & Trung lập \\
+$+1.0 \to +2.0$ & Giá cao hơn bình thường & Cẩn thận \\
+$> +2.0$ & Giá cao bất thường & Có thể đang Overbought \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Ví dụ}
+
+\begin{examplebox}[VNM]
+$P = 68.000$, $\mu_{60} = 72.000$, $\sigma_{60} = 2.500$
+$$Z = \frac{68.000 - 72.000}{2.500} = -1.6$$
+$\Rightarrow$ Giá thấp hơn bình thường — theo dõi cơ hội.
+\end{examplebox}
+
+\begin{examplebox}[HPG]
+$P = 32.000$, $\mu_{60} = 28.000$, $\sigma_{60} = 1.800$
+$$Z = \frac{32.000 - 28.000}{1.800} = +2.22$$
+$\Rightarrow$ Giá cao bất thường — cẩn thận.
+\end{examplebox}
+
+% ===================== SECTION 7: CORRELATION =====================
+\newpage
+\section{Phương pháp 5 — Correlation Heatmap}
+
+\subsection{Ý tưởng}
+Đo mức độ \textbf{các CP đi cùng nhau}. Giúp NĐT đa dạng hóa danh mục hiệu quả — tránh ``bỏ trứng vào cùng một rổ''.
+
+\subsection{Công thức: Hệ số tương quan Pearson}
+
+\begin{equation}
+\boxed{
+  \rho_{A,B} = \frac{\displaystyle\sum_{i=1}^{n}(R_{A,i} - \bar{R}_A)(R_{B,i} - \bar{R}_B)}{\sqrt{\displaystyle\sum_{i=1}^{n}(R_{A,i} - \bar{R}_A)^2 \cdot \sum_{i=1}^{n}(R_{B,i} - \bar{R}_B)^2}}
+}
+\end{equation}
+
+Kết quả: $\rho \in [-1, +1]$
+
+\subsection{Cách đọc}
+
+\begin{tabularx}{\textwidth}{c X}
+\toprule
+\textbf{Giá trị $\rho$} & \textbf{Ý nghĩa} \\
+\midrule
+$+0.8 \to +1.0$ & Đi cùng nhau rất chặt (thường cùng ngành) \\
+$+0.3 \to +0.8$ & Có liên quan \\
+$-0.3 \to +0.3$ & Ít liên quan — \textbf{TỐT cho đa dạng hóa} \\
+$-0.8 \to -0.3$ & Đi ngược nhau \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Ví dụ ma trận tương quan}
+
+\begin{tabular}{l c c c c c}
+\toprule
+ & \textbf{VCB} & \textbf{TCB} & \textbf{HPG} & \textbf{VNM} & \textbf{FPT} \\
+\midrule
+\textbf{VCB} & 1.00 & \textcolor{red-neg}{0.85} & 0.42 & 0.15 & 0.30 \\
+\textbf{TCB} & \textcolor{red-neg}{0.85} & 1.00 & 0.38 & 0.12 & 0.28 \\
+\textbf{HPG} & 0.42 & 0.38 & 1.00 & 0.20 & 0.35 \\
+\textbf{VNM} & 0.15 & 0.12 & 0.20 & 1.00 & \textcolor{green-pos}{0.18} \\
+\textbf{FPT} & 0.30 & 0.28 & 0.35 & \textcolor{green-pos}{0.18} & 1.00 \\
+\bottomrule
+\end{tabular}
+
+\begin{itemize}
+  \item \textcolor{red-neg}{VCB \& TCB = 0.85} (cùng ngành NH) $\Rightarrow$ Mua cả 2 thì \textbf{KHÔNG} đa dạng hóa được
+  \item \textcolor{green-pos}{VNM \& FPT = 0.18} $\Rightarrow$ Mua cả 2 thì đa dạng hóa \textbf{TỐT}
+\end{itemize}
+
+% ===================== SECTION 8: ROADMAP =====================
+\newpage
+\section{Lộ trình triển khai}
+
+\subsection{Phase 1 — MVP (2--3 tuần)}
+\begin{itemize}
+  \item Quant Score cho $\sim$100 CP thanh khoản cao nhất
+  \item Momentum Ranking (Top/Bottom 20\%)
+  \item Hiển thị trên trang Tra cứu CP
+\end{itemize}
+
+\subsection{Phase 2 — Mở rộng (3--4 tuần)}
+\begin{itemize}
+  \item Risk Metrics (Volatility, MaxDD, Sharpe)
+  \item Z-Score Scanner
+  \item Bộ lọc Quant trên trang Bộ Lọc CP
+\end{itemize}
+
+\subsection{Phase 3 — Nâng cao (2--3 tuần)}
+\begin{itemize}
+  \item Correlation Heatmap
+  \item Trang Quant Dashboard riêng
+  \item Auto-update dữ liệu hàng ngày
+\end{itemize}
+
+% ===================== SECTION 9: BUSINESS VALUE =====================
+\section{Giá trị kinh doanh}
+
+\begin{tabularx}{\textwidth}{l X}
+\toprule
+\textbf{Lợi ích} & \textbf{Chi tiết} \\
+\midrule
+Khác biệt hóa & Rất ít nền tảng VN có Quant — FinTop dẫn đầu \\
+Giữ chân user & Quant Score là ``con số duy nhất'' dễ theo dõi hàng ngày \\
+Upsell gói Pro & Quant Dashboard $\rightarrow$ tính năng Premium \\
+Tin cậy & Dựa trên toán học $\rightarrow$ khách quan, ít cảm tính \\
+Phù hợp pháp lý & Quant = ``phân tích dữ liệu'', KHÔNG phải khuyến nghị \\
+\bottomrule
+\end{tabularx}
+
+\section{So sánh đối thủ}
+
+\begin{tabularx}{\textwidth}{l c c c}
+\toprule
+\textbf{Nền tảng} & \textbf{TA} & \textbf{FA} & \textbf{Quant} \\
+\midrule
+Fireant & \checkmark & \checkmark & $\times$ \\
+Simplize & \checkmark & \checkmark & Sơ sài \\
+TCBS & \checkmark & \checkmark & $\times$ \\
+SSI iBoard & \checkmark & \checkmark & $\times$ \\
+\textbf{FinTop DATA} & \checkmark & \checkmark & \textbf{\checkmark ĐẦY ĐỦ} \\
+\bottomrule
+\end{tabularx}
+
+% ===================== DISCLAIMER =====================
+\vspace{1cm}
+\begin{warningbox}[MIỄN TRỪ TRÁCH NHIỆM]
+Tất cả chỉ số Quant chỉ mang tính chất \textbf{phân tích dữ liệu tham khảo}, KHÔNG phải khuyến nghị đầu tư. Kết quả từ mô hình toán học dựa trên dữ liệu quá khứ và KHÔNG đảm bảo kết quả tương lai. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
+\end{warningbox}
+
+\vfill
+\begin{center}
+\textcolor{gray-muted}{\textit{Tài liệu chuẩn bị bởi: FinTop DATA Technical Team — Tháng 04/2026}}
+\end{center}
+
+\end{document}
