@@ -65,7 +65,7 @@
             transform: scale(1.05);
         }
 
-        /* Modern TradingView-style Navbar styling */
+        /* Modern financial navbar styling */
         .tv-header {
             position: fixed;
             top: 0;
@@ -578,6 +578,20 @@
             color: #c084fc;
             text-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
             text-decoration-color: #c084fc;
+        }
+
+        .fireant-chart-host,
+        .fireant-chart-host>div {
+            height: 100%;
+            width: 100%;
+        }
+
+        .fireant-chart-host .fireant-widget {
+            display: block;
+            width: 100%;
+            min-height: 500px;
+            border: 0;
+            background: #fff;
         }
 
         .tv-right {
@@ -1721,10 +1735,10 @@
         <div class="video-overlay" style="background-color: rgba(5, 5, 10, 0.4);"></div>
     </div>
 
-    <!-- TRADINGVIEW STYLE HEADER -->
+    <!-- FINANCIAL STYLE HEADER -->
     <header class="tv-header" id="mainHeader">
         <div class="tv-left">
-            <a href="/" class="logo-link">
+            <a href="index.html" class="logo-link">
                 <!-- Đã Sửa Lại Đúng Tên Folder images của bạn -->
                 <img src="assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo">
             </a>
@@ -1737,7 +1751,7 @@
             </div>
         </div>
         <ul class="tv-nav">
-            <li class="nav-item"><a href="/">Trang chủ</a></li>
+            <li class="nav-item"><a href="index.html">Trang chủ</a></li>
             <li class="nav-item"><a href="hoi-vien/index.html">Hội viên</a></li>
             <li class="nav-item dropdown" id="dropdown-fintop-data">
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
@@ -1817,6 +1831,28 @@
                 <p>Nhập mã cổ phiếu ở trên để bắt đầu tra cứu</p>
             </div>
         </div>
+
+        <!-- FIREANT PRICE CHART -->
+        <div style="max-width: 1300px; margin: 1.5rem auto 0;">
+            <h3
+                style="color: #c084fc; font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2rem;">📈</span> Biểu Đồ Giá
+            </h3>
+            <div
+                style="border-radius: 14px; padding: 3px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.6)); box-shadow: 0 0 20px rgba(168, 85, 247, 0.2), 0 0 40px rgba(168, 85, 247, 0.08); animation: chartNeonPulse 3s ease-in-out infinite;">
+                <div id="fireant-tracuu-chart-container"
+                    style="border-radius: 12px; overflow: hidden; height: 500px; background: #131722;">
+                    <!-- FireAnt Widget BEGIN -->
+                    <div class="fireant-widget-container" style="height:100%;width:100%">
+                        <div id="fireant_tracuu_chart_host" class="fireant-chart-host" style="height:100%;width:100%"></div>
+                    </div>
+                    <!-- FireAnt Widget END -->
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 0.5rem; font-size: 0.72rem; color: #475569;">
+                Biểu đồ cung cấp bởi FireAnt • Tra cứu hoặc nhấn vào mã CP trong bảng để thay đổi biểu đồ
+            </p>
+        </div>
     </div>
 
     <!-- ============================================ -->
@@ -1870,7 +1906,7 @@
             </table>
         </div>
 
-        <!-- TRADINGVIEW CHART WITH NEON BORDER -->
+        <!-- FIREANT CHART WITH NEON BORDER -->
         <div style="max-width: 1300px; margin: 1.5rem auto 0;">
             <h3
                 style="color: #c084fc; font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px;">
@@ -1878,17 +1914,17 @@
             </h3>
             <div
                 style="border-radius: 14px; padding: 3px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.6)); box-shadow: 0 0 20px rgba(168, 85, 247, 0.2), 0 0 40px rgba(168, 85, 247, 0.08); animation: chartNeonPulse 3s ease-in-out infinite;">
-                <div id="tradingview-chart-container"
+                <div id="fireant-chart-container"
                     style="border-radius: 12px; overflow: hidden; height: 500px; background: #131722;">
-                    <!-- TradingView Widget BEGIN -->
-                    <div class="tradingview-widget-container" style="height:100%;width:100%">
-                        <div id="tradingview_chart" style="height:100%;width:100%"></div>
+                    <!-- FireAnt Widget BEGIN -->
+                    <div class="fireant-widget-container" style="height:100%;width:100%">
+                        <div id="fireant_chart_host" class="fireant-chart-host" style="height:100%;width:100%"></div>
                     </div>
-                    <!-- TradingView Widget END -->
+                    <!-- FireAnt Widget END -->
                 </div>
             </div>
             <p style="text-align: center; margin-top: 0.5rem; font-size: 0.72rem; color: #475569;">
-                Biểu đồ cung cấp bởi TradingView • Nhấn vào mã CP trong bảng để thay đổi biểu đồ
+                Biểu đồ cung cấp bởi FireAnt • Nhấn vào mã CP trong bảng để thay đổi biểu đồ
             </p>
         </div>
 
@@ -2459,6 +2495,7 @@
 
             // Re-render table
             renderTracuuTable();
+            loadChart(ticker, 'tracuu');
             input.value = '';
             input.focus();
         }
@@ -2492,6 +2529,12 @@
                     <td class="desc-cell">${d.desc}</td>
                     <td><span class="status-badge ${d.status}">${d.statusText}</span></td>
                 `;
+                const tickerTd = tr.querySelector('.ticker-cell');
+                if (tickerTd) {
+                    tickerTd.classList.add('ticker-clickable');
+                    tickerTd.title = `Nhấn để xem biểu đồ ${ticker}`;
+                    tickerTd.addEventListener('click', () => loadChart(ticker, 'tracuu'));
+                }
                 tbody.appendChild(tr);
             });
         }
@@ -2525,74 +2568,149 @@
                 if (tickerTd) {
                     tickerTd.classList.add('ticker-clickable');
                     tickerTd.title = `Nhấn để xem biểu đồ ${d.ticker}`;
-                    tickerTd.addEventListener('click', () => loadChart(d.ticker));
+                    tickerTd.addEventListener('click', () => loadChart(d.ticker, 'boloc'));
                 }
                 tbody.appendChild(tr);
             });
         }
         // =====================
-        // TRADINGVIEW CHART
+        // FIREANT CHART
         // =====================
-        let tvWidget = null;
-        let tvScriptLoaded = false;
+        const FIREANT_WIDGET_SCRIPT = 'https://www.fireant.vn/Scripts/web/widgets.js';
+        const FIREANT_CHART_TARGETS = {
+            tracuu: {
+                hostId: 'fireant_tracuu_chart_host',
+                containerId: 'fireant-tracuu-chart-container'
+            },
+            boloc: {
+                hostId: 'fireant_chart_host',
+                containerId: 'fireant-chart-container'
+            }
+        };
+        let currentChartTicker = {
+            tracuu: null,
+            boloc: null
+        };
+        let fireAntScriptLoading = false;
+        let fireAntScriptCallbacks = [];
 
-        function loadTVScript(callback) {
-            if (tvScriptLoaded) { callback(); return; }
+        function getChartTarget(target) {
+            if (target && FIREANT_CHART_TARGETS[target]) return target;
+
+            const activePanel = document.querySelector('.submenu-panel.active');
+            if (activePanel && activePanel.id === 'panel-tracuu') return 'tracuu';
+
+            return 'boloc';
+        }
+
+        function getChartConfig(target) {
+            return FIREANT_CHART_TARGETS[getChartTarget(target)];
+        }
+
+        function loadFireAntScript(callback) {
+            if (window.FireAnt && typeof window.FireAnt.QuoteWidget === 'function') {
+                callback();
+                return;
+            }
+
+            fireAntScriptCallbacks.push(callback);
+            if (fireAntScriptLoading) return;
+
+            fireAntScriptLoading = true;
             const s = document.createElement('script');
-            s.src = 'https://s3.tradingview.com/tv.js';
-            s.onload = () => { tvScriptLoaded = true; callback(); };
+            s.src = FIREANT_WIDGET_SCRIPT;
+            s.async = true;
+            s.dataset.fireantWidgetScript = 'true';
+            s.onload = () => {
+                fireAntScriptLoading = false;
+                const callbacks = fireAntScriptCallbacks.splice(0);
+                callbacks.forEach((fn) => fn());
+            };
+            s.onerror = () => {
+                fireAntScriptLoading = false;
+                fireAntScriptCallbacks = [];
+                Object.keys(FIREANT_CHART_TARGETS).forEach((target) => {
+                    showChartMessage('Không tải được widget FireAnt. Vui lòng thử lại sau.', target);
+                });
+            };
             document.head.appendChild(s);
         }
 
-        function loadChart(ticker) {
-            const label = document.getElementById('chartTickerLabel');
-            if (label) label.textContent = ticker || 'VN30';
+        function showChartMessage(message, target) {
+            const config = getChartConfig(target);
+            const container = document.getElementById(config.hostId);
+            if (!container) return;
 
-            const symbol = ticker ? `HOSE:${ticker}` : 'HOSE:VN30';
+            container.innerHTML = '';
+            const messageEl = document.createElement('div');
+            messageEl.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100%;color:#94a3b8;font-size:0.9rem;text-align:center;padding:1rem;';
+            messageEl.textContent = message;
+            container.appendChild(messageEl);
+        }
 
-            loadTVScript(() => {
-                const container = document.getElementById('tradingview_chart');
-                container.innerHTML = ''; // Clear previous
+        function renderFireAntWidget(ticker, target) {
+            const chartTarget = getChartTarget(target);
+            const config = getChartConfig(chartTarget);
+            const container = document.getElementById(config.hostId);
+            if (!container) return;
 
-                try {
-                    tvWidget = new TradingView.widget({
-                        "autosize": true,
-                        "symbol": symbol,
-                        "interval": "D",
-                        "timezone": "Asia/Ho_Chi_Minh",
-                        "theme": "dark",
-                        "style": "1",
-                        "locale": "vi_VN",
-                        "toolbar_bg": "#131722",
-                        "enable_publishing": false,
-                        "hide_top_toolbar": false,
-                        "hide_legend": false,
-                        "save_image": false,
-                        "container_id": "tradingview_chart",
-                        "studies": ["MASimple@tv-basicstudies", "BB@tv-basicstudies", "RSI@tv-basicstudies"],
-                        "show_popup_button": true,
-                        "popup_width": "1000",
-                        "popup_height": "650"
-                    });
-                } catch (e) {
-                    container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#475569;font-size:0.9rem;">Biểu đồ không khả dụng cho mã ' + ticker + '</div>';
+            if (!window.FireAnt || typeof window.FireAnt.QuoteWidget !== 'function') {
+                showChartMessage('Widget FireAnt chưa sẵn sàng. Vui lòng thử lại sau.', chartTarget);
+                return;
+            }
+
+            container.innerHTML = '';
+            const widgetId = `fireant_${chartTarget}_quote_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+            const placeholder = document.createElement('div');
+            placeholder.id = widgetId;
+            placeholder.style.cssText = 'height:100%;width:100%;';
+            container.appendChild(placeholder);
+
+            new window.FireAnt.QuoteWidget({
+                container_id: widgetId,
+                symbols: ticker,
+                locale: 'vi',
+                price_line_color: '#c084fc',
+                grid_color: '#334155',
+                label_color: '#94a3b8',
+                width: '100%',
+                height: '500px'
+            });
+        }
+
+        function loadChart(ticker, target) {
+            const chartTarget = getChartTarget(target);
+            const normalizedTicker = (ticker || 'VN30').trim().toUpperCase();
+            currentChartTicker[chartTarget] = normalizedTicker;
+            showChartMessage(`Đang tải biểu đồ ${normalizedTicker}...`, chartTarget);
+
+            loadFireAntScript(() => {
+                if (currentChartTicker[chartTarget] === normalizedTicker) {
+                    renderFireAntWidget(normalizedTicker, chartTarget);
                 }
             });
 
             // Scroll to chart
-            const chartSection = document.getElementById('tradingview-chart-container');
+            const chartSection = document.getElementById(getChartConfig(chartTarget).containerId);
             if (chartSection) {
                 chartSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
-        // Auto-load chart when Bộ lọc panel opens
+        // Auto-load the relevant chart when a data panel opens
         const originalOpenPanel = openPanel;
         openPanel = function (panelId, clickedLink) {
             originalOpenPanel(panelId, clickedLink);
+            if (panelId === 'panel-tracuu') {
+                setTimeout(() => {
+                    if (!currentChartTicker.tracuu) {
+                        loadChart(searchedTickers[searchedTickers.length - 1] || 'VN30', 'tracuu');
+                    }
+                }, 500);
+            }
             if (panelId === 'panel-boloc') {
                 setTimeout(() => {
-                    if (!tvWidget) loadChart('VN30');
+                    if (!currentChartTicker.boloc) loadChart('VN30', 'boloc');
                 }, 500);
             }
         };
