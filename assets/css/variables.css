@@ -1,48 +1,62 @@
-/* === HOME — Dark Premium === */
+/**
+ * ===================================================
+ * variables.css — Biến CSS toàn cục (Design Tokens)
+ * ===================================================
+ * Mô tả: Định nghĩa tất cả biến màu sắc, font chữ,
+ *         trọng lượng font dùng xuyên suốt dự án.
+ *         Chia thành 2 chế độ: Dark (trang chủ) và Light (trang con).
+ * ===================================================
+ */
+
+/* === TRANG CHỦ — Chế độ tối cao cấp (Dark Premium) === */
 :root {
   --bg-primary:       #0A0A0F;   /* Đen tuyệt đối */
   --bg-secondary:     #0F0F1A;   /* Đen xanh nhẹ */
-  --bg-card:          #13131F;   /* Card nền */
+  --bg-card:          #13131F;   /* Nền card */
   --bg-glass:         rgba(139, 92, 246, 0.06); /* Glassmorphism tím */
   
-  --purple-core:      #7C3AED;   /* Tím thạch anh chủ đạo */
+  /* --- Bảng màu Tím Thạch Anh --- */
+  --purple-core:      #7C3AED;   /* Tím chủ đạo */
   --purple-glow:      #A855F7;   /* Tím sáng highlight */
   --purple-soft:      #6D28D9;   /* Tím trầm */
   --purple-border:    rgba(139, 92, 246, 0.25);
   
+  /* --- Bảng màu Vàng Gold --- */
   --gold-primary:     #F59E0B;   /* Vàng gold accent */
   --gold-light:       #FCD34D;   /* Vàng sáng */
   --gold-glow:        rgba(245, 158, 11, 0.3);
   
+  /* --- Màu chữ --- */
   --text-primary:     #F8FAFC;   /* Trắng tinh */
   --text-secondary:   #94A3B8;   /* Xám nhạt */
   --text-muted:       #475569;   /* Xám tối */
   
-  /* === INNER PAGES — Light Clean === */
+  /* === TRANG CON — Chế độ sáng (Light Clean) === */
   --inner-bg:         #FFFFFF;
   --inner-bg-alt:     #F8F9FE;
   --inner-accent:     #7C3AED;   /* Tím tinh gọn */
   --inner-border:     #E5E7F0;
   --inner-text:       #1E1B4B;
   
-  /* === STATUS COLORS (Bảng dữ liệu) === */
+  /* === MÀU TRẠNG THÁI — Bảng dữ liệu cổ phiếu === */
   --status-very-pos:  #10B981;   /* RẤT TÍCH CỰC */
   --status-pos:       #34D399;   /* TÍCH CỰC */
   --status-ok:        #60A5FA;   /* KHẢ QUAN */
   --status-neutral:   #94A3B8;   /* TRUNG LẬP */
-  --status-neg-light: #FBBF24;   /* KO TÍCH CỰC */
+  --status-neg-light: #FBBF24;   /* KHÔNG TÍCH CỰC */
   --status-neg:       #F87171;   /* TIÊU CỰC */
 
-  /* === TYPOGRAPHY === */
+  /* === FONT CHỮ === */
   --font-family: 'Be Vietnam Pro', 'Plus Jakarta Sans', 'Poppins', sans-serif;
   
-  --font-hero:    clamp(2.5rem, 6vw, 5rem);    /* H1 Hero */
+  --font-hero:    clamp(2.5rem, 6vw, 5rem);    /* H1 Hero — co giãn theo viewport */
   --font-h2:      clamp(1.8rem, 3.5vw, 2.8rem);
   --font-h3:      clamp(1.2rem, 2vw, 1.5rem);
   --font-body:    1rem;
   --font-small:   0.875rem;
   --font-xs:      0.75rem;
   
+  /* === TRỌNG LƯỢNG FONT === */
   --weight-black:  900;
   --weight-bold:   700;
   --weight-medium: 500;

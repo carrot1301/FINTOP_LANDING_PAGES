@@ -1,0 +1,21 @@
+# === File và thư mục không cần đẩy lên Git ===
+
+# Thư mục script phát triển/sửa lỗi
+_dev_scripts/
+
+# Script Python/PowerShell tạm
+*.py
+*.ps1
+
+# Hệ điều hành
+Thumbs.db
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node (nếu có trong tương lai)
+node_modules/

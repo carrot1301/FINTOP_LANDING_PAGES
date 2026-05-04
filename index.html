@@ -6,21 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinTop DATA | Kỷ Nguyên Đầu Tư Mới</title>
 
-    <!-- CSS -->
+    <!-- Tệp CSS -->
     <link rel="stylesheet" href="assets/css/variables.css">
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/components.css">
 
-    <!-- GSAP via CDN -->
+    <!-- GSAP (Thư viện hiệu ứng) qua CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
-    <!-- Custom JS -->
+    <!-- Tệp JavaScript Tùy Chỉnh -->
     <script src="assets/js/scroll-animation.js" defer></script>
     <script src="assets/js/counter.js" defer></script>
 
     <style>
-        /* === FIXED BACKGROUND VIDEO === */
+        /* === VIDEO NỀN CỐ ĐỊNH === */
         .video-bg-container {
             position: fixed;
             top: 0;
@@ -1052,7 +1052,7 @@
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
         }
 
-        /* PRO - Purple */
+        /* GÓI PRO - Tím */
         .liquid-glass-card.card-pro {
             background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(139, 92, 246, 0.06));
             border: 1px solid rgba(168, 85, 247, 0.3);
@@ -1094,7 +1094,7 @@
             transform: translateY(-2px);
         }
 
-        /* V.I.P - Emerald Green */
+        /* GÓI V.I.P - Xanh ngọc */
         .liquid-glass-card.card-vip {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.05));
             border: 1px solid rgba(16, 185, 129, 0.3);
@@ -1136,7 +1136,7 @@
             box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
         }
 
-        /* DIAMOND - Gold */
+        /* GÓI DIAMOND - Vàng */
         .liquid-glass-card.card-diamond {
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.05));
             border: 1px solid rgba(245, 158, 11, 0.3);
@@ -1198,7 +1198,7 @@
             gap: 8px;
         }
 
-        /* === TEAM SECTION === */
+        /* === PHẦN ĐỘI NGŨ === */
         .team-section {
             position: relative;
             padding: 8rem 5%;
@@ -1256,7 +1256,7 @@
             opacity: 1;
         }
 
-        /* Avatar color variants */
+        /* Biến thể màu avatar */
         .avatar-gold {
             background: linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b);
             box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
@@ -1364,7 +1364,7 @@
             }
         }
 
-        /* === ABOUT / GIỚI THIỆU SECTION === */
+        /* === PHẦN GIỚI THIỆU === */
         .about-section {
             position: relative;
             padding: 8rem 5%;
@@ -1396,7 +1396,7 @@
             margin: 0 auto;
         }
 
-        /* Last row with 2 cards — center them */
+        /* Hàng cuối có 2 thẻ — căn giữa */
         .about-services-grid .about-card:nth-child(4),
         .about-services-grid .about-card:nth-child(5) {
             grid-column: span 1;
@@ -1459,7 +1459,7 @@
             font-weight: 600;
         }
 
-        /* Card color variants */
+        /* Biến thể màu thẻ */
         .about-card-cyan {
             background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.03));
             border: 1px solid rgba(56, 189, 248, 0.25);
@@ -1555,7 +1555,7 @@
             box-shadow: 0 12px 40px rgba(245, 158, 11, 0.12);
         }
 
-        /* Center the last 2 cards when only 5 */
+        /* Căn giữa 2 thẻ cuối khi chỉ có 5 thẻ */
         @media (min-width: 769px) {
             .about-services-grid {
                 display: grid;
@@ -1589,7 +1589,7 @@
             }
         }
 
-        /* === TESTIMONIAL CARDS === */
+        /* === THẺ ĐÁNH GIÁ === */
         .testimonial-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1658,7 +1658,7 @@
             font-size: 0.85rem;
         }
 
-        /* Testimonial color variants */
+        /* Biến thể màu đánh giá */
         .testimonial-cyan {
             background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.03));
             border: 1px solid rgba(56, 189, 248, 0.2);
@@ -1730,12 +1730,12 @@
     <div class="video-bg-container">
         <!-- Chuyển về phát mượt liên tục theo vòng lặp (autoplay loop) -->
         <video autoplay loop muted playsinline class="video-bg" id="hero-video" preload="auto">
-            <source src="Smooth_transition_between_202604222134.mp4" type="video/mp4">
+            <source src="assets/videos/Smooth_transition_between_202604222134.mp4" type="video/mp4">
         </video>
         <div class="video-overlay" style="background-color: rgba(5, 5, 10, 0.4);"></div>
     </div>
 
-    <!-- FINANCIAL STYLE HEADER -->
+    <!-- THANH ĐIỀU HƯỚNG KIỂU TÀI CHÍNH -->
     <header class="tv-header" id="mainHeader">
         <div class="tv-left">
             <a href="index.html" class="logo-link">
@@ -1832,7 +1832,7 @@
             </div>
         </div>
 
-        <!-- FIREANT PRICE CHART -->
+        <!-- BIỂU ĐỒ GIÁ FIREANT -->
         <div style="max-width: 1300px; margin: 1.5rem auto 0;">
             <h3
                 style="color: #c084fc; font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px;">
@@ -1842,11 +1842,11 @@
                 style="border-radius: 14px; padding: 3px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.6)); box-shadow: 0 0 20px rgba(168, 85, 247, 0.2), 0 0 40px rgba(168, 85, 247, 0.08); animation: chartNeonPulse 3s ease-in-out infinite;">
                 <div id="fireant-tracuu-chart-container"
                     style="border-radius: 12px; overflow: hidden; height: 500px; background: #131722;">
-                    <!-- FireAnt Widget BEGIN -->
+                    <!-- Bắt Đầu Tiện Ích FireAnt -->
                     <div class="fireant-widget-container" style="height:100%;width:100%">
                         <div id="fireant_tracuu_chart_host" class="fireant-chart-host" style="height:100%;width:100%"></div>
                     </div>
-                    <!-- FireAnt Widget END -->
+                    <!-- Kết Thúc Tiện Ích FireAnt -->
                 </div>
             </div>
             <p style="text-align: center; margin-top: 0.5rem; font-size: 0.72rem; color: #475569;">
@@ -1906,7 +1906,7 @@
             </table>
         </div>
 
-        <!-- FIREANT CHART WITH NEON BORDER -->
+        <!-- BIỂU ĐỒ FIREANT VIỀN NEON -->
         <div style="max-width: 1300px; margin: 1.5rem auto 0;">
             <h3
                 style="color: #c084fc; font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px;">
@@ -1916,11 +1916,11 @@
                 style="border-radius: 14px; padding: 3px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.6)); box-shadow: 0 0 20px rgba(168, 85, 247, 0.2), 0 0 40px rgba(168, 85, 247, 0.08); animation: chartNeonPulse 3s ease-in-out infinite;">
                 <div id="fireant-chart-container"
                     style="border-radius: 12px; overflow: hidden; height: 500px; background: #131722;">
-                    <!-- FireAnt Widget BEGIN -->
+                    <!-- Bắt Đầu Tiện Ích FireAnt -->
                     <div class="fireant-widget-container" style="height:100%;width:100%">
                         <div id="fireant_chart_host" class="fireant-chart-host" style="height:100%;width:100%"></div>
                     </div>
-                    <!-- FireAnt Widget END -->
+                    <!-- Kết Thúc Tiện Ích FireAnt -->
                 </div>
             </div>
             <p style="text-align: center; margin-top: 0.5rem; font-size: 0.72rem; color: #475569;">
@@ -1943,13 +1943,13 @@
         </div>
     </div>
 
-    <!-- CINEMATIC SCROLL CONTAINER -->
+    <!-- VÙNG CUỘN HIỆU ỨNG ĐIỆN ẢNH -->
     <div id="cinematic-container">
 
-        <!-- Flash Overlay for Transition -->
+        <!-- Hiệu Ứng Flash Chuyển Cảnh -->
         <div class="flash-overlay"></div>
 
-        <!-- SCENE 1: HERO -->
+        <!-- PHÂN CẢNH 1: TRANG CHỦ HERO -->
         <section class="scene scene-1">
             <div class="hero-content">
                 <h1 class="hero-title gradient-text">Kỷ Nguyên Đầu Tư Cùng FinTop DATA.</h1>
@@ -1961,7 +1961,7 @@
                 </div>
             </div>
 
-            <!-- AI Assistant Widget Mockup -->
+            <!-- Giao Diện Giả Lập Trợ Lý AI -->
             <div class="ai-assistant-widget">
                 <div class="ai-avatar">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -1991,7 +1991,7 @@
             </div>
         </section>
 
-        <!-- SCENE 2: FEATURES -->
+        <!-- PHÂN CẢNH 2: TÍNH NĂNG -->
         <section class="scene scene-2">
             <div class="ai-cube gradient-text">Dữ Liệu Cho Nhà Đầu Tư Thế Hệ Mới!</div>
             <div class="panels-container">
@@ -2024,7 +2024,7 @@
 
     </div>
 
-    <!-- SECTION 2.5: TERMINAL SHOWCASE -->
+    <!-- PHẦN 2.5: TRÌNH DIỄN GIAO DIỆN TERMINAL -->
     <section class="product-showcase">
         <div class="showcase-header">
             <h2 class="gradient-text">Hệ Sinh Thái Phân Tích Đầu Tư Đỉnh Cao</h2>
@@ -2036,7 +2036,7 @@
         </div>
     </section>
 
-    <!-- SECTION 3: STATS -->
+    <!-- PHẦN 3: THỐNG KÊ SỐ LIỆU -->
     <section class="stats-section">
         <div class="stat-item">
             <h3 class="stat-number" data-target="1500" data-suffix="+">0</h3>
@@ -2052,14 +2052,14 @@
         </div>
     </section>
 
-    <!-- SECTION 4: PRICING -->
+    <!-- PHẦN 4: BẢNG GIÁ HỘI VIÊN -->
     <section class="pricing-section" id="pricing">
         <h2 class="gradient-text" style="position: relative; z-index: 1;">Chọn Gói Hội Viên</h2>
         <p style="margin-top: 1rem; position: relative; z-index: 1;">Nâng cấp trải nghiệm đầu tư của bạn ngay hôm nay
         </p>
 
         <div class="pricing-grid">
-            <!-- STANDARD - Cyan -->
+            <!-- GÓI STANDARD - Xanh lam -->
             <div class="pricing-card liquid-glass-card card-standard">
                 <div class="pricing-title">STANDARD</div>
                 <div class="pricing-subtitle" style="color: #7dd3fc;">(Tiêu chuẩn)</div>
@@ -2071,7 +2071,7 @@
                 <button class="btn-tier">Đăng ký</button>
             </div>
 
-            <!-- PRO - Purple -->
+            <!-- GÓI PRO - Tím -->
             <div class="pricing-card liquid-glass-card card-pro">
                 <div class="pricing-title">PRO ⭐</div>
                 <div class="pricing-subtitle" style="color: #c4b5fd;">(Chuyên nghiệp)</div>
@@ -2083,7 +2083,7 @@
                 <button class="btn-tier">Đăng ký</button>
             </div>
 
-            <!-- V.I.P - Emerald -->
+            <!-- GÓI V.I.P - Xanh ngọc -->
             <div class="pricing-card liquid-glass-card card-vip">
                 <div class="pricing-title">V.I.P</div>
                 <div class="pricing-subtitle" style="color: #6ee7b7;">(Cao cấp)</div>
@@ -2095,7 +2095,7 @@
                 <button class="btn-tier">Đăng ký</button>
             </div>
 
-            <!-- DIAMOND - Gold -->
+            <!-- GÓI DIAMOND - Vàng -->
             <div class="pricing-card liquid-glass-card card-diamond">
                 <div class="pricing-title">DIAMOND 💎</div>
                 <div class="pricing-subtitle" style="color: #fcd34d;">(Kim cương)</div>
@@ -2109,7 +2109,7 @@
         </div>
     </section>
 
-    <!-- SECTION 5: EXPERT TEAM -->
+    <!-- PHẦN 5: ĐỘI NGŨ CHUYÊN GIA -->
     <section class="team-section" id="team">
         <h2 class="gradient-text" style="position: relative; z-index: 1;">Đội Ngũ Chuyên Gia VPS</h2>
         <p
@@ -2117,7 +2117,7 @@
             Hợp tác độc quyền cùng Chuyên gia VPS trên nền tảng Công nghệ & Dữ liệu FinTop DATA
         </p>
 
-        <!-- Row 1: 1 person (CEO) -->
+        <!-- Hàng 1: CEO -->
         <div class="team-row team-row-1">
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-gold">
@@ -2129,7 +2129,7 @@
             </div>
         </div>
 
-        <!-- Row 2: 2 people -->
+        <!-- Hàng 2: 2 thành viên -->
         <div class="team-row team-row-2">
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-cyan">
@@ -2149,7 +2149,7 @@
             </div>
         </div>
 
-        <!-- Row 3: 2 people -->
+        <!-- Hàng 3: 2 thành viên -->
         <div class="team-row team-row-2">
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-green">
@@ -2190,7 +2190,7 @@
             </p>
         </div>
 
-        <!-- Testimonial Cards -->
+        <!-- Thẻ Đánh Giá Từ Người Dùng -->
         <div class="testimonial-grid">
             <div class="testimonial-card testimonial-cyan">
                 <div class="testimonial-quote">

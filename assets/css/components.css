@@ -1,4 +1,17 @@
-/* === HEADER === */
+/**
+ * ===================================================
+ * components.css — Thành phần giao diện tái sử dụng
+ * ===================================================
+ * Mô tả: Định nghĩa kiểu dáng cho các thành phần UI
+ *         được sử dụng trên nhiều trang: header, nút bấm,
+ *         card, bảng dữ liệu, footer.
+ * Phụ thuộc: variables.css (biến CSS)
+ * ===================================================
+ */
+
+/* ========================================
+   HEADER — Thanh điều hướng cố định
+   ======================================== */
 header.sticky-nav {
   position: fixed;
   top: 0;
@@ -16,6 +29,7 @@ header.sticky-nav {
   justify-content: space-between;
 }
 
+/* Logo */
 .logo {
   color: var(--purple-glow);
   font-weight: var(--weight-black);
@@ -23,6 +37,7 @@ header.sticky-nav {
   letter-spacing: -0.02em;
 }
 
+/* Menu điều hướng */
 .nav-menu {
   display: flex;
   gap: 2rem;
@@ -43,7 +58,7 @@ header.sticky-nav {
   color: var(--purple-glow);
 }
 
-/* Dropdown */
+/* Menu xổ xuống (Dropdown) */
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -74,7 +89,11 @@ header.sticky-nav {
   background: var(--bg-glass);
 }
 
-/* === BUTTONS === */
+/* ========================================
+   NÚT BẤM (Buttons)
+   ======================================== */
+
+/* Nút chính — Gradient tím + vàng */
 .btn-primary {
   background: linear-gradient(135deg, var(--purple-core), var(--gold-primary));
   color: white;
@@ -96,11 +115,13 @@ header.sticky-nav {
   transform: translateY(-2px);
 }
 
+/* Nút nhỏ */
 .btn-sm {
   padding: 8px 20px;
   font-size: var(--font-small);
 }
 
+/* Nút viền trong suốt (Ghost button) */
 .btn-ghost {
   background: transparent;
   color: var(--text-primary);
@@ -118,7 +139,9 @@ header.sticky-nav {
   background: var(--bg-glass);
 }
 
-/* === CARDS === */
+/* ========================================
+   CARD — Thẻ kính mờ (Glassmorphism)
+   ======================================== */
 .glass-card {
   background: var(--bg-glass);
   backdrop-filter: blur(16px);
@@ -135,6 +158,7 @@ header.sticky-nav {
   transform: translateY(-4px);
 }
 
+/* Card tính năng */
 .feature-card h3 {
   color: var(--text-primary);
   margin-bottom: 1rem;
@@ -144,7 +168,9 @@ header.sticky-nav {
   color: var(--text-secondary);
 }
 
-/* Pricing Cards */
+/* ========================================
+   BẢNG GIÁ (Pricing Cards)
+   ======================================== */
 .pricing-card {
   display: flex;
   flex-direction: column;
@@ -152,11 +178,12 @@ header.sticky-nav {
   height: 100%;
 }
 
+/* Gói PRO — Nổi bật nhất */
 .card-pro {
   background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(245,158,11,0.08));
   border: 2px solid var(--purple-glow);
   box-shadow: 0 0 40px rgba(124,58,237,0.2);
-  transform: scale(1.05); /* Featured */
+  transform: scale(1.05); /* Phóng to nhẹ để nổi bật */
   z-index: 2;
 }
 
@@ -165,6 +192,7 @@ header.sticky-nav {
   box-shadow: 0 0 60px rgba(124,58,237,0.4);
 }
 
+/* Gói DIAMOND — Viền vàng */
 .card-diamond {
   background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(245,158,11,0.12));
   border: 2px solid var(--gold-primary);
@@ -180,9 +208,11 @@ header.sticky-nav {
   color: var(--gold-primary);
 }
 
-/* === TABLE & BADGES === */
+/* ========================================
+   BẢNG DỮ LIỆU & BADGE TRẠNG THÁI
+   ======================================== */
 .data-table-wrapper {
-  overflow-x: auto;
+  overflow-x: auto;           /* Cuộn ngang trên mobile */
   border-radius: 12px;
   border: 1px solid var(--inner-border);
 }
@@ -193,6 +223,7 @@ header.sticky-nav {
   background: #FFFFFF;
 }
 
+/* Tiêu đề bảng */
 .data-table thead {
   background: #F1F0FF;
   color: var(--inner-accent);
@@ -212,27 +243,31 @@ header.sticky-nav {
   border-bottom: none;
 }
 
+/* Hiệu ứng hover khi rê chuột vào hàng */
 .data-table tr:hover {
   background: #F8F7FF;
 }
 
+/* Badge trạng thái — Nhãn tròn hiển thị mức độ */
 .badge {
   display: inline-block;
   padding: 4px 12px;
-  border-radius: 999px;
+  border-radius: 999px;       /* Bo tròn hoàn toàn */
   font-size: var(--font-xs);
   font-weight: var(--weight-bold);
   text-transform: uppercase;
   color: #fff;
 }
 
-.badge.very-pos { background: var(--status-very-pos); }
-.badge.pos { background: var(--status-pos); }
-.badge.ok { background: var(--status-ok); }
-.badge.neutral { background: var(--status-neutral); }
-.badge.neg-light { background: var(--status-neg-light); }
-.badge.neg { background: var(--status-neg); }
+/* Các mức trạng thái cổ phiếu */
+.badge.very-pos { background: var(--status-very-pos); }  /* Rất tích cực */
+.badge.pos { background: var(--status-pos); }            /* Tích cực */
+.badge.ok { background: var(--status-ok); }              /* Khả quan */
+.badge.neutral { background: var(--status-neutral); }    /* Trung lập */
+.badge.neg-light { background: var(--status-neg-light); } /* Không tích cực */
+.badge.neg { background: var(--status-neg); }            /* Tiêu cực */
 
+/* Nút kết quả — STRONG ENTRY */
 .btn-solid-gold {
   background: var(--gold-primary);
   color: black;
@@ -243,6 +278,7 @@ header.sticky-nav {
   font-size: var(--font-xs);
 }
 
+/* Nút kết quả — ENTRY */
 .btn-outline-purple {
   background: transparent;
   color: var(--inner-accent);
@@ -253,6 +289,7 @@ header.sticky-nav {
   font-size: var(--font-xs);
 }
 
+/* Nút kết quả — SMALL ENTRY */
 .btn-outline-gray {
   background: transparent;
   color: var(--status-neutral);
@@ -263,7 +300,9 @@ header.sticky-nav {
   font-size: var(--font-xs);
 }
 
-/* === FOOTER === */
+/* ========================================
+   FOOTER — Chân trang
+   ======================================== */
 footer {
   background: #07070D;
   border-top: 1px solid var(--purple-border);
@@ -272,6 +311,7 @@ footer {
   font-size: var(--font-small);
 }
 
+/* Lưới bố cục footer: 3 cột */
 .footer-grid {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -279,6 +319,7 @@ footer {
   margin-bottom: 2rem;
 }
 
+/* Dòng miễn trừ trách nhiệm */
 .footer-disclaimer {
   padding-top: 2rem;
   border-top: 1px solid rgba(255,255,255,0.1);
