@@ -1,1 +1,295 @@
-<!DOCTYPE html><html lang='vi'><head><meta charset='UTF-8'><title>FinTop DATA</title><link rel='stylesheet' href='../assets/css/variables.css'><link rel='stylesheet' href='../assets/css/base.css'></head><body><h1 style='padding:5rem; text-align:center;'>Trang ðang ðý?c xây d?ng</h1></body></html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTop DATA | Expert Signals</title>
+    <link rel="stylesheet" href="../../assets/css/variables.css">
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/components.css">
+    <style>
+        .page-wrapper { min-height: 100vh; background: var(--bg-primary); padding-top: 80px; }
+        .page-container { max-width: 1300px; margin: 0 auto; padding: 0 5% 4rem; }
+
+        .tv-header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 5%; height: 72px;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .tv-left { display: flex; align-items: center; gap: 2rem; }
+        .neon-logo {
+            height: 70px; width: auto;
+            filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 15px rgba(168,85,247,0.8));
+            transition: all 0.3s ease;
+        }
+        .neon-logo:hover { filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 25px rgba(192,132,252,1)); transform: scale(1.05); }
+        .tv-nav { display: flex; gap: 2rem; align-items: center; list-style: none; }
+        .tv-nav a { font-size: 0.9rem; font-weight: 600; color: #fff; opacity: 0.8; transition: opacity 0.2s; text-decoration: none; }
+        .tv-nav a:hover { opacity: 1; text-shadow: 0 0 8px rgba(255,255,255,0.5); }
+        .tv-right { display: flex; align-items: center; gap: 1rem; }
+        .btn-tv-blue { background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; border: none; border-radius: 8px; padding: 8px 20px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+        .icon-link { color: #94A3B8; font-size: 0.9rem; cursor: pointer; }
+
+        .breadcrumb {
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 2rem; font-size: 0.85rem; color: #475569;
+        }
+        .breadcrumb a { color: #94A3B8; text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: #c084fc; }
+
+        .page-title-section { margin-bottom: 2.5rem; }
+        .page-title {
+            font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900;
+            background: linear-gradient(135deg, #c084fc, #818cf8, #38bdf8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 0.5rem;
+        }
+        .page-subtitle { color: #94A3B8; font-size: 0.95rem; }
+
+        .guide-box {
+            margin-bottom: 2rem; padding: 1.5rem 2rem; border-radius: 14px;
+            background: linear-gradient(135deg, rgba(168,85,247,0.08), rgba(99,102,241,0.04));
+            border: 1px solid rgba(168,85,247,0.25); border-left: 3px solid #a855f7;
+        }
+        .guide-box h4 {
+            color: #c084fc; font-size: 0.9rem; font-weight: 800; margin-bottom: 0.8rem;
+            display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.06em;
+        }
+        .guide-box p { color: #cbd5e1; font-size: 0.88rem; line-height: 1.8; }
+        .guide-note { color: #94A3B8 !important; font-size: 0.84rem !important; line-height: 1.7; font-style: italic; margin-top: 0.8rem; }
+
+        .section-label {
+            font-size: 1.1rem; font-weight: 800; color: #c084fc;
+            margin-bottom: 1.5rem; padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(168,85,247,0.2);
+            display: flex; align-items: center; gap: 10px;
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .badge-count {
+            background: rgba(168,85,247,0.15); color: #c084fc; font-size: 0.7rem;
+            padding: 3px 10px; border-radius: 999px; font-weight: 700; margin-left: auto;
+        }
+
+        .signal-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 3rem; }
+
+        .signal-card {
+            display: grid; grid-template-columns: 140px 1fr auto;
+            border-radius: 14px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+            animation: cardFadeIn 0.5s ease forwards; opacity: 0;
+        }
+        .signal-card:nth-child(1) { animation-delay: 0.05s; }
+        .signal-card:nth-child(2) { animation-delay: 0.1s; }
+        .signal-card:nth-child(3) { animation-delay: 0.15s; }
+        .signal-card:nth-child(4) { animation-delay: 0.2s; }
+
+        @keyframes cardFadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        .signal-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+
+        .signal-action {
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.5rem; font-size: 2rem; font-weight: 900;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            position: relative;
+        }
+        .signal-action::after {
+            content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
+        }
+
+        .signal-card.type-mua { background: linear-gradient(135deg, rgba(16,185,129,0.06), rgba(15,15,25,0.7)); }
+        .signal-card.type-mua .signal-action { background: linear-gradient(135deg, #059669, #10B981); color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .signal-card.type-mua:hover { border-color: rgba(16,185,129,0.3); box-shadow: 0 12px 40px rgba(16,185,129,0.12); }
+
+        .signal-card.type-ban { background: linear-gradient(135deg, rgba(220,38,38,0.06), rgba(15,15,25,0.7)); }
+        .signal-card.type-ban .signal-action { background: linear-gradient(135deg, #991B1B, #B91C1C); color: #FCD34D; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+        .signal-card.type-ban:hover { border-color: rgba(220,38,38,0.3); box-shadow: 0 12px 40px rgba(220,38,38,0.12); }
+
+        .signal-body { padding: 1.2rem 1.8rem; display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; }
+        .signal-title { font-size: 1.15rem; font-weight: 800; color: #f8fafc; letter-spacing: 0.02em; }
+        .signal-details { display: flex; flex-direction: column; gap: 4px; }
+        .signal-detail-row { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: #cbd5e1; }
+        .signal-detail-row .detail-icon { font-size: 0.85rem; width: 18px; text-align: center; flex-shrink: 0; }
+        .signal-detail-row strong { color: #f8fafc; font-weight: 700; }
+        .detail-label { color: #94A3B8; min-width: 110px; }
+
+        .signal-time {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 1.2rem 1.5rem; gap: 4px;
+            border-left: 1px solid rgba(255,255,255,0.04); min-width: 140px;
+        }
+        .time-icon { font-size: 1rem; color: #475569; }
+        .time-label { font-size: 0.72rem; color: #475569; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+        .time-value { font-size: 0.9rem; color: #94A3B8; font-weight: 600; text-align: center; line-height: 1.5; }
+
+        .disclaimer-box {
+            margin-top: 2rem; padding: 1.2rem 2rem; border-radius: 12px;
+            background: rgba(248,113,113,0.06); border: 1px solid rgba(248,113,113,0.2); text-align: center;
+        }
+        .disclaimer-box h4 {
+            color: #f87171; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .disclaimer-box p { color: #94A3B8; font-size: 0.84rem; line-height: 1.7; }
+        .disclaimer-box strong { color: #f87171; }
+
+        .page-footer {
+            background: #07070D; border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 2rem 5%; text-align: center; color: #475569; font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .signal-card { grid-template-columns: 80px 1fr; }
+            .signal-action { font-size: 1.3rem; padding: 1rem; }
+            .signal-time { flex-direction: row; gap: 8px; border-left: none; border-top: 1px solid rgba(255,255,255,0.04); grid-column: 1 / -1; padding: 0.8rem 1rem; min-width: unset; }
+            .signal-body { padding: 1rem; }
+            .tv-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header class="tv-header">
+        <div class="tv-left">
+            <a href="../../index.html"><img src="../../assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo"></a>
+        </div>
+        <ul class="tv-nav" id="navMenu"></ul>
+        <div class="tv-right">
+            <span class="icon-link">VI</span>
+            <button class="btn-tv-blue" id="btnStart" onclick="location.href='../../hoi-vien/index.html'">Start</button>
+        </div>
+    </header>
+
+    <div class="page-wrapper">
+        <div class="page-container">
+            <nav class="breadcrumb" id="breadcrumb"></nav>
+            <div class="page-title-section">
+                <h1 class="page-title" id="pageTitle"></h1>
+                <p class="page-subtitle" id="pageSubtitle"></p>
+            </div>
+            <div class="guide-box">
+                <h4 id="guideTitle"></h4>
+                <p id="guideBody"></p>
+                <p class="guide-note" id="guideNote"></p>
+            </div>
+            <div class="section-label" id="sec1Label"></div>
+            <div class="signal-list" id="signalVip"></div>
+            <div class="section-label" id="sec2Label"></div>
+            <div class="signal-list" id="signalPro"></div>
+            <div class="disclaimer-box" id="disclaimerBox"></div>
+        </div>
+    </div>
+    <footer class="page-footer"><p>&copy; 2026 FinTop DATA. All rights reserved.</p></footer>
+
+    <script>
+    (function(){
+        // All Vietnamese strings via JS to bypass charset detection
+        var S = function(u){ return String.fromCodePoint.apply(null, u); };
+
+        // Nav links
+        var navItems = [
+            {text:'Trang ch\u1EE7', href:'../../index.html'},
+            {text:'H\u1ED9i vi\u00EAn', href:'../../hoi-vien/index.html'},
+            {text:'T\u00EDn hi\u1EC7u CG', href:'./index.html', active:true},
+            {text:'Danh m\u1EE5c CG', href:'../../fintop-data/danh-muc/index.html'},
+            {text:'FinTop AI', href:'../../fintop-ai/index.html'},
+            {text:'H\u01B0\u1EDBng d\u1EABn', href:'../../huong-dan/index.html'}
+        ];
+        var navHTML = navItems.map(function(n){
+            var s = n.active ? ' style="opacity:1;color:#c084fc;"' : '';
+            return '<li><a href="'+n.href+'"'+s+'>'+n.text+'</a></li>';
+        }).join('');
+        document.getElementById('navMenu').innerHTML = navHTML;
+        document.getElementById('btnStart').textContent = 'B\u1EAFt \u0111\u1EA7u';
+
+        // Breadcrumb
+        document.getElementById('breadcrumb').innerHTML =
+            '<a href="../../index.html">Trang ch\u1EE7</a> <span style="color:#334155">\u203A</span> ' +
+            '<a href="../index.html">FinTop Data</a> <span style="color:#334155">\u203A</span> ' +
+            '<span style="color:#c084fc">T\u00EDn hi\u1EC7u t\u1EEB chuy\u00EAn gia</span>';
+
+        // Page title
+        document.getElementById('pageTitle').innerHTML = '\uD83D\uDCE1 T\u00EDn Hi\u1EC7u T\u1EEB Chuy\u00EAn Gia';
+        document.getElementById('pageSubtitle').innerHTML = 'T\u00EDn hi\u1EC7u MUA / B\u00C1N realtime t\u1EEB \u0111\u1ED9i ng\u0169 Chuy\u00EAn gia FinTop DATA \u2014 C\u1EADp nh\u1EADt li\u00EAn t\u1EE5c theo phi\u00EAn giao d\u1ECBch';
+
+        // Guide box
+        document.getElementById('guideTitle').innerHTML = '\uD83D\uDCD6 H\u01B0\u1EDBng D\u1EABn S\u1EED D\u1EE5ng';
+        document.getElementById('guideBody').innerHTML = 'C\u00E1c t\u00EDn hi\u1EC7u <strong style="color:#c084fc">MUA</strong> v\u00E0 <strong style="color:#f87171">B\u00C1N</strong> \u0111\u01B0\u1EE3c ph\u00E1t h\u00E0nh b\u1EDFi \u0111\u1ED9i ng\u0169 Chuy\u00EAn gia FinTop DATA d\u1EF1a tr\u00EAn ph\u00E2n t\u00EDch k\u1EF9 thu\u1EADt, c\u01A1 b\u1EA3n v\u00E0 m\u00F4 h\u00ECnh \u0111\u1ECBnh l\u01B0\u1EE3ng. M\u1ED7i t\u00EDn hi\u1EC7u k\u00E8m theo th\u00F4ng tin <strong style="color:#c084fc">T\u1EC9 tr\u1ECDng</strong>, <strong style="color:#c084fc">M\u1EE5c ti\u00EAu gi\u00E1</strong>, <strong style="color:#c084fc">D\u1EEBng l\u1ED7</strong> \u0111\u1EC3 h\u1ED7 tr\u1EE3 qu\u1EA3n tr\u1ECB r\u1EE7i ro.';
+        document.getElementById('guideNote').innerHTML = 'L\u01B0u \u00FD: T\u00EDn hi\u1EC7u V.I.P ch\u1EC9 d\u00E0nh cho H\u1ED9i vi\u00EAn g\u00F3i V.I.P v\u00E0 Diamond. T\u00EDn hi\u1EC7u PRO d\u00E0nh cho H\u1ED9i vi\u00EAn g\u00F3i PRO tr\u1EDF l\u00EAn.';
+
+        // Section labels
+        document.getElementById('sec1Label').innerHTML = '<span style="font-size:1.3rem">\uD83D\uDC8E</span> I. T\u00CDN HI\u1EC6U V.I.P <span class="badge-count">4 t\u00EDn hi\u1EC7u</span>';
+        document.getElementById('sec2Label').innerHTML = '<span style="font-size:1.3rem">\u2B50</span> II. T\u00CDN HI\u1EC6U PRO <span class="badge-count">3 t\u00EDn hi\u1EC7u</span>';
+
+        // Disclaimer
+        document.getElementById('disclaimerBox').innerHTML =
+            '<h4>\u26A0\uFE0F Mi\u1EC5n Tr\u1EEB Tr\u00E1ch Nhi\u1EC7m !</h4>' +
+            '<p>D\u1EEF li\u1EC7u ch\u1EC9 mang t\u00EDnh ch\u1EA5t tham kh\u1EA3o, <strong>kh\u00F4ng khuy\u1EBFn ngh\u1ECB \u0111\u1EA7u t\u01B0</strong>.<br>Ng\u01B0\u1EDDi d\u00F9ng ch\u1ECBu ho\u00E0n to\u00E0n tr\u00E1ch nhi\u1EC7m tr\u01B0\u1EDBc c\u00E1c quy\u1EBFt \u0111\u1ECBnh \u0111\u1EA7u t\u01B0 c\u1EE7a m\u00ECnh.</p>';
+
+        // Signal data
+        var VIP = [
+            {type:'ban',title:'B\u00C1N 100% ANV 24',d:[
+                ['\uD83D\uDCCA','C\u00F2n l\u1EA1i (%):','50%',''],
+                ['\uD83D\uDCCA','Gi\u00E1 mua TB:','20',''],
+                ['\uD83D\uDCCA','L\u00E3i / L\u1ED7 (%):','+20% (TEST TH\u1EEC)','#34d399']
+            ],t:'21:54:18',dt:'04-05-2026'},
+            {type:'ban',title:'B\u00C1N HHV 18',d:[
+                ['\uD83D\uDCCA','C\u00F2n l\u1EA1i (%):','0%',''],
+                ['\uD83D\uDCCA','Gi\u00E1 mua TB:','15',''],
+                ['\uD83D\uDCCA','L\u00E3i / L\u1ED7 (%):','+8% (TEST M\u00D4 PH\u1ECENG)','#34d399']
+            ],t:'21:53:36',dt:'04-05-2026'},
+            {type:'mua',title:'MUA GVR 34.55',d:[
+                ['\uD83D\uDCCA','T\u1EC9 tr\u1ECDng:','20% NAV',''],
+                ['\uD83D\uDCCD','M\u1EE5c ti\u00EAu:','38 - 42',''],
+                ['\uD83D\uDEE1\uFE0F','D\u1EEBng l\u1ED7:','32.7 (TEST M\u00D4 PH\u1ECENG WEB)','#f87171']
+            ],t:'21:52:59',dt:'04-05-2026'},
+            {type:'mua',title:'MUA CEO 17.9',d:[
+                ['\uD83D\uDCCA','T\u1EC9 tr\u1ECDng:','20%',''],
+                ['\uD83D\uDCCD','M\u1EE5c ti\u00EAu:','20 - 22 - 24',''],
+                ['\uD83D\uDEE1\uFE0F','D\u1EEBng l\u1ED7:','17.2 (TEST M\u00D4 PH\u1ECENG WEB)','#f87171']
+            ],t:'21:52:14',dt:'04-05-2026'}
+        ];
+
+        var PRO = [
+            {type:'mua',title:'MUA FPT 132',d:[
+                ['\uD83D\uDCCA','T\u1EC9 tr\u1ECDng:','15% NAV',''],
+                ['\uD83D\uDCCD','M\u1EE5c ti\u00EAu:','145 - 155',''],
+                ['\uD83D\uDEE1\uFE0F','D\u1EEBng l\u1ED7:','126.5','#f87171']
+            ],t:'09:15:42',dt:'05-05-2026'},
+            {type:'ban',title:'B\u00C1N 50% HPG 32.5',d:[
+                ['\uD83D\uDCCA','C\u00F2n l\u1EA1i (%):','50%',''],
+                ['\uD83D\uDCCA','Gi\u00E1 mua TB:','28.5',''],
+                ['\uD83D\uDCCA','L\u00E3i / L\u1ED7 (%):','+14%','#34d399']
+            ],t:'14:30:05',dt:'04-05-2026'},
+            {type:'mua',title:'MUA VCB 92',d:[
+                ['\uD83D\uDCCA','T\u1EC9 tr\u1ECDng:','10% NAV',''],
+                ['\uD83D\uDCCD','M\u1EE5c ti\u00EAu:','100 - 108',''],
+                ['\uD83D\uDEE1\uFE0F','D\u1EEBng l\u1ED7:','88','#f87171']
+            ],t:'10:22:18',dt:'04-05-2026'}
+        ];
+
+        function card(s){
+            var cls = s.type==='mua' ? 'type-mua' : 'type-ban';
+            var act = s.type==='mua' ? 'MUA' : 'B\u00C1N';
+            var rows = s.d.map(function(r){
+                var vs = r[3] ? ' style="color:'+r[3]+'"' : '';
+                return '<div class="signal-detail-row"><span class="detail-icon">'+r[0]+'</span><span class="detail-label">'+r[1]+'</span><strong'+vs+'>'+r[2]+'</strong></div>';
+            }).join('');
+            return '<div class="signal-card '+cls+'">'+
+                '<div class="signal-action">'+act+'</div>'+
+                '<div class="signal-body"><div class="signal-title">'+s.title+'</div><div class="signal-details">'+rows+'</div></div>'+
+                '<div class="signal-time"><span class="time-icon">\uD83D\uDD50</span><span class="time-label">Th\u1EDDi gian</span><span class="time-value">'+s.t+'<br>'+s.dt+'</span></div>'+
+            '</div>';
+        }
+
+        document.getElementById('signalVip').innerHTML = VIP.map(card).join('');
+        document.getElementById('signalPro').innerHTML = PRO.map(card).join('');
+    })();
+    </script>
+</body>
+</html>
