@@ -585,6 +585,78 @@
             }
         }
 
+        /* === CHART MODE TOGGLE === */
+        .chart-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .chart-header-row h3 {
+            color: #c084fc;
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .chart-toggle-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-toggle-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #64748b;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .chart-toggle-label.active {
+            color: #c084fc;
+        }
+
+        .chart-toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 22px;
+            background: rgba(100, 116, 139, 0.3);
+            border-radius: 999px;
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chart-toggle-switch.active {
+            background: rgba(168, 85, 247, 0.3);
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.2);
+        }
+
+        .chart-toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #94A3B8;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .chart-toggle-switch.active::after {
+            left: 24px;
+            background: #c084fc;
+            box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+        }
+
         /* Clickable ticker cells */
         .dark-table .ticker-clickable {
             cursor: pointer;
@@ -611,68 +683,338 @@
             width: 100%;
             min-height: 500px;
             border: 0;
-            background: #fff;
+            background: #131722;
         }
 
-        /* === SIGNAL CARDS (Tín hiệu chuyên gia) === */
-        .signal-card {
-            display: grid;
-            grid-template-columns: 140px 1fr auto;
-            border-radius: 14px;
+        /* Force dark mode trên FireAnt iframe */
+        .fireant-chart-host iframe {
+            filter: invert(1) hue-rotate(180deg);
+            background: #131722;
+        }
+
+        /* Giữ nguyên màu cho hình ảnh bên trong (logo, biểu tượng) */
+        .fireant-chart-host iframe img {
+            filter: invert(1) hue-rotate(180deg);
+        }
+
+        /* === SIGNAL MESSAGE BOX === */
+        .signal-msg-box {
+            position: relative;
+            background: rgba(15, 15, 25, 0.7);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 18px;
+            padding: 0;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(168, 85, 247, 0.05);
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.06);
-            transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-            animation: signalFadeIn 0.5s ease forwards;
+            animation: msgSlideIn 0.5s ease forwards;
             opacity: 0;
         }
-        .signal-card:nth-child(1) { animation-delay: 0.05s; }
-        .signal-card:nth-child(2) { animation-delay: 0.1s; }
-        .signal-card:nth-child(3) { animation-delay: 0.15s; }
-        .signal-card:nth-child(4) { animation-delay: 0.2s; }
-        @keyframes signalFadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-        .signal-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
 
-        .signal-action {
-            display: flex; align-items: center; justify-content: center;
-            padding: 1.5rem; font-size: 2rem; font-weight: 900;
-            letter-spacing: 0.05em; text-transform: uppercase;
+        .signal-msg-box:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .signal-msg-box:nth-child(2) {
+            animation-delay: 0.25s;
+        }
+
+        @keyframes msgSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Chat bubble tail */
+        .signal-msg-box::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: -10px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid rgba(168, 85, 247, 0.2);
+        }
+
+        .signal-msg-box::after {
+            content: '';
+            position: absolute;
+            top: 19px;
+            left: -8px;
+            width: 0;
+            height: 0;
+            border-top: 9px solid transparent;
+            border-bottom: 9px solid transparent;
+            border-right: 9px solid rgba(15, 15, 25, 0.9);
+        }
+
+        /* Expert avatar row */
+        .msg-sender {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(99, 102, 241, 0.04));
+            border-bottom: 1px solid rgba(168, 85, 247, 0.12);
+        }
+
+        .sender-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #fff;
+            font-weight: 800;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+            flex-shrink: 0;
+        }
+
+        .sender-info {
+            flex: 1;
+        }
+
+        .sender-name {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #c084fc;
+        }
+
+        .sender-role {
+            font-size: 0.72rem;
+            color: #64748b;
+        }
+
+        .msg-timestamp {
+            font-size: 0.72rem;
+            color: #475569;
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        /* Signal table grid inside message */
+        .signal-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .signal-table td {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            vertical-align: top;
+        }
+
+        .signal-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Action label ENTRY/EXIT */
+        .action-cell {
+            width: 90px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            text-align: center;
+            vertical-align: middle !important;
+            padding: 16px 12px !important;
+        }
+
+        .action-entry {
+            color: #fff;
+            background: linear-gradient(135deg, #059669, #10B981);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-exit {
+            color: #FCD34D;
+            background: linear-gradient(135deg, #991B1B, #DC2626);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Ticker + price */
+        .ticker-price {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #f8fafc;
+            letter-spacing: 0.02em;
+        }
+
+        /* Strategy badge */
+        .strategy-badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .badge-longterm {
+            background: rgba(56, 189, 248, 0.12);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .badge-partial {
+            background: rgba(251, 191, 36, 0.12);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .label-dim {
+            color: #64748b;
+            font-size: 0.82rem;
+        }
+
+        .val-highlight {
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        .val-green {
+            color: #34d399;
+            font-weight: 700;
+        }
+
+        .val-score {
+            color: #fbbf24;
+            font-weight: 700;
+        }
+
+        /* Info icon tooltip */
+        .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            font-size: 0.6rem;
+            font-weight: 800;
+            margin-left: 4px;
+            cursor: help;
+            vertical-align: middle;
             position: relative;
         }
-        .signal-action::after {
-            content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 1px;
-            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
+
+        .info-icon:hover::after {
+            content: "Thuật toán thực hiện đóng 50% Vị thế Mô hình/PARTIAL EXIT và đóng 100% Vị thế Mô hình/FULL EXIT dựa trên các tín hiệu kỹ thuật. Đây là các thông số kỹ thuật mô phỏng Mô hình (Model) quản trị vị thế của Chuyên gia. Các con số này chỉ mang tính chất tham khảo định lượng.";
+            position: absolute;
+            bottom: 120%;
+            right: 0;
+            width: 280px;
+            background: rgba(15, 15, 25, 0.95);
+            border: 1px solid rgba(251, 191, 36, 0.5);
+            color: #cbd5e1;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            font-weight: 400;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            text-transform: none;
+            letter-spacing: normal;
         }
 
-        .signal-card.type-mua { background: linear-gradient(135deg, rgba(16,185,129,0.06), rgba(15,15,25,0.7)); }
-        .signal-card.type-mua .signal-action { background: linear-gradient(135deg, #059669, #10B981); color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-        .signal-card.type-mua:hover { border-color: rgba(16,185,129,0.3); box-shadow: 0 12px 40px rgba(16,185,129,0.12); }
-
-        .signal-card.type-ban { background: linear-gradient(135deg, rgba(220,38,38,0.06), rgba(15,15,25,0.7)); }
-        .signal-card.type-ban .signal-action { background: linear-gradient(135deg, #991B1B, #B91C1C); color: #FCD34D; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
-        .signal-card.type-ban:hover { border-color: rgba(220,38,38,0.3); box-shadow: 0 12px 40px rgba(220,38,38,0.12); }
-
-        .signal-body { padding: 1.2rem 1.8rem; display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; }
-        .signal-title { font-size: 1.15rem; font-weight: 800; color: #f8fafc; letter-spacing: 0.02em; }
-        .signal-details { display: flex; flex-direction: column; gap: 4px; }
-        .signal-detail-row { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: #cbd5e1; }
-        .signal-detail-row .detail-icon { font-size: 0.85rem; width: 18px; text-align: center; flex-shrink: 0; }
-        .signal-detail-row strong { color: #f8fafc; font-weight: 700; }
-        .detail-label { color: #94A3B8; min-width: 110px; }
-
-        .signal-time {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 1.2rem 1.5rem; gap: 4px;
-            border-left: 1px solid rgba(255,255,255,0.04); min-width: 140px;
+        /* Disclaimer box */
+        .disclaimer-msg {
+            background: rgba(248, 113, 113, 0.05);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            border-radius: 14px;
+            padding: 1.2rem 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            max-width: 1300px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: msgSlideIn 0.5s ease 0.4s forwards;
+            opacity: 0;
         }
-        .signal-time .time-icon { font-size: 1rem; color: #475569; }
-        .signal-time .time-label-sm { font-size: 0.72rem; color: #475569; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
-        .signal-time .time-value { font-size: 0.9rem; color: #94A3B8; font-weight: 600; text-align: center; line-height: 1.5; }
+
+        .disclaimer-msg h4 {
+            color: #f87171;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .disclaimer-msg p {
+            color: #94A3B8;
+            font-size: 0.82rem;
+            line-height: 1.7;
+        }
+
+        .disclaimer-msg strong {
+            color: #f87171;
+        }
+
+        /* VPS team footer */
+        .vps-team-footer {
+            text-align: center;
+            padding: 1rem 2rem;
+            margin-top: 0.5rem;
+            color: #64748b;
+            font-size: 0.82rem;
+            font-style: italic;
+            animation: msgSlideIn 0.5s ease 0.55s forwards;
+            opacity: 0;
+        }
+
+        .vps-team-footer span {
+            color: #c084fc;
+            font-weight: 700;
+            font-style: normal;
+        }
 
         @media (max-width: 768px) {
-            .signal-card { grid-template-columns: 80px 1fr; }
-            .signal-action { font-size: 1.3rem; padding: 1rem; }
-            .signal-time { flex-direction: row; gap: 8px; border-left: none; border-top: 1px solid rgba(255,255,255,0.04); grid-column: 1 / -1; padding: 0.8rem 1rem; min-width: unset; }
-            .signal-body { padding: 1rem; }
+            .signal-table td {
+                padding: 6px 10px;
+                font-size: 0.78rem;
+            }
+
+            .action-cell {
+                width: 65px;
+                font-size: 1rem;
+                padding: 10px 8px !important;
+            }
+
+            .ticker-price {
+                font-size: 0.95rem;
+            }
+
+            .msg-sender {
+                padding: 10px 14px;
+                flex-wrap: wrap;
+            }
+
+            .signal-msg-box::before,
+            .signal-msg-box::after {
+                display: none;
+            }
         }
 
         .tv-right {
@@ -1842,8 +2184,9 @@
                         Tra cứu cổ phiếu</a>
                     <a href="javascript:void(0)" data-panel="panel-boloc" onclick="openPanel('panel-boloc', this)">🔍 Bộ
                         lọc cổ phiếu</a>
-                    <a href="javascript:void(0)" data-panel="panel-tinhieu" onclick="openPanel('panel-tinhieu', this)">📡 Tín hiệu từ chuyên gia</a>
-                    <a href="fintop-data/danh-muc/index.html">📋 Danh mục của chuyên gia</a>
+                    <a href="javascript:void(0)" data-panel="panel-tinhieu"
+                        onclick="openPanel('panel-tinhieu', this)">📡 Tín hiệu chuyên gia</a>
+                    <a href="fintop-data/danh-muc/index.html">📋 Danh mục chuyên gia</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -1913,19 +2256,27 @@
             </div>
         </div>
 
-        <!-- BIỂU ĐỒ GIÁ FIREANT -->
+        <!-- BIỂU ĐỒ FIREANT -->
         <div style="max-width: 1300px; margin: 1.5rem auto 0;">
-            <h3
-                style="color: #c084fc; font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 1.2rem;">📈</span> Biểu Đồ Giá
-            </h3>
+            <div class="chart-header-row">
+                <h3>
+                    <span style="font-size: 1.2rem;">📈</span>
+                    <span id="tracuu-chart-title">Biểu Đồ Giá</span>
+                </h3>
+                <div class="chart-toggle-group">
+                    <span class="chart-toggle-label active" id="tracuu-label-gia">Giá</span>
+                    <div class="chart-toggle-switch" id="tracuu-chart-toggle" onclick="toggleChartMode('tracuu')"></div>
+                    <span class="chart-toggle-label" id="tracuu-label-ptkt">PTKT</span>
+                </div>
+            </div>
             <div
                 style="border-radius: 14px; padding: 3px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.6)); box-shadow: 0 0 20px rgba(168, 85, 247, 0.2), 0 0 40px rgba(168, 85, 247, 0.08); animation: chartNeonPulse 3s ease-in-out infinite;">
                 <div id="fireant-tracuu-chart-container"
                     style="border-radius: 12px; overflow: hidden; height: 500px; background: #131722;">
                     <!-- Bắt Đầu Tiện Ích FireAnt -->
                     <div class="fireant-widget-container" style="height:100%;width:100%">
-                        <div id="fireant_tracuu_chart_host" class="fireant-chart-host" style="height:100%;width:100%"></div>
+                        <div id="fireant_tracuu_chart_host" class="fireant-chart-host" style="height:100%;width:100%">
+                        </div>
                     </div>
                     <!-- Kết Thúc Tiện Ích FireAnt -->
                 </div>
@@ -1989,10 +2340,17 @@
 
         <!-- BIỂU ĐỒ FIREANT VIỀN NEON -->
         <div style="max-width: 1300px; margin: 1.5rem auto 0;">
-            <h3
-                style="color: #c084fc; font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 1.2rem;">📈</span> Biểu Đồ Kỹ Thuật
-            </h3>
+            <div class="chart-header-row">
+                <h3>
+                    <span style="font-size: 1.2rem;">📈</span>
+                    <span id="boloc-chart-title">Biểu Đồ Kỹ Thuật</span>
+                </h3>
+                <div class="chart-toggle-group">
+                    <span class="chart-toggle-label active" id="boloc-label-gia">Giá</span>
+                    <div class="chart-toggle-switch" id="boloc-chart-toggle" onclick="toggleChartMode('boloc')"></div>
+                    <span class="chart-toggle-label" id="boloc-label-ptkt">PTKT</span>
+                </div>
+            </div>
             <div
                 style="border-radius: 14px; padding: 3px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.6)); box-shadow: 0 0 20px rgba(168, 85, 247, 0.2), 0 0 40px rgba(168, 85, 247, 0.08); animation: chartNeonPulse 3s ease-in-out infinite;">
                 <div id="fireant-chart-container"
@@ -2030,8 +2388,9 @@
     <div class="submenu-panel" id="panel-tinhieu">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">📡 Tín Hiệu Từ Chuyên Gia</h2>
-            <p>Tín hiệu MUA / BÁN realtime từ đội ngũ Chuyên gia FinTop DATA — Cập nhật liên tục theo phiên giao dịch</p>
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">📡 Tín Hiệu Chuyên Gia</h2>
+            <p>Tín hiệu MUA / BÁN realtime từ đội ngũ Chuyên gia FinTop DATA — Cập nhật liên tục theo phiên giao dịch
+            </p>
         </div>
 
         <!-- HƯỚNG DẪN SỬ DỤNG -->
@@ -2043,45 +2402,50 @@
             </h4>
             <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.8; margin-bottom: 0.8rem;">
                 Các tín hiệu <strong style="color: #c084fc;">MUA</strong> và <strong
-                    style="color: #f87171;">BÁN</strong> được phát hành bởi đội ngũ Chuyên gia FinTop DATA dựa trên phân tích
-                kỹ thuật, cơ bản và mô hình định lượng. Mỗi tín hiệu kèm theo thông tin <strong style="color: #c084fc;">Tỉ trọng</strong>,
-                <strong style="color: #c084fc;">Mục tiêu giá</strong>, <strong style="color: #c084fc;">Dừng lỗ</strong> để hỗ trợ quản trị rủi ro.
+                    style="color: #f87171;">BÁN</strong> được phát hành bởi đội ngũ Chuyên gia FinTop DATA dựa trên phân
+                tích
+                kỹ thuật, cơ bản và mô hình định lượng. Mỗi tín hiệu kèm theo thông tin <strong
+                    style="color: #c084fc;">Tỉ trọng</strong>,
+                <strong style="color: #c084fc;">Mục tiêu giá</strong>, <strong style="color: #c084fc;">Dừng lỗ</strong>
+                để hỗ trợ quản trị rủi ro.
             </p>
             <p style="color: #94A3B8; font-size: 0.84rem; line-height: 1.7; font-style: italic;">
-                Lưu ý: Tín hiệu V.I.P chỉ dành cho Hội viên gói V.I.P và Diamond. Tín hiệu PRO dành cho Hội viên gói PRO trở lên.
+                Lưu ý: Tín hiệu V.I.P chỉ dành cho Hội viên gói V.I.P và Diamond. Tín hiệu PRO dành cho Hội viên gói PRO
+                trở lên.
             </p>
         </div>
 
         <!-- SECTION: TÍN HIỆU V.I.P -->
         <div style="max-width: 1300px; margin: 0 auto 1rem;">
-            <div style="font-size: 1.1rem; font-weight: 800; color: #c084fc; margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(168,85,247,0.2); display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.05em;">
+            <div
+                style="font-size: 1.1rem; font-weight: 800; color: #c084fc; margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(168,85,247,0.2); display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.05em;">
                 <span style="font-size: 1.3rem;">💎</span> I. Tín Hiệu V.I.P
-                <span style="background: rgba(168,85,247,0.15); color: #c084fc; font-size: 0.7rem; padding: 3px 10px; border-radius: 999px; font-weight: 700; margin-left: auto;">4 tín hiệu</span>
+                <span
+                    style="background: rgba(168,85,247,0.15); color: #c084fc; font-size: 0.7rem; padding: 3px 10px; border-radius: 999px; font-weight: 700; margin-left: auto;">4
+                    tín hiệu</span>
             </div>
         </div>
-        <div id="signalVipContainer" style="max-width: 1300px; margin: 0 auto 2rem; display: flex; flex-direction: column; gap: 1rem;"></div>
+        <div id="signalVipContainer"
+            style="max-width: 1300px; margin: 0 auto 2rem; display: flex; flex-direction: column; gap: 1rem;"></div>
 
         <!-- SECTION: TÍN HIỆU PRO -->
         <div style="max-width: 1300px; margin: 0 auto 1rem;">
-            <div style="font-size: 1.1rem; font-weight: 800; color: #c084fc; margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(168,85,247,0.2); display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.05em;">
+            <div
+                style="font-size: 1.1rem; font-weight: 800; color: #c084fc; margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(168,85,247,0.2); display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.05em;">
                 <span style="font-size: 1.3rem;">⭐</span> II. Tín Hiệu PRO
-                <span style="background: rgba(168,85,247,0.15); color: #c084fc; font-size: 0.7rem; padding: 3px 10px; border-radius: 999px; font-weight: 700; margin-left: auto;">3 tín hiệu</span>
+                <span
+                    style="background: rgba(168,85,247,0.15); color: #c084fc; font-size: 0.7rem; padding: 3px 10px; border-radius: 999px; font-weight: 700; margin-left: auto;">3
+                    tín hiệu</span>
             </div>
         </div>
-        <div id="signalProContainer" style="max-width: 1300px; margin: 0 auto 2rem; display: flex; flex-direction: column; gap: 1rem;"></div>
+        <div id="signalProContainer"
+            style="max-width: 1300px; margin: 0 auto 2rem; display: flex; flex-direction: column; gap: 1rem;"></div>
 
         <!-- MIỄN TRỪ TRÁCH NHIỆM -->
-        <div
-            style="max-width: 1300px; margin: 1.5rem auto 0; padding: 1.2rem 2rem; border-radius: 12px; background: rgba(248, 113, 113, 0.06); border: 1px solid rgba(248, 113, 113, 0.2); text-align: center;">
-            <h4
-                style="color: #f87171; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.06em; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                <span style="font-size: 1.1rem;">⚠️</span> Miễn Trừ Trách Nhiệm !
-            </h4>
-            <p style="color: #94A3B8; font-size: 0.84rem; line-height: 1.7;">
-                Dữ liệu chỉ mang tính chất tham khảo, <strong style="color: #f87171;">không khuyến nghị đầu
-                    tư</strong>.<br>
-                Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.
-            </p>
+        <div class="disclaimer-msg">
+            <h4><span style="font-size: 1.1rem;">⚠️</span> Miễn Trừ Trách Nhiệm !</h4>
+            <p>Tín hiệu chỉ mang tính chất tham khảo, <strong>không khuyến nghị đầu tư</strong>.<br>
+                Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.</p>
         </div>
     </div>
 
@@ -2725,62 +3089,127 @@
         // TÍN HIỆU CHUYÊN GIA
         // =====================
         const SIGNAL_VIP = [
-            {type:'ban',title:'BÁN 100% ANV 24',details:[
-                {icon:'📊',label:'Còn lại (%):',value:'50%'},
-                {icon:'📊',label:'Giá mua TB:',value:'20'},
-                {icon:'📊',label:'Lãi / Lỗ (%):',value:'+20% (TEST THử)',color:'#34d399'}
-            ],time:'21:54:18',date:'04-05-2026'},
-            {type:'ban',title:'BÁN HHV 18',details:[
-                {icon:'📊',label:'Còn lại (%):',value:'0%'},
-                {icon:'📊',label:'Giá mua TB:',value:'15'},
-                {icon:'📊',label:'Lãi / Lỗ (%):',value:'+8% (TEST MÔ PHỎng)',color:'#34d399'}
-            ],time:'21:53:36',date:'04-05-2026'},
-            {type:'mua',title:'MUA GVR 34.55',details:[
-                {icon:'📊',label:'Tỉ trọng:',value:'20% NAV'},
-                {icon:'📍',label:'Mục tiêu:',value:'38 - 42'},
-                {icon:'🛡️',label:'Dừng lỗ:',value:'32.7 (TEST MÔ PHỎng WEB)',color:'#f87171'}
-            ],time:'21:52:59',date:'04-05-2026'},
-            {type:'mua',title:'MUA CEO 17.9',details:[
-                {icon:'📊',label:'Tỉ trọng:',value:'20%'},
-                {icon:'📍',label:'Mục tiêu:',value:'20 - 22 - 24'},
-                {icon:'🛡️',label:'Dừng lỗ:',value:'17.2 (TEST MÔ PHỎng WEB)',color:'#f87171'}
-            ],time:'21:52:14',date:'04-05-2026'}
+            {
+                type: 'ENTRY',
+                ticker: 'CTD 78.2',
+                badge: 'DÀI HẠN',
+                badgeClass: 'badge-longterm',
+                expertInitials: 'NH',
+                expertAvatarBg: 'linear-gradient(135deg, #7c3aed, #a855f7)',
+                expertName: 'Nguyễn Đình Hải',
+                expertRole: 'GĐ TVĐT VPS',
+                time: '13:05:54',
+                date: '29-01-2026',
+                details: [
+                    { label: 'Kháng cự:', value: '85 - 90', valueClass: 'val-highlight' },
+                    { label: 'Điểm QTRR:', value: '76', valueClass: 'val-score' },
+                    { label: 'Mô tả Model:', value: 'Kênh xu hướng mở biên tăng trưởng.', valueClass: 'val-highlight', isFullWidth: true }
+                ]
+            },
+            {
+                type: 'EXIT',
+                ticker: 'CTD 85',
+                badge: 'PARTIAL EXIT <span class="info-icon">i</span>',
+                badgeClass: 'badge-partial',
+                expertInitials: 'TL',
+                expertAvatarBg: 'linear-gradient(135deg, #991B1B, #DC2626)',
+                expertName: 'Trần Khánh Linh',
+                expertRole: 'CG TVĐT VPS',
+                time: '13:05:54',
+                date: '29-01-2026',
+                details: [
+                    { label: 'Điểm ENTRY:', value: '78.2', valueClass: 'val-highlight' },
+                    { label: 'Kết quả MDL:', value: '18.05%', valueClass: 'val-green' },
+                    { label: 'Chi chú MDL:', value: 'Chạm kháng cự 85', valueClass: 'val-highlight', isFullWidth: true }
+                ]
+            }
         ];
 
         const SIGNAL_PRO = [
-            {type:'mua',title:'MUA FPT 132',details:[
-                {icon:'📊',label:'Tỉ trọng:',value:'15% NAV'},
-                {icon:'📍',label:'Mục tiêu:',value:'145 - 155'},
-                {icon:'🛡️',label:'Dừng lỗ:',value:'126.5',color:'#f87171'}
-            ],time:'09:15:42',date:'05-05-2026'},
-            {type:'ban',title:'BÁN 50% HPG 32.5',details:[
-                {icon:'📊',label:'Còn lại (%):',value:'50%'},
-                {icon:'📊',label:'Giá mua TB:',value:'28.5'},
-                {icon:'📊',label:'Lãi / Lỗ (%):',value:'+14%',color:'#34d399'}
-            ],time:'14:30:05',date:'04-05-2026'},
-            {type:'mua',title:'MUA VCB 92',details:[
-                {icon:'📊',label:'Tỉ trọng:',value:'10% NAV'},
-                {icon:'📍',label:'Mục tiêu:',value:'100 - 108'},
-                {icon:'🛡️',label:'Dừng lỗ:',value:'88',color:'#f87171'}
-            ],time:'10:22:18',date:'04-05-2026'}
+            {
+                type: 'ENTRY',
+                ticker: 'FPT 132',
+                badge: 'TRUNG HẠN',
+                badgeClass: 'badge-longterm',
+                expertInitials: 'PH',
+                expertAvatarBg: 'linear-gradient(135deg, #7c3aed, #a855f7)',
+                expertName: 'Phạm Minh Hoàng',
+                expertRole: 'CG Phân Tích Kỹ Thuật VPS',
+                time: '09:32:10',
+                date: '29-01-2026',
+                details: [
+                    { label: 'Kháng cự:', value: '145 - 155', valueClass: 'val-highlight' },
+                    { label: 'Điểm QTRR:', value: '82', valueClass: 'val-score' },
+                    { label: 'Mô tả Model:', value: 'Phá vỡ vùng tích lũy dài hạn, hướng đến đỉnh mới.', valueClass: 'val-highlight', isFullWidth: true }
+                ]
+            },
+            {
+                type: 'EXIT',
+                ticker: 'HPG 32.5',
+                badge: 'PARTIAL EXIT <span class="info-icon">i</span>',
+                badgeClass: 'badge-partial',
+                expertInitials: 'LV',
+                expertAvatarBg: 'linear-gradient(135deg, #991B1B, #DC2626)',
+                expertName: 'Lê Văn Tùng',
+                expertRole: 'CG Tư Vấn Đầu Tư VPS',
+                time: '14:30:05',
+                date: '28-01-2026',
+                details: [
+                    { label: 'Điểm ENTRY:', value: '28.5', valueClass: 'val-highlight' },
+                    { label: 'Kết quả MDL:', value: '+14.04%', valueClass: 'val-green' },
+                    { label: 'Chi chú MDL:', value: 'Chốt lời 50% tại vùng kháng cự', valueClass: 'val-highlight', isFullWidth: true }
+                ]
+            }
         ];
 
         let signalsRendered = false;
 
         function buildSignalCard(s) {
-            const cls = s.type === 'mua' ? 'type-mua' : 'type-ban';
-            const act = s.type === 'mua' ? 'MUA' : 'BÁN';
-            const rows = s.details.map(d => {
-                const vs = d.color ? ` style="color:${d.color}"` : '';
-                return `<div class="signal-detail-row"><span class="detail-icon">${d.icon}</span><span class="detail-label">${d.label}</span><strong${vs}>${d.value}</strong></div>`;
-            }).join('');
-            return `<div class="signal-card ${cls}"><div class="signal-action">${act}</div><div class="signal-body"><div class="signal-title">${s.title}</div><div class="signal-details">${rows}</div></div><div class="signal-time"><span class="time-icon">🕐</span><span class="time-label-sm">Thời gian</span><span class="time-value">${s.time}<br>${s.date}</span></div></div>`;
+            const actionClass = s.type === 'ENTRY' ? 'action-entry' : 'action-exit';
+
+            let detailsHtml = '';
+            for (let i = 0; i < s.details.length; i++) {
+                const d = s.details[i];
+                if (d.isFullWidth) {
+                    detailsHtml += `<tr><td colspan="2"><span class="label-dim">${d.label}</span> <span class="${d.valueClass}">${d.value}</span></td></tr>`;
+                } else {
+                    detailsHtml += `<tr><td><span class="label-dim">${d.label}</span> <span class="${d.valueClass}">${d.value}</span></td><td></td></tr>`;
+                }
+            }
+
+            return `
+            <div class="signal-msg-box">
+                <div class="msg-sender">
+                    <div class="sender-avatar" style="background:${s.expertAvatarBg}">${s.expertInitials}</div>
+                    <div class="sender-info">
+                        <div class="sender-name">${s.expertName}</div>
+                        <div class="sender-role">${s.expertRole}</div>
+                    </div>
+                    <div class="msg-timestamp">${s.time}<br>${s.date}</div>
+                </div>
+                <table class="signal-table">
+                    <tr>
+                        <td class="action-cell ${actionClass}" rowspan="${s.details.length + 1}">${s.type}</td>
+                        <td><span class="ticker-price">${s.ticker}</span></td>
+                        <td style="text-align:right"><span class="strategy-badge ${s.badgeClass}">${s.badge}</span></td>
+                    </tr>
+                    ${detailsHtml}
+                </table>
+            </div>`;
         }
 
         function renderSignals() {
             if (signalsRendered) return;
             document.getElementById('signalVipContainer').innerHTML = SIGNAL_VIP.map(buildSignalCard).join('');
             document.getElementById('signalProContainer').innerHTML = SIGNAL_PRO.map(buildSignalCard).join('');
+
+            // Add VPS Footer
+            const panel = document.getElementById('panel-tinhieu');
+            const footer = document.createElement('div');
+            footer.className = 'vps-team-footer';
+            footer.innerHTML = '✨ <span>Thực hiện bởi Đội ngũ Chuyên gia VPS</span>';
+            panel.appendChild(footer);
+
             signalsRendered = true;
         }
 
@@ -2884,19 +3313,49 @@
                 price_line_color: '#c084fc',
                 grid_color: '#334155',
                 label_color: '#94a3b8',
+                bg_color: '#131722',
+                theme: 'dark',
                 width: '100%',
                 height: '500px'
             });
+
+            // Quan sát iframe được tạo và apply dark mode
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.tagName === 'IFRAME') {
+                            node.style.filter = 'invert(1) hue-rotate(180deg)';
+                            node.style.background = '#131722';
+                        }
+                    });
+                });
+            });
+            observer.observe(container, { childList: true, subtree: true });
+            
+            // Cũng kiểm tra iframe đã tồn tại
+            setTimeout(() => {
+                const iframes = container.querySelectorAll('iframe');
+                iframes.forEach(iframe => {
+                    iframe.style.filter = 'invert(1) hue-rotate(180deg)';
+                    iframe.style.background = '#131722';
+                });
+            }, 1000);
         }
 
         function loadChart(ticker, target) {
             const chartTarget = getChartTarget(target);
             const normalizedTicker = (ticker || 'VN30').trim().toUpperCase();
             currentChartTicker[chartTarget] = normalizedTicker;
+
+            // Nếu đang ở mode PTKT, không ghi đè iframe — chỉ lưu ticker
+            if (chartMode[chartTarget] === 'ptkt') {
+                return;
+            }
+
             showChartMessage(`Đang tải biểu đồ ${normalizedTicker}...`, chartTarget);
 
             loadFireAntScript(() => {
-                if (currentChartTicker[chartTarget] === normalizedTicker) {
+                if (currentChartTicker[chartTarget] === normalizedTicker && chartMode[chartTarget] === 'quote') {
                     renderFireAntWidget(normalizedTicker, chartTarget);
                 }
             });
@@ -2906,6 +3365,53 @@
             if (chartSection) {
                 chartSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
+        }
+
+        // =====================
+        // CHART MODE TOGGLE
+        // =====================
+        const chartMode = { tracuu: 'quote', boloc: 'quote' }; // 'quote' hoặc 'ptkt'
+
+        function toggleChartMode(target) {
+            const toggle = document.getElementById(`${target}-chart-toggle`);
+            const labelGia = document.getElementById(`${target}-label-gia`);
+            const labelPtkt = document.getElementById(`${target}-label-ptkt`);
+            const titleEl = document.getElementById(`${target}-chart-title`);
+
+            if (chartMode[target] === 'quote') {
+                // Chuyển sang PTKT
+                chartMode[target] = 'ptkt';
+                toggle.classList.add('active');
+                labelGia.classList.remove('active');
+                labelPtkt.classList.add('active');
+                titleEl.textContent = 'Biểu Đồ Phân Tích Kỹ Thuật';
+                renderAdvancedChart(target);
+            } else {
+                // Chuyển về Quote
+                chartMode[target] = 'quote';
+                toggle.classList.remove('active');
+                labelGia.classList.add('active');
+                labelPtkt.classList.remove('active');
+                titleEl.textContent = target === 'tracuu' ? 'Biểu Đồ Giá' : 'Biểu Đồ Kỹ Thuật';
+                // Re-render QuoteWidget
+                const ticker = currentChartTicker[target] || 'VN30';
+                loadChart(ticker, target);
+            }
+        }
+
+        function renderAdvancedChart(target) {
+            const config = getChartConfig(target);
+            const container = document.getElementById(config.hostId);
+            if (!container) return;
+
+            container.innerHTML = '';
+            const iframe = document.createElement('iframe');
+            iframe.src = 'https://fireant.vn/charts';
+            iframe.style.cssText = 'width:100%; height:100%; border:0; border-radius:8px;';
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+            iframe.setAttribute('allowfullscreen', '');
+            container.appendChild(iframe);
         }
 
         // Auto-load the relevant chart when a data panel opens

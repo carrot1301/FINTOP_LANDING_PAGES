@@ -3,69 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinTop DATA | Expert Signals</title>
+    <title>FinTop DATA | Tín Hiệu Chuyên Gia</title>
     <link rel="stylesheet" href="../../assets/css/variables.css">
     <link rel="stylesheet" href="../../assets/css/base.css">
-    <link rel="stylesheet" href="../../assets/css/components.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        .page-wrapper { min-height: 100vh; background: var(--bg-primary); padding-top: 80px; }
-        .page-container { max-width: 1300px; margin: 0 auto; padding: 0 5% 4rem; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background: #07070D; color: #e2e8f0; min-height: 100vh; }
 
+        .page-wrapper { min-height: 100vh; padding-top: 80px; }
+        .page-container { max-width: 900px; margin: 0 auto; padding: 0 5% 4rem; }
+
+        /* Header */
         .tv-header {
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             display: flex; align-items: center; justify-content: space-between;
             padding: 1rem 5%; height: 72px;
-            background: rgba(10, 10, 15, 0.85);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            background: rgba(10,10,15,0.85); backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         .tv-left { display: flex; align-items: center; gap: 2rem; }
-        .neon-logo {
-            height: 70px; width: auto;
-            filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 15px rgba(168,85,247,0.8));
-            transition: all 0.3s ease;
-        }
+        .neon-logo { height: 70px; width: auto; filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 15px rgba(168,85,247,0.8)); transition: all 0.3s ease; }
         .neon-logo:hover { filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 25px rgba(192,132,252,1)); transform: scale(1.05); }
         .tv-nav { display: flex; gap: 2rem; align-items: center; list-style: none; }
         .tv-nav a { font-size: 0.9rem; font-weight: 600; color: #fff; opacity: 0.8; transition: opacity 0.2s; text-decoration: none; }
         .tv-nav a:hover { opacity: 1; text-shadow: 0 0 8px rgba(255,255,255,0.5); }
         .tv-right { display: flex; align-items: center; gap: 1rem; }
         .btn-tv-blue { background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; border: none; border-radius: 8px; padding: 8px 20px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
-        .icon-link { color: #94A3B8; font-size: 0.9rem; cursor: pointer; }
 
-        .breadcrumb {
-            display: flex; align-items: center; gap: 8px;
-            margin-bottom: 2rem; font-size: 0.85rem; color: #475569;
-        }
-        .breadcrumb a { color: #94A3B8; text-decoration: none; transition: color 0.2s; }
+        /* Breadcrumb */
+        .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 2rem; font-size: 0.85rem; color: #475569; }
+        .breadcrumb a { color: #94A3B8; text-decoration: none; }
         .breadcrumb a:hover { color: #c084fc; }
 
-        .page-title-section { margin-bottom: 2.5rem; }
+        /* Page title */
+        .page-title-section { margin-bottom: 2rem; text-align: center; }
         .page-title {
-            font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900;
+            font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 900;
             background: linear-gradient(135deg, #c084fc, #818cf8, #38bdf8);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; margin-bottom: 0.5rem;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 0.5rem;
         }
-        .page-subtitle { color: #94A3B8; font-size: 0.95rem; }
+        .page-subtitle { color: #94A3B8; font-size: 0.9rem; }
 
-        .guide-box {
-            margin-bottom: 2rem; padding: 1.5rem 2rem; border-radius: 14px;
-            background: linear-gradient(135deg, rgba(168,85,247,0.08), rgba(99,102,241,0.04));
-            border: 1px solid rgba(168,85,247,0.25); border-left: 3px solid #a855f7;
+        /* === SIGNAL MESSAGE BOX === */
+        .signal-msg-box {
+            position: relative;
+            background: rgba(15,15,25,0.7);
+            border: 1px solid rgba(168,85,247,0.2);
+            border-radius: 18px;
+            padding: 0;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(168,85,247,0.05);
+            overflow: hidden;
+            animation: msgSlideIn 0.5s ease forwards;
+            opacity: 0;
         }
-        .guide-box h4 {
-            color: #c084fc; font-size: 0.9rem; font-weight: 800; margin-bottom: 0.8rem;
-            display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.06em;
+        .signal-msg-box:nth-child(1) { animation-delay: 0.1s; }
+        .signal-msg-box:nth-child(2) { animation-delay: 0.25s; }
+        @keyframes msgSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .guide-box p { color: #cbd5e1; font-size: 0.88rem; line-height: 1.8; }
-        .guide-note { color: #94A3B8 !important; font-size: 0.84rem !important; line-height: 1.7; font-style: italic; margin-top: 0.8rem; }
 
-        .section-label {
-            font-size: 1.1rem; font-weight: 800; color: #c084fc;
-            margin-bottom: 1.5rem; padding-bottom: 0.8rem;
-            border-bottom: 1px solid rgba(168,85,247,0.2);
+        /* Chat bubble tail */
+        .signal-msg-box::before {
+            content: '';
+            position: absolute; top: 18px; left: -10px;
+            width: 0; height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid rgba(168,85,247,0.2);
+        }
+        .signal-msg-box::after {
+            content: '';
+            position: absolute; top: 19px; left: -8px;
+            width: 0; height: 0;
+            border-top: 9px solid transparent;
+            border-bottom: 9px solid transparent;
+            border-right: 9px solid rgba(15,15,25,0.9);
+        }
+
+        /* Expert avatar row */
+        .msg-sender {
             display: flex; align-items: center; gap: 10px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(168,85,247,0.08), rgba(99,102,241,0.04));
+            border-bottom: 1px solid rgba(168,85,247,0.12);
+        }
+        .sender-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; color: #fff; font-weight: 800;
+            box-shadow: 0 0 12px rgba(168,85,247,0.4);
+            flex-shrink: 0;
+        }
+        .sender-info { flex: 1; }
+        .sender-name { font-size: 0.82rem; font-weight: 700; color: #c084fc; }
+        .sender-role { font-size: 0.72rem; color: #64748b; }
+        .msg-timestamp { font-size: 0.72rem; color: #475569; text-align: right; line-height: 1.5; }
+
+        /* Signal table grid inside message */
+        .signal-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .signal-table td {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            vertical-align: top;
+        }
+        .signal-table tr:last-child td { border-bottom: none; }
+
+        /* Action label ENTRY/EXIT */
+        .action-cell {
+            width: 90px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            text-align: center;
+            vertical-align: middle !important;
+            padding: 16px 12px !important;
+        }
+        .action-entry {
+            color: #fff;
+            background: linear-gradient(135deg, #059669, #10B981);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .action-exit {
+            color: #FCD34D;
+            background: linear-gradient(135deg, #991B1B, #DC2626);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        /* Ticker + price */
+        .ticker-price {
+            font-size: 1.1rem; font-weight: 800; color: #f8fafc;
+            letter-spacing: 0.02em;
+        }
+
+        /* Strategy badge */
+        .strategy-badge {
+            display: inline-block;
+            padding: 3px 12px; border-radius: 6px;
+            font-size: 0.75rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.04em;
+        }
+        .badge-longterm { background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
+        .badge-partial { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+
+        .label-dim { color: #64748b; font-size: 0.82rem; }
+        .val-highlight { color: #e2e8f0; font-weight: 600; }
+        .val-green { color: #34d399; font-weight: 700; }
+        .val-score { color: #fbbf24; font-weight: 700; }
+
+        /* Info icon tooltip */
+        .info-icon {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 16px; height: 16px; border-radius: 50%;
+            background: rgba(251,191,36,0.2); color: #fbbf24;
+            font-size: 0.6rem; font-weight: 800;
+            margin-left: 4px; cursor: help;
+            vertical-align: middle;
+        }
+
+        /* Disclaimer box */
+        .disclaimer-msg {
+            background: rgba(248,113,113,0.05);
+            border: 1px solid rgba(248,113,113,0.2);
+            border-radius: 14px;
+            padding: 1.2rem 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            animation: msgSlideIn 0.5s ease 0.4s forwards;
+            opacity: 0;
+        }
+        .disclaimer-msg h4 {
+            color: #f87171; font-size: 0.85rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+        }
+        .disclaimer-msg p { color: #94A3B8; font-size: 0.82rem; line-height: 1.7; }
+        .disclaimer-msg strong { color: #f87171; }
+
+        /* VPS team footer */
+        .vps-team-footer {
+            text-align: center;
+            padding: 1rem 2rem;
+            margin-top: 0.5rem;
+            color: #64748b;
+            font-size: 0.82rem;
+            font-style: italic;
+            animation: msgSlideIn 0.5s ease 0.55s forwards;
+            opacity: 0;
+        }
+        .vps-team-footer span { color: #c084fc; font-weight: 700; font-style: normal; }
+
+        /* Section label */
+        .section-label {
+            font-size: 1rem; font-weight: 800; color: #c084fc;
+            margin-bottom: 1.2rem; margin-top: 2rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid rgba(168,85,247,0.15);
+            display: flex; align-items: center; gap: 8px;
             text-transform: uppercase; letter-spacing: 0.05em;
         }
         .badge-count {
@@ -73,83 +217,20 @@
             padding: 3px 10px; border-radius: 999px; font-weight: 700; margin-left: auto;
         }
 
-        .signal-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 3rem; }
-
-        .signal-card {
-            display: grid; grid-template-columns: 140px 1fr auto;
-            border-radius: 14px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.06);
-            transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-            animation: cardFadeIn 0.5s ease forwards; opacity: 0;
-        }
-        .signal-card:nth-child(1) { animation-delay: 0.05s; }
-        .signal-card:nth-child(2) { animation-delay: 0.1s; }
-        .signal-card:nth-child(3) { animation-delay: 0.15s; }
-        .signal-card:nth-child(4) { animation-delay: 0.2s; }
-
-        @keyframes cardFadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-
-        .signal-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
-
-        .signal-action {
-            display: flex; align-items: center; justify-content: center;
-            padding: 1.5rem; font-size: 2rem; font-weight: 900;
-            letter-spacing: 0.05em; text-transform: uppercase;
-            position: relative;
-        }
-        .signal-action::after {
-            content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 1px;
-            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
-        }
-
-        .signal-card.type-mua { background: linear-gradient(135deg, rgba(16,185,129,0.06), rgba(15,15,25,0.7)); }
-        .signal-card.type-mua .signal-action { background: linear-gradient(135deg, #059669, #10B981); color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-        .signal-card.type-mua:hover { border-color: rgba(16,185,129,0.3); box-shadow: 0 12px 40px rgba(16,185,129,0.12); }
-
-        .signal-card.type-ban { background: linear-gradient(135deg, rgba(220,38,38,0.06), rgba(15,15,25,0.7)); }
-        .signal-card.type-ban .signal-action { background: linear-gradient(135deg, #991B1B, #B91C1C); color: #FCD34D; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
-        .signal-card.type-ban:hover { border-color: rgba(220,38,38,0.3); box-shadow: 0 12px 40px rgba(220,38,38,0.12); }
-
-        .signal-body { padding: 1.2rem 1.8rem; display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; }
-        .signal-title { font-size: 1.15rem; font-weight: 800; color: #f8fafc; letter-spacing: 0.02em; }
-        .signal-details { display: flex; flex-direction: column; gap: 4px; }
-        .signal-detail-row { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: #cbd5e1; }
-        .signal-detail-row .detail-icon { font-size: 0.85rem; width: 18px; text-align: center; flex-shrink: 0; }
-        .signal-detail-row strong { color: #f8fafc; font-weight: 700; }
-        .detail-label { color: #94A3B8; min-width: 110px; }
-
-        .signal-time {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 1.2rem 1.5rem; gap: 4px;
-            border-left: 1px solid rgba(255,255,255,0.04); min-width: 140px;
-        }
-        .time-icon { font-size: 1rem; color: #475569; }
-        .time-label { font-size: 0.72rem; color: #475569; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
-        .time-value { font-size: 0.9rem; color: #94A3B8; font-weight: 600; text-align: center; line-height: 1.5; }
-
-        .disclaimer-box {
-            margin-top: 2rem; padding: 1.2rem 2rem; border-radius: 12px;
-            background: rgba(248,113,113,0.06); border: 1px solid rgba(248,113,113,0.2); text-align: center;
-        }
-        .disclaimer-box h4 {
-            color: #f87171; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;
-            text-transform: uppercase; letter-spacing: 0.06em;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-        }
-        .disclaimer-box p { color: #94A3B8; font-size: 0.84rem; line-height: 1.7; }
-        .disclaimer-box strong { color: #f87171; }
-
+        /* Page footer */
         .page-footer {
             background: #07070D; border-top: 1px solid rgba(255,255,255,0.08);
             padding: 2rem 5%; text-align: center; color: #475569; font-size: 0.8rem;
         }
 
         @media (max-width: 768px) {
-            .signal-card { grid-template-columns: 80px 1fr; }
-            .signal-action { font-size: 1.3rem; padding: 1rem; }
-            .signal-time { flex-direction: row; gap: 8px; border-left: none; border-top: 1px solid rgba(255,255,255,0.04); grid-column: 1 / -1; padding: 0.8rem 1rem; min-width: unset; }
-            .signal-body { padding: 1rem; }
+            .signal-table td { padding: 6px 10px; font-size: 0.78rem; }
+            .action-cell { width: 65px; font-size: 1rem; padding: 10px 8px !important; }
+            .ticker-price { font-size: 0.95rem; }
             .tv-nav { display: none; }
+            .msg-sender { padding: 10px 14px; flex-wrap: wrap; }
+            .signal-msg-box::before, .signal-msg-box::after { display: none; }
+            .page-container { padding: 0 3% 3rem; }
         }
     </style>
 </head>
@@ -160,38 +241,177 @@
         </div>
         <ul class="tv-nav" id="navMenu"></ul>
         <div class="tv-right">
-            <span class="icon-link">VI</span>
-            <button class="btn-tv-blue" id="btnStart" onclick="location.href='../../hoi-vien/index.html'">Start</button>
+            <span style="color:#94A3B8;font-size:0.9rem;cursor:pointer;">VI</span>
+            <button class="btn-tv-blue" id="btnStart" onclick="location.href='../../hoi-vien/index.html'">B&#7855;t &#273;&#7847;u</button>
         </div>
     </header>
 
     <div class="page-wrapper">
         <div class="page-container">
-            <nav class="breadcrumb" id="breadcrumb"></nav>
+            <nav class="breadcrumb">
+                <a href="../../index.html">Trang ch&#7911;</a>
+                <span style="color:#334155">&#8250;</span>
+                <a href="../index.html">FinTop Data</a>
+                <span style="color:#334155">&#8250;</span>
+                <span style="color:#c084fc">T&#237;n hi&#7879;u t&#7915; chuy&#234;n gia</span>
+            </nav>
+
             <div class="page-title-section">
-                <h1 class="page-title" id="pageTitle"></h1>
-                <p class="page-subtitle" id="pageSubtitle"></p>
+                <h1 class="page-title">&#128225; T&#237;n Hi&#7879;u T&#7915; Chuy&#234;n Gia</h1>
+                <p class="page-subtitle">T&#237;n hi&#7879;u ENTRY / EXIT realtime t&#7915; &#273;&#7897;i ng&#361; Chuy&#234;n gia &#8212; C&#7853;p nh&#7853;t li&#234;n t&#7909;c theo phi&#234;n giao d&#7883;ch</p>
             </div>
-            <div class="guide-box">
-                <h4 id="guideTitle"></h4>
-                <p id="guideBody"></p>
-                <p class="guide-note" id="guideNote"></p>
+
+            <!-- V.I.P Section -->
+            <div class="section-label">
+                <span style="font-size:1.2rem">&#128142;</span> I. T&#205;N HI&#7878;U V.I.P
+                <span class="badge-count">2 t&#237;n hi&#7879;u</span>
             </div>
-            <div class="section-label" id="sec1Label"></div>
-            <div class="signal-list" id="signalVip"></div>
-            <div class="section-label" id="sec2Label"></div>
-            <div class="signal-list" id="signalPro"></div>
-            <div class="disclaimer-box" id="disclaimerBox"></div>
+
+            <!-- ENTRY Signal -->
+            <div class="signal-msg-box">
+                <div class="msg-sender">
+                    <div class="sender-avatar">NH</div>
+                    <div class="sender-info">
+                        <div class="sender-name">Nguy&#7877;n &#272;&#236;nh H&#7843;i</div>
+                        <div class="sender-role">G&#272; T&#432; V&#7845;n &#272;&#7847;u T&#432; VPS</div>
+                    </div>
+                    <div class="msg-timestamp">13:05:54<br>29-01-2026</div>
+                </div>
+                <table class="signal-table">
+                    <tr>
+                        <td class="action-cell action-entry" rowspan="4">ENTRY</td>
+                        <td><span class="ticker-price">CTD 78.2</span></td>
+                        <td style="text-align:right"><span class="strategy-badge badge-longterm">D&#192;I H&#7840;N</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="label-dim">Kh&#225;ng c&#7921;:</span> <span class="val-highlight">85 - 90</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span class="label-dim">&#272;i&#7875;m QTRR:</span> <span class="val-score">76</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><span class="label-dim">M&#244; t&#7843; Model:</span> <span class="val-highlight">K&#234;nh xu h&#432;&#7899;ng m&#7903; bi&#234;n t&#259;ng tr&#432;&#7903;ng.</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- EXIT Signal -->
+            <div class="signal-msg-box">
+                <div class="msg-sender">
+                    <div class="sender-avatar" style="background:linear-gradient(135deg,#991B1B,#DC2626);">TL</div>
+                    <div class="sender-info">
+                        <div class="sender-name">Tr&#7847;n Kh&#225;nh Linh</div>
+                        <div class="sender-role">CG T&#432; V&#7845;n &#272;&#7847;u T&#432; VPS</div>
+                    </div>
+                    <div class="msg-timestamp">13:05:54<br>29-01-2026</div>
+                </div>
+                <table class="signal-table">
+                    <tr>
+                        <td class="action-cell action-exit" rowspan="4">EXIT</td>
+                        <td><span class="ticker-price">CTD 85</span></td>
+                        <td style="text-align:right"><span class="strategy-badge badge-partial">PARTIAL EXIT <span class="info-icon">i</span></span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="label-dim">&#272;i&#7875;m ENTRY:</span> <span class="val-highlight">78.2</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span class="label-dim">K&#7871;t qu&#7843; MDL:</span> <span class="val-green">18.05%</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><span class="label-dim">Chi ch&#250; MDL:</span> <span class="val-highlight">Ch&#7841;m kh&#225;ng c&#7921; 85</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- PRO Section -->
+            <div class="section-label">
+                <span style="font-size:1.2rem">&#11088;</span> II. T&#205;N HI&#7878;U PRO
+                <span class="badge-count">2 t&#237;n hi&#7879;u</span>
+            </div>
+
+            <!-- ENTRY Signal PRO -->
+            <div class="signal-msg-box">
+                <div class="msg-sender">
+                    <div class="sender-avatar">PH</div>
+                    <div class="sender-info">
+                        <div class="sender-name">Ph&#7841;m Minh Ho&#224;ng</div>
+                        <div class="sender-role">CG Ph&#226;n T&#237;ch K&#7929; Thu&#7853;t VPS</div>
+                    </div>
+                    <div class="msg-timestamp">09:32:10<br>29-01-2026</div>
+                </div>
+                <table class="signal-table">
+                    <tr>
+                        <td class="action-cell action-entry" rowspan="4">ENTRY</td>
+                        <td><span class="ticker-price">FPT 132</span></td>
+                        <td style="text-align:right"><span class="strategy-badge badge-longterm">TRUNG H&#7840;N</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="label-dim">Kh&#225;ng c&#7921;:</span> <span class="val-highlight">145 - 155</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span class="label-dim">&#272;i&#7875;m QTRR:</span> <span class="val-score">82</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><span class="label-dim">M&#244; t&#7843; Model:</span> <span class="val-highlight">Ph&#225; v&#7905; v&#249;ng t&#237;ch l&#361;y d&#224;i h&#7841;n, h&#432;&#7899;ng &#273;&#7871;n &#273;&#7881;nh m&#7899;i.</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- EXIT Signal PRO -->
+            <div class="signal-msg-box">
+                <div class="msg-sender">
+                    <div class="sender-avatar" style="background:linear-gradient(135deg,#991B1B,#DC2626);">LV</div>
+                    <div class="sender-info">
+                        <div class="sender-name">L&#234; V&#259;n T&#249;ng</div>
+                        <div class="sender-role">CG T&#432; V&#7845;n &#272;&#7847;u T&#432; VPS</div>
+                    </div>
+                    <div class="msg-timestamp">14:30:05<br>28-01-2026</div>
+                </div>
+                <table class="signal-table">
+                    <tr>
+                        <td class="action-cell action-exit" rowspan="4">EXIT</td>
+                        <td><span class="ticker-price">HPG 32.5</span></td>
+                        <td style="text-align:right"><span class="strategy-badge badge-partial">PARTIAL EXIT <span class="info-icon">i</span></span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="label-dim">&#272;i&#7875;m ENTRY:</span> <span class="val-highlight">28.5</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span class="label-dim">K&#7871;t qu&#7843; MDL:</span> <span class="val-green">+14.04%</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><span class="label-dim">Chi ch&#250; MDL:</span> <span class="val-highlight">Ch&#7889;t l&#7901;i 50% t&#7841;i v&#249;ng kh&#225;ng c&#7921;</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="disclaimer-msg">
+                <h4>&#9888;&#65039; Mi&#7877;n Tr&#7915; Tr&#225;ch Nhi&#7879;m !</h4>
+                <p>T&#237;n hi&#7879;u ch&#7881; mang t&#237;nh ch&#7845;t tham kh&#7843;o, <strong>kh&#244;ng khuy&#7871;n ngh&#7883; &#273;&#7847;u t&#432;</strong>.<br>
+                Ng&#432;&#7901;i d&#249;ng ch&#7883;u ho&#224;n to&#224;n tr&#225;ch nhi&#7879;m tr&#432;&#7899;c c&#225;c quy&#7871;t &#273;&#7883;nh &#273;&#7847;u t&#432; c&#7911;a m&#236;nh.</p>
+            </div>
+
+            <!-- VPS Team -->
+            <div class="vps-team-footer">
+                &#10024; <span>Th&#7921;c hi&#7879;n b&#7903;i &#272;&#7897;i ng&#361; Chuy&#234;n gia VPS</span>
+            </div>
+
         </div>
     </div>
+
     <footer class="page-footer"><p>&copy; 2026 FinTop DATA. All rights reserved.</p></footer>
 
     <script>
     (function(){
-        // All Vietnamese strings via JS to bypass charset detection
-        var S = function(u){ return String.fromCodePoint.apply(null, u); };
-
-        // Nav links
         var navItems = [
             {text:'Trang ch\u1EE7', href:'../../index.html'},
             {text:'H\u1ED9i vi\u00EAn', href:'../../hoi-vien/index.html'},
@@ -200,95 +420,11 @@
             {text:'FinTop AI', href:'../../fintop-ai/index.html'},
             {text:'H\u01B0\u1EDBng d\u1EABn', href:'../../huong-dan/index.html'}
         ];
-        var navHTML = navItems.map(function(n){
+        var html = navItems.map(function(n){
             var s = n.active ? ' style="opacity:1;color:#c084fc;"' : '';
             return '<li><a href="'+n.href+'"'+s+'>'+n.text+'</a></li>';
         }).join('');
-        document.getElementById('navMenu').innerHTML = navHTML;
-        document.getElementById('btnStart').textContent = 'B\u1EAFt \u0111\u1EA7u';
-
-        // Breadcrumb
-        document.getElementById('breadcrumb').innerHTML =
-            '<a href="../../index.html">Trang ch\u1EE7</a> <span style="color:#334155">\u203A</span> ' +
-            '<a href="../index.html">FinTop Data</a> <span style="color:#334155">\u203A</span> ' +
-            '<span style="color:#c084fc">T\u00EDn hi\u1EC7u t\u1EEB chuy\u00EAn gia</span>';
-
-        // Page title
-        document.getElementById('pageTitle').innerHTML = '\uD83D\uDCE1 T\u00EDn Hi\u1EC7u T\u1EEB Chuy\u00EAn Gia';
-        document.getElementById('pageSubtitle').innerHTML = 'T\u00EDn hi\u1EC7u MUA / B\u00C1N realtime t\u1EEB \u0111\u1ED9i ng\u0169 Chuy\u00EAn gia FinTop DATA \u2014 C\u1EADp nh\u1EADt li\u00EAn t\u1EE5c theo phi\u00EAn giao d\u1ECBch';
-
-        // Guide box
-        document.getElementById('guideTitle').innerHTML = '\uD83D\uDCD6 H\u01B0\u1EDBng D\u1EABn S\u1EED D\u1EE5ng';
-        document.getElementById('guideBody').innerHTML = 'C\u00E1c t\u00EDn hi\u1EC7u <strong style="color:#c084fc">MUA</strong> v\u00E0 <strong style="color:#f87171">B\u00C1N</strong> \u0111\u01B0\u1EE3c ph\u00E1t h\u00E0nh b\u1EDFi \u0111\u1ED9i ng\u0169 Chuy\u00EAn gia FinTop DATA d\u1EF1a tr\u00EAn ph\u00E2n t\u00EDch k\u1EF9 thu\u1EADt, c\u01A1 b\u1EA3n v\u00E0 m\u00F4 h\u00ECnh \u0111\u1ECBnh l\u01B0\u1EE3ng. M\u1ED7i t\u00EDn hi\u1EC7u k\u00E8m theo th\u00F4ng tin <strong style="color:#c084fc">T\u1EC9 tr\u1ECDng</strong>, <strong style="color:#c084fc">M\u1EE5c ti\u00EAu gi\u00E1</strong>, <strong style="color:#c084fc">D\u1EEBng l\u1ED7</strong> \u0111\u1EC3 h\u1ED7 tr\u1EE3 qu\u1EA3n tr\u1ECB r\u1EE7i ro.';
-        document.getElementById('guideNote').innerHTML = 'L\u01B0u \u00FD: T\u00EDn hi\u1EC7u V.I.P ch\u1EC9 d\u00E0nh cho H\u1ED9i vi\u00EAn g\u00F3i V.I.P v\u00E0 Diamond. T\u00EDn hi\u1EC7u PRO d\u00E0nh cho H\u1ED9i vi\u00EAn g\u00F3i PRO tr\u1EDF l\u00EAn.';
-
-        // Section labels
-        document.getElementById('sec1Label').innerHTML = '<span style="font-size:1.3rem">\uD83D\uDC8E</span> I. T\u00CDN HI\u1EC6U V.I.P <span class="badge-count">4 t\u00EDn hi\u1EC7u</span>';
-        document.getElementById('sec2Label').innerHTML = '<span style="font-size:1.3rem">\u2B50</span> II. T\u00CDN HI\u1EC6U PRO <span class="badge-count">3 t\u00EDn hi\u1EC7u</span>';
-
-        // Disclaimer
-        document.getElementById('disclaimerBox').innerHTML =
-            '<h4>\u26A0\uFE0F Mi\u1EC5n Tr\u1EEB Tr\u00E1ch Nhi\u1EC7m !</h4>' +
-            '<p>D\u1EEF li\u1EC7u ch\u1EC9 mang t\u00EDnh ch\u1EA5t tham kh\u1EA3o, <strong>kh\u00F4ng khuy\u1EBFn ngh\u1ECB \u0111\u1EA7u t\u01B0</strong>.<br>Ng\u01B0\u1EDDi d\u00F9ng ch\u1ECBu ho\u00E0n to\u00E0n tr\u00E1ch nhi\u1EC7m tr\u01B0\u1EDBc c\u00E1c quy\u1EBFt \u0111\u1ECBnh \u0111\u1EA7u t\u01B0 c\u1EE7a m\u00ECnh.</p>';
-
-        // Signal data
-        var VIP = [
-            {type:'ban',title:'B\u00C1N 100% ANV 24',d:[
-                ['\uD83D\uDCCA','C\u00F2n l\u1EA1i (%):','50%',''],
-                ['\uD83D\uDCCA','Gi\u00E1 mua TB:','20',''],
-                ['\uD83D\uDCCA','L\u00E3i / L\u1ED7 (%):','+20% (TEST TH\u1EEC)','#34d399']
-            ],t:'21:54:18',dt:'04-05-2026'},
-            {type:'ban',title:'B\u00C1N HHV 18',d:[
-                ['\uD83D\uDCCA','C\u00F2n l\u1EA1i (%):','0%',''],
-                ['\uD83D\uDCCA','Gi\u00E1 mua TB:','15',''],
-                ['\uD83D\uDCCA','L\u00E3i / L\u1ED7 (%):','+8% (TEST M\u00D4 PH\u1ECENG)','#34d399']
-            ],t:'21:53:36',dt:'04-05-2026'},
-            {type:'mua',title:'MUA GVR 34.55',d:[
-                ['\uD83D\uDCCA','T\u1EC9 tr\u1ECDng:','20% NAV',''],
-                ['\uD83D\uDCCD','M\u1EE5c ti\u00EAu:','38 - 42',''],
-                ['\uD83D\uDEE1\uFE0F','D\u1EEBng l\u1ED7:','32.7 (TEST M\u00D4 PH\u1ECENG WEB)','#f87171']
-            ],t:'21:52:59',dt:'04-05-2026'},
-            {type:'mua',title:'MUA CEO 17.9',d:[
-                ['\uD83D\uDCCA','T\u1EC9 tr\u1ECDng:','20%',''],
-                ['\uD83D\uDCCD','M\u1EE5c ti\u00EAu:','20 - 22 - 24',''],
-                ['\uD83D\uDEE1\uFE0F','D\u1EEBng l\u1ED7:','17.2 (TEST M\u00D4 PH\u1ECENG WEB)','#f87171']
-            ],t:'21:52:14',dt:'04-05-2026'}
-        ];
-
-        var PRO = [
-            {type:'mua',title:'MUA FPT 132',d:[
-                ['\uD83D\uDCCA','T\u1EC9 tr\u1ECDng:','15% NAV',''],
-                ['\uD83D\uDCCD','M\u1EE5c ti\u00EAu:','145 - 155',''],
-                ['\uD83D\uDEE1\uFE0F','D\u1EEBng l\u1ED7:','126.5','#f87171']
-            ],t:'09:15:42',dt:'05-05-2026'},
-            {type:'ban',title:'B\u00C1N 50% HPG 32.5',d:[
-                ['\uD83D\uDCCA','C\u00F2n l\u1EA1i (%):','50%',''],
-                ['\uD83D\uDCCA','Gi\u00E1 mua TB:','28.5',''],
-                ['\uD83D\uDCCA','L\u00E3i / L\u1ED7 (%):','+14%','#34d399']
-            ],t:'14:30:05',dt:'04-05-2026'},
-            {type:'mua',title:'MUA VCB 92',d:[
-                ['\uD83D\uDCCA','T\u1EC9 tr\u1ECDng:','10% NAV',''],
-                ['\uD83D\uDCCD','M\u1EE5c ti\u00EAu:','100 - 108',''],
-                ['\uD83D\uDEE1\uFE0F','D\u1EEBng l\u1ED7:','88','#f87171']
-            ],t:'10:22:18',dt:'04-05-2026'}
-        ];
-
-        function card(s){
-            var cls = s.type==='mua' ? 'type-mua' : 'type-ban';
-            var act = s.type==='mua' ? 'MUA' : 'B\u00C1N';
-            var rows = s.d.map(function(r){
-                var vs = r[3] ? ' style="color:'+r[3]+'"' : '';
-                return '<div class="signal-detail-row"><span class="detail-icon">'+r[0]+'</span><span class="detail-label">'+r[1]+'</span><strong'+vs+'>'+r[2]+'</strong></div>';
-            }).join('');
-            return '<div class="signal-card '+cls+'">'+
-                '<div class="signal-action">'+act+'</div>'+
-                '<div class="signal-body"><div class="signal-title">'+s.title+'</div><div class="signal-details">'+rows+'</div></div>'+
-                '<div class="signal-time"><span class="time-icon">\uD83D\uDD50</span><span class="time-label">Th\u1EDDi gian</span><span class="time-value">'+s.t+'<br>'+s.dt+'</span></div>'+
-            '</div>';
-        }
-
-        document.getElementById('signalVip').innerHTML = VIP.map(card).join('');
-        document.getElementById('signalPro').innerHTML = PRO.map(card).join('');
+        document.getElementById('navMenu').innerHTML = html;
     })();
     </script>
 </body>
