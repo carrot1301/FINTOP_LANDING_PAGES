@@ -330,12 +330,13 @@
 
         /* === DARK DATA TABLE === */
         .dark-table-wrapper {
-            max-width: 1300px;
+            max-width: 1400px;
+            width: 100%;
             margin: 0 auto;
             border-radius: 16px;
             border: 1px solid rgba(168, 85, 247, 0.2);
-            overflow-x: auto;
-            overflow-y: hidden;
+            overflow-x: visible;
+            overflow-y: visible;
             background: rgba(15, 15, 25, 0.6);
             backdrop-filter: blur(12px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
@@ -370,22 +371,24 @@
         }
 
         .dark-table th {
-            padding: 14px 16px;
+            padding: 12px 10px;
             text-align: left;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 700;
             color: #c084fc;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.04em;
             border-bottom: 1px solid rgba(168, 85, 247, 0.2);
-            white-space: nowrap;
+            white-space: normal;
+            vertical-align: middle;
         }
 
         .dark-table td {
-            padding: 12px 16px;
-            font-size: 0.88rem;
+            padding: 12px 10px;
+            font-size: 0.85rem;
             color: #e2e8f0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            vertical-align: middle;
         }
 
         .dark-table tbody tr {
@@ -2185,8 +2188,8 @@
                     <a href="javascript:void(0)" data-panel="panel-boloc" onclick="openPanel('panel-boloc', this)">🔍 Bộ
                         lọc cổ phiếu</a>
                     <a href="javascript:void(0)" data-panel="panel-tinhieu"
-                        onclick="openPanel('panel-tinhieu', this)">📡 Tín hiệu chuyên gia</a>
-                    <a href="fintop-data/danh-muc/index.html">📋 Danh mục chuyên gia</a>
+                        onclick="openPanel('panel-tinhieu', this)">📡 Copy Trade Chuyên gia</a>
+                    <a href="fintop-ai/index.html">🤖 FinTop AI</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -2198,7 +2201,7 @@
                     <a href="#">PTĐT Ngành</a>
                 </div>
             </li>
-            <li class="nav-item"><a href="fintop-ai/index.html">FinTop AI</a></li>
+
             <li class="nav-item dropdown">
                 <a href="stock-data/index.html">Stock Data <span style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
@@ -2417,8 +2420,8 @@
     <div class="submenu-panel" id="panel-tinhieu">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">📡 Tín Hiệu Chuyên Gia</h2>
-            <p>Tín hiệu chuyên gia — Cập nhật liên tục theo phiên giao dịch
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">📡 Copy Trade Chuyên gia</h2>
+            <p>Copy Trade Chuyên gia — Cập nhật liên tục theo phiên giao dịch
             </p>
         </div>
 
@@ -2442,7 +2445,7 @@
         <div style="max-width: 1300px; margin: 0 auto 1rem;">
             <div
                 style="font-size: 1.1rem; font-weight: 800; color: #c084fc; margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(168,85,247,0.2); display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.05em;">
-                <span style="font-size: 1.3rem;">📡</span> Tín Hiệu Chuyên Gia
+                <span style="font-size: 1.3rem;">📡</span> Copy Trade Chuyên gia
                 <span
                     style="background: rgba(168,85,247,0.15); color: #c084fc; font-size: 0.7rem; padding: 3px 10px; border-radius: 999px; font-weight: 700; margin-left: auto;"
                     id="signalCountBadge">0 tín hiệu</span>
