@@ -2259,6 +2259,36 @@
             </div>
         </div>
 
+        <!-- BIỂU ĐỒ FIREANT CỔ PHIẾU -->
+        <div id="tracuu-stock-chart" style="max-width: 1300px; margin: 1.5rem auto 0;">
+            <div class="chart-header-row">
+                <h3>
+                    <span style="font-size: 1.2rem;">📈</span>
+                    <span id="tracuu-chart-title">Biểu Đồ Giá</span>
+                </h3>
+                <div class="chart-toggle-group">
+                    <span class="chart-toggle-label active" id="tracuu-label-gia">Giá</span>
+                    <div class="chart-toggle-switch" id="tracuu-chart-toggle" onclick="toggleChartMode('tracuu')"></div>
+                    <span class="chart-toggle-label" id="tracuu-label-ptkt">PTKT</span>
+                </div>
+            </div>
+            <div
+                style="border-radius: 14px; padding: 3px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.6)); box-shadow: 0 0 20px rgba(168, 85, 247, 0.2), 0 0 40px rgba(168, 85, 247, 0.08); animation: chartNeonPulse 3s ease-in-out infinite;">
+                <div id="fireant-tracuu-chart-container"
+                    style="border-radius: 12px; overflow: hidden; height: 500px; background: #131722;">
+                    <!-- Bắt Đầu Tiện Ích FireAnt -->
+                    <div class="fireant-widget-container" style="height:100%;width:100%">
+                        <div id="fireant_tracuu_chart_host" class="fireant-chart-host" style="height:100%;width:100%">
+                        </div>
+                    </div>
+                    <!-- Kết Thúc Tiện Ích FireAnt -->
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 0.5rem; font-size: 0.72rem; color: #475569;">
+                Biểu đồ cung cấp bởi FireAnt • Tra cứu hoặc nhấn vào mã CP trong bảng để thay đổi biểu đồ
+            </p>
+        </div>
+
         <!-- BIỂU ĐỒ MẶC ĐỊNH: CHỈ SỐ THỊ TRƯỜNG -->
         <div id="tracuu-default-markets" style="max-width: 1300px; margin: 1.5rem auto 0;">
             <div class="chart-header-row">
@@ -2285,36 +2315,6 @@
             </div>
             <p style="text-align: center; margin-top: 0.5rem; font-size: 0.72rem; color: #475569;">
                 Chỉ số thị trường cung cấp bởi FireAnt • Nhập mã cổ phiếu để xem biểu đồ giá chi tiết
-            </p>
-        </div>
-
-        <!-- BIỂU ĐỒ FIREANT CỔ PHIẾU (ẩn mặc định, hiện khi tra cứu) -->
-        <div id="tracuu-stock-chart" style="max-width: 1300px; margin: 1.5rem auto 0; display: none;">
-            <div class="chart-header-row">
-                <h3>
-                    <span style="font-size: 1.2rem;">📈</span>
-                    <span id="tracuu-chart-title">Biểu Đồ Giá</span>
-                </h3>
-                <div class="chart-toggle-group">
-                    <span class="chart-toggle-label active" id="tracuu-label-gia">Giá</span>
-                    <div class="chart-toggle-switch" id="tracuu-chart-toggle" onclick="toggleChartMode('tracuu')"></div>
-                    <span class="chart-toggle-label" id="tracuu-label-ptkt">PTKT</span>
-                </div>
-            </div>
-            <div
-                style="border-radius: 14px; padding: 3px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.6)); box-shadow: 0 0 20px rgba(168, 85, 247, 0.2), 0 0 40px rgba(168, 85, 247, 0.08); animation: chartNeonPulse 3s ease-in-out infinite;">
-                <div id="fireant-tracuu-chart-container"
-                    style="border-radius: 12px; overflow: hidden; height: 500px; background: #131722;">
-                    <!-- Bắt Đầu Tiện Ích FireAnt -->
-                    <div class="fireant-widget-container" style="height:100%;width:100%">
-                        <div id="fireant_tracuu_chart_host" class="fireant-chart-host" style="height:100%;width:100%">
-                        </div>
-                    </div>
-                    <!-- Kết Thúc Tiện Ích FireAnt -->
-                </div>
-            </div>
-            <p style="text-align: center; margin-top: 0.5rem; font-size: 0.72rem; color: #475569;">
-                Biểu đồ cung cấp bởi FireAnt • Tra cứu hoặc nhấn vào mã CP trong bảng để thay đổi biểu đồ
             </p>
         </div>
     </div>
@@ -3367,13 +3367,7 @@
                 return;
             }
 
-            // Nếu là tracuu và có ticker thực, ẩn MarketsWidget mặc định, hiện biểu đồ cổ phiếu
-            if (chartTarget === 'tracuu') {
-                const defaultMarkets = document.getElementById('tracuu-default-markets');
-                const stockChart = document.getElementById('tracuu-stock-chart');
-                if (defaultMarkets) defaultMarkets.style.display = 'none';
-                if (stockChart) stockChart.style.display = 'block';
-            }
+            // Đã xóa phần ẩn MarketsWidget, cho phép hiển thị cả hai
 
             showChartMessage(`Đang tải biểu đồ ${normalizedTicker}...`, chartTarget);
 
@@ -3480,21 +3474,17 @@
             originalOpenPanel(panelId, clickedLink);
             if (panelId === 'panel-tracuu') {
                 setTimeout(() => {
-                    if (searchedTickers.length === 0) {
-                        // Chưa có mã cổ phiếu nào => hiển thị MarketsWidget mặc định
-                        const defaultMarkets = document.getElementById('tracuu-default-markets');
-                        const stockChart = document.getElementById('tracuu-stock-chart');
-                        if (defaultMarkets) defaultMarkets.style.display = 'block';
-                        if (stockChart) stockChart.style.display = 'none';
-                        renderMarketsWidget();
-                    } else if (!currentChartTicker.tracuu) {
+                    renderMarketsWidget();
+                    if (searchedTickers.length === 0 && !currentChartTicker.tracuu) {
+                        loadChart('FPT', 'tracuu');
+                    } else if (!currentChartTicker.tracuu && searchedTickers.length > 0) {
                         loadChart(searchedTickers[searchedTickers.length - 1], 'tracuu');
                     }
                 }, 500);
             }
             if (panelId === 'panel-boloc') {
                 setTimeout(() => {
-                    if (!currentChartTicker.boloc) loadChart('VN30', 'boloc');
+                    if (!currentChartTicker.boloc) loadChart('FPT', 'boloc');
                 }, 500);
             }
         };
