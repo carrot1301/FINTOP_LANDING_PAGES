@@ -2399,6 +2399,35 @@
             </p>
         </div>
 
+        <!-- BIỂU ĐỒ MẶC ĐỊNH: CHỈ SỐ THỊ TRƯỜNG CHO BỘ LỌC -->
+        <div id="boloc-default-markets" style="max-width: 1300px; margin: 1.5rem auto 0;">
+            <div class="chart-header-row">
+                <h3>
+                    <span style="font-size: 1.2rem;">📊</span>
+                    <span>Tổng Quan Thị Trường</span>
+                </h3>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(99,102,241,0.12)); color: #c084fc; font-size: 0.78rem; font-weight: 800; padding: 5px 14px; border-radius: 999px; border: 1px solid rgba(168,85,247,0.35); letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
+                        <span style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; display: inline-block;"></span>
+                        VN-INDEX • VN30 • HNX
+                    </span>
+                </div>
+            </div>
+            <div
+                style="border-radius: 14px; padding: 3px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.6)); box-shadow: 0 0 20px rgba(168, 85, 247, 0.2), 0 0 40px rgba(168, 85, 247, 0.08); animation: chartNeonPulse 3s ease-in-out infinite;">
+                <div
+                    style="border-radius: 12px; overflow: hidden; min-height: 500px; background: #131722; position: relative;">
+                    <div class="fireant-widget-container" style="height:100%;width:100%">
+                        <div id="fireant_boloc_markets_host" class="fireant-chart-host" style="height:100%;width:100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 0.5rem; font-size: 0.72rem; color: #475569;">
+                Chỉ số thị trường cung cấp bởi FireAnt • Nhấn vào mã cổ phiếu để xem biểu đồ giá chi tiết
+            </p>
+        </div>
+
         <!-- MIỄN TRỪ TRÁCH NHIỆM -->
         <div
             style="max-width: 1300px; margin: 1.5rem auto 0; padding: 1.2rem 2rem; border-radius: 12px; background: rgba(248, 113, 113, 0.06); border: 1px solid rgba(248, 113, 113, 0.2); text-align: center;">
@@ -3391,30 +3420,36 @@
 
         function renderMarketsWidget() {
             if (marketsWidgetRendered) return;
-            const container = document.getElementById('fireant_tracuu_markets_host');
-            if (!container) return;
+            const container1 = document.getElementById('fireant_tracuu_markets_host');
+            const container2 = document.getElementById('fireant_boloc_markets_host');
+            if (!container1 && !container2) return;
 
             loadFireAntScript(() => {
                 if (!window.FireAnt || typeof window.FireAnt.MarketsWidget !== 'function') {
-                    container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#94a3b8;font-size:0.9rem;text-align:center;padding:1rem;">Không tải được widget thị trường. Vui lòng thử lại sau.</div>';
+                    const errorMsg = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#94a3b8;font-size:0.9rem;text-align:center;padding:1rem;">Không tải được widget thị trường. Vui lòng thử lại sau.</div>';
+                    if (container1) container1.innerHTML = errorMsg;
+                    if (container2) container2.innerHTML = errorMsg;
                     return;
                 }
 
-                container.innerHTML = '';
-                const widgetId = `fireant_markets_${Date.now()}`;
-                const placeholder = document.createElement('div');
-                placeholder.id = widgetId;
-                placeholder.style.cssText = 'height:100%;width:100%;';
-                container.appendChild(placeholder);
+                [container1, container2].forEach((container, idx) => {
+                    if (!container) return;
+                    container.innerHTML = '';
+                    const widgetId = `fireant_markets_${Date.now()}_${idx}`;
+                    const placeholder = document.createElement('div');
+                    placeholder.id = widgetId;
+                    placeholder.style.cssText = 'height:100%;width:100%;';
+                    container.appendChild(placeholder);
 
-                new window.FireAnt.MarketsWidget({
-                    container_id: widgetId,
-                    locale: 'vi',
-                    price_line_color: '#c084fc',
-                    grid_color: '#999999',
-                    label_color: '#999999',
-                    width: '100%',
-                    height: '350px'
+                    new window.FireAnt.MarketsWidget({
+                        container_id: widgetId,
+                        locale: 'vi',
+                        price_line_color: '#c084fc',
+                        grid_color: '#999999',
+                        label_color: '#999999',
+                        width: '100%',
+                        height: '350px'
+                    });
                 });
 
                 marketsWidgetRendered = true;
@@ -3484,6 +3519,7 @@
             }
             if (panelId === 'panel-boloc') {
                 setTimeout(() => {
+                    renderMarketsWidget();
                     if (!currentChartTicker.boloc) loadChart('FPT', 'boloc');
                 }, 500);
             }
