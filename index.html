@@ -1627,45 +1627,140 @@
         /* === PHẦN ĐỘI NGŨ === */
         .team-section {
             position: relative;
-            padding: 8rem 5%;
+            padding: 6rem 5% 8rem;
             text-align: center;
             background: rgba(10, 10, 15, 0.6);
             backdrop-filter: blur(10px);
             z-index: 5;
         }
 
-        .team-row {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 3rem;
+        /* === CIRCULAR ORBIT LAYOUT === */
+        .team-circle-container {
+            position: relative;
+            width: 720px;
+            height: 720px;
+            margin: 4rem auto 0;
         }
 
-        .team-row-1 {
-            margin-top: 4rem;
+        /* Decorative orbit ring */
+        .team-orbit-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 580px;
+            height: 580px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1px solid rgba(168, 85, 247, 0.12);
+            pointer-events: none;
         }
 
+        .team-orbit-ring::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 50%;
+            border: 1px dashed rgba(168, 85, 247, 0.08);
+            animation: orbitSpin 60s linear infinite;
+        }
+
+        @keyframes orbitSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Center glow decoration */
+        .team-center-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 180px;
+            height: 180px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            animation: centerPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes centerPulse {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+        }
+
+        /* Each member positioned on the circle */
         .team-member {
+            position: absolute;
             display: flex;
             flex-direction: column;
             align-items: center;
-            max-width: 260px;
+            width: 200px;
             text-align: center;
-            transition: transform 0.4s ease;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+            /* Centered at orbit point, then offset by half width/height */
+            transform: translate(-50%, -50%);
         }
 
         .team-member:hover {
-            transform: translateY(-8px);
+            transform: translate(-50%, -50%) scale(1.08);
+            z-index: 10;
+            filter: brightness(1.1);
+        }
+
+        /* Position each member on the circle: 5 members, CEO at top */
+        /* nth-child offset by 2 (orbit-ring=1, center-glow=2) */
+        /* Circle radius ~290px, center = (360, 360) */
+        .team-member:nth-child(3) {
+            /* CEO - Top center */
+            top: 70px;
+            left: 360px;
+        }
+        .team-member:nth-child(4) {
+            /* Right-upper */
+            top: 195px;
+            left: 636px;
+        }
+        .team-member:nth-child(5) {
+            /* Right-lower */
+            top: 520px;
+            left: 570px;
+        }
+        .team-member:nth-child(6) {
+            /* Left-lower */
+            top: 520px;
+            left: 150px;
+        }
+        .team-member:nth-child(7) {
+            /* Left-upper */
+            top: 195px;
+            left: 84px;
+        }
+
+        /* Connector lines from center to members */
+        .team-circle-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: rgba(168, 85, 247, 0.4);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow:
+                0 0 30px 10px rgba(168, 85, 247, 0.06),
+                0 0 60px 20px rgba(168, 85, 247, 0.03);
         }
 
         .team-avatar-wrapper {
-            width: 140px;
-            height: 140px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            padding: 4px;
-            margin-bottom: 1.2rem;
+            padding: 3px;
+            margin-bottom: 0.8rem;
             transition: all 0.4s ease;
             position: relative;
+            flex-shrink: 0;
         }
 
         .team-avatar-wrapper::before {
@@ -1763,30 +1858,71 @@
 
         .team-name {
             color: #fff;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 700;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
+            white-space: nowrap;
         }
 
         .team-role {
             color: #c084fc;
-            font-size: 0.9rem;
+            font-size: 0.78rem;
             font-weight: 600;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
             font-style: italic;
+            white-space: nowrap;
         }
 
         .team-desc {
             color: #94A3B8;
-            font-size: 0.85rem;
-            line-height: 1.5;
+            font-size: 0.72rem;
+            line-height: 1.4;
         }
 
-        @media (max-width: 768px) {
-            .team-row {
+        /* Responsive: stack vertically on mobile */
+        @media (max-width: 900px) {
+            .team-circle-container {
+                width: 100%;
+                height: auto;
+                display: flex;
                 flex-direction: column;
                 align-items: center;
                 gap: 2.5rem;
+                padding: 2rem 0;
+            }
+
+            .team-orbit-ring,
+            .team-center-glow,
+            .team-circle-container::before {
+                display: none;
+            }
+
+            .team-member {
+                position: static !important;
+                transform: none !important;
+                width: auto;
+                max-width: 280px;
+            }
+
+            .team-member:hover {
+                transform: translateY(-8px) !important;
+            }
+
+            .team-avatar-wrapper {
+                width: 120px;
+                height: 120px;
+            }
+
+            .team-name {
+                font-size: 1rem;
+            }
+
+            .team-role {
+                font-size: 0.85rem;
+            }
+
+            .team-desc {
+                font-size: 0.8rem;
             }
         }
 
@@ -2211,7 +2347,15 @@
                     <a href="#">Báo cáo</a>
                 </div>
             </li>
-            <li class="nav-item"><a href="huong-dan/index.html">Hướng dẫn</a></li>
+            <li class="nav-item dropdown" id="dropdown-huongdan">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content" id="dc-huongdan">
+                    <a href="huong-dan/index.html">📖 Giao dịch & Đầu tư</a>
+                    <a href="huong-dan/index.html">📈 Phân tích kỹ thuật (TA)</a>
+                    <a href="huong-dan/index.html">📊 Phân tích cơ bản (FA)</a>
+                    <a href="huong-dan/index.html">📚 Tủ sách đầu tư</a>
+                </div>
+            </li>
         </ul>
         <div class="tv-right">
             <span class="icon-link">🌐 VI</span>
@@ -2297,8 +2441,10 @@
                     <span>Tổng Quan Thị Trường</span>
                 </h3>
                 <div style="display: flex; align-items: center; gap: 10px;">
-                    <span style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(99,102,241,0.12)); color: #c084fc; font-size: 0.78rem; font-weight: 800; padding: 5px 14px; border-radius: 999px; border: 1px solid rgba(168,85,247,0.35); letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
-                        <span style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; display: inline-block;"></span>
+                    <span
+                        style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(99,102,241,0.12)); color: #c084fc; font-size: 0.78rem; font-weight: 800; padding: 5px 14px; border-radius: 999px; border: 1px solid rgba(168,85,247,0.35); letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
+                        <span
+                            style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; display: inline-block;"></span>
                         VN-INDEX • VN30 • HNX
                     </span>
                 </div>
@@ -2407,8 +2553,10 @@
                     <span>Tổng Quan Thị Trường</span>
                 </h3>
                 <div style="display: flex; align-items: center; gap: 10px;">
-                    <span style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(99,102,241,0.12)); color: #c084fc; font-size: 0.78rem; font-weight: 800; padding: 5px 14px; border-radius: 999px; border: 1px solid rgba(168,85,247,0.35); letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
-                        <span style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; display: inline-block;"></span>
+                    <span
+                        style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(99,102,241,0.12)); color: #c084fc; font-size: 0.78rem; font-weight: 800; padding: 5px 14px; border-radius: 999px; border: 1px solid rgba(168,85,247,0.35); letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
+                        <span
+                            style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; display: inline-block;"></span>
                         VN-INDEX • VN30 • HNX
                     </span>
                 </div>
@@ -2462,11 +2610,18 @@
                 <span style="font-size: 1.2rem;">✨</span> Thực Hiện Bởi Chuyên Gia VPS
             </h4>
             <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.8; margin-bottom: 0.8rem;">
-                <span style="color: #c084fc;">✦</span> Dành cho Khách hàng VPS, mở TK và giao dịch chứng khoán tại VPS (<strong style="color: #22c55e;">MIỄN PHÍ</strong>)!<br>
-                <span style="color: #c084fc;">✦</span> Chuyên mục hợp tác cùng <strong style="color: #c084fc;">Chuyên gia VPS</strong> trên nền tảng Công nghệ &amp; Dữ liệu <strong style="color: #c084fc;">FinTop DATA</strong> và Đối tác chiến lược <strong style="color: #c084fc;">VPS Partner</strong> - FINTOP ID BOJE (HĐ No. ......)
+                <span style="color: #c084fc;">✦</span> Dành cho Khách hàng VPS, mở TK và giao dịch chứng khoán tại VPS
+                (<strong style="color: #22c55e;">MIỄN PHÍ</strong>)!<br>
+                <span style="color: #c084fc;">✦</span> Chuyên mục hợp tác cùng <strong style="color: #c084fc;">Chuyên
+                    gia VPS</strong> trên nền tảng Công nghệ &amp; Dữ liệu <strong style="color: #c084fc;">FinTop
+                    DATA</strong> và Đối tác chiến lược <strong style="color: #c084fc;">VPS Partner</strong> - FINTOP ID
+                BOJE (HĐ No. ......)
             </p>
             <p style="color: #94A3B8; font-size: 0.84rem; line-height: 1.7; font-style: italic;">
-                → Mô hình (Model) của Chuyên gia sử dụng các Indicators (MA, Bollinger Band - Kênh xu hướng, RSI, Nến, ...) trên khung thời gian lớn để xác lập xu hướng <strong style="color: #c084fc;">"DÀI HẠN"</strong> và các Indicators trên khung thời gian nhỏ để nhận diện xu hướng và các biến động <strong style="color: #f87171;">"NGẮN HẠN"</strong>.
+                → Mô hình (Model) của Chuyên gia sử dụng các Indicators (MA, Bollinger Band - Kênh xu hướng, RSI, Nến,
+                ...) trên khung thời gian lớn để xác lập xu hướng <strong style="color: #c084fc;">"DÀI HẠN"</strong> và
+                các Indicators trên khung thời gian nhỏ để nhận diện xu hướng và các biến động <strong
+                    style="color: #f87171;">"NGẮN HẠN"</strong>.
             </p>
         </div>
 
@@ -2545,26 +2700,29 @@
             <div class="panels-container">
                 <div class="panel">
                     <h3 style="color:var(--text-primary); margin-bottom:1rem;">DATA</h3>
-                    <ul style="color: var(--text-secondary); line-height: 2;">
+                    <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
                         <li>✓ Tra cứu Cổ phiếu</li>
-                        <li>✓ Bộ lọc Tín hiệu</li>
-                        <li>✓ Stock Data API</li>
+                        <li>✓ Bộ lọc Cổ phiếu</li>
+                        <li>✓ Phân tích định lượng</li>
+                        <li>✓ Stock Data</li>
                     </ul>
                 </div>
                 <div class="panel">
                     <h3 style="color:var(--text-primary); margin-bottom:1rem;">CHUYÊN GIA</h3>
-                    <ul style="color: var(--text-secondary); line-height: 2;">
-                        <li>✓ Nhận định Tín hiệu</li>
-                        <li>✓ Danh mục Khuyến nghị</li>
-                        <li>✓ Cố vấn 1-1</li>
+                    <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
+                        <li>✓ Phân tích thị trường</li>
+                        <li>✓ Phân tích chuyên sâu</li>
+                        <li>✓ Phân tích cổ phiếu</li>
+                        <li>✓ Phân tích ngành</li>
                     </ul>
                 </div>
                 <div class="panel">
                     <h3 style="color:var(--text-primary); margin-bottom:1rem;">AI PHÂN TÍCH</h3>
-                    <ul style="color: var(--text-secondary); line-height: 2;">
+                    <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
                         <li>✓ Công cụ FinTop AI</li>
-                        <li>✓ Tự động hóa điểm mua/bán</li>
                         <li>✓ Phân tích Sentiment</li>
+                        <li>✓ Quản trị danh mục</li>
+                        <li>✓ Phân tích QTRR</li>
                     </ul>
                 </div>
             </div>
@@ -2576,8 +2734,8 @@
     <section class="product-showcase">
         <div class="showcase-header">
             <h2 class="gradient-text">Hệ Sinh Thái Phân Tích Đầu Tư Đỉnh Cao</h2>
-            <p>Đồng hành cùng hàng nghìn nhà đầu tư Việt Nam làm chủ dòng tiền thông minh bằng bộ công cụ dữ liệu chuẩn
-                quốc tế.</p>
+            <p>Đồng hành trên +10,000 nhà đầu tư tại Việt Nam làm chủ dòng tiền đầu tư thông minh bằng bộ công cụ dữ
+                liệu tiêu chuẩn quốc tế.</p>
         </div>
         <div class="showcase-mockup-wrapper">
             <img src="assets/images/fintop_terminal_mockup.png" alt="FinTop DATA Terminal Dashboard" class="mockup-img">
@@ -2613,7 +2771,7 @@
                 <div class="pricing-subtitle" style="color: #7dd3fc;">(Tiêu chuẩn)</div>
                 <ul class="pricing-features">
                     <li><span class="check-icon">✦</span> Tra cứu CP</li>
-                    <li><span class="check-icon">✦</span> Báo cáo phân tích</li>
+                    <li><span class="check-icon">✦</span> Phân tích cơ bản</li>
                     <li><span class="check-icon">✦</span> Tool & Dữ liệu cơ bản</li>
                 </ul>
                 <button class="btn-tier">Đăng ký</button>
@@ -2636,9 +2794,9 @@
                 <div class="pricing-title">V.I.P</div>
                 <div class="pricing-subtitle" style="color: #6ee7b7;">(Cao cấp)</div>
                 <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Tín Hiệu CG</li>
-                    <li><span class="check-icon">✦</span> Danh Mục CG</li>
-                    <li><span class="check-icon">✦</span> Pro Analysis</li>
+                    <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
+                    <li><span class="check-icon">✦</span> Kết nối Chuyên gia</li>
+                    <li><span class="check-icon">✦</span> Phân tích Chuyên gia</li>
                 </ul>
                 <button class="btn-tier">Đăng ký</button>
             </div>
@@ -2650,7 +2808,7 @@
                 <ul class="pricing-features">
                     <li><span class="check-icon">✦</span> Đặc quyền V.I.P</li>
                     <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
-                    <li><span class="check-icon">✦</span> Cố vấn 1-1</li>
+                    <li><span class="check-icon">✦</span> Cố vấn 1-1 Chuyên gia</li>
                 </ul>
                 <button class="btn-tier">Đăng ký</button>
             </div>
@@ -2665,55 +2823,60 @@
             Hợp tác độc quyền cùng Chuyên gia VPS trên nền tảng Công nghệ & Dữ liệu FinTop DATA
         </p>
 
-        <!-- Hàng 1: CEO -->
-        <div class="team-row team-row-1">
+        <!-- Vòng tròn chuyên gia -->
+        <div class="team-circle-container">
+            <!-- Decorative elements -->
+            <div class="team-orbit-ring"></div>
+            <div class="team-center-glow"></div>
+
+            <!-- 1. CEO - Đỉnh vòng tròn -->
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-gold">
                     <img src="assets/images/anh_Hai.png" alt="Nguyễn Đình Hải" class="team-avatar">
                 </div>
-                <h3 class="team-name">Nguyễn Đình Hải</h3>
-                <p class="team-role">Founder & CEO FinTop Ltd.</p>
-                <p class="team-desc">Chuyên gia Phân tích Chiến lược & QTRR.</p>
+                <h3 class="team-name">Nguyễn Đình Hải (Mr)</h3>
+                <p class="team-role">Giám đốc Tư vấn đầu tư VPS</p>
+                <p class="team-desc">CG Phân tích chiến lược & QTRR<br>(VPS ID: 6061)</p>
             </div>
-        </div>
 
-        <!-- Hàng 2: 2 thành viên -->
-        <div class="team-row team-row-2">
+            <!-- 2. Phải trên -->
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-cyan">
                     <img src="assets/images/anh_Linh.png" alt="Trần Khánh Linh" class="team-avatar">
                 </div>
-                <h3 class="team-name">Trần Khánh Linh</h3>
-                <p class="team-role">Co-Founder FinTop, Dữ liệu FinTop.Data</p>
-                <p class="team-desc">Chuyên gia NC&PT Thị trường chứng khoán.</p>
+                <h3 class="team-name">Trần Khánh Linh (Mr)</h3>
+                <p class="team-role">CG Tư vấn đầu tư VPS</p>
+                <p class="team-desc">CG Phân tích CP Ngành đầu tư<br>(VPS ID: 8043)</p>
             </div>
+
+            <!-- 3. Phải dưới -->
+            <div class="team-member">
+                <div class="team-avatar-wrapper avatar-green">
+                    <img src="assets/images/anh_Phuc.png" alt="Nguyễn Thành Phúc" class="team-avatar" onerror="this.src='assets/images/placeholder.png'">
+                </div>
+                <h3 class="team-name">Nguyễn Thành Phúc (Mr)</h3>
+                <p class="team-role">CG Tư vấn đầu tư VPS</p>
+                <p class="team-desc">CG Phân tích CP Doanh nghiệp<br>(VPS ID: BF14)</p>
+            </div>
+
+            <!-- 4. Trái dưới -->
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-pink">
                     <img src="assets/images/chi_Hanh.png" alt="Nguyễn Minh Hạnh" class="team-avatar">
                 </div>
-                <h3 class="team-name">Nguyễn Minh Hạnh</h3>
-                <p class="team-role">Chuyên gia Phân tích Ngành - Vĩ mô FinTop</p>
-                <p class="team-desc">Thạc sĩ Kinh tế chiến lược (FSU JENA, Đức).</p>
+                <h3 class="team-name">Nguyễn Minh Hạnh (Ms)</h3>
+                <p class="team-role">CG NC&amp;PT Ngành - Vĩ mô</p>
+                <p class="team-desc">ThS Kinh tế chiến lược (FSU JENA, Đức)<br>(VPS ID: 5654)</p>
             </div>
-        </div>
 
-        <!-- Hàng 3: 2 thành viên -->
-        <div class="team-row team-row-2">
-            <div class="team-member">
-                <div class="team-avatar-wrapper avatar-green">
-                    <img src="assets/images/anh_Tu.png" alt="Trần Thiện Tú" class="team-avatar">
-                </div>
-                <h3 class="team-name">Trần Thiện Tú</h3>
-                <p class="team-role">Chuyên gia NC&PT Cổ phiếu DN</p>
-                <p class="team-desc">Nghiên cứu chuyên động Ngành, Phân tích triển vọng tăng trưởng Doanh nghiệp.</p>
-            </div>
+            <!-- 5. Trái trên -->
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-purple">
                     <img src="assets/images/anh_Dung.png" alt="Mai Tiến Dũng" class="team-avatar">
                 </div>
-                <h3 class="team-name">Mai Tiến Dũng</h3>
-                <p class="team-role">Chuyên gia NC&PT Cổ phiếu DN</p>
-                <p class="team-desc">Thạc sĩ Tài chính số - FinTech (Loughborough University, London, Anh).</p>
+                <h3 class="team-name">Mai Tiến Dũng (Mr)</h3>
+                <p class="team-role">CG NC&amp;PT Doanh nghiệp</p>
+                <p class="team-desc">ThS Tài chính số - FinTech (Loughborough Uni, Anh)<br>(VPS ID: Z201)</p>
             </div>
         </div>
     </section>
