@@ -1665,8 +1665,13 @@
         }
 
         @keyframes orbitSpin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Center glow decoration */
@@ -1684,8 +1689,17 @@
         }
 
         @keyframes centerPulse {
-            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.15);
+            }
         }
 
         /* Each member positioned on the circle */
@@ -1715,21 +1729,25 @@
             top: 70px;
             left: 360px;
         }
+
         .team-member:nth-child(4) {
             /* Right-upper */
             top: 195px;
             left: 636px;
         }
+
         .team-member:nth-child(5) {
             /* Right-lower */
             top: 520px;
             left: 570px;
         }
+
         .team-member:nth-child(6) {
             /* Left-lower */
             top: 520px;
             left: 150px;
         }
+
         .team-member:nth-child(7) {
             /* Left-upper */
             top: 195px;
@@ -2329,12 +2347,12 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a href="chuyen-gia/index.html">Chuyên gia <span style="font-size: 0.7em;">▼</span></a>
+                <a href="chuyen-gia/index.html">Phân tích <span style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
                     <a href="#">Thị trường</a>
                     <a href="#">PRO analysis</a>
                     <a href="#">Doanh nghiệp</a>
-                    <a href="#">PTĐT Ngành</a>
+                    <a href="#">NCPT Ngành</a>
                 </div>
             </li>
 
@@ -2348,7 +2366,8 @@
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-huongdan">
-                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span style="font-size: 0.7em;">▼</span></a>
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span
+                        style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content" id="dc-huongdan">
                     <a href="huong-dan/index.html">📖 Giao dịch & Đầu tư</a>
                     <a href="huong-dan/index.html">📈 Phân tích kỹ thuật (TA)</a>
@@ -2852,7 +2871,8 @@
             <!-- 3. Phải dưới -->
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-green">
-                    <img src="assets/images/anh_Phuc.png" alt="Nguyễn Thành Phúc" class="team-avatar" onerror="this.src='assets/images/placeholder.png'">
+                    <img src="assets/images/anh_Phuc.png" alt="Nguyễn Thành Phúc" class="team-avatar"
+                        onerror="this.src='assets/images/placeholder.png'">
                 </div>
                 <h3 class="team-name">Nguyễn Thành Phúc (Mr)</h3>
                 <p class="team-role">CG Tư vấn đầu tư VPS</p>
