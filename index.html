@@ -993,6 +993,867 @@
             font-style: normal;
         }
 
+        /* === MARKET ANALYSIS DEMO PANEL === */
+        .market-demo-shell {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .market-featured {
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.75fr);
+            gap: 1.2rem;
+            padding: 1.4rem;
+            border-radius: 14px;
+            border: 1px solid rgba(168, 85, 247, 0.24);
+            background: linear-gradient(135deg, rgba(15, 15, 25, 0.82), rgba(31, 25, 52, 0.58));
+            box-shadow: 0 16px 44px rgba(0, 0, 0, 0.35), inset 0 0 28px rgba(168, 85, 247, 0.04);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .market-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            padding: 5px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(56, 189, 248, 0.28);
+            background: rgba(56, 189, 248, 0.08);
+            color: #38bdf8;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .market-featured-title {
+            margin: 1rem 0 0.7rem;
+            color: #fff;
+            font-size: 1.55rem;
+            line-height: 1.35;
+            text-shadow: 0 0 18px rgba(168, 85, 247, 0.28);
+        }
+
+        .market-featured-copy {
+            max-width: 760px;
+            color: #cbd5e1;
+            font-size: 0.92rem;
+            line-height: 1.8;
+        }
+
+        .market-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin: 0.8rem 0 1rem;
+            color: #64748b;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .market-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .market-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-top: 1rem;
+        }
+
+        .market-primary-link,
+        .market-detail-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 36px;
+            border-radius: 8px;
+            border: 1px solid rgba(168, 85, 247, 0.42);
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.95), rgba(124, 58, 237, 0.95));
+            color: #fff;
+            font-size: 0.82rem;
+            font-weight: 800;
+            padding: 8px 16px;
+            box-shadow: 0 8px 22px rgba(168, 85, 247, 0.22);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .market-primary-link:hover,
+        .market-detail-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(168, 85, 247, 0.34);
+        }
+
+        .market-secondary-note {
+            color: #64748b;
+            font-size: 0.78rem;
+        }
+
+        .market-snapshot {
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(8, 13, 25, 0.72);
+            padding: 1rem;
+        }
+
+        .market-snapshot h3 {
+            margin-bottom: 0.8rem;
+            color: #c084fc;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .market-index-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .market-index-tile {
+            min-height: 92px;
+            padding: 0.85rem;
+            border-radius: 10px;
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            background: rgba(15, 23, 42, 0.62);
+        }
+
+        .market-index-name {
+            color: #94a3b8;
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .market-index-value {
+            margin-top: 0.4rem;
+            color: #f8fafc;
+            font-size: 1.2rem;
+            font-weight: 900;
+        }
+
+        .market-index-change {
+            margin-top: 0.2rem;
+            font-size: 0.76rem;
+            font-weight: 800;
+        }
+
+        .market-up {
+            color: #34d399;
+        }
+
+        .market-down {
+            color: #f87171;
+        }
+
+        .market-neutral {
+            color: #fbbf24;
+        }
+
+        .market-section-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: 1.5rem 0 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.18);
+        }
+
+        .market-section-title {
+            color: #c084fc;
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .market-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .market-tab {
+            min-height: 32px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            background: rgba(15, 15, 25, 0.72);
+            color: #94a3b8;
+            font-size: 0.76rem;
+            font-weight: 800;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .market-tab:hover,
+        .market-tab.active {
+            color: #fff;
+            border-color: rgba(168, 85, 247, 0.45);
+            background: rgba(168, 85, 247, 0.14);
+        }
+
+        .market-content-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 320px;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .market-article-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .market-article-card {
+            display: grid;
+            grid-template-columns: 270px minmax(0, 1fr);
+            min-height: 176px;
+            border-radius: 12px;
+            border: 1px solid rgba(168, 85, 247, 0.18);
+            background: rgba(15, 15, 25, 0.68);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+            transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+        }
+
+        .market-article-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(168, 85, 247, 0.42);
+            background: rgba(20, 18, 34, 0.82);
+        }
+
+        .market-article-card.is-hidden {
+            display: none;
+        }
+
+        .market-thumb {
+            position: relative;
+            min-height: 176px;
+            overflow: hidden;
+            background: #111827;
+        }
+
+        .market-thumb img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.52;
+            filter: saturate(1.08) contrast(1.08);
+            transform: scale(1.02);
+        }
+
+        .market-thumb::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(8, 13, 25, 0.18), rgba(91, 33, 182, 0.58));
+        }
+
+        .market-thumb-label {
+            position: absolute;
+            left: 14px;
+            right: 14px;
+            bottom: 14px;
+            z-index: 1;
+            color: #fff;
+            font-size: 0.92rem;
+            font-weight: 900;
+            line-height: 1.35;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+        }
+
+        .market-thumb-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 1;
+            padding: 4px 9px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.74);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #c084fc;
+            font-size: 0.66rem;
+            font-weight: 900;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+
+        .market-article-body {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem 1.15rem;
+            min-width: 0;
+        }
+
+        .market-article-title {
+            margin-bottom: 0.55rem;
+            color: #f8fafc;
+            font-size: 1rem;
+            line-height: 1.45;
+            letter-spacing: 0;
+        }
+
+        .market-article-excerpt {
+            color: #94a3b8;
+            font-size: 0.84rem;
+            line-height: 1.75;
+        }
+
+        .market-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: auto;
+            padding-top: 0.9rem;
+        }
+
+        .market-tag {
+            display: inline-flex;
+            align-items: center;
+            min-height: 24px;
+            padding: 4px 9px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            color: #cbd5e1;
+            background: rgba(148, 163, 184, 0.07);
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .market-detail-link {
+            align-self: flex-start;
+            margin-top: 0.9rem;
+            min-height: 34px;
+            padding: 7px 14px;
+            font-size: 0.78rem;
+        }
+
+        .market-side-panel {
+            position: sticky;
+            top: 96px;
+            border-radius: 12px;
+            border: 1px solid rgba(168, 85, 247, 0.18);
+            background: rgba(15, 15, 25, 0.68);
+            padding: 1rem;
+        }
+
+        .market-side-panel h3 {
+            color: #c084fc;
+            font-size: 0.92rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .market-side-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .market-side-item {
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .market-side-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .market-side-time {
+            color: #64748b;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .market-side-text {
+            margin-top: 0.25rem;
+            color: #e2e8f0;
+            font-size: 0.82rem;
+            line-height: 1.55;
+        }
+
+        .market-flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 9px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        .market-flow-row:last-child {
+            border-bottom: none;
+        }
+
+        .market-flow-value {
+            color: #f8fafc;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .market-footer-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 0.9rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(168, 85, 247, 0.16);
+            background: rgba(15, 15, 25, 0.52);
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        .market-pagination {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .market-page-btn {
+            min-width: 34px;
+            min-height: 32px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            background: rgba(15, 23, 42, 0.64);
+            color: #94a3b8;
+            font-size: 0.76rem;
+            font-weight: 800;
+        }
+
+        .market-page-btn.active {
+            border-color: rgba(168, 85, 247, 0.55);
+            background: rgba(168, 85, 247, 0.24);
+            color: #fff;
+        }
+
+        .market-page-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .market-display-control {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .market-display-box {
+            min-width: 46px;
+            min-height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            background: rgba(15, 23, 42, 0.72);
+            color: #f8fafc;
+            font-weight: 800;
+        }
+
+        .analysis-dashboard-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 340px;
+            gap: 1rem;
+            align-items: start;
+            margin-top: 1rem;
+        }
+
+        .analysis-card {
+            border-radius: 12px;
+            border: 1px solid rgba(168, 85, 247, 0.18);
+            background: rgba(15, 15, 25, 0.68);
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+        }
+
+        .analysis-card h3 {
+            color: #c084fc;
+            font-size: 0.95rem;
+            margin-bottom: 0.85rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .analysis-metric-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .analysis-metric-card {
+            min-height: 98px;
+            padding: 0.9rem;
+            border-radius: 10px;
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            background: rgba(15, 23, 42, 0.62);
+        }
+
+        .analysis-metric-label {
+            color: #94a3b8;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .analysis-metric-value {
+            margin-top: 0.45rem;
+            color: #f8fafc;
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+
+        .analysis-metric-note {
+            margin-top: 0.25rem;
+            color: #64748b;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .analysis-scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .analysis-scenario-card {
+            border-radius: 10px;
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            background: rgba(15, 23, 42, 0.58);
+            padding: 0.9rem;
+        }
+
+        .analysis-scenario-card strong {
+            display: block;
+            color: #f8fafc;
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .analysis-scenario-card span {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .analysis-mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .analysis-mini-table th {
+            padding: 10px;
+            color: #c084fc;
+            background: rgba(168, 85, 247, 0.1);
+            font-size: 0.72rem;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .analysis-mini-table td {
+            padding: 11px 10px;
+            color: #e2e8f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.82rem;
+        }
+
+        .analysis-mini-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .analysis-badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 24px;
+            padding: 4px 9px;
+            border-radius: 999px;
+            border: 1px solid rgba(168, 85, 247, 0.28);
+            color: #c084fc;
+            background: rgba(168, 85, 247, 0.1);
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .analysis-badge.good {
+            color: #34d399;
+            border-color: rgba(52, 211, 153, 0.3);
+            background: rgba(52, 211, 153, 0.1);
+        }
+
+        .analysis-badge.watch {
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, 0.3);
+            background: rgba(251, 191, 36, 0.1);
+        }
+
+        .analysis-progress-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .analysis-progress-row {
+            display: grid;
+            grid-template-columns: 100px minmax(0, 1fr) 42px;
+            align-items: center;
+            gap: 10px;
+            color: #94a3b8;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .analysis-progress-bar {
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.12);
+            overflow: hidden;
+        }
+
+        .analysis-progress-bar span {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #7c3aed, #38bdf8);
+        }
+
+        .analysis-report-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 1rem;
+        }
+
+        .analysis-report-card {
+            min-height: 188px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            border-radius: 12px;
+            border: 1px solid rgba(168, 85, 247, 0.18);
+            background: rgba(15, 15, 25, 0.68);
+            padding: 1rem;
+            transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+        }
+
+        .analysis-report-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(168, 85, 247, 0.42);
+            background: rgba(20, 18, 34, 0.82);
+        }
+
+        .analysis-report-card h3 {
+            color: #f8fafc;
+            font-size: 0.98rem;
+            line-height: 1.45;
+            letter-spacing: 0;
+            text-transform: none;
+            margin: 0;
+        }
+
+        .analysis-report-card p {
+            color: #94a3b8;
+            font-size: 0.82rem;
+            line-height: 1.65;
+        }
+
+        .analysis-report-card .market-detail-link {
+            margin-top: auto;
+        }
+
+        .analysis-company-grid,
+        .analysis-sector-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .analysis-company-card,
+        .analysis-sector-card {
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            background: rgba(15, 23, 42, 0.58);
+            padding: 1rem;
+        }
+
+        .analysis-company-head,
+        .analysis-sector-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 0.9rem;
+        }
+
+        .analysis-ticker,
+        .analysis-sector-name {
+            color: #f8fafc;
+            font-size: 1.2rem;
+            font-weight: 900;
+        }
+
+        .analysis-company-name {
+            color: #94a3b8;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-top: 0.2rem;
+        }
+
+        .analysis-kv-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        .analysis-kv-row:last-child {
+            border-bottom: none;
+        }
+
+        .analysis-kv-row strong {
+            color: #f8fafc;
+            font-size: 0.82rem;
+            white-space: nowrap;
+        }
+
+        .analysis-sector-heatmap {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .analysis-heat-tile {
+            min-height: 112px;
+            border-radius: 12px;
+            padding: 0.9rem;
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            background: rgba(15, 23, 42, 0.62);
+        }
+
+        .analysis-heat-tile.leading {
+            border-color: rgba(52, 211, 153, 0.32);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.13), rgba(15, 23, 42, 0.62));
+        }
+
+        .analysis-heat-tile.watch {
+            border-color: rgba(251, 191, 36, 0.32);
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(15, 23, 42, 0.62));
+        }
+
+        .analysis-heat-tile.cool {
+            border-color: rgba(248, 113, 113, 0.28);
+            background: linear-gradient(135deg, rgba(248, 113, 113, 0.1), rgba(15, 23, 42, 0.62));
+        }
+
+        .analysis-heat-name {
+            color: #f8fafc;
+            font-size: 0.88rem;
+            font-weight: 900;
+            line-height: 1.35;
+        }
+
+        .analysis-heat-score {
+            margin-top: 0.7rem;
+            color: #c084fc;
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+
+        .analysis-heat-note {
+            margin-top: 0.2rem;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 1100px) {
+            .market-featured,
+            .market-content-grid,
+            .analysis-dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .market-side-panel {
+                position: static;
+            }
+
+            .analysis-metric-grid,
+            .analysis-sector-heatmap {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .analysis-report-grid,
+            .analysis-company-grid,
+            .analysis-sector-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 780px) {
+            .market-featured {
+                padding: 1rem;
+            }
+
+            .market-section-bar,
+            .market-footer-bar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .market-article-card {
+                grid-template-columns: 1fr;
+            }
+
+            .market-thumb {
+                aspect-ratio: 16 / 9;
+                min-height: 0;
+            }
+
+            .market-index-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analysis-metric-grid,
+            .analysis-scenario-grid,
+            .analysis-sector-heatmap {
+                grid-template-columns: 1fr;
+            }
+
+            .analysis-progress-row {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+        }
+
         @media (max-width: 768px) {
             .signal-table td {
                 padding: 6px 10px;
@@ -2346,13 +3207,18 @@
                         onclick="openPanel('panel-tinhieu', this)">📡 Copy Trade Chuyên gia</a>
                 </div>
             </li>
-            <li class="nav-item dropdown">
-                <a href="chuyen-gia/index.html">Phân tích <span style="font-size: 0.7em;">▼</span></a>
-                <div class="dropdown-content">
-                    <a href="#">Thị trường</a>
-                    <a href="#">PRO analysis</a>
-                    <a href="#">Doanh nghiệp</a>
-                    <a href="#">NCPT Ngành</a>
+            <li class="nav-item dropdown" id="dropdown-phan-tich">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Phân tích <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content" id="dc-phan-tich">
+                    <a href="javascript:void(0)" data-panel="panel-analysis-market"
+                        onclick="openPanel('panel-analysis-market', this)">Thị trường</a>
+                    <a href="javascript:void(0)" data-panel="panel-analysis-pro"
+                        onclick="openPanel('panel-analysis-pro', this)">PRO analysis</a>
+                    <a href="javascript:void(0)" data-panel="panel-analysis-company"
+                        onclick="openPanel('panel-analysis-company', this)">Doanh nghiệp</a>
+                    <a href="javascript:void(0)" data-panel="panel-analysis-sector"
+                        onclick="openPanel('panel-analysis-sector', this)">NCPT Ngành</a>
                 </div>
             </li>
 
@@ -2662,6 +3528,735 @@
             <h4><span style="font-size: 1.1rem;">⚠️</span> Miễn Trừ Trách Nhiệm !</h4>
             <p>Tín hiệu chỉ mang tính chất tham khảo, <strong>không khuyến nghị đầu tư</strong>.<br>
                 Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.</p>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PANEL: PHÂN TÍCH THỊ TRƯỜNG                 -->
+    <!-- ============================================ -->
+    <div class="submenu-panel" id="panel-analysis-market">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Phân Tích Thị Trường</h2>
+            <p>Demo chuyên mục bài viết chiến lược, dòng tiền và bối cảnh vĩ mô theo phong cách FinTop DATA.</p>
+        </div>
+
+        <div class="market-demo-shell">
+            <section class="market-featured" aria-label="Bài phân tích nổi bật">
+                <div>
+                    <span class="market-kicker">Demo chuyên mục</span>
+                    <h3 class="market-featured-title">PHÂN TÍCH THỊ TRƯỜNG 2026 | Đón đầu điểm đảo chiều dòng vốn ngoại
+                    </h3>
+                    <div class="market-meta">
+                        <span>1 tháng trước</span>
+                        <span>19:20 01/04/2026</span>
+                        <span>140 lượt xem</span>
+                    </div>
+                    <p class="market-featured-copy">
+                        Cơ hội vàng "mười năm có một" đang mở ra trước thềm thị trường chứng khoán Việt Nam chính thức
+                        nâng hạng. Chuyên mục demo mô phỏng cách FinTop trình bày luận điểm, bối cảnh dòng tiền và các
+                        nhóm ngành cần theo dõi.
+                    </p>
+                    <div class="market-actions">
+                        <a class="market-primary-link" href="chuyen-gia/index.html">Xem chi tiết</a>
+                        <span class="market-secondary-note">Nội dung mẫu dùng cho demo giao diện</span>
+                    </div>
+                </div>
+
+                <aside class="market-snapshot" aria-label="Tổng quan nhanh">
+                    <h3>Market Pulse</h3>
+                    <div class="market-index-grid">
+                        <div class="market-index-tile">
+                            <div class="market-index-name">VN-Index</div>
+                            <div class="market-index-value">1,284.6</div>
+                            <div class="market-index-change market-up">+0.82%</div>
+                        </div>
+                        <div class="market-index-tile">
+                            <div class="market-index-name">VN30</div>
+                            <div class="market-index-value">1,318.2</div>
+                            <div class="market-index-change market-up">+0.64%</div>
+                        </div>
+                        <div class="market-index-tile">
+                            <div class="market-index-name">Dòng tiền</div>
+                            <div class="market-index-value">22.4K</div>
+                            <div class="market-index-change market-neutral">Tỷ VND</div>
+                        </div>
+                        <div class="market-index-tile">
+                            <div class="market-index-name">Sentiment</div>
+                            <div class="market-index-value">72</div>
+                            <div class="market-index-change market-up">Tích cực</div>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+
+            <div class="market-section-bar">
+                <div class="market-section-title">Bài viết</div>
+                <div class="market-tabs" aria-label="Bộ lọc bài viết">
+                    <button class="market-tab active" type="button" onclick="filterMarketArticles('all', this)">Tất
+                        cả</button>
+                    <button class="market-tab" type="button" onclick="filterMarketArticles('macro', this)">Vĩ mô</button>
+                    <button class="market-tab" type="button" onclick="filterMarketArticles('flow', this)">Dòng
+                        tiền</button>
+                    <button class="market-tab" type="button"
+                        onclick="filterMarketArticles('strategy', this)">Chiến lược</button>
+                </div>
+            </div>
+
+            <div class="market-content-grid">
+                <div class="market-article-list">
+                    <article class="market-article-card" data-market-category="macro flow strategy">
+                        <div class="market-thumb">
+                            <img src="assets/images/fintop_terminal_mockup.png" alt="Màn hình dữ liệu thị trường FinTop">
+                            <span class="market-thumb-badge">Market</span>
+                            <div class="market-thumb-label">Chứng khoán Việt Nam: Nâng hạng lên cận biên mới nổi hạng 2
+                            </div>
+                        </div>
+                        <div class="market-article-body">
+                            <h3 class="market-article-title">PHÂN TÍCH THỊ TRƯỜNG 2026 | Đón đầu điểm đảo chiều dòng vốn
+                                ngoại</h3>
+                            <div class="market-meta">
+                                <span>1 tháng trước</span>
+                                <span>19:20 01/04/2026</span>
+                                <span>140 lượt xem</span>
+                            </div>
+                            <p class="market-article-excerpt">
+                                Cơ hội vàng đang mở ra khi kỳ vọng nâng hạng và định giá hấp dẫn có thể kích hoạt dòng
+                                vốn ngoại quay lại mạnh mẽ hơn trong các nhịp xác nhận xu hướng.
+                            </p>
+                            <div class="market-tags">
+                                <span class="market-tag">Nâng hạng</span>
+                                <span class="market-tag">Dòng vốn ngoại</span>
+                                <span class="market-tag">Chiến lược</span>
+                            </div>
+                            <a class="market-detail-link" href="chuyen-gia/index.html">Xem chi tiết</a>
+                        </div>
+                    </article>
+
+                    <article class="market-article-card" data-market-category="macro strategy">
+                        <div class="market-thumb">
+                            <img src="assets/images/ai_circuit.png" alt="Mạng lưới phân tích dữ liệu thị trường">
+                            <span class="market-thumb-badge">Hội thảo</span>
+                            <div class="market-thumb-label">Diễn biến xu hướng TTCK triển vọng ngành đầu tư công</div>
+                        </div>
+                        <div class="market-article-body">
+                            <h3 class="market-article-title">[HỘI THẢO ĐẦU TƯ] Chiến lược cuối 2025 - Tầm nhìn 2026 -
+                                Phân tích đầu tư cổ phiếu ngành đầu tư công</h3>
+                            <div class="market-meta">
+                                <span>5 tháng trước</span>
+                                <span>21:07 17/11/2025</span>
+                                <span>865 lượt xem</span>
+                            </div>
+                            <p class="market-article-excerpt">
+                                Thị trường sau giai đoạn điều chỉnh mạnh mở ra chu kỳ chọn lọc cổ phiếu theo câu chuyện
+                                đầu tư công, hạ tầng và nhóm hưởng lợi từ giải ngân vốn.
+                            </p>
+                            <div class="market-tags">
+                                <span class="market-tag">Đầu tư công</span>
+                                <span class="market-tag">Chu kỳ ngành</span>
+                                <span class="market-tag">Hội thảo</span>
+                            </div>
+                            <a class="market-detail-link" href="chuyen-gia/index.html">Xem chi tiết</a>
+                        </div>
+                    </article>
+
+                    <article class="market-article-card" data-market-category="flow strategy">
+                        <div class="market-thumb">
+                            <img src="assets/images/orbital_ai.png" alt="Mô hình AI phân tích dòng tiền">
+                            <span class="market-thumb-badge">Dòng tiền</span>
+                            <div class="market-thumb-label">Bản đồ dòng tiền: nhóm dẫn dắt và vùng hút thanh khoản</div>
+                        </div>
+                        <div class="market-article-body">
+                            <h3 class="market-article-title">BẢN ĐỒ DÒNG TIỀN TUẦN | Tín hiệu lan tỏa từ ngân hàng,
+                                chứng khoán và bán lẻ</h3>
+                            <div class="market-meta">
+                                <span>2 tuần trước</span>
+                                <span>08:45 27/04/2026</span>
+                                <span>312 lượt xem</span>
+                            </div>
+                            <p class="market-article-excerpt">
+                                Thanh khoản có dấu hiệu cải thiện ở các nhóm cổ phiếu vốn hóa lớn, trong khi nhóm vừa và
+                                nhỏ phân hóa mạnh theo kết quả kinh doanh và câu chuyện riêng.
+                            </p>
+                            <div class="market-tags">
+                                <span class="market-tag">Thanh khoản</span>
+                                <span class="market-tag">VN30</span>
+                                <span class="market-tag">Sentiment</span>
+                            </div>
+                            <a class="market-detail-link" href="chuyen-gia/index.html">Xem chi tiết</a>
+                        </div>
+                    </article>
+                </div>
+
+                <aside class="market-side-panel" aria-label="Thông tin phụ">
+                    <h3>Lịch cập nhật</h3>
+                    <div class="market-side-list">
+                        <div class="market-side-item">
+                            <div class="market-side-time">09:00 hằng ngày</div>
+                            <div class="market-side-text">Morning Brief: xu hướng chỉ số, nhóm ngành nổi bật và dữ liệu
+                                tiền vào.</div>
+                        </div>
+                        <div class="market-side-item">
+                            <div class="market-side-time">14:45 phiên chiều</div>
+                            <div class="market-side-text">Market Recap: xác nhận dòng tiền cuối phiên và điểm cần chú ý
+                                cho ngày kế tiếp.</div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 1.1rem;">Luận điểm nhanh</h3>
+                    <div class="market-flow-row">
+                        <span>Độ rộng thị trường</span>
+                        <span class="market-flow-value market-up">Tích cực</span>
+                    </div>
+                    <div class="market-flow-row">
+                        <span>Khối ngoại</span>
+                        <span class="market-flow-value market-down">Bán ròng nhẹ</span>
+                    </div>
+                    <div class="market-flow-row">
+                        <span>Nhóm dẫn dắt</span>
+                        <span class="market-flow-value">Ngân hàng</span>
+                    </div>
+                </aside>
+            </div>
+
+            <div class="market-footer-bar">
+                <span id="marketArticleCount">Có tất cả 3/3 bài viết demo</span>
+                <div class="market-pagination" aria-label="Phân trang">
+                    <button class="market-page-btn" type="button" disabled>Trước</button>
+                    <button class="market-page-btn active" type="button">1</button>
+                    <button class="market-page-btn" type="button" disabled>Tiếp</button>
+                </div>
+                <span class="market-display-control">Hiển thị <span class="market-display-box">10</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PANEL: PRO ANALYSIS                         -->
+    <!-- ============================================ -->
+    <div class="submenu-panel" id="panel-analysis-pro">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">PRO Analysis</h2>
+            <p>Báo cáo chiến lược chuyên sâu, kịch bản thị trường và danh mục cổ phiếu ưu tiên.</p>
+        </div>
+
+        <div class="market-demo-shell">
+            <section class="market-featured" aria-label="PRO Analysis nổi bật">
+                <div>
+                    <span class="market-kicker">PRO Desk</span>
+                    <h3 class="market-featured-title">PRO ANALYSIS | Chiến lược danh mục Q2/2026 - Ưu tiên cổ phiếu có
+                        tăng trưởng lợi nhuận rõ nét</h3>
+                    <div class="market-meta">
+                        <span>Cập nhật 08:30</span>
+                        <span>13/05/2026</span>
+                        <span>Khung nhìn 3-6 tháng</span>
+                    </div>
+                    <p class="market-featured-copy">
+                        Bộ khung PRO kết hợp xu hướng chỉ số, độ rộng thị trường, định giá nhóm ngành và tín hiệu dòng
+                        tiền để xây dựng danh mục theo xác suất. Mẫu demo này mô phỏng dashboard dành cho hội viên PRO.
+                    </p>
+                    <div class="analysis-metric-grid">
+                        <div class="analysis-metric-card">
+                            <div class="analysis-metric-label">Trend Score</div>
+                            <div class="analysis-metric-value market-up">78/100</div>
+                            <div class="analysis-metric-note">Xu hướng tích cực</div>
+                        </div>
+                        <div class="analysis-metric-card">
+                            <div class="analysis-metric-label">Alpha Signal</div>
+                            <div class="analysis-metric-value">12 mã</div>
+                            <div class="analysis-metric-note">Vượt chuẩn lọc</div>
+                        </div>
+                        <div class="analysis-metric-card">
+                            <div class="analysis-metric-label">Risk Meter</div>
+                            <div class="analysis-metric-value market-neutral">Trung bình</div>
+                            <div class="analysis-metric-note">Ưu tiên giải ngân từng phần</div>
+                        </div>
+                        <div class="analysis-metric-card">
+                            <div class="analysis-metric-label">Cash Level</div>
+                            <div class="analysis-metric-value">30%</div>
+                            <div class="analysis-metric-note">Dự phòng biến động</div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="market-snapshot" aria-label="Danh mục mẫu">
+                    <h3>PRO Radar</h3>
+                    <div class="market-flow-row">
+                        <span>Nhóm ưu tiên</span>
+                        <span class="market-flow-value">Ngân hàng</span>
+                    </div>
+                    <div class="market-flow-row">
+                        <span>Theo dõi</span>
+                        <span class="market-flow-value">Bán lẻ</span>
+                    </div>
+                    <div class="market-flow-row">
+                        <span>Giảm tỷ trọng</span>
+                        <span class="market-flow-value market-down">Đầu cơ nóng</span>
+                    </div>
+                    <div class="market-flow-row">
+                        <span>Top pick</span>
+                        <span class="market-flow-value market-up">FPT, TCB, HPG</span>
+                    </div>
+                </aside>
+            </section>
+
+            <div class="market-section-bar">
+                <div class="market-section-title">Chiến lược & Kịch bản</div>
+                <div class="market-tabs" aria-label="Phân nhóm PRO Analysis">
+                    <button class="market-tab active" type="button">Tổng quan</button>
+                    <button class="market-tab" type="button">Danh mục</button>
+                    <button class="market-tab" type="button">Rủi ro</button>
+                </div>
+            </div>
+
+            <div class="analysis-dashboard-grid">
+                <div class="analysis-card">
+                    <h3>Kịch bản thị trường</h3>
+                    <div class="analysis-scenario-grid">
+                        <div class="analysis-scenario-card">
+                            <strong>Tích cực</strong>
+                            <span>VN-Index vượt 1,300 với thanh khoản tăng, ưu tiên nâng tỷ trọng nhóm dẫn dắt.</span>
+                        </div>
+                        <div class="analysis-scenario-card">
+                            <strong>Cơ sở</strong>
+                            <span>Chỉ số tích lũy trong biên 1,245-1,300, chiến lược mua khi điều chỉnh.</span>
+                        </div>
+                        <div class="analysis-scenario-card">
+                            <strong>Phòng thủ</strong>
+                            <span>Thủng hỗ trợ 1,245, hạ đòn bẩy và giữ tỷ trọng tiền mặt cao hơn.</span>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 1rem;">Danh mục quan sát</h3>
+                    <table class="analysis-mini-table">
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Luận điểm</th>
+                                <th>Trạng thái</th>
+                                <th>QTRR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>FPT</td>
+                                <td>Tăng trưởng AI, xuất khẩu phần mềm, biên lợi nhuận ổn định.</td>
+                                <td><span class="analysis-badge good">Ưu tiên</span></td>
+                                <td>82</td>
+                            </tr>
+                            <tr>
+                                <td>TCB</td>
+                                <td>Chất lượng tài sản cải thiện, tín dụng bán lẻ phục hồi.</td>
+                                <td><span class="analysis-badge good">Tích lũy</span></td>
+                                <td>76</td>
+                            </tr>
+                            <tr>
+                                <td>HPG</td>
+                                <td>Chu kỳ thép phục hồi, sản lượng và biên gộp có dư địa tăng.</td>
+                                <td><span class="analysis-badge watch">Theo dõi</span></td>
+                                <td>69</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <aside class="market-side-panel" aria-label="Điểm số PRO">
+                    <h3>Điểm cấu phần</h3>
+                    <div class="analysis-progress-list">
+                        <div class="analysis-progress-row">
+                            <span>Xu hướng</span>
+                            <div class="analysis-progress-bar"><span style="width: 78%;"></span></div>
+                            <strong>78</strong>
+                        </div>
+                        <div class="analysis-progress-row">
+                            <span>Thanh khoản</span>
+                            <div class="analysis-progress-bar"><span style="width: 71%;"></span></div>
+                            <strong>71</strong>
+                        </div>
+                        <div class="analysis-progress-row">
+                            <span>Định giá</span>
+                            <div class="analysis-progress-bar"><span style="width: 64%;"></span></div>
+                            <strong>64</strong>
+                        </div>
+                        <div class="analysis-progress-row">
+                            <span>Rủi ro</span>
+                            <div class="analysis-progress-bar"><span style="width: 42%;"></span></div>
+                            <strong>42</strong>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <div class="analysis-report-grid">
+                <article class="analysis-report-card">
+                    <span class="analysis-badge good">PRO Report</span>
+                    <h3>Chiến lược giải ngân khi VN-Index kiểm định 1,300 điểm</h3>
+                    <p>Phân tách vùng mua, vùng chốt lời và cách xử lý tỷ trọng theo nhóm cổ phiếu dẫn dắt.</p>
+                    <a class="market-detail-link" href="chuyen-gia/index.html">Xem chi tiết</a>
+                </article>
+                <article class="analysis-report-card">
+                    <span class="analysis-badge">Portfolio</span>
+                    <h3>Danh mục mẫu tháng 5: cân bằng tăng trưởng và phòng thủ</h3>
+                    <p>Gợi ý cơ cấu mẫu theo nhóm ngân hàng, công nghệ, bán lẻ và vật liệu cơ bản.</p>
+                    <a class="market-detail-link" href="chuyen-gia/index.html">Xem chi tiết</a>
+                </article>
+                <article class="analysis-report-card">
+                    <span class="analysis-badge watch">Risk Note</span>
+                    <h3>Các mốc rủi ro cần theo dõi trong nhịp tăng hiện tại</h3>
+                    <p>Theo dõi độ rộng thị trường, khối ngoại và tín hiệu suy yếu ở nhóm cổ phiếu beta cao.</p>
+                    <a class="market-detail-link" href="chuyen-gia/index.html">Xem chi tiết</a>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PANEL: PHÂN TÍCH DOANH NGHIỆP               -->
+    <!-- ============================================ -->
+    <div class="submenu-panel" id="panel-analysis-company">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Phân Tích Doanh Nghiệp</h2>
+            <p>Radar định giá, chất lượng tăng trưởng và báo cáo doanh nghiệp theo từng mã cổ phiếu.</p>
+        </div>
+
+        <div class="market-demo-shell">
+            <section class="market-featured" aria-label="Phân tích doanh nghiệp nổi bật">
+                <div>
+                    <span class="market-kicker">Equity Research</span>
+                    <h3 class="market-featured-title">DOANH NGHIỆP | Radar định giá và chất lượng tăng trưởng nhóm vốn hóa
+                        lớn</h3>
+                    <div class="market-meta">
+                        <span>Coverage: 68 doanh nghiệp</span>
+                        <span>Cập nhật theo quý</span>
+                        <span>FA + Technical Model</span>
+                    </div>
+                    <p class="market-featured-copy">
+                        Demo chuyên mục Doanh nghiệp gom các chỉ tiêu tăng trưởng, biên lợi nhuận, định giá và xếp hạng
+                        rủi ro để nhà đầu tư so sánh nhanh trước khi đọc báo cáo chi tiết.
+                    </p>
+                </div>
+
+                <aside class="market-snapshot" aria-label="Tổng quan coverage">
+                    <h3>Coverage Snapshot</h3>
+                    <div class="market-index-grid">
+                        <div class="market-index-tile">
+                            <div class="market-index-name">Mã cover</div>
+                            <div class="market-index-value">68</div>
+                            <div class="market-index-change market-up">+12 mới</div>
+                        </div>
+                        <div class="market-index-tile">
+                            <div class="market-index-name">Upside TB</div>
+                            <div class="market-index-value">18%</div>
+                            <div class="market-index-change market-up">Khả quan</div>
+                        </div>
+                        <div class="market-index-tile">
+                            <div class="market-index-name">FA Score</div>
+                            <div class="market-index-value">74</div>
+                            <div class="market-index-change market-neutral">Chọn lọc</div>
+                        </div>
+                        <div class="market-index-tile">
+                            <div class="market-index-name">Rủi ro</div>
+                            <div class="market-index-value">31</div>
+                            <div class="market-index-change">Thấp - TB</div>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+
+            <div class="market-section-bar">
+                <div class="market-section-title">Doanh nghiệp nổi bật</div>
+                <div class="market-tabs" aria-label="Nhóm phân tích doanh nghiệp">
+                    <button class="market-tab active" type="button">Large Cap</button>
+                    <button class="market-tab" type="button">Tăng trưởng</button>
+                    <button class="market-tab" type="button">Định giá thấp</button>
+                </div>
+            </div>
+
+            <div class="analysis-company-grid">
+                <article class="analysis-company-card">
+                    <div class="analysis-company-head">
+                        <div>
+                            <div class="analysis-ticker">FPT</div>
+                            <div class="analysis-company-name">Công nghệ thông tin</div>
+                        </div>
+                        <span class="analysis-badge good">Mua</span>
+                    </div>
+                    <div class="analysis-kv-row"><span>Giá mục tiêu</span><strong>156,000</strong></div>
+                    <div class="analysis-kv-row"><span>Upside</span><strong class="market-up">+18.6%</strong></div>
+                    <div class="analysis-kv-row"><span>FA Score</span><strong>86/100</strong></div>
+                    <div class="analysis-kv-row"><span>Luận điểm</span><strong>AI + Global IT</strong></div>
+                </article>
+
+                <article class="analysis-company-card">
+                    <div class="analysis-company-head">
+                        <div>
+                            <div class="analysis-ticker">HPG</div>
+                            <div class="analysis-company-name">Thép & vật liệu</div>
+                        </div>
+                        <span class="analysis-badge good">Tích lũy</span>
+                    </div>
+                    <div class="analysis-kv-row"><span>Giá mục tiêu</span><strong>35,500</strong></div>
+                    <div class="analysis-kv-row"><span>Upside</span><strong class="market-up">+14.2%</strong></div>
+                    <div class="analysis-kv-row"><span>FA Score</span><strong>78/100</strong></div>
+                    <div class="analysis-kv-row"><span>Luận điểm</span><strong>Chu kỳ thép</strong></div>
+                </article>
+
+                <article class="analysis-company-card">
+                    <div class="analysis-company-head">
+                        <div>
+                            <div class="analysis-ticker">MWG</div>
+                            <div class="analysis-company-name">Bán lẻ</div>
+                        </div>
+                        <span class="analysis-badge watch">Theo dõi</span>
+                    </div>
+                    <div class="analysis-kv-row"><span>Giá mục tiêu</span><strong>72,000</strong></div>
+                    <div class="analysis-kv-row"><span>Upside</span><strong class="market-neutral">+9.4%</strong></div>
+                    <div class="analysis-kv-row"><span>FA Score</span><strong>69/100</strong></div>
+                    <div class="analysis-kv-row"><span>Luận điểm</span><strong>Biên LN phục hồi</strong></div>
+                </article>
+            </div>
+
+            <div class="analysis-dashboard-grid">
+                <div class="analysis-card">
+                    <h3>Báo cáo doanh nghiệp mới</h3>
+                    <table class="analysis-mini-table">
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Tiêu đề</th>
+                                <th>Ngày</th>
+                                <th>Đánh giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>VCB</td>
+                                <td>Chất lượng tài sản dẫn đầu, NIM có dư địa phục hồi.</td>
+                                <td>10/05</td>
+                                <td><span class="analysis-badge good">Mua</span></td>
+                            </tr>
+                            <tr>
+                                <td>PNJ</td>
+                                <td>Cầu tiêu dùng chậm lại nhưng vị thế thương hiệu còn mạnh.</td>
+                                <td>08/05</td>
+                                <td><span class="analysis-badge watch">Nắm giữ</span></td>
+                            </tr>
+                            <tr>
+                                <td>GAS</td>
+                                <td>Dòng tiền ổn định, phù hợp nhóm phòng thủ khi biến động tăng.</td>
+                                <td>06/05</td>
+                                <td><span class="analysis-badge">Trung lập</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <aside class="market-side-panel" aria-label="Checklist doanh nghiệp">
+                    <h3>Checklist phân tích</h3>
+                    <div class="market-flow-row">
+                        <span>Tăng trưởng doanh thu</span>
+                        <span class="market-flow-value market-up">Tốt</span>
+                    </div>
+                    <div class="market-flow-row">
+                        <span>Biên lợi nhuận</span>
+                        <span class="market-flow-value">Ổn định</span>
+                    </div>
+                    <div class="market-flow-row">
+                        <span>Định giá</span>
+                        <span class="market-flow-value market-neutral">Hợp lý</span>
+                    </div>
+                    <div class="market-flow-row">
+                        <span>Rủi ro nợ vay</span>
+                        <span class="market-flow-value market-up">Thấp</span>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PANEL: NCPT NGÀNH                            -->
+    <!-- ============================================ -->
+    <div class="submenu-panel" id="panel-analysis-sector">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">NCPT Ngành</h2>
+            <p>Nghiên cứu phân tích ngành, bản đồ chu kỳ và dòng tiền theo nhóm cổ phiếu.</p>
+        </div>
+
+        <div class="market-demo-shell">
+            <section class="market-featured" aria-label="NCPT ngành nổi bật">
+                <div>
+                    <span class="market-kicker">Sector Research</span>
+                    <h3 class="market-featured-title">NCPT NGÀNH | Bản đồ chu kỳ ngành 2026 - Nhận diện nhóm dẫn dắt
+                        dòng tiền</h3>
+                    <div class="market-meta">
+                        <span>12 ngành trọng điểm</span>
+                        <span>Cập nhật tuần</span>
+                        <span>Model score + chuyên gia</span>
+                    </div>
+                    <p class="market-featured-copy">
+                        Màn demo NCPT Ngành tập trung vào sức khỏe chu kỳ, định giá tương đối, momentum lợi nhuận và mức
+                        độ lan tỏa dòng tiền giữa các nhóm ngành trên thị trường.
+                    </p>
+                </div>
+
+                <aside class="market-snapshot" aria-label="Sector pulse">
+                    <h3>Sector Pulse</h3>
+                    <div class="market-flow-row">
+                        <span>Dẫn dắt</span>
+                        <span class="market-flow-value market-up">Ngân hàng</span>
+                    </div>
+                    <div class="market-flow-row">
+                        <span>Hồi phục</span>
+                        <span class="market-flow-value">Bán lẻ</span>
+                    </div>
+                    <div class="market-flow-row">
+                        <span>Theo chu kỳ</span>
+                        <span class="market-flow-value market-neutral">Thép</span>
+                    </div>
+                    <div class="market-flow-row">
+                        <span>Phòng thủ</span>
+                        <span class="market-flow-value">Điện, nước</span>
+                    </div>
+                </aside>
+            </section>
+
+            <div class="market-section-bar">
+                <div class="market-section-title">Bản đồ ngành</div>
+                <div class="market-tabs" aria-label="Bộ lọc ngành">
+                    <button class="market-tab active" type="button">Momentum</button>
+                    <button class="market-tab" type="button">Định giá</button>
+                    <button class="market-tab" type="button">Dòng tiền</button>
+                </div>
+            </div>
+
+            <div class="analysis-sector-heatmap">
+                <div class="analysis-heat-tile leading">
+                    <div class="analysis-heat-name">Ngân hàng</div>
+                    <div class="analysis-heat-score market-up">84</div>
+                    <div class="analysis-heat-note">Dẫn dắt chỉ số</div>
+                </div>
+                <div class="analysis-heat-tile leading">
+                    <div class="analysis-heat-name">Công nghệ</div>
+                    <div class="analysis-heat-score market-up">81</div>
+                    <div class="analysis-heat-note">Tăng trưởng cao</div>
+                </div>
+                <div class="analysis-heat-tile watch">
+                    <div class="analysis-heat-name">Bán lẻ</div>
+                    <div class="analysis-heat-score market-neutral">67</div>
+                    <div class="analysis-heat-note">Phục hồi chọn lọc</div>
+                </div>
+                <div class="analysis-heat-tile watch">
+                    <div class="analysis-heat-name">Đầu tư công</div>
+                    <div class="analysis-heat-score market-neutral">64</div>
+                    <div class="analysis-heat-note">Theo tiến độ giải ngân</div>
+                </div>
+                <div class="analysis-heat-tile">
+                    <div class="analysis-heat-name">Thép</div>
+                    <div class="analysis-heat-score">62</div>
+                    <div class="analysis-heat-note">Chu kỳ cải thiện</div>
+                </div>
+                <div class="analysis-heat-tile">
+                    <div class="analysis-heat-name">Bất động sản</div>
+                    <div class="analysis-heat-score">55</div>
+                    <div class="analysis-heat-note">Phân hóa mạnh</div>
+                </div>
+                <div class="analysis-heat-tile cool">
+                    <div class="analysis-heat-name">Dầu khí</div>
+                    <div class="analysis-heat-score market-down">48</div>
+                    <div class="analysis-heat-note">Chờ catalyst mới</div>
+                </div>
+                <div class="analysis-heat-tile cool">
+                    <div class="analysis-heat-name">Chứng khoán</div>
+                    <div class="analysis-heat-score market-down">46</div>
+                    <div class="analysis-heat-note">Nhạy với thanh khoản</div>
+                </div>
+            </div>
+
+            <div class="analysis-dashboard-grid">
+                <div class="analysis-card">
+                    <h3>Nhóm ngành ưu tiên</h3>
+                    <div class="analysis-sector-grid">
+                        <article class="analysis-sector-card">
+                            <div class="analysis-sector-head">
+                                <div class="analysis-sector-name">Ngân hàng</div>
+                                <span class="analysis-badge good">Overweight</span>
+                            </div>
+                            <div class="analysis-kv-row"><span>Động lực</span><strong>Tín dụng phục hồi</strong></div>
+                            <div class="analysis-kv-row"><span>Định giá</span><strong>Hấp dẫn</strong></div>
+                            <div class="analysis-kv-row"><span>Mã chú ý</span><strong>TCB, MBB, VCB</strong></div>
+                        </article>
+                        <article class="analysis-sector-card">
+                            <div class="analysis-sector-head">
+                                <div class="analysis-sector-name">Công nghệ</div>
+                                <span class="analysis-badge good">Overweight</span>
+                            </div>
+                            <div class="analysis-kv-row"><span>Động lực</span><strong>AI, xuất khẩu</strong></div>
+                            <div class="analysis-kv-row"><span>Định giá</span><strong>Cao hợp lý</strong></div>
+                            <div class="analysis-kv-row"><span>Mã chú ý</span><strong>FPT, CMG</strong></div>
+                        </article>
+                        <article class="analysis-sector-card">
+                            <div class="analysis-sector-head">
+                                <div class="analysis-sector-name">Bán lẻ</div>
+                                <span class="analysis-badge watch">Neutral</span>
+                            </div>
+                            <div class="analysis-kv-row"><span>Động lực</span><strong>Cầu tiêu dùng</strong></div>
+                            <div class="analysis-kv-row"><span>Định giá</span><strong>Chọn lọc</strong></div>
+                            <div class="analysis-kv-row"><span>Mã chú ý</span><strong>MWG, FRT, PNJ</strong></div>
+                        </article>
+                    </div>
+                </div>
+
+                <aside class="market-side-panel" aria-label="Chu kỳ ngành">
+                    <h3>Chu kỳ ngành</h3>
+                    <div class="analysis-progress-list">
+                        <div class="analysis-progress-row">
+                            <span>Ngân hàng</span>
+                            <div class="analysis-progress-bar"><span style="width: 84%;"></span></div>
+                            <strong>84</strong>
+                        </div>
+                        <div class="analysis-progress-row">
+                            <span>Công nghệ</span>
+                            <div class="analysis-progress-bar"><span style="width: 81%;"></span></div>
+                            <strong>81</strong>
+                        </div>
+                        <div class="analysis-progress-row">
+                            <span>Bán lẻ</span>
+                            <div class="analysis-progress-bar"><span style="width: 67%;"></span></div>
+                            <strong>67</strong>
+                        </div>
+                        <div class="analysis-progress-row">
+                            <span>BĐS</span>
+                            <div class="analysis-progress-bar"><span style="width: 55%;"></span></div>
+                            <strong>55</strong>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <div class="analysis-report-grid">
+                <article class="analysis-report-card">
+                    <span class="analysis-badge good">Industry Note</span>
+                    <h3>Ngân hàng: tín dụng phục hồi và câu chuyện định giá lại</h3>
+                    <p>Đánh giá NIM, nợ xấu, CASA và triển vọng lợi nhuận của nhóm ngân hàng niêm yết.</p>
+                    <a class="market-detail-link" href="chuyen-gia/index.html">Xem chi tiết</a>
+                </article>
+                <article class="analysis-report-card">
+                    <span class="analysis-badge watch">Sector Watch</span>
+                    <h3>Bán lẻ: phân hóa theo sức mua và hiệu quả vận hành</h3>
+                    <p>Theo dõi tín hiệu phục hồi biên lợi nhuận và tốc độ mở rộng chuỗi trong nửa cuối năm.</p>
+                    <a class="market-detail-link" href="chuyen-gia/index.html">Xem chi tiết</a>
+                </article>
+                <article class="analysis-report-card">
+                    <span class="analysis-badge">Theme</span>
+                    <h3>Đầu tư công: nhóm hưởng lợi theo tiến độ giải ngân</h3>
+                    <p>Lọc nhóm vật liệu, xây dựng hạ tầng và khu công nghiệp theo đơn hàng và dòng tiền.</p>
+                    <a class="market-detail-link" href="chuyen-gia/index.html">Xem chi tiết</a>
+                </article>
+            </div>
         </div>
     </div>
 
@@ -3162,6 +4757,38 @@
             document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('pinned'));
             document.querySelectorAll('.dropdown-content a').forEach(a => a.classList.remove('active-submenu'));
         }
+
+        function filterMarketArticles(filter, clickedButton) {
+            const cards = Array.from(document.querySelectorAll('#panel-analysis-market .market-article-card'));
+            const total = cards.length;
+            let visibleCount = 0;
+
+            cards.forEach((card) => {
+                const categories = (card.dataset.marketCategory || '').split(' ');
+                const shouldShow = filter === 'all' || categories.includes(filter);
+                card.classList.toggle('is-hidden', !shouldShow);
+                if (shouldShow) visibleCount += 1;
+            });
+
+            document.querySelectorAll('#panel-analysis-market .market-tab').forEach((tab) => {
+                tab.classList.remove('active');
+            });
+            if (clickedButton) clickedButton.classList.add('active');
+
+            const count = document.getElementById('marketArticleCount');
+            if (count) count.textContent = `Có tất cả ${visibleCount}/${total} bài viết demo`;
+        }
+
+        document.addEventListener('click', (e) => {
+            const tab = e.target.closest('.market-tab');
+            if (!tab || tab.hasAttribute('onclick')) return;
+
+            const group = tab.closest('.market-tabs');
+            if (!group) return;
+
+            group.querySelectorAll('.market-tab').forEach((item) => item.classList.remove('active'));
+            tab.classList.add('active');
+        });
 
         // Click outside to close
         document.addEventListener('click', (e) => {
