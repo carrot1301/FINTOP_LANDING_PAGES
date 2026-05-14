@@ -1,0 +1,352 @@
+/* === PRICING MODALS STYLES === */
+.pricing-modals-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(7, 7, 13, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+}
+
+.pricing-modals-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.pricing-modal {
+    background: rgba(15, 15, 25, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.pricing-modals-overlay.active .pricing-modal.active {
+    display: block;
+    transform: translateY(0);
+}
+
+/* Tùy biến thanh cuộn cho Modal */
+.pricing-modal::-webkit-scrollbar {
+    width: 6px;
+}
+.pricing-modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+.pricing-modal::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+/* === HEADER MODAL === */
+.modal-header {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-header h3 {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.btn-close-modal {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1.2rem;
+}
+
+.btn-close-modal:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #f87171;
+}
+
+/* === HERO SECTION (Top part) === */
+.modal-hero {
+    display: flex;
+    padding: 30px 40px;
+    gap: 30px;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-hero-left {
+    flex: 0 0 30%;
+    text-align: center;
+}
+
+.modal-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 15px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.modal-hero-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.modal-hero-subtitle {
+    font-size: 0.85rem;
+    color: #94A3B8;
+}
+
+.modal-hero-right {
+    flex: 1;
+}
+
+.modal-features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.modal-features-list li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 10px;
+    color: #e2e8f0;
+    font-size: 0.95rem;
+}
+
+.modal-features-list li::before {
+    content: '●';
+    position: absolute;
+    left: 0;
+    top: -1px;
+    font-size: 0.8rem;
+    color: #94A3B8;
+}
+
+.modal-features-list li.highlight {
+    font-weight: 600;
+}
+
+/* === BODY SECTION === */
+.modal-body {
+    padding: 30px 40px;
+}
+
+.modal-steps-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.modal-step-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.step-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.step-desc {
+    color: #94A3B8;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+.btn-modal-action {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    width: 100%;
+}
+
+.btn-modal-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* === PRO SPECIFIC STYLES === */
+.pro-packages-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.pro-package-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.pro-package-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.pro-package-card.active {
+    background: rgba(196, 181, 253, 0.1);
+    border-color: #c4b5fd;
+    box-shadow: 0 0 15px rgba(196, 181, 253, 0.2);
+}
+
+.pro-pkg-title {
+    font-weight: 700;
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.pro-pkg-price {
+    font-weight: 700;
+    color: #c4b5fd;
+    font-size: 1.1rem;
+}
+
+.payment-info-box {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.payment-info-row {
+    display: flex;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}
+
+.payment-info-row:last-child {
+    margin-bottom: 0;
+}
+
+.payment-label {
+    color: #94A3B8;
+    width: 140px;
+    flex-shrink: 0;
+}
+
+.payment-value {
+    color: #fff;
+    font-weight: 600;
+    font-family: monospace;
+    font-size: 1rem;
+    flex: 1;
+    word-break: break-all;
+}
+
+/* === THEME COLORS === */
+/* Standard - Blue */
+.theme-standard .modal-header { border-bottom-color: rgba(125, 211, 252, 0.3); }
+.theme-standard .modal-icon-wrapper { color: #7dd3fc; border: 1px solid rgba(125, 211, 252, 0.3); background: rgba(125, 211, 252, 0.1); box-shadow: 0 0 20px rgba(125, 211, 252, 0.2); }
+.theme-standard .modal-features-list li.highlight { color: #7dd3fc; }
+.theme-standard .modal-features-list li.highlight::before { color: #7dd3fc; }
+.theme-standard .btn-modal-action.primary { background: linear-gradient(135deg, #0284c7, #38bdf8); }
+
+/* Pro - Purple */
+.theme-pro .modal-header { border-bottom-color: rgba(196, 181, 253, 0.3); }
+.theme-pro .modal-icon-wrapper { color: #c4b5fd; border: 1px solid rgba(196, 181, 253, 0.3); background: rgba(196, 181, 253, 0.1); box-shadow: 0 0 20px rgba(196, 181, 253, 0.2); }
+.theme-pro .modal-features-list li.highlight { color: #c4b5fd; }
+.theme-pro .modal-features-list li.highlight::before { color: #c4b5fd; }
+.theme-pro .btn-modal-action.primary { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+
+/* VIP - Emerald */
+.theme-vip .modal-header { border-bottom-color: rgba(110, 231, 183, 0.3); }
+.theme-vip .modal-icon-wrapper { color: #6ee7b7; border: 1px solid rgba(110, 231, 183, 0.3); background: rgba(110, 231, 183, 0.1); box-shadow: 0 0 20px rgba(110, 231, 183, 0.2); }
+.theme-vip .modal-features-list li.highlight { color: #6ee7b7; }
+.theme-vip .modal-features-list li.highlight::before { color: #6ee7b7; }
+.theme-vip .btn-modal-action.primary { background: linear-gradient(135deg, #059669, #10b981); }
+
+/* Diamond - Gold */
+.theme-diamond .modal-header { border-bottom-color: rgba(252, 211, 77, 0.3); }
+.theme-diamond .modal-icon-wrapper { color: #fcd34d; border: 1px solid rgba(252, 211, 77, 0.3); background: rgba(252, 211, 77, 0.1); box-shadow: 0 0 20px rgba(252, 211, 77, 0.2); }
+.theme-diamond .modal-features-list li.highlight { color: #fcd34d; }
+.theme-diamond .modal-features-list li.highlight::before { color: #fcd34d; }
+.theme-diamond .btn-modal-action.primary { background: linear-gradient(135deg, #d97706, #fbbf24); color: #000; }
+
+/* Tiện ích */
+.text-center { text-align: center; }
+.mt-3 { margin-top: 15px; }
+.mt-4 { margin-top: 20px; }
+.mb-2 { margin-bottom: 10px; }
+.mb-3 { margin-bottom: 15px; }
+.mb-4 { margin-bottom: 20px; }
+.text-muted-sm { color: #64748b; font-size: 0.8rem; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-hero {
+        flex-direction: column;
+        padding: 20px;
+    }
+    .modal-steps-container {
+        grid-template-columns: 1fr;
+    }
+    .pro-packages-grid {
+        grid-template-columns: 1fr;
+    }
+    .payment-info-row {
+        flex-direction: column;
+    }
+    .payment-label {
+        width: 100%;
+        margin-bottom: 4px;
+        font-size: 0.85rem;
+    }
+}

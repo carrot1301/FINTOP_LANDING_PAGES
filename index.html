@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="assets/css/variables.css">
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/modals.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
 
     <!-- GSAP (Thư viện hiệu ứng) qua CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
@@ -18,6 +20,8 @@
     <!-- Tệp JavaScript Tùy Chỉnh -->
     <script src="assets/js/scroll-animation.js" defer></script>
     <script src="assets/js/counter.js" defer></script>
+    <script src="assets/js/modals.js" defer></script>
+    <script src="assets/js/auth.js" defer></script>
 
     <style>
         /* === VIDEO NỀN CỐ ĐỊNH === */
@@ -533,6 +537,323 @@
         .empty-state p {
             font-size: 0.95rem;
             color: #475569;
+        }
+
+        /* === DEMO PANELS: HỘI VIÊN / STOCK DATA / HƯỚNG DẪN === */
+        .function-shell {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            gap: 18px;
+        }
+
+        .function-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+            gap: 18px;
+            align-items: stretch;
+        }
+
+        .function-card,
+        .function-table-card {
+            border-radius: 14px;
+            border: 1px solid rgba(168, 85, 247, 0.22);
+            background: rgba(15, 15, 25, 0.68);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+        }
+
+        .function-card {
+            padding: 22px;
+        }
+
+        .function-kicker {
+            display: inline-flex;
+            margin-bottom: 12px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(168, 85, 247, 0.32);
+            background: rgba(168, 85, 247, 0.12);
+            color: #c084fc;
+            font-size: 0.74rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .function-card h3 {
+            color: #fff;
+            font-size: clamp(1.2rem, 2vw, 1.55rem);
+            margin-bottom: 10px;
+        }
+
+        .function-card p {
+            color: #94A3B8;
+            font-size: 0.92rem;
+            line-height: 1.75;
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .function-grid.three {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .function-mini-card {
+            min-height: 156px;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            background: rgba(255, 255, 255, 0.035);
+        }
+
+        .function-mini-card h4 {
+            color: #fff;
+            margin-bottom: 8px;
+            font-size: 0.98rem;
+        }
+
+        .function-mini-card p,
+        .function-mini-card li {
+            color: #94A3B8;
+            font-size: 0.84rem;
+            line-height: 1.65;
+        }
+
+        .function-mini-card ul {
+            display: grid;
+            gap: 7px;
+            margin-top: 10px;
+        }
+
+        .function-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .function-btn,
+        .function-btn-ghost {
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-weight: 800;
+            font-size: 0.86rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .function-btn {
+            border: none;
+            color: #fff;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            box-shadow: 0 8px 24px rgba(168, 85, 247, 0.26);
+        }
+
+        .function-btn-ghost {
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .function-btn:hover,
+        .function-btn-ghost:hover {
+            transform: translateY(-2px);
+        }
+
+        .function-metric-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .function-metric-row {
+            display: grid;
+            grid-template-columns: 130px 1fr 48px;
+            gap: 10px;
+            align-items: center;
+            color: #cbd5e1;
+            font-size: 0.84rem;
+        }
+
+        .function-bar {
+            height: 8px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .function-bar span {
+            display: block;
+            width: var(--value);
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #38bdf8, #a855f7);
+        }
+
+        .function-table-card {
+            overflow-x: auto;
+        }
+
+        .function-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 720px;
+        }
+
+        .function-table thead {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.14), rgba(99, 102, 241, 0.08));
+        }
+
+        .function-table th,
+        .function-table td {
+            padding: 13px 14px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: #e2e8f0;
+            font-size: 0.86rem;
+        }
+
+        .function-table th {
+            color: #c084fc;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-size: 0.74rem;
+        }
+
+        .library-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 280px;
+            gap: 16px;
+            align-items: start;
+        }
+
+        .library-category-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .library-category-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 44px;
+            padding: 11px 13px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.045);
+            color: #cbd5e1;
+            font-size: 0.84rem;
+            font-weight: 800;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .library-category-item:hover,
+        .library-category-item.active {
+            color: #fff;
+            border-color: rgba(168, 85, 247, 0.36);
+            background: rgba(168, 85, 247, 0.14);
+            transform: translateX(3px);
+        }
+
+        .library-category-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 7px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 22px;
+            color: #c084fc;
+            background: rgba(168, 85, 247, 0.16);
+            font-size: 0.8rem;
+        }
+
+        .library-detail-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 72px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(168, 85, 247, 0.28);
+            color: #c084fc;
+            background: rgba(168, 85, 247, 0.09);
+            font-size: 0.78rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .library-detail-link:hover {
+            transform: translateY(-1px);
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 0 16px rgba(168, 85, 247, 0.16);
+        }
+
+        .library-table .stt-cell {
+            width: 56px;
+            color: #94A3B8;
+            text-align: center;
+        }
+
+        .library-table .content-cell {
+            color: #f8fafc;
+            font-weight: 600;
+        }
+
+        .function-tag {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 4px 10px;
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            color: #cbd5e1;
+            background: rgba(148, 163, 184, 0.08);
+            font-size: 0.72rem;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .function-tag.good {
+            color: #6ee7b7;
+            border-color: rgba(16, 185, 129, 0.32);
+            background: rgba(16, 185, 129, 0.12);
+        }
+
+        .function-tag.watch {
+            color: #fcd34d;
+            border-color: rgba(245, 158, 11, 0.32);
+            background: rgba(245, 158, 11, 0.12);
+        }
+
+        @media (max-width: 1024px) {
+            .library-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .function-hero,
+            .function-grid,
+            .function-grid.three {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 700px) {
+            .function-hero,
+            .function-grid,
+            .function-grid.three {
+                grid-template-columns: 1fr;
+            }
+
+            .function-metric-row {
+                grid-template-columns: 96px 1fr 42px;
+            }
         }
 
         /* === CLOSE PANEL BUTTON === */
@@ -1796,6 +2117,7 @@
         }
 
         @media (max-width: 1100px) {
+
             .market-featured,
             .market-content-grid,
             .analysis-dashboard-grid {
@@ -3193,7 +3515,8 @@
         </div>
         <ul class="tv-nav">
             <li class="nav-item"><a href="index.html">Trang chủ</a></li>
-            <li class="nav-item"><a href="hoi-vien/index.html">Hội viên</a></li>
+            <li class="nav-item"><a href="javascript:void(0)" data-panel="panel-hoivien"
+                    onclick="openPanel('panel-hoivien', this)">Hội viên</a></li>
             <li class="nav-item dropdown" id="dropdown-fintop-data">
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
                         style="font-size: 0.7em;">▼</span></a>
@@ -3201,7 +3524,8 @@
                     <a href="javascript:void(0)" data-panel="panel-tracuu" onclick="openPanel('panel-tracuu', this)">📊
                         Tra cứu cổ phiếu</a>
                     <a href="javascript:void(0)" data-panel="panel-boloc" onclick="openPanel('panel-boloc', this)">🔍 Bộ
-                        lọc cổ phiếu</a>
+                        lọc cổ phiếu <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="fintop-ai/index.html">🤖 FinTop AI</a>
                     <a href="javascript:void(0)" data-panel="panel-tinhieu"
                         onclick="openPanel('panel-tinhieu', this)">📡 Copy Trade Chuyên gia</a>
@@ -3214,7 +3538,8 @@
                     <a href="javascript:void(0)" data-panel="panel-analysis-market"
                         onclick="openPanel('panel-analysis-market', this)">Thị trường</a>
                     <a href="javascript:void(0)" data-panel="panel-analysis-pro"
-                        onclick="openPanel('panel-analysis-pro', this)">PRO analysis</a>
+                        onclick="openPanel('panel-analysis-pro', this)">PRO analysis <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="javascript:void(0)" data-panel="panel-analysis-company"
                         onclick="openPanel('panel-analysis-company', this)">Doanh nghiệp</a>
                     <a href="javascript:void(0)" data-panel="panel-analysis-sector"
@@ -3222,30 +3547,50 @@
                 </div>
             </li>
 
-            <li class="nav-item dropdown">
-                <a href="stock-data/index.html">Stock Data <span style="font-size: 0.7em;">▼</span></a>
-                <div class="dropdown-content">
-                    <a href="#">Quant Data</a>
-                    <a href="#">PRO Data</a>
-                    <a href="#">Dữ liệu ngành</a>
-                    <a href="#">Báo cáo</a>
+            <li class="nav-item dropdown" id="dropdown-stock-data">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-stock-data')">Stock Data <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content" id="dc-stock-data">
+                    <a href="javascript:void(0)" data-panel="panel-stock-quant"
+                        onclick="openPanel('panel-stock-quant', this)">Quant Data</a>
+                    <a href="javascript:void(0)" data-panel="panel-stock-pro"
+                        onclick="openPanel('panel-stock-pro', this)">PRO Data <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="javascript:void(0)" data-panel="panel-stock-sector"
+                        onclick="openPanel('panel-stock-sector', this)">Dữ liệu ngành</a>
+                    <a href="javascript:void(0)" data-panel="panel-stock-reports"
+                        onclick="openPanel('panel-stock-reports', this)">Báo cáo</a>
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-huongdan">
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content" id="dc-huongdan">
-                    <a href="huong-dan/index.html">📖 Giao dịch & Đầu tư</a>
-                    <a href="huong-dan/index.html">📈 Phân tích kỹ thuật (TA)</a>
-                    <a href="huong-dan/index.html">📊 Phân tích cơ bản (FA)</a>
-                    <a href="huong-dan/index.html">📚 Tủ sách đầu tư</a>
+                    <a href="javascript:void(0)" data-panel="panel-guide-trading"
+                        onclick="openPanel('panel-guide-trading', this)">📖 Giao dịch & Đầu tư</a>
+                    <a href="javascript:void(0)" data-panel="panel-guide-ta"
+                        onclick="openPanel('panel-guide-ta', this)">📈 Phân tích kỹ thuật (TA)</a>
+                    <a href="javascript:void(0)" data-panel="panel-guide-fa"
+                        onclick="openPanel('panel-guide-fa', this)">📊 Phân tích cơ bản (FA)</a>
+                    <a href="javascript:void(0)" data-panel="panel-guide-library"
+                        onclick="openPanel('panel-guide-library', this)">📚 Tủ sách đầu tư</a>
                 </div>
             </li>
         </ul>
         <div class="tv-right">
             <span class="icon-link">🌐 VI</span>
-            <span class="icon-link">👤</span>
-            <button class="btn-tv-blue">Bắt đầu</button>
+            <div class="user-dropdown-container" id="userDropdownContainer">
+                <span class="icon-link" style="cursor: pointer;">👤</span>
+                <div class="user-dropdown-menu">
+                    <a href="javascript:void(0)" class="user-dropdown-item login-btn"
+                        onclick="openAuthModal('login')">👤 Đăng nhập</a>
+                    <a href="javascript:void(0)" class="user-dropdown-item"
+                        onclick="alert('Mở Trung tâm trợ giúp')">Trung tâm Trợ giúp</a>
+                    <a href="javascript:void(0)" class="user-dropdown-item"
+                        onclick="alert('Tính năng mới sắp ra mắt!')">Có gì mới</a>
+                </div>
+            </div>
+            <button class="btn-tv-blue" onclick="openAuthModal('register')">Bắt đầu</button>
         </div>
     </header>
 
@@ -3595,11 +3940,12 @@
                 <div class="market-tabs" aria-label="Bộ lọc bài viết">
                     <button class="market-tab active" type="button" onclick="filterMarketArticles('all', this)">Tất
                         cả</button>
-                    <button class="market-tab" type="button" onclick="filterMarketArticles('macro', this)">Vĩ mô</button>
+                    <button class="market-tab" type="button" onclick="filterMarketArticles('macro', this)">Vĩ
+                        mô</button>
                     <button class="market-tab" type="button" onclick="filterMarketArticles('flow', this)">Dòng
                         tiền</button>
-                    <button class="market-tab" type="button"
-                        onclick="filterMarketArticles('strategy', this)">Chiến lược</button>
+                    <button class="market-tab" type="button" onclick="filterMarketArticles('strategy', this)">Chiến
+                        lược</button>
                 </div>
             </div>
 
@@ -3607,10 +3953,9 @@
                 <div class="market-article-list">
                     <article class="market-article-card" data-market-category="macro flow strategy">
                         <div class="market-thumb">
-                            <img src="assets/images/fintop_terminal_mockup.png" alt="Màn hình dữ liệu thị trường FinTop">
+                            <img src="assets/images/fintop_terminal_mockup.png"
+                                alt="Màn hình dữ liệu thị trường FinTop">
                             <span class="market-thumb-badge">Market</span>
-                            <div class="market-thumb-label">Chứng khoán Việt Nam: Nâng hạng lên cận biên mới nổi hạng 2
-                            </div>
                         </div>
                         <div class="market-article-body">
                             <h3 class="market-article-title">PHÂN TÍCH THỊ TRƯỜNG 2026 | Đón đầu điểm đảo chiều dòng vốn
@@ -3637,7 +3982,6 @@
                         <div class="market-thumb">
                             <img src="assets/images/ai_circuit.png" alt="Mạng lưới phân tích dữ liệu thị trường">
                             <span class="market-thumb-badge">Hội thảo</span>
-                            <div class="market-thumb-label">Diễn biến xu hướng TTCK triển vọng ngành đầu tư công</div>
                         </div>
                         <div class="market-article-body">
                             <h3 class="market-article-title">[HỘI THẢO ĐẦU TƯ] Chiến lược cuối 2025 - Tầm nhìn 2026 -
@@ -3664,7 +4008,6 @@
                         <div class="market-thumb">
                             <img src="assets/images/orbital_ai.png" alt="Mô hình AI phân tích dòng tiền">
                             <span class="market-thumb-badge">Dòng tiền</span>
-                            <div class="market-thumb-label">Bản đồ dòng tiền: nhóm dẫn dắt và vùng hút thanh khoản</div>
                         </div>
                         <div class="market-article-body">
                             <h3 class="market-article-title">BẢN ĐỒ DÒNG TIỀN TUẦN | Tín hiệu lan tỏa từ ngân hàng,
@@ -3925,7 +4268,8 @@
             <section class="market-featured" aria-label="Phân tích doanh nghiệp nổi bật">
                 <div>
                     <span class="market-kicker">Equity Research</span>
-                    <h3 class="market-featured-title">DOANH NGHIỆP | Radar định giá và chất lượng tăng trưởng nhóm vốn hóa
+                    <h3 class="market-featured-title">DOANH NGHIỆP | Radar định giá và chất lượng tăng trưởng nhóm vốn
+                        hóa
                         lớn</h3>
                     <div class="market-meta">
                         <span>Coverage: 68 doanh nghiệp</span>
@@ -3981,7 +4325,6 @@
                             <div class="analysis-ticker">FPT</div>
                             <div class="analysis-company-name">Công nghệ thông tin</div>
                         </div>
-                        <span class="analysis-badge good">Mua</span>
                     </div>
                     <div class="analysis-kv-row"><span>Giá mục tiêu</span><strong>156,000</strong></div>
                     <div class="analysis-kv-row"><span>Upside</span><strong class="market-up">+18.6%</strong></div>
@@ -3995,7 +4338,6 @@
                             <div class="analysis-ticker">HPG</div>
                             <div class="analysis-company-name">Thép & vật liệu</div>
                         </div>
-                        <span class="analysis-badge good">Tích lũy</span>
                     </div>
                     <div class="analysis-kv-row"><span>Giá mục tiêu</span><strong>35,500</strong></div>
                     <div class="analysis-kv-row"><span>Upside</span><strong class="market-up">+14.2%</strong></div>
@@ -4009,7 +4351,6 @@
                             <div class="analysis-ticker">MWG</div>
                             <div class="analysis-company-name">Bán lẻ</div>
                         </div>
-                        <span class="analysis-badge watch">Theo dõi</span>
                     </div>
                     <div class="analysis-kv-row"><span>Giá mục tiêu</span><strong>72,000</strong></div>
                     <div class="analysis-kv-row"><span>Upside</span><strong class="market-neutral">+9.4%</strong></div>
@@ -4027,7 +4368,6 @@
                                 <th>Mã</th>
                                 <th>Tiêu đề</th>
                                 <th>Ngày</th>
-                                <th>Đánh giá</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -4035,19 +4375,16 @@
                                 <td>VCB</td>
                                 <td>Chất lượng tài sản dẫn đầu, NIM có dư địa phục hồi.</td>
                                 <td>10/05</td>
-                                <td><span class="analysis-badge good">Mua</span></td>
                             </tr>
                             <tr>
                                 <td>PNJ</td>
                                 <td>Cầu tiêu dùng chậm lại nhưng vị thế thương hiệu còn mạnh.</td>
                                 <td>08/05</td>
-                                <td><span class="analysis-badge watch">Nắm giữ</span></td>
                             </tr>
                             <tr>
                                 <td>GAS</td>
                                 <td>Dòng tiền ổn định, phù hợp nhóm phòng thủ khi biến động tăng.</td>
                                 <td>06/05</td>
-                                <td><span class="analysis-badge">Trung lập</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -4260,6 +4597,327 @@
         </div>
     </div>
 
+    <!-- ============================================ -->
+    <!-- PANEL: HỘI VIÊN                              -->
+    <!-- ============================================ -->
+    <div class="submenu-panel" id="panel-hoivien">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Hội Viên FinTop DATA</h2>
+            <p>Demo quyền truy cập theo các gói hội viên hiện có trên landing page và luồng đăng ký tương ứng.</p>
+        </div>
+
+        <div class="function-shell">
+            <section class="function-hero">
+                <article class="function-card">
+                    <span class="function-kicker">Membership Access</span>
+                    <h3>Mỗi gói mở khóa một cấp độ dữ liệu, công cụ và chuyên gia khác nhau</h3>
+                    <p>
+                        STANDARD phù hợp để bắt đầu tra cứu và dùng dữ liệu cơ bản. PRO mở khóa bộ lọc, PRO Data và
+                        phân tích chuyên sâu. V.I.P bổ sung kết nối chuyên gia và liên kết tài khoản chứng khoán.
+                        DIAMOND dành cho nhu cầu cố vấn chiến lược 1-1.
+                    </p>
+                    <div class="function-actions">
+                        <button class="function-btn" onclick="openPricingModal('pro')">Đăng ký PRO</button>
+                        <button class="function-btn-ghost" onclick="openPricingModal('vip')">Liên kết V.I.P</button>
+                        <button class="function-btn-ghost" onclick="openPricingModal('diamond')">Cố vấn DIAMOND</button>
+                    </div>
+                </article>
+
+                <aside class="function-card">
+                    <span class="function-kicker">Quy trình</span>
+                    <div class="function-metric-list">
+                        <div class="function-metric-row">
+                            <span>Tạo tài khoản</span>
+                            <div class="function-bar"><span style="--value: 100%;"></span></div>
+                            <strong>Free</strong>
+                        </div>
+                        <div class="function-metric-row">
+                            <span>Kích hoạt PRO</span>
+                            <div class="function-bar"><span style="--value: 78%;"></span></div>
+                            <strong>1-3d</strong>
+                        </div>
+                        <div class="function-metric-row">
+                            <span>Liên kết TKCK</span>
+                            <div class="function-bar"><span style="--value: 68%;"></span></div>
+                            <strong>VIP</strong>
+                        </div>
+                        <div class="function-metric-row">
+                            <span>Cố vấn 1-1</span>
+                            <div class="function-bar"><span style="--value: 92%;"></span></div>
+                            <strong>1 tỷ</strong>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+
+            <div class="function-grid">
+                <article class="function-mini-card">
+                    <h4>STANDARD</h4>
+                    <p>Tra cứu cổ phiếu, phân tích cơ bản, FinTop AI và dữ liệu nền.</p>
+                    <div class="function-actions"><button class="function-btn-ghost" onclick="openPricingModal('standard')">Đăng ký</button></div>
+                </article>
+                <article class="function-mini-card">
+                    <h4>PRO</h4>
+                    <p>Bộ lọc CP chuyên nghiệp, nghiên cứu chuyên sâu, tool và dữ liệu nâng cao.</p>
+                    <div class="function-actions"><button class="function-btn" onclick="openPricingModal('pro')">Đăng ký</button></div>
+                </article>
+                <article class="function-mini-card">
+                    <h4>V.I.P</h4>
+                    <p>Full PRO, kết nối chuyên gia, phân tích chuyên gia và liên kết tài khoản chứng khoán.</p>
+                    <div class="function-actions"><button class="function-btn-ghost" onclick="openPricingModal('vip')">Đăng ký</button></div>
+                </article>
+                <article class="function-mini-card">
+                    <h4>DIAMOND</h4>
+                    <p>Full V.I.P, cố vấn 1-1 chuyên gia và hỗ trợ chiến lược danh mục theo NAV.</p>
+                    <div class="function-actions"><button class="function-btn" onclick="openPricingModal('diamond')">Đăng ký</button></div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PANELS: STOCK DATA                           -->
+    <!-- ============================================ -->
+    <div class="submenu-panel" id="panel-stock-quant">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Quant Data</h2>
+            <p>Bảng định lượng nhanh cho từng mã cổ phiếu: điểm tổng hợp, động lượng, chất lượng và dòng tiền.</p>
+        </div>
+        <div class="function-shell">
+            <section class="function-hero">
+                <article class="function-card">
+                    <span class="function-kicker">Quant Score</span>
+                    <h3>FPT - FinTop Quant Score: 86/100</h3>
+                    <p>Điểm demo được tổng hợp từ tăng trưởng, sức mạnh giá, thanh khoản, chất lượng lợi nhuận và định giá tương đối.</p>
+                    <div class="function-metric-list" style="margin-top: 18px;">
+                        <div class="function-metric-row"><span>Động lượng</span><div class="function-bar"><span style="--value: 88%;"></span></div><strong>88</strong></div>
+                        <div class="function-metric-row"><span>Chất lượng</span><div class="function-bar"><span style="--value: 91%;"></span></div><strong>91</strong></div>
+                        <div class="function-metric-row"><span>Định giá</span><div class="function-bar"><span style="--value: 64%;"></span></div><strong>64</strong></div>
+                    </div>
+                </article>
+                <aside class="function-card">
+                    <span class="function-kicker">Market Pulse</span>
+                    <h3>Độ rộng tích cực 62%</h3>
+                    <p>Nhóm dẫn dắt demo: Công nghệ, Thép, Ngân hàng. Thanh khoản cao hơn trung bình 20 phiên.</p>
+                </aside>
+            </section>
+            <div class="function-table-card">
+                <table class="function-table">
+                    <thead><tr><th>Mã</th><th>Điểm Quant</th><th>Động lượng</th><th>Thanh khoản</th><th>Trạng thái</th></tr></thead>
+                    <tbody>
+                        <tr><td>FPT</td><td>86</td><td>Tăng mạnh</td><td>Cao</td><td><span class="function-tag good">Tích cực</span></td></tr>
+                        <tr><td>HPG</td><td>74</td><td>Hồi phục</td><td>Rất cao</td><td><span class="function-tag watch">Theo dõi</span></td></tr>
+                        <tr><td>VCB</td><td>79</td><td>Ổn định</td><td>Vừa phải</td><td><span class="function-tag">Nắm giữ</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="submenu-panel" id="panel-stock-pro">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">PRO Data</h2>
+            <p>Dữ liệu nâng cao dành cho hội viên PRO: trạng thái Model, vùng giá tham chiếu và điểm QTRR.</p>
+        </div>
+        <div class="function-shell">
+            <div class="function-table-card">
+                <table class="function-table">
+                    <thead><tr><th>Mã</th><th>Model</th><th>Kết quả</th><th>Vùng tham chiếu</th><th>QTRR</th></tr></thead>
+                    <tbody>
+                        <tr><td>FPT</td><td>Kênh xu hướng tăng trung hạn</td><td><span class="function-tag good">ENTRY</span></td><td>128 - 132</td><td>18</td></tr>
+                        <tr><td>HPG</td><td>Tích lũy trên MA50</td><td><span class="function-tag watch">SMALL ENTRY</span></td><td>29.5 - 31.0</td><td>22</td></tr>
+                        <tr><td>SSI</td><td>Dòng tiền cải thiện</td><td><span class="function-tag good">ENTRY</span></td><td>35 - 36.5</td><td>20</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="function-grid three">
+                <article class="function-mini-card"><h4>Model trạng thái</h4><p>Chuẩn hóa tín hiệu kỹ thuật thành nhãn dễ đọc: ENTRY, HOLD, WATCH.</p></article>
+                <article class="function-mini-card"><h4>Vùng giá</h4><p>Gợi ý vùng tham chiếu và kháng cự để hỗ trợ lập kế hoạch giao dịch.</p></article>
+                <article class="function-mini-card"><h4>QTRR</h4><p>Điểm rủi ro demo giúp kiểm soát tỷ trọng và điểm dừng lỗ.</p></article>
+            </div>
+        </div>
+    </div>
+
+    <div class="submenu-panel" id="panel-stock-sector">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Dữ Liệu Ngành</h2>
+            <p>So sánh sức mạnh dòng tiền, độ rộng và cổ phiếu đại diện theo từng nhóm ngành.</p>
+        </div>
+        <div class="function-shell">
+            <div class="function-grid three">
+                <article class="function-mini-card"><h4>Công nghệ</h4><p>Độ rộng 78%, thanh khoản cao, đại diện FPT, CMG.</p><span class="function-tag good">Dẫn dắt</span></article>
+                <article class="function-mini-card"><h4>Thép</h4><p>Độ rộng 64%, dòng tiền hồi phục, đại diện HPG, HSG.</p><span class="function-tag">Hồi phục</span></article>
+                <article class="function-mini-card"><h4>Bất động sản</h4><p>Độ rộng 42%, phân hóa mạnh, đại diện VHM, KDH.</p><span class="function-tag watch">Theo dõi</span></article>
+            </div>
+            <div class="function-table-card">
+                <table class="function-table">
+                    <thead><tr><th>Ngành</th><th>Độ rộng</th><th>Thanh khoản</th><th>Định giá</th><th>Trạng thái</th></tr></thead>
+                    <tbody>
+                        <tr><td>Ngân hàng</td><td>71%</td><td>Tăng</td><td>Hấp dẫn</td><td><span class="function-tag good">Overweight</span></td></tr>
+                        <tr><td>Bán lẻ</td><td>58%</td><td>Ổn định</td><td>Chọn lọc</td><td><span class="function-tag">Neutral</span></td></tr>
+                        <tr><td>Dầu khí</td><td>39%</td><td>Giảm</td><td>Trung bình</td><td><span class="function-tag watch">Watch</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="submenu-panel" id="panel-stock-reports">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Báo Cáo Stock Data</h2>
+            <p>Kho báo cáo demo cho dữ liệu thị trường, luân chuyển ngành và danh sách cổ phiếu đáng chú ý.</p>
+        </div>
+        <div class="function-shell">
+            <div class="function-grid three">
+                <article class="function-mini-card"><h4>Morning Brief</h4><p>Tóm tắt chỉ số, dòng tiền, độ rộng thị trường và cổ phiếu cần theo dõi trong phiên.</p><span class="function-tag good">Hằng ngày</span></article>
+                <article class="function-mini-card"><h4>Sector Rotation</h4><p>Bản đồ luân chuyển dòng tiền giữa nhóm dẫn dắt, hồi phục và suy yếu.</p><span class="function-tag">Hằng tuần</span></article>
+                <article class="function-mini-card"><h4>PRO Watchlist</h4><p>Danh sách cổ phiếu đạt điều kiện định lượng và vùng quản trị rủi ro.</p><span class="function-tag watch">PRO</span></article>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PANELS: HƯỚNG DẪN                            -->
+    <!-- ============================================ -->
+    <div class="submenu-panel" id="panel-guide-trading">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Giao Dịch & Đầu Tư</h2>
+            <p>Lộ trình demo giúp người dùng biến dữ liệu thành kế hoạch giao dịch có kỷ luật.</p>
+        </div>
+        <div class="function-shell">
+            <div class="function-grid">
+                <article class="function-mini-card"><h4>1. Khẩu vị rủi ro</h4><p>Xác định tỷ trọng vốn, mức cắt lỗ và số mã tối đa trong danh mục.</p></article>
+                <article class="function-mini-card"><h4>2. Watchlist</h4><p>Lọc cổ phiếu theo ngành, thanh khoản, Model và trạng thái dòng tiền.</p></article>
+                <article class="function-mini-card"><h4>3. Kế hoạch mua</h4><p>Đặt vùng mua, vùng xác nhận, điểm hạ rủi ro trước khi hành động.</p></article>
+                <article class="function-mini-card"><h4>4. Nhật ký</h4><p>Ghi lại lý do mua bán, biến động thực tế và bài học sau giao dịch.</p></article>
+            </div>
+        </div>
+    </div>
+
+    <div class="submenu-panel" id="panel-guide-ta">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Phân Tích Kỹ Thuật (TA)</h2>
+            <p>Hướng dẫn đọc xu hướng, hỗ trợ kháng cự, MA, RSI, Bollinger Band và mẫu nến.</p>
+        </div>
+        <div class="function-shell">
+            <section class="function-hero">
+                <article class="function-card">
+                    <span class="function-kicker">TA Workflow</span>
+                    <h3>Từ xu hướng chính đến điểm xác nhận</h3>
+                    <p>Demo hướng dẫn người dùng kiểm tra giá so với MA20/MA50, trạng thái RSI, nền tích lũy và thanh khoản để tránh mua đuổi.</p>
+                </article>
+                <aside class="function-card">
+                    <div class="function-metric-list">
+                        <div class="function-metric-row"><span>Xu hướng</span><div class="function-bar"><span style="--value: 82%;"></span></div><strong>Tốt</strong></div>
+                        <div class="function-metric-row"><span>RSI</span><div class="function-bar"><span style="--value: 63%;"></span></div><strong>63</strong></div>
+                        <div class="function-metric-row"><span>Volume</span><div class="function-bar"><span style="--value: 76%;"></span></div><strong>Cao</strong></div>
+                    </div>
+                </aside>
+            </section>
+        </div>
+    </div>
+
+    <div class="submenu-panel" id="panel-guide-fa">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Phân Tích Cơ Bản (FA)</h2>
+            <p>Hướng dẫn đánh giá doanh thu, lợi nhuận, dòng tiền, định giá và sức khỏe tài chính doanh nghiệp.</p>
+        </div>
+        <div class="function-shell">
+            <div class="function-table-card">
+                <table class="function-table">
+                    <thead><tr><th>Nhóm chỉ tiêu</th><th>Cần đọc</th><th>Ý nghĩa</th><th>Ví dụ demo</th></tr></thead>
+                    <tbody>
+                        <tr><td>Tăng trưởng</td><td>Doanh thu, LNST</td><td>Chất lượng mở rộng</td><td>FPT +20% LNST</td></tr>
+                        <tr><td>Sinh lời</td><td>ROE, biên LN</td><td>Hiệu quả vốn</td><td>VCB ROE cao</td></tr>
+                        <tr><td>Định giá</td><td>P/E, P/B</td><td>Biên an toàn</td><td>HPG theo chu kỳ</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="submenu-panel" id="panel-guide-library">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Tủ Sách Đầu Tư</h2>
+            <p>Cẩm nang đầu tư demo được chuyển từ website cũ, trình bày lại theo phong cách FinTop DATA.</p>
+        </div>
+        <div class="function-shell">
+            <section class="function-hero">
+                <article class="function-card">
+                    <span class="function-kicker">Investment Handbook</span>
+                    <h3>Cẩm nang đầu tư nền tảng</h3>
+                    <p>
+                        Bộ tài liệu tập trung vào tư duy đầu tư, phương pháp lựa chọn cổ phiếu, đọc báo cáo tài chính
+                        và phong cách quản trị danh mục từ các nhà đầu tư kinh điển.
+                    </p>
+                </article>
+                <aside class="function-card">
+                    <span class="function-kicker">Trạng thái thư viện</span>
+                    <div class="function-metric-list">
+                        <div class="function-metric-row"><span>Tủ sách</span><div class="function-bar"><span style="--value: 86%;"></span></div><strong>14</strong></div>
+                        <div class="function-metric-row"><span>Chủ đề</span><div class="function-bar"><span style="--value: 72%;"></span></div><strong>10</strong></div>
+                        <div class="function-metric-row"><span>Cập nhật</span><div class="function-bar"><span style="--value: 64%;"></span></div><strong>Demo</strong></div>
+                    </div>
+                </aside>
+            </section>
+
+            <div class="library-layout">
+                <div class="function-table-card">
+                    <table class="function-table library-table">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Nội dung</th>
+                                <th>Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="stt-cell">1</td><td class="content-cell">Nhà đầu tư thành công - William O'Neil</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Nhà đầu tư thành công - William ONeil')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">2</td><td class="content-cell">Chết vì chứng khoán - Jesse Livermore</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Chết vì chứng khoán - Jesse Livermore')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">3</td><td class="content-cell">Nhà đầu tư thông minh - Benjamin Graham</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Nhà đầu tư thông minh - Benjamin Graham')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">4</td><td class="content-cell">Quy tắc số 1 - Phil Town</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Quy tắc số 1 - Phil Town')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">5</td><td class="content-cell">Cổ phiếu thường, Lợi nhuận phi thường</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Cổ phiếu thường, Lợi nhuận phi thường')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">6</td><td class="content-cell">Phương pháp đầu tư của Warren Buffett</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Phương pháp đầu tư của Warren Buffett')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">7</td><td class="content-cell">Bí quyết đầu tư của tỷ phú Warren Buffett</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Bí quyết đầu tư của tỷ phú Warren Buffett')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">8</td><td class="content-cell">Báo cáo tài chính dưới góc nhìn Warren Buffett</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Báo cáo tài chính dưới góc nhìn Warren Buffett')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">9</td><td class="content-cell">Phong cách đầu tư Warren Buffett</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Phong cách đầu tư Warren Buffett')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">10</td><td class="content-cell">Ngay cả Warren Buffett cũng không hoàn hảo</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Ngay cả Warren Buffett cũng không hoàn hảo')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">11</td><td class="content-cell">Sách lược đầu tư của Warren Buffett</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Sách lược đầu tư của Warren Buffett')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">12</td><td class="content-cell">Đạo của Warren Buffett</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Đạo của Warren Buffett')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">13</td><td class="content-cell">Lý thuyết hộp Darvas - Nicolas Darvas</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Lý thuyết hộp Darvas - Nicolas Darvas')">Chi tiết</button></td></tr>
+                            <tr><td class="stt-cell">14</td><td class="content-cell">Một Las Vegas khác - Nicolas Darvas</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Một Las Vegas khác - Nicolas Darvas')">Chi tiết</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <aside class="function-card">
+                    <span class="function-kicker">Danh mục cẩm nang</span>
+                    <div class="library-category-list">
+                        <a class="library-category-item active" href="javascript:void(0)"><span class="library-category-icon">▣</span>Tủ sách đầu tư</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">▣</span>Kiến thức phân tích kỹ thuật (TA)</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">▣</span>Kiến thức phân tích cơ bản (FA)</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">▣</span>Kiến thức chứng khoán, TTCK</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">◉</span>Chỉ số hàng hóa</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">⌁</span>Chứng khoán thế giới</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">◎</span>Coins</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">¥</span>Forex</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">▤</span>Tin kinh tế</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">◒</span>Tin thế giới</a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
     <!-- VÙNG CUỘN HIỆU ỨNG ĐIỆN ẢNH -->
     <div id="cinematic-container">
 
@@ -4272,7 +4930,7 @@
                 <h1 class="hero-title gradient-text">Kỷ Nguyên Đầu Tư Cùng FinTop DATA.</h1>
                 <p class="hero-subtitle">Nơi hội tụ Data - Chuyên gia - Công nghệ & AI. Tinh gọn và hiệu quả.</p>
                 <div class="hero-cta-wrapper">
-                    <button class="btn-white-huge" onclick="location.href='hoi-vien/index.html'">Bắt đầu miễn
+                    <button class="btn-white-huge" onclick="openAuthModal('login')">Bắt đầu miễn
                         phí</button>
                     <span style="font-size: 0.9rem; color: #94A3B8; letter-spacing: 0.5px;"></span>
                 </div>
@@ -4388,7 +5046,7 @@
                     <li><span class="check-icon">✦</span> Phân tích cơ bản</li>
                     <li><span class="check-icon">✦</span> Tool & Dữ liệu cơ bản</li>
                 </ul>
-                <button class="btn-tier">Đăng ký</button>
+                <button class="btn-tier" onclick="openPricingModal('standard')">Đăng ký</button>
             </div>
 
             <!-- GÓI PRO - Tím -->
@@ -4400,7 +5058,7 @@
                     <li><span class="check-icon">✦</span> Pro Analysis</li>
                     <li><span class="check-icon">✦</span> Pro Data</li>
                 </ul>
-                <button class="btn-tier">Đăng ký</button>
+                <button class="btn-tier" onclick="openPricingModal('pro')">Đăng ký</button>
             </div>
 
             <!-- GÓI V.I.P - Xanh ngọc -->
@@ -4412,7 +5070,7 @@
                     <li><span class="check-icon">✦</span> Kết nối Chuyên gia</li>
                     <li><span class="check-icon">✦</span> Phân tích Chuyên gia</li>
                 </ul>
-                <button class="btn-tier">Đăng ký</button>
+                <button class="btn-tier" onclick="openPricingModal('vip')">Đăng ký</button>
             </div>
 
             <!-- GÓI DIAMOND - Vàng -->
@@ -4424,7 +5082,7 @@
                     <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
                     <li><span class="check-icon">✦</span> Cố vấn 1-1 Chuyên gia</li>
                 </ul>
-                <button class="btn-tier">Đăng ký</button>
+                <button class="btn-tier" onclick="openPricingModal('diamond')">Đăng ký</button>
             </div>
         </div>
     </section>
@@ -5334,7 +5992,344 @@
                 }, 500);
             }
         };
+
+        function openPanelFromHash() {
+            const panelId = window.location.hash.replace('#', '');
+            const allowedPanels = [
+                'panel-tracuu',
+                'panel-boloc',
+                'panel-tinhieu',
+                'panel-analysis-market',
+                'panel-analysis-pro',
+                'panel-analysis-company',
+                'panel-analysis-sector',
+                'panel-hoivien',
+                'panel-stock-quant',
+                'panel-stock-pro',
+                'panel-stock-sector',
+                'panel-stock-reports',
+                'panel-guide-trading',
+                'panel-guide-ta',
+                'panel-guide-fa',
+                'panel-guide-library'
+            ];
+
+            if (!allowedPanels.includes(panelId)) return;
+
+            const panelLink = document.querySelector(`[data-panel="${panelId}"]`);
+            if (panelLink) {
+                setTimeout(() => openPanel(panelId, panelLink), 80);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', openPanelFromHash);
+        window.addEventListener('hashchange', openPanelFromHash);
     </script>
+    <!-- === MODALS BẢNG GIÁ HỘI VIÊN === -->
+    <div id="pricing-modals" class="pricing-modals-overlay">
+
+        <!-- Modal STANDARD -->
+        <div class="pricing-modal theme-standard" id="modal-standard">
+            <div class="modal-header">
+                <h3>ĐẶC QUYỀN HỘI VIÊN</h3>
+                <button class="btn-close-modal" onclick="closePricingModal()">×</button>
+            </div>
+            <div class="modal-hero">
+                <div class="modal-hero-left">
+                    <div class="modal-icon-wrapper">
+                        📦
+                    </div>
+                    <div class="modal-hero-title">STANDARD</div>
+                    <div class="modal-hero-subtitle">(Tiêu chuẩn)</div>
+                </div>
+                <div class="modal-hero-right">
+                    <ul class="modal-features-list">
+                        <li>Tra cứu cổ phiếu</li>
+                        <li>Phân tích cơ bản</li>
+                        <li>FinTop AI phân tích</li>
+                        <li>Tool & Dữ liệu cơ bản</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-center mb-4" style="color:#7dd3fc;">Đăng ký tài khoản FinTop DATA miễn phí!</h4>
+                <div class="modal-steps-container">
+                    <div class="modal-step-box">
+                        <div class="step-label">Bước 1</div>
+                        <div class="step-desc">Đăng ký tài khoản FinTop DATA</div>
+                        <button class="btn-modal-action primary" onclick="submitStandard()">ĐĂNG KÝ</button>
+                    </div>
+                    <div class="modal-step-box">
+                        <div class="step-label">Bước 2</div>
+                        <div class="step-desc">Đăng nhập và truy cập miễn phí!</div>
+                        <button class="btn-modal-action" onclick="submitStandard()">ĐĂNG NHẬP</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal PRO -->
+        <div class="pricing-modal theme-pro" id="modal-pro">
+            <div class="modal-header">
+                <h3>ĐẶC QUYỀN HỘI VIÊN</h3>
+                <button class="btn-close-modal" onclick="closePricingModal()">×</button>
+            </div>
+            <div class="modal-hero">
+                <div class="modal-hero-left">
+                    <div class="modal-icon-wrapper">
+                        ⭐
+                    </div>
+                    <div class="modal-hero-title">PROFESSIONAL</div>
+                    <div class="modal-hero-subtitle">(Chuyên nghiệp)</div>
+                </div>
+                <div class="modal-hero-right">
+                    <ul class="modal-features-list">
+                        <li class="highlight">Bộ lọc cổ phiếu chuyên nghiệp</li>
+                        <li class="highlight">Nghiên cứu & Phân tích chuyên sâu</li>
+                        <li class="highlight">Tool & Dữ liệu nâng cao</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-center mb-2" style="color:#c4b5fd; font-size: 1.1rem;">Đăng ký Hội viên PRO FinTop DATA
+                </h4>
+                <div class="modal-steps-container mt-4" style="grid-template-columns: 1fr;">
+                    <div class="modal-step-box" style="text-align: left;">
+                        <div class="step-label" style="text-align: center;">Bước 1: Chọn gói Hội viên và thanh toán
+                        </div>
+                        <div class="text-muted-sm text-center mb-3">Hội viên chọn 1 trong các gói PRO1, PRO2, PRO3 đăng
+                            ký tương ứng. Giá đã bao gồm VAT 10%.</div>
+
+                        <div class="pro-packages-grid">
+                            <div class="pro-package-card active" data-package="PRO1" data-months="3">
+                                <div class="pro-pkg-title">PRO1 (3 tháng)</div>
+                                <div class="pro-pkg-price">2.000.000 VND</div>
+                            </div>
+                            <div class="pro-package-card" data-package="PRO2" data-months="6">
+                                <div class="pro-pkg-title">PRO2 (6 tháng)</div>
+                                <div class="pro-pkg-price">3.500.000 VND</div>
+                            </div>
+                            <div class="pro-package-card" data-package="PRO3" data-months="12">
+                                <div class="pro-pkg-title">PRO3 (12 tháng)</div>
+                                <div class="pro-pkg-price">6.000.000 VND</div>
+                            </div>
+                        </div>
+
+                        <div class="payment-info-box">
+                            <div class="payment-info-row">
+                                <div class="payment-label">Ngân hàng:</div>
+                                <div class="payment-value">MBBank - Ngân hàng TMCP Quân đội</div>
+                            </div>
+                            <div class="payment-info-row">
+                                <div class="payment-label">Số tài khoản:</div>
+                                <div class="payment-value" style="color:#c4b5fd;">86 286 243 8886</div>
+                            </div>
+                            <div class="payment-info-row">
+                                <div class="payment-label">Chủ tài khoản:</div>
+                                <div class="payment-value">CÔNG TY TNHH ĐẦU TƯ VÀ PHÁT TRIỂN FINTOP</div>
+                            </div>
+                            <div class="payment-info-row mt-3">
+                                <div class="payment-label">Nội dung:</div>
+                                <div class="payment-value" id="pro-payment-note">
+                                    [HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI PRO1 - 3 THÁNG]<br>
+                                    <span style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A 0862348886 PRO1 3
+                                        THÁNG</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-step-box" style="text-align: left;">
+                        <div class="step-label" style="text-align: center;">Bước 2: Yêu cầu phê duyệt</div>
+                        <div class="text-muted-sm text-center mb-4">Sau khi thanh toán thành công, vui lòng nhấn nút bên
+                            dưới để gửi yêu cầu phê duyệt.</div>
+                        <button class="btn-modal-action primary" onclick="submitProApproval()"
+                            style="width: 50%; margin: 0 auto; display: block;">YÊU CẦU PHÊ DUYỆT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal V.I.P -->
+        <div class="pricing-modal theme-vip" id="modal-vip">
+            <div class="modal-header">
+                <h3>ĐẶC QUYỀN HỘI VIÊN</h3>
+                <button class="btn-close-modal" onclick="closePricingModal()">×</button>
+            </div>
+            <div class="modal-hero">
+                <div class="modal-hero-left">
+                    <div class="modal-icon-wrapper">
+                        🥇
+                    </div>
+                    <div class="modal-hero-title">V.I.P</div>
+                    <div class="modal-hero-subtitle">(Cao cấp)</div>
+                </div>
+                <div class="modal-hero-right">
+                    <ul class="modal-features-list">
+                        <li>Full đặc quyền PRO</li>
+                        <li class="highlight">Kết nối Chuyên gia</li>
+                        <li class="highlight">Phân tích Chuyên gia</li>
+                        <li class="highlight">Liên kết tài khoản chứng khoán (ID FinTop/FinTop Team)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-steps-container">
+                    <div class="modal-step-box">
+                        <div class="step-label">Bước 1: Mở tài khoản (Chưa có TK)</div>
+                        <div class="step-desc" style="text-align: left; line-height: 1.8;">
+                            + Mở TKCK VPS nhập FinTop ID: <strong style="color:#6ee7b7;">BOJE</strong><br>
+                            + Mở TKCK TCBS nhập FinTop ID: <strong style="color:#6ee7b7;">105CN48886</strong><br>
+                            + Mở TKCK ID "Chuyên gia FinTop Team" tại CTCK.
+                        </div>
+                        <button class="btn-modal-action primary mb-2" onclick="submitVIP('open')">MỞ TK VPS</button>
+                        <button class="btn-modal-action" onclick="submitVIP('open')">MỞ TK TCBS</button>
+                    </div>
+                    <div class="modal-step-box">
+                        <div class="step-label">Bước 2: Liên kết TK (Đã có TK)</div>
+                        <div class="step-desc" style="text-align: left;">
+                            <p class="mb-2 text-muted-sm">Vui lòng điền thông tin bên dưới để yêu cầu phê duyệt liên
+                                kết:</p>
+                            <input type="text" placeholder="Số TK chứng khoán..."
+                                style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 10px;">
+                            <input type="text" placeholder="Công ty chứng khoán..."
+                                style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 15px;">
+                        </div>
+                        <button class="btn-modal-action primary" onclick="submitVIP('link')">YÊU CẦU LIÊN KẾT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal DIAMOND -->
+        <div class="pricing-modal theme-diamond" id="modal-diamond">
+            <div class="modal-header">
+                <h3>ĐẶC QUYỀN HỘI VIÊN</h3>
+                <button class="btn-close-modal" onclick="closePricingModal()">×</button>
+            </div>
+            <div class="modal-hero">
+                <div class="modal-hero-left">
+                    <div class="modal-icon-wrapper">
+                        💎
+                    </div>
+                    <div class="modal-hero-title">DIAMOND</div>
+                    <div class="modal-hero-subtitle">(Kim cương)</div>
+                </div>
+                <div class="modal-hero-right">
+                    <ul class="modal-features-list">
+                        <li>Full đặc quyền PRO</li>
+                        <li>Full đặc quyền V.I.P</li>
+                        <li class="highlight">Cố vấn 1-1 Chuyên gia</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="payment-info-box" style="text-align: center; border-color: rgba(252, 211, 77, 0.3);">
+                    <p style="color: #fff; line-height: 1.6; margin-bottom: 20px;">
+                        Gói hỗ trợ <strong style="color: #fcd34d;">VIP PRO</strong> đặc biệt dành riêng cho khách hàng
+                        đối tác FinTop. Hội viên Kim Cương với NAV đầu tư từ 1 tỷ VND, cố vấn chiến lược 1-1 cùng Chuyên
+                        gia FinTop, tư vấn danh mục cổ phiếu, nắm bắt cơ hội đầu tư, quản trị rủi ro.
+                    </p>
+                    <button class="btn-modal-action primary" style="width: 200px;"
+                        onclick="alert('Đang chuyển hướng tới kênh Hỗ trợ/Liên hệ FinTop...')">LIÊN HỆ NGAY</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================ -->
+    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ (SPLIT SCREEN)   -->
+    <!-- ============================================ -->
+    <div class="auth-modal-overlay" id="authModalOverlay">
+        <div class="auth-modal-container">
+            <button class="btn-close-auth" onclick="closeAuthModal()">✕</button>
+
+            <!-- Left Side (Hero Image) -->
+            <div class="auth-modal-left">
+                <img src="assets/images/AI.jpg" alt="FinTop AI Background" class="auth-hero-bg">
+                <div class="auth-hero-content">
+                    <h2>Mở Khóa<br>Tiềm Năng Đầu Tư</h2>
+                </div>
+            </div>
+
+            <!-- Right Side (Forms) -->
+            <div class="auth-modal-right">
+                <div class="auth-logo-header">
+                    <!-- Replace with an actual logo image if desired, or keep text -->
+                    <span style="font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: 1px;">FinTop
+                        DATA</span>
+                </div>
+
+                <div class="auth-form-container">
+                    <div class="auth-forms-wrapper">
+
+                        <!-- FORM ĐĂNG NHẬP -->
+                        <form class="auth-form active" id="authFormLogin" onsubmit="submitAuth(event, 'login')">
+                            <h3 class="auth-title">Đăng nhập</h3>
+
+                            <div class="auth-input-group">
+                                <label class="auth-label">Email hoặc Tên đăng nhập</label>
+                                <input type="text" class="auth-input" placeholder="Nhập email của bạn" required>
+                            </div>
+
+                            <div class="auth-input-group">
+                                <label class="auth-label">Mật khẩu</label>
+                                <input type="password" class="auth-input" id="loginPassword" placeholder="Nhập mật khẩu"
+                                    required>
+                                <button type="button" class="password-toggle" data-target="loginPassword">👁️</button>
+                            </div>
+
+                            <div class="auth-options">
+                                <label class="auth-checkbox-label">
+                                    <input type="checkbox" checked> Ghi nhớ đăng nhập
+                                </label>
+                                <a href="javascript:void(0)" class="auth-link"
+                                    onclick="submitAuth(event, 'forgot')">Quên mật khẩu?</a>
+                            </div>
+
+                            <button type="submit" class="auth-btn-submit">Đăng nhập</button>
+
+                            <div class="auth-footer">
+                                Chưa có tài khoản? <a href="javascript:void(0)" class="auth-link"
+                                    onclick="switchAuthView('register')">Đăng ký ngay</a>
+                            </div>
+                        </form>
+
+                        <!-- FORM ĐĂNG KÝ -->
+                        <form class="auth-form" id="authFormRegister" onsubmit="submitAuth(event, 'register')">
+                            <h3 class="auth-title">Tạo tài khoản mới</h3>
+
+                            <div class="auth-input-group">
+                                <label class="auth-label">Họ và tên</label>
+                                <input type="text" class="auth-input" placeholder="Nhập họ và tên" required>
+                            </div>
+
+                            <div class="auth-input-group">
+                                <label class="auth-label">Email</label>
+                                <input type="email" class="auth-input" placeholder="Nhập email của bạn" required>
+                            </div>
+
+                            <div class="auth-input-group">
+                                <label class="auth-label">Mật khẩu</label>
+                                <input type="password" class="auth-input" id="registerPassword"
+                                    placeholder="Tạo mật khẩu" required>
+                                <button type="button" class="password-toggle"
+                                    data-target="registerPassword">👁️</button>
+                            </div>
+
+                            <button type="submit" class="auth-btn-submit">Đăng ký</button>
+
+                            <div class="auth-footer">
+                                Đã có tài khoản? <a href="javascript:void(0)" class="auth-link"
+                                    onclick="switchAuthView('login')">Đăng nhập</a>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>

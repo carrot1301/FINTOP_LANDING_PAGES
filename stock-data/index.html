@@ -1,1 +1,336 @@
-<!DOCTYPE html><html lang='vi'><head><meta charset='UTF-8'><title>FinTop DATA</title><link rel='stylesheet' href='../assets/css/variables.css'><link rel='stylesheet' href='../assets/css/base.css'></head><body><h1 style='padding:5rem; text-align:center;'>Trang �ang ��?c x�y d?ng</h1></body></html>
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Data | FinTop DATA</title>
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/demo-pages.css">
+</head>
+
+<body class="demo-page">
+    <header class="tv-header">
+        <div class="tv-left">
+            <a href="../index.html">
+                <img src="../assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo">
+            </a>
+            <div class="tv-search-bar">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                </svg>
+                Tìm kiếm (Ctrl+K)
+            </div>
+        </div>
+        <ul class="tv-nav">
+            <li class="nav-item"><a href="../index.html">Trang chủ</a></li>
+            <li class="nav-item"><a href="../hoi-vien/index.html">Hội viên</a></li>
+            <li class="nav-item dropdown" id="dropdown-fintop-data">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../index.html#panel-tracuu">📊 Tra cứu cổ phiếu</a>
+                    <a href="../index.html#panel-boloc">🔍 Bộ lọc cổ phiếu <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../fintop-ai/index.html">🤖 FinTop AI</a>
+                    <a href="../index.html#panel-tinhieu">📡 Copy Trade Chuyên gia</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-phan-tich">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Phân tích <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../index.html#panel-analysis-market">Thị trường</a>
+                    <a href="../index.html#panel-analysis-pro">PRO analysis <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../index.html#panel-analysis-company">Doanh nghiệp</a>
+                    <a href="../index.html#panel-analysis-sector">NCPT Ngành</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-stock-data">
+                <a href="../stock-data/index.html" class="active-page">Stock Data <span style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../stock-data/index.html#quant">Quant Data</a>
+                    <a href="../stock-data/index.html#pro-data">PRO Data <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../stock-data/index.html#sector">Dữ liệu ngành</a>
+                    <a href="../stock-data/index.html#reports">Báo cáo</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-huongdan">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../huong-dan/index.html#trading">📖 Giao dịch & Đầu tư</a>
+                    <a href="../huong-dan/index.html#ta">📈 Phân tích kỹ thuật (TA)</a>
+                    <a href="../huong-dan/index.html#fa">📊 Phân tích cơ bản (FA)</a>
+                    <a href="../huong-dan/index.html#library">📚 Tủ sách đầu tư</a>
+                </div>
+            </li>
+        </ul>
+        <div class="tv-right">
+            <span class="icon-link">🌐 VI</span>
+            <div class="user-dropdown-container">
+                <span class="icon-link" style="cursor: pointer;">👤</span>
+                <div class="user-dropdown-menu">
+                    <a href="../index.html" class="user-dropdown-item">👤 Đăng nhập</a>
+                    <a href="../huong-dan/index.html" class="user-dropdown-item">Trung tâm Trợ giúp</a>
+                    <a href="../index.html" class="user-dropdown-item">Có gì mới</a>
+                </div>
+            </div>
+            <button class="btn-tv-blue" type="button" onclick="window.location.href='../index.html#pricing'">Bắt đầu</button>
+        </div>
+    </header>
+
+    <main class="demo-main">
+        <section class="demo-hero">
+            <div>
+                <div class="demo-kicker">Stock Data Terminal</div>
+                <h1 class="gradient-text">Dữ liệu cổ phiếu được gom về một màn hình hành động.</h1>
+                <p>
+                    Demo Stock Data mô phỏng khu vực Quant Data, PRO Data, dữ liệu ngành và báo cáo.
+                    Toàn bộ số liệu bên dưới là dữ liệu mẫu để thể hiện trải nghiệm sản phẩm.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn-demo" href="#stock-workspace">Tra cứu demo</a>
+                    <a class="btn-demo-ghost" href="#stock-workspace" onclick="setStockTab('reports')">Xem báo cáo</a>
+                </div>
+            </div>
+
+            <aside class="demo-preview" aria-label="Tổng quan dữ liệu mẫu">
+                <div class="preview-topbar">
+                    <span class="preview-title">Market Pulse</span>
+                    <span class="preview-pill">DEMO DATA</span>
+                </div>
+                <div class="preview-body">
+                    <div class="metric-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+                        <article class="metric-card">
+                            <div class="metric-label">Độ rộng tích cực</div>
+                            <div class="metric-value">62%</div>
+                            <div class="metric-note">Nhóm dẫn dắt: Công nghệ, Thép</div>
+                        </article>
+                        <article class="metric-card">
+                            <div class="metric-label">Thanh khoản</div>
+                            <div class="metric-value">18.4K tỷ</div>
+                            <div class="metric-note">Cao hơn trung bình 20 phiên</div>
+                        </article>
+                    </div>
+                    <div class="mini-chart">
+                        <svg viewBox="0 0 640 160" preserveAspectRatio="none" aria-hidden="true">
+                            <polyline points="0,118 70,104 140,112 210,78 280,88 350,54 420,64 500,38 580,46 640,28"
+                                fill="none" stroke="#a855f7" stroke-width="4" />
+                            <polyline points="0,132 70,124 140,126 210,110 280,104 350,92 420,88 500,72 580,76 640,66"
+                                fill="none" stroke="#38bdf8" stroke-width="3" opacity="0.72" />
+                        </svg>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <section class="demo-section">
+            <div class="section-heading">
+                <div>
+                    <div class="demo-kicker">Nhóm dữ liệu</div>
+                    <h2>Cấu trúc đúng với menu Stock Data</h2>
+                </div>
+                <p>Mỗi nhóm dữ liệu có một màn hình demo riêng để thể hiện cách người dùng đọc và so sánh thông tin.</p>
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card" id="quant">
+                    <h3>Quant Data</h3>
+                    <p>Điểm định lượng, động lượng, chất lượng, định giá, dòng tiền và bảng chỉ số nhanh.</p>
+                    <strong>Dành cho ra quyết định nhanh.</strong>
+                </article>
+                <article class="feature-card" id="pro-data">
+                    <h3>PRO Data</h3>
+                    <p>Bộ chỉ báo nâng cao, trạng thái Model, vùng giá tham chiếu và quản trị rủi ro.</p>
+                    <strong>Dành cho hội viên PRO trở lên.</strong>
+                </article>
+                <article class="feature-card" id="sector">
+                    <h3>Dữ liệu ngành</h3>
+                    <p>So sánh sức mạnh ngành, độ rộng, thanh khoản, định giá và cổ phiếu đại diện.</p>
+                    <strong>Dành cho chọn nhóm dẫn dắt.</strong>
+                </article>
+            </div>
+        </section>
+
+        <section class="demo-section" id="stock-workspace">
+            <div class="section-heading">
+                <div>
+                    <div class="demo-kicker">Dashboard tương tác</div>
+                    <h2>Tra cứu cổ phiếu mẫu</h2>
+                </div>
+                <p>Nhập FPT, HPG hoặc VCB để xem dữ liệu demo đổi theo từng mã.</p>
+            </div>
+
+            <div class="stock-layout">
+                <aside class="guide-menu" aria-label="Nhóm Stock Data">
+                    <button type="button" class="is-active" data-stock-tab="quant">Quant Data</button>
+                    <button type="button" data-stock-tab="pro-data">PRO Data</button>
+                    <button type="button" data-stock-tab="sector">Dữ liệu ngành</button>
+                    <button type="button" data-stock-tab="reports">Báo cáo</button>
+                </aside>
+
+                <section class="stock-panel">
+                    <div class="stock-toolbar">
+                        <input id="stockSearchInput" type="text" value="FPT" maxlength="8" aria-label="Mã cổ phiếu">
+                        <button class="btn-demo" type="button" onclick="searchDemoStock()">Tra cứu</button>
+                        <span class="status-badge info">Dữ liệu demo</span>
+                    </div>
+
+                    <div class="stock-tab-panel is-active" data-stock-panel="quant">
+                        <h2><span id="stockTicker">FPT</span> - <span id="stockCompany">FPT Corporation</span></h2>
+                        <p>Giá tham chiếu demo: <strong id="stockPrice" style="color:#fff;">132.40</strong>
+                            <span id="stockChange" class="status-badge good">+1.85%</span>
+                            <span id="stockStatus" class="status-badge watch">Tích cực</span>
+                        </p>
+
+                        <div class="stock-overview" style="margin-top: 18px;">
+                            <div class="stock-score">
+                                <div class="score-number" id="stockScore">86</div>
+                                <div class="score-label">FinTop Quant Score</div>
+                                <div class="mini-chart">
+                                    <svg viewBox="0 0 640 160" preserveAspectRatio="none" aria-hidden="true">
+                                        <polyline points="0,118 90,96 180,102 270,74 360,88 450,54 540,46 640,34"
+                                            fill="none" stroke="#6ee7b7" stroke-width="4" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="metric-grid" id="stockMetrics" style="grid-template-columns: repeat(2, minmax(0, 1fr));"></div>
+                                <div class="bar-list" id="stockBars" style="margin-top: 16px;"></div>
+                            </div>
+                        </div>
+
+                        <div class="table-wrap">
+                            <table class="demo-table">
+                                <thead>
+                                    <tr>
+                                        <th>Chỉ tiêu</th>
+                                        <th>Giá trị</th>
+                                        <th>Xu hướng</th>
+                                        <th>Ghi chú</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="stockDataRows"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="stock-tab-panel" data-stock-panel="pro-data">
+                        <h2>PRO Data mẫu</h2>
+                        <p>Bảng demo mô tả trạng thái Model, vùng giá tham chiếu và điểm quản trị rủi ro.</p>
+                        <div class="table-wrap">
+                            <table class="demo-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã</th>
+                                        <th>Model</th>
+                                        <th>Kết quả</th>
+                                        <th>Vùng tham chiếu</th>
+                                        <th>QTRR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>FPT</td>
+                                        <td>Kênh xu hướng tăng trung hạn</td>
+                                        <td><span class="status-badge good">ENTRY</span></td>
+                                        <td>128 - 132</td>
+                                        <td>18</td>
+                                    </tr>
+                                    <tr>
+                                        <td>HPG</td>
+                                        <td>Tích lũy trên MA50</td>
+                                        <td><span class="status-badge watch">SMALL ENTRY</span></td>
+                                        <td>29.5 - 31.0</td>
+                                        <td>22</td>
+                                    </tr>
+                                    <tr>
+                                        <td>VCB</td>
+                                        <td>Xu hướng ổn định, biến động thấp</td>
+                                        <td><span class="status-badge info">HOLD</span></td>
+                                        <td>90 - 93</td>
+                                        <td>15</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="stock-tab-panel" data-stock-panel="sector">
+                        <h2>Dữ liệu ngành mẫu</h2>
+                        <p>So sánh nhanh sức mạnh dòng tiền và định giá giữa các nhóm ngành.</p>
+                        <div class="table-wrap">
+                            <table class="demo-table">
+                                <thead>
+                                    <tr>
+                                        <th>Ngành</th>
+                                        <th>Độ rộng</th>
+                                        <th>Thanh khoản</th>
+                                        <th>Đại diện</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Công nghệ</td>
+                                        <td>78%</td>
+                                        <td>Cao</td>
+                                        <td>FPT, CMG</td>
+                                        <td><span class="status-badge good">Dẫn dắt</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thép</td>
+                                        <td>64%</td>
+                                        <td>Tăng</td>
+                                        <td>HPG, HSG</td>
+                                        <td><span class="status-badge info">Hồi phục</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bất động sản</td>
+                                        <td>42%</td>
+                                        <td>Phân hóa</td>
+                                        <td>VHM, KDH</td>
+                                        <td><span class="status-badge watch">Theo dõi</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="stock-tab-panel" data-stock-panel="reports" id="reports">
+                        <h2>Báo cáo demo</h2>
+                        <p>Các báo cáo mẫu có thể nối với hệ thống phân quyền hội viên và kho tài liệu thật.</p>
+                        <div class="report-grid" style="margin-top: 16px;">
+                            <article class="report-card">
+                                <h3>Morning Brief</h3>
+                                <p>Tổng hợp chỉ số, dòng tiền, nhóm ngành và cổ phiếu cần theo dõi trong phiên.</p>
+                            </article>
+                            <article class="report-card">
+                                <h3>Sector Rotation</h3>
+                                <p>Bản đồ luân chuyển dòng tiền giữa ngành dẫn dắt, hồi phục và suy yếu.</p>
+                            </article>
+                            <article class="report-card">
+                                <h3>PRO Watchlist</h3>
+                                <p>Danh sách cổ phiếu đạt điều kiện định lượng và vùng giá quản trị rủi ro.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer class="demo-footer">
+        FinTop DATA - Stock Data demo. Số liệu chỉ dùng để minh họa giao diện và luồng chức năng.
+    </footer>
+
+    <script src="../assets/js/demo-pages.js"></script>
+</body>
+
+</html>
