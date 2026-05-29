@@ -845,6 +845,7 @@
         }
 
         @media (max-width: 700px) {
+
             .function-hero,
             .function-grid,
             .function-grid.three {
@@ -3532,13 +3533,13 @@
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-phan-tich">
-                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Phân tích <span
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content" id="dc-phan-tich">
                     <a href="javascript:void(0)" data-panel="panel-analysis-market"
                         onclick="openPanel('panel-analysis-market', this)">Thị trường</a>
                     <a href="javascript:void(0)" data-panel="panel-analysis-pro"
-                        onclick="openPanel('panel-analysis-pro', this)">PRO analysis <span
+                        onclick="openPanel('panel-analysis-pro', this)">PRO Research <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="javascript:void(0)" data-panel="panel-analysis-company"
                         onclick="openPanel('panel-analysis-company', this)">Doanh nghiệp</a>
@@ -3548,16 +3549,16 @@
             </li>
 
             <li class="nav-item dropdown" id="dropdown-stock-data">
-                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-stock-data')">Stock Data <span
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-stock-data')">Dữ liệu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content" id="dc-stock-data">
                     <a href="javascript:void(0)" data-panel="panel-stock-quant"
-                        onclick="openPanel('panel-stock-quant', this)">Quant Data</a>
+                        onclick="openPanel('panel-stock-quant', this)">Tổng quan</a>
                     <a href="javascript:void(0)" data-panel="panel-stock-pro"
                         onclick="openPanel('panel-stock-pro', this)">PRO Data <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="javascript:void(0)" data-panel="panel-stock-sector"
-                        onclick="openPanel('panel-stock-sector', this)">Dữ liệu ngành</a>
+                        onclick="openPanel('panel-stock-sector', this)">Định lượng</a>
                     <a href="javascript:void(0)" data-panel="panel-stock-reports"
                         onclick="openPanel('panel-stock-reports', this)">Báo cáo</a>
                 </div>
@@ -4655,22 +4656,26 @@
                 <article class="function-mini-card">
                     <h4>STANDARD</h4>
                     <p>Tra cứu cổ phiếu, phân tích cơ bản, FinTop AI và dữ liệu nền.</p>
-                    <div class="function-actions"><button class="function-btn-ghost" onclick="openPricingModal('standard')">Đăng ký</button></div>
+                    <div class="function-actions"><button class="function-btn-ghost"
+                            onclick="openPricingModal('standard')">Đăng ký</button></div>
                 </article>
                 <article class="function-mini-card">
                     <h4>PRO</h4>
                     <p>Bộ lọc CP chuyên nghiệp, nghiên cứu chuyên sâu, tool và dữ liệu nâng cao.</p>
-                    <div class="function-actions"><button class="function-btn" onclick="openPricingModal('pro')">Đăng ký</button></div>
+                    <div class="function-actions"><button class="function-btn" onclick="openPricingModal('pro')">Đăng
+                            ký</button></div>
                 </article>
                 <article class="function-mini-card">
                     <h4>V.I.P</h4>
                     <p>Full PRO, kết nối chuyên gia, phân tích chuyên gia và liên kết tài khoản chứng khoán.</p>
-                    <div class="function-actions"><button class="function-btn-ghost" onclick="openPricingModal('vip')">Đăng ký</button></div>
+                    <div class="function-actions"><button class="function-btn-ghost"
+                            onclick="openPricingModal('vip')">Đăng ký</button></div>
                 </article>
                 <article class="function-mini-card">
                     <h4>DIAMOND</h4>
                     <p>Full V.I.P, cố vấn 1-1 chuyên gia và hỗ trợ chiến lược danh mục theo NAV.</p>
-                    <div class="function-actions"><button class="function-btn" onclick="openPricingModal('diamond')">Đăng ký</button></div>
+                    <div class="function-actions"><button class="function-btn"
+                            onclick="openPricingModal('diamond')">Đăng ký</button></div>
                 </article>
             </div>
         </div>
@@ -4690,11 +4695,18 @@
                 <article class="function-card">
                     <span class="function-kicker">Quant Score</span>
                     <h3>FPT - FinTop Quant Score: 86/100</h3>
-                    <p>Điểm demo được tổng hợp từ tăng trưởng, sức mạnh giá, thanh khoản, chất lượng lợi nhuận và định giá tương đối.</p>
+                    <p>Điểm demo được tổng hợp từ tăng trưởng, sức mạnh giá, thanh khoản, chất lượng lợi nhuận và định
+                        giá tương đối.</p>
                     <div class="function-metric-list" style="margin-top: 18px;">
-                        <div class="function-metric-row"><span>Động lượng</span><div class="function-bar"><span style="--value: 88%;"></span></div><strong>88</strong></div>
-                        <div class="function-metric-row"><span>Chất lượng</span><div class="function-bar"><span style="--value: 91%;"></span></div><strong>91</strong></div>
-                        <div class="function-metric-row"><span>Định giá</span><div class="function-bar"><span style="--value: 64%;"></span></div><strong>64</strong></div>
+                        <div class="function-metric-row"><span>Động lượng</span>
+                            <div class="function-bar"><span style="--value: 88%;"></span></div><strong>88</strong>
+                        </div>
+                        <div class="function-metric-row"><span>Chất lượng</span>
+                            <div class="function-bar"><span style="--value: 91%;"></span></div><strong>91</strong>
+                        </div>
+                        <div class="function-metric-row"><span>Định giá</span>
+                            <div class="function-bar"><span style="--value: 64%;"></span></div><strong>64</strong>
+                        </div>
                     </div>
                 </article>
                 <aside class="function-card">
@@ -4705,11 +4717,37 @@
             </section>
             <div class="function-table-card">
                 <table class="function-table">
-                    <thead><tr><th>Mã</th><th>Điểm Quant</th><th>Động lượng</th><th>Thanh khoản</th><th>Trạng thái</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Điểm Quant</th>
+                            <th>Động lượng</th>
+                            <th>Thanh khoản</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr><td>FPT</td><td>86</td><td>Tăng mạnh</td><td>Cao</td><td><span class="function-tag good">Tích cực</span></td></tr>
-                        <tr><td>HPG</td><td>74</td><td>Hồi phục</td><td>Rất cao</td><td><span class="function-tag watch">Theo dõi</span></td></tr>
-                        <tr><td>VCB</td><td>79</td><td>Ổn định</td><td>Vừa phải</td><td><span class="function-tag">Nắm giữ</span></td></tr>
+                        <tr>
+                            <td>FPT</td>
+                            <td>86</td>
+                            <td>Tăng mạnh</td>
+                            <td>Cao</td>
+                            <td><span class="function-tag good">Tích cực</span></td>
+                        </tr>
+                        <tr>
+                            <td>HPG</td>
+                            <td>74</td>
+                            <td>Hồi phục</td>
+                            <td>Rất cao</td>
+                            <td><span class="function-tag watch">Theo dõi</span></td>
+                        </tr>
+                        <tr>
+                            <td>VCB</td>
+                            <td>79</td>
+                            <td>Ổn định</td>
+                            <td>Vừa phải</td>
+                            <td><span class="function-tag">Nắm giữ</span></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -4725,18 +4763,53 @@
         <div class="function-shell">
             <div class="function-table-card">
                 <table class="function-table">
-                    <thead><tr><th>Mã</th><th>Model</th><th>Kết quả</th><th>Vùng tham chiếu</th><th>QTRR</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Model</th>
+                            <th>Kết quả</th>
+                            <th>Vùng tham chiếu</th>
+                            <th>QTRR</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr><td>FPT</td><td>Kênh xu hướng tăng trung hạn</td><td><span class="function-tag good">ENTRY</span></td><td>128 - 132</td><td>18</td></tr>
-                        <tr><td>HPG</td><td>Tích lũy trên MA50</td><td><span class="function-tag watch">SMALL ENTRY</span></td><td>29.5 - 31.0</td><td>22</td></tr>
-                        <tr><td>SSI</td><td>Dòng tiền cải thiện</td><td><span class="function-tag good">ENTRY</span></td><td>35 - 36.5</td><td>20</td></tr>
+                        <tr>
+                            <td>FPT</td>
+                            <td>Kênh xu hướng tăng trung hạn</td>
+                            <td><span class="function-tag good">ENTRY</span></td>
+                            <td>128 - 132</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td>HPG</td>
+                            <td>Tích lũy trên MA50</td>
+                            <td><span class="function-tag watch">SMALL ENTRY</span></td>
+                            <td>29.5 - 31.0</td>
+                            <td>22</td>
+                        </tr>
+                        <tr>
+                            <td>SSI</td>
+                            <td>Dòng tiền cải thiện</td>
+                            <td><span class="function-tag good">ENTRY</span></td>
+                            <td>35 - 36.5</td>
+                            <td>20</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <div class="function-grid three">
-                <article class="function-mini-card"><h4>Model trạng thái</h4><p>Chuẩn hóa tín hiệu kỹ thuật thành nhãn dễ đọc: ENTRY, HOLD, WATCH.</p></article>
-                <article class="function-mini-card"><h4>Vùng giá</h4><p>Gợi ý vùng tham chiếu và kháng cự để hỗ trợ lập kế hoạch giao dịch.</p></article>
-                <article class="function-mini-card"><h4>QTRR</h4><p>Điểm rủi ro demo giúp kiểm soát tỷ trọng và điểm dừng lỗ.</p></article>
+                <article class="function-mini-card">
+                    <h4>Model trạng thái</h4>
+                    <p>Chuẩn hóa tín hiệu kỹ thuật thành nhãn dễ đọc: ENTRY, HOLD, WATCH.</p>
+                </article>
+                <article class="function-mini-card">
+                    <h4>Vùng giá</h4>
+                    <p>Gợi ý vùng tham chiếu và kháng cự để hỗ trợ lập kế hoạch giao dịch.</p>
+                </article>
+                <article class="function-mini-card">
+                    <h4>QTRR</h4>
+                    <p>Điểm rủi ro demo giúp kiểm soát tỷ trọng và điểm dừng lỗ.</p>
+                </article>
             </div>
         </div>
     </div>
@@ -4749,17 +4822,54 @@
         </div>
         <div class="function-shell">
             <div class="function-grid three">
-                <article class="function-mini-card"><h4>Công nghệ</h4><p>Độ rộng 78%, thanh khoản cao, đại diện FPT, CMG.</p><span class="function-tag good">Dẫn dắt</span></article>
-                <article class="function-mini-card"><h4>Thép</h4><p>Độ rộng 64%, dòng tiền hồi phục, đại diện HPG, HSG.</p><span class="function-tag">Hồi phục</span></article>
-                <article class="function-mini-card"><h4>Bất động sản</h4><p>Độ rộng 42%, phân hóa mạnh, đại diện VHM, KDH.</p><span class="function-tag watch">Theo dõi</span></article>
+                <article class="function-mini-card">
+                    <h4>Công nghệ</h4>
+                    <p>Độ rộng 78%, thanh khoản cao, đại diện FPT, CMG.</p><span class="function-tag good">Dẫn
+                        dắt</span>
+                </article>
+                <article class="function-mini-card">
+                    <h4>Thép</h4>
+                    <p>Độ rộng 64%, dòng tiền hồi phục, đại diện HPG, HSG.</p><span class="function-tag">Hồi phục</span>
+                </article>
+                <article class="function-mini-card">
+                    <h4>Bất động sản</h4>
+                    <p>Độ rộng 42%, phân hóa mạnh, đại diện VHM, KDH.</p><span class="function-tag watch">Theo
+                        dõi</span>
+                </article>
             </div>
             <div class="function-table-card">
                 <table class="function-table">
-                    <thead><tr><th>Ngành</th><th>Độ rộng</th><th>Thanh khoản</th><th>Định giá</th><th>Trạng thái</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>Ngành</th>
+                            <th>Độ rộng</th>
+                            <th>Thanh khoản</th>
+                            <th>Định giá</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr><td>Ngân hàng</td><td>71%</td><td>Tăng</td><td>Hấp dẫn</td><td><span class="function-tag good">Overweight</span></td></tr>
-                        <tr><td>Bán lẻ</td><td>58%</td><td>Ổn định</td><td>Chọn lọc</td><td><span class="function-tag">Neutral</span></td></tr>
-                        <tr><td>Dầu khí</td><td>39%</td><td>Giảm</td><td>Trung bình</td><td><span class="function-tag watch">Watch</span></td></tr>
+                        <tr>
+                            <td>Ngân hàng</td>
+                            <td>71%</td>
+                            <td>Tăng</td>
+                            <td>Hấp dẫn</td>
+                            <td><span class="function-tag good">Overweight</span></td>
+                        </tr>
+                        <tr>
+                            <td>Bán lẻ</td>
+                            <td>58%</td>
+                            <td>Ổn định</td>
+                            <td>Chọn lọc</td>
+                            <td><span class="function-tag">Neutral</span></td>
+                        </tr>
+                        <tr>
+                            <td>Dầu khí</td>
+                            <td>39%</td>
+                            <td>Giảm</td>
+                            <td>Trung bình</td>
+                            <td><span class="function-tag watch">Watch</span></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -4774,9 +4884,21 @@
         </div>
         <div class="function-shell">
             <div class="function-grid three">
-                <article class="function-mini-card"><h4>Morning Brief</h4><p>Tóm tắt chỉ số, dòng tiền, độ rộng thị trường và cổ phiếu cần theo dõi trong phiên.</p><span class="function-tag good">Hằng ngày</span></article>
-                <article class="function-mini-card"><h4>Sector Rotation</h4><p>Bản đồ luân chuyển dòng tiền giữa nhóm dẫn dắt, hồi phục và suy yếu.</p><span class="function-tag">Hằng tuần</span></article>
-                <article class="function-mini-card"><h4>PRO Watchlist</h4><p>Danh sách cổ phiếu đạt điều kiện định lượng và vùng quản trị rủi ro.</p><span class="function-tag watch">PRO</span></article>
+                <article class="function-mini-card">
+                    <h4>Morning Brief</h4>
+                    <p>Tóm tắt chỉ số, dòng tiền, độ rộng thị trường và cổ phiếu cần theo dõi trong phiên.</p><span
+                        class="function-tag good">Hằng ngày</span>
+                </article>
+                <article class="function-mini-card">
+                    <h4>Sector Rotation</h4>
+                    <p>Bản đồ luân chuyển dòng tiền giữa nhóm dẫn dắt, hồi phục và suy yếu.</p><span
+                        class="function-tag">Hằng tuần</span>
+                </article>
+                <article class="function-mini-card">
+                    <h4>PRO Watchlist</h4>
+                    <p>Danh sách cổ phiếu đạt điều kiện định lượng và vùng quản trị rủi ro.</p><span
+                        class="function-tag watch">PRO</span>
+                </article>
             </div>
         </div>
     </div>
@@ -4792,10 +4914,22 @@
         </div>
         <div class="function-shell">
             <div class="function-grid">
-                <article class="function-mini-card"><h4>1. Khẩu vị rủi ro</h4><p>Xác định tỷ trọng vốn, mức cắt lỗ và số mã tối đa trong danh mục.</p></article>
-                <article class="function-mini-card"><h4>2. Watchlist</h4><p>Lọc cổ phiếu theo ngành, thanh khoản, Model và trạng thái dòng tiền.</p></article>
-                <article class="function-mini-card"><h4>3. Kế hoạch mua</h4><p>Đặt vùng mua, vùng xác nhận, điểm hạ rủi ro trước khi hành động.</p></article>
-                <article class="function-mini-card"><h4>4. Nhật ký</h4><p>Ghi lại lý do mua bán, biến động thực tế và bài học sau giao dịch.</p></article>
+                <article class="function-mini-card">
+                    <h4>1. Khẩu vị rủi ro</h4>
+                    <p>Xác định tỷ trọng vốn, mức cắt lỗ và số mã tối đa trong danh mục.</p>
+                </article>
+                <article class="function-mini-card">
+                    <h4>2. Watchlist</h4>
+                    <p>Lọc cổ phiếu theo ngành, thanh khoản, Model và trạng thái dòng tiền.</p>
+                </article>
+                <article class="function-mini-card">
+                    <h4>3. Kế hoạch mua</h4>
+                    <p>Đặt vùng mua, vùng xác nhận, điểm hạ rủi ro trước khi hành động.</p>
+                </article>
+                <article class="function-mini-card">
+                    <h4>4. Nhật ký</h4>
+                    <p>Ghi lại lý do mua bán, biến động thực tế và bài học sau giao dịch.</p>
+                </article>
             </div>
         </div>
     </div>
@@ -4811,13 +4945,20 @@
                 <article class="function-card">
                     <span class="function-kicker">TA Workflow</span>
                     <h3>Từ xu hướng chính đến điểm xác nhận</h3>
-                    <p>Demo hướng dẫn người dùng kiểm tra giá so với MA20/MA50, trạng thái RSI, nền tích lũy và thanh khoản để tránh mua đuổi.</p>
+                    <p>Demo hướng dẫn người dùng kiểm tra giá so với MA20/MA50, trạng thái RSI, nền tích lũy và thanh
+                        khoản để tránh mua đuổi.</p>
                 </article>
                 <aside class="function-card">
                     <div class="function-metric-list">
-                        <div class="function-metric-row"><span>Xu hướng</span><div class="function-bar"><span style="--value: 82%;"></span></div><strong>Tốt</strong></div>
-                        <div class="function-metric-row"><span>RSI</span><div class="function-bar"><span style="--value: 63%;"></span></div><strong>63</strong></div>
-                        <div class="function-metric-row"><span>Volume</span><div class="function-bar"><span style="--value: 76%;"></span></div><strong>Cao</strong></div>
+                        <div class="function-metric-row"><span>Xu hướng</span>
+                            <div class="function-bar"><span style="--value: 82%;"></span></div><strong>Tốt</strong>
+                        </div>
+                        <div class="function-metric-row"><span>RSI</span>
+                            <div class="function-bar"><span style="--value: 63%;"></span></div><strong>63</strong>
+                        </div>
+                        <div class="function-metric-row"><span>Volume</span>
+                            <div class="function-bar"><span style="--value: 76%;"></span></div><strong>Cao</strong>
+                        </div>
                     </div>
                 </aside>
             </section>
@@ -4833,11 +4974,33 @@
         <div class="function-shell">
             <div class="function-table-card">
                 <table class="function-table">
-                    <thead><tr><th>Nhóm chỉ tiêu</th><th>Cần đọc</th><th>Ý nghĩa</th><th>Ví dụ demo</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>Nhóm chỉ tiêu</th>
+                            <th>Cần đọc</th>
+                            <th>Ý nghĩa</th>
+                            <th>Ví dụ demo</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr><td>Tăng trưởng</td><td>Doanh thu, LNST</td><td>Chất lượng mở rộng</td><td>FPT +20% LNST</td></tr>
-                        <tr><td>Sinh lời</td><td>ROE, biên LN</td><td>Hiệu quả vốn</td><td>VCB ROE cao</td></tr>
-                        <tr><td>Định giá</td><td>P/E, P/B</td><td>Biên an toàn</td><td>HPG theo chu kỳ</td></tr>
+                        <tr>
+                            <td>Tăng trưởng</td>
+                            <td>Doanh thu, LNST</td>
+                            <td>Chất lượng mở rộng</td>
+                            <td>FPT +20% LNST</td>
+                        </tr>
+                        <tr>
+                            <td>Sinh lời</td>
+                            <td>ROE, biên LN</td>
+                            <td>Hiệu quả vốn</td>
+                            <td>VCB ROE cao</td>
+                        </tr>
+                        <tr>
+                            <td>Định giá</td>
+                            <td>P/E, P/B</td>
+                            <td>Biên an toàn</td>
+                            <td>HPG theo chu kỳ</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -4863,9 +5026,15 @@
                 <aside class="function-card">
                     <span class="function-kicker">Trạng thái thư viện</span>
                     <div class="function-metric-list">
-                        <div class="function-metric-row"><span>Tủ sách</span><div class="function-bar"><span style="--value: 86%;"></span></div><strong>14</strong></div>
-                        <div class="function-metric-row"><span>Chủ đề</span><div class="function-bar"><span style="--value: 72%;"></span></div><strong>10</strong></div>
-                        <div class="function-metric-row"><span>Cập nhật</span><div class="function-bar"><span style="--value: 64%;"></span></div><strong>Demo</strong></div>
+                        <div class="function-metric-row"><span>Tủ sách</span>
+                            <div class="function-bar"><span style="--value: 86%;"></span></div><strong>14</strong>
+                        </div>
+                        <div class="function-metric-row"><span>Chủ đề</span>
+                            <div class="function-bar"><span style="--value: 72%;"></span></div><strong>10</strong>
+                        </div>
+                        <div class="function-metric-row"><span>Cập nhật</span>
+                            <div class="function-bar"><span style="--value: 64%;"></span></div><strong>Demo</strong>
+                        </div>
                     </div>
                 </aside>
             </section>
@@ -4881,20 +5050,104 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td class="stt-cell">1</td><td class="content-cell">Nhà đầu tư thành công - William O'Neil</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Nhà đầu tư thành công - William ONeil')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">2</td><td class="content-cell">Chết vì chứng khoán - Jesse Livermore</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Chết vì chứng khoán - Jesse Livermore')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">3</td><td class="content-cell">Nhà đầu tư thông minh - Benjamin Graham</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Nhà đầu tư thông minh - Benjamin Graham')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">4</td><td class="content-cell">Quy tắc số 1 - Phil Town</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Quy tắc số 1 - Phil Town')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">5</td><td class="content-cell">Cổ phiếu thường, Lợi nhuận phi thường</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Cổ phiếu thường, Lợi nhuận phi thường')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">6</td><td class="content-cell">Phương pháp đầu tư của Warren Buffett</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Phương pháp đầu tư của Warren Buffett')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">7</td><td class="content-cell">Bí quyết đầu tư của tỷ phú Warren Buffett</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Bí quyết đầu tư của tỷ phú Warren Buffett')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">8</td><td class="content-cell">Báo cáo tài chính dưới góc nhìn Warren Buffett</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Báo cáo tài chính dưới góc nhìn Warren Buffett')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">9</td><td class="content-cell">Phong cách đầu tư Warren Buffett</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Phong cách đầu tư Warren Buffett')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">10</td><td class="content-cell">Ngay cả Warren Buffett cũng không hoàn hảo</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Ngay cả Warren Buffett cũng không hoàn hảo')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">11</td><td class="content-cell">Sách lược đầu tư của Warren Buffett</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Sách lược đầu tư của Warren Buffett')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">12</td><td class="content-cell">Đạo của Warren Buffett</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Đạo của Warren Buffett')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">13</td><td class="content-cell">Lý thuyết hộp Darvas - Nicolas Darvas</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Lý thuyết hộp Darvas - Nicolas Darvas')">Chi tiết</button></td></tr>
-                            <tr><td class="stt-cell">14</td><td class="content-cell">Một Las Vegas khác - Nicolas Darvas</td><td><button class="library-detail-link" onclick="alert('Mở tài liệu demo: Một Las Vegas khác - Nicolas Darvas')">Chi tiết</button></td></tr>
+                            <tr>
+                                <td class="stt-cell">1</td>
+                                <td class="content-cell">Nhà đầu tư thành công - William O'Neil</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Nhà đầu tư thành công - William ONeil')">Chi
+                                        tiết</button></td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">2</td>
+                                <td class="content-cell">Chết vì chứng khoán - Jesse Livermore</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Chết vì chứng khoán - Jesse Livermore')">Chi
+                                        tiết</button></td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">3</td>
+                                <td class="content-cell">Nhà đầu tư thông minh - Benjamin Graham</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Nhà đầu tư thông minh - Benjamin Graham')">Chi
+                                        tiết</button></td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">4</td>
+                                <td class="content-cell">Quy tắc số 1 - Phil Town</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Quy tắc số 1 - Phil Town')">Chi tiết</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">5</td>
+                                <td class="content-cell">Cổ phiếu thường, Lợi nhuận phi thường</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Cổ phiếu thường, Lợi nhuận phi thường')">Chi
+                                        tiết</button></td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">6</td>
+                                <td class="content-cell">Phương pháp đầu tư của Warren Buffett</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Phương pháp đầu tư của Warren Buffett')">Chi
+                                        tiết</button></td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">7</td>
+                                <td class="content-cell">Bí quyết đầu tư của tỷ phú Warren Buffett</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Bí quyết đầu tư của tỷ phú Warren Buffett')">Chi
+                                        tiết</button></td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">8</td>
+                                <td class="content-cell">Báo cáo tài chính dưới góc nhìn Warren Buffett</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Báo cáo tài chính dưới góc nhìn Warren Buffett')">Chi
+                                        tiết</button></td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">9</td>
+                                <td class="content-cell">Phong cách đầu tư Warren Buffett</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Phong cách đầu tư Warren Buffett')">Chi
+                                        tiết</button></td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">10</td>
+                                <td class="content-cell">Ngay cả Warren Buffett cũng không hoàn hảo</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Ngay cả Warren Buffett cũng không hoàn hảo')">Chi
+                                        tiết</button></td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">11</td>
+                                <td class="content-cell">Sách lược đầu tư của Warren Buffett</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Sách lược đầu tư của Warren Buffett')">Chi
+                                        tiết</button></td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">12</td>
+                                <td class="content-cell">Đạo của Warren Buffett</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Đạo của Warren Buffett')">Chi tiết</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">13</td>
+                                <td class="content-cell">Lý thuyết hộp Darvas - Nicolas Darvas</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Lý thuyết hộp Darvas - Nicolas Darvas')">Chi
+                                        tiết</button></td>
+                            </tr>
+                            <tr>
+                                <td class="stt-cell">14</td>
+                                <td class="content-cell">Một Las Vegas khác - Nicolas Darvas</td>
+                                <td><button class="library-detail-link"
+                                        onclick="alert('Mở tài liệu demo: Một Las Vegas khác - Nicolas Darvas')">Chi
+                                        tiết</button></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -4902,16 +5155,26 @@
                 <aside class="function-card">
                     <span class="function-kicker">Danh mục cẩm nang</span>
                     <div class="library-category-list">
-                        <a class="library-category-item active" href="javascript:void(0)"><span class="library-category-icon">▣</span>Tủ sách đầu tư</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">▣</span>Kiến thức phân tích kỹ thuật (TA)</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">▣</span>Kiến thức phân tích cơ bản (FA)</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">▣</span>Kiến thức chứng khoán, TTCK</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">◉</span>Chỉ số hàng hóa</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">⌁</span>Chứng khoán thế giới</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">◎</span>Coins</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">¥</span>Forex</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">▤</span>Tin kinh tế</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span class="library-category-icon">◒</span>Tin thế giới</a>
+                        <a class="library-category-item active" href="javascript:void(0)"><span
+                                class="library-category-icon">▣</span>Tủ sách đầu tư</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span
+                                class="library-category-icon">▣</span>Kiến thức phân tích kỹ thuật (TA)</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span
+                                class="library-category-icon">▣</span>Kiến thức phân tích cơ bản (FA)</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span
+                                class="library-category-icon">▣</span>Kiến thức chứng khoán, TTCK</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span
+                                class="library-category-icon">◉</span>Chỉ số hàng hóa</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span
+                                class="library-category-icon">⌁</span>Chứng khoán thế giới</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span
+                                class="library-category-icon">◎</span>Coins</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span
+                                class="library-category-icon">¥</span>Forex</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span
+                                class="library-category-icon">▤</span>Tin kinh tế</a>
+                        <a class="library-category-item" href="javascript:void(0)"><span
+                                class="library-category-icon">◒</span>Tin thế giới</a>
                     </div>
                 </aside>
             </div>

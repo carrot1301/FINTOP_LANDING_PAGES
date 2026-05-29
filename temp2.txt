@@ -1,0 +1,5 @@
+Line 3259: <button class="btn-tv-blue" onclick="openAuthModal('register')">Bắt đầu</button>
+Line 3298: <p>Nhập mã cổ phiếu ở trên để bắt đầu tra cứu</p>
+Line 3319: <!-- Bắt Đầu Tiện Ích FireAnt -->
+Line 3432: <!-- Bắt Đầu Tiện Ích FireAnt -->
+Line 4279: <button class="btn-white-huge" onclick="location.href='hoi-vien/index.html'">Bắt đầu miễn
