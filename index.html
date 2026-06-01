@@ -339,7 +339,7 @@
             margin: 0 auto;
             border-radius: 16px;
             border: 1px solid rgba(168, 85, 247, 0.2);
-            overflow-x: visible;
+            overflow-x: auto;
             overflow-y: visible;
             background: rgba(15, 15, 25, 0.6);
             backdrop-filter: blur(12px);
@@ -368,6 +368,10 @@
         .dark-table {
             width: 100%;
             border-collapse: collapse;
+        }
+
+        #bolocTable {
+            min-width: 1420px;
         }
 
         .dark-table thead {
@@ -428,6 +432,12 @@
             color: #64748b;
             white-space: pre-line;
             line-height: 1.4;
+        }
+
+        .dark-table .officer-cell {
+            color: #cbd5e1;
+            font-weight: 600;
+            white-space: nowrap;
         }
 
         /* === STATUS BADGES (Dark Theme) === */
@@ -891,10 +901,20 @@
             white-space: nowrap;
         }
 
+        .dark-table .trend-cell {
+            color: #f8fafc;
+            font-weight: 800;
+            font-size: 0.78rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
         .dark-table .score-cell {
             font-weight: 700;
             color: #fbbf24;
             font-size: 0.88rem;
+            white-space: nowrap;
         }
 
         /* Chart Neon Border Pulse */
@@ -3714,8 +3734,8 @@
                 <span style="font-size: 1.2rem;">📖</span> Hướng Dẫn Sử Dụng Bộ Lọc
             </h4>
             <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.8; margin-bottom: 0.8rem;">
-                Bảng tổng hợp danh mục cổ phiếu theo <strong style="color: #c084fc;">Trạng thái</strong> và <strong
-                    style="color: #c084fc;">Kết quả thuật toán</strong> của Mô hình (Model) theo phương pháp phân tích
+                Bảng tổng hợp danh mục cổ phiếu theo <strong style="color: #c084fc;">Trạng thái Model</strong>, <strong
+                    style="color: #c084fc;">sức mạnh xu hướng dòng tiền</strong> và các vùng kiểm định kỹ thuật theo phương pháp phân tích
                 định lượng được trích xuất hoàn toàn tự động và tổng hợp theo các nhóm ngành. Đây là công cụ lọc và phân
                 loại dữ liệu khách quan, hỗ trợ người dùng có thêm góc nhìn tổng quan về thị trường.
             </p>
@@ -3733,13 +3753,14 @@
                         <th>Mã CP</th>
                         <th>Sàn</th>
                         <th>Ngành HĐKD</th>
+                        <th>Cán bộ</th>
                         <th>Update time</th>
                         <th>Mô tả Mô hình kỹ thuật (Model)</th>
                         <th>Trạng thái Model</th>
-                        <th>Kết quả Model</th>
-                        <th>Vùng giá Tham chiếu</th>
-                        <th>Vùng giá Kháng cự</th>
-                        <th>Điểm QTRR</th>
+                        <th>Sức mạnh xu hướng<br>Dòng tiền - RSI/MFI</th>
+                        <th>Vùng kiểm định<br>kỹ thuật</th>
+                        <th>Vùng kháng cự<br>kỹ thuật</th>
+                        <th>Vùng hỗ trợ<br>kỹ thuật</th>
                     </tr>
                 </thead>
                 <tbody id="bolocBody">
@@ -5606,17 +5627,17 @@
 
         // Bộ lọc data (extended)
         const BOLOC_DATA = [
-            { ticker: 'VEA', san: 'UPCOM', nganh: 'Bán buôn, bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang tăng nhẹ.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC', result: 'strong-entry', resultText: 'STRONG ENTRY', giaTc: '34 - 34.5', giaKc: '38 - 42', qtrr: '33' },
-            { ticker: 'DST', san: 'HNX', nganh: 'Bán buôn, bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến suy giảm chạm hỗ trợ MA200.', status: 'positive', statusText: 'TÍCH CỰC', result: 'entry', resultText: 'ENTRY', giaTc: '9.3 - 9.5', giaKc: '10.2 - 10.7', qtrr: '21' },
-            { ticker: 'DGW', san: 'HOSE', nganh: 'Bán buôn, bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang trên hỗ trợ MA50.', status: 'ok', statusText: 'KHẢ QUAN', result: 'small-entry', resultText: 'SMALL ENTRY', giaTc: '45.5 - 46.5', giaKc: '38 - 42', qtrr: '18' },
-            { ticker: 'MWG', san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến suy giảm.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC', result: 'strong-entry', resultText: 'STRONG ENTRY', giaTc: '85 - 86', giaKc: '10.2 - 10.7', qtrr: '33' },
-            { ticker: 'PNJ', san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu hình 2 đỉnh, nếu suy giảm.', status: 'positive', statusText: 'TÍCH CỰC', result: 'entry', resultText: 'ENTRY', giaTc: '114 - 117', giaKc: '38 - 42', qtrr: '21' },
-            { ticker: 'FRT', san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu suy giảm.', status: 'ok', statusText: 'KHẢ QUAN', result: 'small-entry', resultText: 'SMALL ENTRY', giaTc: '158 - 160', giaKc: '10.2 - 10.7', qtrr: '18' },
-            { ticker: 'MSN', san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Kênh xu hướng giảm.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC', result: 'strong-entry', resultText: 'STRONG ENTRY', giaTc: '75 - 76', giaKc: '38 - 42', qtrr: '33' },
-            { ticker: 'PLX', san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến giảm ngắn, chạm hỗ trợ MA5.', status: 'positive', statusText: 'TÍCH CỰC', result: 'entry', resultText: 'ENTRY', giaTc: '64 - 65.5', giaKc: '10.2 - 10.7', qtrr: '21' },
-            { ticker: 'PET', san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang tích lũy, kênh xu hướng tăng.', status: 'ok', statusText: 'KHẢ QUAN', result: 'small-entry', resultText: 'SMALL ENTRY', giaTc: '39 - 40', giaKc: '38 - 42', qtrr: '18' },
-            { ticker: 'BVH', san: 'HOSE', nganh: 'Bảo hiểm', time: '23:26\n05/03', desc: 'Mẫu nến giảm, thủng hỗ trợ MA20.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC', result: 'strong-entry', resultText: 'STRONG ENTRY', giaTc: '75.5 - 76.5', giaKc: '10.2 - 10.7', qtrr: '21' },
-            { ticker: 'BIC', san: 'HOSE', nganh: 'Bảo hiểm', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang.', status: 'positive', statusText: 'TÍCH CỰC', result: 'entry', resultText: 'ENTRY', giaTc: '23 - 24.5', giaKc: '50 - 52', qtrr: '18' },
+            { ticker: 'VEA', san: 'UPCOM', nganh: 'Bán buôn, bán lẻ', canBo: 'Đình Hải', time: '23h26\n05/03', desc: 'Mẫu nến đi ngang tăng nhẹ.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC', trend: 'TĂNG MẠNH', vungKiemDinh: '34 - 34.5', khangCu: '38 - 42', hoTro: '33' },
+            { ticker: 'DST', san: 'HNX', nganh: 'Bán buôn, bán lẻ', canBo: 'Đình Hải', time: '23h27\n05/03', desc: 'Mẫu nến suy giảm chạm hỗ trợ MA200.', status: 'positive', statusText: 'TÍCH CỰC', trend: 'TĂNG', vungKiemDinh: '9.3 - 9.5', khangCu: '9.9 - 10.2 - 10.7', hoTro: '21' },
+            { ticker: 'DGW', san: 'HOSE', nganh: 'Bán buôn, bán lẻ', canBo: 'Đình Hải', time: '23h28\n05/03', desc: 'Mẫu nến đi ngang trên hỗ trợ MA50.', status: 'ok', statusText: 'KHẢ QUAN', trend: 'TĂNG DẦN', vungKiemDinh: '45.5 - 46.5', khangCu: '48 - 50 - 52', hoTro: '18' },
+            { ticker: 'MWG', san: 'HOSE', nganh: 'Bán lẻ', canBo: 'Đình Hải', time: '23h32\n05/03', desc: 'Mẫu nến suy giảm.', status: 'neutral', statusText: 'TRUNG LẬP', trend: 'ĐI NGANG', vungKiemDinh: '85 - 86', khangCu: '88 - 90 - 92', hoTro: '82 - 84' },
+            { ticker: 'PNJ', san: 'HOSE', nganh: 'Bán lẻ', canBo: 'Đình Hải', time: '23h33\n05/03', desc: 'Mẫu hình 2 đỉnh, nếu suy giảm.', status: 'negative', statusText: 'KO TÍCH CỰC', trend: 'SUY YẾU', vungKiemDinh: '114 - 117', khangCu: '118 - 121 - 124', hoTro: '110 - 112' },
+            { ticker: 'FRT', san: 'HOSE', nganh: 'Bán lẻ', canBo: 'Đình Hải', time: '23h34\n05/03', desc: 'Mẫu suy giảm.', status: 'negative', statusText: 'TIÊU CỰC', trend: 'GIẢM', vungKiemDinh: '158 - 160', khangCu: '164 - 168 - 172', hoTro: '150 - 154' },
+            { ticker: 'MSN', san: 'HOSE', nganh: 'Bán lẻ', canBo: 'Đình Hải', time: '23h35\n05/03', desc: 'Kênh xu hướng giảm.', status: 'negative', statusText: 'TIÊU CỰC', trend: 'GIẢM', vungKiemDinh: '75 - 76', khangCu: '78 - 80 - 82', hoTro: '70 - 72' },
+            { ticker: 'PLX', san: 'HOSE', nganh: 'Bán lẻ', canBo: 'Đình Hải', time: '23h35\n05/03', desc: 'Mẫu nến giảm ngắn, chạm hỗ trợ MA5.', status: 'neutral', statusText: 'TRUNG LẬP', trend: 'ĐI NGANG', vungKiemDinh: '64 - 65.5', khangCu: '67 - 69 - 71', hoTro: '62 - 63' },
+            { ticker: 'PET', san: 'HOSE', nganh: 'Bán lẻ', canBo: 'Đình Hải', time: '23h36\n05/03', desc: 'Mẫu nến đi ngang tích lũy, kênh xu hướng tăng.', status: 'ok', statusText: 'KHẢ QUAN', trend: 'TĂNG DẦN', vungKiemDinh: '39 - 40', khangCu: '41.5 - 43 - 45', hoTro: '37 - 38' },
+            { ticker: 'BVH', san: 'HOSE', nganh: 'Bảo hiểm', canBo: 'Đình Hải', time: '23h38\n05/03', desc: 'Mẫu nến giảm, thủng hỗ trợ MA20.', status: 'negative', statusText: 'KO TÍCH CỰC', trend: 'SUY YẾU', vungKiemDinh: '75.5 - 76.5', khangCu: '78 - 80 - 82', hoTro: '72 - 74' },
+            { ticker: 'BIC', san: 'HOSE', nganh: 'Bảo hiểm', canBo: 'Đình Hải', time: '23h38\n05/03', desc: 'Mẫu nến đi ngang.', status: 'neutral', statusText: 'TRUNG LẬP', trend: 'TÍCH LŨY', vungKiemDinh: '23 - 24.5', khangCu: '25 - 26.5 - 28', hoTro: '21.5 - 22.5' },
         ];
 
         // Track searched tickers
@@ -5834,18 +5855,22 @@
                 const tr = document.createElement('tr');
                 tr.className = 'animate-in';
                 tr.style.animationDelay = `${i * 0.04}s`;
+                const statusMarkup = d.statusText
+                    ? `<span class="status-badge ${d.status}">${d.statusText}</span>`
+                    : '';
                 tr.innerHTML = `
                     <td>${i + 1}</td>
                     <td class="ticker-cell">${d.ticker}</td>
                     <td>${d.san}</td>
                     <td>${d.nganh}</td>
+                    <td class="officer-cell">${d.canBo}</td>
                     <td class="time-cell">${d.time}</td>
                     <td class="desc-cell">${d.desc}</td>
-                    <td><span class="status-badge ${d.status}">${d.statusText}</span></td>
-                    <td><span class="result-badge ${d.result}">${d.resultText}</span></td>
-                    <td class="price-cell">${d.giaTc}</td>
-                    <td class="price-cell">${d.giaKc}</td>
-                    <td class="score-cell">${d.qtrr}</td>
+                    <td>${statusMarkup}</td>
+                    <td class="trend-cell">${d.trend}</td>
+                    <td class="price-cell">${d.vungKiemDinh}</td>
+                    <td class="price-cell">${d.khangCu}</td>
+                    <td class="score-cell">${d.hoTro}</td>
                 `;
                 // Make ticker cell clickable to change chart
                 const tickerTd = tr.querySelector('.ticker-cell');
