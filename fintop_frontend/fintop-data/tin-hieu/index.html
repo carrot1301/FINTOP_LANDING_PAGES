@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTop DATA | Tín Hiệu Chuyên Gia</title>
+    <link rel="stylesheet" href="../../assets/css/variables.css">
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background: #07070D; color: #e2e8f0; min-height: 100vh; }
+
+        .page-wrapper { min-height: 100vh; padding-top: 80px; }
+        .page-container { max-width: 900px; margin: 0 auto; padding: 0 5% 4rem; }
+
+        /* Header */
+        .tv-header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 5%; height: 72px;
+            background: rgba(10,10,15,0.85); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .tv-left { display: flex; align-items: center; gap: 2rem; }
+        .neon-logo { height: 70px; width: auto; filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 15px rgba(168,85,247,0.8)); transition: all 0.3s ease; }
+        .neon-logo:hover { filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 25px rgba(192,132,252,1)); transform: scale(1.05); }
+        .tv-nav { display: flex; gap: 2rem; align-items: center; list-style: none; }
+        .tv-nav a { font-size: 0.9rem; font-weight: 600; color: #fff; opacity: 0.8; transition: opacity 0.2s; text-decoration: none; }
+        .tv-nav a:hover { opacity: 1; text-shadow: 0 0 8px rgba(255,255,255,0.5); }
+        .tv-right { display: flex; align-items: center; gap: 1rem; }
+        .btn-tv-blue { background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; border: none; border-radius: 8px; padding: 8px 20px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+
+        /* Breadcrumb */
+        .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 2rem; font-size: 0.85rem; color: #475569; }
+        .breadcrumb a { color: #94A3B8; text-decoration: none; }
+        .breadcrumb a:hover { color: #c084fc; }
+
+        /* Page title */
+        .page-title-section { margin-bottom: 2rem; text-align: center; }
+        .page-title {
+            font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 900;
+            background: linear-gradient(135deg, #c084fc, #818cf8, #38bdf8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        .page-subtitle { color: #94A3B8; font-size: 0.9rem; }
+
+        /* === SIGNAL MESSAGE BOX === */
+        .signal-msg-box {
+            position: relative;
+            background: rgba(15,15,25,0.7);
+            border: 1px solid rgba(168,85,247,0.2);
+            border-radius: 18px;
+            padding: 0;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(168,85,247,0.05);
+            overflow: hidden;
+            animation: msgSlideIn 0.5s ease forwards;
+            opacity: 0;
+        }
+        .signal-msg-box:nth-child(1) { animation-delay: 0.1s; }
+        .signal-msg-box:nth-child(2) { animation-delay: 0.25s; }
+        @keyframes msgSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Chat bubble tail */
+        .signal-msg-box::before {
+            content: '';
+            position: absolute; top: 18px; left: -10px;
+            width: 0; height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid rgba(168,85,247,0.2);
+        }
+        .signal-msg-box::after {
+            content: '';
+            position: absolute; top: 19px; left: -8px;
+            width: 0; height: 0;
+            border-top: 9px solid transparent;
+            border-bottom: 9px solid transparent;
+            border-right: 9px solid rgba(15,15,25,0.9);
+        }
+
+        /* Expert avatar row */
+        .msg-sender {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(168,85,247,0.08), rgba(99,102,241,0.04));
+            border-bottom: 1px solid rgba(168,85,247,0.12);
+        }
+        .sender-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; color: #fff; font-weight: 800;
+            box-shadow: 0 0 12px rgba(168,85,247,0.4);
+            flex-shrink: 0;
+        }
+        .sender-info { flex: 1; }
+        .sender-name { font-size: 0.82rem; font-weight: 700; color: #c084fc; }
+        .sender-role { font-size: 0.72rem; color: #64748b; }
+        .msg-timestamp { font-size: 0.72rem; color: #475569; text-align: right; line-height: 1.5; }
+
+        /* Signal table grid inside message */
+        .signal-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .signal-table td {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            vertical-align: top;
+        }
+        .signal-table tr:last-child td { border-bottom: none; }
+
+        /* Action label ENTRY/EXIT */
+        .action-cell {
+            width: 90px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            text-align: center;
+            vertical-align: middle !important;
+            padding: 16px 12px !important;
+        }
+        .action-entry {
+            color: #fff;
+            background: linear-gradient(135deg, #059669, #10B981);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .action-exit {
+            color: #FCD34D;
+            background: linear-gradient(135deg, #991B1B, #DC2626);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        /* Ticker + price */
+        .ticker-price {
+            font-size: 1.1rem; font-weight: 800; color: #f8fafc;
+            letter-spacing: 0.02em;
+        }
+
+        /* Strategy badge */
+        .strategy-badge {
+            display: inline-block;
+            padding: 3px 12px; border-radius: 6px;
+            font-size: 0.75rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.04em;
+        }
+        .badge-longterm { background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
+        .badge-partial { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+
+        .label-dim { color: #64748b; font-size: 0.82rem; }
+        .val-highlight { color: #e2e8f0; font-weight: 600; }
+        .val-green { color: #34d399; font-weight: 700; }
+        .val-score { color: #fbbf24; font-weight: 700; }
+
+        /* Info icon tooltip */
+        .info-icon {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 16px; height: 16px; border-radius: 50%;
+            background: rgba(251,191,36,0.2); color: #fbbf24;
+            font-size: 0.6rem; font-weight: 800;
+            margin-left: 4px; cursor: help;
+            vertical-align: middle;
+        }
+
+        /* Disclaimer box */
+        .disclaimer-msg {
+            background: rgba(248,113,113,0.05);
+            border: 1px solid rgba(248,113,113,0.2);
+            border-radius: 14px;
+            padding: 1.2rem 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            animation: msgSlideIn 0.5s ease 0.4s forwards;
+            opacity: 0;
+        }
+        .disclaimer-msg h4 {
+            color: #f87171; font-size: 0.85rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+        }
+        .disclaimer-msg p { color: #94A3B8; font-size: 0.82rem; line-height: 1.7; }
+        .disclaimer-msg strong { color: #f87171; }
+
+        /* VPS team footer */
+        .vps-team-footer {
+            text-align: center;
+            padding: 1rem 2rem;
+            margin-top: 0.5rem;
+            color: #64748b;
+            font-size: 0.82rem;
+            font-style: italic;
+            animation: msgSlideIn 0.5s ease 0.55s forwards;
+            opacity: 0;
+        }
+        .vps-team-footer span { color: #c084fc; font-weight: 700; font-style: normal; }
+
+        /* Section label */
+        .section-label {
+            font-size: 1rem; font-weight: 800; color: #c084fc;
+            margin-bottom: 1.2rem; margin-top: 2rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid rgba(168,85,247,0.15);
+            display: flex; align-items: center; gap: 8px;
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .badge-count {
+            background: rgba(168,85,247,0.15); color: #c084fc; font-size: 0.7rem;
+            padding: 3px 10px; border-radius: 999px; font-weight: 700; margin-left: auto;
+        }
+
+        /* Page footer */
+        .page-footer {
+            background: #07070D; border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 2rem 5%; text-align: center; color: #475569; font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .signal-table td { padding: 6px 10px; font-size: 0.78rem; }
+            .action-cell { width: 65px; font-size: 1rem; padding: 10px 8px !important; }
+            .ticker-price { font-size: 0.95rem; }
+            .tv-nav { display: none; }
+            .msg-sender { padding: 10px 14px; flex-wrap: wrap; }
+            .signal-msg-box::before, .signal-msg-box::after { display: none; }
+            .page-container { padding: 0 3% 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="tv-header">
+        <div class="tv-left">
+            <a href="../../index.html"><img src="../../assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo"></a>
+        </div>
+        <ul class="tv-nav" id="navMenu"></ul>
+        <div class="tv-right">
+            <span style="color:#94A3B8;font-size:0.9rem;cursor:pointer;">VI</span>
+            <button class="btn-tv-blue" id="btnStart" onclick="location.href='../../hoi-vien/index.html'">B&#7855;t &#273;&#7847;u</button>
+        </div>
+    </header>
+
+    <div class="page-wrapper">
+        <div class="page-container">
+            <nav class="breadcrumb">
+                <a href="../../index.html">Trang ch&#7911;</a>
+                <span style="color:#334155">&#8250;</span>
+                <a href="../index.html">FinTop Data</a>
+                <span style="color:#334155">&#8250;</span>
+                <span style="color:#c084fc">T&#237;n hi&#7879;u t&#7915; chuy&#234;n gia</span>
+            </nav>
+
+            <div class="page-title-section">
+                <h1 class="page-title">&#128225; T&#237;n Hi&#7879;u T&#7915; Chuy&#234;n Gia</h1>
+                <p class="page-subtitle">T&#237;n hi&#7879;u ENTRY / EXIT realtime t&#7915; &#273;&#7897;i ng&#361; Chuy&#234;n gia &#8212; C&#7853;p nh&#7853;t li&#234;n t&#7909;c theo phi&#234;n giao d&#7883;ch</p>
+            </div>            <!-- V.I.P Section -->
+            <div class="section-label">
+                <span style="font-size:1.2rem">&#128142;</span> I. T&#205;N HI&#7878;U V.I.P
+                <span class="badge-count" id="vip-count">Loading...</span>
+            </div>
+
+            <div id="vip-signals-container">
+                <div class="signal-msg-box" style="padding: 20px; text-align: center; color: #64748b; opacity: 1;">Đang tải tín hiệu V.I.P...</div>
+            </div>
+
+            <!-- PRO Section -->
+            <div class="section-label">
+                <span style="font-size:1.2rem">&#11088;</span> II. T&#205;N HI&#7878;U PRO
+                <span class="badge-count" id="pro-count">Loading...</span>
+            </div>
+
+            <div id="pro-signals-container">
+                <div class="signal-msg-box" style="padding: 20px; text-align: center; color: #64748b; opacity: 1;">Đang tải tín hiệu PRO...</div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="disclaimer-msg" style="opacity: 1;">
+                <h4>&#9888;&#65039; Mi&#7877;n Tr&#7915; Tr&#225;ch Nhi&#7879;m !</h4>
+                <p>T&#237;n hi&#7879;u ch&#7881; mang t&#237;nh ch&#7845;t tham kh&#7843;o, <strong>kh&#244;ng khuy&#7871;n ngh&#7883; &#273;&#7847;u t&#432;</strong>.<br>
+                Ng&#432;&#7901;i d&#249;ng ch&#7883;u ho&#224;n to&#224;n tr&#225;ch nhi&#7879;m tr&#432;&#7899;c c&#225;c quy&#7871;t &#273;&#7883;nh &#273;&#7847;u t&#432; c&#7911;a m&#236;nh.</p>
+            </div>
+
+            <!-- VPS Team -->
+            <div class="vps-team-footer" style="opacity: 1;">
+                &#10024; <span>Th&#7921;c hi&#7879;n b&#7903;i &#272;&#7897;i ng&#361; Chuy&#234;n gia VPS</span>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="page-footer"><p>&copy; 2026 FinTop DATA. All rights reserved.</p></footer>
+
+    <script type="module" src="../../assets/js/core/index.js"></script>
+    <script>
+    (function(){
+        // Render Navbar
+        var navItems = [
+            {text:'Trang chủ', href:'../../index.html'},
+            {text:'Hội viên', href:'../../hoi-vien/index.html'},
+            {text:'Tín hiệu CG', href:'./index.html', active:true},
+            {text:'Danh mục CG', href:'../../fintop-data/danh-muc/index.html'},
+            {text:'FinTop AI', href:'../../fintop-ai/index.html'},
+            {text:'Hướng dẫn', href:'../../huong-dan/index.html'}
+        ];
+        var html = navItems.map(function(n){
+            var s = n.active ? ' style="opacity:1;color:#c084fc;"' : '';
+            return '<li><a href="'+n.href+'"'+s+'>'+n.text+'</a></li>';
+        }).join('');
+        document.getElementById('navMenu').innerHTML = html;
+
+        // Dynamic VIP/PRO signals hydration and Socket.IO
+        var activeUnsubscribes = [];
+
+        function renderSignalCard(signal) {
+            var initials = signal.author && signal.author.fullName ? getInitials(signal.author.fullName) : 'CG';
+            var authorName = signal.author && signal.author.fullName ? signal.author.fullName : 'Chuyên gia VPS';
+            var authorRole = 'Chuyên gia TVĐT';
+            
+            var timeText = signal.publishedAt ? new Date(signal.publishedAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : 'Vừa xong';
+            var dateText = signal.publishedAt ? new Date(signal.publishedAt).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '';
+            var fullTime = timeText + (dateText ? '<br>' + dateText : '');
+            
+            var actionClass = signal.direction === 'BUY' ? 'action-entry' : 'action-exit';
+            var actionLabel = signal.direction === 'BUY' ? 'ENTRY' : 'EXIT';
+            
+            var minTier = signal.minTierAccess || 'STANDARD';
+            var badgeClass = (minTier === 'STANDARD' || minTier === 'SILVER') ? 'badge-partial' : 'badge-longterm';
+            var badgeLabel = minTier;
+            
+            var statusLabel = 'ĐANG THEO DÕI';
+            var statusValClass = 'val-score';
+            if (signal.status === 'REACHED_TARGET') {
+                statusLabel = '🎯 ĐẠT MỤC TIÊU';
+                statusValClass = 'val-green';
+            } else if (signal.status === 'CUT_LOSS') {
+                statusLabel = '🛑 CẮT LỖ';
+                statusValClass = 'action-exit';
+            } else if (signal.status === 'CLOSED') {
+                statusLabel = '🔒 ĐÃ ĐÓNG';
+                statusValClass = 'label-dim';
+            }
+            
+            if (signal.locked) {
+                return `
+                <div class="signal-msg-box locked-signal" style="position: relative; overflow: hidden; filter: grayscale(0.2); opacity: 0.9;">
+                    <div class="lock-overlay" style="
+                        position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+                        background: rgba(10, 10, 15, 0.92); backdrop-filter: blur(5px);
+                        display: flex; flex-direction: column; align-items: center; justify-content: center;
+                        z-index: 10; color: #fff; padding: 1.5rem; text-align: center; gap: 8px;
+                    ">
+                        <div style="font-size: 1.8rem; filter: drop-shadow(0 0 8px #a855f7);">🔒</div>
+                        <div style="font-weight: 700; color: #c084fc; font-size: 0.9rem; letter-spacing: 1px;">TÍN HIỆU ${minTier}</div>
+                        <div style="font-size: 0.78rem; color: #94a3b8; max-width: 280px; line-height: 1.5;">Nâng cấp tài khoản VIP để mở khóa điểm mua bán chi tiết &amp; cập nhật realtime.</div>
+                        <button class="btn-tv-blue" style="margin-top: 8px; padding: 5px 14px; font-size: 0.75rem; border-radius: 6px; cursor: pointer;" onclick="location.href='../../hoi-vien/index.html'">Nâng cấp hội viên</button>
+                    </div>
+                    <div class="msg-sender">
+                        <div class="sender-avatar" style="background: linear-gradient(135deg, #475569, #64748b);">${initials}</div>
+                        <div class="sender-info">
+                            <div class="sender-name">${authorName}</div>
+                            <div class="sender-role">${authorRole}</div>
+                        </div>
+                        <div class="msg-timestamp">${fullTime}</div>
+                    </div>
+                    <table class="signal-table" style="user-select: none;">
+                        <tr>
+                            <td class="action-cell action-entry" style="background: #475569; filter: blur(2px);">ENTRY</td>
+                            <td><span class="ticker-price">${signal.symbol} - ***</span></td>
+                            <td style="text-align:right"><span class="strategy-badge ${badgeClass}">${badgeLabel}</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="label-dim">Giá khuyến nghị:</span> <span>***</span></td>
+                            <td><span class="label-dim">Trạng thái:</span> <span class="val-score">LOCKED</span></td>
+                        </tr>
+                    </table>
+                </div>`;
+            }
+            
+            var entryPrice = signal.entryPrice ? signal.entryPrice.toLocaleString('vi-VN') : '—';
+            var targetPrice = signal.targetPrice ? signal.targetPrice.toLocaleString('vi-VN') : '—';
+            var cutLossPrice = signal.cutLossPrice ? signal.cutLossPrice.toLocaleString('vi-VN') : '—';
+            var notes = signal.notes || 'Không có nhận định bổ sung.';
+            
+            return `
+            <div class="signal-msg-box" id="signal-${signal.id}">
+                <div class="msg-sender">
+                    <div class="sender-avatar" style="background: linear-gradient(135deg, #7c3aed, #a855f7);">${initials}</div>
+                    <div class="sender-info">
+                        <div class="sender-name">${authorName}</div>
+                        <div class="sender-role">${authorRole}</div>
+                    </div>
+                    <div class="msg-timestamp">${fullTime}</div>
+                </div>
+                <table class="signal-table">
+                    <tr>
+                        <td rowspan="4" class="action-cell ${actionClass}" style="vertical-align: middle;">${actionLabel}</td>
+                        <td class="ticker-price" style="font-size: 1.15rem; font-weight: 800; color: #fff;">${signal.symbol} <span style="font-weight: normal; font-size: 0.85rem; color: #94a3b8;">(${signal.companyName})</span></td>
+                        <td style="text-align:right"><span class="strategy-badge ${badgeClass}">${badgeLabel}</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="label-dim">Giá khuyến nghị:</span> <span class="val-highlight" style="color: #fff; font-weight: 700; font-size: 0.95rem;">${entryPrice}</span></td>
+                        <td><span class="label-dim">Trạng thái:</span> <span class="${statusValClass}" style="font-weight: 700;">${statusLabel}</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="label-dim">Mục tiêu (TP):</span> <span class="val-green" style="color: #34d399; font-weight: 700; font-size: 0.95rem;">${targetPrice}</span></td>
+                        <td><span class="label-dim">Cắt lỗ (SL):</span> <span style="color:#f87171; font-weight: 700; font-size: 0.95rem;">${cutLossPrice}</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="font-size: 0.82rem; color: #cbd5e1; padding-top: 6px; line-height: 1.5;">
+                            <span class="label-dim">Nhận định:</span> ${notes}
+                        </td>
+                    </tr>
+                </table>
+            </div>`;
+        }
+
+        function getInitials(name) {
+            if (!name) return 'CG';
+            var words = name.trim().split(/\s+/);
+            if (words.length >= 2) {
+                return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+            }
+            return name.substring(0, 2).toUpperCase();
+        }
+
+        function checkInfra() {
+            if (window.FintopInfra) {
+                initPage(window.FintopInfra);
+            } else {
+                setTimeout(checkInfra, 50);
+            }
+        }
+
+        function initPage(infra) {
+            // Subscribe to auth state updates to re-hydrate on login/logout
+            infra.AppState.on(infra.AppState.EVENTS.AUTH_CHANGED, function() {
+                loadSignalsAndSetupRealtime(infra);
+            });
+
+            // Perform initial load
+            loadSignalsAndSetupRealtime(infra);
+
+            // Clean up sockets on page unload
+            window.addEventListener('beforeunload', function() {
+                cleanupActiveSubscriptions();
+            });
+        }
+
+        function cleanupActiveSubscriptions() {
+            activeUnsubscribes.forEach(function(unsub) {
+                try {
+                    unsub();
+                } catch(e) {
+                    console.error('[Signals] Unsubscribe failed:', e);
+                }
+            });
+            activeUnsubscribes = [];
+        }
+
+        async function loadSignalsAndSetupRealtime(infra) {
+            cleanupActiveSubscriptions();
+
+            var vipContainer = document.getElementById('vip-signals-container');
+            var proContainer = document.getElementById('pro-signals-container');
+
+            vipContainer.innerHTML = '<div class="signal-msg-box" style="padding: 20px; text-align: center; color: #64748b; opacity: 1;">Đang tải tín hiệu V.I.P...</div>';
+            proContainer.innerHTML = '<div class="signal-msg-box" style="padding: 20px; text-align: center; color: #64748b; opacity: 1;">Đang tải tín hiệu PRO...</div>';
+            document.getElementById('vip-count').textContent = 'Loading...';
+            document.getElementById('pro-count').textContent = 'Loading...';
+
+            var isAuthenticated = infra.AppState.get('auth', 'isAuthenticated');
+            if (!isAuthenticated) {
+                var loginMsg = '<div class="signal-msg-box" style="padding: 20px; text-align: center; color: #64748b; opacity: 1;">Vui lòng đăng nhập để xem tín hiệu chuyên gia.</div>';
+                vipContainer.innerHTML = loginMsg;
+                proContainer.innerHTML = loginMsg;
+                document.getElementById('vip-count').textContent = '0';
+                document.getElementById('pro-count').textContent = '0';
+                return;
+            }
+
+            var userTier = infra.AppState.get('auth', 'user')?.tierLevel || 'STANDARD';
+
+            try {
+                // Fetch signals from REST API
+                var response = await infra.ApiClient.get('/signals?limit=50');
+                var signalsList = (response?.data && Array.isArray(response.data)) ? response.data : (response?.data?.data || []);
+
+                vipContainer.innerHTML = '';
+                proContainer.innerHTML = '';
+
+                var vipCount = 0;
+                var proCount = 0;
+
+                signalsList.forEach(function(signal) {
+                    var isPro = signal.minTierAccess === 'STANDARD' || signal.minTierAccess === 'SILVER';
+                    var cardHtml = renderSignalCard(signal);
+                    
+                    if (isPro) {
+                        proContainer.insertAdjacentHTML('beforeend', cardHtml);
+                        proCount++;
+                    } else {
+                        vipContainer.insertAdjacentHTML('beforeend', cardHtml);
+                        vipCount++;
+                    }
+                });
+
+                if (vipCount === 0) {
+                    vipContainer.innerHTML = '<div class="signal-msg-box" style="padding: 20px; text-align: center; color: #64748b; opacity: 1;">Chưa có tín hiệu V.I.P nào.</div>';
+                }
+                if (proCount === 0) {
+                    proContainer.innerHTML = '<div class="signal-msg-box" style="padding: 20px; text-align: center; color: #64748b; opacity: 1;">Chưa có tín hiệu PRO nào.</div>';
+                }
+
+                document.getElementById('vip-count').textContent = vipCount + ' tín hiệu';
+                document.getElementById('pro-count').textContent = proCount + ' tín hiệu';
+
+            } catch (err) {
+                console.error('[Signals] History load failed:', err);
+                var errorMsg = '<div class="signal-msg-box" style="padding: 20px; text-align: center; color: #ef4444; opacity: 1;">Lỗi tải tín hiệu. Vui lòng đăng nhập và thử lại.</div>';
+                vipContainer.innerHTML = errorMsg;
+                proContainer.innerHTML = errorMsg;
+                document.getElementById('vip-count').textContent = 'Lỗi';
+                document.getElementById('pro-count').textContent = 'Lỗi';
+            }
+
+            // Setup WebSocket subscriptions if user is authenticated
+            if (infra.AppState.get('auth', 'isAuthenticated')) {
+                var tiers = ['STANDARD', 'SILVER', 'GOLD', 'DIAMOND'];
+                var userTierIndex = tiers.indexOf(userTier);
+                
+                for (var i = 0; i <= userTierIndex; i++) {
+                    (function(tier) {
+                        infra.SocketManager.subscribeSignals(tier, function(newSignal) {
+                            if (newSignal) {
+                                var isPro = newSignal.minTierAccess === 'STANDARD' || newSignal.minTierAccess === 'SILVER';
+                                var containerId = isPro ? 'pro-signals-container' : 'vip-signals-container';
+                                var container = document.getElementById(containerId);
+                                if (container) {
+                                    if (container.innerHTML.indexOf('Chưa có tín hiệu') > -1 || container.innerHTML.indexOf('Đang tải') > -1) {
+                                        container.innerHTML = '';
+                                    }
+
+                                    var existingCard = document.getElementById('signal-' + newSignal.id);
+                                    if (existingCard) {
+                                        existingCard.outerHTML = renderSignalCard(newSignal);
+                                        var signalBox = document.getElementById('signal-' + newSignal.id);
+                                        if (signalBox) {
+                                            signalBox.style.boxShadow = '0 0 25px rgba(52,211,153,0.8)';
+                                            setTimeout(function() {
+                                                signalBox.style.boxShadow = '';
+                                            }, 1500);
+                                        }
+                                    } else {
+                                        var cardHtml = renderSignalCard(newSignal);
+                                        container.insertAdjacentHTML('afterbegin', cardHtml);
+                                        
+                                        var countId = isPro ? 'pro-count' : 'vip-count';
+                                        var countEl = document.getElementById(countId);
+                                        if (countEl) {
+                                            var currentCount = container.querySelectorAll('.signal-msg-box:not([style*="text-align"])').length;
+                                            countEl.textContent = currentCount + ' tín hiệu';
+                                        }
+
+                                        var signalBox = document.getElementById('signal-' + newSignal.id);
+                                        if (signalBox) {
+                                            signalBox.style.boxShadow = '0 0 25px rgba(168,85,247,0.8)';
+                                            setTimeout(function() {
+                                                signalBox.style.boxShadow = '';
+                                            }, 1500);
+                                        }
+                                    }
+                                }
+                            }
+                        }).then(function(unsub) {
+                            activeUnsubscribes.push(unsub);
+                        }).catch(function(wsErr) {
+                            console.warn('[Signals] WS subscribe error on tier ' + tier + ':', wsErr);
+                        });
+                    })(tiers[i]);
+                }
+            }
+        }
+
+        checkInfra();
+    })();
+    </script>
+</body>
+</html>

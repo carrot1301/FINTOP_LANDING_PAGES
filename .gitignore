@@ -20,3 +20,45 @@ Thumbs.db
 
 # Node (nếu có trong tương lai)
 node_modules/
+
+# CodeGraph files and cache
+.codegraph/
+codegraph.log
+codegraph-db/
+
+# Local agent skills and AI bundles
+.agents/skills/
+fintop-backend/docs/skills/antigravity-awesome-skills/
+fintop-backend/antigravity-awesome-skills/
+fintop-backend/cursor-ai-tips/
+
+# Local QA / evidence / reports
+final-ui-qa-evidence/
+visible-pass-evidence/
+docs/qa/
+_archive/
+RUNTIME_*.md
+ADMIN_*.md
+
+# Local documents
+*.xlsx
+
+# Local AI tooling
+.agents/
+skills-lock.json
+.codegraph/
+codegraph.log
+codegraph-db/
+
+# Python/runtime local
+__pycache__/
+*.pyc
+*.db
+services/adk-agent/data/
+
+# Backend local/generated
+fintop-backend/.env
+fintop-backend/node_modules/
+fintop-backend/dist/
+fintop-backend/test-results/
+fintop-backend/coverage/

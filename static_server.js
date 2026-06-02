@@ -1,0 +1,147 @@
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+let PORT = 8080;
+const PROJECT_ROOT = __dirname;
+const FRONTEND_ROOT = path.join(PROJECT_ROOT, 'fintop_frontend');
+
+const MIME_TYPES = {
+  '.html': 'text/html; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.js': 'application/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.gif': 'image/gif',
+  '.svg': 'image/svg+xml',
+  '.ico': 'image/x-icon',
+  '.webp': 'image/webp',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2',
+  '.ttf': 'font/ttf',
+  '.txt': 'text/plain; charset=utf-8'
+};
+
+const server = http.createServer((req, res) => {
+  // Handle CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(200);
+    res.end();
+    return;
+  }
+
+  if (req.method !== 'GET') {
+    res.writeHead(405, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('Method Not Allowed');
+    return;
+  }
+
+  // Parse URL and strip query parameters
+  const parsedUrl = new URL(req.url, `http://localhost:${PORT}`);
+  let pathname = parsedUrl.pathname;
+
+  // Determine target physical file path
+  let filePath = '';
+
+  // 1. Root index.html or empty path goes to PROJECT_ROOT/index.html
+  if (pathname === '/' || pathname === '/index.html') {
+    filePath = path.join(PROJECT_ROOT, 'index.html');
+  }
+  // 2. /assets/* goes to PROJECT_ROOT/assets/*
+  else if (pathname.startsWith('/assets/')) {
+    filePath = path.join(PROJECT_ROOT, pathname);
+  }
+  // 3. Subpages and resources served from fintop_frontend
+  else {
+    filePath = path.join(FRONTEND_ROOT, pathname);
+  }
+
+  // Helper to serve file
+  function serveFile(targetPath) {
+    fs.stat(targetPath, (err, stats) => {
+      if (err) {
+        // File not found fallback for dynamic route subpages (like /chuyen-gia/)
+        if (pathname.startsWith('/chuyen-gia/')) {
+          const fallbackPath = path.join(FRONTEND_ROOT, 'chuyen-gia', 'index.html');
+          if (targetPath !== fallbackPath) {
+            serveFile(fallbackPath);
+            return;
+          }
+        }
+        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end(`404 Not Found: ${pathname}`);
+        return;
+      }
+
+      if (stats.isDirectory()) {
+        // If it's a directory, check for index.html inside it
+        const indexHtmlPath = path.join(targetPath, 'index.html');
+        serveFile(indexHtmlPath);
+        return;
+      }
+
+      // Check if file is a file
+      if (!stats.isFile()) {
+        res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('Bad Request');
+        return;
+      }
+
+      // Determine content type
+      const ext = path.extname(targetPath).toLowerCase();
+      const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+
+      // Read and stream file
+      const stream = fs.createReadStream(targetPath);
+      res.writeHead(200, {
+        'Content-Type': contentType,
+        'Content-Length': stats.size,
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+      });
+      stream.pipe(res);
+      stream.on('error', (streamErr) => {
+        console.error(`Stream error serving ${targetPath}:`, streamErr);
+        if (!res.headersSent) {
+          res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+          res.end('Internal Server Error');
+        }
+      });
+    });
+  }
+
+  serveFile(filePath);
+});
+
+const HOST = '127.0.0.1';
+function startServer(p) {
+  server.listen(p, HOST, () => {
+    console.log(`[FinTop Static Server] Running at http://${HOST}:${p}/index.html`);
+    console.log(`[FinTop Static Server] Project root: ${PROJECT_ROOT}`);
+    console.log(`[FinTop Static Server] Frontend subpages root: ${FRONTEND_ROOT}`);
+    console.log('Press Ctrl+C to stop.');
+  });
+}
+
+server.on('error', (err) => {
+  if (err.code === 'EACCES' || err.code === 'EADDRINUSE') {
+    if (PORT === 8080) {
+      console.warn(`[FinTop Static Server] Port 8080 is reserved or in use. Falling back to port 8081...`);
+      PORT = 8081;
+      startServer(PORT);
+    } else {
+      console.error(`[FinTop Static Server] Failed to bind to port ${PORT}:`, err.message);
+      process.exit(1);
+    }
+  } else {
+    console.error(`[FinTop Static Server] Server error:`, err.message);
+    process.exit(1);
+  }
+});
+
+startServer(PORT);

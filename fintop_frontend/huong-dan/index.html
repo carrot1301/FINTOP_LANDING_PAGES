@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng dẫn | FinTop DATA</title>
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/demo-pages.css">
+</head>
+
+<body class="demo-page">
+    <header class="tv-header">
+        <div class="tv-left">
+            <a href="../index.html">
+                <img src="../assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo">
+            </a>
+            <div class="tv-search-bar">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                </svg>
+                Tìm kiếm (Ctrl+K)
+            </div>
+        </div>
+        <ul class="tv-nav">
+            <li class="nav-item"><a href="../index.html">Trang chủ</a></li>
+            <li class="nav-item"><a href="../hoi-vien/index.html">Hội viên</a></li>
+            <li class="nav-item dropdown" id="dropdown-fintop-data">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../index.html#panel-tracuu">📊 Tra cứu cổ phiếu</a>
+                    <a href="../index.html#panel-boloc">🔍 Bộ lọc cổ phiếu <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../fintop-ai/index.html">🤖 FinTop AI</a>
+                    <a href="../index.html#panel-tinhieu">📡 Copy Trade Chuyên gia</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-phan-tich">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Phân tích <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../index.html#panel-analysis-market">Thị trường</a>
+                    <a href="../index.html#panel-analysis-pro">PRO analysis <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../index.html#panel-analysis-company">Doanh nghiệp</a>
+                    <a href="../index.html#panel-analysis-sector">NCPT Ngành</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-stock-data">
+                <a href="../stock-data/index.html">Stock Data <span style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../stock-data/index.html#quant">Quant Data</a>
+                    <a href="../stock-data/index.html#pro-data">PRO Data <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../stock-data/index.html#sector">Dữ liệu ngành</a>
+                    <a href="../stock-data/index.html#reports">Báo cáo</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-huongdan">
+                <a href="javascript:void(0)" class="active-page" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../huong-dan/index.html#trading">📖 Giao dịch & Đầu tư</a>
+                    <a href="../huong-dan/index.html#ta">📈 Phân tích kỹ thuật (TA)</a>
+                    <a href="../huong-dan/index.html#fa">📊 Phân tích cơ bản (FA)</a>
+                    <a href="../huong-dan/index.html#library">📚 Tủ sách đầu tư</a>
+                </div>
+            </li>
+        </ul>
+        <div class="tv-right">
+            <span class="icon-link">🌐 VI</span>
+            <div class="user-dropdown-container">
+                <span class="icon-link" style="cursor: pointer;">👤</span>
+                <div class="user-dropdown-menu">
+                    <a href="../index.html" class="user-dropdown-item">👤 Đăng nhập</a>
+                    <a href="../huong-dan/index.html" class="user-dropdown-item">Trung tâm Trợ giúp</a>
+                    <a href="../index.html" class="user-dropdown-item">Có gì mới</a>
+                </div>
+            </div>
+            <button class="btn-tv-blue" type="button" onclick="window.location.href='../index.html#pricing'">Bắt đầu</button>
+        </div>
+    </header>
+
+    <main class="demo-main">
+        <section class="demo-hero">
+            <div>
+                <div class="demo-kicker">Trung tâm Hướng dẫn</div>
+                <h1 class="gradient-text">Học cách dùng dữ liệu trước khi ra quyết định.</h1>
+                <p>
+                    Demo này mô phỏng khu vực hướng dẫn của FinTop DATA: lộ trình đầu tư, bài học TA/FA,
+                    checklist giao dịch và thư viện tài liệu để người dùng tự luyện quy trình.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn-demo" href="#guide-workspace">Bắt đầu học</a>
+                    <a class="btn-demo-ghost" href="#library">Mở tủ sách</a>
+                </div>
+            </div>
+
+            <aside class="demo-preview" aria-label="Bảng tiến độ học demo">
+                <div class="preview-topbar">
+                    <span class="preview-title">Learning Board</span>
+                    <span class="preview-pill">DEMO ACTIVE</span>
+                </div>
+                <div class="preview-body">
+                    <div class="bar-list">
+                        <div class="bar-row">
+                            <span>Đầu tư</span>
+                            <div class="bar-track"><div class="bar-fill" style="--value:82%"></div></div>
+                            <strong>82</strong>
+                        </div>
+                        <div class="bar-row">
+                            <span>TA</span>
+                            <div class="bar-track"><div class="bar-fill" style="--value:74%"></div></div>
+                            <strong>74</strong>
+                        </div>
+                        <div class="bar-row">
+                            <span>FA</span>
+                            <div class="bar-track"><div class="bar-fill" style="--value:68%"></div></div>
+                            <strong>68</strong>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="demo-table">
+                            <thead>
+                                <tr>
+                                    <th>Bài học</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ứng dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Checklist trước phiên</td>
+                                    <td><span class="status-badge good">Đã học</span></td>
+                                    <td>Watchlist</td>
+                                </tr>
+                                <tr>
+                                    <td>Đọc trạng thái Model</td>
+                                    <td><span class="status-badge watch">Đang học</span></td>
+                                    <td>Tra cứu CP</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <section class="demo-section">
+            <div class="section-heading">
+                <div>
+                    <div class="demo-kicker">Danh mục nội dung</div>
+                    <h2>Nội dung demo theo đúng nhóm hướng dẫn</h2>
+                </div>
+                <p>Mỗi nhóm được thiết kế như một module học ngắn, gắn trực tiếp với công cụ dữ liệu đang có trên hệ sinh thái.</p>
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card" id="trading">
+                    <h3>Giao dịch & Đầu tư</h3>
+                    <p>Thiết lập mục tiêu, tỷ trọng vốn, watchlist, kế hoạch vào lệnh và nhật ký giao dịch.</p>
+                    <strong>Phù hợp: người mới và nhà đầu tư cần kỷ luật.</strong>
+                </article>
+                <article class="feature-card" id="ta">
+                    <h3>Phân tích kỹ thuật (TA)</h3>
+                    <p>Đọc MA, RSI, Bollinger Band, mẫu nến, hỗ trợ kháng cự và tín hiệu Model.</p>
+                    <strong>Phù hợp: giao dịch theo xu hướng.</strong>
+                </article>
+                <article class="feature-card" id="fa">
+                    <h3>Phân tích cơ bản (FA)</h3>
+                    <p>Tóm tắt doanh thu, lợi nhuận, dòng tiền, định giá và sức khỏe tài chính doanh nghiệp.</p>
+                    <strong>Phù hợp: chọn cổ phiếu nắm giữ.</strong>
+                </article>
+            </div>
+        </section>
+
+        <section class="demo-section" id="guide-workspace">
+            <div class="section-heading">
+                <div>
+                    <div class="demo-kicker">Workspace hướng dẫn</div>
+                    <h2>Lộ trình tương tác</h2>
+                </div>
+                <p>Chọn một chủ đề để xem bài học, checklist và bảng ứng dụng mẫu.</p>
+            </div>
+
+            <div class="guide-layout">
+                <aside class="guide-menu" aria-label="Chủ đề hướng dẫn">
+                    <button type="button" data-guide-topic="trading" class="is-active">Giao dịch & Đầu tư</button>
+                    <button type="button" data-guide-topic="ta">Phân tích kỹ thuật (TA)</button>
+                    <button type="button" data-guide-topic="fa">Phân tích cơ bản (FA)</button>
+                    <button type="button" data-guide-topic="library">Tủ sách đầu tư</button>
+                </aside>
+
+                <section class="demo-panel">
+                    <h2 id="guideTopicTitle">Lộ trình giao dịch có kỷ luật</h2>
+                    <p id="guideTopicIntro"></p>
+                    <div class="lesson-grid" id="guideLessons"></div>
+
+                    <h3 style="margin-top: 22px; color: #fff;">Checklist thực hành</h3>
+                    <div class="checklist" id="guideChecklist"></div>
+
+                    <div class="table-wrap">
+                        <table class="demo-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã/Module</th>
+                                    <th>Tín hiệu</th>
+                                    <th>Hành động demo</th>
+                                </tr>
+                            </thead>
+                            <tbody id="guideTableBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section class="demo-section" id="library">
+            <div class="section-heading">
+                <div>
+                    <div class="demo-kicker">Tủ sách đầu tư</div>
+                    <h2>Tài liệu mẫu để người dùng luyện quy trình</h2>
+                </div>
+                <p>Các tài liệu bên dưới là nội dung demo, có thể thay bằng PDF, video hoặc bài viết thật khi hệ thống hoàn thiện.</p>
+            </div>
+
+            <div class="library-strip">
+                <article class="book-card">
+                    <strong>Checklist trước phiên</strong>
+                    <span>15 điểm cần xem trước khi mở bảng điện.</span>
+                </article>
+                <article class="book-card">
+                    <strong>Case study cổ phiếu dẫn dắt</strong>
+                    <span>Mẫu đọc dòng tiền và điểm mua theo xu hướng.</span>
+                </article>
+                <article class="book-card">
+                    <strong>Sổ tay quản trị rủi ro</strong>
+                    <span>Cách đặt tỷ trọng, cắt lỗ và điểm hạ rủi ro.</span>
+                </article>
+                <article class="book-card">
+                    <strong>Thuật ngữ FinTop DATA</strong>
+                    <span>Giải thích nhanh Model, QTRR, Entry và PRO Data.</span>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="demo-footer">
+        FinTop DATA - Trang hướng dẫn demo. Nội dung có thể kết nối CMS hoặc hệ thống bài học thật ở giai đoạn tiếp theo.
+    </footer>
+
+    <script src="../assets/js/demo-pages.js"></script>
+</body>
+
+</html>

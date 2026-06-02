@@ -1,0 +1,70 @@
+name: FinTop CI Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  lint:
+    name: Lint & Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: fintop-backend/package-lock.json
+      - run: npm ci
+        working-directory: fintop-backend
+      - run: npm run lint
+        working-directory: fintop-backend
+
+  prisma-validate:
+    name: Prisma Schema Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: fintop-backend/package-lock.json
+      - run: npm ci
+        working-directory: fintop-backend
+      - run: npx prisma validate
+        working-directory: fintop-backend
+      - run: npx prisma generate
+        working-directory: fintop-backend
+
+  build:
+    name: Build & Type Check
+    runs-on: ubuntu-latest
+    needs: [lint, prisma-validate]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: fintop-backend/package-lock.json
+      - run: npm ci
+        working-directory: fintop-backend
+      - run: npx prisma generate
+        working-directory: fintop-backend
+      - run: npm run build
+        working-directory: fintop-backend
+
+  docker:
+    name: Docker Build Validation
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t fintop-backend:ci -f fintop-backend/Dockerfile fintop-backend/

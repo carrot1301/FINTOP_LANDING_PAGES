@@ -1,0 +1,1045 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// -----------------------------------------------------------------------------
+// CORE ENUMS
+// -----------------------------------------------------------------------------
+
+enum RECORD_STATUS {
+  ACTIVE
+  INACTIVE
+  LOCKED
+}
+
+enum ROLE_CODE {
+  SUPER_ADMIN
+  CEO
+  ASSISTANT_CEO
+  EDITOR_ADMIN
+  EDITOR_PRO
+  EDITOR
+  SALE_ADMIN
+  SALE
+  EXPERT
+  CLIENT
+  CLIENT_VIP
+}
+
+enum PERMISSION_ACTION {
+  CREATE
+  READ
+  UPDATE
+  DELETE
+  PUBLISH
+  APPROVE
+  EXPORT
+}
+
+enum RISK_TASTE {
+  CONSERVATIVE
+  MODERATE
+  AGGRESSIVE
+}
+
+enum SUBSCRIPTION_TIER {
+  STANDARD
+  SILVER
+  GOLD
+  DIAMOND
+}
+
+enum AUDIT_SOURCE {
+  USER
+  SYSTEM
+  CRON
+  QUEUE
+  WEBHOOK
+}
+
+enum SUBSCRIPTION_STATUS {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  EXPIRED
+}
+
+enum INVOICE_STATUS {
+  DRAFT
+  OPEN
+  PAID
+  VOID
+  UNCOLLECTIBLE
+}
+
+enum PAYMENT_STATUS {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum BILLING_PROVIDER {
+  VIETQR
+  ZALOPAY
+  MANUAL
+}
+
+enum OUTBOX_STATUS {
+  PENDING
+  PROCESSED
+  FAILED
+}
+
+enum STOCK_STATUS {
+  ACTIVE
+  SUSPENDED
+  DELISTED
+}
+
+enum EXCHANGE_CODE {
+  HOSE
+  HNX
+  UPCOM
+}
+
+enum MARKET_SYNC_STATUS {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum INDICATOR_PERIOD {
+  DAILY
+  WEEKLY
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum SIGNAL_STATUS {
+  DRAFT
+  PUBLISHED
+  REACHED_TARGET
+  CUT_LOSS
+  CLOSED
+}
+
+enum SIGNAL_DIRECTION {
+  BUY
+  SELL
+}
+
+enum PORTFOLIO_STATUS {
+  DRAFT
+  ACTIVE
+  INACTIVE
+  CLOSED
+}
+
+enum SIGNAL_SOURCE {
+  SYSTEM
+  EXPERT
+}
+
+enum ALERT_STATUS {
+  ACTIVE
+  TRIGGERED
+  DISABLED
+}
+
+enum ALERT_CONDITION {
+  PRICE_ABOVE
+  PRICE_BELOW
+  VOLUME_SPIKE
+  PCT_CHANGE_UP
+  PCT_CHANGE_DOWN
+}
+
+enum NOTIFICATION_STATUS {
+  UNREAD
+  READ
+  ARCHIVED
+}
+
+enum NOTIFICATION_CHANNEL {
+  SYSTEM
+  EMAIL
+  SMS
+  PUSH
+}
+
+enum NOTIFICATION_PRIORITY {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum BLOG_STATUS {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  UNPUBLISHED
+}
+
+enum CONTENT_VISIBILITY {
+  PUBLIC
+  PREMIUM
+}
+
+enum REPORT_TYPE {
+  MARKET_SUMMARY
+  VIP_RECOMMENDATION
+  MACRO_ANALYSIS
+}
+
+enum REVISION_ACTION {
+  CREATED
+  UPDATED
+  STATUS_CHANGED
+}
+
+enum PERMISSION_MODULE {
+  AUTH
+  USER
+  ROLE
+  DEPARTMENT
+  TEAM
+  VIP_SIGNALS
+  PORTFOLIO
+  BLOG
+  CATEGORY
+  INVOICE
+  SUBSCRIPTION
+  WATCHLIST
+  REPORT
+  SYSTEM
+}
+
+// -----------------------------------------------------------------------------
+// ORGANIZATION DOMAIN
+// -----------------------------------------------------------------------------
+
+model Department {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique @db.VarChar(255)
+  code        String        @unique @db.VarChar(50)
+  description String?       @db.Text
+  status      RECORD_STATUS @default(ACTIVE)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  teams Team[]
+  users User[]
+
+  @@index([status, deletedAt])
+  @@map("departments")
+}
+
+model Team {
+  id           Int           @id @default(autoincrement())
+  name         String        @db.VarChar(255)
+  code         String        @unique @db.VarChar(50)
+  departmentId Int
+  leaderId     Int?
+  description  String?       @db.Text
+  status       RECORD_STATUS @default(ACTIVE)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  department Department @relation(fields: [departmentId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  leader     User?      @relation("TeamLeader", fields: [leaderId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  users      User[]     @relation("TeamMembers")
+
+  @@index([departmentId, status])
+  @@index([leaderId, status])
+  @@map("teams")
+}
+
+// -----------------------------------------------------------------------------
+// IDENTITY & AUTHENTICATION DOMAIN
+// -----------------------------------------------------------------------------
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique @db.VarChar(255)
+  passwordHash String    @db.VarChar(255)
+  fullName     String    @db.VarChar(255)
+  phone        String?   @unique @db.VarChar(20)
+  dob          DateTime? @db.Date
+  address      String?   @db.Text
+  avatarUrl    String?   @db.Text
+
+  // Organization & Multi-tenancy
+  brokerId     Int?
+  departmentId Int?
+  teamId       Int?
+
+  riskTaste RISK_TASTE?
+  tierLevel SUBSCRIPTION_TIER @default(STANDARD)
+  status    RECORD_STATUS     @default(ACTIVE)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Relations
+  broker  User?  @relation("BrokerClients", fields: [brokerId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  clients User[] @relation("BrokerClients")
+
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  team         Team?       @relation("TeamMembers", fields: [teamId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  leadingTeams Team[]      @relation("TeamLeader")
+
+  sessions  UserSession[]
+  userRoles UserRole[]
+  auditLogs AuditLog[]
+
+  assignedRolePermissions RolePermission[] @relation("RolePermissionAssignedBy")
+  assignedUserRoles       UserRole[]       @relation("UserRoleAssignedBy")
+
+  subscriptions UserSubscription[]
+  invoices      Invoice[]
+
+  authoredSignals   VipSignal[]
+  managedPortfolios RecommendedPortfolio[]
+
+  watchlists    Watchlist[]
+  alerts        PriceAlert[]
+  notifications Notification[]
+
+  blogs     Blog[]
+  reports   ReportFile[]
+  revisions ContentRevision[]
+
+  // Indexes for Multi-tenancy & Authentication
+  @@index([brokerId, deletedAt, status])
+  @@index([email, status])
+  @@index([phone, status])
+  @@index([departmentId, teamId, status])
+  @@map("users")
+}
+
+model UserSession {
+  id           BigInt   @id @default(autoincrement())
+  userId       Int
+  refreshToken String   @unique @db.Text
+  ipAddress    String?  @db.VarChar(45)
+  userAgent    String?  @db.Text
+  expiresAt    DateTime
+  isRevoked    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  // Immutable record, no updatedAt or deletedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([refreshToken])
+  @@index([userId, isRevoked])
+  @@map("user_sessions")
+}
+
+// -----------------------------------------------------------------------------
+// CENTRALIZED RBAC DOMAIN
+// -----------------------------------------------------------------------------
+
+model Role {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique @db.VarChar(100)
+  code        ROLE_CODE     @unique
+  description String?       @db.Text
+  isSystem    Boolean       @default(false)
+  status      RECORD_STATUS @default(ACTIVE)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  permissions RolePermission[]
+  users       UserRole[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          Int               @id @default(autoincrement())
+  module      PERMISSION_MODULE
+  action      PERMISSION_ACTION
+  code        String            @unique @db.VarChar(100)
+  description String?           @db.Text
+  status      RECORD_STATUS     @default(ACTIVE)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  roles RolePermission[]
+
+  @@index([module, action])
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       Int
+  permissionId Int
+  assignedAt   DateTime @default(now())
+  assignedById Int?
+
+  assignedBy User? @relation("RolePermissionAssignedBy", fields: [assignedById], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model UserRole {
+  userId       Int
+  roleId       Int
+  assignedAt   DateTime @default(now())
+  assignedById Int?
+
+  assignedBy User? @relation("UserRoleAssignedBy", fields: [assignedById], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([userId, roleId])
+  @@index([roleId])
+  @@map("user_roles")
+}
+
+// -----------------------------------------------------------------------------
+// IMMUTABLE AUDIT DOMAIN
+// -----------------------------------------------------------------------------
+
+model AuditLog {
+  id        BigInt       @id @default(autoincrement())
+  userId    Int?
+  source    AUDIT_SOURCE
+  action    String       @db.VarChar(100)
+  tableName String       @db.VarChar(50)
+  recordId  String       @db.VarChar(50)
+  oldValues Json?
+  newValues Json?
+  ipAddress String?      @db.VarChar(45)
+  userAgent String?      @db.Text
+  createdAt DateTime     @default(now())
+  // 100% Immutable, NO updatedAt or deletedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([tableName, recordId])
+  @@index([action, createdAt])
+  @@map("audit_logs")
+}
+
+// -----------------------------------------------------------------------------
+// SUBSCRIPTION & BILLING DOMAIN
+// -----------------------------------------------------------------------------
+
+model SubscriptionPlan {
+  id           Int               @id @default(autoincrement())
+  name         String            @db.VarChar(255)
+  description  String?           @db.Text
+  tierLevel    SUBSCRIPTION_TIER
+  price        Decimal           @db.Decimal(19, 4)
+  currency     String            @default("VND") @db.VarChar(10)
+  durationDays Int
+  status       RECORD_STATUS     @default(ACTIVE)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  subscriptions UserSubscription[]
+
+  @@map("subscription_plans")
+}
+
+model UserSubscription {
+  id        BigInt              @id @default(autoincrement())
+  userId    Int
+  planId    Int
+  status    SUBSCRIPTION_STATUS @default(ACTIVE)
+  startDate DateTime
+  endDate   DateTime
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  user User             @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  plan SubscriptionPlan @relation(fields: [planId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  invoices Invoice[]
+
+  @@index([userId, status])
+  @@index([endDate, status])
+  @@map("user_subscriptions")
+}
+
+model Invoice {
+  id             BigInt         @id @default(autoincrement())
+  userId         Int
+  subscriptionId BigInt?
+  amount         Decimal        @db.Decimal(19, 4)
+  currency       String         @default("VND") @db.VarChar(10)
+  status         INVOICE_STATUS @default(DRAFT)
+  dueDate        DateTime
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  user         User              @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  subscription UserSubscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  transactions Transaction[]
+
+  @@index([userId, status])
+  @@map("invoices")
+}
+
+model Transaction {
+  id           BigInt           @id @default(autoincrement())
+  invoiceId    BigInt
+  provider     BILLING_PROVIDER
+  providerId   String?          @db.VarChar(255)
+  amount       Decimal          @db.Decimal(19, 4)
+  currency     String           @default("VND") @db.VarChar(10)
+  status       PAYMENT_STATUS   @default(PENDING)
+  errorMessage String?          @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Immutable financial record, NO deletedAt
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([invoiceId, status])
+  @@index([providerId])
+  @@map("transactions")
+}
+
+model PaymentWebhookLog {
+  id             BigInt           @id @default(autoincrement())
+  provider       BILLING_PROVIDER
+  payload        Json
+  status         OUTBOX_STATUS    @default(PENDING)
+  errorReason    String?          @db.Text
+  idempotencyKey String?          @unique @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+  // Immutable log
+
+  @@map("payment_webhook_logs")
+}
+
+model OutboxEvent {
+  id          BigInt        @id @default(autoincrement())
+  eventType   String        @db.VarChar(100)
+  payload     Json
+  status      OUTBOX_STATUS @default(PENDING)
+  errorReason String?       @db.Text
+  retryCount  Int           @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@map("outbox_events")
+}
+
+// -----------------------------------------------------------------------------
+// MARKET DATA DOMAIN
+// -----------------------------------------------------------------------------
+
+model Sector {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique @db.VarChar(100)
+  code        String        @unique @db.VarChar(50)
+  description String?       @db.Text
+  status      RECORD_STATUS @default(ACTIVE)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  industries Industry[]
+
+  @@map("sectors")
+}
+
+model Industry {
+  id          Int           @id @default(autoincrement())
+  sectorId    Int
+  name        String        @unique @db.VarChar(100)
+  code        String        @unique @db.VarChar(50)
+  description String?       @db.Text
+  status      RECORD_STATUS @default(ACTIVE)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  sector Sector  @relation(fields: [sectorId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  stocks Stock[]
+
+  @@index([sectorId])
+  @@map("industries")
+}
+
+model StockExchange {
+  id     Int           @id @default(autoincrement())
+  code   EXCHANGE_CODE @unique
+  name   String        @db.VarChar(100)
+  status RECORD_STATUS @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stocks Stock[]
+
+  @@map("stock_exchanges")
+}
+
+model Stock {
+  id          Int          @id @default(autoincrement())
+  symbol      String       @unique @db.VarChar(10)
+  companyName String       @db.VarChar(255)
+  exchangeId  Int
+  industryId  Int?
+  status      STOCK_STATUS @default(ACTIVE)
+
+  // Basic Info
+  isin        String? @unique @db.VarChar(50)
+  description String? @db.Text
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  exchange StockExchange @relation(fields: [exchangeId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  industry Industry?     @relation(fields: [industryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  dailyPrices       StockPriceDaily[]
+  indicators        FinancialIndicator[]
+  signals           VipSignal[]
+  portfolioHoldings PortfolioHolding[]
+  watchlistItems    WatchlistItem[]
+  priceAlerts       PriceAlert[]
+
+  @@index([exchangeId, status])
+  @@index([industryId])
+  @@map("stocks")
+}
+
+model StockPriceDaily {
+  id      BigInt   @id @default(autoincrement())
+  stockId Int
+  date    DateTime @db.Date
+
+  // OHLCV
+  open   Decimal @db.Decimal(19, 4)
+  high   Decimal @db.Decimal(19, 4)
+  low    Decimal @db.Decimal(19, 4)
+  close  Decimal @db.Decimal(19, 4)
+  volume BigInt
+
+  // Adjustments
+  adjClose Decimal? @db.Decimal(19, 4)
+
+  createdAt DateTime @default(now())
+  // Immutable history: no updatedAt or deletedAt
+
+  stock Stock @relation(fields: [stockId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@unique([stockId, date])
+  @@index([date])
+  @@map("stock_prices_daily")
+}
+
+model FinancialIndicator {
+  id      BigInt           @id @default(autoincrement())
+  stockId Int
+  period  INDICATOR_PERIOD
+  date    DateTime         @db.Date
+
+  peRatio   Decimal? @db.Decimal(19, 4)
+  pbRatio   Decimal? @db.Decimal(19, 4)
+  eps       Decimal? @db.Decimal(19, 4)
+  marketCap Decimal? @db.Decimal(24, 4)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stock Stock @relation(fields: [stockId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@unique([stockId, period, date])
+  @@map("financial_indicators")
+}
+
+model MarketDataSyncLog {
+  id              BigInt             @id @default(autoincrement())
+  source          String             @db.VarChar(100)
+  syncType        String             @db.VarChar(50)
+  status          MARKET_SYNC_STATUS @default(PENDING)
+  recordsUpserted Int                @default(0)
+  recordsFailed   Int                @default(0)
+  errorMessage    String?            @db.Text
+
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  @@index([status, startedAt])
+  @@map("market_data_sync_logs")
+}
+
+// -----------------------------------------------------------------------------
+// VIP SIGNAL & PORTFOLIO DOMAIN
+// -----------------------------------------------------------------------------
+
+model VipSignal {
+  id            Int               @id @default(autoincrement())
+  stockId       Int
+  authorId      Int?
+  source        SIGNAL_SOURCE     @default(EXPERT)
+  direction     SIGNAL_DIRECTION
+  status        SIGNAL_STATUS     @default(DRAFT)
+  minTierAccess SUBSCRIPTION_TIER @default(GOLD)
+
+  entryPrice   Decimal @db.Decimal(19, 4)
+  cutLossPrice Decimal @db.Decimal(19, 4)
+  targetPrice  Decimal @db.Decimal(19, 4) // Primary target
+
+  notes       String?   @db.Text
+  publishedAt DateTime?
+  closedAt    DateTime?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  stock  Stock @relation(fields: [stockId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  author User? @relation(fields: [authorId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  targets       SignalTarget[]
+  executionLogs SignalExecutionLog[]
+
+  @@index([status, publishedAt])
+  @@index([stockId])
+  @@map("vip_signals")
+}
+
+model SignalTarget {
+  id          Int       @id @default(autoincrement())
+  signalId    Int
+  price       Decimal   @db.Decimal(19, 4)
+  targetIndex Int // e.g., Target 1, Target 2
+  isHit       Boolean   @default(false)
+  hitAt       DateTime?
+
+  signal VipSignal @relation(fields: [signalId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([signalId])
+  @@map("signal_targets")
+}
+
+model SignalExecutionLog {
+  id           BigInt        @id @default(autoincrement())
+  signalId     Int
+  fromStatus   SIGNAL_STATUS
+  toStatus     SIGNAL_STATUS
+  triggerPrice Decimal?      @db.Decimal(19, 4)
+  reason       String?       @db.Text
+  executedAt   DateTime      @default(now())
+  // Append-only history
+
+  signal VipSignal @relation(fields: [signalId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([signalId, executedAt])
+  @@map("signal_execution_logs")
+}
+
+model RecommendedPortfolio {
+  id             Int               @id @default(autoincrement())
+  name           String            @db.VarChar(255)
+  description    String?           @db.Text
+  managerId      Int?
+  status         PORTFOLIO_STATUS  @default(DRAFT)
+  minTierAccess  SUBSCRIPTION_TIER @default(GOLD)
+  initialCapital Decimal           @db.Decimal(19, 4)
+  currentNav     Decimal           @db.Decimal(19, 4)
+  cashBalance    Decimal           @default(0) @db.Decimal(19, 4)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  manager   User?                  @relation(fields: [managerId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  holdings  PortfolioHolding[]
+  snapshots PortfolioNavSnapshot[]
+
+  @@index([status])
+  @@map("recommended_portfolios")
+}
+
+model PortfolioHolding {
+  id            Int     @id @default(autoincrement())
+  portfolioId   Int
+  stockId       Int
+  quantity      BigInt
+  avgEntryPrice Decimal @db.Decimal(19, 4)
+  currentPrice  Decimal @db.Decimal(19, 4)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  portfolio RecommendedPortfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  stock     Stock                @relation(fields: [stockId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@unique([portfolioId, stockId])
+  @@map("portfolio_holdings")
+}
+
+model PortfolioNavSnapshot {
+  id          BigInt   @id @default(autoincrement())
+  portfolioId Int
+  date        DateTime @db.Date
+  nav         Decimal  @db.Decimal(19, 4)
+  cashBalance Decimal  @db.Decimal(19, 4)
+
+  createdAt DateTime @default(now())
+  // Immutable snapshot
+
+  portfolio RecommendedPortfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([portfolioId, date])
+  @@map("portfolio_nav_snapshots")
+}
+
+// -----------------------------------------------------------------------------
+// WATCHLIST, ALERT & NOTIFICATION DOMAIN
+// -----------------------------------------------------------------------------
+
+model Watchlist {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  name      String  @db.VarChar(100)
+  isDefault Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  items WatchlistItem[]
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@map("watchlists")
+}
+
+model WatchlistItem {
+  id          Int      @id @default(autoincrement())
+  watchlistId Int
+  stockId     Int
+  addedAt     DateTime @default(now())
+
+  watchlist Watchlist @relation(fields: [watchlistId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  stock     Stock     @relation(fields: [stockId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([watchlistId, stockId])
+  @@map("watchlist_items")
+}
+
+model PriceAlert {
+  id          Int             @id @default(autoincrement())
+  userId      Int
+  stockId     Int
+  condition   ALERT_CONDITION
+  targetValue Decimal         @db.Decimal(19, 4)
+  notes       String?         @db.Text
+  status      ALERT_STATUS    @default(ACTIVE)
+
+  lastTriggeredAt DateTime?
+  cooldownMinutes Int       @default(60)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  stock Stock @relation(fields: [stockId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([status, stockId])
+  @@index([userId])
+  @@map("price_alerts")
+}
+
+model Notification {
+  id       BigInt                @id @default(autoincrement())
+  userId   Int
+  title    String                @db.VarChar(255)
+  content  String                @db.Text
+  priority NOTIFICATION_PRIORITY @default(NORMAL)
+  status   NOTIFICATION_STATUS   @default(UNREAD)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user         User                      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  deliveryLogs NotificationDeliveryLog[]
+
+  @@index([userId, status, createdAt])
+  @@map("notifications")
+}
+
+model NotificationDeliveryLog {
+  id             BigInt               @id @default(autoincrement())
+  notificationId BigInt
+  channel        NOTIFICATION_CHANNEL
+  isSuccess      Boolean              @default(false)
+  errorMessage   String?              @db.Text
+  sentAt         DateTime             @default(now())
+
+  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([notificationId])
+  @@map("notification_delivery_logs")
+}
+
+// -----------------------------------------------------------------------------
+// CMS, REPORTING & CONTENT DOMAIN
+// -----------------------------------------------------------------------------
+
+model Category {
+  id          Int     @id @default(autoincrement())
+  slug        String  @unique @db.VarChar(100)
+  name        String  @db.VarChar(100)
+  description String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  blogs Blog[]
+
+  @@map("categories")
+}
+
+model Tag {
+  id   Int    @id @default(autoincrement())
+  slug String @unique @db.VarChar(100)
+  name String @db.VarChar(100)
+
+  createdAt DateTime @default(now())
+
+  blogs BlogTag[]
+
+  @@map("tags")
+}
+
+model Blog {
+  id         Int     @id @default(autoincrement())
+  authorId   Int
+  categoryId Int
+  slug       String  @unique @db.VarChar(255)
+  title      String  @db.VarChar(255)
+  excerpt    String? @db.Text
+  content    String  @db.Text
+
+  status        BLOG_STATUS        @default(DRAFT)
+  visibility    CONTENT_VISIBILITY @default(PUBLIC)
+  minTierAccess SUBSCRIPTION_TIER  @default(STANDARD) // Applied if visibility is PREMIUM
+
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  author   User     @relation(fields: [authorId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  tags            BlogTag[]
+  revisions       ContentRevision[]
+  featuredContent FeaturedContent?
+
+  @@index([status, publishedAt])
+  @@index([authorId])
+  @@index([categoryId])
+  @@map("blogs")
+}
+
+model BlogTag {
+  blogId Int
+  tagId  Int
+
+  blog Blog @relation(fields: [blogId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([blogId, tagId])
+  @@map("blog_tags")
+}
+
+model ReportFile {
+  id         Int         @id @default(autoincrement())
+  uploaderId Int
+  title      String      @db.VarChar(255)
+  reportType REPORT_TYPE
+  fileUrl    String      @db.VarChar(1024)
+  fileSize   Int // in bytes
+
+  status        BLOG_STATUS       @default(DRAFT)
+  minTierAccess SUBSCRIPTION_TIER @default(GOLD)
+
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  uploader User @relation(fields: [uploaderId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([status, reportType])
+  @@map("report_files")
+}
+
+model ContentRevision {
+  id           BigInt          @id @default(autoincrement())
+  blogId       Int
+  editorId     Int
+  action       REVISION_ACTION
+  snapshotData Json // Store title, excerpt, content at time of revision
+  reason       String?         @db.Text
+
+  createdAt DateTime @default(now())
+
+  blog   Blog @relation(fields: [blogId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  editor User @relation(fields: [editorId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([blogId, createdAt])
+  @@map("content_revisions")
+}
+
+model FeaturedContent {
+  id         Int      @id @default(autoincrement())
+  blogId     Int      @unique
+  position   Int      @default(1)
+  featuredAt DateTime @default(now())
+
+  blog Blog @relation(fields: [blogId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([position])
+  @@map("featured_contents")
+}

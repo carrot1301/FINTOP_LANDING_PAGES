@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: fintop_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: fintop
+    ports:
+      - '5432:5432'
+    volumes:
+      - fintop_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d fintop"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: fintop_redis
+    restart: always
+    command: redis-server --save 60 1 --loglevel warning
+    ports:
+      - '6379:6379'
+    volumes:
+      - fintop_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: fintop_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@fintop.vn
+      PGADMIN_DEFAULT_PASSWORD: SuperSecurePassword123!
+    ports:
+      - '5050:80'
+    depends_on:
+      - postgres
+    volumes:
+      - fintop_pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  fintop_pg_data:
+    name: fintop_pg_data
+  fintop_redis_data:
+    name: fintop_redis_data
+  fintop_pgadmin_data:
+    name: fintop_pgadmin_data
