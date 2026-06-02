@@ -70,8 +70,15 @@ async function showUserDetail(userId) {
   detailContainer.innerHTML = '<div class="admin-loading"><div class="admin-spinner"></div></div>';
 
   try {
-    const res = await API().get(EP().ADMIN_USER_DETAIL(userId));
-    const u = res.data || res;
+    const [userDetailRes, allRolesRes] = await Promise.all([
+      API().get(EP().ADMIN_USER_DETAIL(userId)),
+      API().get(EP().ADMIN_ROLES),
+    ]);
+    const u = userDetailRes.data || userDetailRes;
+    const allRoles = allRolesRes.data || allRolesRes;
+
+    const assignedCodes = (u.roles || []).map(r => r.code);
+    const unassignedRoles = (allRoles || []).filter(r => !assignedCodes.includes(r.code));
 
     detailContainer.innerHTML = `
       <div class="admin-detail-panel">
@@ -96,9 +103,16 @@ async function showUserDetail(userId) {
             <div class="admin-detail-label">Trạng thái</div>
             <div class="admin-detail-value">${statusBadge(u.status)}</div>
           </div>
-          <div class="admin-detail-field">
-            <div class="admin-detail-label">Vai trò</div>
-            <div class="admin-detail-value">${(u.roles || []).map(r => roleBadge(r.code)).join(' ') || '—'}</div>
+          <div class="admin-detail-field" style="grid-column: span 2;">
+            <div class="admin-detail-label">Vai trò hiện tại</div>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.25rem;">
+              ${(u.roles || []).map(r => `
+                <div class="admin-badge role-badge" style="display:flex; align-items:center; gap:0.35rem; padding: 0.25rem 0.5rem;">
+                  <span>${esc(r.name || r.code || r)}</span>
+                  <button class="admin-btn-remove-role" data-role-code="${esc(r.code || r)}" data-uid="${u.id}" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-weight:bold; font-size:0.85rem; padding:0 0 0 0.35rem; line-height:1;">✕</button>
+                </div>
+              `).join('') || '—'}
+            </div>
           </div>
           <div class="admin-detail-field">
             <div class="admin-detail-label">Phòng ban</div>
@@ -114,14 +128,31 @@ async function showUserDetail(userId) {
           </div>
         </div>
 
-        <div style="margin-top:1.25rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
-          <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="ACTIVE" data-uid="${u.id}">✅ Kích hoạt</button>
-          <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="INACTIVE" data-uid="${u.id}">⏸️ Ngưng</button>
-          <button class="admin-btn admin-btn-danger admin-btn-sm" data-status-action="LOCKED" data-uid="${u.id}">🔒 Khóa</button>
+        <div style="margin-top:1.25rem;display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
+          <div style="display:flex;gap:0.5rem;">
+            <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="ACTIVE" data-uid="${u.id}">✅ Kích hoạt</button>
+            <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="INACTIVE" data-uid="${u.id}">⏸️ Ngưng</button>
+            <button class="admin-btn admin-btn-danger admin-btn-sm" data-status-action="LOCKED" data-uid="${u.id}">🔒 Khóa</button>
+          </div>
+        </div>
+
+        <div class="admin-detail-panel" style="margin-top:1.25rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:1rem;">
+          <div class="admin-detail-label" style="margin-bottom:0.5rem;">🔑 Cấp vai trò mới</div>
+          ${unassignedRoles.length === 0 ? `
+            <div style="font-size:0.8rem; color:var(--text-muted);">Người dùng đã sở hữu tất cả các vai trò.</div>
+          ` : `
+            <div style="display:flex; gap:0.5rem; align-items:center;">
+              <select class="admin-select" id="assign-role-select" style="min-width:180px;">
+                <option value="">-- Chọn vai trò --</option>
+                ${unassignedRoles.map(r => `<option value="${esc(r.code)}">${esc(r.name)}</option>`).join('')}
+              </select>
+              <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-assign-role">Gán vai trò</button>
+            </div>
+          `}
         </div>
 
         ${u.recentSessions && u.recentSessions.length > 0 ? `
-          <div style="margin-top:1.25rem;">
+          <div style="margin-top:1.25rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
             <div class="admin-detail-label" style="margin-bottom:0.5rem;">Phiên đăng nhập gần đây</div>
             <table class="admin-table" style="font-size:0.75rem;">
               <thead><tr><th>IP</th><th>User Agent</th><th>Thời gian</th></tr></thead>
@@ -163,6 +194,63 @@ async function showUserDetail(userId) {
         }
       });
     });
+
+    // Assign Role button
+    const assignBtn = detailContainer.querySelector('#btn-assign-role');
+    assignBtn?.addEventListener('click', async () => {
+      const selectEl = detailContainer.querySelector('#assign-role-select');
+      const roleCode = selectEl?.value;
+      if (!roleCode) {
+        showToast('Vui lòng chọn vai trò để gán', 'error');
+        return;
+      }
+
+      if (!confirm(`Bạn có chắc muốn gán vai trò "${roleCode}" cho người dùng này không?`)) {
+        return;
+      }
+
+      assignBtn.disabled = true;
+      try {
+        await API().patch(EP().ADMIN_USER_ROLE(u.id), { roleCode });
+        showToast(`Đã gán vai trò ${roleCode} thành công!`);
+        if (table) table.refresh();
+        await showUserDetail(u.id);
+      } catch (err) {
+        showToast(err.message || 'Lỗi gán vai trò', 'error');
+        assignBtn.disabled = false;
+      }
+    });
+
+    // Remove Role buttons
+    detailContainer.querySelectorAll('.admin-btn-remove-role').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const roleCode = btn.dataset.roleCode;
+        const uid = btn.dataset.uid;
+
+        // Self-demotion guard
+        const currentAdmin = window.FintopInfra.AppState.getState('user') || {};
+        if (parseInt(uid) === currentAdmin.id && roleCode === 'SUPER_ADMIN') {
+          showToast('Bạn không thể tự gỡ vai trò quản trị viên cấp cao của chính mình!', 'error');
+          return;
+        }
+
+        if (!confirm(`Bạn có chắc chắn muốn gỡ vai trò "${roleCode}" khỏi người dùng này không?`)) {
+          return;
+        }
+
+        btn.disabled = true;
+        try {
+          await API().delete(EP().ADMIN_USER_ROLE(uid), { body: { roleCode } });
+          showToast(`Đã gỡ vai trò ${roleCode} thành công!`);
+          if (table) table.refresh();
+          await showUserDetail(parseInt(uid));
+        } catch (err) {
+          showToast(err.message || 'Lỗi gỡ vai trò', 'error');
+          btn.disabled = false;
+        }
+      });
+    });
+
   } catch (err) {
     detailContainer.innerHTML = `<div class="admin-empty-state"><div class="empty-icon">⚠️</div><div class="empty-desc">${esc(err.message)}</div></div>`;
   }
