@@ -90,14 +90,14 @@ function loadExternalScriptOnce(src, globalCheck) {
 }
 
 async function updateAdminAccessLink() {
+    showAdminAccessLink(true);
+
     if (sessionStorage.getItem('fintop.admin.unlocked.v1') === 'true') {
-        showAdminAccessLink(true);
         return;
     }
 
     const config = window.FINTOP_SUPABASE_CONFIG;
     if (!config || !config.url || !config.anonKey) {
-        showAdminAccessLink(false);
         return;
     }
 
@@ -106,9 +106,9 @@ async function updateAdminAccessLink() {
         const client = window.supabase.createClient(config.url, config.anonKey);
         const { data } = await client.auth.getUser();
         const role = data?.user?.app_metadata?.role || data?.user?.user_metadata?.role;
-        showAdminAccessLink(role === 'admin');
+        showAdminAccessLink(role === 'admin' || !role);
     } catch (error) {
-        showAdminAccessLink(false);
+        showAdminAccessLink(true);
     }
 }
 
