@@ -764,11 +764,11 @@
 
     <div class="auth-gate" id="adminAuthGate" aria-modal="true" role="dialog">
         <form class="auth-card" id="adminAuthForm">
-            <h2>Khóa truy cập Admin</h2>
-            <p id="adminAuthHelp">Nhập admin token để mở khu vực quản trị trong phiên này.</p>
-            <input id="adminTokenInput" type="password" autocomplete="current-password" placeholder="Admin token" required>
-            <button class="btn btn-primary" type="submit">Mở khóa</button>
-            <p class="muted">Static fallback dùng token local theo trình duyệt. Khi deploy production, hãy bật Supabase Auth/RLS theo schema đi kèm.</p>
+            <h2>Khóa truy cập Trang quản trị</h2>
+            <p id="adminAuthHelp">Nhập mật khẩu quản trị để tiếp tục.</p>
+            <input id="adminPasswordInput" type="password" autocomplete="current-password" placeholder="Mật khẩu quản trị" required>
+            <button class="btn btn-primary" type="submit">Truy cập</button>
+            <p class="muted">Note cho sếp: mật khẩu tạm thời là 2026fintop. Bản production sẽ chuyển sang Supabase Auth/RLS.</p>
         </form>
     </div>
 
@@ -1110,11 +1110,10 @@
         const tableTitle = document.getElementById('tableTitle');
         const adminAuthGate = document.getElementById('adminAuthGate');
         const adminAuthForm = document.getElementById('adminAuthForm');
-        const adminTokenInput = document.getElementById('adminTokenInput');
+        const adminPasswordInput = document.getElementById('adminPasswordInput');
         const adminAuthHelp = document.getElementById('adminAuthHelp');
-        const ADMIN_TOKEN_HASH_KEY = 'fintop.admin.tokenHash.v1';
         const ADMIN_SESSION_KEY = 'fintop.admin.unlocked.v1';
-        const CONFIGURED_ADMIN_HASH = window.FINTOP_ADMIN_TOKEN_HASH || '';
+        const ADMIN_ACCESS_PASSWORD = '2026fintop';
 
         function cloneData(value) {
             return JSON.parse(JSON.stringify(value));
@@ -1695,52 +1694,23 @@
             showToast.timeout = window.setTimeout(() => toast.classList.remove('show'), 2400);
         }
 
-        async function sha256Hex(value) {
-            if (!window.crypto?.subtle) {
-                return btoa(unescape(encodeURIComponent(value)));
-            }
-            const bytes = new TextEncoder().encode(value);
-            const hash = await crypto.subtle.digest('SHA-256', bytes);
-            return Array.from(new Uint8Array(hash))
-                .map((byte) => byte.toString(16).padStart(2, '0'))
-                .join('');
-        }
-
-        function getStoredAdminHash() {
-            return CONFIGURED_ADMIN_HASH || localStorage.getItem(ADMIN_TOKEN_HASH_KEY) || '';
-        }
-
         function initAuthGate() {
             if (sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true') return;
 
-            const hasHash = Boolean(getStoredAdminHash());
-            adminAuthHelp.textContent = hasHash
-                ? 'Nhập admin token để mở khu vực quản trị trong phiên này.'
-                : 'Thiết lập admin token cục bộ cho trình duyệt này. Hãy dùng Supabase Auth/RLS khi deploy production.';
+            adminAuthHelp.textContent = 'Nhập mật khẩu quản trị để tiếp tục.';
             adminAuthGate.classList.add('active');
-            adminTokenInput.focus();
+            adminPasswordInput.focus();
         }
 
-        async function unlockAdmin(token) {
-            const existingHash = getStoredAdminHash();
-            const tokenHash = await sha256Hex(token);
-
-            if (!existingHash) {
-                localStorage.setItem(ADMIN_TOKEN_HASH_KEY, tokenHash);
-                sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
-                adminAuthGate.classList.remove('active');
-                showToast('Đã thiết lập token admin local.');
-                return;
-            }
-
-            if (tokenHash !== existingHash) {
-                window.alert('Admin token không đúng.');
+        function unlockAdmin(password) {
+            if (password !== ADMIN_ACCESS_PASSWORD) {
+                window.alert('Mật khẩu quản trị không đúng.');
                 return;
             }
 
             sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
             adminAuthGate.classList.remove('active');
-            showToast('Đã mở khóa admin.');
+            showToast('Đã mở khóa trang quản trị.');
         }
 
         nav.addEventListener('click', (event) => {
@@ -1815,10 +1785,10 @@
             event.target.value = '';
         });
 
-        adminAuthForm.addEventListener('submit', async (event) => {
+        adminAuthForm.addEventListener('submit', (event) => {
             event.preventDefault();
-            await unlockAdmin(adminTokenInput.value);
-            adminTokenInput.value = '';
+            unlockAdmin(adminPasswordInput.value);
+            adminPasswordInput.value = '';
         });
 
         document.getElementById('logoutBtn').addEventListener('click', () => {
