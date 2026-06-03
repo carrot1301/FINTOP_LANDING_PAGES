@@ -6,6 +6,7 @@ _dev_scripts/
 # Script Python/PowerShell tạm
 *.py
 *.ps1
+!scripts/sync_dnt_stock_prices.py
 
 # Hệ điều hành
 Thumbs.db

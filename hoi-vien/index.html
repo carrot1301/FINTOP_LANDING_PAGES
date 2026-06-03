@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../assets/css/components.css">
     <link rel="stylesheet" href="../assets/css/modals.css">
     <link rel="stylesheet" href="../assets/css/demo-pages.css">
+    <script src="../data/memberships-data.js"></script>
 </head>
 
 <body class="demo-page">
@@ -262,7 +263,10 @@
     </main>
 
     <footer class="demo-footer">
-        FinTop DATA - Trang hội viên demo. Các nút Đăng ký đang mô phỏng luồng kích hoạt trên landing page.
+        <div>FinTop DATA - Trang hội viên.</div>
+        <div class="footer-disclaimer" style="margin-top: 1rem; padding-top: 1rem;">
+            <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
+        </div>
     </footer>
 
     <div id="pricing-modals" class="pricing-modals-overlay">
@@ -452,6 +456,29 @@
         </div>
     </div>
 
+    <script>
+        (function () {
+            const plans = Array.isArray(window.FINTOP_MEMBERSHIP_DATA) ? window.FINTOP_MEMBERSHIP_DATA : [];
+            const grid = document.querySelector('.tier-grid');
+            if (!grid || plans.length === 0) return;
+
+            const themeMap = { standard: 'standard', pro: 'pro', vip: 'vip', diamond: 'diamond' };
+            const featureList = (value) => String(value || '').split(';').map((item) => item.trim()).filter(Boolean);
+            const displayName = (plan) => plan.id === 'pro' ? `${plan.name} ⭐` : plan.id === 'diamond' ? `${plan.name} 💎` : plan.name;
+
+            grid.innerHTML = plans.map((plan) => `
+                <article class="tier-card ${themeMap[plan.id] || 'standard'}">
+                    <h3>${displayName(plan)}</h3>
+                    <div class="tier-subtitle">(${plan.subtitle || ''})</div>
+                    <ul class="tier-list">
+                        ${featureList(plan.features).map((feature) => `<li><span>✦</span> ${feature}</li>`).join('')}
+                    </ul>
+                    <div class="tier-price">${plan.price || ''}</div>
+                    <button class="${plan.id === 'pro' || plan.id === 'diamond' ? 'btn-demo' : 'btn-demo-ghost'}" type="button" onclick="openPricingModal('${plan.id}')">${plan.cta || 'Đăng ký'}</button>
+                </article>
+            `).join('');
+        })();
+    </script>
     <script src="../assets/js/demo-pages.js"></script>
     <script src="../assets/js/modals.js"></script>
 </body>

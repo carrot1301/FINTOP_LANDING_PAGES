@@ -12,6 +12,7 @@
     
     <!-- Custom JS -->
     <script src="../assets/js/table.js" defer></script>
+    <script src="../data/stock-filter-data.js"></script>
     
     <style>
         .inner-page-layout {
@@ -76,7 +77,7 @@
                         <th>Điểm QTRR</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="stockFilterTableBody">
                     <tr>
                         <td>1</td>
                         <td><strong>VEA</strong></td>
@@ -143,6 +144,39 @@
             <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
         </div>
     </footer>
+
+    <script>
+        (function () {
+            const rows = Array.isArray(window.FINTOP_STOCK_FILTER_DATA) ? window.FINTOP_STOCK_FILTER_DATA : [];
+            const tbody = document.getElementById('stockFilterTableBody');
+            if (!tbody || rows.length === 0) return;
+
+            const badgeClassMap = {
+                'very-positive': 'very-pos',
+                positive: 'pos',
+                ok: 'ok',
+                neutral: 'neutral',
+                negative: 'neg'
+            };
+
+            tbody.innerHTML = rows.map((row, index) => {
+                const badgeClass = badgeClassMap[row.status] || 'neutral';
+                return `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td><strong>${row.ticker}</strong></td>
+                        <td>${row.san}</td>
+                        <td>${row.nganh}</td>
+                        <td><span class="badge ${badgeClass}">${row.statusText || ''}</span></td>
+                        <td><button class="${row.status === 'very-positive' ? 'btn-solid-gold' : row.status === 'negative' ? 'btn-outline-gray' : 'btn-outline-purple'}">${row.trend || 'THEO DÕI'}</button></td>
+                        <td>${row.vungKiemDinh || ''}</td>
+                        <td>${row.khangCu || ''}</td>
+                        <td>${row.hoTro || ''}</td>
+                    </tr>
+                `;
+            }).join('');
+        })();
+    </script>
 
 </body>
 </html>

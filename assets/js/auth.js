@@ -59,7 +59,58 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    updateAdminAccessLink();
 });
+
+function showAdminAccessLink(isVisible) {
+    const adminLink = document.getElementById('adminAccessLink');
+    if (!adminLink) return;
+    adminLink.hidden = !isVisible;
+}
+
+function loadExternalScriptOnce(src, globalCheck) {
+    if (globalCheck()) return Promise.resolve();
+
+    return new Promise((resolve, reject) => {
+        const existing = document.querySelector(`script[src="${src}"]`);
+        if (existing) {
+            existing.addEventListener('load', resolve, { once: true });
+            existing.addEventListener('error', reject, { once: true });
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+}
+
+async function updateAdminAccessLink() {
+    if (sessionStorage.getItem('fintop.admin.unlocked.v1') === 'true') {
+        showAdminAccessLink(true);
+        return;
+    }
+
+    const config = window.FINTOP_SUPABASE_CONFIG;
+    if (!config || !config.url || !config.anonKey) {
+        showAdminAccessLink(false);
+        return;
+    }
+
+    try {
+        await loadExternalScriptOnce('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2', () => Boolean(window.supabase));
+        const client = window.supabase.createClient(config.url, config.anonKey);
+        const { data } = await client.auth.getUser();
+        const role = data?.user?.app_metadata?.role || data?.user?.user_metadata?.role;
+        showAdminAccessLink(role === 'admin');
+    } catch (error) {
+        showAdminAccessLink(false);
+    }
+}
 
 /**
  * Open the authentication modal

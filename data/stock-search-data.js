@@ -1,0 +1,20 @@
+window.FINTOP_STOCK_SEARCH_DATA = {
+    VEA: { san: 'UPCOM', nganh: 'Bán buôn, bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang tăng nhẹ.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
+    DST: { san: 'HNX', nganh: 'Bán buôn, bán lẻ', time: '23:27\n05/03', desc: 'Mẫu nến suy giảm chạm hỗ trợ MA200.', status: 'positive', statusText: 'TÍCH CỰC' },
+    DGW: { san: 'HOSE', nganh: 'Bán buôn, bán lẻ', time: '23:28\n05/03', desc: 'Mẫu nến đi ngang trên hỗ trợ MA50.', status: 'ok', statusText: 'KHẢ QUAN' },
+    MWG: { san: 'HOSE', nganh: 'Bán lẻ', time: '23:32\n05/03', desc: 'Mẫu nến suy giảm.', status: 'neutral', statusText: 'TRUNG LẬP' },
+    PNJ: { san: 'HOSE', nganh: 'Bán lẻ', time: '23:33\n05/03', desc: 'Mẫu hình 2 đỉnh, nếu suy giảm.', status: 'negative', statusText: 'KO TÍCH CỰC' },
+    FPT: { san: 'HOSE', nganh: 'Công nghệ', time: '23:35\n05/03', desc: 'Kênh xu hướng tăng trung hạn.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
+    VNM: { san: 'HOSE', nganh: 'Sản xuất sữa', time: '23:36\n05/03', desc: 'Mẫu nến đi ngang tích lũy.', status: 'ok', statusText: 'KHẢ QUAN' },
+    FRT: { san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu suy giảm.', status: 'ok', statusText: 'KHẢ QUAN' },
+    MSN: { san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Kênh xu hướng giảm.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
+    PLX: { san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến giảm ngắn, chạm hỗ trợ MA5.', status: 'positive', statusText: 'TÍCH CỰC' },
+    PET: { san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang tích lũy, kênh xu hướng tăng.', status: 'ok', statusText: 'KHẢ QUAN' },
+    BVH: { san: 'HOSE', nganh: 'Bảo hiểm', time: '23:26\n05/03', desc: 'Mẫu nến giảm, thủng hỗ trợ MA20.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
+    BIC: { san: 'HOSE', nganh: 'Bảo hiểm', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang.', status: 'positive', statusText: 'TÍCH CỰC' },
+    HPG: { san: 'HOSE', nganh: 'Thép', time: '23:40\n05/03', desc: 'Kênh xu hướng tăng mạnh.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
+    SSI: { san: 'HOSE', nganh: 'Chứng khoán', time: '23:41\n05/03', desc: 'Mẫu nến đi ngang trên MA20.', status: 'positive', statusText: 'TÍCH CỰC' },
+    VCB: { san: 'HOSE', nganh: 'Ngân hàng', time: '23:42\n05/03', desc: 'Kênh giá tăng ổn định.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
+    TCB: { san: 'HOSE', nganh: 'Ngân hàng', time: '23:43\n05/03', desc: 'Mẫu nến tăng nhẹ.', status: 'positive', statusText: 'TÍCH CỰC' },
+    VHM: { san: 'HOSE', nganh: 'Bất động sản', time: '23:44\n05/03', desc: 'Mẫu nến giảm chạm hỗ trợ.', status: 'neutral', statusText: 'TRUNG LẬP' }
+};

@@ -6,6 +6,7 @@
     <title>FinTop DATA | Tín Hiệu Chuyên Gia</title>
     <link rel="stylesheet" href="../../assets/css/variables.css">
     <link rel="stylesheet" href="../../assets/css/base.css">
+    <script src="../../data/signals-data.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -222,6 +223,7 @@
             background: #07070D; border-top: 1px solid rgba(255,255,255,0.08);
             padding: 2rem 5%; text-align: center; color: #475569; font-size: 0.8rem;
         }
+        .data-mode .static-signal-demo { display: none; }
 
         @media (max-width: 768px) {
             .signal-table td { padding: 6px 10px; font-size: 0.78rem; }
@@ -261,6 +263,9 @@
                 <p class="page-subtitle">T&#237;n hi&#7879;u ENTRY / EXIT realtime t&#7915; &#273;&#7897;i ng&#361; Chuy&#234;n gia &#8212; C&#7853;p nh&#7853;t li&#234;n t&#7909;c theo phi&#234;n giao d&#7883;ch</p>
             </div>
 
+            <div id="dynamicSignalSections"></div>
+
+            <div class="static-signal-demo">
             <!-- V.I.P Section -->
             <div class="section-label">
                 <span style="font-size:1.2rem">&#128142;</span> I. T&#205;N HI&#7878;U V.I.P
@@ -393,6 +398,8 @@
                 </table>
             </div>
 
+            </div>
+
             <!-- Disclaimer -->
             <div class="disclaimer-msg">
                 <h4>&#9888;&#65039; Mi&#7877;n Tr&#7915; Tr&#225;ch Nhi&#7879;m !</h4>
@@ -408,10 +415,56 @@
         </div>
     </div>
 
-    <footer class="page-footer"><p>&copy; 2026 FinTop DATA. All rights reserved.</p></footer>
+    <footer class="page-footer">
+        <p>&copy; 2026 FinTop DATA. All rights reserved.</p>
+        <p style="margin-top:0.75rem;">
+            <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư.
+            Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
+        </p>
+    </footer>
 
     <script>
     (function(){
+        function renderSignalsFromData() {
+            var data = Array.isArray(window.FINTOP_SIGNALS_DATA) ? window.FINTOP_SIGNALS_DATA : [];
+            var host = document.getElementById('dynamicSignalSections');
+            if (!host || data.length === 0) return;
+
+            function detailRows(signal) {
+                return (signal.details || []).map(function(item) {
+                    if (item.isFullWidth) {
+                        return '<tr><td colspan="2"><span class="label-dim">' + item.label + '</span> <span class="' + item.valueClass + '">' + item.value + '</span></td></tr>';
+                    }
+                    return '<tr><td><span class="label-dim">' + item.label + '</span> <span class="' + item.valueClass + '">' + item.value + '</span></td><td></td></tr>';
+                }).join('');
+            }
+
+            function card(signal) {
+                var actionClass = signal.type === 'EXIT' ? 'action-exit' : 'action-entry';
+                return '<div class="signal-msg-box">' +
+                    '<div class="msg-sender">' +
+                        '<div class="sender-avatar" style="background:' + (signal.expertAvatarBg || 'linear-gradient(135deg,#7c3aed,#a855f7)') + '">' + (signal.expertInitials || 'FT') + '</div>' +
+                        '<div class="sender-info"><div class="sender-name">' + (signal.expertName || '') + '</div><div class="sender-role">' + (signal.expertRole || '') + '</div></div>' +
+                        '<div class="msg-timestamp">' + (signal.time || '') + '<br>' + (signal.date || '') + '</div>' +
+                    '</div>' +
+                    '<table class="signal-table"><tr>' +
+                        '<td class="action-cell ' + actionClass + '" rowspan="' + ((signal.details || []).length + 1) + '">' + signal.type + '</td>' +
+                        '<td><span class="ticker-price">' + signal.ticker + '</span></td>' +
+                        '<td style="text-align:right"><span class="strategy-badge ' + (signal.badgeClass || '') + '">' + (signal.badge || '') + '</span></td>' +
+                    '</tr>' + detailRows(signal) + '</table>' +
+                '</div>';
+            }
+
+            var entry = data.filter(function(signal) { return signal.type !== 'EXIT'; });
+            var exit = data.filter(function(signal) { return signal.type === 'EXIT'; });
+            host.innerHTML =
+                '<div class="section-label"><span style="font-size:1.2rem">⭐</span> TÍN HIỆU ENTRY <span class="badge-count">' + entry.length + ' tín hiệu</span></div>' +
+                entry.map(card).join('') +
+                '<div class="section-label"><span style="font-size:1.2rem">📤</span> TÍN HIỆU EXIT <span class="badge-count">' + exit.length + ' tín hiệu</span></div>' +
+                exit.map(card).join('');
+            document.body.classList.add('data-mode');
+        }
+
         var navItems = [
             {text:'Trang ch\u1EE7', href:'../../index.html'},
             {text:'H\u1ED9i vi\u00EAn', href:'../../hoi-vien/index.html'},
@@ -425,6 +478,7 @@
             return '<li><a href="'+n.href+'"'+s+'>'+n.text+'</a></li>';
         }).join('');
         document.getElementById('navMenu').innerHTML = html;
+        renderSignalsFromData();
     })();
     </script>
 </body>

@@ -1,1 +1,72 @@
-<!DOCTYPE html><html lang='vi'><head><meta charset='UTF-8'><title>FinTop DATA</title><link rel='stylesheet' href='../assets/css/variables.css'><link rel='stylesheet' href='../assets/css/base.css'></head><body><h1 style='padding:5rem; text-align:center;'>Trang �ang ��?c x�y d?ng</h1></body></html>
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bộ lọc cổ phiếu | FinTop DATA</title>
+    <link rel="stylesheet" href="../../assets/css/variables.css">
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/components.css">
+    <script src="../../data/stock-filter-data.js"></script>
+    <script src="../../assets/js/table.js" defer></script>
+    <style>
+        .inner-page-layout { padding: 100px 5% 4rem; min-height: 100vh; }
+        .page-header { margin-bottom: 2rem; }
+        .page-header h1 { color: var(--inner-accent); font-size: var(--font-h2); margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body class="light-mode">
+    <header class="sticky-nav">
+        <a href="../../index.html" class="logo">FinTop DATA</a>
+        <ul class="nav-menu">
+            <li><a href="../../index.html">Trang chủ</a></li>
+            <li><a href="../index.html">Tra cứu CP</a></li>
+            <li><a href="index.html" style="color: var(--purple-glow);">Bộ lọc CP</a></li>
+            <li><a href="../tin-hieu/index.html">Tín hiệu CG</a></li>
+        </ul>
+        <div class="header-actions"><a class="btn-primary btn-sm" href="../../admin/index.html">Admin</a></div>
+    </header>
+
+    <main class="inner-page-layout">
+        <div class="page-header">
+            <h1>Bộ Lọc Cổ Phiếu</h1>
+            <p>Dữ liệu kỹ thuật đồng bộ từ lớp data dùng chung của FinTop DATA.</p>
+        </div>
+        <div class="data-table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>STT</th><th>Mã CP</th><th>Sàn</th><th>Ngành</th><th>Cán bộ</th><th>Update</th><th>Trạng thái</th><th>Dòng tiền</th><th>Kiểm định</th><th>Kháng cự</th><th>Hỗ trợ</th>
+                    </tr>
+                </thead>
+                <tbody id="stockFilterBody"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer style="margin-top: 2rem;">
+        <div class="footer-disclaimer" style="padding: 2rem 5%; text-align: center;">
+            <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
+        </div>
+    </footer>
+
+    <script>
+        const rows = Array.isArray(window.FINTOP_STOCK_FILTER_DATA) ? window.FINTOP_STOCK_FILTER_DATA : [];
+        const badgeClassMap = { 'very-positive': 'very-pos', positive: 'pos', ok: 'ok', neutral: 'neutral', negative: 'neg' };
+        document.getElementById('stockFilterBody').innerHTML = rows.map((row, index) => `
+            <tr>
+                <td>${index + 1}</td>
+                <td><strong>${row.ticker}</strong></td>
+                <td>${row.san}</td>
+                <td>${row.nganh}</td>
+                <td>${row.canBo || ''}</td>
+                <td>${String(row.time || '').replace('\n', '<br>')}</td>
+                <td><span class="badge ${badgeClassMap[row.status] || 'neutral'}">${row.statusText || ''}</span></td>
+                <td>${row.trend || ''}</td>
+                <td>${row.vungKiemDinh || ''}</td>
+                <td>${row.khangCu || ''}</td>
+                <td>${row.hoTro || ''}</td>
+            </tr>`).join('');
+    </script>
+</body>
+</html>

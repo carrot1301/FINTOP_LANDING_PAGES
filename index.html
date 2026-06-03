@@ -3605,6 +3605,7 @@
                 <div class="user-dropdown-menu">
                     <a href="javascript:void(0)" class="user-dropdown-item login-btn"
                         onclick="openAuthModal('login')">👤 Đăng nhập</a>
+                    <a href="admin/index.html" class="user-dropdown-item" id="adminAccessLink" hidden>Trang quản trị</a>
                     <a href="javascript:void(0)" class="user-dropdown-item"
                         onclick="alert('Mở Trung tâm trợ giúp')">Trung tâm Trợ giúp</a>
                     <a href="javascript:void(0)" class="user-dropdown-item"
@@ -5588,6 +5589,12 @@
         </div>
     </footer>
 
+    <script src="data/stock-search-data.js"></script>
+    <script src="data/stock-filter-data.js"></script>
+    <script src="data/signals-data.js"></script>
+    <script src="data/research-data.js"></script>
+    <script src="data/memberships-data.js"></script>
+    <script src="data/landing-content-data.js"></script>
     <script>
         // Header scroll effect
         window.addEventListener('scroll', () => {
@@ -5603,42 +5610,25 @@
         // MEGA MENU + CONTENT PANEL SYSTEM
         // ==============================================
 
-        // Sample stock data for Tra cứu
-        const STOCK_DB = {
-            'VEA': { san: 'UPCOM', nganh: 'Bán buôn, bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang tăng nhẹ.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
-            'DST': { san: 'HNX', nganh: 'Bán buôn, bán lẻ', time: '23:27\n05/03', desc: 'Mẫu nến suy giảm chạm hỗ trợ MA200.', status: 'positive', statusText: 'TÍCH CỰC' },
-            'DGW': { san: 'HOSE', nganh: 'Bán buôn, bán lẻ', time: '23:28\n05/03', desc: 'Mẫu nến đi ngang trên hỗ trợ MA50.', status: 'ok', statusText: 'KHẢ QUAN' },
-            'MWG': { san: 'HOSE', nganh: 'Bán lẻ', time: '23:32\n05/03', desc: 'Mẫu nến suy giảm.', status: 'neutral', statusText: 'TRUNG LẬP' },
-            'PNJ': { san: 'HOSE', nganh: 'Bán lẻ', time: '23:33\n05/03', desc: 'Mẫu hình 2 đỉnh, nếu suy giảm.', status: 'negative', statusText: 'KO TÍCH CỰC' },
-            'FPT': { san: 'HOSE', nganh: 'Công nghệ', time: '23:35\n05/03', desc: 'Kênh xu hướng tăng trung hạn.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
-            'VNM': { san: 'HOSE', nganh: 'Sản xuất sữa', time: '23:36\n05/03', desc: 'Mẫu nến đi ngang tích lũy.', status: 'ok', statusText: 'KHẢ QUAN' },
-            'FRT': { san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu suy giảm.', status: 'ok', statusText: 'KHẢ QUAN' },
-            'MSN': { san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Kênh xu hướng giảm.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
-            'PLX': { san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến giảm ngắn, chạm hỗ trợ MA5.', status: 'positive', statusText: 'TÍCH CỰC' },
-            'PET': { san: 'HOSE', nganh: 'Bán lẻ', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang tích lũy, kênh xu hướng tăng.', status: 'ok', statusText: 'KHẢ QUAN' },
-            'BVH': { san: 'HOSE', nganh: 'Bảo hiểm', time: '23:26\n05/03', desc: 'Mẫu nến giảm, thủng hỗ trợ MA20.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
-            'BIC': { san: 'HOSE', nganh: 'Bảo hiểm', time: '23:26\n05/03', desc: 'Mẫu nến đi ngang.', status: 'positive', statusText: 'TÍCH CỰC' },
-            'HPG': { san: 'HOSE', nganh: 'Thép', time: '23:40\n05/03', desc: 'Kênh xu hướng tăng mạnh.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
-            'SSI': { san: 'HOSE', nganh: 'Chứng khoán', time: '23:41\n05/03', desc: 'Mẫu nến đi ngang trên MA20.', status: 'positive', statusText: 'TÍCH CỰC' },
-            'VCB': { san: 'HOSE', nganh: 'Ngân hàng', time: '23:42\n05/03', desc: 'Kênh giá tăng ổn định.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC' },
-            'TCB': { san: 'HOSE', nganh: 'Ngân hàng', time: '23:43\n05/03', desc: 'Mẫu nến tăng nhẹ.', status: 'positive', statusText: 'TÍCH CỰC' },
-            'VHM': { san: 'HOSE', nganh: 'Bất động sản', time: '23:44\n05/03', desc: 'Mẫu nến giảm chạm hỗ trợ.', status: 'neutral', statusText: 'TRUNG LẬP' },
-        };
+        // Sample stock data for Tra cứu dùng chung với trang quản trị.
+        let STOCK_DB = window.FINTOP_STOCK_SEARCH_DATA || {};
 
-        // Bộ lọc data (extended)
-        const BOLOC_DATA = [
-            { ticker: 'VEA', san: 'UPCOM', nganh: 'Bán buôn, bán lẻ', canBo: 'Đình Hải', time: '23h26\n05/03', desc: 'Mẫu nến đi ngang tăng nhẹ.', status: 'very-positive', statusText: 'RẤT TÍCH CỰC', trend: 'TĂNG MẠNH', vungKiemDinh: '34 - 34.5', khangCu: '38 - 42', hoTro: '33' },
-            { ticker: 'DST', san: 'HNX', nganh: 'Bán buôn, bán lẻ', canBo: 'Đình Hải', time: '23h27\n05/03', desc: 'Mẫu nến suy giảm chạm hỗ trợ MA200.', status: 'positive', statusText: 'TÍCH CỰC', trend: 'TĂNG', vungKiemDinh: '9.3 - 9.5', khangCu: '9.9 - 10.2 - 10.7', hoTro: '21' },
-            { ticker: 'DGW', san: 'HOSE', nganh: 'Bán buôn, bán lẻ', canBo: 'Đình Hải', time: '23h28\n05/03', desc: 'Mẫu nến đi ngang trên hỗ trợ MA50.', status: 'ok', statusText: 'KHẢ QUAN', trend: 'TĂNG DẦN', vungKiemDinh: '45.5 - 46.5', khangCu: '48 - 50 - 52', hoTro: '18' },
-            { ticker: 'MWG', san: 'HOSE', nganh: 'Bán lẻ', canBo: 'Đình Hải', time: '23h32\n05/03', desc: 'Mẫu nến suy giảm.', status: 'neutral', statusText: 'TRUNG LẬP', trend: 'ĐI NGANG', vungKiemDinh: '85 - 86', khangCu: '88 - 90 - 92', hoTro: '82 - 84' },
-            { ticker: 'PNJ', san: 'HOSE', nganh: 'Bán lẻ', canBo: 'Đình Hải', time: '23h33\n05/03', desc: 'Mẫu hình 2 đỉnh, nếu suy giảm.', status: 'negative', statusText: 'KO TÍCH CỰC', trend: 'SUY YẾU', vungKiemDinh: '114 - 117', khangCu: '118 - 121 - 124', hoTro: '110 - 112' },
-            { ticker: 'FRT', san: 'HOSE', nganh: 'Bán lẻ', canBo: 'Đình Hải', time: '23h34\n05/03', desc: 'Mẫu suy giảm.', status: 'negative', statusText: 'TIÊU CỰC', trend: 'GIẢM', vungKiemDinh: '158 - 160', khangCu: '164 - 168 - 172', hoTro: '150 - 154' },
-            { ticker: 'MSN', san: 'HOSE', nganh: 'Bán lẻ', canBo: 'Đình Hải', time: '23h35\n05/03', desc: 'Kênh xu hướng giảm.', status: 'negative', statusText: 'TIÊU CỰC', trend: 'GIẢM', vungKiemDinh: '75 - 76', khangCu: '78 - 80 - 82', hoTro: '70 - 72' },
-            { ticker: 'PLX', san: 'HOSE', nganh: 'Bán lẻ', canBo: 'Đình Hải', time: '23h35\n05/03', desc: 'Mẫu nến giảm ngắn, chạm hỗ trợ MA5.', status: 'neutral', statusText: 'TRUNG LẬP', trend: 'ĐI NGANG', vungKiemDinh: '64 - 65.5', khangCu: '67 - 69 - 71', hoTro: '62 - 63' },
-            { ticker: 'PET', san: 'HOSE', nganh: 'Bán lẻ', canBo: 'Đình Hải', time: '23h36\n05/03', desc: 'Mẫu nến đi ngang tích lũy, kênh xu hướng tăng.', status: 'ok', statusText: 'KHẢ QUAN', trend: 'TĂNG DẦN', vungKiemDinh: '39 - 40', khangCu: '41.5 - 43 - 45', hoTro: '37 - 38' },
-            { ticker: 'BVH', san: 'HOSE', nganh: 'Bảo hiểm', canBo: 'Đình Hải', time: '23h38\n05/03', desc: 'Mẫu nến giảm, thủng hỗ trợ MA20.', status: 'negative', statusText: 'KO TÍCH CỰC', trend: 'SUY YẾU', vungKiemDinh: '75.5 - 76.5', khangCu: '78 - 80 - 82', hoTro: '72 - 74' },
-            { ticker: 'BIC', san: 'HOSE', nganh: 'Bảo hiểm', canBo: 'Đình Hải', time: '23h38\n05/03', desc: 'Mẫu nến đi ngang.', status: 'neutral', statusText: 'TRUNG LẬP', trend: 'TÍCH LŨY', vungKiemDinh: '23 - 24.5', khangCu: '25 - 26.5 - 28', hoTro: '21.5 - 22.5' },
-        ];
+        // Bộ lọc data dùng chung với trang quản trị.
+        let BOLOC_DATA = Array.isArray(window.FINTOP_STOCK_FILTER_DATA)
+            ? window.FINTOP_STOCK_FILTER_DATA
+            : [];
+
+        let RESEARCH_DATA = Array.isArray(window.FINTOP_RESEARCH_DATA)
+            ? window.FINTOP_RESEARCH_DATA
+            : [];
+
+        let MEMBERSHIP_DATA = Array.isArray(window.FINTOP_MEMBERSHIP_DATA)
+            ? window.FINTOP_MEMBERSHIP_DATA
+            : [];
+
+        let LANDING_CONTENT_DATA = Array.isArray(window.FINTOP_LANDING_CONTENT_DATA)
+            ? window.FINTOP_LANDING_CONTENT_DATA
+            : [];
 
         // Track searched tickers
         let searchedTickers = [];
@@ -5718,7 +5708,7 @@
             if (clickedButton) clickedButton.classList.add('active');
 
             const count = document.getElementById('marketArticleCount');
-            if (count) count.textContent = `Có tất cả ${visibleCount}/${total} bài viết demo`;
+            if (count) count.textContent = `Có tất cả ${visibleCount}/${total} bài viết`;
         }
 
         document.addEventListener('click', (e) => {
@@ -5851,6 +5841,17 @@
             const tbody = document.getElementById('bolocBody');
             tbody.innerHTML = '';
 
+            if (BOLOC_DATA.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="12" style="text-align: center; color: #94A3B8; padding: 24px;">
+                            Chưa tải được dữ liệu bộ lọc cổ phiếu.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
             BOLOC_DATA.forEach((d, i) => {
                 const tr = document.createElement('tr');
                 tr.className = 'animate-in';
@@ -5886,76 +5887,9 @@
         // =====================
         // TÍN HIỆU CHUYÊN GIA
         // =====================
-        const SIGNAL_DATA = [
-            {
-                type: 'ENTRY',
-                ticker: 'CTD 78.2',
-                badge: 'DÀI HẠN',
-                badgeClass: 'badge-longterm',
-                expertInitials: 'NH',
-                expertAvatarBg: 'linear-gradient(135deg, #7c3aed, #a855f7)',
-                expertName: 'Nguyễn Đình Hải',
-                expertRole: 'GĐ TVĐT VPS',
-                time: '13:05:54',
-                date: '29-01-2026',
-                details: [
-                    { label: 'Kháng cự:', value: '85 - 90', valueClass: 'val-highlight' },
-                    { label: 'Điểm QTRR:', value: '76', valueClass: 'val-score' },
-                    { label: 'Mô tả Model:', value: 'Kênh xu hướng mở biên tăng trưởng.', valueClass: 'val-highlight', isFullWidth: true }
-                ]
-            },
-            {
-                type: 'EXIT',
-                ticker: 'CTD 85',
-                badge: 'PARTIAL EXIT <span class="info-icon">i</span>',
-                badgeClass: 'badge-partial',
-                expertInitials: 'TL',
-                expertAvatarBg: 'linear-gradient(135deg, #991B1B, #DC2626)',
-                expertName: 'Trần Khánh Linh',
-                expertRole: 'CG TVĐT VPS',
-                time: '13:05:54',
-                date: '29-01-2026',
-                details: [
-                    { label: 'Điểm ENTRY:', value: '78.2', valueClass: 'val-highlight' },
-                    { label: 'Kết quả MDL:', value: '18.05%', valueClass: 'val-green' },
-                    { label: 'Chi chú MDL:', value: 'Chạm kháng cự 85', valueClass: 'val-highlight', isFullWidth: true }
-                ]
-            },
-            {
-                type: 'ENTRY',
-                ticker: 'FPT 132',
-                badge: 'TRUNG HẠN',
-                badgeClass: 'badge-longterm',
-                expertInitials: 'PH',
-                expertAvatarBg: 'linear-gradient(135deg, #7c3aed, #a855f7)',
-                expertName: 'Phạm Minh Hoàng',
-                expertRole: 'CG Phân Tích Kỹ Thuật VPS',
-                time: '09:32:10',
-                date: '29-01-2026',
-                details: [
-                    { label: 'Kháng cự:', value: '145 - 155', valueClass: 'val-highlight' },
-                    { label: 'Điểm QTRR:', value: '82', valueClass: 'val-score' },
-                    { label: 'Mô tả Model:', value: 'Phá vỡ vùng tích lũy dài hạn, hướng đến đỉnh mới.', valueClass: 'val-highlight', isFullWidth: true }
-                ]
-            },
-            {
-                type: 'EXIT',
-                ticker: 'HPG 32.5',
-                badge: 'PARTIAL EXIT <span class="info-icon">i</span>',
-                badgeClass: 'badge-partial',
-                expertInitials: 'LV',
-                expertAvatarBg: 'linear-gradient(135deg, #991B1B, #DC2626)',
-                expertName: 'Lê Văn Tùng',
-                expertRole: 'CG Tư Vấn Đầu Tư VPS',
-                time: '14:30:05',
-                date: '28-01-2026',
-                details: [
-                    { label: 'Điểm ENTRY:', value: '28.5', valueClass: 'val-highlight' },
-                    { label: 'Kết quả MDL:', value: '+14.04%', valueClass: 'val-green' },
-                    { label: 'Chi chú MDL:', value: 'Chốt lời 50% tại vùng kháng cự', valueClass: 'val-highlight', isFullWidth: true }
-                ]
-            }
-        ];
+        let SIGNAL_DATA = Array.isArray(window.FINTOP_SIGNALS_DATA)
+            ? window.FINTOP_SIGNALS_DATA
+            : [];
 
         let signalsRendered = false;
 
@@ -6005,6 +5939,7 @@
 
             // Add VPS Footer
             const panel = document.getElementById('panel-tinhieu');
+            panel.querySelectorAll('.vps-team-footer').forEach((item) => item.remove());
             const footer = document.createElement('div');
             footer.className = 'vps-team-footer';
             footer.innerHTML = '✨ <span>Thực hiện bởi Đội ngũ Chuyên gia VPS</span>';
@@ -6012,6 +5947,420 @@
 
             signalsRendered = true;
         }
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function splitList(value) {
+            return String(value || '')
+                .split(';')
+                .map((item) => item.trim())
+                .filter(Boolean);
+        }
+
+        function makeInitials(name) {
+            return String(name || 'FT')
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(-2)
+                .map((part) => part[0])
+                .join('')
+                .toUpperCase() || 'FT';
+        }
+
+        function defaultAvatarBg(type) {
+            return type === 'EXIT'
+                ? 'linear-gradient(135deg, #991B1B, #DC2626)'
+                : 'linear-gradient(135deg, #7c3aed, #a855f7)';
+        }
+
+        function getLandingValue(id) {
+            const item = LANDING_CONTENT_DATA.find((row) => row.id === id && row.status === 'Đang dùng');
+            return item ? item.value : '';
+        }
+
+        function applyLandingContent() {
+            const heroTitle = getLandingValue('hero-title');
+            const heroSubtitle = getLandingValue('hero-subtitle');
+            const primaryCta = getLandingValue('primary-cta');
+            const bannerVideo = getLandingValue('banner-video');
+            const footerDisclaimer = getLandingValue('footer-disclaimer');
+
+            if (heroTitle) {
+                const el = document.querySelector('.scene-1 .hero-title');
+                if (el) el.textContent = heroTitle;
+            }
+            if (heroSubtitle) {
+                const el = document.querySelector('.scene-1 .hero-subtitle');
+                if (el) el.textContent = heroSubtitle;
+            }
+            if (primaryCta) {
+                document.querySelectorAll('.btn-tv-blue, .scene-1 .btn-white-huge').forEach((button) => {
+                    button.textContent = primaryCta;
+                });
+            }
+            if (bannerVideo) {
+                const source = document.querySelector('#hero-video source');
+                const video = document.getElementById('hero-video');
+                if (source && video && source.getAttribute('src') !== bannerVideo) {
+                    source.setAttribute('src', bannerVideo);
+                    video.load();
+                }
+            }
+            if (footerDisclaimer) {
+                const el = document.querySelector('.footer-disclaimer');
+                if (el) {
+                    el.innerHTML = `<strong>Miễn trừ trách nhiệm:</strong> ${escapeHtml(footerDisclaimer)} Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.`;
+                }
+            }
+        }
+
+        function researchIsPublished(row) {
+            return row.status !== 'Nháp' && row.status !== 'Chờ duyệt';
+        }
+
+        function getResearchBySection(section) {
+            return RESEARCH_DATA
+                .filter((row) => row.section === section && researchIsPublished(row))
+                .sort((a, b) => String(b.publishTime || '').localeCompare(String(a.publishTime || ''), 'vi'));
+        }
+
+        function getMarketCategory(row) {
+            const category = String(row.category || '').toLowerCase();
+            if (category.includes('dòng') || category.includes('flow')) return 'flow strategy';
+            if (category.includes('chiến') || category.includes('portfolio')) return 'strategy';
+            return 'macro strategy';
+        }
+
+        function buildMarketArticleCard(row) {
+            return `
+                <article class="market-article-card" data-market-category="${escapeHtml(getMarketCategory(row))}">
+                    <div class="market-thumb">
+                        <img src="assets/images/fintop_terminal_mockup.png" alt="${escapeHtml(row.title)}">
+                        <span class="market-thumb-badge">${escapeHtml(row.category || 'Market')}</span>
+                    </div>
+                    <div class="market-article-body">
+                        <h3 class="market-article-title">${escapeHtml(row.title)}</h3>
+                        <div class="market-meta">
+                            <span>${escapeHtml(row.author || 'FinTop Research')}</span>
+                            <span>${escapeHtml(row.publishTime || '')}</span>
+                            <span>${escapeHtml(row.status || 'Đã đăng')}</span>
+                        </div>
+                        <p class="market-article-excerpt">${escapeHtml(row.excerpt || '')}</p>
+                        <div class="market-tags">
+                            <span class="market-tag">${escapeHtml(row.section || 'Thị trường')}</span>
+                            <span class="market-tag">${escapeHtml(row.category || 'Research')}</span>
+                        </div>
+                        <a class="market-detail-link" href="${escapeHtml(row.link || 'chuyen-gia/index.html')}">Xem chi tiết</a>
+                    </div>
+                </article>
+            `;
+        }
+
+        function buildReportCard(row) {
+            return `
+                <article class="analysis-report-card">
+                    <span class="analysis-badge good">${escapeHtml(row.category || row.section || 'Research')}</span>
+                    <h3>${escapeHtml(row.title)}</h3>
+                    <p>${escapeHtml(row.excerpt || '')}</p>
+                    <a class="market-detail-link" href="${escapeHtml(row.link || 'chuyen-gia/index.html')}">Xem chi tiết</a>
+                </article>
+            `;
+        }
+
+        function buildCompanyCard(row) {
+            const ticker = String(row.title || '').split('|')[0].trim() || row.category || 'DN';
+            return `
+                <article class="analysis-company-card">
+                    <div class="analysis-company-head">
+                        <div>
+                            <div class="analysis-ticker">${escapeHtml(ticker)}</div>
+                            <div class="analysis-company-name">${escapeHtml(row.category || 'Equity Research')}</div>
+                        </div>
+                    </div>
+                    <div class="analysis-kv-row"><span>Tiêu đề</span><strong>${escapeHtml(row.title)}</strong></div>
+                    <div class="analysis-kv-row"><span>Cập nhật</span><strong>${escapeHtml(row.publishTime || '')}</strong></div>
+                    <div class="analysis-kv-row"><span>Tác giả</span><strong>${escapeHtml(row.author || '')}</strong></div>
+                    <div class="analysis-kv-row"><span>Trạng thái</span><strong>${escapeHtml(row.status || '')}</strong></div>
+                </article>
+            `;
+        }
+
+        function renderResearchPanels() {
+            if (RESEARCH_DATA.length === 0) return;
+
+            const marketArticles = getResearchBySection('Thị trường');
+            const marketList = document.querySelector('#panel-analysis-market .market-article-list');
+            if (marketList && marketArticles.length > 0) {
+                marketList.innerHTML = marketArticles.map(buildMarketArticleCard).join('');
+                const featured = marketArticles[0];
+                const title = document.querySelector('#panel-analysis-market .market-featured-title');
+                const copy = document.querySelector('#panel-analysis-market .market-featured-copy');
+                const meta = document.querySelector('#panel-analysis-market .market-featured .market-meta');
+                if (title) title.textContent = featured.title;
+                if (copy) copy.textContent = featured.excerpt || '';
+                if (meta) {
+                    meta.innerHTML = `
+                        <span>${escapeHtml(featured.author || 'FinTop Research')}</span>
+                        <span>${escapeHtml(featured.publishTime || '')}</span>
+                        <span>${escapeHtml(featured.status || 'Đã đăng')}</span>
+                    `;
+                }
+                const count = document.getElementById('marketArticleCount');
+                if (count) count.textContent = `Có tất cả ${marketArticles.length}/${marketArticles.length} bài viết`;
+            }
+
+            const proGrid = document.querySelector('#panel-analysis-pro .analysis-report-grid');
+            const proArticles = getResearchBySection('PRO Research');
+            if (proGrid && proArticles.length > 0) proGrid.innerHTML = proArticles.map(buildReportCard).join('');
+
+            const companyGrid = document.querySelector('#panel-analysis-company .analysis-company-grid');
+            const companyArticles = getResearchBySection('Doanh nghiệp');
+            if (companyGrid && companyArticles.length > 0) companyGrid.innerHTML = companyArticles.map(buildCompanyCard).join('');
+
+            const sectorGrid = document.querySelector('#panel-analysis-sector .analysis-report-grid');
+            const sectorArticles = getResearchBySection('Ngành');
+            if (sectorGrid && sectorArticles.length > 0) sectorGrid.innerHTML = sectorArticles.map(buildReportCard).join('');
+        }
+
+        function planDisplayName(plan) {
+            if (plan.id === 'pro') return `${plan.name} ⭐`;
+            if (plan.id === 'diamond') return `${plan.name} 💎`;
+            return plan.name;
+        }
+
+        function renderMemberships() {
+            if (MEMBERSHIP_DATA.length === 0) return;
+            const pricingGrid = document.querySelector('.pricing-grid');
+            if (pricingGrid) {
+                pricingGrid.innerHTML = MEMBERSHIP_DATA.map((plan) => {
+                    const features = splitList(plan.features).slice(0, 4);
+                    return `
+                        <div class="pricing-card liquid-glass-card card-${escapeHtml(plan.id)}">
+                            <div class="pricing-title">${escapeHtml(planDisplayName(plan))}</div>
+                            <div class="pricing-subtitle">${escapeHtml(plan.subtitle || '')}</div>
+                            <ul class="pricing-features">
+                                ${features.map((feature) => `<li><span class="check-icon">✦</span> ${escapeHtml(feature)}</li>`).join('')}
+                                <li><span class="check-icon">✦</span> ${escapeHtml(plan.price || '')}</li>
+                            </ul>
+                            <button class="btn-tier" onclick="openPricingModal('${escapeHtml(plan.id)}')">${escapeHtml(plan.cta || 'Đăng ký')}</button>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            const membershipGrid = document.querySelector('#panel-hoivien .function-grid');
+            if (membershipGrid) {
+                membershipGrid.innerHTML = MEMBERSHIP_DATA.map((plan) => `
+                    <article class="function-mini-card">
+                        <h4>${escapeHtml(plan.name)}</h4>
+                        <p>${escapeHtml(plan.popupContent || plan.features || '')}</p>
+                        <div class="function-actions">
+                            <button class="${plan.id === 'pro' || plan.id === 'diamond' ? 'function-btn' : 'function-btn-ghost'}" onclick="openPricingModal('${escapeHtml(plan.id)}')">${escapeHtml(plan.cta || 'Đăng ký')}</button>
+                        </div>
+                    </article>
+                `).join('');
+            }
+
+            MEMBERSHIP_DATA.forEach((plan) => {
+                const modal = document.getElementById(`modal-${plan.id}`);
+                if (!modal) return;
+                const title = modal.querySelector('.modal-hero-title');
+                const subtitle = modal.querySelector('.modal-hero-subtitle');
+                const features = modal.querySelector('.modal-features-list');
+                if (title) title.textContent = plan.name;
+                if (subtitle) subtitle.textContent = plan.subtitle ? `(${plan.subtitle})` : '';
+                if (features) {
+                    features.innerHTML = splitList(plan.features)
+                        .map((feature, index) => `<li class="${index === 0 ? 'highlight' : ''}">${escapeHtml(feature)}</li>`)
+                        .join('');
+                }
+            });
+        }
+
+        function showFirstVisitDisclaimer() {
+            const storageKey = 'fintop.legalDisclaimerAccepted.v1';
+            try {
+                if (localStorage.getItem(storageKey) === 'true') return;
+            } catch (error) {
+                // Continue without persistence if storage is unavailable.
+            }
+
+            const overlay = document.createElement('div');
+            overlay.id = 'firstVisitDisclaimer';
+            overlay.style.cssText = 'position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(5,5,10,0.82);backdrop-filter:blur(16px);';
+            overlay.innerHTML = `
+                <div style="max-width:560px;width:100%;border:1px solid rgba(248,113,113,0.28);border-radius:14px;background:#10101a;box-shadow:0 24px 80px rgba(0,0,0,0.45);padding:24px;text-align:center;">
+                    <h3 style="margin:0 0 12px;color:#f87171;font-size:1rem;text-transform:uppercase;letter-spacing:0.06em;">Miễn Trừ Trách Nhiệm</h3>
+                    <p style="margin:0 0 18px;color:#cbd5e1;font-size:0.92rem;line-height:1.8;">Dữ liệu và tín hiệu trên FinTop DATA chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.</p>
+                    <button type="button" id="acceptDisclaimerBtn" style="min-height:42px;border:0;border-radius:8px;padding:0 18px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-weight:800;cursor:pointer;">Tôi đã hiểu</button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            document.getElementById('acceptDisclaimerBtn').addEventListener('click', () => {
+                try {
+                    localStorage.setItem(storageKey, 'true');
+                } catch (error) {
+                    // Ignore storage failures.
+                }
+                overlay.remove();
+            });
+        }
+
+        function loadScriptOnce(src, globalCheck) {
+            if (globalCheck()) return Promise.resolve();
+            return new Promise((resolve, reject) => {
+                const existing = document.querySelector(`script[src="${src}"]`);
+                if (existing) {
+                    existing.addEventListener('load', resolve, { once: true });
+                    existing.addEventListener('error', reject, { once: true });
+                    return;
+                }
+                const script = document.createElement('script');
+                script.src = src;
+                script.async = true;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
+        function mapStockPricesToFilter(rows) {
+            return rows.map((row) => ({
+                ticker: row.ticker,
+                san: row.exchange || row.san || '',
+                nganh: row.sector || row.nganh || '',
+                canBo: row.officer || row.canBo || 'FinTop DATA',
+                time: row.synced_at ? new Date(row.synced_at).toLocaleString('vi-VN') : (row.time || ''),
+                desc: row.model_desc || row.desc || '',
+                status: row.model_status || row.status || 'neutral',
+                statusText: row.model_status_text || row.statusText || 'TRUNG LẬP',
+                trend: row.trend || '',
+                vungKiemDinh: row.validation_zone || row.vungKiemDinh || '',
+                khangCu: row.resistance_zone || row.khangCu || '',
+                hoTro: row.support_zone || row.hoTro || '',
+                price: row.price,
+                change_pct: row.change_pct,
+                updated_at: row.updated_at
+            }));
+        }
+
+        function mapStockPricesToSearch(rows) {
+            return rows.reduce((acc, row) => {
+                acc[row.ticker] = {
+                    san: row.exchange || row.san || '',
+                    nganh: row.sector || row.nganh || '',
+                    time: row.synced_at ? new Date(row.synced_at).toLocaleString('vi-VN') : (row.time || ''),
+                    desc: row.model_desc || row.desc || '',
+                    status: row.model_status || row.status || 'neutral',
+                    statusText: row.model_status_text || row.statusText || 'TRUNG LẬP',
+                    updated_at: row.updated_at
+                };
+                return acc;
+            }, {});
+        }
+
+        async function hydrateFromSupabase() {
+            const config = window.FINTOP_SUPABASE_CONFIG;
+            if (!config || !config.url || !config.anonKey) return;
+
+            await loadScriptOnce('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2', () => Boolean(window.supabase));
+            const client = window.supabase.createClient(config.url, config.anonKey);
+
+            const [stockResult, signalResult, researchResult, membershipResult, landingResult] = await Promise.all([
+                client.from('stock_prices').select('*').order('ticker', { ascending: true }),
+                client.from('signals').select('*').order('created_at', { ascending: false }),
+                client.from('research').select('*').order('publish_time', { ascending: false }),
+                client.from('memberships').select('*').order('sort_order', { ascending: true }),
+                client.from('landing_content').select('*').order('section', { ascending: true })
+            ]);
+
+            if (Array.isArray(stockResult.data) && stockResult.data.length > 0) {
+                BOLOC_DATA = mapStockPricesToFilter(stockResult.data);
+                STOCK_DB = mapStockPricesToSearch(stockResult.data);
+                if (bolocRendered) renderBolocTable();
+            }
+
+            if (Array.isArray(signalResult.data) && signalResult.data.length > 0) {
+                SIGNAL_DATA = signalResult.data.map((row) => ({
+                    type: row.type,
+                    ticker: row.ticker_display || row.ticker,
+                    badge: row.badge || row.order_status,
+                    badgeClass: row.badge_class || (row.type === 'EXIT' ? 'badge-partial' : 'badge-longterm'),
+                    expertInitials: row.expert_initials || makeInitials(row.expert_name),
+                    expertAvatarBg: row.expert_avatar_bg || defaultAvatarBg(row.type),
+                    expertName: row.expert_name,
+                    expertRole: row.expert_role,
+                    time: row.signal_time || '',
+                    date: row.signal_date || '',
+                    buyPrice: row.buy_price || '',
+                    sellPrice: row.sell_price || '',
+                    orderStatus: row.order_status || '',
+                    note: row.note || '',
+                    details: Array.isArray(row.details) ? row.details : []
+                }));
+                signalsRendered = false;
+                if (document.getElementById('panel-tinhieu')?.classList.contains('active')) renderSignals();
+            }
+
+            if (Array.isArray(researchResult.data) && researchResult.data.length > 0) {
+                RESEARCH_DATA = researchResult.data.map((row) => ({
+                    id: row.id,
+                    section: row.section,
+                    category: row.category,
+                    title: row.title,
+                    publishTime: row.publish_time || '',
+                    status: row.status,
+                    author: row.author,
+                    excerpt: row.excerpt,
+                    link: row.link
+                }));
+                renderResearchPanels();
+            }
+
+            if (Array.isArray(membershipResult.data) && membershipResult.data.length > 0) {
+                MEMBERSHIP_DATA = membershipResult.data.map((row) => ({
+                    id: row.id,
+                    name: row.name,
+                    subtitle: row.subtitle,
+                    price: row.price,
+                    cta: row.cta,
+                    status: row.status,
+                    features: Array.isArray(row.features) ? row.features.join('; ') : row.features,
+                    popupTitle: row.popup_title,
+                    popupContent: row.popup_content
+                }));
+                renderMemberships();
+            }
+
+            if (Array.isArray(landingResult.data) && landingResult.data.length > 0) {
+                LANDING_CONTENT_DATA = landingResult.data.map((row) => ({
+                    id: row.id,
+                    section: row.section,
+                    label: row.label,
+                    value: row.value,
+                    status: row.status,
+                    note: row.note
+                }));
+                applyLandingContent();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applyLandingContent();
+            renderResearchPanels();
+            renderMemberships();
+            showFirstVisitDisclaimer();
+            hydrateFromSupabase().catch((error) => {
+                console.warn('Supabase hydrate skipped:', error);
+            });
+        });
 
         // =====================
         // FIREANT CHART
