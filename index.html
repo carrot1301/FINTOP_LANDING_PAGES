@@ -6184,35 +6184,6 @@
             });
         }
 
-        function showFirstVisitDisclaimer() {
-            const storageKey = 'fintop.legalDisclaimerAccepted.v1';
-            try {
-                if (localStorage.getItem(storageKey) === 'true') return;
-            } catch (error) {
-                // Continue without persistence if storage is unavailable.
-            }
-
-            const overlay = document.createElement('div');
-            overlay.id = 'firstVisitDisclaimer';
-            overlay.style.cssText = 'position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(5,5,10,0.82);backdrop-filter:blur(16px);';
-            overlay.innerHTML = `
-                <div style="max-width:560px;width:100%;border:1px solid rgba(248,113,113,0.28);border-radius:14px;background:#10101a;box-shadow:0 24px 80px rgba(0,0,0,0.45);padding:24px;text-align:center;">
-                    <h3 style="margin:0 0 12px;color:#f87171;font-size:1rem;text-transform:uppercase;letter-spacing:0.06em;">Miễn Trừ Trách Nhiệm</h3>
-                    <p style="margin:0 0 18px;color:#cbd5e1;font-size:0.92rem;line-height:1.8;">Dữ liệu và tín hiệu trên FinTop DATA chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.</p>
-                    <button type="button" id="acceptDisclaimerBtn" style="min-height:42px;border:0;border-radius:8px;padding:0 18px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-weight:800;cursor:pointer;">Tôi đã hiểu</button>
-                </div>
-            `;
-            document.body.appendChild(overlay);
-            document.getElementById('acceptDisclaimerBtn').addEventListener('click', () => {
-                try {
-                    localStorage.setItem(storageKey, 'true');
-                } catch (error) {
-                    // Ignore storage failures.
-                }
-                overlay.remove();
-            });
-        }
-
         function loadScriptOnce(src, globalCheck) {
             if (globalCheck()) return Promise.resolve();
             return new Promise((resolve, reject) => {
@@ -6356,7 +6327,6 @@
             applyLandingContent();
             renderResearchPanels();
             renderMemberships();
-            showFirstVisitDisclaimer();
             hydrateFromSupabase().catch((error) => {
                 console.warn('Supabase hydrate skipped:', error);
             });
