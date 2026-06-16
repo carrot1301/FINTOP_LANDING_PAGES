@@ -54,6 +54,8 @@
             overflow: hidden;
             pointer-events: none;
             background: var(--bg-primary);
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         .video-bg {
@@ -63,6 +65,9 @@
             /* Phóng to lấp đầy màn hình để xóa khoảng đen */
             object-position: center;
             /* Luôn giữ trọng tâm video ở giữa */
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
         }
 
         .video-overlay {
@@ -73,6 +78,8 @@
             height: 100%;
             background-color: rgba(10, 10, 15, 0.5);
             z-index: -99;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         .neon-logo {
@@ -103,11 +110,14 @@
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
             border-bottom: none;
             transition: background 0.3s ease;
+            will-change: transform, background;
+            transform: translate3d(0, 0, 0);
         }
 
         .tv-header.scrolled {
-            background: rgba(10, 10, 15, 0.85);
-            backdrop-filter: blur(15px);
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -168,9 +178,9 @@
             left: 0;
             right: 0;
             width: 100%;
-            background: rgba(10, 10, 18, 0.92);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: rgba(10, 10, 18, 0.96);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-top: 1px solid rgba(168, 85, 247, 0.3);
             border-bottom: 1px solid rgba(168, 85, 247, 0.15);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(168, 85, 247, 0.08);
@@ -183,6 +193,7 @@
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             padding: 0;
             z-index: 999;
+            will-change: transform, opacity;
         }
 
         .dropdown:hover .dropdown-content,
@@ -383,9 +394,12 @@
             border: 1px solid rgba(168, 85, 247, 0.2);
             overflow-x: auto;
             overflow-y: visible;
-            background: rgba(15, 15, 25, 0.6);
-            backdrop-filter: blur(12px);
+            background: rgba(15, 15, 25, 0.85);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         /* Thanh cuộn ngang phong cách neon */
@@ -610,10 +624,12 @@
         .function-table-card {
             border-radius: 14px;
             border: 1px solid rgba(168, 85, 247, 0.22);
-            background: rgba(15, 15, 25, 0.68);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            background: rgba(15, 15, 25, 0.88);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         .function-card {
@@ -1087,16 +1103,19 @@
         /* === SIGNAL MESSAGE BOX === */
         .signal-msg-box {
             position: relative;
-            background: rgba(15, 15, 25, 0.7);
+            background: rgba(15, 15, 25, 0.85);
             border: 1px solid rgba(168, 85, 247, 0.2);
             border-radius: 18px;
             padding: 0;
             margin-bottom: 1.5rem;
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(168, 85, 247, 0.05);
             overflow: hidden;
             animation: msgSlideIn 0.5s ease forwards;
             opacity: 0;
+            will-change: transform, opacity;
+            transform: translate3d(0, 0, 0);
         }
 
         .signal-msg-box:nth-child(1) {
@@ -1390,10 +1409,12 @@
             padding: 1.4rem;
             border-radius: 14px;
             border: 1px solid rgba(168, 85, 247, 0.24);
-            background: linear-gradient(135deg, rgba(15, 15, 25, 0.82), rgba(31, 25, 52, 0.58));
+            background: linear-gradient(135deg, rgba(15, 15, 25, 0.92), rgba(31, 25, 52, 0.78));
             box-shadow: 0 16px 44px rgba(0, 0, 0, 0.35), inset 0 0 28px rgba(168, 85, 247, 0.04);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         .market-kicker {
@@ -2384,8 +2405,9 @@
             bottom: 50px;
             right: 50px;
             z-index: 2;
-            background: rgba(15, 15, 20, 0.4);
-            backdrop-filter: blur(20px);
+            background: rgba(15, 15, 20, 0.82);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(168, 85, 247, 0.4);
             border-radius: 16px;
             padding: 18px;
@@ -2395,6 +2417,8 @@
             max-width: 360px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(168, 85, 247, 0.15);
             animation: float-ai 5s ease-in-out infinite;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         @keyframes float-ai {
@@ -2495,16 +2519,18 @@
         }
 
         .panel {
-            background: rgba(15, 10, 25, 0.65);
+            background: rgba(15, 10, 25, 0.88);
             border: 1px solid rgba(168, 85, 247, 0.5);
             border-radius: 16px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             box-shadow: 0 0 15px rgba(168, 85, 247, 0.15), 0 0 30px rgba(168, 85, 247, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
             padding: 2rem;
             text-align: left;
             flex: 1;
             animation: neonPulse 3s ease-in-out infinite;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         @keyframes neonPulse {
@@ -2544,10 +2570,13 @@
             display: flex;
             justify-content: space-around;
             text-align: center;
-            background: rgba(15, 15, 26, 0.7);
-            backdrop-filter: blur(15px);
+            background: rgba(15, 15, 26, 0.9);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border-top: 1px solid var(--purple-border);
             border-bottom: 1px solid var(--purple-border);
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         .stat-item h3 {
@@ -2611,8 +2640,11 @@
             position: relative;
             padding: 8rem 5%;
             text-align: center;
-            background: rgba(10, 10, 15, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 15, 0.92);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         .pricing-grid {
@@ -2670,8 +2702,9 @@
 
         /* LIQUID GLASS EFFECT - Base */
         .liquid-glass-card {
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: rgba(15, 15, 25, 0.88) !important;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             opacity: 1 !important;
             border-radius: 16px;
             padding: 2rem;
@@ -2680,11 +2713,13 @@
             gap: 0.5rem;
             height: 100%;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         /* STANDARD - Cyan/Blue */
         .liquid-glass-card.card-standard {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.04));
+            background: linear-gradient(135deg, rgba(15, 15, 25, 0.95), rgba(30, 25, 52, 0.9));
             border: 1px solid rgba(56, 189, 248, 0.25);
             border-top: 1px solid rgba(56, 189, 248, 0.4);
             border-left: 1px solid rgba(56, 189, 248, 0.4);
@@ -2726,7 +2761,7 @@
 
         /* GÓI PRO - Tím */
         .liquid-glass-card.card-pro {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(139, 92, 246, 0.06));
+            background: linear-gradient(135deg, rgba(15, 10, 30, 0.95), rgba(30, 15, 55, 0.9));
             border: 1px solid rgba(168, 85, 247, 0.3);
             border-top: 1px solid rgba(168, 85, 247, 0.5);
             border-left: 1px solid rgba(168, 85, 247, 0.5);
@@ -2768,7 +2803,7 @@
 
         /* GÓI V.I.P - Xanh ngọc */
         .liquid-glass-card.card-vip {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.05));
+            background: linear-gradient(135deg, rgba(10, 25, 20, 0.95), rgba(15, 35, 30, 0.9));
             border: 1px solid rgba(16, 185, 129, 0.3);
             border-top: 1px solid rgba(16, 185, 129, 0.45);
             border-left: 1px solid rgba(16, 185, 129, 0.45);
@@ -2810,7 +2845,7 @@
 
         /* GÓI DIAMOND - Vàng */
         .liquid-glass-card.card-diamond {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.05));
+            background: linear-gradient(135deg, rgba(25, 20, 10, 0.95), rgba(35, 30, 15, 0.9));
             border: 1px solid rgba(245, 158, 11, 0.3);
             border-top: 1px solid rgba(245, 158, 11, 0.5);
             border-left: 1px solid rgba(245, 158, 11, 0.5);
@@ -2875,9 +2910,12 @@
             position: relative;
             padding: 6rem 5% 8rem;
             text-align: center;
-            background: rgba(10, 10, 15, 0.6);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             z-index: 5;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         /* === CIRCULAR ORBIT LAYOUT === */
@@ -3195,9 +3233,12 @@
             position: relative;
             padding: 8rem 5%;
             text-align: center;
-            background: rgba(10, 10, 15, 0.7);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             z-index: 5;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         .about-description {
@@ -3207,11 +3248,14 @@
             font-size: 1.05rem;
             line-height: 1.9;
             text-align: justify;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
+            background: rgba(15, 15, 20, 0.88);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
             padding: 2.5rem;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         .about-services-grid {
@@ -3229,16 +3273,19 @@
         }
 
         .about-card {
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: rgba(15, 15, 25, 0.88);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-radius: 16px;
             padding: 2rem;
             text-align: left;
-            \n align-items: stretch;
+            align-items: stretch;
             display: flex;
             flex-direction: column;
             gap: 0.8rem;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         .about-card:hover {
@@ -3287,7 +3334,7 @@
 
         /* Biến thể màu thẻ */
         .about-card-cyan {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.03));
+            background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(20, 30, 45, 0.9));
             border: 1px solid rgba(56, 189, 248, 0.25);
             border-top: 1px solid rgba(56, 189, 248, 0.4);
             border-left: 1px solid rgba(56, 189, 248, 0.35);
@@ -3306,7 +3353,7 @@
         }
 
         .about-card-pink {
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(244, 114, 182, 0.03));
+            background: linear-gradient(135deg, rgba(20, 15, 20, 0.95), rgba(35, 20, 30, 0.9));
             border: 1px solid rgba(236, 72, 153, 0.25);
             border-top: 1px solid rgba(236, 72, 153, 0.4);
             border-left: 1px solid rgba(236, 72, 153, 0.35);
@@ -3325,7 +3372,7 @@
         }
 
         .about-card-green {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.03));
+            background: linear-gradient(135deg, rgba(10, 20, 15, 0.95), rgba(15, 35, 25, 0.9));
             border: 1px solid rgba(16, 185, 129, 0.25);
             border-top: 1px solid rgba(16, 185, 129, 0.4);
             border-left: 1px solid rgba(16, 185, 129, 0.35);
@@ -3344,7 +3391,7 @@
         }
 
         .about-card-purple {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(167, 139, 250, 0.03));
+            background: linear-gradient(135deg, rgba(15, 12, 25, 0.95), rgba(25, 18, 45, 0.9));
             border: 1px solid rgba(139, 92, 246, 0.25);
             border-top: 1px solid rgba(139, 92, 246, 0.4);
             border-left: 1px solid rgba(139, 92, 246, 0.35);
@@ -3363,7 +3410,7 @@
         }
 
         .about-card-gold {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(251, 191, 36, 0.03));
+            background: linear-gradient(135deg, rgba(20, 15, 10, 0.95), rgba(35, 25, 15, 0.9));
             border: 1px solid rgba(245, 158, 11, 0.25);
             border-top: 1px solid rgba(245, 158, 11, 0.4);
             border-left: 1px solid rgba(245, 158, 11, 0.35);
@@ -3425,14 +3472,17 @@
         }
 
         .testimonial-card {
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: rgba(15, 15, 25, 0.88);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-radius: 16px;
             padding: 2rem;
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         .testimonial-card:hover {
@@ -3486,7 +3536,7 @@
 
         /* Biến thể màu đánh giá */
         .testimonial-cyan {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.03));
+            background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(20, 30, 45, 0.9));
             border: 1px solid rgba(56, 189, 248, 0.2);
             border-top: 1px solid rgba(56, 189, 248, 0.35);
             border-left: 1px solid rgba(56, 189, 248, 0.3);
@@ -3505,7 +3555,7 @@
         }
 
         .testimonial-pink {
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(244, 114, 182, 0.03));
+            background: linear-gradient(135deg, rgba(20, 15, 20, 0.95), rgba(35, 20, 30, 0.9));
             border: 1px solid rgba(236, 72, 153, 0.2);
             border-top: 1px solid rgba(236, 72, 153, 0.35);
             border-left: 1px solid rgba(236, 72, 153, 0.3);
@@ -3524,7 +3574,7 @@
         }
 
         .testimonial-green {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.03));
+            background: linear-gradient(135deg, rgba(10, 20, 15, 0.95), rgba(15, 35, 25, 0.9));
             border: 1px solid rgba(16, 185, 129, 0.2);
             border-top: 1px solid rgba(16, 185, 129, 0.35);
             border-left: 1px solid rgba(16, 185, 129, 0.3);

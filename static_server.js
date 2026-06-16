@@ -98,12 +98,23 @@ const server = http.createServer((req, res) => {
       const ext = path.extname(targetPath).toLowerCase();
       const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
+      // Smart Cache Control:
+      // Media, images and fonts should be cached in the browser to prevent performance stuttering (especially the 65MB video)
+      let cacheControl = 'no-store, no-cache, must-revalidate, proxy-revalidate';
+      const cacheableExtensions = ['.mp4', '.webm', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.woff', '.woff2', '.ttf'];
+      
+      if (cacheableExtensions.includes(ext)) {
+        cacheControl = 'public, max-age=86400'; // Cache for 24 hours
+      } else if (ext === '.css' || ext === '.js') {
+        cacheControl = 'public, max-age=3600';  // Cache for 1 hour
+      }
+
       // Read and stream file
       const stream = fs.createReadStream(targetPath);
       res.writeHead(200, {
         'Content-Type': contentType,
         'Content-Length': stats.size,
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+        'Cache-Control': cacheControl
       });
       stream.pipe(res);
       stream.on('error', (streamErr) => {
