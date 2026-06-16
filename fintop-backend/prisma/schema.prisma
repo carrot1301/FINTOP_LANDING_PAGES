@@ -281,6 +281,7 @@ model User {
   dob          DateTime? @db.Date
   address      String?   @db.Text
   avatarUrl    String?   @db.Text
+  emailVerifiedAt DateTime?
 
   // Organization & Multi-tenancy
   brokerId     Int?
@@ -323,6 +324,9 @@ model User {
   blogs     Blog[]
   reports   ReportFile[]
   revisions ContentRevision[]
+
+  passwordResetTokens      PasswordResetToken[]
+  emailVerificationTokens  EmailVerificationToken[]
 
   // Indexes for Multi-tenancy & Authentication
   @@index([brokerId, deletedAt, status])
@@ -1238,3 +1242,36 @@ model ResearchReport {
   @@map("research_reports")
 }
 
+// -----------------------------------------------------------------------------
+// AUTH VERIFICATION TOKENS
+// -----------------------------------------------------------------------------
+
+model PasswordResetToken {
+  id        BigInt    @id @default(autoincrement())
+  userId    Int
+  token     String    @unique @db.VarChar(255)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@map("password_reset_tokens")
+}
+
+model EmailVerificationToken {
+  id        BigInt    @id @default(autoincrement())
+  userId    Int
+  code      String    @db.VarChar(6)
+  expiresAt DateTime
+  usedAt    DateTime?
+  attempts  Int       @default(0)
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([userId])
+  @@map("email_verification_tokens")
+}

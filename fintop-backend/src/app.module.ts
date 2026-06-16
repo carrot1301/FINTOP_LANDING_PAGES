@@ -22,10 +22,12 @@ import { CopyTradeModule } from './modules/copy-trade/copy-trade.module';
 import { ResearchModule } from './modules/research/research.module';
 import { CopilotModule } from './modules/copilot/copilot.module';
 import { CorrelationIdMiddleware } from './common/interceptors/correlation-id.middleware';
+import { MailModule } from './common/mail/mail.module';
 
 @Module({
   imports: [
     InfraModule,
+    MailModule,
     AuthModule,
     SubscriptionModule,
     BillingModule,

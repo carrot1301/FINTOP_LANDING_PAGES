@@ -657,21 +657,36 @@ const AuthUI = {
     AuthFormUI.setLoading('authFormRegister', true);
 
     try {
-      await ApiClient.post('/auth/register', { email, password, fullName }, { skipAuth: true });
+      const result = await ApiClient.post('/auth/register', { email, password, fullName }, { skipAuth: true });
 
-      fullNameInput.value = '';
-      emailInput.value = '';
-      passwordInput.value = '';
+      // If verification is required, switch to OTP verification view
+      if (result?.data?.verificationRequired) {
+        // Store email for the verify form
+        if (typeof switchAuthView === 'function') {
+          switchAuthView('verify');
+        }
+        // Pre-fill email in the verify form
+        const verifyEmailInput = document.getElementById('verifyEmailAddress');
+        if (verifyEmailInput) verifyEmailInput.value = email;
 
-      if (typeof switchAuthView === 'function') {
-        switchAuthView('login');
+        AuthFormUI.showSuccess('authFormVerify',
+          '📧 Mã xác thực đã được gửi đến ' + email + '. Vui lòng kiểm tra email.'
+        );
+      } else {
+        // Fallback: direct to login
+        fullNameInput.value = '';
+        emailInput.value = '';
+        passwordInput.value = '';
+
+        if (typeof switchAuthView === 'function') {
+          switchAuthView('login');
+        }
+        AuthFormUI.showSuccess('authFormLogin', 'Đăng ký tài khoản thành công! Vui lòng đăng nhập.');
       }
 
-      AuthFormUI.showSuccess('authFormLogin', 'Đăng ký tài khoản thành công! Vui lòng đăng nhập lại.');
-
-      setTimeout(() => {
-        AuthFormUI.clearSuccess('authFormLogin');
-      }, 3000);
+      // Clear form
+      fullNameInput.value = '';
+      passwordInput.value = '';
     } catch (err) {
       const translated = ErrorTranslator.translate(err);
       AuthFormUI.showError('authFormRegister', translated.message);
@@ -688,12 +703,133 @@ const AuthUI = {
   // FORGOT PASSWORD HANDLER
   // ─────────────────────────────────────────────────────
 
-  handleForgotPassword(event) {
+  async handleForgotPassword(event) {
     if (event) event.preventDefault();
 
-    AuthFormUI.showError('authFormLogin',
-      'Tính năng khôi phục mật khẩu đang được phát triển. Vui lòng liên hệ Admin.'
-    );
+    // Get the email from the login form
+    const emailInput = document.getElementById('loginEmail');
+    const email = emailInput ? emailInput.value.trim() : '';
+
+    if (!email) {
+      AuthFormUI.showError('authFormLogin', 'Vui lòng nhập email để khôi phục mật khẩu.');
+      if (emailInput) emailInput.focus();
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      AuthFormUI.showError('authFormLogin', 'Email không đúng định dạng.');
+      return;
+    }
+
+    try {
+      AuthFormUI.clearError('authFormLogin');
+      await ApiClient.post('/auth/forgot-password', { email }, { skipAuth: true });
+      AuthFormUI.showSuccess('authFormLogin',
+        '📧 Link đặt lại mật khẩu đã được gửi vào email. Vui lòng kiểm tra hộp thư (kể cả mục Spam).'
+      );
+    } catch (err) {
+      const translated = ErrorTranslator.translate(err);
+      AuthFormUI.showError('authFormLogin', translated.message);
+    }
+  },
+
+  // ─────────────────────────────────────────────────────
+  // EMAIL VERIFICATION (OTP) HANDLER
+  // ─────────────────────────────────────────────────────
+
+  async handleVerifyEmail(event) {
+    if (event) event.preventDefault();
+
+    const emailInput = document.getElementById('verifyEmailAddress');
+    const codeInput = document.getElementById('verifyOtpCode');
+
+    if (!emailInput || !codeInput) return;
+
+    const email = emailInput.value.trim();
+    const code = codeInput.value.trim();
+
+    if (!code || code.length !== 6) {
+      AuthFormUI.showError('authFormVerify', 'Vui lòng nhập mã OTP 6 số.');
+      codeInput.focus();
+      return;
+    }
+
+    AuthFormUI.clearError('authFormVerify');
+
+    // Set loading state on verify button
+    const btn = document.querySelector('#authFormVerify .auth-btn-submit');
+    if (btn) {
+      btn.dataset.originalText = btn.textContent;
+      btn.textContent = 'Đang xác thực...';
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+    }
+
+    try {
+      await ApiClient.post('/auth/verify-email', { email, code }, { skipAuth: true });
+
+      // Reset OTP input
+      codeInput.value = '';
+
+      // Switch to login view with success message
+      if (typeof switchAuthView === 'function') {
+        switchAuthView('login');
+      }
+      AuthFormUI.showSuccess('authFormLogin', '✅ Xác thực email thành công! Vui lòng đăng nhập.');
+    } catch (err) {
+      const translated = ErrorTranslator.translate(err);
+      AuthFormUI.showError('authFormVerify', translated.message);
+    } finally {
+      if (btn) {
+        btn.textContent = btn.dataset.originalText || 'Xác thực';
+        btn.disabled = false;
+        btn.style.opacity = '';
+      }
+    }
+  },
+
+  async handleResendOTP(event) {
+    if (event) event.preventDefault();
+
+    const emailInput = document.getElementById('verifyEmailAddress');
+    if (!emailInput) return;
+
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+    const resendBtn = document.getElementById('resendOtpBtn');
+    if (resendBtn) {
+      resendBtn.disabled = true;
+      resendBtn.textContent = 'Đang gửi...';
+    }
+
+    try {
+      await ApiClient.post('/auth/resend-verification', { email }, { skipAuth: true });
+      AuthFormUI.showSuccess('authFormVerify', '📧 Mã OTP mới đã được gửi vào email.');
+
+      // Countdown 60s before allowing resend
+      if (resendBtn) {
+        let countdown = 60;
+        resendBtn.textContent = `Gửi lại (${countdown}s)`;
+        const interval = setInterval(() => {
+          countdown--;
+          resendBtn.textContent = `Gửi lại (${countdown}s)`;
+          if (countdown <= 0) {
+            clearInterval(interval);
+            resendBtn.disabled = false;
+            resendBtn.textContent = 'Gửi lại mã OTP';
+          }
+        }, 1000);
+      }
+    } catch (err) {
+      const translated = ErrorTranslator.translate(err);
+      AuthFormUI.showError('authFormVerify', translated.message);
+      if (resendBtn) {
+        resendBtn.disabled = false;
+        resendBtn.textContent = 'Gửi lại mã OTP';
+      }
+    }
   },
 
   // ─────────────────────────────────────────────────────

@@ -120,6 +120,10 @@ const API_ENDPOINTS = Object.freeze({
   AUTH_LOGOUT:      '/auth/logout',
   AUTH_LOGOUT_ALL:  '/auth/logout-all',
   AUTH_ME:          '/auth/me',
+  AUTH_FORGOT_PASSWORD:     '/auth/forgot-password',
+  AUTH_RESET_PASSWORD:      '/auth/reset-password',
+  AUTH_VERIFY_EMAIL:        '/auth/verify-email',
+  AUTH_RESEND_VERIFICATION: '/auth/resend-verification',
 
   // Market (market.controller.ts)
   MARKET_SECTORS:   '/market/sectors',

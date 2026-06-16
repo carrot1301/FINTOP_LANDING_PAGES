@@ -619,6 +619,40 @@
                             </div>
                         </form>
 
+                        <!-- FORM XÁC THỰC EMAIL (OTP) -->
+                        <form class="auth-form" id="authFormVerify" data-auth-form="verify" onsubmit="submitAuth(event, 'verify')">
+                            <h3 class="auth-title">Xác thực Email</h3>
+                            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px; line-height: 1.5;">
+                                Mã xác thực 6 số đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư (kể cả Spam).
+                            </p>
+
+                            <input type="hidden" id="verifyEmailAddress" value="">
+
+                            <div class="auth-input-group">
+                                <label class="auth-label">Mã OTP</label>
+                                <input type="text" class="auth-input" id="verifyOtpCode"
+                                    placeholder="Nhập mã 6 số" maxlength="6"
+                                    pattern="[0-9]{6}" inputmode="numeric"
+                                    autocomplete="one-time-code"
+                                    style="text-align: center; font-size: 1.4rem; letter-spacing: 8px; font-weight: 700;">
+                            </div>
+
+                            <button type="submit" class="auth-btn-submit">Xác thực</button>
+
+                            <div style="text-align: center; margin-top: 12px;">
+                                <button type="button" id="resendOtpBtn" class="auth-link"
+                                    style="background: none; border: none; cursor: pointer; color: #a78bfa; font-size: 0.85rem;"
+                                    onclick="submitAuth(event, 'resend')">
+                                    Gửi lại mã OTP
+                                </button>
+                            </div>
+
+                            <div class="auth-footer">
+                                <a href="javascript:void(0)" class="auth-link"
+                                    onclick="switchAuthView('login')">← Quay lại đăng nhập</a>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>

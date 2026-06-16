@@ -185,6 +185,7 @@ function openAuthModal(view = 'login') {
         if (window.FintopInfra?.AuthFormUI) {
             window.FintopInfra.AuthFormUI.clearError('authFormLogin');
             window.FintopInfra.AuthFormUI.clearError('authFormRegister');
+            window.FintopInfra.AuthFormUI.clearError('authFormVerify');
         }
         
         // Enable inputs when modal is open
@@ -217,6 +218,7 @@ function closeAuthModal() {
 function switchAuthView(view, animate = true) {
     const loginForm = document.getElementById('authFormLogin');
     const registerForm = document.getElementById('authFormRegister');
+    const verifyForm = document.getElementById('authFormVerify');
     
     if (!loginForm || !registerForm) return;
 
@@ -224,33 +226,33 @@ function switchAuthView(view, animate = true) {
     if (window.FintopInfra?.AuthFormUI) {
         window.FintopInfra.AuthFormUI.clearError('authFormLogin');
         window.FintopInfra.AuthFormUI.clearError('authFormRegister');
+        if (verifyForm) window.FintopInfra.AuthFormUI.clearError('authFormVerify');
     }
 
-    if (view === 'register') {
+    // Hide all forms first
+    const allForms = [loginForm, registerForm, verifyForm].filter(Boolean);
+    allForms.forEach(f => {
+        f.classList.remove('active', 'slide-left');
+        f.style.transform = '';
+    });
+
+    if (view === 'verify' && verifyForm) {
         if (animate) {
-            loginForm.classList.remove('active');
-            loginForm.classList.add('slide-left');
-            
-            setTimeout(() => {
-                registerForm.classList.remove('slide-left');
-                registerForm.classList.add('active');
-            }, 50); // Small delay to let browser process class changes
+            setTimeout(() => verifyForm.classList.add('active'), 50);
         } else {
-            loginForm.classList.remove('active');
+            verifyForm.classList.add('active');
+        }
+    } else if (view === 'register') {
+        if (animate) {
+            loginForm.classList.add('slide-left');
+            setTimeout(() => registerForm.classList.add('active'), 50);
+        } else {
             registerForm.classList.add('active');
         }
     } else { // 'login'
         if (animate) {
-            registerForm.classList.remove('active');
-            registerForm.style.transform = 'translateX(20px)'; // Reset position for next time
-            
-            setTimeout(() => {
-                loginForm.classList.remove('slide-left');
-                loginForm.classList.add('active');
-            }, 50);
+            setTimeout(() => loginForm.classList.add('active'), 50);
         } else {
-            registerForm.classList.remove('active');
-            loginForm.classList.remove('slide-left');
             loginForm.classList.add('active');
         }
     }
@@ -301,6 +303,16 @@ function submitAuth(event, type) {
                 window.FintopInfra.AuthUI.handleForgotPassword(event)
                     .then(() => console.log('[Auth] ✅ Forgot password handler completed'))
                     .catch((err) => console.error('[Auth] ❌ Forgot password handler threw error:', err));
+                break;
+            case 'verify':
+                window.FintopInfra.AuthUI.handleVerifyEmail(event)
+                    .then(() => console.log('[Auth] ✅ Verify email handler completed'))
+                    .catch((err) => console.error('[Auth] ❌ Verify email handler threw error:', err));
+                break;
+            case 'resend':
+                window.FintopInfra.AuthUI.handleResendOTP(event)
+                    .then(() => console.log('[Auth] ✅ Resend OTP handler completed'))
+                    .catch((err) => console.error('[Auth] ❌ Resend OTP handler threw error:', err));
                 break;
             default:
                 console.warn('[Auth] Unknown auth type:', type);
