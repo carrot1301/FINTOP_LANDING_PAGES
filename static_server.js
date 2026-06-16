@@ -53,8 +53,8 @@ const server = http.createServer((req, res) => {
   if (pathname === '/' || pathname === '/index.html') {
     filePath = path.join(PROJECT_ROOT, 'index.html');
   }
-  // 2. /assets/* goes to PROJECT_ROOT/assets/*
-  else if (pathname.startsWith('/assets/')) {
+  // 2. /assets/* or /data/* goes to PROJECT_ROOT/*
+  else if (pathname.startsWith('/assets/') || pathname.startsWith('/data/')) {
     filePath = path.join(PROJECT_ROOT, pathname);
   }
   // 3. Subpages and resources served from fintop_frontend
