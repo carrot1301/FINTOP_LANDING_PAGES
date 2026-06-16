@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Param, Body, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Query, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { JwtAuthGuard, OptionalJwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { PermissionsGuard } from '../../common/guards/permissions.guard';
@@ -7,7 +7,11 @@ import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery, ApiBody } from '@nestjs
 import { Permissions } from '../../common/decorators/permissions.decorator';
 import { BLOG_STATUS } from '@prisma/client';
 import { PaginationDto } from '../../common/dto/pagination.dto';
-import { CreateBlogDto, UpdateBlogStatusDto } from './dto/blog.dto';
+import { CreateBlogDto, UpdateBlogStatusDto, UpdateBlogDto } from './dto/blog.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import * as path from 'path';
+import * as fs from 'fs';
 
 @ApiTags('CMS')
 @Controller('blogs')
@@ -32,6 +36,12 @@ export class BlogController {
     return this.blogService.listArticles(tier, p, l, category);
   }
 
+  @Get('categories/all')
+  @ApiOperation({ summary: 'Get all categories' })
+  async getCategories() {
+    return this.blogService.getAllCategories();
+  }
+
   @Get(':slug')
   @UseGuards(OptionalJwtAuthGuard)
   @ApiOperation({ summary: 'Get a published article by slug' })
@@ -50,6 +60,31 @@ export class BlogController {
     return this.blogService.createArticle(user.id, dto);
   }
 
+  @Post('upload')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('upload', {
+    storage: diskStorage({
+      destination: (req, file, cb) => {
+        const uploadDir = path.join(process.cwd(), '..', 'fintop_frontend', 'uploads');
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);
+      },
+      filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        const ext = path.extname(file.originalname);
+        cb(null, `img-${uniqueSuffix}${ext}`);
+      }
+    })
+  }))
+  async uploadFile(@UploadedFile() file: any) {
+    if (!file) {
+      throw new BadRequestException('No file uploaded');
+    }
+    return { url: `/uploads/${file.filename}` };
+  }
+
   @Patch(':id/status')
   @UseGuards(JwtAuthGuard, PermissionsGuard)
   @ApiBearerAuth()
@@ -63,4 +98,31 @@ export class BlogController {
   ) {
     return this.blogService.updateArticleStatus(parseInt(id, 10), user.id, dto.status);
   }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @ApiBearerAuth()
+  @Permissions('BLOG:UPDATE')
+  @ApiOperation({ summary: 'Update a blog article' })
+  @ApiBody({ type: UpdateBlogDto })
+  async updateBlog(
+    @Param('id') id: string,
+    @Body() dto: UpdateBlogDto,
+    @CurrentUser() user: any,
+  ) {
+    return this.blogService.updateArticle(parseInt(id, 10), user.id, dto);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @ApiBearerAuth()
+  @Permissions('BLOG:DELETE')
+  @ApiOperation({ summary: 'Delete (soft) a blog article' })
+  async deleteBlog(
+    @Param('id') id: string,
+    @CurrentUser() user: any,
+  ) {
+    return this.blogService.deleteArticle(parseInt(id, 10), user.id);
+  }
 }
+

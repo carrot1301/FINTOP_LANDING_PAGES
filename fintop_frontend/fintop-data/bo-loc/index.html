@@ -140,30 +140,240 @@
         <ul class="tv-nav" id="navMenu">
             <li><a href="../../index.html">Trang chủ</a></li>
             <li><a href="../../hoi-vien/index.html">Hội viên</a></li>
+            <li><a href="../index.html">Tra cứu CP</a></li>
+            <li><a href="index.html" style="color: #c084fc;">Bộ lọc CP</a></li>
             <li><a href="../tin-hieu/index.html">Tín hiệu CG</a></li>
-            <li><a href="index.html" style="color: #c084fc;">Danh mục CG</a></li>
+            <li><a href="../danh-muc/index.html">Copy Trade</a></li>
             <li><a href="../../fintop-ai/index.html">FinTop AI</a></li>
             <li><a href="../../huong-dan/index.html">Hướng dẫn</a></li>
         </ul>
         <div style="width: 80px;"></div>
     </header>
 
-    <main class="main-container">
-        <div class="placeholder-card">
-            <div class="glowing-icon">⚙️</div>
-            <div>
-                <span class="status-badge">Đang Xây Dựng & Thử Nghiệm Alpha</span>
-            </div>
-            <h1 class="card-title">Tính Năng Bộ Lọc Cổ Phiếu</h1>
-            <p class="card-desc">
-                Hệ thống đang tối ưu hóa các bộ chỉ số lọc thông minh (định giá, dòng tiền, RSI/MACD nâng cao). Giao diện lọc trực quan sẽ được mở rộng hoàn toàn trong thời gian tới.
-            </p>
-            <a href="../../index.html" class="btn-home">Quay lại Trang chủ</a>
+    <main class="main-container" style="flex-direction: column; align-items: stretch; justify-content: flex-start; max-width: 1200px; margin: 0 auto; width: 100%; padding-top: 100px;">
+        <div style="margin-bottom: 2rem;">
+            <h1 style="font-size: 2.2rem; font-weight: 900; background: linear-gradient(135deg, #c084fc, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem;">Bộ Lọc Cổ Phiếu</h1>
+            <p style="color: #94a3b8; font-size: 0.95rem;">Hệ thống lọc thông minh theo mô hình AI định lượng FinTop DATA</p>
+        </div>
+
+        <!-- Filter Toolbar -->
+        <div class="filter-toolbar" style="display: flex; gap: 12px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center;">
+            <input type="text" id="stockFilterSearch" placeholder="Tìm mã cổ phiếu..." style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #fff; width: 220px; outline: none; font-size: 0.95rem; transition: border-color 0.2s;">
+            
+            <select id="filterSan" style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #cbd5e1; outline: none; font-size: 0.95rem; cursor: pointer; transition: border-color 0.2s;">
+                <option value="">Tất cả các sàn</option>
+                <option value="HOSE">HOSE</option>
+                <option value="HNX">HNX</option>
+                <option value="UPCOM">UPCOM</option>
+            </select>
+
+            <select id="filterAct" style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #cbd5e1; outline: none; font-size: 0.95rem; cursor: pointer; transition: border-color 0.2s;">
+                <option value="">Tất cả hành động</option>
+                <option value="RẤT TÍCH CỰC">RẤT TÍCH CỰC</option>
+                <option value="TÍCH CỰC">TÍCH CỰC</option>
+                <option value="KHẢ QUAN">KHẢ QUAN</option>
+                <option value="TRUNG LẬP">TRUNG LẬP</option>
+                <option value="KO TÍCH CỰC">KO TÍCH CỰC</option>
+                <option value="TIÊU CỰC">TIÊU CỰC</option>
+            </select>
+        </div>
+
+        <div class="data-table-wrapper" style="background: rgba(15, 15, 25, 0.6); border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px; overflow-x: auto; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <table class="data-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; color: #cbd5e1;">
+                <thead>
+                    <tr style="background: rgba(168, 85, 247, 0.08); border-bottom: 1px solid rgba(168, 85, 247, 0.15);">
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">STT</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Mã CP</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Sàn</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Ngành HĐKD</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Cán bộ</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Cập nhật</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700; max-width: 250px;">Mô tả Model</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Hành động</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Xu hướng</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Vùng giá TC</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Kháng cự</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Hỗ trợ</th>
+                    </tr>
+                </thead>
+                <tbody id="bolocBody">
+                    <tr>
+                        <td colspan="12" style="text-align:center; padding: 2rem; color: #64748b;">Đang tải dữ liệu bộ lọc cổ phiếu...</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </main>
 
-    <footer class="page-footer">
+    <footer class="page-footer" style="margin-top: 3rem;">
         <p>&copy; 2026 FinTop DATA. Bảo lưu mọi quyền.</p>
     </footer>
+
+    <!-- Core Infrastructure Bootstrap -->
+    <script type="module" src="../../assets/js/core/index.js"></script>
+    <script>
+        (function() {
+            let filterData = [];
+
+            // 1. Get elements
+            const tbody = document.getElementById('bolocBody');
+            const searchInput = document.getElementById('stockFilterSearch');
+            const filterSan = document.getElementById('filterSan');
+            const filterAct = document.getElementById('filterAct');
+
+            // 3. Load data
+            async function loadData() {
+                // If window.FintopInfra is ready, load from backend API first
+                if (window.FintopInfra) {
+                    try {
+                        const res = await window.FintopInfra.ApiClient.get('/market/stocks');
+                        const list = res.data || res || [];
+                        if (Array.isArray(list)) {
+                            filterData = list.map(item => ({
+                                ticker: item.ticker,
+                                san: item.exchange,
+                                nganh: item.industry,
+                                canBo: item.officer || 'FinTop DATA',
+                                time: item.synced_at ? new Date(item.synced_at).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) : '',
+                                desc: item.model_desc || item.desc || '',
+                                status: item.status,
+                                statusText: item.statusText,
+                                trend: item.trend || 'SIDEWAY',
+                                vungKiemDinh: item.validation_zone || '—',
+                                khangCu: item.resistance_zone || '—',
+                                hoTro: item.support_zone || '—'
+                            }));
+                            renderTable(filterData);
+                            return;
+                        }
+                    } catch (err) {
+                        console.error('Backend stock fetch failed:', err);
+                    }
+                }
+
+                // Show empty/error state when offline or no data
+                filterData = [];
+                renderTable(filterData);
+            }
+
+            function getBadgeClass(status) {
+                if (status === 'very-positive' || status === 'very-pos') return 'badge very-pos';
+                if (status === 'positive' || status === 'pos') return 'badge pos';
+                if (status === 'ok') return 'badge ok';
+                if (status === 'neutral') return 'badge neutral';
+                if (status === 'negative' || status === 'neg') return 'badge neg';
+                return 'badge neutral';
+            }
+
+            function getActionBadgeMarkup(statusText, status) {
+                const norm = (statusText || status || '').toUpperCase();
+                let bg = 'rgba(148, 163, 184, 0.15)';
+                let fg = '#94A3B8';
+                
+                if (norm === 'RẤT TÍCH CỰC' || norm === 'VERY-POSITIVE' || norm === 'VERY-POS') {
+                    bg = 'rgba(236, 72, 153, 0.2)';
+                    fg = '#EC4899';
+                } else if (norm === 'TÍCH CỰC' || norm === 'POS' || norm === 'POSITIVE') {
+                    bg = 'rgba(16, 185, 129, 0.2)';
+                    fg = '#10B981';
+                } else if (norm === 'KHẢ QUAN' || norm === 'OK') {
+                    bg = 'rgba(132, 204, 22, 0.2)';
+                    fg = '#84CC16';
+                } else if (norm === 'TRUNG LẬP' || norm === 'NEUTRAL') {
+                    bg = 'rgba(59, 130, 246, 0.2)';
+                    fg = '#3B82F6';
+                } else if (norm === 'KO TÍCH CỰC') {
+                    bg = 'rgba(245, 158, 11, 0.2)';
+                    fg = '#F59E0B';
+                } else if (norm === 'TIÊU CỰC' || norm === 'NEG' || norm === 'NEGATIVE') {
+                    bg = 'rgba(239, 68, 68, 0.2)';
+                    fg = '#EF4444';
+                }
+                
+                return `<span class="badge" style="background:${bg}; color:${fg}; border:1px solid ${fg}33; font-weight:700; padding:4px 8px; border-radius:6px; font-size:0.75rem;">${statusText || 'TRUNG LẬP'}</span>`;
+            }
+
+            // 4. Render Table
+            function renderTable(data) {
+                tbody.innerHTML = '';
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding: 3rem; color: #64748b;">Không có dữ liệu phù hợp.</td></tr>`;
+                    return;
+                }
+
+                data.forEach((row, i) => {
+                    const tr = document.createElement('tr');
+                    tr.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
+                    tr.style.transition = 'background 0.2s';
+                    tr.addEventListener('mouseover', () => { tr.style.background = 'rgba(168, 85, 247, 0.03)'; });
+                    tr.addEventListener('mouseout', () => { tr.style.background = ''; });
+                    
+                    const actionBadge = getActionBadgeMarkup(row.statusText, row.status);
+
+                    tr.innerHTML = `
+                        <td style="padding: 12px 16px;">${i + 1}</td>
+                        <td style="padding: 12px 16px; color: #fff; font-weight: 700; letter-spacing: 0.5px;">${row.ticker}</td>
+                        <td style="padding: 12px 16px;">${row.san}</td>
+                        <td style="padding: 12px 16px;">${row.nganh}</td>
+                        <td style="padding: 12px 16px; color: #94a3b8;">${row.canBo || 'FinTop DATA'}</td>
+                        <td style="padding: 12px 16px; font-size: 0.8rem; color: #64748b;">${row.time}</td>
+                        <td style="padding: 12px 16px; max-width: 250px; line-height: 1.4; color: #cbd5e1;">${row.desc}</td>
+                        <td style="padding: 12px 16px; text-align: center;">${actionBadge}</td>
+                        <td style="padding: 12px 16px; text-align: center; color: #fbbf24; font-weight: 600;">${row.trend || '—'}</td>
+                        <td style="padding: 12px 16px; color: #38bdf8; font-weight: 600;">${row.vungKiemDinh}</td>
+                        <td style="padding: 12px 16px; color: #f87171; font-weight: 600;">${row.khangCu}</td>
+                        <td style="padding: 12px 16px; color: #34d399; font-weight: 600;">${row.hoTro}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // 5. Filter & Search handlers
+            function applyFilters() {
+                const q = (searchInput.value || '').trim().toUpperCase();
+                const san = filterSan.value;
+                const act = filterAct.value;
+
+                let filtered = [...filterData];
+
+                if (q) {
+                    filtered = filtered.filter(s => s.ticker.includes(q) || s.nganh.toUpperCase().includes(q));
+                }
+                if (san) {
+                    filtered = filtered.filter(s => s.san === san);
+                }
+                if (act) {
+                    filtered = filtered.filter(s => (s.statusText || '').toUpperCase() === act.toUpperCase());
+                }
+
+                renderTable(filtered);
+            }
+
+            [searchInput, filterSan, filterAct].forEach(el => {
+                if (el) {
+                    el.addEventListener('input', applyFilters);
+                    el.addEventListener('change', applyFilters);
+                }
+            });
+
+            if (searchInput) {
+                searchInput.addEventListener('focus', () => { searchInput.style.borderColor = '#c084fc'; });
+                searchInput.addEventListener('blur', () => { searchInput.style.borderColor = 'rgba(168, 85, 247, 0.25)'; });
+            }
+
+            // Bootstrap loading
+            function checkInfra() {
+                if (window.FintopInfra) {
+                    loadData();
+                } else {
+                    setTimeout(checkInfra, 50);
+                }
+            }
+
+            // Load initial data
+            loadData();
+            checkInfra();
+        })();
+    </script>
 </body>
 </html>

@@ -144,7 +144,19 @@ test.describe('ADMIN-NAV-1 — Role-Based Logo Navigation Tests', () => {
     await expect(page.locator('#admin-app')).toBeVisible({ timeout: 5000 });
     await page.screenshot({ path: path.join(EVIDENCE_DIR, 'admin_logo_to_admin_console.png') });
     console.log('Admin logo to admin console screenshot saved.');
+
+    // Click logo brand FROM INSIDE the admin console
+    const adminLogoLink = page.locator('.admin-logo-link').first();
+    await expect(adminLogoLink).toBeVisible();
+    await adminLogoLink.click();
+    await page.waitForTimeout(2000);
+
+    // Confirm URL redirected back to /index.html
+    expect(page.url()).toContain('/index.html');
+    await page.screenshot({ path: path.join(EVIDENCE_DIR, 'admin_logo_back_to_index.png') });
+    console.log('Admin logo back to index screenshot saved.');
   });
+
 
   // ─── 4. Direct Access & Security Gates ────────────────────
   test('Direct Access: Guest and Normal User are blocked from /admin/', async ({ page }) => {

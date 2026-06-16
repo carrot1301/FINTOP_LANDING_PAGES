@@ -1,0 +1,796 @@
+/**
+ * copilot.js — FINTop AI Copilot Chat Module
+ * Admin console module for the AI Copilot interface.
+ */
+import { esc, showToast } from '../admin-shell.js';
+
+const API = () => window.FintopInfra.ApiClient;
+
+export default {
+  id: 'copilot',
+  label: 'AI Copilot',
+  icon: '🧠',
+  sessionId: null,
+  isLoading: false,
+
+  async render(container) {
+    this.sessionId = null;
+    this.isLoading = false;
+
+    container.innerHTML = `
+      <div class="copilot-container">
+        <!-- Header -->
+        <div class="copilot-header">
+          <div>
+            <div class="copilot-eyebrow">FINTOP AI</div>
+            <h2 class="copilot-title">🧠 AI Copilot</h2>
+            <p class="copilot-subtitle">Trợ lý thông minh cho nghiên cứu & phân tích thị trường chứng khoán Việt Nam</p>
+          </div>
+          <div style="display:flex; gap:0.75rem; align-items:center;">
+            <button class="copilot-btn-ghost" id="btn-copilot-clear" title="Xóa cuộc trò chuyện">
+              🗑️ Xóa phiên
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="copilot-chat-wrapper">
+          <div class="copilot-messages" id="copilot-messages">
+            <!-- Welcome State -->
+            <div class="copilot-welcome" id="copilot-welcome">
+              <div class="copilot-welcome-icon">🧠</div>
+              <h3 class="copilot-welcome-title">Xin chào! Tôi là FINTop AI Copilot</h3>
+              <p class="copilot-welcome-desc">Tôi có thể tra cứu dữ liệu cổ phiếu, phân tích thị trường, kiểm tra dòng tiền, danh mục đầu tư và nhiều hơn nữa — tất cả từ dữ liệu thực trên nền tảng FINTop.</p>
+              <div class="copilot-suggestions" id="copilot-suggestions">
+                <button class="copilot-chip" data-prompt="Phân tích cổ phiếu FPT">📊 Phân tích cổ phiếu FPT</button>
+                <button class="copilot-chip" data-prompt="Thị trường hôm nay thế nào?">📈 Thị trường hôm nay</button>
+                <button class="copilot-chip" data-prompt="Top ngành dẫn dắt tháng này?">🏆 Top ngành dẫn dắt</button>
+                <button class="copilot-chip" data-prompt="Dòng tiền khối ngoại đang chảy vào đâu?">💹 Dòng tiền khối ngoại</button>
+                <button class="copilot-chip" data-prompt="Market breadth hiện tại cho thấy gì?">📉 Market Breadth</button>
+                <button class="copilot-chip" data-prompt="Chế độ thị trường hiện tại là gì? Bull hay Bear?">🎯 Market Regime</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input Bar -->
+          <div class="copilot-input-bar">
+            <div class="copilot-input-wrapper">
+              <input
+                type="text"
+                id="copilot-input"
+                class="copilot-input"
+                placeholder="Hỏi AI Copilot về thị trường, cổ phiếu, danh mục..."
+                maxlength="2000"
+                autocomplete="off"
+              />
+              <button class="copilot-send-btn" id="copilot-send" title="Gửi (Enter)">
+                <span id="copilot-send-icon">➤</span>
+              </button>
+            </div>
+            <div class="copilot-input-hint">
+              <span>⌨️ Enter để gửi</span>
+              <span id="copilot-char-count">0 / 2000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    this.injectStyles();
+    this.bindEvents();
+  },
+
+  destroy() {
+    this.sessionId = null;
+    this.isLoading = false;
+  },
+
+  // ───────────────────────────────────────────────────────
+  // EVENT BINDINGS
+  // ───────────────────────────────────────────────────────
+
+  bindEvents() {
+    const input = document.getElementById('copilot-input');
+    const sendBtn = document.getElementById('copilot-send');
+    const clearBtn = document.getElementById('btn-copilot-clear');
+
+    input?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        this.sendMessage();
+      }
+    });
+
+    input?.addEventListener('input', () => {
+      const count = document.getElementById('copilot-char-count');
+      if (count && input) count.textContent = `${input.value.length} / 2000`;
+    });
+
+    sendBtn?.addEventListener('click', () => this.sendMessage());
+    clearBtn?.addEventListener('click', () => this.clearSession());
+
+    // Suggestion chips
+    document.querySelectorAll('.copilot-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const prompt = chip.getAttribute('data-prompt');
+        if (prompt && input) {
+          input.value = prompt;
+          this.sendMessage();
+        }
+      });
+    });
+  },
+
+  // ───────────────────────────────────────────────────────
+  // SEND MESSAGE
+  // ───────────────────────────────────────────────────────
+
+  async sendMessage() {
+    const input = document.getElementById('copilot-input');
+    if (!input) return;
+    const message = input.value.trim();
+    if (!message || this.isLoading) return;
+
+    // Hide welcome state
+    const welcome = document.getElementById('copilot-welcome');
+    if (welcome) welcome.style.display = 'none';
+
+    // Append user message
+    this.appendMessage('user', message);
+    input.value = '';
+    const count = document.getElementById('copilot-char-count');
+    if (count) count.textContent = '0 / 2000';
+
+    // Show typing indicator
+    this.isLoading = true;
+    this.setInputState(false);
+    const typingId = this.appendTypingIndicator();
+
+    try {
+      const raw = await API().post('/copilot/chat', {
+        message,
+        sessionId: this.sessionId || undefined,
+      });
+
+      const res = raw?.data || raw;
+      if (res?.sessionId) this.sessionId = res.sessionId;
+
+      // Remove typing indicator
+      this.removeTypingIndicator(typingId);
+
+      // Append tools used (if any)
+      if (res?.toolsUsed && res.toolsUsed.length > 0) {
+        this.appendToolBadges(res.toolsUsed);
+      }
+
+      // Append assistant response
+      this.appendMessage('assistant', res?.reply || 'Không nhận được phản hồi.');
+    } catch (err) {
+      this.removeTypingIndicator(typingId);
+      this.appendMessage('assistant', `⚠️ Lỗi: ${err.message || 'Không thể kết nối đến AI Copilot.'}`);
+    } finally {
+      this.isLoading = false;
+      this.setInputState(true);
+      input.focus();
+    }
+  },
+
+  // ───────────────────────────────────────────────────────
+  // CLEAR SESSION
+  // ───────────────────────────────────────────────────────
+
+  async clearSession() {
+    if (this.sessionId) {
+      try {
+        await API().delete(`/copilot/session/${this.sessionId}`);
+      } catch { /* ignore */ }
+    }
+    this.sessionId = null;
+
+    const messagesEl = document.getElementById('copilot-messages');
+    if (messagesEl) {
+      messagesEl.innerHTML = `
+        <div class="copilot-welcome" id="copilot-welcome">
+          <div class="copilot-welcome-icon">🧠</div>
+          <h3 class="copilot-welcome-title">Phiên đã được xóa</h3>
+          <p class="copilot-welcome-desc">Bắt đầu cuộc trò chuyện mới bằng cách nhập câu hỏi bên dưới.</p>
+          <div class="copilot-suggestions" id="copilot-suggestions">
+            <button class="copilot-chip" data-prompt="Phân tích cổ phiếu FPT">📊 Phân tích cổ phiếu FPT</button>
+            <button class="copilot-chip" data-prompt="Thị trường hôm nay thế nào?">📈 Thị trường hôm nay</button>
+            <button class="copilot-chip" data-prompt="Top ngành dẫn dắt tháng này?">🏆 Top ngành dẫn dắt</button>
+            <button class="copilot-chip" data-prompt="Dòng tiền khối ngoại đang chảy vào đâu?">💹 Dòng tiền khối ngoại</button>
+          </div>
+        </div>
+      `;
+      // Re-bind suggestion chips
+      document.querySelectorAll('.copilot-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const prompt = chip.getAttribute('data-prompt');
+          const input = document.getElementById('copilot-input');
+          if (prompt && input) {
+            input.value = prompt;
+            this.sendMessage();
+          }
+        });
+      });
+    }
+
+    showToast('Đã xóa phiên trò chuyện', 'success');
+  },
+
+  // ───────────────────────────────────────────────────────
+  // UI HELPERS
+  // ───────────────────────────────────────────────────────
+
+  appendMessage(role, content) {
+    const messagesEl = document.getElementById('copilot-messages');
+    if (!messagesEl) return;
+
+    const isUser = role === 'user';
+    const bubble = document.createElement('div');
+    bubble.className = `copilot-msg ${isUser ? 'copilot-msg-user' : 'copilot-msg-assistant'}`;
+
+    const avatar = isUser ? '👤' : '🧠';
+    const label = isUser ? 'Bạn' : 'AI Copilot';
+
+    bubble.innerHTML = `
+      <div class="copilot-msg-header">
+        <span class="copilot-msg-avatar">${avatar}</span>
+        <span class="copilot-msg-label">${label}</span>
+        <span class="copilot-msg-time">${new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</span>
+      </div>
+      <div class="copilot-msg-body">${isUser ? esc(content) : this.renderMarkdown(content)}</div>
+    `;
+
+    messagesEl.appendChild(bubble);
+    this.scrollToBottom();
+  },
+
+  appendToolBadges(tools) {
+    const messagesEl = document.getElementById('copilot-messages');
+    if (!messagesEl || !tools.length) return;
+
+    const toolNames = {
+      get_stock_info: '📊 Tra cứu cổ phiếu',
+      get_market_regime: '🎯 Chế độ thị trường',
+      get_sector_rotation: '🏆 Luân chuyển ngành',
+      get_market_breadth: '📉 Độ rộng thị trường',
+      get_money_flow: '💰 Dòng tiền',
+      get_foreign_flow: '💹 Khối ngoại',
+      get_portfolio_detail: '💼 Danh mục',
+      get_intelligence_summary: '📈 Tổng hợp thị trường',
+    };
+
+    const badges = tools.map(t => {
+      const displayName = toolNames[t.name] || t.name;
+      const statusCls = t.success ? 'copilot-tool-ok' : 'copilot-tool-err';
+      const statusDot = t.success ? '✓' : '✗';
+      const argsStr = Object.entries(t.args || {}).map(([k, v]) => `${k}: ${v}`).join(', ');
+      return `<span class="copilot-tool-badge ${statusCls}" title="${esc(argsStr || 'no args')}">🔧 ${displayName} <span class="copilot-tool-status">${statusDot}</span></span>`;
+    }).join('');
+
+    const row = document.createElement('div');
+    row.className = 'copilot-tool-row';
+    row.innerHTML = `<span class="copilot-tool-prefix">Công cụ đã sử dụng:</span>${badges}`;
+    messagesEl.appendChild(row);
+    this.scrollToBottom();
+  },
+
+  appendTypingIndicator() {
+    const messagesEl = document.getElementById('copilot-messages');
+    if (!messagesEl) return '';
+
+    const id = 'typing-' + Date.now();
+    const el = document.createElement('div');
+    el.id = id;
+    el.className = 'copilot-msg copilot-msg-assistant copilot-typing';
+    el.innerHTML = `
+      <div class="copilot-msg-header">
+        <span class="copilot-msg-avatar">🧠</span>
+        <span class="copilot-msg-label">AI Copilot</span>
+      </div>
+      <div class="copilot-msg-body">
+        <div class="copilot-dots">
+          <span class="copilot-dot"></span>
+          <span class="copilot-dot"></span>
+          <span class="copilot-dot"></span>
+        </div>
+        <span class="copilot-thinking-text">Đang phân tích...</span>
+      </div>
+    `;
+    messagesEl.appendChild(el);
+    this.scrollToBottom();
+    return id;
+  },
+
+  removeTypingIndicator(id) {
+    if (!id) return;
+    document.getElementById(id)?.remove();
+  },
+
+  setInputState(enabled) {
+    const input = document.getElementById('copilot-input');
+    const btn = document.getElementById('copilot-send');
+    const icon = document.getElementById('copilot-send-icon');
+    if (input) input.disabled = !enabled;
+    if (btn) btn.disabled = !enabled;
+    if (icon) icon.textContent = enabled ? '➤' : '⏳';
+  },
+
+  scrollToBottom() {
+    const el = document.getElementById('copilot-messages');
+    if (el) requestAnimationFrame(() => { el.scrollTop = el.scrollHeight; });
+  },
+
+  // ───────────────────────────────────────────────────────
+  // MARKDOWN RENDERER (reusable from ai-ops pattern)
+  // ───────────────────────────────────────────────────────
+
+  renderMarkdown(md) {
+    if (!md) return '';
+    let html = md;
+
+    // Code blocks (``` ... ```)
+    html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (_, lang, code) => {
+      return `<pre class="copilot-code-block"><code>${esc(code.trim())}</code></pre>`;
+    });
+
+    // Inline code
+    html = html.replace(/`([^`]+)`/g, '<code class="copilot-inline-code">$1</code>');
+
+    // Headers
+    html = html.replace(/^#### (.*$)/gim, '<h5 class="copilot-md-h4">$1</h5>');
+    html = html.replace(/^### (.*$)/gim, '<h4 class="copilot-md-h3">$1</h4>');
+    html = html.replace(/^## (.*$)/gim, '<h3 class="copilot-md-h2">$1</h3>');
+    html = html.replace(/^# (.*$)/gim, '<h2 class="copilot-md-h1">$1</h2>');
+
+    // Bold & italic
+    html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="copilot-bold">$1</strong>');
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+    // Tables
+    html = html.replace(/^(\|.+\|)\n(\|[-| :]+\|)\n((?:\|.+\|\n?)+)/gm, (_, header, sep, body) => {
+      const headers = header.split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
+      const rows = body.trim().split('\n').map(row => {
+        const cells = row.split('|').filter(c => c.trim()).map(c => `<td>${c.trim()}</td>`).join('');
+        return `<tr>${cells}</tr>`;
+      }).join('');
+      return `<div class="copilot-table-wrap"><table class="copilot-table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>`;
+    });
+
+    // Unordered lists
+    html = html.replace(/^\- (.*$)/gim, '<li class="copilot-li">$1</li>');
+    html = html.replace(/((?:<li class="copilot-li">.*<\/li>\n?)+)/g, '<ul class="copilot-ul">$1</ul>');
+
+    // Horizontal rules
+    html = html.replace(/^---$/gm, '<hr class="copilot-hr">');
+
+    // Paragraphs: wrap remaining text blocks
+    html = html.split('\n\n').map(block => {
+      const t = block.trim();
+      if (!t) return '';
+      if (t.startsWith('<')) return t;
+      return `<p class="copilot-p">${t}</p>`;
+    }).join('\n');
+
+    // Clean up leftover single newlines in paragraphs
+    html = html.replace(/([^>])\n([^<])/g, '$1<br>$2');
+
+    return html;
+  },
+
+  // ───────────────────────────────────────────────────────
+  // STYLES
+  // ───────────────────────────────────────────────────────
+
+  injectStyles() {
+    if (document.getElementById('copilot-styles')) return;
+
+    const style = document.createElement('style');
+    style.id = 'copilot-styles';
+    style.innerHTML = `
+      /* Container */
+      .copilot-container {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 80px);
+        animation: copilotFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      @keyframes copilotFadeIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Header */
+      .copilot-header {
+        background: linear-gradient(135deg, rgba(26, 21, 44, 0.65) 0%, rgba(13, 10, 24, 0.75) 100%);
+        border: 1px solid rgba(124, 58, 237, 0.2);
+        border-radius: 16px;
+        padding: 1.25rem 1.75rem;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255,255,255,0.03);
+        backdrop-filter: blur(16px);
+      }
+      .copilot-eyebrow {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        color: #a78bfa;
+        text-transform: uppercase;
+        margin-bottom: 0.3rem;
+      }
+      .copilot-title {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: #F8FAFC;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      }
+      .copilot-subtitle {
+        margin: 0.3rem 0 0 0;
+        font-size: 0.82rem;
+        color: #94A3B8;
+        line-height: 1.5;
+      }
+      .copilot-btn-ghost {
+        background: rgba(124, 58, 237, 0.08);
+        border: 1px solid rgba(124, 58, 237, 0.2);
+        color: #C4B5FD;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 0.78rem;
+        font-weight: 600;
+        transition: all 0.25s;
+      }
+      .copilot-btn-ghost:hover {
+        background: rgba(124, 58, 237, 0.15);
+        border-color: rgba(124, 58, 237, 0.4);
+        color: #E9D5FF;
+      }
+
+      /* Chat wrapper */
+      .copilot-chat-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: rgba(15, 23, 42, 0.45);
+        border: 1px solid rgba(124, 58, 237, 0.12);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+      }
+
+      /* Messages area */
+      .copilot-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .copilot-messages::-webkit-scrollbar { width: 6px; }
+      .copilot-messages::-webkit-scrollbar-track { background: rgba(255,255,255,0.01); }
+      .copilot-messages::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.2); border-radius: 4px; }
+      .copilot-messages::-webkit-scrollbar-thumb:hover { background: rgba(124, 58, 237, 0.4); }
+
+      /* Welcome state */
+      .copilot-welcome {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 3rem 1rem;
+        flex: 1;
+      }
+      .copilot-welcome-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        filter: drop-shadow(0 0 20px rgba(124,58,237,0.4));
+        animation: copilotFloat 3s ease-in-out infinite;
+      }
+      @keyframes copilotFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+      }
+      .copilot-welcome-title {
+        color: #F8FAFC;
+        font-size: 1.3rem;
+        font-weight: 800;
+        margin: 0 0 0.5rem 0;
+      }
+      .copilot-welcome-desc {
+        color: #94A3B8;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        max-width: 480px;
+        margin: 0 0 1.5rem 0;
+      }
+      .copilot-suggestions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        justify-content: center;
+        max-width: 560px;
+      }
+      .copilot-chip {
+        background: rgba(124, 58, 237, 0.08);
+        border: 1px solid rgba(124, 58, 237, 0.2);
+        color: #C4B5FD;
+        padding: 0.55rem 1rem;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.78rem;
+        font-weight: 600;
+        transition: all 0.25s;
+        white-space: nowrap;
+      }
+      .copilot-chip:hover {
+        background: rgba(124, 58, 237, 0.18);
+        border-color: rgba(124, 58, 237, 0.45);
+        color: #E9D5FF;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+      }
+
+      /* Message bubbles */
+      .copilot-msg {
+        max-width: 85%;
+        animation: copilotMsgIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      @keyframes copilotMsgIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .copilot-msg-user {
+        align-self: flex-end;
+      }
+      .copilot-msg-assistant {
+        align-self: flex-start;
+      }
+      .copilot-msg-header {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin-bottom: 0.35rem;
+      }
+      .copilot-msg-avatar {
+        font-size: 0.9rem;
+      }
+      .copilot-msg-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #C4B5FD;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .copilot-msg-time {
+        font-size: 0.65rem;
+        color: #64748B;
+        margin-left: auto;
+      }
+      .copilot-msg-body {
+        padding: 0.85rem 1.1rem;
+        border-radius: 14px;
+        font-size: 0.86rem;
+        line-height: 1.65;
+        color: #E2E8F0;
+      }
+      .copilot-msg-user .copilot-msg-body {
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(99, 42, 204, 0.15) 100%);
+        border: 1px solid rgba(124, 58, 237, 0.25);
+        border-bottom-right-radius: 4px;
+      }
+      .copilot-msg-assistant .copilot-msg-body {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-bottom-left-radius: 4px;
+      }
+
+      /* Tool badges row */
+      .copilot-tool-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        padding: 0.4rem 0;
+        animation: copilotMsgIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .copilot-tool-prefix {
+        font-size: 0.68rem;
+        color: #64748B;
+        font-weight: 600;
+        margin-right: 0.3rem;
+      }
+      .copilot-tool-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.25rem 0.65rem;
+        border-radius: 6px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        cursor: default;
+        transition: all 0.2s;
+      }
+      .copilot-tool-ok {
+        background: rgba(16, 185, 129, 0.08);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        color: #10B981;
+      }
+      .copilot-tool-err {
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        color: #EF4444;
+      }
+      .copilot-tool-status {
+        font-weight: 800;
+      }
+
+      /* Typing indicator */
+      .copilot-typing .copilot-msg-body {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .copilot-dots {
+        display: flex;
+        gap: 4px;
+      }
+      .copilot-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #7C3AED;
+        animation: copilotBounce 1.4s ease-in-out infinite;
+      }
+      .copilot-dot:nth-child(2) { animation-delay: 0.2s; }
+      .copilot-dot:nth-child(3) { animation-delay: 0.4s; }
+      @keyframes copilotBounce {
+        0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+        40% { transform: translateY(-6px); opacity: 1; }
+      }
+      .copilot-thinking-text {
+        font-size: 0.78rem;
+        color: #94A3B8;
+        font-style: italic;
+      }
+
+      /* Input bar */
+      .copilot-input-bar {
+        padding: 1rem 1.25rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        background: rgba(10, 15, 30, 0.5);
+      }
+      .copilot-input-wrapper {
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+      }
+      .copilot-input {
+        flex: 1;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(124, 58, 237, 0.15);
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        color: #F1F5F9;
+        font-size: 0.88rem;
+        outline: none;
+        transition: border-color 0.25s, box-shadow 0.25s;
+        font-family: inherit;
+      }
+      .copilot-input::placeholder {
+        color: #64748B;
+      }
+      .copilot-input:focus {
+        border-color: rgba(124, 58, 237, 0.45);
+        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+      }
+      .copilot-input:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .copilot-send-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+        border: none;
+        color: #fff;
+        font-size: 1.1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s;
+        flex-shrink: 0;
+      }
+      .copilot-send-btn:hover {
+        background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+        transform: scale(1.05);
+        box-shadow: 0 4px 16px rgba(124, 58, 237, 0.35);
+      }
+      .copilot-send-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .copilot-input-hint {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.35rem 0.25rem 0;
+        font-size: 0.65rem;
+        color: #475569;
+      }
+
+      /* Markdown content styles */
+      .copilot-md-h1 { color: #F8FAFC; font-size: 1.2rem; font-weight: 800; margin: 1rem 0 0.5rem 0; }
+      .copilot-md-h2 { color: #F1F5F9; font-size: 1.05rem; font-weight: 700; margin: 0.8rem 0 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.3rem; }
+      .copilot-md-h3 { color: #C084FC; font-size: 0.95rem; font-weight: 600; margin: 0.7rem 0 0.3rem 0; }
+      .copilot-md-h4 { color: #A78BFA; font-size: 0.88rem; font-weight: 600; margin: 0.5rem 0 0.25rem 0; }
+      .copilot-bold { color: #E2E8F0; font-weight: 600; }
+      .copilot-p { margin: 0 0 0.5rem 0; color: #CBD5E1; }
+      .copilot-ul { margin: 0.3rem 0; padding-left: 1.2rem; }
+      .copilot-li { color: #CBD5E1; margin-bottom: 0.25rem; font-size: 0.84rem; }
+      .copilot-hr { border: 0; border-top: 1px solid rgba(255,255,255,0.06); margin: 0.8rem 0; }
+      .copilot-inline-code {
+        background: rgba(255,255,255,0.06);
+        padding: 0.12rem 0.35rem;
+        border-radius: 4px;
+        font-family: 'Fira Code', monospace;
+        color: #F472B6;
+        font-size: 0.8rem;
+      }
+      .copilot-code-block {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        overflow-x: auto;
+        font-family: 'Fira Code', monospace;
+        font-size: 0.78rem;
+        line-height: 1.5;
+        color: #E2E8F0;
+        margin: 0.5rem 0;
+      }
+      .copilot-table-wrap {
+        overflow-x: auto;
+        margin: 0.5rem 0;
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.06);
+      }
+      .copilot-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.78rem;
+      }
+      .copilot-table th {
+        background: rgba(124, 58, 237, 0.08);
+        color: #C4B5FD;
+        font-weight: 700;
+        text-align: left;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid rgba(124, 58, 237, 0.15);
+        white-space: nowrap;
+      }
+      .copilot-table td {
+        padding: 0.45rem 0.75rem;
+        color: #CBD5E1;
+        border-bottom: 1px solid rgba(255,255,255,0.03);
+      }
+      .copilot-table tr:hover td {
+        background: rgba(124, 58, 237, 0.04);
+      }
+    `;
+    document.head.appendChild(style);
+  },
+};

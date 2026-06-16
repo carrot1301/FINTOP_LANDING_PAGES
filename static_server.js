@@ -67,7 +67,8 @@ const server = http.createServer((req, res) => {
     fs.stat(targetPath, (err, stats) => {
       if (err) {
         // File not found fallback for dynamic route subpages (like /chuyen-gia/)
-        if (pathname.startsWith('/chuyen-gia/')) {
+        // Only fallback if the pathname does not have a file extension (clean URL routing)
+        if (pathname.startsWith('/chuyen-gia/') && path.extname(pathname) === '') {
           const fallbackPath = path.join(FRONTEND_ROOT, 'chuyen-gia', 'index.html');
           if (targetPath !== fallbackPath) {
             serveFile(fallbackPath);
@@ -118,7 +119,7 @@ const server = http.createServer((req, res) => {
   serveFile(filePath);
 });
 
-const HOST = '127.0.0.1';
+const HOST = '0.0.0.0';
 function startServer(p) {
   server.listen(p, HOST, () => {
     console.log(`[FinTop Static Server] Running at http://${HOST}:${p}/index.html`);

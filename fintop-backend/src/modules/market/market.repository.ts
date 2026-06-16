@@ -31,12 +31,13 @@ export class MarketRepository {
         status: status || STOCK_STATUS.ACTIVE,
         exchangeId,
         industry: sectorId ? { sectorId } : undefined,
+        deletedAt: null,
       },
       include: {
         exchange: true,
         industry: { include: { sector: true } },
       },
-      orderBy: { symbol: 'asc' },
+      orderBy: { order: 'asc' },
     });
   }
 

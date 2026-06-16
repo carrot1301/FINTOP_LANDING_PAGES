@@ -40,6 +40,7 @@
   
   /* === MÀU TRẠNG THÁI — Bảng dữ liệu cổ phiếu === */
   --status-very-pos:  #10B981;   /* RẤT TÍCH CỰC */
+  --success:          #10B981;   /* Thành công / Phê duyệt */
   --status-pos:       #34D399;   /* TÍCH CỰC */
   --status-ok:        #60A5FA;   /* KHẢ QUAN */
   --status-neutral:   #94A3B8;   /* TRUNG LẬP */

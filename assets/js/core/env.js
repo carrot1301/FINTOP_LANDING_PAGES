@@ -47,7 +47,14 @@ function detectEnvironment() {
     return 'development';
   }
 
-  if (hostname.includes('staging') || hostname.includes('dev.') || hostname.includes('test.')) {
+  if (
+    hostname.includes('staging') || 
+    hostname.includes('dev.') || 
+    hostname.includes('test.') ||
+    hostname.includes('onrender.com') ||
+    hostname.includes('railway.app') ||
+    hostname.includes('vercel.app')
+  ) {
     return 'staging';
   }
 
@@ -58,12 +65,15 @@ function detectEnvironment() {
 // ENVIRONMENT-SPECIFIC CONFIG
 // ─────────────────────────────────────────────────────────────
 
+const devHost = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
+const devBase = `http://${devHost}:3000`;
+
 const ENVIRONMENTS = {
   development: {
-    API_BASE_URL: 'http://localhost:3000',
-    WS_BASE_URL:  'http://localhost:3000',
-    SWAGGER_URL:  'http://localhost:3000/docs',
-    HEALTH_URL:   'http://localhost:3000/health',
+    API_BASE_URL: devBase,
+    WS_BASE_URL:  devBase,
+    SWAGGER_URL:  `${devBase}/docs`,
+    HEALTH_URL:   `${devBase}/health`,
     DEBUG: true,
   },
   staging: {
@@ -113,8 +123,18 @@ const API_ENDPOINTS = Object.freeze({
 
   // Market (market.controller.ts)
   MARKET_SECTORS:   '/market/sectors',
+  MARKET_STOCKS:     '/market/stocks',
   MARKET_STOCK:     (symbol)  => `/market/stocks/${encodeURIComponent(symbol)}`,
   MARKET_HISTORICAL:(symbol)  => `/market/stocks/${encodeURIComponent(symbol)}/historical`,
+  MARKET_LOOKUP:    (symbol)  => `/market/stocks/lookup/${encodeURIComponent(symbol)}`,
+  MARKET_INTELLIGENCE_SUMMARY: '/market/intelligence/summary',
+  MARKET_SECTOR_ROTATION:      '/market/sector-rotation',
+  MARKET_MONEY_FLOW:          '/market/money-flow',
+  MARKET_FOREIGN_FLOW:        '/market/foreign-flow',
+  MARKET_BREADTH:             '/market/breadth',
+  MARKET_REGIME:              '/market/regime',
+  MARKET_INTELLIGENCE_REFRESH: '/market/intelligence/refresh',
+  MARKET_INTELLIGENCE_EXPORT:  '/market/intelligence/export',
 
   // Signals (signal.controller.ts) — GOLD tier required
   SIGNALS_LIST:     '/signals',
@@ -142,9 +162,11 @@ const API_ENDPOINTS = Object.freeze({
   BLOG_GET:         (slug)    => `/blogs/${encodeURIComponent(slug)}`,
   BLOG_CREATE:      '/blogs',
   BLOG_STATUS:      (id)      => `/blogs/${id}/status`,
+  BLOG_CATEGORIES:  '/blogs/categories/all',
 
   // Subscription (subscription.controller.ts)
   SUBSCRIPTION:     '/users/subscription',
+  SUBSCRIPTION_PLANS: '/users/subscription/plans',
 
   // Admin (admin.controller.ts)
   ADMIN_OVERVIEW:            '/admin/overview',
@@ -165,6 +187,17 @@ const API_ENDPOINTS = Object.freeze({
   ADMIN_MARKET_SYNC_LOGS:    '/admin/market/sync-logs',
   ADMIN_MARKET_STOCKS:       '/admin/market/stocks',
   ADMIN_PORTFOLIOS:          '/admin/portfolios',
+
+  // Research (research.controller.ts)
+  RESEARCH_GENERATE:         '/research/generate',
+  RESEARCH_TEMPLATES:        '/research/templates',
+  RESEARCH_HISTORY:          '/research/history',
+  RESEARCH_EXPORT:           (id) => `/research/export/${id}`,
+
+  // Copilot (copilot.controller.ts)
+  COPILOT_CHAT:              '/copilot/chat',
+  COPILOT_TOOLS:             '/copilot/tools',
+  COPILOT_SESSION_CLEAR:     (id) => `/copilot/session/${id}`,
 
   // Health (health.controller.ts)
   HEALTH:           '/health',

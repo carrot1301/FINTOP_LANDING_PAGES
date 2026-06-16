@@ -10,6 +10,16 @@ import { ALERT_CONDITION, EXCHANGE_CODE, Prisma } from '@prisma/client';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
+async function waitForNotificationCount(notificationService: any, userId: number, expectedCount: number, timeoutMs = 5000) {
+  const start = Date.now();
+  while (Date.now() - start < timeoutMs) {
+    const count = await notificationService.getUnreadCount(userId);
+    if (count === expectedCount) return count;
+    await delay(100);
+  }
+  return await notificationService.getUnreadCount(userId);
+}
+
 async function runAlertValidation() {
   console.log('🔍 Bắt đầu kiểm thử Watchlist & Alert Engine Runtime Validation...');
 
@@ -74,8 +84,8 @@ async function runAlertValidation() {
     // Evaluate with price 141000 (> 140000). Should trigger.
     await alertService.evaluatePriceQuote(stock.id, 'FPT', 141000);
     
-    // Give queue a tiny moment to process since it uses setImmediate internally
-    await delay(200);
+    // Dynamically wait for the notification to be processed by background queues
+    await waitForNotificationCount(notificationService, user.id, 1, 3000);
 
     const triggeredAlert = await prisma.priceAlert.findUnique({ where: { id: alert.id } });
     if (!triggeredAlert!.lastTriggeredAt) throw new Error('Alert did not trigger');
@@ -84,7 +94,7 @@ async function runAlertValidation() {
     console.log('\n⚡ Test #4: Cooldown Prevention (Duplicate Trigger Defense)');
     // Evaluate again immediately, should NOT trigger again or send 2nd notification
     await alertService.evaluatePriceQuote(stock.id, 'FPT', 142000);
-    await delay(200);
+    await delay(300);
 
     const unreadCount = await notificationService.getUnreadCount(user.id);
     if (unreadCount !== 1) throw new Error(`Expected exactly 1 notification, found ${unreadCount}`);

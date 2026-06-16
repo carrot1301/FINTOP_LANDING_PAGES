@@ -19,6 +19,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
+    bodyParser: false, // Disable default NestJS body parser to allow custom 10MB limit
   });
 
   // Enable graceful shutdown
@@ -37,16 +38,16 @@ async function bootstrap() {
     origin: corsOrigin === '*' ? true : corsOrigin.split(','),
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type,Authorization,X-Correlation-Id',
+    allowedHeaders: 'Content-Type,Authorization,X-Correlation-Id,x-webhook-signature',
     maxAge: 86400, // Pre-flight cache: 24 hours
   });
 
   // Payload size limits (prevent abuse)
-  // Express defaults are typically 100kb; we set explicit limits
+  // CKEditor blogs can have large content; 10MB allows rich articles
   const expressApp = app.getHttpAdapter().getInstance();
   const expressModule = await import('express');
-  expressApp.use(expressModule.json({ limit: '1mb' }));
-  expressApp.use(expressModule.urlencoded({ limit: '1mb', extended: true }));
+  expressApp.use(expressModule.json({ limit: '50mb' }));
+  expressApp.use(expressModule.urlencoded({ limit: '50mb', extended: true }));
 
   // ── Global Pipes, Filters, Interceptors ─────────────────────
   app.useGlobalFilters(new GlobalExceptionFilter());

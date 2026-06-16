@@ -36,24 +36,44 @@ async function runMarketValidation() {
     await prisma.priceAlert.deleteMany({ where: { stock: { symbol: 'FPT' } } });
     await prisma.financialIndicator.deleteMany({ where: { stock: { symbol: 'FPT' } } });
     await prisma.stockPriceDaily.deleteMany({ where: { stock: { symbol: 'FPT' } } });
-    await prisma.stock.deleteMany({ where: { symbol: 'FPT' } });
-    await prisma.industry.deleteMany({ where: { code: 'SOFT' } });
+    await prisma.stock.deleteMany({
+      where: {
+        OR: [
+          { symbol: 'FPT' },
+          { industry: { code: 'SOFT' } },
+          { industry: { sector: { code: 'TECH' } } }
+        ]
+      }
+    });
+    await prisma.industry.deleteMany({
+      where: {
+        OR: [
+          { code: 'SOFT' },
+          { sector: { code: 'TECH' } }
+        ]
+      }
+    });
     await prisma.sector.deleteMany({ where: { code: 'TECH' } });
-    await prisma.stockExchange.deleteMany({ where: { code: EXCHANGE_CODE.HOSE } });
     await prisma.marketDataSyncLog.deleteMany({});
     await redisService.getClient().del('quotes:latest:FPT');
 
     console.log('\n⚡ Test #1: Creating Market Core Master Data');
-    const exchange = await prisma.stockExchange.create({
-      data: { code: EXCHANGE_CODE.HOSE, name: 'HOSE' }
+    const exchange = await prisma.stockExchange.upsert({
+      where: { code: EXCHANGE_CODE.HOSE },
+      update: {},
+      create: { code: EXCHANGE_CODE.HOSE, name: 'HOSE' }
     });
     
-    const sector = await prisma.sector.create({
-      data: { name: 'Technology', code: 'TECH' }
+    const sector = await prisma.sector.upsert({
+      where: { code: 'TECH' },
+      update: {},
+      create: { name: 'Technology', code: 'TECH' }
     });
 
-    const industry = await prisma.industry.create({
-      data: { name: 'Software', code: 'SOFT', sectorId: sector.id }
+    const industry = await prisma.industry.upsert({
+      where: { code: 'SOFT' },
+      update: {},
+      create: { name: 'Software', code: 'SOFT', sectorId: sector.id }
     });
 
     const stock = await prisma.stock.create({

@@ -9,7 +9,24 @@
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/components.css">
     <link rel="stylesheet" href="../assets/css/modals.css">
+    <link rel="stylesheet" href="../assets/css/auth.css">
     <link rel="stylesheet" href="../assets/css/demo-pages.css">
+    <!-- Anti-flicker micro-script (High Performance Session Restore) -->
+    <script>
+        (function () {
+            try {
+                if (localStorage.getItem('fintop_access_token')) {
+                    const style = document.createElement('style');
+                    style.id = 'fintop-anti-flicker';
+                    style.textContent = `
+                        [data-hide-when-auth] { display: none !important; }
+                        .user-dropdown-container { visibility: hidden; }
+                    `;
+                    document.head.appendChild(style);
+                }
+            } catch (e) { }
+        })();
+    </script>
 </head>
 
 <body class="demo-page">
@@ -74,15 +91,18 @@
         </ul>
         <div class="tv-right">
             <span class="icon-link">🌐 VI</span>
-            <div class="user-dropdown-container">
+            <div class="user-dropdown-container" id="userDropdownContainer">
                 <span class="icon-link" style="cursor: pointer;">👤</span>
                 <div class="user-dropdown-menu">
-                    <a href="../index.html" class="user-dropdown-item">👤 Đăng nhập</a>
+                    <a href="javascript:void(0)" class="user-dropdown-item login-btn"
+                        onclick="openAuthModal('login')">👤 Đăng nhập</a>
                     <a href="../huong-dan/index.html" class="user-dropdown-item">Trung tâm Trợ giúp</a>
-                    <a href="../index.html" class="user-dropdown-item">Có gì mới</a>
+                    <a href="javascript:void(0)" class="user-dropdown-item"
+                        onclick="alert('Tính năng mới sắp ra mắt!')">Có gì mới</a>
                 </div>
             </div>
-            <button class="btn-tv-blue" type="button" onclick="window.location.href='#membership-plans'">Bắt đầu</button>
+            <button class="btn-tv-blue" type="button" id="fintopStartBtn"
+                onclick="window.location.href='#membership-plans'">Bắt đầu</button>
         </div>
     </header>
 
@@ -111,22 +131,30 @@
                     <div class="bar-list">
                         <div class="bar-row">
                             <span>STANDARD</span>
-                            <div class="bar-track"><div class="bar-fill" style="--value:42%"></div></div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="--value:42%"></div>
+                            </div>
                             <strong>Free</strong>
                         </div>
                         <div class="bar-row">
                             <span>PRO</span>
-                            <div class="bar-track"><div class="bar-fill" style="--value:72%"></div></div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="--value:72%"></div>
+                            </div>
                             <strong>Data</strong>
                         </div>
                         <div class="bar-row">
                             <span>V.I.P</span>
-                            <div class="bar-track"><div class="bar-fill" style="--value:88%"></div></div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="--value:88%"></div>
+                            </div>
                             <strong>Expert</strong>
                         </div>
                         <div class="bar-row">
                             <span>DIAMOND</span>
-                            <div class="bar-track"><div class="bar-fill" style="--value:100%"></div></div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="--value:100%"></div>
+                            </div>
                             <strong>1-1</strong>
                         </div>
                     </div>
@@ -238,21 +266,24 @@
                             <span class="timeline-index">1</span>
                             <div>
                                 <strong>Chọn gói</strong>
-                                <p>STANDARD đăng ký miễn phí; PRO chọn chu kỳ; V.I.P liên kết tài khoản; DIAMOND liên hệ cố vấn.</p>
+                                <p>STANDARD đăng ký miễn phí; PRO chọn chu kỳ; V.I.P liên kết tài khoản; DIAMOND liên hệ
+                                    cố vấn.</p>
                             </div>
                         </div>
                         <div class="timeline-step">
                             <span class="timeline-index">2</span>
                             <div>
                                 <strong>Xác minh</strong>
-                                <p>Hệ thống demo ghi nhận yêu cầu phê duyệt, thông tin thanh toán hoặc thông tin liên kết.</p>
+                                <p>Hệ thống demo ghi nhận yêu cầu phê duyệt, thông tin thanh toán hoặc thông tin liên
+                                    kết.</p>
                             </div>
                         </div>
                         <div class="timeline-step">
                             <span class="timeline-index">3</span>
                             <div>
                                 <strong>Mở khóa</strong>
-                                <p>Người dùng được cấp quyền vào Tra cứu, Bộ lọc, PRO Data, chuyên gia hoặc cố vấn 1-1.</p>
+                                <p>Người dùng được cấp quyền vào Tra cứu, Bộ lọc, PRO Data, chuyên gia hoặc cố vấn 1-1.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -291,13 +322,16 @@
                 <div class="modal-steps-container">
                     <div class="modal-step-box">
                         <div class="step-label">Bước 1</div>
-                        <div class="step-desc">Tạo tài khoản demo để mở Tra cứu cổ phiếu, dữ liệu cơ bản và FinTop AI.</div>
-                        <button class="btn-modal-action primary" type="button" onclick="submitStandard()">Đăng ký</button>
+                        <div class="step-desc">Tạo tài khoản demo để mở Tra cứu cổ phiếu, dữ liệu cơ bản và FinTop AI.
+                        </div>
+                        <button class="btn-modal-action primary" type="button" onclick="submitStandard('register')">Đăng
+                            ký</button>
                     </div>
                     <div class="modal-step-box">
                         <div class="step-label">Bước 2</div>
                         <div class="step-desc">Đăng nhập và bắt đầu dùng các công cụ miễn phí trong hệ sinh thái.</div>
-                        <button class="btn-modal-action" type="button" onclick="submitStandard()">Đăng nhập</button>
+                        <button class="btn-modal-action" type="button" onclick="submitStandard('login')">Đăng
+                            nhập</button>
                     </div>
                 </div>
             </div>
@@ -323,11 +357,11 @@
                 </div>
             </div>
             <div class="modal-body">
-                <h4 class="text-center mb-2" style="color:#c4b5fd;">Đăng ký Hội viên PRO FinTop DATA</h4>
-                <div class="modal-steps-container mt-4" style="grid-template-columns: 1fr;">
+                <h4 class="text-center mb-2" style="color:#c4b5fd; font-size: 1.1rem;">Đăng ký Hội viên PRO FinTop DATA</h4>
+                <div class="modal-steps-container mt-4 pro-steps-2col">
                     <div class="modal-step-box" style="text-align: left;">
                         <div class="step-label" style="text-align: center;">Bước 1: Chọn gói Hội viên và thanh toán</div>
-                        <div class="text-muted-sm text-center mb-3">Hội viên chọn PRO1, PRO2 hoặc PRO3. Giá đã bao gồm VAT 10%.</div>
+                        <div class="text-muted-sm text-center mb-3">Hội viên chọn 1 trong các gói PRO1, PRO2, PRO3 đăng ký tương ứng. Giá đã bao gồm VAT 10%.</div>
 
                         <div class="pro-packages-grid">
                             <div class="pro-package-card active" data-package="PRO1" data-months="3">
@@ -368,9 +402,40 @@
                     </div>
 
                     <div class="modal-step-box" style="text-align: left;">
-                        <div class="step-label" style="text-align: center;">Bước 2: Yêu cầu phê duyệt</div>
-                        <div class="text-muted-sm text-center mb-4">Sau khi thanh toán thành công, gửi yêu cầu để kích hoạt PRO Data và PRO Analysis.</div>
-                        <button class="btn-modal-action primary" type="button" onclick="submitProApproval()">Yêu cầu phê duyệt</button>
+                        <div class="step-label" style="text-align: center;">Bước 2: Xác nhận thanh toán & Yêu cầu phê duyệt</div>
+                        <div class="text-muted-sm text-center mb-3">Sau khi chuyển khoản, điền thông tin bên dưới để FinTop xác nhận và kích hoạt tài khoản PRO.</div>
+
+                        <div class="pro-payment-form">
+                            <div class="payment-form-group">
+                                <label class="payment-form-label" for="proFullName">Họ và tên <span style="color:#f87171;">*</span></label>
+                                <input class="payment-form-input" id="proFullName" type="text" placeholder="Nhập họ tên đầy đủ (giống tên chuyển khoản)" required>
+                            </div>
+                            <div class="payment-form-group">
+                                <label class="payment-form-label" for="proPhone">Số điện thoại <span style="color:#f87171;">*</span></label>
+                                <input class="payment-form-input" id="proPhone" type="tel" placeholder="Ví dụ: 0862348886" required>
+                            </div>
+                            <div class="payment-form-group">
+                                <label class="payment-form-label" for="proTransferNote">Nội dung chuyển khoản</label>
+                                <input class="payment-form-input" id="proTransferNote" type="text" placeholder="Ví dụ: NGUYEN VAN A 0862348886 PRO1 3 THANG" readonly style="color:#94a3b8; cursor:not-allowed;">
+                            </div>
+                            <div class="payment-form-group">
+                                <label class="payment-form-label" for="proReceiptUpload">Ảnh xác nhận chuyển khoản</label>
+                                <div class="upload-area" id="proUploadArea">
+                                    <input type="file" id="proReceiptUpload" accept="image/*" style="display:none;" onchange="handleReceiptPreview(this)">
+                                    <div class="upload-placeholder" id="proUploadPlaceholder" onclick="document.getElementById('proReceiptUpload').click()">
+                                        <span class="upload-icon">📎</span>
+                                        <span class="upload-text">Nhấn để tải ảnh chuyển khoản lên</span>
+                                        <span class="upload-hint">(PNG, JPG — tối đa 5MB)</span>
+                                    </div>
+                                    <div class="upload-preview" id="proUploadPreview" style="display:none;">
+                                        <img id="proReceiptImg" src="" alt="Receipt preview">
+                                        <button type="button" class="upload-remove-btn" onclick="removeReceiptPreview()">✕ Xóa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-modal-action primary" type="button" id="btnProSubmit" onclick="submitProApproval()">Gửi yêu cầu phê duyệt</button>
                     </div>
                 </div>
             </div>
@@ -405,17 +470,21 @@
                             TCBS nhập FinTop ID: <strong style="color:#6ee7b7;">105CN48886</strong><br>
                             Hoặc mở tài khoản theo ID Chuyên gia FinTop Team.
                         </div>
-                        <button class="btn-modal-action primary mb-2" type="button" onclick="submitVIP('open')">Mở TK VPS</button>
+                        <button class="btn-modal-action primary mb-2" type="button" onclick="submitVIP('open')">Mở TK
+                            VPS</button>
                         <button class="btn-modal-action" type="button" onclick="submitVIP('open')">Mở TK TCBS</button>
                     </div>
                     <div class="modal-step-box">
                         <div class="step-label">Bước 2: Liên kết tài khoản</div>
                         <div class="step-desc" style="text-align: left;">
-                            <input class="demo-input" type="text" placeholder="Số TK chứng khoán..." style="width:100%; margin-bottom: 10px;">
-                            <input class="demo-input" type="text" placeholder="Công ty chứng khoán..." style="width:100%; margin-bottom: 10px;">
+                            <input class="demo-input" id="vipStockAccount" type="text"
+                                placeholder="Số TK chứng khoán..." style="width:100%; margin-bottom: 10px;">
+                            <input class="demo-input" id="vipStockCompany" type="text"
+                                placeholder="Công ty chứng khoán..." style="width:100%; margin-bottom: 10px;">
                             <span class="text-muted-sm">Sau khi kiểm tra, hệ thống demo sẽ mở quyền V.I.P.</span>
                         </div>
-                        <button class="btn-modal-action primary" type="button" onclick="submitVIP('link')">Yêu cầu liên kết</button>
+                        <button class="btn-modal-action primary" type="button" onclick="submitVIP('link')">Yêu cầu liên
+                            kết</button>
                     </div>
                 </div>
             </div>
@@ -443,17 +512,235 @@
             <div class="modal-body">
                 <div class="payment-info-box" style="text-align: center; border-color: rgba(252, 211, 77, 0.3);">
                     <p style="color:#fff; line-height:1.7; margin-bottom:20px;">
-                        Gói hỗ trợ VIP PRO đặc biệt dành cho khách hàng đối tác FinTop. Hội viên Kim Cương với NAV đầu tư
-                        từ 1 tỷ VND sẽ có cố vấn chiến lược 1-1, tư vấn danh mục cổ phiếu, nắm bắt cơ hội đầu tư và quản trị rủi ro.
+                        Gói hỗ trợ VIP PRO đặc biệt dành cho khách hàng đối tác FinTop. Hội viên Kim Cương với NAV đầu
+                        tư
+                        từ 1 tỷ VND sẽ có cố vấn chiến lược 1-1, tư vấn danh mục cổ phiếu, nắm bắt cơ hội đầu tư và quản
+                        trị rủi ro.
                     </p>
-                    <button class="btn-modal-action primary" type="button" onclick="alert('Đang chuyển hướng tới kênh Hỗ trợ/Liên hệ FinTop...')">Liên hệ ngay</button>
+                    <button class="btn-modal-action primary" type="button"
+                        onclick="alert('Đang chuyển hướng tới kênh Hỗ trợ/Liên hệ FinTop...')">Liên hệ ngay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ (SPLIT SCREEN)   -->
+    <!-- ============================================ -->
+    <div class="auth-modal-overlay" id="authModalOverlay">
+        <div class="auth-modal-container">
+            <button class="btn-close-auth" onclick="closeAuthModal()">✕</button>
+
+            <!-- Left Side (Hero Image) -->
+            <div class="auth-modal-left">
+                <img src="../assets/images/AI.jpg" alt="FinTop AI Background" class="auth-hero-bg">
+                <div class="auth-hero-content">
+                    <h2>Mở Khóa<br>Tiềm Năng Đầu Tư</h2>
+                </div>
+            </div>
+
+            <!-- Right Side (Forms) -->
+            <div class="auth-modal-right">
+                <div class="auth-logo-header">
+                    <span style="font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: 1px;">FinTop
+                        DATA</span>
+                </div>
+
+                <div class="auth-form-container">
+                    <div class="auth-forms-wrapper">
+
+                        <!-- FORM ĐĂNG NHẬP -->
+                        <form class="auth-form active" id="authFormLogin" data-auth-form="login"
+                            onsubmit="submitAuth(event, 'login')">
+                            <h3 class="auth-title">Đăng nhập</h3>
+
+                            <div class="auth-input-group">
+                                <label class="auth-label">Email hoặc Tên đăng nhập</label>
+                                <input type="text" class="auth-input" id="loginEmail" data-auth-email="login"
+                                    placeholder="Nhập email của bạn" required disabled>
+                            </div>
+
+                            <div class="auth-input-group">
+                                <label class="auth-label">Mật khẩu</label>
+                                <input type="password" class="auth-input" id="loginPassword" data-auth-password="login"
+                                    placeholder="Nhập mật khẩu" required disabled>
+                                <button type="button" class="password-toggle" data-target="loginPassword"
+                                    disabled>👁️</button>
+                            </div>
+
+                            <div class="auth-options">
+                                <label class="auth-checkbox-label">
+                                    <input type="checkbox" checked disabled> Ghi nhớ đăng nhập
+                                </label>
+                                <a href="javascript:void(0)" class="auth-link"
+                                    onclick="submitAuth(event, 'forgot')">Quên mật khẩu?</a>
+                            </div>
+
+                            <button type="submit" class="auth-btn-submit" data-auth-submit="login" disabled>Đăng
+                                nhập</button>
+
+                            <div class="auth-footer">
+                                Chưa có tài khoản? <a href="javascript:void(0)" class="auth-link"
+                                    onclick="switchAuthView('register')">Đăng ký ngay</a>
+                            </div>
+                        </form>
+
+                        <!-- FORM ĐĂNG KÝ -->
+                        <form class="auth-form" id="authFormRegister" data-auth-form="register"
+                            onsubmit="submitAuth(event, 'register')">
+                            <h3 class="auth-title">Tạo tài khoản mới</h3>
+
+                            <div class="auth-input-group">
+                                <label class="auth-label">Họ và tên</label>
+                                <input type="text" class="auth-input" id="registerFullName" data-auth-name="register"
+                                    placeholder="Nhập họ và tên" required disabled>
+                            </div>
+
+                            <div class="auth-input-group">
+                                <label class="auth-label">Email</label>
+                                <input type="email" class="auth-input" id="registerEmail" data-auth-email="register"
+                                    placeholder="Nhập email của bạn" required disabled>
+                            </div>
+
+                            <div class="auth-input-group">
+                                <label class="auth-label">Mật khẩu</label>
+                                <input type="password" class="auth-input" id="registerPassword"
+                                    data-auth-password="register" placeholder="Tạo mật khẩu" required disabled>
+                                <button type="button" class="password-toggle" data-target="registerPassword"
+                                    disabled>👁️</button>
+                            </div>
+
+                            <button type="submit" class="auth-btn-submit" data-auth-submit="register" disabled>Đăng
+                                ký</button>
+
+                            <div class="auth-footer">
+                                Đã có tài khoản? <a href="javascript:void(0)" class="auth-link"
+                                    onclick="switchAuthView('login')">Đăng nhập</a>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="../assets/js/demo-pages.js"></script>
-    <script src="../assets/js/modals.js"></script>
+    <script src="../assets/js/modals.js" defer></script>
+    <script src="../assets/js/auth.js" defer></script>
+    <script type="module" src="../assets/js/core/index.js"></script>
+    <script>
+        // Dynamic Membership Hydration for Membership page
+        (async function() {
+            let attempts = 0;
+            while (!window.FintopInfra && attempts < 50) {
+                await new Promise(r => setTimeout(r, 100));
+                attempts++;
+            }
+            const Infra = window.FintopInfra;
+            if (!Infra) return;
+
+            let MEMBERSHIP_DATA = [];
+            const formatPrice = (val) => {
+                if (!val || Number(val) === 0) return 'Miễn phí';
+                return Number(val).toLocaleString('vi-VN');
+            };
+
+            async function hydrateMemberships() {
+                const API = () => Infra.ApiClient;
+                const EP = () => Infra.FintopEnv.API_ENDPOINTS;
+                try {
+                    const planRes = await API().get(EP().SUBSCRIPTION_PLANS);
+                    const list = planRes.data || planRes || [];
+                    if (Array.isArray(list) && list.length > 0) {
+                        MEMBERSHIP_DATA = list.map(p => {
+                            let subtitle = p.description || 'Gói hội viên đầu tư';
+                            let priceText = formatPrice(p.price);
+                            if (p.tierLevel === 'SILVER') {
+                                subtitle = 'Chuyên nghiệp';
+                                priceText = `Từ ${formatPrice(p.price)} VND`;
+                            } else if (p.tierLevel === 'GOLD') {
+                                subtitle = 'Cao cấp';
+                                priceText = 'Theo điều kiện liên kết';
+                            } else if (p.tierLevel === 'DIAMOND') {
+                                subtitle = 'Kim cương';
+                                priceText = 'NAV từ 1 tỷ VND';
+                            } else if (p.tierLevel === 'STANDARD') {
+                                subtitle = 'Tiêu chuẩn';
+                                priceText = 'Miễn phí';
+                            }
+                            return {
+                                id: p.id,
+                                name: p.name,
+                                subtitle: subtitle,
+                                price: priceText,
+                                cta: 'Đăng ký',
+                                status: p.status === 'ACTIVE' ? 'Đang mở' : 'Tạm ngưng',
+                                features: p.tierLevel === 'GOLD' ? 'Full đặc quyền PRO; Kết nối chuyên gia; Phân tích chuyên gia; Liên kết tài khoản chứng khoán' : 
+                                         (p.tierLevel === 'DIAMOND' ? 'Full đặc quyền PRO; Full đặc quyền V.I.P; Cố vấn 1-1 chuyên gia; Hỗ trợ chiến lược danh mục' : 
+                                         (p.tierLevel === 'SILVER' ? 'Bộ lọc cổ phiếu chuyên nghiệp; Nghiên cứu & phân tích chuyên sâu; Tool & dữ liệu nâng cao; PRO Data và PRO Analysis' : 
+                                          'Tra cứu cổ phiếu; Phân tích cơ bản; FinTop AI phân tích; Tool & dữ liệu cơ bản')),
+                                popupTitle: p.name,
+                                popupContent: p.description || '',
+                                tierLevel: p.tierLevel
+                            };
+                        });
+                        window.MEMBERSHIP_DATA = MEMBERSHIP_DATA;
+                        renderMemberships();
+                    }
+                } catch (err) {
+                    console.warn('[Membership Hydrate] Failed to load plans from backend:', err.message);
+                }
+            }
+
+            function escapeHtml(str) {
+                if (!str) return '';
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
+            function renderMemberships() {
+                if (MEMBERSHIP_DATA.length === 0) return;
+                const tierGrid = document.querySelector('.tier-grid');
+                if (tierGrid) {
+                    tierGrid.innerHTML = MEMBERSHIP_DATA.map((plan) => {
+                        const tierClass = String(plan.tierLevel || '').toLowerCase() === 'silver' ? 'pro' : 
+                                          (String(plan.tierLevel || '').toLowerCase() === 'gold' ? 'vip' : 
+                                           String(plan.tierLevel || '').toLowerCase());
+                        const features = String(plan.features || '').split(';');
+                        const isGhost = plan.tierLevel === 'STANDARD' || plan.tierLevel === 'GOLD';
+                        const btnClass = isGhost ? 'btn-demo-ghost' : 'btn-demo';
+                        const displayName = plan.tierLevel === 'SILVER' ? `${plan.name} ⭐` : 
+                                          (plan.tierLevel === 'DIAMOND' ? `${plan.name} 💎` : plan.name);
+                        
+                        return `
+                            <article class="tier-card ${escapeHtml(tierClass)}">
+                                <h3>${escapeHtml(displayName)}</h3>
+                                <div class="tier-subtitle">(${escapeHtml(plan.subtitle || '')})</div>
+                                <ul class="tier-list">
+                                    ${features.map((feature) => `<li><span>✦</span> ${escapeHtml(feature.trim())}</li>`).join('')}
+                                </ul>
+                                <div class="tier-price">${escapeHtml(plan.price)}</div>
+                                <button class="${escapeHtml(btnClass)}" type="button" onclick="openPricingModal('${escapeHtml(plan.id)}')">Đăng ký</button>
+                            </article>
+                        `;
+                    }).join('');
+                }
+            }
+
+            // Load on init
+            await hydrateMemberships();
+
+            // Re-hydrate on auth change
+            Infra.AppState.on('auth:changed', async () => {
+                await hydrateMemberships();
+            });
+        })();
+    </script>
 </body>
 
 </html>

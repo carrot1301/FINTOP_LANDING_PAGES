@@ -374,12 +374,24 @@ export class AdminService {
   // CMS — Blogs (Admin — all statuses)
   // ─────────────────────────────────────────────────────
 
-  async getBlogs(page = 1, limit = 20, status?: string) {
+  async getBlogs(page = 1, limit = 20, status?: string, search?: string, categoryId?: number) {
     const skip = (page - 1) * limit;
     const where: Prisma.BlogWhereInput = { deletedAt: null };
 
     if (status && Object.values(BLOG_STATUS).includes(status as BLOG_STATUS)) {
       where.status = status as BLOG_STATUS;
+    }
+
+    if (categoryId) {
+      where.categoryId = categoryId;
+    }
+
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: 'insensitive' } },
+        { slug: { contains: search, mode: 'insensitive' } },
+        { content: { contains: search, mode: 'insensitive' } },
+      ];
     }
 
     const [total, blogs] = await Promise.all([
@@ -400,6 +412,8 @@ export class AdminService {
       id: b.id,
       title: b.title,
       slug: b.slug,
+      content: b.content,
+      excerpt: b.excerpt,
       status: b.status,
       visibility: b.visibility,
       minTierAccess: b.minTierAccess,
@@ -665,7 +679,7 @@ export class AdminService {
           exchange: { select: { code: true, name: true } },
           industry: { select: { name: true, code: true } },
         },
-        orderBy: { symbol: 'asc' },
+        orderBy: { order: 'asc' },
         skip,
         take: limit,
       }),

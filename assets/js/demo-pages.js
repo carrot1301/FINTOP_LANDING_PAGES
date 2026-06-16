@@ -69,6 +69,23 @@ const guideTopics = {
     }
 };
 
+// Initialize handbook topics in localStorage if not present
+if (!localStorage.getItem('fintop_handbook_topics')) {
+    localStorage.setItem('fintop_handbook_topics', JSON.stringify(guideTopics));
+} else {
+    try {
+        const dynamicGuideTopics = JSON.parse(localStorage.getItem('fintop_handbook_topics'));
+        // Clean existing keys and apply dynamic keys
+        Object.keys(guideTopics).forEach(k => delete guideTopics[k]);
+        Object.keys(dynamicGuideTopics).forEach(k => {
+            guideTopics[k] = dynamicGuideTopics[k];
+        });
+    } catch (e) {
+        console.error('Failed to load dynamic guide topics, using default', e);
+    }
+}
+
+
 // Dynamic styling for flashes and stale indications
 (function injectLiveStyles() {
     const style = document.createElement('style');

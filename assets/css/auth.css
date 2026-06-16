@@ -70,17 +70,15 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 9999;
-    display: flex;
+    display: none; /* Changed from display: flex to display: none */
     align-items: center;
     justify-content: center;
     opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .auth-modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
+    display: flex;
+    animation: fadeInOverlay 0.25s ease-out forwards;
 }
 
 /* === AUTH MODAL CONTAINER === */
@@ -95,13 +93,31 @@
     overflow: hidden;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     transform: scale(0.95);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .auth-modal-overlay.active .auth-modal-container {
-    transform: scale(1);
+    animation: scaleInContainer 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Keyframes to handle display: none to flex transitions smoothly */
+@keyframes fadeInOverlay {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleInContainer {
+    from {
+        transform: scale(0.95);
+    }
+    to {
+        transform: scale(1);
+    }
 }
 
 .btn-close-auth {

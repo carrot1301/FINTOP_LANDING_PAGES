@@ -333,6 +333,69 @@ test.describe('H. Hoi-vien (Membership) Page', () => {
     const content = await page.textContent('body');
     expect(content!.length).toBeGreaterThan(200);
   });
+
+  test('Clicking PRO request opens login modal when guest', async ({ page }) => {
+    await page.goto(`${BASE}/hoi-vien/index.html`, { waitUntil: 'domcontentloaded' });
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+    });
+    await page.goto(`${BASE}/hoi-vien/index.html`, { waitUntil: 'domcontentloaded' });
+    await page.waitForTimeout(1000);
+
+    // Click registration button for PRO
+    const proBtn = page.locator('#membership-plans .tier-card.pro button').first();
+    await proBtn.click();
+    await page.waitForTimeout(500);
+
+    // Click submit pro approval
+    const approveBtn = page.locator('#modal-pro .btn-modal-action.primary').first();
+    await approveBtn.click();
+    await page.waitForTimeout(1000);
+
+    // Verify auth modal opens
+    const authOverlay = page.locator('#authModalOverlay');
+    const hasActive = await authOverlay.evaluate(el => el.classList.contains('active'));
+    expect(hasActive).toBe(true);
+  });
+
+  test('Submitting PRO approval creates invoice when authenticated', async ({ page }) => {
+    await page.goto(`${BASE}/hoi-vien/index.html`, { waitUntil: 'domcontentloaded' });
+    
+    // Login first
+    const userIcon = page.locator('#userDropdownContainer .icon-link').first();
+    await userIcon.click();
+    await page.waitForTimeout(300);
+    const loginLink = page.locator('#userDropdownContainer .login-btn').first();
+    await loginLink.click();
+    await page.waitForTimeout(800);
+
+    await page.fill('#loginEmail', 'testuser@fintop.vn');
+    await page.fill('#loginPassword', 'TestUser@2026');
+    await page.click('#authFormLogin .auth-btn-submit');
+    await page.waitForTimeout(1500);
+
+    // Trigger alert mock to check details
+    let alertMsg = '';
+    page.on('dialog', async dialog => {
+      alertMsg = dialog.message();
+      await dialog.accept();
+    });
+
+    // Click registration for PRO
+    const proBtn = page.locator('#membership-plans .tier-card.pro button').first();
+    await proBtn.click();
+    await page.waitForTimeout(500);
+
+    // Click submit pro approval
+    const approveBtn = page.locator('#modal-pro .btn-modal-action.primary').first();
+    await approveBtn.click();
+    await page.waitForTimeout(2000);
+
+    // Verify alert message contains invoice ID indication
+    expect(alertMsg).toContain('thành công');
+    expect(alertMsg).toContain('Hóa đơn');
+  });
 });
 
 test.describe('I. Memory / Listener Stability', () => {

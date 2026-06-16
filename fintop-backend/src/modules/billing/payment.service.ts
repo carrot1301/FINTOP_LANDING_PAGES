@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { BILLING_PROVIDER, INVOICE_STATUS, PAYMENT_STATUS, AUDIT_SOURCE } from '@prisma/client';
 import { createHmac } from 'crypto';
 import { Prisma } from '@prisma/client';
+import { ModuleRef } from '@nestjs/core';
 
 @Injectable()
 export class PaymentService {
@@ -16,6 +17,7 @@ export class PaymentService {
     private readonly subscriptionService: SubscriptionService,
     private readonly redisService: RedisService,
     private readonly configService: ConfigService,
+    private readonly moduleRef: ModuleRef,
   ) {}
 
   verifyWebhookSignature(payload: any, signature: string) {
@@ -126,6 +128,32 @@ export class PaymentService {
           }
         });
       });
+
+      // 4. Create real-time notification for the upgraded user
+      try {
+        const invoice = await this.prisma.invoice.findUnique({
+          where: { id: invoiceId },
+          include: { user: true },
+        });
+        if (invoice && invoice.userId) {
+          const plan = await this.prisma.subscriptionPlan.findUnique({
+            where: { id: planId },
+          });
+          const tierName = plan ? plan.tierLevel : 'VIP';
+          
+          // Dynamically import NotificationService to break compile-time dependency cycles
+          const { NotificationService } = await import('../notification/notification.service.js');
+          const notificationService = this.moduleRef.get(NotificationService, { strict: false });
+          
+          await notificationService.createNotification(
+            invoice.userId,
+            'Nâng cấp tài khoản',
+            `Chúc mừng! Tài khoản của bạn đã được nâng cấp lên gói ${tierName} thành công.`
+          );
+        }
+      } catch (notifErr) {
+        this.logger.warn(`Failed to create upgrade notification for invoice ${invoiceId}: ${notifErr.message}`);
+      }
 
       return { success: true };
     } finally {

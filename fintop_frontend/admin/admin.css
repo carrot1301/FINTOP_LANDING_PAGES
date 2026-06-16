@@ -42,18 +42,24 @@
   gap: 0.75rem;
 }
 
-.admin-sidebar-logo {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, var(--purple-core), var(--gold-primary));
-  border-radius: 10px;
+.admin-logo-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: #fff;
   flex-shrink: 0;
+  text-decoration: none;
+}
+
+.neon-logo {
+  height: 38px;
+  width: auto;
+  filter: drop-shadow(0 0 8px var(--purple-core)) drop-shadow(0 0 15px rgba(124, 58, 237, 0.4));
+  transition: all 0.3s ease;
+}
+
+.neon-logo:hover {
+  filter: drop-shadow(0 0 12px var(--purple-glow)) drop-shadow(0 0 25px rgba(139, 92, 246, 0.8));
+  transform: scale(1.05);
 }
 
 .admin-sidebar-title {
@@ -826,3 +832,304 @@ table.admin-table tbody tr:last-child td {
 .admin-shell ::-webkit-scrollbar-thumb:hover {
   background: rgba(124, 58, 237, 0.35);
 }
+
+/* ─── TOGGLE SWITCH (Quản trị khách hàng) ─────────────── */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(248, 113, 113, 0.4);
+  border-radius: 24px;
+  transition: 0.3s;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: rgba(16, 185, 129, 0.6);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(20px);
+}
+
+/* ─── MODAL OVERLAY ───────────────────────────────────── */
+.admin-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: modal-fade-in 0.2s ease;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.admin-modal {
+  background: var(--bg-card);
+  border: 1px solid var(--purple-border);
+  border-radius: 14px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  animation: modal-scale-in 0.25s ease;
+}
+
+@keyframes modal-scale-in {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.admin-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--purple-border);
+}
+
+.admin-modal-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.admin-modal-body {
+  padding: 1.5rem;
+}
+
+.admin-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--purple-border);
+}
+
+/* ─── FORM GRID (inside modals) ───────────────────────── */
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+.admin-form-group label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* ─── WARNING BUTTON ──────────────────────────────────── */
+.admin-btn-warning {
+  background: rgba(245, 158, 11, 0.2);
+  color: #F59E0B;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.admin-btn-warning:hover {
+  background: rgba(245, 158, 11, 0.35);
+}
+
+/* ─── USER INFO CARD (Quản trị khách hàng) ────────────── */
+.user-info-card {
+  font-size: 0.82rem;
+  line-height: 1.75;
+  color: var(--text-primary);
+}
+
+.user-info-card div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.upgrade-btn:hover span {
+  filter: brightness(1.3);
+}
+
+/* ─── DATA FINANCIAL TABLE ────────────────────────────── */
+.df-table {
+  border-collapse: collapse;
+}
+
+.df-table thead th {
+  background: rgba(21, 31, 56, 0.85);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 0.55rem 0.4rem;
+  font-size: 0.72rem;
+  white-space: inherit;
+  text-align: center;
+  border-bottom: 2px solid var(--purple-border);
+}
+
+.df-table tbody td {
+  padding: 0.45rem 0.4rem;
+  font-size: 0.8rem;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.08);
+}
+
+.df-editable {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.df-editable:hover {
+  background: rgba(94, 114, 228, 0.12);
+  outline: 1px dashed rgba(94, 114, 228, 0.4);
+}
+
+.df-table-scroll {
+  border: 1px solid var(--purple-border);
+  border-radius: 8px;
+  background: var(--bg-card);
+}
+
+.df-inline-input {
+  width: 100%;
+  padding: 2px 4px;
+  font-size: 0.8rem;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid #5e72e4;
+  border-radius: 3px;
+  outline: none;
+}
+
+.df-filter-dropdown {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.df-filter-label {
+  transition: background 0.15s;
+}
+
+.df-filter-label:hover {
+  background: rgba(94, 114, 228, 0.2);
+}
+
+.df-toolbar .admin-select,
+.df-toolbar .admin-search {
+  height: 32px;
+  font-size: 0.8rem;
+}
+
+/* ─── PREMIUM DIRECT TABLE EDIT ────────────────────────── */
+.df-premium-input {
+  width: 100%;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 0.75rem;
+  box-sizing: border-box;
+  outline: none;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.df-premium-input:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.df-premium-input:focus {
+  background: rgba(15, 23, 42, 0.7);
+  border-color: var(--purple-core);
+  box-shadow: 0 0 8px rgba(124, 58, 237, 0.35);
+}
+
+.df-premium-select {
+  width: 100%;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 2px;
+  font-size: 0.75rem;
+  height: 26px;
+  box-sizing: border-box;
+  outline: none;
+  text-align: center;
+  text-align-last: center;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: all 0.2s ease;
+}
+
+.df-premium-select:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.df-premium-select:focus {
+  background: rgba(15, 23, 42, 0.7);
+  border-color: var(--purple-core);
+}
+
+.df-premium-select option {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.df-premium-select-badge {
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  text-align: center;
+  text-align-last: center;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  width: 115px;
+  height: 28px;
+}
+
+.df-premium-select-badge option {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-weight: normal;
+}
+

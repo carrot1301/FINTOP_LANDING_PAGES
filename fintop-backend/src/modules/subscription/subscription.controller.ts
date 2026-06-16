@@ -6,12 +6,12 @@ import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('User Subscription')
 @Controller('users/subscription')
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
 export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
 
   @Get()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get current subscription details for user' })
   async getSubscription(@CurrentUser() user: any) {
     // Fetches the active subscription from DB
@@ -21,5 +21,11 @@ export class SubscriptionController {
       status: 'ACTIVE',
       // In reality, this calls subscriptionService.getActiveSubscription(user.id)
     };
+  }
+
+  @Get('plans')
+  @ApiOperation({ summary: 'Get all active subscription plans' })
+  async getPlans() {
+    return this.subscriptionService.getPlans();
   }
 }

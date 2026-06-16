@@ -35,12 +35,18 @@ async function runBillingValidation() {
     const testUser = await prisma.user.findUnique({ where: { email: testEmail } });
     if (testUser) {
       await prisma.auditLog.deleteMany({ where: { userId: testUser.id } });
+      await prisma.transaction.deleteMany({
+        where: {
+          invoice: {
+            userId: testUser.id
+          }
+        }
+      });
+      await prisma.invoice.deleteMany({ where: { userId: testUser.id } });
+      await prisma.userSubscription.deleteMany({ where: { userId: testUser.id } });
     }
     
-    await prisma.transaction.deleteMany({});
-    await prisma.invoice.deleteMany({});
-    await prisma.userSubscription.deleteMany({});
-    await prisma.subscriptionPlan.deleteMany({});
+    await prisma.subscriptionPlan.deleteMany({ where: { name: 'Gold Monthly' } });
     await prisma.paymentWebhookLog.deleteMany({});
     await prisma.outboxEvent.deleteMany({});
     await prisma.user.deleteMany({ where: { email: testEmail } });

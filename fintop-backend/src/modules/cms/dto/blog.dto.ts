@@ -41,3 +41,42 @@ export class UpdateBlogStatusDto {
   @IsEnum(BLOG_STATUS)
   status: BLOG_STATUS;
 }
+
+export class UpdateBlogDto {
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsInt()
+  @IsPositive()
+  categoryId?: number;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  slug?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  title?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  excerpt?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  content?: string;
+
+  @ApiProperty({ enum: CONTENT_VISIBILITY, required: false })
+  @IsOptional()
+  @IsEnum(CONTENT_VISIBILITY)
+  visibility?: CONTENT_VISIBILITY;
+
+  @ApiProperty({ enum: SUBSCRIPTION_TIER, required: false })
+  @IsOptional()
+  @IsEnum(SUBSCRIPTION_TIER)
+  minTierAccess?: SUBSCRIPTION_TIER;
+}
+

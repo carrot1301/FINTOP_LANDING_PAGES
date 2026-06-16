@@ -633,6 +633,17 @@ model Stock {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
+  // Analysis / Tech Fields
+  order               Int      @default(0)
+  analyst             String?  @db.VarChar(100)
+  identify_trend      String?  @db.Text
+  act                 String?  @db.VarChar(50)
+  rsi_mfi             String?  @db.VarChar(50)
+  trading_price_range String?  @db.VarChar(100)
+  resistance_range    String?  @db.VarChar(100)
+  support_range       String?  @db.VarChar(100)
+  top_status          Int      @default(0)
+
   exchange StockExchange @relation(fields: [exchangeId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   industry Industry?     @relation(fields: [industryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
@@ -1043,3 +1054,187 @@ model FeaturedContent {
   @@index([position])
   @@map("featured_contents")
 }
+
+// -----------------------------------------------------------------------------
+// COPY TRADE DOMAIN
+// -----------------------------------------------------------------------------
+
+model CopyTradeMaster {
+  id        Int           @id @default(autoincrement())
+  name      String        @db.VarChar(255)
+  strategy  String        @db.VarChar(255)
+  aum       Decimal       @db.Decimal(19, 4)
+  followers Int           @default(0)
+  profit    Decimal       @db.Decimal(9, 2)
+  winRate   Decimal       @db.Decimal(5, 2)
+  status    RECORD_STATUS @default(ACTIVE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  copiers   CopyTradeCopier[]
+  orders    CopyTradeOrder[]
+
+  @@map("copy_trade_masters")
+}
+
+model CopyTradeCopier {
+  id         Int           @id @default(autoincrement())
+  name       String        @db.VarChar(255)
+  masterId   Int
+  capital    Decimal       @db.Decimal(19, 4)
+  multiplier Decimal       @db.Decimal(5, 2)
+  profit     Decimal       @db.Decimal(19, 4)
+  status     RECORD_STATUS @default(ACTIVE)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  master     CopyTradeMaster @relation(fields: [masterId], references: [id], onDelete: Cascade)
+
+  @@map("copy_trade_copiers")
+}
+
+model CopyTradeOrder {
+  id          Int           @id @default(autoincrement())
+  time        DateTime      @default(now())
+  masterId    Int
+  symbol      String        @db.VarChar(10)
+  action      String        @db.VarChar(10)
+  price       Decimal       @db.Decimal(19, 4)
+  quantity    BigInt
+  accounts    Int
+  status      String        @default("SUCCESS") @db.VarChar(20)
+  successRate Decimal       @db.Decimal(5, 2) @default(100.00)
+  createdAt   DateTime      @default(now())
+
+  master      CopyTradeMaster @relation(fields: [masterId], references: [id], onDelete: Cascade)
+
+  @@map("copy_trade_orders")
+}
+
+// -----------------------------------------------------------------------------
+// MARKET INTELLIGENCE DOMAIN
+// -----------------------------------------------------------------------------
+
+model SectorRotationHistory {
+  id               Int      @id @default(autoincrement())
+  tradeDate        DateTime @map("trade_date") @db.Date
+  sectorCode       String   @map("sector_code") @db.VarChar(50)
+  sectorName       String   @map("sector_name") @db.VarChar(100)
+  return1d         Decimal? @map("return_1d") @db.Decimal(9, 4)
+  return1w         Decimal? @map("return_1w") @db.Decimal(9, 4)
+  return1m         Decimal? @map("return_1m") @db.Decimal(9, 4)
+  return3m         Decimal? @map("return_3m") @db.Decimal(9, 4)
+  return6m         Decimal? @map("return_6m") @db.Decimal(9, 4)
+  returnYtd        Decimal? @map("return_ytd") @db.Decimal(9, 4)
+  relativeStrength Decimal? @map("relative_strength") @db.Decimal(9, 4)
+  rank1m           Int?     @map("rank_1m")
+  rank3m           Int?     @map("rank_3m")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@unique([tradeDate, sectorCode])
+  @@index([tradeDate])
+  @@index([sectorCode])
+  @@map("sector_rotation_history")
+}
+
+model MoneyFlowHistory {
+  id             BigInt   @id @default(autoincrement())
+  tradeDate      DateTime @map("trade_date") @db.Date
+  ticker         String   @db.VarChar(10)
+  sectorCode     String?  @map("sector_code") @db.VarChar(50)
+  sectorName     String?  @map("sector_name") @db.VarChar(100)
+  marketCapGroup String?  @map("market_cap_group") @db.VarChar(20)
+  buyValue       Decimal? @map("buy_value") @db.Decimal(19, 4)
+  sellValue      Decimal? @map("sell_value") @db.Decimal(19, 4)
+  netValue       Decimal? @map("net_value") @db.Decimal(19, 4)
+  totalValue     Decimal? @map("total_value") @db.Decimal(19, 4)
+  netValueRatio  Decimal? @map("net_value_ratio") @db.Decimal(9, 4)
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@unique([tradeDate, ticker])
+  @@index([tradeDate])
+  @@index([ticker])
+  @@index([sectorCode])
+  @@map("money_flow_history")
+}
+
+model ForeignFlowHistory {
+  id                 BigInt   @id @default(autoincrement())
+  tradeDate          DateTime @map("trade_date") @db.Date
+  ticker             String   @db.VarChar(10)
+  sectorCode         String?  @map("sector_code") @db.VarChar(50)
+  sectorName         String?  @map("sector_name") @db.VarChar(100)
+  foreignBuyValue    Decimal? @map("foreign_buy_value") @db.Decimal(19, 4)
+  foreignSellValue   Decimal? @map("foreign_sell_value") @db.Decimal(19, 4)
+  foreignNetValue    Decimal? @map("foreign_net_value") @db.Decimal(19, 4)
+  foreignBuyVolume   BigInt?  @map("foreign_buy_volume")
+  foreignSellVolume  BigInt?  @map("foreign_sell_volume")
+  foreignNetVolume   BigInt?  @map("foreign_net_volume")
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  @@unique([tradeDate, ticker])
+  @@index([tradeDate])
+  @@index([ticker])
+  @@index([sectorCode])
+  @@map("foreign_flow_history")
+}
+
+model MarketBreadthHistory {
+  id                  Int      @id @default(autoincrement())
+  tradeDate           DateTime @map("trade_date") @db.Date
+  exchange            String   @db.VarChar(20) // HOSE, HNX, UPCOM, ALL
+  advancingCount      Int      @map("advancing_count")
+  decliningCount      Int      @map("declining_count")
+  unchangedCount      Int      @map("unchanged_count")
+  totalCount          Int      @map("total_count")
+  advanceDeclineRatio Decimal? @map("advance_decline_ratio") @db.Decimal(9, 4)
+  newHighCount        Int?     @map("new_high_count")
+  newLowCount         Int?     @map("new_low_count")
+  aboveMa20Count      Int?     @map("above_ma20_count")
+  aboveMa50Count      Int?     @map("above_ma50_count")
+  aboveMa200Count     Int?     @map("above_ma200_count")
+  createdAt           DateTime @default(now()) @map("created_at")
+
+  @@unique([tradeDate, exchange])
+  @@index([tradeDate])
+  @@index([exchange])
+  @@map("market_breadth_history")
+}
+
+model MarketRegimeHistory {
+  id          Int      @id @default(autoincrement())
+  tradeDate   DateTime @map("trade_date") @db.Date
+  indexCode   String   @map("index_code") @db.VarChar(20) // VNINDEX, VN30
+  close       Decimal  @db.Decimal(19, 4)
+  ema20       Decimal? @db.Decimal(19, 4)
+  ema50       Decimal? @db.Decimal(19, 4)
+  ema200      Decimal? @db.Decimal(19, 4)
+  atr         Decimal? @db.Decimal(19, 4)
+  adx         Decimal? @db.Decimal(19, 4)
+  regime      String   @db.VarChar(20) // Risk-On, Risk-Off, Neutral
+  riskScore   Int?     @map("risk_score")
+  explanation String?  @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@unique([tradeDate, indexCode])
+  @@index([tradeDate])
+  @@index([indexCode])
+  @@map("market_regime_history")
+}
+
+model ResearchReport {
+  id          Int      @id @default(autoincrement())
+  reportType  String   @map("report_type") @db.VarChar(50)
+  subject     String   @db.VarChar(100)
+  language    String   @db.VarChar(10)
+  format      String   @db.VarChar(20)
+  title       String   @db.VarChar(255)
+  content     String   @db.Text
+  generatedAt DateTime @default(now()) @map("generated_at")
+  metadata    Json?    @map("metadata_json")
+
+  @@index([reportType])
+  @@index([subject])
+  @@map("research_reports")
+}
+

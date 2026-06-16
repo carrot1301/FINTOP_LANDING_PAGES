@@ -194,4 +194,88 @@ export class BlogService {
     };
     return (tierHierarchy[userTier] || 0) >= (tierHierarchy[minTier || 'STANDARD'] || 0);
   }
+
+  async updateArticle(blogId: number, editorId: number, dto: any) {
+    return this.prisma.$transaction(async (tx) => {
+      const blog = await tx.blog.findUnique({ where: { id: blogId } });
+      if (!blog) throw new NotFoundException('Blog not found');
+
+      const updated = await tx.blog.update({
+        where: { id: blogId },
+        data: {
+          categoryId: dto.categoryId !== undefined ? dto.categoryId : undefined,
+          slug: dto.slug !== undefined ? dto.slug : undefined,
+          title: dto.title !== undefined ? dto.title : undefined,
+          excerpt: dto.excerpt !== undefined ? dto.excerpt : undefined,
+          content: dto.content !== undefined ? dto.content : undefined,
+          visibility: dto.visibility !== undefined ? dto.visibility : undefined,
+          minTierAccess: dto.minTierAccess !== undefined ? dto.minTierAccess : undefined,
+        }
+      });
+
+      await tx.contentRevision.create({
+        data: {
+          blogId,
+          editorId,
+          action: REVISION_ACTION.UPDATED,
+          snapshotData: { title: updated.title, excerpt: updated.excerpt, content: updated.content } as Prisma.JsonObject,
+          reason: 'Article Updated'
+        }
+      });
+
+      await this.auditService.log({
+        userId: editorId,
+        source: AUDIT_SOURCE.SYSTEM,
+        action: 'ARTICLE_UPDATED',
+        tableName: 'blogs',
+        recordId: blogId.toString(),
+      });
+
+      try {
+        await this.redisService.getClient().del('blogs:list');
+        await this.redisService.getClient().del(`blogs:detail:${blog.slug}`);
+        if (blog.slug !== updated.slug) {
+          await this.redisService.getClient().del(`blogs:detail:${updated.slug}`);
+        }
+      } catch (err) {
+        this.logger.warn(`Redis cache clearing failed: ${err.message}`);
+      }
+
+      return updated;
+    });
+  }
+
+  async deleteArticle(blogId: number, editorId: number) {
+    const blog = await this.prisma.blog.findUnique({ where: { id: blogId } });
+    if (!blog) throw new NotFoundException('Blog not found');
+
+    await this.prisma.blog.update({
+      where: { id: blogId },
+      data: { deletedAt: new Date() }
+    });
+
+    await this.auditService.log({
+      userId: editorId,
+      source: AUDIT_SOURCE.SYSTEM,
+      action: 'ARTICLE_DELETED',
+      tableName: 'blogs',
+      recordId: blogId.toString(),
+    });
+
+    try {
+      await this.redisService.getClient().del('blogs:list');
+      await this.redisService.getClient().del(`blogs:detail:${blog.slug}`);
+    } catch (err) {
+      this.logger.warn(`Redis cache clearing failed: ${err.message}`);
+    }
+
+    return { message: 'Blog deleted successfully' };
+  }
+
+  async getAllCategories() {
+    return this.prisma.category.findMany({
+      orderBy: { id: 'asc' },
+    });
+  }
 }
+

@@ -87,6 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeAuthModal();
             }
         });
+
+        // Disable inputs initially since modal is closed by default
+        toggleAuthInputs(false);
     }
 
     // 3. Password visibility toggle
@@ -184,6 +187,9 @@ function openAuthModal(view = 'login') {
             window.FintopInfra.AuthFormUI.clearError('authFormRegister');
         }
         
+        // Enable inputs when modal is open
+        toggleAuthInputs(true);
+        
         // Show modal
         authOverlay.classList.add('active');
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
@@ -198,6 +204,8 @@ function closeAuthModal() {
     if (authOverlay) {
         authOverlay.classList.remove('active');
         document.body.style.overflow = ''; // Restore background scrolling
+        // Disable inputs when modal is closed
+        toggleAuthInputs(false);
     }
 }
 
@@ -311,4 +319,22 @@ function submitAuth(event, type) {
             alert("Yêu cầu khôi phục mật khẩu đã được gửi! (Chức năng Demo)");
         }
     }
+}
+
+/**
+ * Toggle all inputs inside the authentication modal (except close buttons) to prevent browser autofill when hidden.
+ * @param {boolean} enabled
+ */
+function toggleAuthInputs(enabled) {
+    const authOverlay = document.getElementById('authModalOverlay');
+    if (!authOverlay) return;
+    const inputs = authOverlay.querySelectorAll('input, button, select, textarea');
+    inputs.forEach(input => {
+        if (input.classList.contains('btn-close-auth')) return;
+        if (enabled) {
+            input.removeAttribute('disabled');
+        } else {
+            input.setAttribute('disabled', 'true');
+        }
+    });
 }

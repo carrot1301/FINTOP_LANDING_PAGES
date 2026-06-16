@@ -6,6 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinTop DATA | Kỷ Nguyên Đầu Tư Mới</title>
 
+    <!-- Anti-flicker micro-script (High Performance Session Restore) -->
+    <script>
+        (function() {
+            try {
+                if (localStorage.getItem('fintop_access_token')) {
+                    const style = document.createElement('style');
+                    style.id = 'fintop-anti-flicker';
+                    style.textContent = `
+                        [data-hide-when-auth] { display: none !important; }
+                        .user-dropdown-container { visibility: hidden; }
+                    `;
+                    document.head.appendChild(style);
+                }
+            } catch (e) {}
+        })();
+    </script>
+
     <!-- Tệp CSS -->
     <link rel="stylesheet" href="assets/css/variables.css">
     <link rel="stylesheet" href="assets/css/base.css">
@@ -22,6 +39,8 @@
     <script src="assets/js/counter.js" defer></script>
     <script src="assets/js/modals.js" defer></script>
     <script src="assets/js/auth.js" defer></script>
+    <!-- Phase-2B-1: Frontend Infrastructure (ES Module) -->
+    <script type="module" src="assets/js/core/index.js"></script>
 
     <style>
         /* === VIDEO NỀN CỐ ĐỊNH === */
@@ -220,18 +239,41 @@
         /* === CONTENT PANELS (Tra cứu / Bộ lọc) === */
         .submenu-panel {
             display: none;
-            position: fixed;
-            top: 72px;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            position: relative;
+            margin-top: 72px;
+            min-height: calc(100vh - 72px);
             z-index: 998;
-            background: rgba(7, 7, 13, 0.97);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            overflow-y: auto;
-            padding: 70px 5% 3rem;
+            background: #07070d; /* Solid dark background to prevent heavy GPU compositing blur */
+            overflow: visible;
+            padding: 40px 5% 3rem;
             animation: panelSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .tv-search-bar {
+                display: none !important;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem;
+                text-align: center;
+            }
+            .footer-grid > div {
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+            }
         }
 
         .submenu-panel.active {
@@ -3522,7 +3564,7 @@
     <!-- THANH ĐIỀU HƯỚNG KIỂU TÀI CHÍNH -->
     <header class="tv-header" id="mainHeader">
         <div class="tv-left">
-            <a href="index.html" class="logo-link">
+            <a href="index.html" class="logo-link" onclick="event.preventDefault(); closeAllPanels();">
                 <!-- Đã Sửa Lại Đúng Tên Folder images của bạn -->
                 <img src="assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo">
             </a>
@@ -3535,7 +3577,7 @@
             </div>
         </div>
         <ul class="tv-nav">
-            <li class="nav-item"><a href="index.html">Trang chủ</a></li>
+            <li class="nav-item"><a href="index.html" onclick="event.preventDefault(); closeAllPanels();">Trang chủ</a></li>
             <li class="nav-item"><a href="javascript:void(0)" data-panel="panel-hoivien"
                     onclick="openPanel('panel-hoivien', this)">Hội viên</a></li>
             <li class="nav-item dropdown" id="dropdown-fintop-data">
@@ -3605,14 +3647,14 @@
                 <div class="user-dropdown-menu">
                     <a href="javascript:void(0)" class="user-dropdown-item login-btn"
                         onclick="openAuthModal('login')">👤 Đăng nhập</a>
-                    <a href="admin/index.html" class="user-dropdown-item" id="adminAccessLink">🔐 Trang quản trị</a>
+                    <a href="fintop_frontend/admin/index.html" class="user-dropdown-item" id="adminAccessLink">🔐 Trang quản trị</a>
                     <a href="javascript:void(0)" class="user-dropdown-item"
                         onclick="alert('Mở Trung tâm trợ giúp')">Trung tâm Trợ giúp</a>
                     <a href="javascript:void(0)" class="user-dropdown-item"
                         onclick="alert('Tính năng mới sắp ra mắt!')">Có gì mới</a>
                 </div>
             </div>
-            <button class="btn-tv-blue" onclick="openAuthModal('register')">Bắt đầu</button>
+            <button class="btn-tv-blue" id="fintopStartBtn" data-hide-when-auth onclick="openAuthModal('login')">Bắt đầu</button>
         </div>
     </header>
 
@@ -3958,17 +4000,20 @@
                 </aside>
             </section>
 
-            <div class="market-section-bar">
+            <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div class="market-section-title">Bài viết</div>
-                <div class="market-tabs" aria-label="Bộ lọc bài viết">
-                    <button class="market-tab active" type="button" onclick="filterMarketArticles('all', this)">Tất
-                        cả</button>
-                    <button class="market-tab" type="button" onclick="filterMarketArticles('macro', this)">Vĩ
-                        mô</button>
-                    <button class="market-tab" type="button" onclick="filterMarketArticles('flow', this)">Dòng
-                        tiền</button>
-                    <button class="market-tab" type="button" onclick="filterMarketArticles('strategy', this)">Chiến
-                        lược</button>
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="search-analysis-market" placeholder="Tìm kiếm bài viết..." style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;" oninput="applyMarketArticlesFilter()">
+                    <div class="market-tabs" aria-label="Bộ lọc bài viết">
+                        <button class="market-tab active" type="button" onclick="filterMarketArticles('all', this)">Tất
+                            cả</button>
+                        <button class="market-tab" type="button" onclick="filterMarketArticles('macro', this)">Vĩ
+                            mô</button>
+                        <button class="market-tab" type="button" onclick="filterMarketArticles('flow', this)">Dòng
+                            tiền</button>
+                        <button class="market-tab" type="button" onclick="filterMarketArticles('strategy', this)">Chiến
+                            lược</button>
+                    </div>
                 </div>
             </div>
 
@@ -4167,12 +4212,15 @@
                 </aside>
             </section>
 
-            <div class="market-section-bar">
+            <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div class="market-section-title">Chiến lược & Kịch bản</div>
-                <div class="market-tabs" aria-label="Phân nhóm PRO Analysis">
-                    <button class="market-tab active" type="button">Tổng quan</button>
-                    <button class="market-tab" type="button">Danh mục</button>
-                    <button class="market-tab" type="button">Rủi ro</button>
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="search-analysis-pro" placeholder="Tìm kiếm PRO..." style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;" oninput="applyProArticlesFilter()">
+                    <div class="market-tabs" aria-label="Phân nhóm PRO Analysis">
+                        <button class="market-tab active" type="button">Tổng quan</button>
+                        <button class="market-tab" type="button">Danh mục</button>
+                        <button class="market-tab" type="button">Rủi ro</button>
+                    </div>
                 </div>
             </div>
 
@@ -4332,12 +4380,15 @@
                 </aside>
             </section>
 
-            <div class="market-section-bar">
+            <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div class="market-section-title">Doanh nghiệp nổi bật</div>
-                <div class="market-tabs" aria-label="Nhóm phân tích doanh nghiệp">
-                    <button class="market-tab active" type="button">Large Cap</button>
-                    <button class="market-tab" type="button">Tăng trưởng</button>
-                    <button class="market-tab" type="button">Định giá thấp</button>
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="search-analysis-company" placeholder="Tìm mã CP..." style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 150px; transition: border-color 0.2s;" oninput="applyCompanyArticlesFilter()">
+                    <div class="market-tabs" aria-label="Nhóm phân tích doanh nghiệp">
+                        <button class="market-tab active" type="button">Large Cap</button>
+                        <button class="market-tab" type="button">Tăng trưởng</button>
+                        <button class="market-tab" type="button">Định giá thấp</button>
+                    </div>
                 </div>
             </div>
 
@@ -4484,12 +4535,15 @@
                 </aside>
             </section>
 
-            <div class="market-section-bar">
+            <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div class="market-section-title">Bản đồ ngành</div>
-                <div class="market-tabs" aria-label="Bộ lọc ngành">
-                    <button class="market-tab active" type="button">Momentum</button>
-                    <button class="market-tab" type="button">Định giá</button>
-                    <button class="market-tab" type="button">Dòng tiền</button>
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="search-analysis-sector" placeholder="Tìm kiếm ngành..." style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;" oninput="applySectorArticlesFilter()">
+                    <div class="market-tabs" aria-label="Bộ lọc ngành">
+                        <button class="market-tab active" type="button">Momentum</button>
+                        <button class="market-tab" type="button">Định giá</button>
+                        <button class="market-tab" type="button">Dòng tiền</button>
+                    </div>
                 </div>
             </div>
 
@@ -5203,8 +5257,10 @@
         </div>
     </div>
 
-    <!-- VÙNG CUỘN HIỆU ỨNG ĐIỆN ẢNH -->
-    <div id="cinematic-container">
+    <!-- VÙNG TRANG CHỦ ĐƯỢC BỌC ĐỂ ẨN HIỆN SPA -->
+    <div id="homepageContent">
+        <!-- VÙNG CUỘN HIỆU ỨNG ĐIỆN ẢNH -->
+        <div id="cinematic-container">
 
         <!-- Hiệu Ứng Flash Chuyển Cảnh -->
         <div class="flash-overlay"></div>
@@ -5215,7 +5271,7 @@
                 <h1 class="hero-title gradient-text">Kỷ Nguyên Đầu Tư Cùng FinTop DATA.</h1>
                 <p class="hero-subtitle">Nơi hội tụ Data - Chuyên gia - Công nghệ & AI. Tinh gọn và hiệu quả.</p>
                 <div class="hero-cta-wrapper">
-                    <button class="btn-white-huge" onclick="openAuthModal('login')">Bắt đầu miễn
+                    <button class="btn-white-huge" onclick="handleStartBtnClick()">Bắt đầu miễn
                         phí</button>
                     <span style="font-size: 0.9rem; color: #94A3B8; letter-spacing: 0.5px;"></span>
                 </div>
@@ -5526,7 +5582,7 @@
     </section>
 
     <footer style="position: relative; z-index: 10; background: #07070D;">
-        <div class="footer-grid" style="grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 2rem;">
+        <div class="footer-grid">
             <div>
                 <h2 class="logo">FinTop DATA</h2>
                 <p style="margin-top: 1rem;">Nơi hội tụ Data - Chuyên gia - Công nghệ &amp; AI.</p>
@@ -5588,6 +5644,7 @@
             Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
         </div>
     </footer>
+    </div>
 
     <script src="data/stock-search-data.js"></script>
     <script src="data/stock-filter-data.js"></script>
@@ -5611,12 +5668,32 @@
         // ==============================================
 
         // Sample stock data for Tra cứu dùng chung với trang quản trị.
-        let STOCK_DB = window.FINTOP_STOCK_SEARCH_DATA || {};
+        // Priority: 1) Admin-synced localStorage  2) Static JS file
+        let STOCK_DB = (function() {
+            try {
+                const synced = localStorage.getItem('fintop_stock_search_sync');
+                if (synced) {
+                    const parsed = JSON.parse(synced);
+                    if (parsed && Object.keys(parsed).length > 0) return parsed;
+                }
+            } catch(e) {}
+            return window.FINTOP_STOCK_SEARCH_DATA || {};
+        })();
 
         // Bộ lọc data dùng chung với trang quản trị.
-        let BOLOC_DATA = Array.isArray(window.FINTOP_STOCK_FILTER_DATA)
-            ? window.FINTOP_STOCK_FILTER_DATA
-            : [];
+        // Priority: 1) Admin-synced localStorage  2) Static JS file
+        let BOLOC_DATA = (function() {
+            try {
+                const synced = localStorage.getItem('fintop_stock_filter_sync');
+                if (synced) {
+                    const parsed = JSON.parse(synced);
+                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                }
+            } catch(e) {}
+            return Array.isArray(window.FINTOP_STOCK_FILTER_DATA)
+                ? window.FINTOP_STOCK_FILTER_DATA
+                : [];
+        })();
 
         let RESEARCH_DATA = Array.isArray(window.FINTOP_RESEARCH_DATA)
             ? window.FINTOP_RESEARCH_DATA
@@ -5648,9 +5725,51 @@
         }
 
         // Open content panel
+        // Destroy heavy iframe widgets (FireAnt charts) inside closed panels to free CPU, WebSockets, and RAM
+        function destroyPanelWidgets(panelId) {
+            if (panelId === 'panel-tracuu') {
+                const chartHost = document.getElementById('fireant_tracuu_chart_host');
+                if (chartHost) chartHost.innerHTML = '';
+                const marketsHost = document.getElementById('fireant_tracuu_markets_host');
+                if (marketsHost) marketsHost.innerHTML = '';
+                currentChartTicker.tracuu = null;
+                marketsWidgetRendered = false;
+            }
+            if (panelId === 'panel-boloc') {
+                const chartHost = document.getElementById('fireant_chart_host');
+                if (chartHost) chartHost.innerHTML = '';
+                const marketsHost = document.getElementById('fireant_boloc_markets_host');
+                if (marketsHost) marketsHost.innerHTML = '';
+                currentChartTicker.boloc = null;
+                marketsWidgetRendered = false;
+            }
+        }
+
+        // Open content panel
         function openPanel(panelId, clickedLink) {
-            // Close all panels first
-            document.querySelectorAll('.submenu-panel').forEach(p => p.classList.remove('active'));
+            // Close other panels and destroy their heavy widgets to release memory
+            document.querySelectorAll('.submenu-panel').forEach(p => {
+                if (p.id !== panelId) {
+                    p.classList.remove('active');
+                    destroyPanelWidgets(p.id);
+                }
+            });
+
+            // Hide homepage content wrapper and background video to optimize rendering performance
+            const homepage = document.getElementById('homepageContent');
+            if (homepage) homepage.style.display = 'none';
+            const videoBg = document.querySelector('.video-bg-container');
+            if (videoBg) videoBg.style.display = 'none';
+            const heroVideo = document.getElementById('hero-video');
+            if (heroVideo) heroVideo.pause();
+
+            // Reset scroll position to top for the active panel
+            window.scrollTo({ top: 0 });
+
+            // Trigger lazy loading of data for the active panel
+            if (typeof triggerPanelHydration === 'function') {
+                triggerPanelHydration(panelId);
+            }
 
             // Remove active from all submenu links
             document.querySelectorAll('.dropdown-content a').forEach(a => a.classList.remove('active-submenu'));
@@ -5662,9 +5781,8 @@
             // Mark clicked link active
             if (clickedLink) clickedLink.classList.add('active-submenu');
 
-            // Pin the parent dropdown
-            const parentDC = clickedLink.closest('.dropdown-content');
-            if (parentDC) parentDC.classList.add('pinned');
+            // Unpin all dropdown menus to close them when entering a subpage
+            document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('pinned'));
 
             // Auto-render Bộ lọc table on first open
             if (panelId === 'panel-boloc' && !bolocRendered) {
@@ -5685,31 +5803,116 @@
 
         // Close all panels
         function closeAllPanels() {
-            document.querySelectorAll('.submenu-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.submenu-panel').forEach(p => {
+                p.classList.remove('active');
+                destroyPanelWidgets(p.id);
+            });
             document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('pinned'));
             document.querySelectorAll('.dropdown-content a').forEach(a => a.classList.remove('active-submenu'));
+
+            // Show homepage content wrapper, restore background video, and refresh GSAP ScrollTrigger
+            const homepage = document.getElementById('homepageContent');
+            if (homepage) homepage.style.display = 'block';
+            const videoBg = document.querySelector('.video-bg-container');
+            if (videoBg) videoBg.style.display = 'block';
+            const heroVideo = document.getElementById('hero-video');
+            if (heroVideo) {
+                heroVideo.play().catch(e => console.log('Video play interrupted:', e));
+            }
+            if (window.ScrollTrigger) {
+                window.ScrollTrigger.refresh();
+            }
         }
 
+        function handleStartBtnClick() {
+            if (localStorage.getItem('fintop_access_token')) {
+                const link = document.querySelector('a[data-panel="panel-boloc"]');
+                openPanel('panel-boloc', link);
+            } else {
+                openAuthModal('login');
+            }
+        }
+
+        let activeMarketTabFilter = 'all';
         function filterMarketArticles(filter, clickedButton) {
+            activeMarketTabFilter = filter;
+            if (clickedButton) {
+                document.querySelectorAll('#panel-analysis-market .market-tab').forEach((tab) => {
+                    tab.classList.remove('active');
+                });
+                clickedButton.classList.add('active');
+            }
+            applyMarketArticlesFilter();
+        }
+
+        function applyMarketArticlesFilter() {
+            const query = (document.getElementById('search-analysis-market')?.value || '').trim().toLowerCase();
             const cards = Array.from(document.querySelectorAll('#panel-analysis-market .market-article-card'));
             const total = cards.length;
             let visibleCount = 0;
 
             cards.forEach((card) => {
                 const categories = (card.dataset.marketCategory || '').split(' ');
-                const shouldShow = filter === 'all' || categories.includes(filter);
+                const matchesTab = activeMarketTabFilter === 'all' || categories.includes(activeMarketTabFilter);
+                
+                const title = (card.querySelector('.market-article-title')?.textContent || '').toLowerCase();
+                const excerpt = (card.querySelector('.market-article-excerpt')?.textContent || '').toLowerCase();
+                const badge = (card.querySelector('.market-thumb-badge')?.textContent || '').toLowerCase();
+                const matchesSearch = !query || title.includes(query) || excerpt.includes(query) || badge.includes(query);
+
+                const shouldShow = matchesTab && matchesSearch;
                 card.classList.toggle('is-hidden', !shouldShow);
                 if (shouldShow) visibleCount += 1;
             });
 
-            document.querySelectorAll('#panel-analysis-market .market-tab').forEach((tab) => {
-                tab.classList.remove('active');
-            });
-            if (clickedButton) clickedButton.classList.add('active');
-
             const count = document.getElementById('marketArticleCount');
             if (count) count.textContent = `Có tất cả ${visibleCount}/${total} bài viết`;
         }
+
+        function applyProArticlesFilter() {
+            const query = (document.getElementById('search-analysis-pro')?.value || '').trim().toLowerCase();
+            const cards = Array.from(document.querySelectorAll('#panel-analysis-pro .analysis-report-card'));
+            cards.forEach((card) => {
+                const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
+                const desc = (card.querySelector('p')?.textContent || '').toLowerCase();
+                const badge = (card.querySelector('.analysis-badge')?.textContent || '').toLowerCase();
+                const matches = !query || title.includes(query) || desc.includes(query) || badge.includes(query);
+                card.classList.toggle('is-hidden', !matches);
+            });
+        }
+
+        function applyCompanyArticlesFilter() {
+            const query = (document.getElementById('search-analysis-company')?.value || '').trim().toLowerCase();
+            const cards = Array.from(document.querySelectorAll('#panel-analysis-company .analysis-company-card'));
+            cards.forEach((card) => {
+                const ticker = (card.querySelector('.analysis-ticker')?.textContent || '').toLowerCase();
+                const name = (card.querySelector('.analysis-company-name')?.textContent || '').toLowerCase();
+                
+                // Read title from the first kv-row
+                const title = (card.querySelector('.analysis-kv-row strong')?.textContent || '').toLowerCase();
+                const matches = !query || ticker.includes(query) || name.includes(query) || title.includes(query);
+                card.classList.toggle('is-hidden', !matches);
+            });
+        }
+
+        function applySectorArticlesFilter() {
+            const query = (document.getElementById('search-analysis-sector')?.value || '').trim().toLowerCase();
+            const cards = Array.from(document.querySelectorAll('#panel-analysis-sector .analysis-report-card'));
+            cards.forEach((card) => {
+                const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
+                const desc = (card.querySelector('p')?.textContent || '').toLowerCase();
+                const badge = (card.querySelector('.analysis-badge')?.textContent || '').toLowerCase();
+                const matches = !query || title.includes(query) || desc.includes(query) || badge.includes(query);
+                card.classList.toggle('is-hidden', !matches);
+            });
+        }
+
+        // Expose functions to window because this script runs inside an IIFE
+        window.filterMarketArticles = filterMarketArticles;
+        window.applyMarketArticlesFilter = applyMarketArticlesFilter;
+        window.applyProArticlesFilter = applyProArticlesFilter;
+        window.applyCompanyArticlesFilter = applyCompanyArticlesFilter;
+        window.applySectorArticlesFilter = applySectorArticlesFilter;
 
         document.addEventListener('click', (e) => {
             const tab = e.target.closest('.market-tab');
@@ -6033,8 +6236,11 @@
 
         function getMarketCategory(row) {
             const category = String(row.category || '').toLowerCase();
-            if (category.includes('dòng') || category.includes('flow')) return 'flow strategy';
-            if (category.includes('chiến') || category.includes('portfolio')) return 'strategy';
+            const title = String(row.title || '').toLowerCase();
+            const excerpt = String(row.excerpt || '').toLowerCase();
+            const text = category + ' ' + title + ' ' + excerpt;
+            if (text.includes('dòng') || text.includes('flow') || text.includes('tiền')) return 'flow strategy';
+            if (text.includes('chiến') || text.includes('portfolio') || text.includes('danh mục') || text.includes('phân bổ')) return 'strategy';
             return 'macro strategy';
         }
 
@@ -6323,12 +6529,240 @@
             }
         }
 
+        let isStockHydrated = false;
+        let isResearchHydrated = false;
+        let isMembershipHydrated = false;
+        let isSignalsHydrated = false;
+
+        async function hydrateStockPrices() {
+            if (isStockHydrated) return;
+            const Infra = window.FintopInfra;
+            if (!Infra) return;
+            const API = () => Infra.ApiClient;
+            const EP = () => Infra.FintopEnv.API_ENDPOINTS;
+            try {
+                const stockRes = await API().get(EP().MARKET_STOCKS);
+                const list = stockRes.data || stockRes || [];
+                if (Array.isArray(list) && list.length > 0) {
+                    BOLOC_DATA = mapStockPricesToFilter(list);
+                    STOCK_DB = mapStockPricesToSearch(list);
+                    if (bolocRendered) renderBolocTable();
+                    isStockHydrated = true;
+                    console.log('[Backend Hydrate] Stock filter data loaded from backend:', list.length);
+                }
+            } catch (err) {
+                console.warn('[Backend Hydrate] Failed to load stock data from backend:', err.message);
+            }
+        }
+
+        async function hydrateResearch() {
+            if (isResearchHydrated) return;
+            const Infra = window.FintopInfra;
+            if (!Infra) return;
+            const API = () => Infra.ApiClient;
+            const EP = () => Infra.FintopEnv.API_ENDPOINTS;
+            try {
+                const blogRes = await API().get(EP().BLOG_CREATE + '?limit=100'); // Load all blogs to prevent truncation
+                const list = blogRes.data?.data || blogRes.data || blogRes || [];
+                if (Array.isArray(list) && list.length > 0) {
+                    RESEARCH_DATA = list.map(b => {
+                        const catSlug = b.category?.slug || '';
+                        let section = 'Thị trường';
+                        if (catSlug === 'pro-research') {
+                            section = 'PRO Research';
+                        } else if (catSlug === 'doanh-nghiep') {
+                            section = 'Doanh nghiệp';
+                        } else if (catSlug === 'nganh') {
+                            section = 'Ngành';
+                        }
+                        
+                        return {
+                            id: b.id,
+                            section: section,
+                            category: b.category?.name || 'Research',
+                            title: b.title,
+                            publishTime: b.publishedAt ? new Date(b.publishedAt).toLocaleDateString('vi-VN') : '',
+                            status: 'Đã đăng',
+                            author: 'FinTop Research',
+                            excerpt: b.excerpt || '',
+                            link: `chuyen-gia/index.html?slug=${b.slug}`
+                        };
+                    });
+                    renderResearchPanels();
+                    isResearchHydrated = true;
+                    console.log('[Backend Hydrate] Blogs loaded from backend:', list.length);
+                }
+            } catch (err) {
+                console.warn('[Backend Hydrate] Failed to load blogs from backend:', err.message);
+            }
+        }
+
+        async function hydrateMemberships() {
+            if (isMembershipHydrated) return;
+            const Infra = window.FintopInfra;
+            if (!Infra) return;
+            const API = () => Infra.ApiClient;
+            const EP = () => Infra.FintopEnv.API_ENDPOINTS;
+            const formatPrice = (val) => val ? Number(val).toLocaleString('vi-VN') : '—';
+            try {
+                const planRes = await API().get(EP().SUBSCRIPTION_PLANS);
+                const list = planRes.data || planRes || [];
+                if (Array.isArray(list) && list.length > 0) {
+                    MEMBERSHIP_DATA = list.map(p => ({
+                        id: p.id,
+                        name: p.name,
+                        subtitle: p.description || 'Gói hội viên đầu tư',
+                        price: p.price ? formatPrice(p.price) : '0',
+                        cta: 'Đăng Ký Ngay',
+                        status: p.status === 'ACTIVE' ? 'Đang mở' : 'Tạm ngưng',
+                        features: p.tierLevel === 'GOLD' ? 'Tín hiệu giao dịch; Phân tích Pro; Group hỗ trợ' : (p.tierLevel === 'DIAMOND' ? 'Copy Trade tự động; Tín hiệu giao dịch; Phân tích Pro; Group hỗ trợ' : 'Tra cứu cổ phiếu; Bộ lọc cơ bản'),
+                        popupTitle: p.name,
+                        popupContent: p.description || '',
+                        tierLevel: p.tierLevel
+                     }));
+                    window.MEMBERSHIP_DATA = MEMBERSHIP_DATA;
+                    renderMemberships();
+                    isMembershipHydrated = true;
+                    console.log('[Backend Hydrate] Membership plans loaded from backend:', list.length);
+                }
+            } catch (err) {
+                console.warn('[Backend Hydrate] Failed to load plans from backend:', err.message);
+            }
+        }
+
+        async function hydrateSignals() {
+            if (isSignalsHydrated) return;
+            const Infra = window.FintopInfra;
+            if (!Infra) return;
+            if (!Infra.AuthManager.isAuthenticated) return;
+            const API = () => Infra.ApiClient;
+            const EP = () => Infra.FintopEnv.API_ENDPOINTS;
+            const formatPrice = (val) => val ? Number(val).toLocaleString('vi-VN') : '—';
+            try {
+                const signalRes = await API().get(EP().SIGNALS_LIST);
+                const list = (signalRes.data?.data || signalRes.data || signalRes || []);
+                if (Array.isArray(list) && list.length > 0) {
+                    SIGNAL_DATA = list.map(s => {
+                        const expertName = s.author?.fullName || 'Hệ thống';
+                        const tickerDisplay = s.symbol + ' ' + (s.entryPrice ? formatPrice(s.entryPrice) : '');
+                        
+                        let details = [];
+                        let rawNotes = s.notes || '';
+                        
+                        try {
+                            if (rawNotes.trim().startsWith('{')) {
+                                const parsed = JSON.parse(rawNotes);
+                                if (parsed && typeof parsed === 'object') {
+                                    if (s.direction === 'BUY') {
+                                        if (parsed.resistance) details.push({ label: 'Kháng cự:', value: parsed.resistance, valueClass: 'val-highlight', isFullWidth: true });
+                                        if (parsed.qtrr) details.push({ label: 'Điểm QTRR:', value: parsed.qtrr, valueClass: 'val-highlight', isFullWidth: true });
+                                        if (parsed.modelDesc) details.push({ label: 'Mô tả Model:', value: parsed.modelDesc, valueClass: 'val-highlight', isFullWidth: true });
+                                    } else {
+                                        if (parsed.entryPoint) details.push({ label: 'Điểm ENTRY:', value: parsed.entryPoint, valueClass: 'val-highlight', isFullWidth: true });
+                                        if (parsed.modelResult) details.push({ label: 'Kết quả MDL:', value: parsed.modelResult, valueClass: 'val-green', isFullWidth: true });
+                                        if (parsed.notes) details.push({ label: 'Chi chú MDL:', value: parsed.notes, valueClass: 'val-highlight', isFullWidth: true });
+                                    }
+                                    rawNotes = parsed.notes || '';
+                                }
+                            } else {
+                                if (rawNotes) {
+                                    details.push({ label: 'Mô tả Model:', value: rawNotes, valueClass: 'val-highlight', isFullWidth: true });
+                                }
+                            }
+                        } catch (e) {
+                            if (rawNotes) {
+                                details.push({ label: 'Mô tả Model:', value: rawNotes, valueClass: 'val-highlight', isFullWidth: true });
+                            }
+                        }
+
+                        return {
+                            type: s.direction === 'BUY' ? 'ENTRY' : 'EXIT',
+                            ticker: tickerDisplay,
+                            badge: s.status === 'PUBLISHED' ? 'ENTRY' : (s.status === 'REACHED_TARGET' ? 'TARGET' : (s.status === 'CUT_LOSS' ? 'STOPLOSS' : 'CLOSED')),
+                            badgeClass: s.direction === 'SELL' ? 'badge-partial' : 'badge-longterm',
+                            expertInitials: makeInitials(expertName),
+                            expertAvatarBg: defaultAvatarBg(s.direction === 'BUY' ? 'ENTRY' : 'EXIT'),
+                            expertName: expertName,
+                            expertRole: 'Chuyên gia phân tích',
+                            time: s.publishedAt ? new Date(s.publishedAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) : '',
+                            date: s.publishedAt ? new Date(s.publishedAt).toLocaleDateString('vi-VN') : '',
+                            buyPrice: s.entryPrice ? formatPrice(s.entryPrice) : '',
+                            sellPrice: s.direction === 'SELL' ? formatPrice(s.entryPrice) : '',
+                            orderStatus: s.status,
+                            note: rawNotes,
+                            details: details
+                        };
+                    });
+                    signalsRendered = false;
+                    if (document.getElementById('panel-tinhieu')?.classList.contains('active')) renderSignals();
+                    isSignalsHydrated = true;
+                    console.log('[Backend Hydrate] VIP Signals loaded from backend:', list.length);
+                }
+            } catch (err) {
+                console.warn('[Backend Hydrate] Failed to load signals from backend:', err.message);
+            }
+        }
+
+        function triggerPanelHydration(panelId) {
+            if (panelId === 'panel-tracuu' || panelId === 'panel-boloc') {
+                hydrateStockPrices();
+            }
+            if (panelId && (panelId.startsWith('panel-analysis-') || panelId === 'panel-analysis-market')) {
+                hydrateResearch();
+            }
+            if (panelId === 'panel-hoivien') {
+                hydrateMemberships();
+            }
+            if (panelId === 'panel-tinhieu') {
+                hydrateSignals();
+            }
+        }
+
+        async function hydrateFromBackend() {
+            // Wait for FintopInfra to be available
+            let attempts = 0;
+            while (!window.FintopInfra && attempts < 50) {
+                await new Promise(r => setTimeout(r, 100));
+                attempts++;
+            }
+
+            const Infra = window.FintopInfra;
+            if (!Infra) return;
+
+            // Wait a short time for session initialization to complete
+            await new Promise(r => setTimeout(r, 500));
+
+            // Only hydrate stock prices on load (lightweight & required for main search)
+            await hydrateStockPrices();
+
+            // Register auth change hook to re-hydrate
+            Infra.AppState.off('auth:changed', handleAuthChangeForHydrate);
+            Infra.AppState.on('auth:changed', handleAuthChangeForHydrate);
+        }
+
+        function handleAuthChangeForHydrate() {
+            isStockHydrated = false;
+            isResearchHydrated = false;
+            isMembershipHydrated = false;
+            isSignalsHydrated = false;
+
+            const activePanel = document.querySelector('.submenu-panel.active');
+            if (activePanel) {
+                triggerPanelHydration(activePanel.id);
+            }
+
+            hydrateFromBackend().catch(err => console.warn('[Backend Hydrate] Failed to re-hydrate after auth change:', err));
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             applyLandingContent();
             renderResearchPanels();
             renderMemberships();
             hydrateFromSupabase().catch((error) => {
                 console.warn('Supabase hydrate skipped:', error);
+            });
+            hydrateFromBackend().catch((error) => {
+                console.warn('Backend hydrate skipped:', error);
             });
         });
 
@@ -6664,12 +7098,12 @@
                     <div class="modal-step-box">
                         <div class="step-label">Bước 1</div>
                         <div class="step-desc">Đăng ký tài khoản FinTop DATA</div>
-                        <button class="btn-modal-action primary" onclick="submitStandard()">ĐĂNG KÝ</button>
+                        <button class="btn-modal-action primary" onclick="submitStandard('register')">ĐĂNG KÝ</button>
                     </div>
                     <div class="modal-step-box">
                         <div class="step-label">Bước 2</div>
                         <div class="step-desc">Đăng nhập và truy cập miễn phí!</div>
-                        <button class="btn-modal-action" onclick="submitStandard()">ĐĂNG NHẬP</button>
+                        <button class="btn-modal-action" onclick="submitStandard('login')">ĐĂNG NHẬP</button>
                     </div>
                 </div>
             </div>
@@ -6698,14 +7132,11 @@
                 </div>
             </div>
             <div class="modal-body">
-                <h4 class="text-center mb-2" style="color:#c4b5fd; font-size: 1.1rem;">Đăng ký Hội viên PRO FinTop DATA
-                </h4>
-                <div class="modal-steps-container mt-4" style="grid-template-columns: 1fr;">
+                <h4 class="text-center mb-2" style="color:#c4b5fd; font-size: 1.1rem;">Đăng ký Hội viên PRO FinTop DATA</h4>
+                <div class="modal-steps-container mt-4 pro-steps-2col">
                     <div class="modal-step-box" style="text-align: left;">
-                        <div class="step-label" style="text-align: center;">Bước 1: Chọn gói Hội viên và thanh toán
-                        </div>
-                        <div class="text-muted-sm text-center mb-3">Hội viên chọn 1 trong các gói PRO1, PRO2, PRO3 đăng
-                            ký tương ứng. Giá đã bao gồm VAT 10%.</div>
+                        <div class="step-label" style="text-align: center;">Bước 1: Chọn gói Hội viên và thanh toán</div>
+                        <div class="text-muted-sm text-center mb-3">Hội viên chọn 1 trong các gói PRO1, PRO2, PRO3 đăng ký tương ứng. Giá đã bao gồm VAT 10%.</div>
 
                         <div class="pro-packages-grid">
                             <div class="pro-package-card active" data-package="PRO1" data-months="3">
@@ -6739,19 +7170,47 @@
                                 <div class="payment-label">Nội dung:</div>
                                 <div class="payment-value" id="pro-payment-note">
                                     [HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI PRO1 - 3 THÁNG]<br>
-                                    <span style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A 0862348886 PRO1 3
-                                        THÁNG</span>
+                                    <span style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A 0862348886 PRO1 3 THÁNG</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-step-box" style="text-align: left;">
-                        <div class="step-label" style="text-align: center;">Bước 2: Yêu cầu phê duyệt</div>
-                        <div class="text-muted-sm text-center mb-4">Sau khi thanh toán thành công, vui lòng nhấn nút bên
-                            dưới để gửi yêu cầu phê duyệt.</div>
-                        <button class="btn-modal-action primary" onclick="submitProApproval()"
-                            style="width: 50%; margin: 0 auto; display: block;">YÊU CẦU PHÊ DUYỆT</button>
+                        <div class="step-label" style="text-align: center;">Bước 2: Xác nhận thanh toán & Yêu cầu phê duyệt</div>
+                        <div class="text-muted-sm text-center mb-3">Sau khi chuyển khoản, điền thông tin bên dưới để FinTop xác nhận và kích hoạt tài khoản PRO.</div>
+
+                        <div class="pro-payment-form">
+                            <div class="payment-form-group">
+                                <label class="payment-form-label" for="proFullName">Họ và tên <span style="color:#f87171;">*</span></label>
+                                <input class="payment-form-input" id="proFullName" type="text" placeholder="Nhập họ tên đầy đủ (giống tên chuyển khoản)" required>
+                            </div>
+                            <div class="payment-form-group">
+                                <label class="payment-form-label" for="proPhone">Số điện thoại <span style="color:#f87171;">*</span></label>
+                                <input class="payment-form-input" id="proPhone" type="tel" placeholder="Ví dụ: 0862348886" required>
+                            </div>
+                            <div class="payment-form-group">
+                                <label class="payment-form-label" for="proTransferNote">Nội dung chuyển khoản</label>
+                                <input class="payment-form-input" id="proTransferNote" type="text" placeholder="Ví dụ: NGUYEN VAN A 0862348886 PRO1 3 THANG" readonly style="color:#94a3b8; cursor:not-allowed;">
+                            </div>
+                            <div class="payment-form-group">
+                                <label class="payment-form-label" for="proReceiptUpload">Ảnh xác nhận chuyển khoản</label>
+                                <div class="upload-area" id="proUploadArea">
+                                    <input type="file" id="proReceiptUpload" accept="image/*" style="display:none;" onchange="handleReceiptPreview(this)">
+                                    <div class="upload-placeholder" id="proUploadPlaceholder" onclick="document.getElementById('proReceiptUpload').click()">
+                                        <span class="upload-icon">📎</span>
+                                        <span class="upload-text">Nhấn để tải ảnh chuyển khoản lên</span>
+                                        <span class="upload-hint">(PNG, JPG — tối đa 5MB)</span>
+                                    </div>
+                                    <div class="upload-preview" id="proUploadPreview" style="display:none;">
+                                        <img id="proReceiptImg" src="" alt="Receipt preview">
+                                        <button type="button" class="upload-remove-btn" onclick="removeReceiptPreview()">✕ Xóa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-modal-action primary" type="button" id="btnProSubmit" onclick="submitProApproval()">Gửi yêu cầu phê duyệt</button>
                     </div>
                 </div>
             </div>
@@ -6797,9 +7256,9 @@
                         <div class="step-desc" style="text-align: left;">
                             <p class="mb-2 text-muted-sm">Vui lòng điền thông tin bên dưới để yêu cầu phê duyệt liên
                                 kết:</p>
-                            <input type="text" placeholder="Số TK chứng khoán..."
+                            <input type="text" id="vipStockAccount" placeholder="Số TK chứng khoán..."
                                 style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 10px;">
-                            <input type="text" placeholder="Công ty chứng khoán..."
+                            <input type="text" id="vipStockCompany" placeholder="Công ty chứng khoán..."
                                 style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 15px;">
                         </div>
                         <button class="btn-modal-action primary" onclick="submitVIP('link')">YÊU CẦU LIÊN KẾT</button>
@@ -6870,30 +7329,30 @@
                     <div class="auth-forms-wrapper">
 
                         <!-- FORM ĐĂNG NHẬP -->
-                        <form class="auth-form active" id="authFormLogin" onsubmit="submitAuth(event, 'login')">
+                        <form class="auth-form active" id="authFormLogin" data-auth-form="login" onsubmit="submitAuth(event, 'login')">
                             <h3 class="auth-title">Đăng nhập</h3>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Email hoặc Tên đăng nhập</label>
-                                <input type="text" class="auth-input" placeholder="Nhập email của bạn" required>
+                                <input type="text" class="auth-input" id="loginEmail" data-auth-email="login" placeholder="Nhập email của bạn" required disabled>
                             </div>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Mật khẩu</label>
-                                <input type="password" class="auth-input" id="loginPassword" placeholder="Nhập mật khẩu"
-                                    required>
-                                <button type="button" class="password-toggle" data-target="loginPassword">👁️</button>
+                                <input type="password" class="auth-input" id="loginPassword" data-auth-password="login" placeholder="Nhập mật khẩu"
+                                    required disabled>
+                                <button type="button" class="password-toggle" data-target="loginPassword" disabled>👁️</button>
                             </div>
 
                             <div class="auth-options">
                                 <label class="auth-checkbox-label">
-                                    <input type="checkbox" checked> Ghi nhớ đăng nhập
+                                    <input type="checkbox" checked disabled> Ghi nhớ đăng nhập
                                 </label>
                                 <a href="javascript:void(0)" class="auth-link"
                                     onclick="submitAuth(event, 'forgot')">Quên mật khẩu?</a>
                             </div>
 
-                            <button type="submit" class="auth-btn-submit">Đăng nhập</button>
+                            <button type="submit" class="auth-btn-submit" data-auth-submit="login" disabled>Đăng nhập</button>
 
                             <div class="auth-footer">
                                 Chưa có tài khoản? <a href="javascript:void(0)" class="auth-link"
@@ -6902,28 +7361,28 @@
                         </form>
 
                         <!-- FORM ĐĂNG KÝ -->
-                        <form class="auth-form" id="authFormRegister" onsubmit="submitAuth(event, 'register')">
+                        <form class="auth-form" id="authFormRegister" data-auth-form="register" onsubmit="submitAuth(event, 'register')">
                             <h3 class="auth-title">Tạo tài khoản mới</h3>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Họ và tên</label>
-                                <input type="text" class="auth-input" placeholder="Nhập họ và tên" required>
+                                <input type="text" class="auth-input" id="registerFullName" data-auth-name="register" placeholder="Nhập họ và tên" required disabled>
                             </div>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Email</label>
-                                <input type="email" class="auth-input" placeholder="Nhập email của bạn" required>
+                                <input type="email" class="auth-input" id="registerEmail" data-auth-email="register" placeholder="Nhập email của bạn" required disabled>
                             </div>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Mật khẩu</label>
-                                <input type="password" class="auth-input" id="registerPassword"
-                                    placeholder="Tạo mật khẩu" required>
+                                <input type="password" class="auth-input" id="registerPassword" data-auth-password="register"
+                                    placeholder="Tạo mật khẩu" required disabled>
                                 <button type="button" class="password-toggle"
-                                    data-target="registerPassword">👁️</button>
+                                    data-target="registerPassword" disabled>👁️</button>
                             </div>
 
-                            <button type="submit" class="auth-btn-submit">Đăng ký</button>
+                            <button type="submit" class="auth-btn-submit" data-auth-submit="register" disabled>Đăng ký</button>
 
                             <div class="auth-footer">
                                 Đã có tài khoản? <a href="javascript:void(0)" class="auth-link"

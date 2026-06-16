@@ -466,15 +466,29 @@ const AuthUI = {
       
       if (anchor) {
         e.preventDefault();
-        if (RbacEvaluator.isAdminCapable()) {
+        
+        // Check if we are currently inside the admin panel
+        const isCurrentPageAdmin = window.location.pathname.startsWith('/admin') || 
+                                   window.location.pathname.includes('/fintop_frontend/admin/');
+        
+        if (isCurrentPageAdmin || anchor.classList.contains('admin-logo-link')) {
+          // If already on admin page, navigate back to the user page
+          const targetUrl = anchor.getAttribute('href') || '/index.html';
+          if (FintopEnv.DEBUG) console.log('[AuthUI] Logo clicked in Admin — Navigating to user page:', targetUrl);
+          window.location.href = targetUrl;
+        } else if (RbacEvaluator.isAdminCapable()) {
+          // If on user page and user is admin, navigate to admin panel
           if (FintopEnv.DEBUG) console.log('[AuthUI] Logo clicked — Admin-capable user. Navigating to /admin/');
           window.location.href = '/admin/';
         } else {
-          if (FintopEnv.DEBUG) console.log('[AuthUI] Logo clicked — Guest/Standard user. Navigating to /index.html');
-          window.location.href = '/index.html';
+          // If on user page and user is standard/guest, navigate to home/user index page
+          const targetUrl = anchor.getAttribute('href') || '/index.html';
+          if (FintopEnv.DEBUG) console.log('[AuthUI] Logo clicked — Guest/Standard user. Navigating to:', targetUrl);
+          window.location.href = targetUrl;
         }
       }
     });
+
 
     // Render initial navbar state based on session
     if (AuthManager.isAuthenticated) {
@@ -835,6 +849,13 @@ const AuthUI = {
       setTimeout(() => {
         newItem.style.boxShadow = '';
       }, 1500);
+    }
+
+    // Auto-sync user profile if the notification indicates a membership upgrade
+    if (notification.title && notification.title.includes('Nâng cấp tài khoản')) {
+      AuthManager.loadUserProfile().catch(err => {
+        console.error('[AuthUI] Failed to auto-reload user profile on upgrade notification:', err);
+      });
     }
   },
 

@@ -41,7 +41,7 @@
                     <a href="index.html">Tra cứu CP</a>
                     <a href="bo-loc/index.html">Bộ Lọc CP</a>
                     <a href="tin-hieu/index.html">Tín Hiệu CG</a>
-                    <a href="danh-muc/index.html">Danh Mục CG</a>
+                    <a href="danh-muc/index.html">Copy Trade</a>
                 </div>
             </li>
             <li><a href="../chuyen-gia/index.html">Chuyên Gia</a></li>
@@ -61,6 +61,12 @@
             <p>Dữ liệu tổng hợp theo mô hình AI định lượng FinTop DATA</p>
         </div>
 
+        <!-- Interactive Search Bar -->
+        <div class="search-bar-container" style="margin-bottom: 2rem; display: flex; gap: 10px; max-width: 500px;">
+            <input type="text" id="stockSearchInput" placeholder="Nhập mã cổ phiếu hoặc nhóm ngành..." style="flex: 1; padding: 12px 20px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(255,255,255,0.05); color: #fff; font-size: 1rem; font-weight: 600; outline: none; transition: border-color 0.2s;">
+            <button id="btnSearchStock" class="btn-primary" style="padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; background: linear-gradient(135deg, #7c3aed, #a855f7); color: white;">Tra Cứu</button>
+        </div>
+
         <div class="data-table-wrapper">
             <table class="data-table">
                 <thead>
@@ -78,59 +84,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>1</td>
-                        <td><strong>VEA</strong></td>
-                        <td>UPCOM</td>
-                        <td>SX ô tô, xe máy</td>
-                        <td><span class="badge very-pos">RẤT TÍCH CỰC</span></td>
-                        <td><button class="btn-solid-gold">STRONG ENTRY</button></td>
-                        <td>36.5 - 37.0</td>
-                        <td>40.0 - 41.5</td>
-                        <td>8/10</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><strong>DGW</strong></td>
-                        <td>HOSE</td>
-                        <td>Bán lẻ IT</td>
-                        <td><span class="badge pos">TÍCH CỰC</span></td>
-                        <td><button class="btn-outline-purple">ENTRY</button></td>
-                        <td>45.0 - 46.2</td>
-                        <td>50.1 - 52.0</td>
-                        <td>7/10</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td><strong>DST</strong></td>
-                        <td>HNX</td>
-                        <td>Tài chính</td>
-                        <td><span class="badge neutral">TRUNG LẬP</span></td>
-                        <td><button class="btn-outline-gray">SMALL ENTRY</button></td>
-                        <td>5.0 - 5.1</td>
-                        <td>6.5 - 7.0</td>
-                        <td>5/10</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td><strong>VNM</strong></td>
-                        <td>HOSE</td>
-                        <td>Sản xuất sữa</td>
-                        <td><span class="badge neg">TIÊU CỰC</span></td>
-                        <td><span style="color: var(--text-muted); font-size: 0.8rem;">BỎ QUA</span></td>
-                        <td>66.0 - 67.5</td>
-                        <td>70.0 - 72.0</td>
-                        <td>3/10</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td><strong>FPT</strong></td>
-                        <td>HOSE</td>
-                        <td>Công nghệ</td>
-                        <td><span class="badge ok">KHẢ QUAN</span></td>
-                        <td><button class="btn-outline-purple">ENTRY</button></td>
-                        <td>112.0 - 114.5</td>
-                        <td>125.0 - 130.0</td>
-                        <td>8/10</td>
+                        <td colspan="9" style="text-align:center; padding: 2rem; color: var(--text-muted);">Đang tải dữ liệu cổ phiếu...</td>
                     </tr>
                 </tbody>
             </table>
@@ -143,6 +97,142 @@
             <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
         </div>
     </footer>
+
+    <!-- Core Infrastructure Bootstrap -->
+    <script type="module" src="../../assets/js/core/index.js"></script>
+    <script>
+        (function() {
+            let stockData = [];
+
+            // 1. Get elements
+            const tbody = document.querySelector('.data-table tbody');
+            const searchInput = document.getElementById('stockSearchInput');
+            const btnSearch = document.getElementById('btnSearchStock');
+
+            // 3. Load data
+            async function loadData() {
+                // If window.FintopInfra is ready, load from backend API first
+                if (window.FintopInfra) {
+                    try {
+                        const res = await window.FintopInfra.ApiClient.get('/market/stocks');
+                        const list = res.data || res || [];
+                        if (Array.isArray(list)) {
+                            stockData = list.map(item => ({
+                                ticker: item.ticker,
+                                san: item.exchange,
+                                nganh: item.industry,
+                                status: item.status,
+                                statusText: item.statusText,
+                                price: item.validation_zone || '—',
+                                khangCu: item.resistance_zone || '—',
+                                hoTro: item.support_zone || '—'
+                            }));
+                            renderTable(stockData);
+                            return;
+                        }
+                    } catch (err) {
+                        console.error('Backend stock fetch failed:', err);
+                    }
+                }
+                
+                // Show empty/error state when offline or no data
+                stockData = [];
+                renderTable(stockData);
+            }
+
+            function getActionBtnMarkup(statusText, status) {
+                const norm = (statusText || status || '').toUpperCase();
+                if (norm === 'RẤT TÍCH CỰC' || norm === 'VERY-POSITIVE' || norm === 'VERY-POS' || norm === 'VERY_POSITIVE') {
+                    return `<button class="btn-solid-gold">STRONG ENTRY</button>`;
+                }
+                if (norm === 'TÍCH CỰC' || norm === 'KHẢ QUAN' || norm === 'POSITIVE' || norm === 'OK' || norm === 'POS') {
+                    return `<button class="btn-outline-purple">ENTRY</button>`;
+                }
+                if (norm === 'TRUNG LẬP' || norm === 'NEUTRAL') {
+                    return `<button class="btn-outline-gray">SMALL ENTRY</button>`;
+                }
+                return `<span style="color: var(--text-muted); font-size: 0.8rem;">BỎ QUA</span>`;
+            }
+
+            function getBadgeClass(status) {
+                if (status === 'very-positive' || status === 'very-pos') return 'badge very-pos';
+                if (status === 'positive' || status === 'pos') return 'badge pos';
+                if (status === 'ok') return 'badge ok';
+                if (status === 'neutral') return 'badge neutral';
+                if (status === 'negative' || status === 'neg') return 'badge neg';
+                return 'badge neutral';
+            }
+
+            // 4. Render Table
+            function renderTable(data) {
+                tbody.innerHTML = '';
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding: 2rem; color: var(--text-muted);">Không có dữ liệu phù hợp.</td></tr>`;
+                    return;
+                }
+
+                data.forEach((row, i) => {
+                    const tr = document.createElement('tr');
+                    const actionBtn = getActionBtnMarkup(row.statusText, row.status);
+                    const badgeCls = getBadgeClass(row.status);
+                    tr.innerHTML = `
+                        <td>${i + 1}</td>
+                        <td><strong>${row.ticker}</strong></td>
+                        <td>${row.san}</td>
+                        <td>${row.nganh}</td>
+                        <td><span class="${badgeCls}">${row.statusText || 'TRUNG LẬP'}</span></td>
+                        <td>${actionBtn}</td>
+                        <td>${row.price}</td>
+                        <td>${row.khangCu}</td>
+                        <td>${row.hoTro}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // 5. Search handler
+            function performSearch() {
+                const q = (searchInput.value || '').trim().toUpperCase();
+                if (!q) {
+                    renderTable(stockData);
+                    return;
+                }
+                const filtered = stockData.filter(s => s.ticker.includes(q) || s.nganh.toUpperCase().includes(q));
+                renderTable(filtered);
+            }
+
+            if (searchInput) {
+                searchInput.style.transition = 'all 0.3s';
+                searchInput.addEventListener('focus', () => {
+                    searchInput.style.borderColor = '#c084fc';
+                    searchInput.style.boxShadow = '0 0 10px rgba(192, 132, 252, 0.2)';
+                });
+                searchInput.addEventListener('blur', () => {
+                    searchInput.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+                    searchInput.style.boxShadow = 'none';
+                });
+                searchInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') performSearch();
+                });
+            }
+            if (btnSearch) {
+                btnSearch.addEventListener('click', performSearch);
+            }
+
+            // Bootstrap loading
+            function checkInfra() {
+                if (window.FintopInfra) {
+                    loadData();
+                } else {
+                    setTimeout(checkInfra, 50);
+                }
+            }
+
+            // Load initial data
+            loadData();
+            checkInfra();
+        })();
+    </script>
 
 </body>
 </html>

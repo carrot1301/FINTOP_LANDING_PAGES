@@ -1768,7 +1768,7 @@
             tbody.innerHTML = list.map(b => `
                 <tr>
                     <td><strong style="color: #cbd5e1;">${b.slug}</strong></td>
-                    <td><strong>${b.title}</strong><br><span style="font-size:0.75rem; color:#64748b;">Phân loại: ${b.category}</span></td>
+                    <td><strong>${b.title}</strong><br><span style="font-size:0.75rem; color:#64748b;">Phân loại: ${b.category?.name || 'Chưa phân loại'}</span></td>
                     <td><strong style="color: #fbbf24;">${b.minTierAccess}</strong></td>
                     <td><button class="btn-tv-blue" style="padding: 2px 8px; font-size:0.72rem;" onclick="openCmsBlogDirect('${b.slug}')">📖 Đọc</button></td>
                 </tr>

@@ -270,7 +270,11 @@ class ApiClientSingleton {
   // CORE REQUEST METHOD
   // ─────────────────────────────────────────────────────
 
-  async _request(method, path, { body, headers: customHeaders, skipAuth = false, isRetryAfterRefresh = false } = {}) {
+  async _request(method, path, { body, headers: customHeaders, skipAuth = false, isRetryAfterRefresh = false, skipIntercept = false } = {}) {
+    if (!skipIntercept && (path === '/portfolios' || path.startsWith('/portfolios/') || path.startsWith('/portfolios?'))) {
+      const mockResult = await handleMockPortfolioRequest(method, path, body, this);
+      if (mockResult) return mockResult;
+    }
     const url = path.startsWith('http') ? path : `${this._baseUrl}${path}`;
     const correlationId = generateCorrelationId();
 
@@ -284,7 +288,12 @@ class ApiClientSingleton {
     };
 
     if (body !== undefined && body !== null) {
-      fetchOptions.body = JSON.stringify(body);
+      if (typeof FormData !== 'undefined' && body instanceof FormData) {
+        fetchOptions.body = body;
+        delete headers['Content-Type'];
+      } else {
+        fetchOptions.body = JSON.stringify(body);
+      }
     }
 
     if (FintopEnv.DEBUG) {
@@ -406,6 +415,195 @@ class ApiClientSingleton {
     if (filtered.length === 0) return '';
     return '?' + new URLSearchParams(filtered).toString();
   }
+}
+
+// ─────────────────────────────────────────────────────────────
+// SIMULATED PORTFOLIOS LAYER
+// ─────────────────────────────────────────────────────────────
+
+let isInitializingMock = false;
+
+async function ensureMockPortfoliosInitialized(client) {
+  const cached = localStorage.getItem('fintop_simulated_portfolios');
+  if (cached) {
+    return JSON.parse(cached);
+  }
+  if (isInitializingMock) {
+    return {};
+  }
+  isInitializingMock = true;
+  try {
+    const res = await client._request('GET', '/portfolios', { skipIntercept: true });
+    const list = res.data || [];
+    const portfoliosMap = {};
+    for (const p of list) {
+      try {
+        const detailRes = await client._request('GET', `/portfolios/${p.id}`, { skipIntercept: true });
+        const detail = detailRes.data || detailRes;
+        portfoliosMap[p.id] = {
+          id: p.id,
+          name: p.name,
+          description: p.description,
+          status: p.status,
+          minTierAccess: p.minTierAccess,
+          initialCapital: p.initialCapital,
+          currentNav: detail.currentNav || p.currentNav,
+          cashBalance: detail.cashBalance || p.cashBalance,
+          holdings: detail.holdings || [],
+          locked: p.locked
+        };
+      } catch (e) {
+        portfoliosMap[p.id] = {
+          id: p.id,
+          name: p.name,
+          description: p.description,
+          status: p.status,
+          minTierAccess: p.minTierAccess,
+          initialCapital: p.initialCapital,
+          currentNav: p.currentNav,
+          cashBalance: p.cashBalance,
+          holdings: [],
+          locked: p.locked
+        };
+      }
+    }
+    localStorage.setItem('fintop_simulated_portfolios', JSON.stringify(portfoliosMap));
+    return portfoliosMap;
+  } catch (err) {
+    console.error('Failed to initialize mock portfolios:', err);
+    return {};
+  } finally {
+    isInitializingMock = false;
+  }
+}
+
+async function handleMockPortfolioRequest(method, path, body, client) {
+  const cleanPath = path.split('?')[0];
+  const portfoliosMap = await ensureMockPortfoliosInitialized(client);
+  
+  if (method === 'GET' && cleanPath === '/portfolios') {
+    const list = Object.values(portfoliosMap).map(p => ({
+      id: p.id,
+      name: p.name,
+      description: p.description,
+      status: p.status,
+      minTierAccess: p.minTierAccess,
+      initialCapital: p.initialCapital,
+      currentNav: p.currentNav,
+      cashBalance: p.cashBalance,
+      locked: p.locked
+    }));
+    return { data: list };
+  }
+  
+  const matchDetail = cleanPath.match(/^\/portfolios\/(\d+)$/);
+  if (method === 'GET' && matchDetail) {
+    const id = matchDetail[1];
+    const p = portfoliosMap[id];
+    if (!p) {
+      return null;
+    }
+    return { data: p };
+  }
+  
+  if (method === 'POST' && cleanPath === '/portfolios') {
+    const newId = (1000 + Math.floor(Math.random() * 9000)).toString();
+    const newP = {
+      id: newId,
+      name: body.name,
+      description: body.description || '',
+      status: 'ACTIVE',
+      minTierAccess: body.minTierAccess || 'STANDARD',
+      initialCapital: Number(body.initialCapital),
+      currentNav: Number(body.initialCapital),
+      cashBalance: Number(body.initialCapital),
+      holdings: [],
+      locked: false
+    };
+    portfoliosMap[newId] = newP;
+    localStorage.setItem('fintop_simulated_portfolios', JSON.stringify(portfoliosMap));
+    return { data: newP };
+  }
+  
+  if (method === 'POST' && cleanPath === '/portfolios/trade') {
+    const { portfolioId, symbol, companyName, action, quantity, price } = body;
+    const p = portfoliosMap[portfolioId];
+    if (!p) {
+      throw new Error(`Portfolio not found: ${portfolioId}`);
+    }
+    
+    const qty = Number(quantity);
+    const prc = Number(price);
+    const totalCost = qty * prc;
+    
+    if (action === 'BUY') {
+      if (p.cashBalance < totalCost) {
+        throw new Error('Số dư tiền mặt không đủ để mua!');
+      }
+      p.cashBalance -= totalCost;
+      
+      const existing = p.holdings.find(h => h.symbol === symbol);
+      if (existing) {
+        const newQty = existing.quantity + qty;
+        existing.avgEntryPrice = ((existing.quantity * existing.avgEntryPrice) + totalCost) / newQty;
+        existing.quantity = newQty;
+        existing.currentPrice = prc;
+        existing.value = newQty * prc;
+        existing.profitLoss = (prc - existing.avgEntryPrice) * newQty;
+        existing.profitLossPercent = ((prc - existing.avgEntryPrice) / existing.avgEntryPrice) * 100;
+      } else {
+        p.holdings.push({
+          id: Date.now() + Math.floor(Math.random() * 1000),
+          symbol,
+          companyName: companyName || symbol,
+          quantity: qty,
+          avgEntryPrice: prc,
+          currentPrice: prc,
+          value: totalCost,
+          allocation: 0,
+          profitLoss: 0,
+          profitLossPercent: 0
+        });
+      }
+    } else if (action === 'SELL') {
+      const existing = p.holdings.find(h => h.symbol === symbol);
+      if (!existing || existing.quantity < qty) {
+        throw new Error('Số lượng cổ phiếu trong danh mục không đủ để bán!');
+      }
+      
+      p.cashBalance += totalCost;
+      existing.quantity -= qty;
+      
+      if (existing.quantity === 0) {
+        p.holdings = p.holdings.filter(h => h.symbol !== symbol);
+      } else {
+        existing.value = existing.quantity * prc;
+        existing.currentPrice = prc;
+        existing.profitLoss = (prc - existing.avgEntryPrice) * existing.quantity;
+        existing.profitLossPercent = ((prc - existing.avgEntryPrice) / existing.avgEntryPrice) * 100;
+      }
+    }
+    
+    let stocksVal = 0;
+    p.holdings.forEach(h => {
+      stocksVal += h.currentPrice * h.quantity;
+    });
+    p.currentNav = p.cashBalance + stocksVal;
+    
+    portfoliosMap[portfolioId] = p;
+    localStorage.setItem('fintop_simulated_portfolios', JSON.stringify(portfoliosMap));
+    return { data: p };
+  }
+  
+  const matchDelete = cleanPath.match(/^\/portfolios\/(\d+)$/);
+  if (method === 'DELETE' && matchDelete) {
+    const id = matchDelete[1];
+    delete portfoliosMap[id];
+    localStorage.setItem('fintop_simulated_portfolios', JSON.stringify(portfoliosMap));
+    return { data: { success: true } };
+  }
+  
+  return null;
 }
 
 // ─────────────────────────────────────────────────────────────

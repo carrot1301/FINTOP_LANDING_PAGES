@@ -18,6 +18,9 @@ import { NotificationModule } from './modules/notification/notification.module';
 import { CmsModule } from './modules/cms/cms.module';
 import { WebsocketModule } from './modules/websocket/websocket.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { CopyTradeModule } from './modules/copy-trade/copy-trade.module';
+import { ResearchModule } from './modules/research/research.module';
+import { CopilotModule } from './modules/copilot/copilot.module';
 import { CorrelationIdMiddleware } from './common/interceptors/correlation-id.middleware';
 
 @Module({
@@ -36,6 +39,9 @@ import { CorrelationIdMiddleware } from './common/interceptors/correlation-id.mi
     CmsModule,
     WebsocketModule,
     AdminModule,
+    CopyTradeModule,
+    ResearchModule,
+    CopilotModule,
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

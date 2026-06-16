@@ -141,14 +141,19 @@ export class AdminController {
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'status', required: false })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiQuery({ name: 'categoryId', required: false })
   async getBlogs(
     @Query('page') page?: string,
     @Query('limit') limit?: string,
     @Query('status') status?: string,
+    @Query('search') search?: string,
+    @Query('categoryId') categoryId?: string,
   ) {
     const p = page ? parseInt(page, 10) : 1;
     const l = limit ? parseInt(limit, 10) : 20;
-    return this.adminService.getBlogs(p, l, status);
+    const catId = categoryId ? parseInt(categoryId, 10) : undefined;
+    return this.adminService.getBlogs(p, l, status, search, catId);
   }
 
   @Get('reports')
