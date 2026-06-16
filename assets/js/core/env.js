@@ -78,10 +78,10 @@ const ENVIRONMENTS = {
   },
   staging: {
     // Override via window.__FINTOP_CONFIG__ in staging environment
-    API_BASE_URL: window.__FINTOP_CONFIG__?.API_BASE_URL || 'https://api-staging.fintopdata.vn',
-    WS_BASE_URL:  window.__FINTOP_CONFIG__?.WS_BASE_URL  || 'https://api-staging.fintopdata.vn',
+    API_BASE_URL: window.__FINTOP_CONFIG__?.API_BASE_URL || 'https://fintop-backend-staging.onrender.com',
+    WS_BASE_URL:  window.__FINTOP_CONFIG__?.WS_BASE_URL  || 'https://fintop-backend-staging.onrender.com',
     SWAGGER_URL:  null, // Disabled in staging
-    HEALTH_URL:   window.__FINTOP_CONFIG__?.API_BASE_URL + '/health' || 'https://api-staging.fintopdata.vn/health',
+    HEALTH_URL:   'https://fintop-backend-staging.onrender.com/health',
     DEBUG: true,
   },
   production: {
