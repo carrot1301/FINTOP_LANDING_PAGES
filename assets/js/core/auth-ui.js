@@ -594,7 +594,19 @@ const AuthUI = {
       console.error('[AuthUI] ❌ Login failed:', err);
       // Translate backend error to Vietnamese message
       const translated = ErrorTranslator.translate(err);
-      AuthFormUI.showError('authFormLogin', translated.message);
+
+      if (err?.message === 'EMAIL_NOT_VERIFIED') {
+        const verifyEmailInput = document.getElementById('verifyEmailAddress');
+        if (verifyEmailInput) {
+          verifyEmailInput.value = email;
+        }
+        if (typeof switchAuthView === 'function') {
+          switchAuthView('verify');
+        }
+        AuthFormUI.showError('authFormVerify', translated.message);
+      } else {
+        AuthFormUI.showError('authFormLogin', translated.message);
+      }
 
       if (FintopEnv.DEBUG) {
         console.error('[AuthUI] Login failed:', err);

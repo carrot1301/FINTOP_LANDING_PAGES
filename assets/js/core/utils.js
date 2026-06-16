@@ -290,6 +290,15 @@ const ErrorTranslator = {
   translate(err) {
     const code = err?.code || 'UNKNOWN_ERROR';
     const statusCode = err?.statusCode || 0;
+    const errMsg = err?.message || '';
+
+    if (errMsg === 'EMAIL_NOT_VERIFIED') {
+      return {
+        title: 'Chưa xác thực email',
+        message: 'Tài khoản chưa được kích hoạt. Vui lòng nhập mã OTP đã được gửi đến email của bạn.',
+        actionLabel: 'Xác thực ngay'
+      };
+    }
 
     // Specific backend error codes
     const codeMap = {
