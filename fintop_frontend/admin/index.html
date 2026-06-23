@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,8 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
 
   <!-- Design Tokens + Base -->
   <link rel="stylesheet" href="../../assets/css/variables.css">
@@ -21,18 +23,38 @@
 
   <style>
     /* Inline critical styles for initial load */
-    body { margin: 0; background: #0A0A0F; color: #F8FAFC; font-family: 'Be Vietnam Pro', sans-serif; }
+    body {
+      margin: 0;
+      background: #0A0A0F;
+      color: #F8FAFC;
+      font-family: 'Be Vietnam Pro', sans-serif;
+    }
+
     .admin-boot-loading {
-      display: flex; align-items: center; justify-content: center; min-height: 100vh;
-      flex-direction: column; gap: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      flex-direction: column;
+      gap: 1rem;
     }
+
     .admin-boot-loading .boot-spinner {
-      width: 36px; height: 36px; border: 3px solid rgba(124,58,237,0.2);
-      border-top-color: #7C3AED; border-radius: 50%; animation: admin-spin 0.7s linear infinite;
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(124, 58, 237, 0.2);
+      border-top-color: #7C3AED;
+      border-radius: 50%;
+      animation: admin-spin 0.7s linear infinite;
     }
-    .admin-boot-loading .boot-text { color: #94A3B8; font-size: 0.85rem; }
+
+    .admin-boot-loading .boot-text {
+      color: #94A3B8;
+      font-size: 0.85rem;
+    }
   </style>
 </head>
+
 <body>
   <!-- Boot loading screen (replaced after auth check) -->
   <div id="admin-boot" class="admin-boot-loading">
@@ -97,9 +119,10 @@
   </div>
 
   <!-- Core infrastructure (must load first) -->
-  <script type="module" src="../../assets/js/core/index.js"></script>
+  <script type="module" src="../../assets/js/core/index.js?v=20260623"></script>
 
   <!-- Admin shell controller -->
-  <script type="module" src="./admin-shell.js"></script>
+  <script type="module" src="./admin-shell.js?v=20260623"></script>
 </body>
+
 </html>

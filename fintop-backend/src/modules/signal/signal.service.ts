@@ -4,6 +4,7 @@ import { AuditService } from '../../common/audit/audit.service';
 import { RedisService } from '../../common/redis/redis.service';
 import { SIGNAL_STATUS, SIGNAL_DIRECTION, AUDIT_SOURCE, SUBSCRIPTION_TIER, Prisma } from '@prisma/client';
 import { SignalGateway } from '../websocket/signal.gateway';
+import { isFeatureAllowed } from '../../common/utils/subscription-helper';
 
 export interface PublishSignalDto {
   stockId: number;
@@ -149,7 +150,7 @@ export class SignalService {
     });
   }
 
-  async getSignalsForUser(userId: number, userTier: SUBSCRIPTION_TIER, page = 1, limit = 10) {
+  async getSignalsForUser(userId: number, userFeatures: string[], page = 1, limit = 10) {
     const skip = (page - 1) * limit;
 
     // Include all non-DRAFT signals so the frontend can render status badges
@@ -174,7 +175,7 @@ export class SignalService {
     });
 
     const mapped = signals.map(s => {
-      const locked = !this.isTierAllowed(userTier, s.minTierAccess);
+      const locked = !this.isTierAllowed(userFeatures, s.minTierAccess);
       return {
         id: s.id,
         stockId: s.stockId,
@@ -207,14 +208,8 @@ export class SignalService {
     };
   }
 
-  private isTierAllowed(userTier: SUBSCRIPTION_TIER, minTier: SUBSCRIPTION_TIER): boolean {
-    const tierHierarchy = {
-      STANDARD: 1,
-      SILVER: 2,
-      GOLD: 3,
-      DIAMOND: 4,
-    };
-    return (tierHierarchy[userTier] || 0) >= (tierHierarchy[minTier] || 0);
+  private isTierAllowed(userFeatures: string[] | undefined, minTier: SUBSCRIPTION_TIER): boolean {
+    return isFeatureAllowed(userFeatures, minTier);
   }
 }
 

@@ -22,26 +22,26 @@
 // ─────────────────────────────────────────────────────────────
 
 const MODULES = [
-  { id: 'overview',          label: 'Trang Chủ',            icon: '🏠', section: 'Chính',      permission: null },
-  { id: 'billing',           label: 'Phê duyệt thanh toán', icon: '💵', section: 'Chính',      permission: null },
-  { id: 'copilot',           label: 'AI Copilot',           icon: '🧠', section: 'Chính',      permission: null },
-  { id: 'signals',           label: 'Tín Hiệu V.I.P',       icon: '📊', section: 'Dữ liệu',   permission: 'UPDATE_SIGNAL', hidden: true },
-  { id: 'copy-trade',        label: 'Copy Trade',           icon: '🔄', section: 'Dữ liệu',   permission: 'UPDATE_SIGNAL' },
-  { id: 'market',            label: 'Dữ liệu chứng khoán',  icon: '🪙', section: 'Dữ liệu',   permission: null },
-  { id: 'market-intelligence', label: 'Market Intelligence', icon: '📈', section: 'Dữ liệu',   permission: null, hidden: true },
-  { id: 'research-center',   label: 'Research Center',      icon: '📝', section: 'Dữ liệu',   permission: null, hidden: true },
-  { id: 'cms',               label: 'Quản trị bài viết',    icon: '📅', section: 'Nội dung',   permission: 'UPDATE_BLOG' },
-  { id: 'rbac',              label: 'Quản trị nhân sự',     icon: '👥', section: 'Quản lý',   permission: 'MANAGE_ROLES' },
-  { id: 'users',             label: 'Quản trị khách hàng',  icon: '👥', section: 'Quản lý',   permission: 'MANAGE_USERS' },
-  { id: 'portfolio-manager', label: 'Quản trị danh mục',    icon: '📅', section: 'Quản lý',   permission: null },
-  { id: 'handbook',          label: 'Cẩm nang nhà đầu tư',  icon: '🏥', section: 'Nội dung',   permission: null },
-  
+  { id: 'overview', label: 'Trang Chủ', icon: '🏠', section: 'Chính', permission: null },
+  { id: 'billing', label: 'Phê duyệt thanh toán', icon: '💵', section: 'Chính', permission: null },
+  { id: 'copilot', label: 'AI Copilot', icon: '🧠', section: 'Chính', permission: null },
+  { id: 'signals', label: 'Tín Hiệu V.I.P', icon: '📊', section: 'Dữ liệu', permission: 'UPDATE_SIGNAL', hidden: true },
+  { id: 'copy-trade', label: 'Copy Trade', icon: '🔄', section: 'Dữ liệu', permission: 'UPDATE_SIGNAL' },
+  { id: 'market', label: 'Dữ liệu chứng khoán', icon: '🪙', section: 'Dữ liệu', permission: null },
+  { id: 'market-intelligence', label: 'Market Intelligence', icon: '📈', section: 'Dữ liệu', permission: null, hidden: true },
+  { id: 'research-center', label: 'Research Center', icon: '📝', section: 'Dữ liệu', permission: null, hidden: true },
+  { id: 'cms', label: 'Quản trị bài viết', icon: '📅', section: 'Nội dung', permission: 'UPDATE_BLOG' },
+  { id: 'rbac', label: 'Quản trị nhân sự', icon: '👥', section: 'Quản lý', permission: 'MANAGE_ROLES' },
+  { id: 'users', label: 'Quản trị khách hàng', icon: '👥', section: 'Quản lý', permission: 'MANAGE_USERS' },
+  { id: 'portfolio-manager', label: 'Quản trị danh mục', icon: '📅', section: 'Quản lý', permission: null },
+  { id: 'handbook', label: 'Cẩm nang nhà đầu tư', icon: '🏥', section: 'Nội dung', permission: null },
+
   // Hidden modules (preserved for code stability, E2E checks and URL routing)
-  { id: 'notifications', label: 'Thông báo',       icon: '🔔', section: 'Hệ thống',   permission: null, hidden: true },
-  { id: 'portfolios',    label: 'Danh mục cũ',     icon: '💼', section: 'Hệ thống',   permission: null, hidden: true },
-  { id: 'audit',         label: 'Nhật ký',         icon: '📋', section: 'Hệ thống',   permission: 'VIEW_AUDIT_LOGS' },
-  { id: 'system',        label: 'Hệ thống',        icon: '⚙️', section: 'Hệ thống',   permission: null },
-  { id: 'ai-ops',        label: 'AI Ops / QA',     icon: '🤖', section: 'Hệ thống',   permission: null },
+  { id: 'notifications', label: 'Thông báo', icon: '🔔', section: 'Hệ thống', permission: null, hidden: true },
+  { id: 'portfolios', label: 'Danh mục cũ', icon: '💼', section: 'Hệ thống', permission: null, hidden: true },
+  { id: 'audit', label: 'Nhật ký', icon: '📋', section: 'Hệ thống', permission: 'VIEW_AUDIT_LOGS' },
+  { id: 'system', label: 'Hệ thống', icon: '⚙️', section: 'Hệ thống', permission: null },
+  { id: 'ai-ops', label: 'AI Ops / QA', icon: '🤖', section: 'Hệ thống', permission: null },
 ];
 
 let currentModule = null;
@@ -429,7 +429,7 @@ async function onHashChange() {
   container.innerHTML = '<div class="admin-loading"><div class="admin-spinner"></div> Đang tải module...</div>';
 
   try {
-    const mod = await import(`./modules/${moduleId}.js`);
+    const mod = await import(`./modules/${moduleId}.js?t=${Date.now()}`);
     const moduleExport = mod.default || mod;
     currentModule = moduleExport;
 

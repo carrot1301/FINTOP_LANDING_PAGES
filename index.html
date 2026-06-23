@@ -8,7 +8,7 @@
 
     <!-- Anti-flicker micro-script (High Performance Session Restore) -->
     <script>
-        (function() {
+        (function () {
             try {
                 if (localStorage.getItem('fintop_access_token')) {
                     const style = document.createElement('style');
@@ -19,7 +19,7 @@
                     `;
                     document.head.appendChild(style);
                 }
-            } catch (e) {}
+            } catch (e) { }
         })();
     </script>
 
@@ -254,7 +254,8 @@
             margin-top: 72px;
             min-height: calc(100vh - 72px);
             z-index: 998;
-            background: #07070d; /* Solid dark background to prevent heavy GPU compositing blur */
+            background: #07070d;
+            /* Solid dark background to prevent heavy GPU compositing blur */
             overflow: visible;
             padding: 40px 5% 3rem;
             animation: panelSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -275,12 +276,14 @@
             .tv-search-bar {
                 display: none !important;
             }
+
             .footer-grid {
                 grid-template-columns: 1fr !important;
                 gap: 1.5rem;
                 text-align: center;
             }
-            .footer-grid > div {
+
+            .footer-grid>div {
                 align-items: center;
                 display: flex;
                 flex-direction: column;
@@ -3627,7 +3630,8 @@
             </div>
         </div>
         <ul class="tv-nav">
-            <li class="nav-item"><a href="index.html" onclick="event.preventDefault(); closeAllPanels();">Trang chủ</a></li>
+            <li class="nav-item"><a href="index.html" onclick="event.preventDefault(); closeAllPanels();">Trang chủ</a>
+            </li>
             <li class="nav-item"><a href="javascript:void(0)" data-panel="panel-hoivien"
                     onclick="openPanel('panel-hoivien', this)">Hội viên</a></li>
             <li class="nav-item dropdown" id="dropdown-fintop-data">
@@ -3697,14 +3701,16 @@
                 <div class="user-dropdown-menu">
                     <a href="javascript:void(0)" class="user-dropdown-item login-btn"
                         onclick="openAuthModal('login')">👤 Đăng nhập</a>
-                    <a href="fintop_frontend/admin/index.html" class="user-dropdown-item" id="adminAccessLink">🔐 Trang quản trị</a>
+                    <a href="fintop_frontend/admin/index.html" class="user-dropdown-item" id="adminAccessLink">🔐 Trang
+                        quản trị</a>
                     <a href="javascript:void(0)" class="user-dropdown-item"
                         onclick="alert('Mở Trung tâm trợ giúp')">Trung tâm Trợ giúp</a>
                     <a href="javascript:void(0)" class="user-dropdown-item"
                         onclick="alert('Tính năng mới sắp ra mắt!')">Có gì mới</a>
                 </div>
             </div>
-            <button class="btn-tv-blue" id="fintopStartBtn" data-hide-when-auth onclick="openAuthModal('login')">Bắt đầu</button>
+            <button class="btn-tv-blue" id="fintopStartBtn" data-hide-when-auth onclick="openAuthModal('login')">Bắt
+                đầu</button>
         </div>
     </header>
 
@@ -3828,7 +3834,8 @@
             </h4>
             <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.8; margin-bottom: 0.8rem;">
                 Bảng tổng hợp danh mục cổ phiếu theo <strong style="color: #c084fc;">Trạng thái Model</strong>, <strong
-                    style="color: #c084fc;">sức mạnh xu hướng dòng tiền</strong> và các vùng kiểm định kỹ thuật theo phương pháp phân tích
+                    style="color: #c084fc;">sức mạnh xu hướng dòng tiền</strong> và các vùng kiểm định kỹ thuật theo
+                phương pháp phân tích
                 định lượng được trích xuất hoàn toàn tự động và tổng hợp theo các nhóm ngành. Đây là công cụ lọc và phân
                 loại dữ liệu khách quan, hỗ trợ người dùng có thêm góc nhìn tổng quan về thị trường.
             </p>
@@ -4050,10 +4057,13 @@
                 </aside>
             </section>
 
-            <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <div class="market-section-bar"
+                style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div class="market-section-title">Bài viết</div>
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="search-analysis-market" placeholder="Tìm kiếm bài viết..." style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;" oninput="applyMarketArticlesFilter()">
+                    <input type="text" id="search-analysis-market" placeholder="Tìm kiếm bài viết..."
+                        style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;"
+                        oninput="applyMarketArticlesFilter()">
                     <div class="market-tabs" aria-label="Bộ lọc bài viết">
                         <button class="market-tab active" type="button" onclick="filterMarketArticles('all', this)">Tất
                             cả</button>
@@ -4262,10 +4272,13 @@
                 </aside>
             </section>
 
-            <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <div class="market-section-bar"
+                style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div class="market-section-title">Chiến lược & Kịch bản</div>
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="search-analysis-pro" placeholder="Tìm kiếm PRO..." style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;" oninput="applyProArticlesFilter()">
+                    <input type="text" id="search-analysis-pro" placeholder="Tìm kiếm PRO..."
+                        style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;"
+                        oninput="applyProArticlesFilter()">
                     <div class="market-tabs" aria-label="Phân nhóm PRO Analysis">
                         <button class="market-tab active" type="button">Tổng quan</button>
                         <button class="market-tab" type="button">Danh mục</button>
@@ -4430,10 +4443,13 @@
                 </aside>
             </section>
 
-            <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <div class="market-section-bar"
+                style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div class="market-section-title">Doanh nghiệp nổi bật</div>
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="search-analysis-company" placeholder="Tìm mã CP..." style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 150px; transition: border-color 0.2s;" oninput="applyCompanyArticlesFilter()">
+                    <input type="text" id="search-analysis-company" placeholder="Tìm mã CP..."
+                        style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 150px; transition: border-color 0.2s;"
+                        oninput="applyCompanyArticlesFilter()">
                     <div class="market-tabs" aria-label="Nhóm phân tích doanh nghiệp">
                         <button class="market-tab active" type="button">Large Cap</button>
                         <button class="market-tab" type="button">Tăng trưởng</button>
@@ -4585,10 +4601,13 @@
                 </aside>
             </section>
 
-            <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <div class="market-section-bar"
+                style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div class="market-section-title">Bản đồ ngành</div>
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="search-analysis-sector" placeholder="Tìm kiếm ngành..." style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;" oninput="applySectorArticlesFilter()">
+                    <input type="text" id="search-analysis-sector" placeholder="Tìm kiếm ngành..."
+                        style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;"
+                        oninput="applySectorArticlesFilter()">
                     <div class="market-tabs" aria-label="Bộ lọc ngành">
                         <button class="market-tab active" type="button">Momentum</button>
                         <button class="market-tab" type="button">Định giá</button>
@@ -5312,388 +5331,408 @@
         <!-- VÙNG CUỘN HIỆU ỨNG ĐIỆN ẢNH -->
         <div id="cinematic-container">
 
-        <!-- Hiệu Ứng Flash Chuyển Cảnh -->
-        <div class="flash-overlay"></div>
+            <!-- Hiệu Ứng Flash Chuyển Cảnh -->
+            <div class="flash-overlay"></div>
 
-        <!-- PHÂN CẢNH 1: TRANG CHỦ HERO -->
-        <section class="scene scene-1">
-            <div class="hero-content">
-                <h1 class="hero-title gradient-text">Kỷ Nguyên Đầu Tư Cùng FinTop DATA.</h1>
-                <p class="hero-subtitle">Nơi hội tụ Data - Chuyên gia - Công nghệ & AI. Tinh gọn và hiệu quả.</p>
-                <div class="hero-cta-wrapper">
-                    <button class="btn-white-huge" onclick="handleStartBtnClick()">Bắt đầu miễn
-                        phí</button>
-                    <span style="font-size: 0.9rem; color: #94A3B8; letter-spacing: 0.5px;"></span>
+            <!-- PHÂN CẢNH 1: TRANG CHỦ HERO -->
+            <section class="scene scene-1">
+                <div class="hero-content">
+                    <h1 class="hero-title gradient-text">Kỷ Nguyên Đầu Tư Cùng FinTop DATA.</h1>
+                    <p class="hero-subtitle">Nơi hội tụ Data - Chuyên gia - Công nghệ & AI. Tinh gọn và hiệu quả.</p>
+                    <div class="hero-cta-wrapper">
+                        <button class="btn-white-huge" onclick="handleStartBtnClick()">Bắt đầu miễn
+                            phí</button>
+                        <span style="font-size: 0.9rem; color: #94A3B8; letter-spacing: 0.5px;"></span>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Giao Diện Giả Lập Trợ Lý AI -->
-            <div class="ai-assistant-widget">
-                <div class="ai-avatar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path
-                            d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-                        <path d="M5 3v4" />
-                        <path d="M19 17v4" />
-                        <path d="M3 5h4" />
-                        <path d="M17 19h4" />
+                <!-- Giao Diện Giả Lập Trợ Lý AI -->
+                <div class="ai-assistant-widget">
+                    <div class="ai-avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+                            <path d="M5 3v4" />
+                            <path d="M19 17v4" />
+                            <path d="M3 5h4" />
+                            <path d="M17 19h4" />
+                        </svg>
+                    </div>
+                    <div class="ai-message">
+                        <div class="ai-name">
+                            FinTop AI
+                            <div class="ai-status-dot"></div>
+                        </div>
+                        <div class="ai-text">"Phát hiện dòng tiền lớn thâm nhập mã FPT. Khuyến nghị Tích lũy vùng giá
+                            132.
+                            Bạn muốn mở phân tích chuyên sâu chứ?"</div>
+                    </div>
+                </div>
+
+                <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); opacity: 0.5;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </div>
-                <div class="ai-message">
-                    <div class="ai-name">
-                        FinTop AI
-                        <div class="ai-status-dot"></div>
-                    </div>
-                    <div class="ai-text">"Phát hiện dòng tiền lớn thâm nhập mã FPT. Khuyến nghị Tích lũy vùng giá 132.
-                        Bạn muốn mở phân tích chuyên sâu chứ?"</div>
-                </div>
-            </div>
+            </section>
 
-            <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); opacity: 0.5;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
+            <!-- PHÂN CẢNH 2: TÍNH NĂNG -->
+            <section class="scene scene-2">
+                <div class="ai-cube gradient-text">Dữ Liệu Cho Nhà Đầu Tư Thế Hệ Mới!</div>
+                <div class="panels-container">
+                    <div class="panel">
+                        <h3 style="color:var(--text-primary); margin-bottom:1rem;">DATA</h3>
+                        <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
+                            <li>✓ Tra cứu Cổ phiếu</li>
+                            <li>✓ Bộ lọc Cổ phiếu</li>
+                            <li>✓ Phân tích định lượng</li>
+                            <li>✓ Stock Data</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3 style="color:var(--text-primary); margin-bottom:1rem;">CHUYÊN GIA</h3>
+                        <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
+                            <li>✓ Nghiên cứu thị trường</li>
+                            <li>✓ Phân tích chuyên sâu</li>
+                            <li>✓ Phân tích Doanh nghiệp</li>
+                            <li>✓ Phân tích Ngành</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3 style="color:var(--text-primary); margin-bottom:1rem;">AI PHÂN TÍCH</h3>
+                        <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
+                            <li>✓ Công cụ FinTop AI</li>
+                            <li>✓ Phân tích Sentiment</li>
+                            <li>✓ Phân tích biên độ giá</li>
+                            <li>✓ Phân tích QTRR</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- PHẦN 2.5: TRÌNH DIỄN GIAO DIỆN TERMINAL -->
+        <section class="product-showcase">
+            <div class="showcase-header">
+                <h2 class="gradient-text">Hệ Sinh Thái Phân Tích Đầu Tư Đỉnh Cao</h2>
+                <p>Đồng hành trên +10,000 nhà đầu tư tại Việt Nam làm chủ dòng tiền đầu tư thông minh bằng bộ công cụ dữ
+                    liệu tiêu chuẩn quốc tế.</p>
+            </div>
+            <div class="showcase-mockup-wrapper">
+                <img src="assets/images/fintop_terminal_mockup.png" alt="FinTop DATA Terminal Dashboard"
+                    class="mockup-img">
             </div>
         </section>
 
-        <!-- PHÂN CẢNH 2: TÍNH NĂNG -->
-        <section class="scene scene-2">
-            <div class="ai-cube gradient-text">Dữ Liệu Cho Nhà Đầu Tư Thế Hệ Mới!</div>
-            <div class="panels-container">
-                <div class="panel">
-                    <h3 style="color:var(--text-primary); margin-bottom:1rem;">DATA</h3>
-                    <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
-                        <li>✓ Tra cứu Cổ phiếu</li>
-                        <li>✓ Bộ lọc Cổ phiếu</li>
-                        <li>✓ Phân tích định lượng</li>
-                        <li>✓ Stock Data</li>
+        <!-- PHẦN 3: THỐNG KÊ SỐ LIỆU -->
+        <section class="stats-section">
+            <div class="stat-item">
+                <h3 class="stat-number" data-target="1500" data-suffix="+">0</h3>
+                <p>Cổ phiếu được Cover</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="stat-number" data-target="50" data-suffix="+">0</h3>
+                <p>Chuyên gia Thị trường</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="stat-number" data-target="98" data-suffix="%">0</h3>
+                <p>Độ chính xác AI Model</p>
+            </div>
+        </section>
+
+        <!-- PHẦN 4: BẢNG GIÁ HỘI VIÊN -->
+        <section class="pricing-section" id="pricing">
+            <h2 class="gradient-text" style="position: relative; z-index: 1;">Chọn Gói Hội Viên</h2>
+            <p style="margin-top: 1rem; position: relative; z-index: 1;">Nâng cấp trải nghiệm đầu tư của bạn ngay hôm
+                nay
+            </p>
+
+            <div class="pricing-grid">
+                <!-- GÓI STANDARD - Xanh lam -->
+                <div class="pricing-card liquid-glass-card card-standard">
+                    <div class="pricing-title">STANDARD</div>
+                    <div class="pricing-subtitle" style="color: #7dd3fc;">(Tiêu chuẩn)</div>
+                    <ul class="pricing-features">
+                        <li><span class="check-icon">✦</span> Tra cứu CP</li>
+                        <li><span class="check-icon">✦</span> Phân tích cơ bản</li>
+                        <li><span class="check-icon">✦</span> Tool & Dữ liệu cơ bản</li>
                     </ul>
+                    <button class="btn-tier" onclick="openPricingModal('standard')">Đăng ký</button>
                 </div>
-                <div class="panel">
-                    <h3 style="color:var(--text-primary); margin-bottom:1rem;">CHUYÊN GIA</h3>
-                    <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
-                        <li>✓ Nghiên cứu thị trường</li>
-                        <li>✓ Phân tích chuyên sâu</li>
-                        <li>✓ Phân tích Doanh nghiệp</li>
-                        <li>✓ Phân tích Ngành</li>
+
+                <!-- GÓI PRO - Tím -->
+                <div class="pricing-card liquid-glass-card card-pro">
+                    <div class="pricing-title">PRO ⭐</div>
+                    <div class="pricing-subtitle" style="color: #c4b5fd;">(Chuyên nghiệp)</div>
+                    <ul class="pricing-features">
+                        <li><span class="check-icon">✦</span> Bộ Lọc CP</li>
+                        <li><span class="check-icon">✦</span> Pro Analysis</li>
+                        <li><span class="check-icon">✦</span> Pro Data</li>
                     </ul>
+                    <button class="btn-tier" onclick="openPricingModal('pro')">Đăng ký</button>
                 </div>
-                <div class="panel">
-                    <h3 style="color:var(--text-primary); margin-bottom:1rem;">AI PHÂN TÍCH</h3>
-                    <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
-                        <li>✓ Công cụ FinTop AI</li>
-                        <li>✓ Phân tích Sentiment</li>
-                        <li>✓ Phân tích biên độ giá</li>
-                        <li>✓ Phân tích QTRR</li>
+
+                <!-- GÓI V.I.P - Xanh ngọc -->
+                <div class="pricing-card liquid-glass-card card-vip">
+                    <div class="pricing-title">V.I.P</div>
+                    <div class="pricing-subtitle" style="color: #6ee7b7;">(Cao cấp)</div>
+                    <ul class="pricing-features">
+                        <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
+                        <li><span class="check-icon">✦</span> Kết nối Chuyên gia</li>
+                        <li><span class="check-icon">✦</span> Phân tích Chuyên gia</li>
                     </ul>
+                    <button class="btn-tier" onclick="openPricingModal('vip')">Đăng ký</button>
+                </div>
+
+                <!-- GÓI DIAMOND - Vàng -->
+                <div class="pricing-card liquid-glass-card card-diamond">
+                    <div class="pricing-title">DIAMOND 💎</div>
+                    <div class="pricing-subtitle" style="color: #fcd34d;">(Kim cương)</div>
+                    <ul class="pricing-features">
+                        <li><span class="check-icon">✦</span> Đặc quyền V.I.P</li>
+                        <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
+                        <li><span class="check-icon">✦</span> Cố vấn 1-1 Chuyên gia</li>
+                    </ul>
+                    <button class="btn-tier" onclick="openPricingModal('diamond')">Đăng ký</button>
                 </div>
             </div>
         </section>
 
-    </div>
-
-    <!-- PHẦN 2.5: TRÌNH DIỄN GIAO DIỆN TERMINAL -->
-    <section class="product-showcase">
-        <div class="showcase-header">
-            <h2 class="gradient-text">Hệ Sinh Thái Phân Tích Đầu Tư Đỉnh Cao</h2>
-            <p>Đồng hành trên +10,000 nhà đầu tư tại Việt Nam làm chủ dòng tiền đầu tư thông minh bằng bộ công cụ dữ
-                liệu tiêu chuẩn quốc tế.</p>
-        </div>
-        <div class="showcase-mockup-wrapper">
-            <img src="assets/images/fintop_terminal_mockup.png" alt="FinTop DATA Terminal Dashboard" class="mockup-img">
-        </div>
-    </section>
-
-    <!-- PHẦN 3: THỐNG KÊ SỐ LIỆU -->
-    <section class="stats-section">
-        <div class="stat-item">
-            <h3 class="stat-number" data-target="1500" data-suffix="+">0</h3>
-            <p>Cổ phiếu được Cover</p>
-        </div>
-        <div class="stat-item">
-            <h3 class="stat-number" data-target="50" data-suffix="+">0</h3>
-            <p>Chuyên gia Thị trường</p>
-        </div>
-        <div class="stat-item">
-            <h3 class="stat-number" data-target="98" data-suffix="%">0</h3>
-            <p>Độ chính xác AI Model</p>
-        </div>
-    </section>
-
-    <!-- PHẦN 4: BẢNG GIÁ HỘI VIÊN -->
-    <section class="pricing-section" id="pricing">
-        <h2 class="gradient-text" style="position: relative; z-index: 1;">Chọn Gói Hội Viên</h2>
-        <p style="margin-top: 1rem; position: relative; z-index: 1;">Nâng cấp trải nghiệm đầu tư của bạn ngay hôm nay
-        </p>
-
-        <div class="pricing-grid">
-            <!-- GÓI STANDARD - Xanh lam -->
-            <div class="pricing-card liquid-glass-card card-standard">
-                <div class="pricing-title">STANDARD</div>
-                <div class="pricing-subtitle" style="color: #7dd3fc;">(Tiêu chuẩn)</div>
-                <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Tra cứu CP</li>
-                    <li><span class="check-icon">✦</span> Phân tích cơ bản</li>
-                    <li><span class="check-icon">✦</span> Tool & Dữ liệu cơ bản</li>
-                </ul>
-                <button class="btn-tier" onclick="openPricingModal('standard')">Đăng ký</button>
-            </div>
-
-            <!-- GÓI PRO - Tím -->
-            <div class="pricing-card liquid-glass-card card-pro">
-                <div class="pricing-title">PRO ⭐</div>
-                <div class="pricing-subtitle" style="color: #c4b5fd;">(Chuyên nghiệp)</div>
-                <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Bộ Lọc CP</li>
-                    <li><span class="check-icon">✦</span> Pro Analysis</li>
-                    <li><span class="check-icon">✦</span> Pro Data</li>
-                </ul>
-                <button class="btn-tier" onclick="openPricingModal('pro')">Đăng ký</button>
-            </div>
-
-            <!-- GÓI V.I.P - Xanh ngọc -->
-            <div class="pricing-card liquid-glass-card card-vip">
-                <div class="pricing-title">V.I.P</div>
-                <div class="pricing-subtitle" style="color: #6ee7b7;">(Cao cấp)</div>
-                <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
-                    <li><span class="check-icon">✦</span> Kết nối Chuyên gia</li>
-                    <li><span class="check-icon">✦</span> Phân tích Chuyên gia</li>
-                </ul>
-                <button class="btn-tier" onclick="openPricingModal('vip')">Đăng ký</button>
-            </div>
-
-            <!-- GÓI DIAMOND - Vàng -->
-            <div class="pricing-card liquid-glass-card card-diamond">
-                <div class="pricing-title">DIAMOND 💎</div>
-                <div class="pricing-subtitle" style="color: #fcd34d;">(Kim cương)</div>
-                <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Đặc quyền V.I.P</li>
-                    <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
-                    <li><span class="check-icon">✦</span> Cố vấn 1-1 Chuyên gia</li>
-                </ul>
-                <button class="btn-tier" onclick="openPricingModal('diamond')">Đăng ký</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- PHẦN 5: ĐỘI NGŨ CHUYÊN GIA -->
-    <section class="team-section" id="team">
-        <h2 class="gradient-text" style="position: relative; z-index: 1;">Đội Ngũ Chuyên Gia</h2>
-        <p
-            style="margin-top: 1rem; position: relative; z-index: 1; color: #94A3B8; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-            Hợp tác cùng Chuyên gia trên nền tảng Công nghệ &amp; Dữ liệu FinTop DATA.
-        </p>
-
-        <!-- Vòng tròn chuyên gia -->
-        <div class="team-circle-container">
-            <!-- Decorative elements -->
-            <div class="team-orbit-ring"></div>
-            <div class="team-center-glow"></div>
-
-            <!-- 1. CEO - Đỉnh vòng tròn -->
-            <div class="team-member">
-                <div class="team-avatar-wrapper avatar-gold">
-                    <img src="assets/images/anh_Hai.png" alt="Nguyễn Đình Hải" class="team-avatar">
-                </div>
-                <h3 class="team-name">Nguyễn Đình Hải (Mr)</h3>
-                <p class="team-role">Giám đốc NC&amp;PT Dữ liệu đầu tư</p>
-                <p class="team-desc">Nghiên cứu thị trường &amp; Quản trị chiến lược</p>
-            </div>
-
-            <!-- 2. Phải trên -->
-            <div class="team-member">
-                <div class="team-avatar-wrapper avatar-cyan">
-                    <img src="assets/images/anh_Linh.png" alt="Trần Khánh Linh" class="team-avatar">
-                </div>
-                <h3 class="team-name">Trần Khánh Linh (Mr)</h3>
-                <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
-                <p class="team-desc">Doanh nghiệp &amp; Ngành kinh tế</p>
-            </div>
-
-            <!-- 3. Phải dưới -->
-            <div class="team-member">
-                <div class="team-avatar-wrapper avatar-green">
-                    <img src="assets/images/anh_Phuc.png" alt="Nguyễn Thành Phúc" class="team-avatar"
-                        onerror="this.src='assets/images/placeholder.png'">
-                </div>
-                <h3 class="team-name">Nguyễn Thành Phúc (Mr)</h3>
-                <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
-                <p class="team-desc">Dữ liệu Doanh nghiệp &amp; Cổ phiếu</p>
-            </div>
-
-            <!-- 4. Trái dưới -->
-            <div class="team-member">
-                <div class="team-avatar-wrapper avatar-pink">
-                    <img src="assets/images/chi_Hanh.png" alt="Nguyễn Minh Hạnh" class="team-avatar">
-                </div>
-                <h3 class="team-name">Nguyễn Minh Hạnh (Ms)</h3>
-                <p class="team-role">Chuyên gia NC&amp;PT Vĩ mô - Ngành</p>
-                <p class="team-desc">Thạc sĩ Kinh tế chiến lược (FSU JENA, Đức)</p>
-            </div>
-
-            <!-- 5. Trái trên -->
-            <div class="team-member">
-                <div class="team-avatar-wrapper avatar-purple">
-                    <img src="assets/images/anh_Dung.png" alt="Mai Tiến Dũng" class="team-avatar">
-                </div>
-                <h3 class="team-name">Mai Tiến Dũng (Mr)</h3>
-                <p class="team-role">Chuyên gia NC&amp;PT Doanh nghiệp</p>
-                <p class="team-desc">Thạc sĩ Tài chính số - FinTech (Loughborough Uni, Anh)</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 6: GIỚI THIỆU FINTOP -->
-    <section class="about-section" id="about">
-        <h2 class="gradient-text" style="position: relative; z-index: 1;">Giới Thiệu FINTOP</h2>
-        <div class="about-description">
-            <p>
-                <strong style="color: #c084fc;">Công Ty TNHH Đầu Tư & Phát Triển FINTOP</strong> là doanh nghiệp
-                <em>Fintech & Data</em> hoạt động và định hướng phát triển trong lĩnh vực
-                <strong style="color: #38bdf8;">Công nghệ Tài chính</strong>,
-                Nghiên cứu - Phân tích - Xử lý - Xuất bản Dữ liệu với các
-                <strong style="color: #f59e0b;">"Mô hình tiên tiến" (Model)</strong> chuẩn hóa cho hiệu quả cao,
-                ứng dụng <strong style="color: #34d399;">"Công nghệ AI"</strong> trong phân tích, nghiên cứu cùng
-                Đội ngũ Chuyên gia giàu kinh nghiệm nhằm mang đến những công cụ và dữ liệu bổ trợ mạnh mẽ
-                cho hoạt động phân tích, nghiên cứu và ra quyết định đầu tư.
+        <!-- PHẦN 5: ĐỘI NGŨ CHUYÊN GIA -->
+        <section class="team-section" id="team">
+            <h2 class="gradient-text" style="position: relative; z-index: 1;">Đội Ngũ Chuyên Gia</h2>
+            <p
+                style="margin-top: 1rem; position: relative; z-index: 1; color: #94A3B8; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Hợp tác cùng Chuyên gia trên nền tảng Công nghệ &amp; Dữ liệu FinTop DATA.
             </p>
-            <p style="margin-top: 1rem;">
-                FINTOP không ngừng mở rộng, hợp tác phát triển, cung cấp các sản phẩm/dịch vụ trọng yếu,
-                đa dạng về dữ liệu cho thị trường <strong style="color: #c084fc;">Tài chính & Đầu tư</strong>.
-            </p>
-        </div>
 
-        <!-- Thẻ Đánh Giá Từ Người Dùng -->
-        <div class="testimonial-grid">
-            <div class="testimonial-card testimonial-cyan">
-                <div class="testimonial-quote">
-                    <span class="quote-mark">&ldquo;</span>
-                    FinTop là đơn vị uy tín chuyên cung cấp dữ liệu, kiến thức thực tế, chiến lược đầu tư và các báo cáo
-                    phân tích kịp thời, vô cùng hữu dụng cho nhà đầu tư và cả các chuyên gia về chứng khoán. Với chiến
-                    lược và cách làm chuyên nghiệp, đặc biệt Đội ngũ FinTop với nhiều năm kinh nghiệm trên thị trường sẽ
-                    giúp nhà đầu tư tối ưu hiệu quả và đạt được lợi nhuận tốt nhất trong quá trình giao dịch. Với sự hỗ
-                    trợ từ FinTop nhà đầu tư sẽ thông thái, chủ động với việc đầu tư và kỷ luật với chiến lược giao dịch
-                    đã đề ra.
-                    <span class="quote-mark">&rdquo;</span>
+            <!-- Vòng tròn chuyên gia -->
+            <div class="team-circle-container">
+                <!-- Decorative elements -->
+                <div class="team-orbit-ring"></div>
+                <div class="team-center-glow"></div>
+
+                <!-- 1. CEO - Đỉnh vòng tròn -->
+                <div class="team-member">
+                    <div class="team-avatar-wrapper avatar-gold">
+                        <img src="assets/images/anh_Hai.png" alt="Nguyễn Đình Hải" class="team-avatar">
+                    </div>
+                    <h3 class="team-name">Nguyễn Đình Hải (Mr)</h3>
+                    <p class="team-role">Giám đốc NC&amp;PT Dữ liệu đầu tư</p>
+                    <p class="team-desc">Nghiên cứu thị trường &amp; Quản trị chiến lược</p>
                 </div>
-                <div class="testimonial-author">
-                    <img src="assets/images/anh_Long.png" alt="Anh Lê Văn Long" class="testimonial-avatar">
-                    <div>
-                        <h4 class="testimonial-name">Anh Lê Văn Long</h4>
-                        <p class="testimonial-role">Giám đốc Tư vấn đầu tư — Công ty Cổ phần Chứng khoán VPS</p>
+
+                <!-- 2. Phải trên -->
+                <div class="team-member">
+                    <div class="team-avatar-wrapper avatar-cyan">
+                        <img src="assets/images/anh_Linh.png" alt="Trần Khánh Linh" class="team-avatar">
+                    </div>
+                    <h3 class="team-name">Trần Khánh Linh (Mr)</h3>
+                    <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
+                    <p class="team-desc">Doanh nghiệp &amp; Ngành kinh tế</p>
+                </div>
+
+                <!-- 3. Phải dưới -->
+                <div class="team-member">
+                    <div class="team-avatar-wrapper avatar-green">
+                        <img src="assets/images/anh_Phuc.png" alt="Nguyễn Thành Phúc" class="team-avatar"
+                            onerror="this.src='assets/images/placeholder.png'">
+                    </div>
+                    <h3 class="team-name">Nguyễn Thành Phúc (Mr)</h3>
+                    <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
+                    <p class="team-desc">Dữ liệu Doanh nghiệp &amp; Cổ phiếu</p>
+                </div>
+
+                <!-- 4. Trái dưới -->
+                <div class="team-member">
+                    <div class="team-avatar-wrapper avatar-pink">
+                        <img src="assets/images/chi_Hanh.png" alt="Nguyễn Minh Hạnh" class="team-avatar">
+                    </div>
+                    <h3 class="team-name">Nguyễn Minh Hạnh (Ms)</h3>
+                    <p class="team-role">Chuyên gia NC&amp;PT Vĩ mô - Ngành</p>
+                    <p class="team-desc">Thạc sĩ Kinh tế chiến lược (FSU JENA, Đức)</p>
+                </div>
+
+                <!-- 5. Trái trên -->
+                <div class="team-member">
+                    <div class="team-avatar-wrapper avatar-purple">
+                        <img src="assets/images/anh_Dung.png" alt="Mai Tiến Dũng" class="team-avatar">
+                    </div>
+                    <h3 class="team-name">Mai Tiến Dũng (Mr)</h3>
+                    <p class="team-role">Chuyên gia NC&amp;PT Doanh nghiệp</p>
+                    <p class="team-desc">Thạc sĩ Tài chính số - FinTech (Loughborough Uni, Anh)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: GIỚI THIỆU FINTOP -->
+        <section class="about-section" id="about">
+            <h2 class="gradient-text" style="position: relative; z-index: 1;">Giới Thiệu FINTOP</h2>
+            <div class="about-description">
+                <p>
+                    <strong style="color: #c084fc;">Công Ty TNHH Đầu Tư & Phát Triển FINTOP</strong> là doanh nghiệp
+                    <em>Fintech & Data</em> hoạt động và định hướng phát triển trong lĩnh vực
+                    <strong style="color: #38bdf8;">Công nghệ Tài chính</strong>,
+                    Nghiên cứu - Phân tích - Xử lý - Xuất bản Dữ liệu với các
+                    <strong style="color: #f59e0b;">"Mô hình tiên tiến" (Model)</strong> chuẩn hóa cho hiệu quả cao,
+                    ứng dụng <strong style="color: #34d399;">"Công nghệ AI"</strong> trong phân tích, nghiên cứu cùng
+                    Đội ngũ Chuyên gia giàu kinh nghiệm nhằm mang đến những công cụ và dữ liệu bổ trợ mạnh mẽ
+                    cho hoạt động phân tích, nghiên cứu và ra quyết định đầu tư.
+                </p>
+                <p style="margin-top: 1rem;">
+                    FINTOP không ngừng mở rộng, hợp tác phát triển, cung cấp các sản phẩm/dịch vụ trọng yếu,
+                    đa dạng về dữ liệu cho thị trường <strong style="color: #c084fc;">Tài chính & Đầu tư</strong>.
+                </p>
+            </div>
+
+            <!-- Thẻ Đánh Giá Từ Người Dùng -->
+            <div class="testimonial-grid">
+                <div class="testimonial-card testimonial-cyan">
+                    <div class="testimonial-quote">
+                        <span class="quote-mark">&ldquo;</span>
+                        FinTop là đơn vị uy tín chuyên cung cấp dữ liệu, kiến thức thực tế, chiến lược đầu tư và các báo
+                        cáo
+                        phân tích kịp thời, vô cùng hữu dụng cho nhà đầu tư và cả các chuyên gia về chứng khoán. Với
+                        chiến
+                        lược và cách làm chuyên nghiệp, đặc biệt Đội ngũ FinTop với nhiều năm kinh nghiệm trên thị
+                        trường sẽ
+                        giúp nhà đầu tư tối ưu hiệu quả và đạt được lợi nhuận tốt nhất trong quá trình giao dịch. Với sự
+                        hỗ
+                        trợ từ FinTop nhà đầu tư sẽ thông thái, chủ động với việc đầu tư và kỷ luật với chiến lược giao
+                        dịch
+                        đã đề ra.
+                        <span class="quote-mark">&rdquo;</span>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="assets/images/anh_Long.png" alt="Anh Lê Văn Long" class="testimonial-avatar">
+                        <div>
+                            <h4 class="testimonial-name">Anh Lê Văn Long</h4>
+                            <p class="testimonial-role">Giám đốc Tư vấn đầu tư — Công ty Cổ phần Chứng khoán VPS</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card testimonial-pink">
+                    <div class="testimonial-quote">
+                        <span class="quote-mark">&ldquo;</span>
+                        FINTOP là nơi tập hợp tinh hoa của đội ngũ chuyên gia trẻ, năng động, có kinh nghiệm thực chiến
+                        trên
+                        thị trường chứng khoán, vừa có kiến thức chuyên sâu về phân tích cơ bản và vừa có độ nhạy bén
+                        trong
+                        phân tích kỹ thuật. Đây là một trang web uy tín, đáng tin cậy, giúp cung cấp các phân tích và
+                        cập
+                        nhật thị trường, chọn lọc cổ phiếu. Ngoài ra, đội ngũ chuyên gia của FINTOP cũng thường xuyên
+                        cung
+                        cấp các phân tích chiến lược đầu tư hay có các báo cáo phân tích ngành và phân tích doanh
+                        nghiệp,
+                        giúp cho nhà đầu tư có căn cứ để đưa ra các quyết định đầu tư sáng suốt. Nếu nhà đầu tư chưa có
+                        nhiều kiến thức, kinh nghiệm, hoặc không có nhiều thời gian để tìm hiểu và nghiên cứu về chứng
+                        khoán
+                        thì FINTOP chính là người đồng hành tuyệt vời của nhà đầu tư.
+                        <span class="quote-mark">&rdquo;</span>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="assets/images/chi_Helena.png" alt="Chị Helena Hạnh Đặng" class="testimonial-avatar">
+                        <div>
+                            <h4 class="testimonial-name">Chị Helena Hạnh Đặng</h4>
+                            <p class="testimonial-role">Chuyên gia Đào tạo Tài chính cá nhân — Khách hàng đối tác</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card testimonial-green">
+                    <div class="testimonial-quote">
+                        <span class="quote-mark">&ldquo;</span>
+                        FinTop là một đội ngũ chuyên nghiệp, không ngừng nghiên cứu, học hỏi, cầu thị và luôn luôn lắng
+                        nghe
+                        khách hàng, đối tác. Những báo cáo phân tích, đánh giá của Team mang lại nhiều hữu ích cho mình
+                        là
+                        một người công tác trong lĩnh vực Tài chính với các báo cáo phân tích ngành, dữ liệu kinh tế vĩ
+                        mô,
+                        phân tích đánh giá doanh nghiệp. Đặc biệt có phần tra cứu xu hướng cổ phiếu rất hay bên cạnh
+                        chia sẻ
+                        cẩm nang, phương pháp đầu tư để mọi người cùng tìm hiểu. Chúc FinTop Team sẽ tiếp tục phát huy
+                        và
+                        luôn có những báo cáo phân tích chất lượng nhất đến khách hàng.
+                        <span class="quote-mark">&rdquo;</span>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="assets/images/chi_Lich.png" alt="Chị Trần Thị Hồng Lịch" class="testimonial-avatar">
+                        <div>
+                            <h4 class="testimonial-name">Chị Trần Thị Hồng Lịch</h4>
+                            <p class="testimonial-role">Nhà Đầu Tư — Khách Hàng Đối Tác FinTop</p>
+                        </div>
+                    </div>
+                </div>
+
+        </section>
+
+        <footer style="position: relative; z-index: 10; background: #07070D;">
+            <div class="footer-grid">
+                <div>
+                    <h2 class="logo">FinTop DATA</h2>
+                    <p style="margin-top: 1rem;">Nơi hội tụ Data - Chuyên gia - Công nghệ &amp; AI.</p>
+                </div>
+                <div>
+                    <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Sản phẩm</h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                        <a href="hoi-vien/index.html">Hội Viên</a>
+                        <a href="fintop-data/index.html">FinTop Data</a>
+                        <a href="chuyen-gia/index.html">Chuyên Gia</a>
+                        <a href="fintop-ai/index.html">FinTop AI</a>
+                        <a href="stock-data/index.html">Stock Data</a>
+                        <a href="huong-dan/index.html">Hướng Dẫn</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Liên hệ</h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.6rem; color: #94A3B8;">
+                        <p style="display: flex; align-items: center; gap: 6px;"><img
+                                src="assets/images/icons8-phone-color-hand-drawn-favicons/web/icons8-phone-color-hand-drawn-32.png"
+                                alt="Phone" width="20" height="20" style="vertical-align: middle;"> Hotline: <a
+                                href="tel:0862348886" style="color: #c084fc;">086.234.8886</a></p>
+                        <p style="display: flex; align-items: center; gap: 6px;">📧 Email: <a
+                                href="mailto:DVKH@fintopdata.vn" style="color: #c084fc;">DVKH@fintopdata.vn</a></p>
+                        <p style="display: flex; align-items: center; gap: 6px;">📍 65 Ô Chợ Dừa, Đống Đa, Hà Nội</p>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Tải ứng dụng</h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.8rem; align-items: center;">
+                        <a href="#"
+                            style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
+                            <img src="assets/images/icons8-app-store-color-favicons/web/icons8-app-store-color-32.png"
+                                alt="App Store" width="20" height="20"> App Store
+                        </a>
+                        <a href="#"
+                            style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
+                            <img src="assets/images/icons8-google-play-windows-11-color-favicons/web/icons8-google-play-windows-11-color-32.png"
+                                alt="Google Play" width="20" height="20"> Google Play
+                        </a>
+                        <div
+                            style="margin-top: 0.5rem; background: #fff; border-radius: 8px; padding: 8px; display: inline-block;">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&amp;data=https://zalo.me/fintopdata"
+                                alt="QR Zalo" width="80" height="80" style="display: block;">
+                        </div>
+                        <span
+                            style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem; color: #94A3B8;"><img
+                                src="assets/images/icons8-zalo-color-hand-drawn-favicons/web/icons8-zalo-color-hand-drawn-32.png"
+                                alt="Zalo" width="18" height="18"> Zalo FinTop</span>
                     </div>
                 </div>
             </div>
-
-            <div class="testimonial-card testimonial-pink">
-                <div class="testimonial-quote">
-                    <span class="quote-mark">&ldquo;</span>
-                    FINTOP là nơi tập hợp tinh hoa của đội ngũ chuyên gia trẻ, năng động, có kinh nghiệm thực chiến trên
-                    thị trường chứng khoán, vừa có kiến thức chuyên sâu về phân tích cơ bản và vừa có độ nhạy bén trong
-                    phân tích kỹ thuật. Đây là một trang web uy tín, đáng tin cậy, giúp cung cấp các phân tích và cập
-                    nhật thị trường, chọn lọc cổ phiếu. Ngoài ra, đội ngũ chuyên gia của FINTOP cũng thường xuyên cung
-                    cấp các phân tích chiến lược đầu tư hay có các báo cáo phân tích ngành và phân tích doanh nghiệp,
-                    giúp cho nhà đầu tư có căn cứ để đưa ra các quyết định đầu tư sáng suốt. Nếu nhà đầu tư chưa có
-                    nhiều kiến thức, kinh nghiệm, hoặc không có nhiều thời gian để tìm hiểu và nghiên cứu về chứng khoán
-                    thì FINTOP chính là người đồng hành tuyệt vời của nhà đầu tư.
-                    <span class="quote-mark">&rdquo;</span>
-                </div>
-                <div class="testimonial-author">
-                    <img src="assets/images/chi_Helena.png" alt="Chị Helena Hạnh Đặng" class="testimonial-avatar">
-                    <div>
-                        <h4 class="testimonial-name">Chị Helena Hạnh Đặng</h4>
-                        <p class="testimonial-role">Chuyên gia Đào tạo Tài chính cá nhân — Khách hàng đối tác</p>
-                    </div>
-                </div>
+            <div
+                style="max-width: 1200px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+                <p>© 2026 FinTop DATA. All rights reserved.</p>
             </div>
-
-            <div class="testimonial-card testimonial-green">
-                <div class="testimonial-quote">
-                    <span class="quote-mark">&ldquo;</span>
-                    FinTop là một đội ngũ chuyên nghiệp, không ngừng nghiên cứu, học hỏi, cầu thị và luôn luôn lắng nghe
-                    khách hàng, đối tác. Những báo cáo phân tích, đánh giá của Team mang lại nhiều hữu ích cho mình là
-                    một người công tác trong lĩnh vực Tài chính với các báo cáo phân tích ngành, dữ liệu kinh tế vĩ mô,
-                    phân tích đánh giá doanh nghiệp. Đặc biệt có phần tra cứu xu hướng cổ phiếu rất hay bên cạnh chia sẻ
-                    cẩm nang, phương pháp đầu tư để mọi người cùng tìm hiểu. Chúc FinTop Team sẽ tiếp tục phát huy và
-                    luôn có những báo cáo phân tích chất lượng nhất đến khách hàng.
-                    <span class="quote-mark">&rdquo;</span>
-                </div>
-                <div class="testimonial-author">
-                    <img src="assets/images/chi_Lich.png" alt="Chị Trần Thị Hồng Lịch" class="testimonial-avatar">
-                    <div>
-                        <h4 class="testimonial-name">Chị Trần Thị Hồng Lịch</h4>
-                        <p class="testimonial-role">Nhà Đầu Tư — Khách Hàng Đối Tác FinTop</p>
-                    </div>
-                </div>
+            <div class="footer-disclaimer">
+                <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu
+                tư.
+                Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
             </div>
-
-    </section>
-
-    <footer style="position: relative; z-index: 10; background: #07070D;">
-        <div class="footer-grid">
-            <div>
-                <h2 class="logo">FinTop DATA</h2>
-                <p style="margin-top: 1rem;">Nơi hội tụ Data - Chuyên gia - Công nghệ &amp; AI.</p>
-            </div>
-            <div>
-                <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Sản phẩm</h4>
-                <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-                    <a href="hoi-vien/index.html">Hội Viên</a>
-                    <a href="fintop-data/index.html">FinTop Data</a>
-                    <a href="chuyen-gia/index.html">Chuyên Gia</a>
-                    <a href="fintop-ai/index.html">FinTop AI</a>
-                    <a href="stock-data/index.html">Stock Data</a>
-                    <a href="huong-dan/index.html">Hướng Dẫn</a>
-                </div>
-            </div>
-            <div>
-                <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Liên hệ</h4>
-                <div style="display: flex; flex-direction: column; gap: 0.6rem; color: #94A3B8;">
-                    <p style="display: flex; align-items: center; gap: 6px;"><img
-                            src="assets/images/icons8-phone-color-hand-drawn-favicons/web/icons8-phone-color-hand-drawn-32.png"
-                            alt="Phone" width="20" height="20" style="vertical-align: middle;"> Hotline: <a
-                            href="tel:0862348886" style="color: #c084fc;">086.234.8886</a></p>
-                    <p style="display: flex; align-items: center; gap: 6px;">📧 Email: <a
-                            href="mailto:DVKH@fintopdata.vn" style="color: #c084fc;">DVKH@fintopdata.vn</a></p>
-                    <p style="display: flex; align-items: center; gap: 6px;">📍 65 Ô Chợ Dừa, Đống Đa, Hà Nội</p>
-                </div>
-            </div>
-            <div style="text-align: center;">
-                <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Tải ứng dụng</h4>
-                <div style="display: flex; flex-direction: column; gap: 0.8rem; align-items: center;">
-                    <a href="#"
-                        style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
-                        <img src="assets/images/icons8-app-store-color-favicons/web/icons8-app-store-color-32.png"
-                            alt="App Store" width="20" height="20"> App Store
-                    </a>
-                    <a href="#"
-                        style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
-                        <img src="assets/images/icons8-google-play-windows-11-color-favicons/web/icons8-google-play-windows-11-color-32.png"
-                            alt="Google Play" width="20" height="20"> Google Play
-                    </a>
-                    <div
-                        style="margin-top: 0.5rem; background: #fff; border-radius: 8px; padding: 8px; display: inline-block;">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&amp;data=https://zalo.me/fintopdata"
-                            alt="QR Zalo" width="80" height="80" style="display: block;">
-                    </div>
-                    <span
-                        style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem; color: #94A3B8;"><img
-                            src="assets/images/icons8-zalo-color-hand-drawn-favicons/web/icons8-zalo-color-hand-drawn-32.png"
-                            alt="Zalo" width="18" height="18"> Zalo FinTop</span>
-                </div>
-            </div>
-        </div>
-        <div
-            style="max-width: 1200px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
-            <p>© 2026 FinTop DATA. All rights reserved.</p>
-        </div>
-        <div class="footer-disclaimer">
-            <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư.
-            Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
-        </div>
-    </footer>
+        </footer>
     </div>
 
     <script src="data/stock-search-data.js"></script>
@@ -5719,27 +5758,27 @@
 
         // Sample stock data for Tra cứu dùng chung với trang quản trị.
         // Priority: 1) Admin-synced localStorage  2) Static JS file
-        let STOCK_DB = (function() {
+        let STOCK_DB = (function () {
             try {
                 const synced = localStorage.getItem('fintop_stock_search_sync');
                 if (synced) {
                     const parsed = JSON.parse(synced);
                     if (parsed && Object.keys(parsed).length > 0) return parsed;
                 }
-            } catch(e) {}
+            } catch (e) { }
             return window.FINTOP_STOCK_SEARCH_DATA || {};
         })();
 
         // Bộ lọc data dùng chung với trang quản trị.
         // Priority: 1) Admin-synced localStorage  2) Static JS file
-        let BOLOC_DATA = (function() {
+        let BOLOC_DATA = (function () {
             try {
                 const synced = localStorage.getItem('fintop_stock_filter_sync');
                 if (synced) {
                     const parsed = JSON.parse(synced);
                     if (Array.isArray(parsed) && parsed.length > 0) return parsed;
                 }
-            } catch(e) {}
+            } catch (e) { }
             return Array.isArray(window.FINTOP_STOCK_FILTER_DATA)
                 ? window.FINTOP_STOCK_FILTER_DATA
                 : [];
@@ -5904,7 +5943,7 @@
             cards.forEach((card) => {
                 const categories = (card.dataset.marketCategory || '').split(' ');
                 const matchesTab = activeMarketTabFilter === 'all' || categories.includes(activeMarketTabFilter);
-                
+
                 const title = (card.querySelector('.market-article-title')?.textContent || '').toLowerCase();
                 const excerpt = (card.querySelector('.market-article-excerpt')?.textContent || '').toLowerCase();
                 const badge = (card.querySelector('.market-thumb-badge')?.textContent || '').toLowerCase();
@@ -5937,7 +5976,7 @@
             cards.forEach((card) => {
                 const ticker = (card.querySelector('.analysis-ticker')?.textContent || '').toLowerCase();
                 const name = (card.querySelector('.analysis-company-name')?.textContent || '').toLowerCase();
-                
+
                 // Read title from the first kv-row
                 const title = (card.querySelector('.analysis-kv-row strong')?.textContent || '').toLowerCase();
                 const matches = !query || ticker.includes(query) || name.includes(query) || title.includes(query);
@@ -6007,24 +6046,78 @@
             }
         });
 
-        function addStockTicker() {
+        async function addStockTicker() {
             const input = document.getElementById('stockSearchInput');
+            const button = document.querySelector('.stock-search-btn');
             const ticker = input.value.trim().toUpperCase();
 
             if (!ticker) return;
 
             // Check if ticker exists in DB
             if (!STOCK_DB[ticker]) {
-                // Shake animation for invalid ticker
-                input.style.borderColor = '#f87171';
-                input.style.boxShadow = '0 0 15px rgba(248, 113, 113, 0.3)';
-                input.classList.add('shake');
-                setTimeout(() => {
-                    input.style.borderColor = 'rgba(168, 85, 247, 0.3)';
-                    input.style.boxShadow = 'none';
-                }, 1500);
-                input.value = '';
-                return;
+                // Try to dynamically look up ticker from backend metadata
+                if (window.FintopInfra) {
+                    try {
+                        input.disabled = true;
+                        if (button) {
+                            button.disabled = true;
+                            button.innerHTML = '🔍 Tìm...';
+                        }
+                        
+                        const ep = window.FintopInfra.FintopEnv.API_ENDPOINTS;
+                        const lookupUrl = (ep && typeof ep.MARKET_LOOKUP === 'function')
+                            ? ep.MARKET_LOOKUP(ticker)
+                            : `/market/stocks/lookup/${encodeURIComponent(ticker)}`;
+                            
+                        const res = await window.FintopInfra.ApiClient.get(lookupUrl);
+                        const data = res.data || res;
+                        
+                        if (data && data.symbol) {
+                            STOCK_DB[ticker] = {
+                                san: data.exchange || 'HOSE',
+                                nganh: data.industry || 'Chưa phân loại',
+                                time: new Date().toLocaleString('vi-VN'),
+                                desc: `Mã cổ phiếu ${data.companyName || data.symbol} được tra cứu động từ hệ thống.`,
+                                status: 'neutral',
+                                statusText: 'TRUNG LẬP',
+                                updated_at: new Date().toISOString()
+                            };
+                        } else {
+                            throw new Error('Symbol lookup returned empty result');
+                        }
+                    } catch (err) {
+                        console.warn('[Search] Fallback backend lookup failed for ticker:', ticker, err);
+                        // Shake animation for invalid ticker
+                        input.style.borderColor = '#f87171';
+                        input.style.boxShadow = '0 0 15px rgba(248, 113, 113, 0.3)';
+                        input.classList.add('shake');
+                        setTimeout(() => {
+                            input.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+                            input.style.boxShadow = 'none';
+                            input.classList.remove('shake');
+                        }, 1500);
+                        input.value = '';
+                        return;
+                    } finally {
+                        input.disabled = false;
+                        if (button) {
+                            button.disabled = false;
+                            button.innerHTML = '⚡ Tra cứu';
+                        }
+                    }
+                } else {
+                    // Shake animation for invalid ticker when offline/no infra
+                    input.style.borderColor = '#f87171';
+                    input.style.boxShadow = '0 0 15px rgba(248, 113, 113, 0.3)';
+                    input.classList.add('shake');
+                    setTimeout(() => {
+                        input.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+                        input.style.boxShadow = 'none';
+                        input.classList.remove('shake');
+                    }, 1500);
+                    input.value = '';
+                    return;
+                }
             }
 
             // Check if already in list
@@ -6285,10 +6378,17 @@
         }
 
         function getMarketCategory(row) {
+            const slug = String(row.categorySlug || '').toLowerCase();
             const category = String(row.category || '').toLowerCase();
             const title = String(row.title || '').toLowerCase();
             const excerpt = String(row.excerpt || '').toLowerCase();
-            const text = category + ' ' + title + ' ' + excerpt;
+            const text = slug + ' ' + category + ' ' + title + ' ' + excerpt;
+
+            if (slug === 'vi-mo' || slug === 'tin-tuc') return 'macro strategy';
+            if (slug === 'nhat-ky-giao-dich' || slug === 'phan-tich-ky-thuat') return 'flow strategy';
+            if (slug === 'kien-thuc') return 'strategy';
+            if (slug === 'thi-truong') return 'macro flow strategy';
+
             if (text.includes('dòng') || text.includes('flow') || text.includes('tiền')) return 'flow strategy';
             if (text.includes('chiến') || text.includes('portfolio') || text.includes('danh mục') || text.includes('phân bổ')) return 'strategy';
             return 'macro strategy';
@@ -6344,6 +6444,7 @@
                     <div class="analysis-kv-row"><span>Cập nhật</span><strong>${escapeHtml(row.publishTime || '')}</strong></div>
                     <div class="analysis-kv-row"><span>Tác giả</span><strong>${escapeHtml(row.author || '')}</strong></div>
                     <div class="analysis-kv-row"><span>Trạng thái</span><strong>${escapeHtml(row.status || '')}</strong></div>
+                    <a class="market-detail-link" href="${escapeHtml(row.link || 'chuyen-gia/index.html')}">Xem chi tiết</a>
                 </article>
             `;
         }
@@ -6622,14 +6723,15 @@
                             section = 'PRO Research';
                         } else if (catSlug === 'doanh-nghiep') {
                             section = 'Doanh nghiệp';
-                        } else if (catSlug === 'nganh') {
+                        } else if (catSlug === 'nganh' || catSlug === 'ncpt-nganh') {
                             section = 'Ngành';
                         }
-                        
+
                         return {
                             id: b.id,
                             section: section,
                             category: b.category?.name || 'Research',
+                            categorySlug: catSlug,
                             title: b.title,
                             publishTime: b.publishedAt ? new Date(b.publishedAt).toLocaleDateString('vi-VN') : '',
                             status: 'Đã đăng',
@@ -6658,22 +6760,37 @@
                 const planRes = await API().get(EP().SUBSCRIPTION_PLANS);
                 const list = planRes.data || planRes || [];
                 if (Array.isArray(list) && list.length > 0) {
-                    MEMBERSHIP_DATA = list.map(p => ({
-                        id: p.id,
-                        name: p.name,
-                        subtitle: p.description || 'Gói hội viên đầu tư',
-                        price: p.price ? formatPrice(p.price) : '0',
-                        cta: 'Đăng Ký Ngay',
-                        status: p.status === 'ACTIVE' ? 'Đang mở' : 'Tạm ngưng',
-                        features: p.tierLevel === 'GOLD' ? 'Tín hiệu giao dịch; Phân tích Pro; Group hỗ trợ' : (p.tierLevel === 'DIAMOND' ? 'Copy Trade tự động; Tín hiệu giao dịch; Phân tích Pro; Group hỗ trợ' : 'Tra cứu cổ phiếu; Bộ lọc cơ bản'),
-                        popupTitle: p.name,
-                        popupContent: p.description || '',
-                        tierLevel: p.tierLevel
-                     }));
+                    const allowedTiers = ['STANDARD', 'SILVER', 'GOLD', 'DIAMOND'];
+                    const filteredList = list.filter(p => p.name && allowedTiers.includes(p.name.toUpperCase()));
+
+                    // Sort them in the exact order of allowedTiers
+                    filteredList.sort((a, b) => {
+                        return allowedTiers.indexOf(a.name.toUpperCase()) - allowedTiers.indexOf(b.name.toUpperCase());
+                    });
+
+                    MEMBERSHIP_DATA = filteredList.map(p => {
+                        let mappedId = 'standard';
+                        if (p.tierLevel === 'SILVER') mappedId = 'pro';
+                        else if (p.tierLevel === 'GOLD') mappedId = 'vip';
+                        else if (p.tierLevel === 'DIAMOND') mappedId = 'diamond';
+
+                        return {
+                            id: mappedId,
+                            name: p.name,
+                            subtitle: p.description || 'Gói hội viên đầu tư',
+                            price: p.price ? formatPrice(p.price) : '0',
+                            cta: 'Đăng Ký Ngay',
+                            status: p.status === 'ACTIVE' ? 'Đang mở' : 'Tạm ngưng',
+                            features: p.features || (p.tierLevel === 'GOLD' ? 'Tín hiệu giao dịch; Phân tích Pro; Group hỗ trợ' : (p.tierLevel === 'DIAMOND' ? 'Copy Trade tự động; Tín hiệu giao dịch; Phân tích Pro; Group hỗ trợ' : 'Tra cứu cổ phiếu; Bộ lọc cơ bản')),
+                            popupTitle: p.name,
+                            popupContent: p.description || '',
+                            tierLevel: p.tierLevel
+                        };
+                    });
                     window.MEMBERSHIP_DATA = MEMBERSHIP_DATA;
                     renderMemberships();
                     isMembershipHydrated = true;
-                    console.log('[Backend Hydrate] Membership plans loaded from backend:', list.length);
+                    console.log('[Backend Hydrate] Membership plans loaded from backend:', filteredList.length);
                 }
             } catch (err) {
                 console.warn('[Backend Hydrate] Failed to load plans from backend:', err.message);
@@ -6695,10 +6812,10 @@
                     SIGNAL_DATA = list.map(s => {
                         const expertName = s.author?.fullName || 'Hệ thống';
                         const tickerDisplay = s.symbol + ' ' + (s.entryPrice ? formatPrice(s.entryPrice) : '');
-                        
+
                         let details = [];
                         let rawNotes = s.notes || '';
-                        
+
                         try {
                             if (rawNotes.trim().startsWith('{')) {
                                 const parsed = JSON.parse(rawNotes);
@@ -7182,11 +7299,14 @@
                 </div>
             </div>
             <div class="modal-body">
-                <h4 class="text-center mb-2" style="color:#c4b5fd; font-size: 1.1rem;">Đăng ký Hội viên PRO FinTop DATA</h4>
+                <h4 class="text-center mb-2" style="color:#c4b5fd; font-size: 1.1rem;">Đăng ký Hội viên PRO FinTop DATA
+                </h4>
                 <div class="modal-steps-container mt-4 pro-steps-2col">
                     <div class="modal-step-box" style="text-align: left;">
-                        <div class="step-label" style="text-align: center;">Bước 1: Chọn gói Hội viên và thanh toán</div>
-                        <div class="text-muted-sm text-center mb-3">Hội viên chọn 1 trong các gói PRO1, PRO2, PRO3 đăng ký tương ứng. Giá đã bao gồm VAT 10%.</div>
+                        <div class="step-label" style="text-align: center;">Bước 1: Chọn gói Hội viên và thanh toán
+                        </div>
+                        <div class="text-muted-sm text-center mb-3">Hội viên chọn 1 trong các gói PRO1, PRO2, PRO3 đăng
+                            ký tương ứng. Giá đã bao gồm VAT 10%.</div>
 
                         <div class="pro-packages-grid">
                             <div class="pro-package-card active" data-package="PRO1" data-months="3">
@@ -7220,47 +7340,61 @@
                                 <div class="payment-label">Nội dung:</div>
                                 <div class="payment-value" id="pro-payment-note">
                                     [HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI PRO1 - 3 THÁNG]<br>
-                                    <span style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A 0862348886 PRO1 3 THÁNG</span>
+                                    <span style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A 0862348886 PRO1 3
+                                        THÁNG</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-step-box" style="text-align: left;">
-                        <div class="step-label" style="text-align: center;">Bước 2: Xác nhận thanh toán & Yêu cầu phê duyệt</div>
-                        <div class="text-muted-sm text-center mb-3">Sau khi chuyển khoản, điền thông tin bên dưới để FinTop xác nhận và kích hoạt tài khoản PRO.</div>
+                        <div class="step-label" style="text-align: center;">Bước 2: Xác nhận thanh toán & Yêu cầu phê
+                            duyệt</div>
+                        <div class="text-muted-sm text-center mb-3">Sau khi chuyển khoản, điền thông tin bên dưới để
+                            FinTop xác nhận và kích hoạt tài khoản PRO.</div>
 
                         <div class="pro-payment-form">
                             <div class="payment-form-group">
-                                <label class="payment-form-label" for="proFullName">Họ và tên <span style="color:#f87171;">*</span></label>
-                                <input class="payment-form-input" id="proFullName" type="text" placeholder="Nhập họ tên đầy đủ (giống tên chuyển khoản)" required>
+                                <label class="payment-form-label" for="proFullName">Họ và tên <span
+                                        style="color:#f87171;">*</span></label>
+                                <input class="payment-form-input" id="proFullName" type="text"
+                                    placeholder="Nhập họ tên đầy đủ (giống tên chuyển khoản)" required>
                             </div>
                             <div class="payment-form-group">
-                                <label class="payment-form-label" for="proPhone">Số điện thoại <span style="color:#f87171;">*</span></label>
-                                <input class="payment-form-input" id="proPhone" type="tel" placeholder="Ví dụ: 0862348886" required>
+                                <label class="payment-form-label" for="proPhone">Số điện thoại <span
+                                        style="color:#f87171;">*</span></label>
+                                <input class="payment-form-input" id="proPhone" type="tel"
+                                    placeholder="Ví dụ: 0862348886" required>
                             </div>
                             <div class="payment-form-group">
                                 <label class="payment-form-label" for="proTransferNote">Nội dung chuyển khoản</label>
-                                <input class="payment-form-input" id="proTransferNote" type="text" placeholder="Ví dụ: NGUYEN VAN A 0862348886 PRO1 3 THANG" readonly style="color:#94a3b8; cursor:not-allowed;">
+                                <input class="payment-form-input" id="proTransferNote" type="text"
+                                    placeholder="Ví dụ: NGUYEN VAN A 0862348886 PRO1 3 THANG" readonly
+                                    style="color:#94a3b8; cursor:not-allowed;">
                             </div>
                             <div class="payment-form-group">
-                                <label class="payment-form-label" for="proReceiptUpload">Ảnh xác nhận chuyển khoản</label>
+                                <label class="payment-form-label" for="proReceiptUpload">Ảnh xác nhận chuyển
+                                    khoản</label>
                                 <div class="upload-area" id="proUploadArea">
-                                    <input type="file" id="proReceiptUpload" accept="image/*" style="display:none;" onchange="handleReceiptPreview(this)">
-                                    <div class="upload-placeholder" id="proUploadPlaceholder" onclick="document.getElementById('proReceiptUpload').click()">
+                                    <input type="file" id="proReceiptUpload" accept="image/*" style="display:none;"
+                                        onchange="handleReceiptPreview(this)">
+                                    <div class="upload-placeholder" id="proUploadPlaceholder"
+                                        onclick="document.getElementById('proReceiptUpload').click()">
                                         <span class="upload-icon">📎</span>
                                         <span class="upload-text">Nhấn để tải ảnh chuyển khoản lên</span>
                                         <span class="upload-hint">(PNG, JPG — tối đa 5MB)</span>
                                     </div>
                                     <div class="upload-preview" id="proUploadPreview" style="display:none;">
                                         <img id="proReceiptImg" src="" alt="Receipt preview">
-                                        <button type="button" class="upload-remove-btn" onclick="removeReceiptPreview()">✕ Xóa</button>
+                                        <button type="button" class="upload-remove-btn"
+                                            onclick="removeReceiptPreview()">✕ Xóa</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <button class="btn-modal-action primary" type="button" id="btnProSubmit" onclick="submitProApproval()">Gửi yêu cầu phê duyệt</button>
+                        <button class="btn-modal-action primary" type="button" id="btnProSubmit"
+                            onclick="submitProApproval()">Gửi yêu cầu phê duyệt</button>
                     </div>
                 </div>
             </div>
@@ -7306,10 +7440,10 @@
                         <div class="step-desc" style="text-align: left;">
                             <p class="mb-2 text-muted-sm">Vui lòng điền thông tin bên dưới để yêu cầu phê duyệt liên
                                 kết:</p>
-                            <input type="text" id="vipStockAccount" placeholder="Số TK chứng khoán..."
-                                style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 10px;">
-                            <input type="text" id="vipStockCompany" placeholder="Công ty chứng khoán..."
-                                style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 15px;">
+                            <input class="demo-input" type="text" id="vipStockAccount"
+                                placeholder="Số TK chứng khoán..." style="margin-bottom: 10px;">
+                            <input class="demo-input" type="text" id="vipStockCompany"
+                                placeholder="Công ty chứng khoán..." style="margin-bottom: 15px;">
                         </div>
                         <button class="btn-modal-action primary" onclick="submitVIP('link')">YÊU CẦU LIÊN KẾT</button>
                     </div>
@@ -7379,19 +7513,22 @@
                     <div class="auth-forms-wrapper">
 
                         <!-- FORM ĐĂNG NHẬP -->
-                        <form class="auth-form active" id="authFormLogin" data-auth-form="login" onsubmit="submitAuth(event, 'login')">
+                        <form class="auth-form active" id="authFormLogin" data-auth-form="login"
+                            onsubmit="submitAuth(event, 'login')">
                             <h3 class="auth-title">Đăng nhập</h3>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Email hoặc Tên đăng nhập</label>
-                                <input type="text" class="auth-input" id="loginEmail" data-auth-email="login" placeholder="Nhập email của bạn" required disabled>
+                                <input type="text" class="auth-input" id="loginEmail" data-auth-email="login"
+                                    placeholder="Nhập email của bạn" required disabled>
                             </div>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Mật khẩu</label>
-                                <input type="password" class="auth-input" id="loginPassword" data-auth-password="login" placeholder="Nhập mật khẩu"
-                                    required disabled>
-                                <button type="button" class="password-toggle" data-target="loginPassword" disabled>👁️</button>
+                                <input type="password" class="auth-input" id="loginPassword" data-auth-password="login"
+                                    placeholder="Nhập mật khẩu" required disabled>
+                                <button type="button" class="password-toggle" data-target="loginPassword"
+                                    disabled>👁️</button>
                             </div>
 
                             <div class="auth-options">
@@ -7402,7 +7539,8 @@
                                     onclick="submitAuth(event, 'forgot')">Quên mật khẩu?</a>
                             </div>
 
-                            <button type="submit" class="auth-btn-submit" data-auth-submit="login" disabled>Đăng nhập</button>
+                            <button type="submit" class="auth-btn-submit" data-auth-submit="login" disabled>Đăng
+                                nhập</button>
 
                             <div class="auth-footer">
                                 Chưa có tài khoản? <a href="javascript:void(0)" class="auth-link"
@@ -7411,28 +7549,32 @@
                         </form>
 
                         <!-- FORM ĐĂNG KÝ -->
-                        <form class="auth-form" id="authFormRegister" data-auth-form="register" onsubmit="submitAuth(event, 'register')">
+                        <form class="auth-form" id="authFormRegister" data-auth-form="register"
+                            onsubmit="submitAuth(event, 'register')">
                             <h3 class="auth-title">Tạo tài khoản mới</h3>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Họ và tên</label>
-                                <input type="text" class="auth-input" id="registerFullName" data-auth-name="register" placeholder="Nhập họ và tên" required disabled>
+                                <input type="text" class="auth-input" id="registerFullName" data-auth-name="register"
+                                    placeholder="Nhập họ và tên" required disabled>
                             </div>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Email</label>
-                                <input type="email" class="auth-input" id="registerEmail" data-auth-email="register" placeholder="Nhập email của bạn" required disabled>
+                                <input type="email" class="auth-input" id="registerEmail" data-auth-email="register"
+                                    placeholder="Nhập email của bạn" required disabled>
                             </div>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Mật khẩu</label>
-                                <input type="password" class="auth-input" id="registerPassword" data-auth-password="register"
-                                    placeholder="Tạo mật khẩu" required disabled>
-                                <button type="button" class="password-toggle"
-                                    data-target="registerPassword" disabled>👁️</button>
+                                <input type="password" class="auth-input" id="registerPassword"
+                                    data-auth-password="register" placeholder="Tạo mật khẩu" required disabled>
+                                <button type="button" class="password-toggle" data-target="registerPassword"
+                                    disabled>👁️</button>
                             </div>
 
-                            <button type="submit" class="auth-btn-submit" data-auth-submit="register" disabled>Đăng ký</button>
+                            <button type="submit" class="auth-btn-submit" data-auth-submit="register" disabled>Đăng
+                                ký</button>
 
                             <div class="auth-footer">
                                 Đã có tài khoản? <a href="javascript:void(0)" class="auth-link"
@@ -7441,7 +7583,8 @@
                         </form>
 
                         <!-- FORM XÁC THỰC EMAIL (OTP) -->
-                        <form class="auth-form" id="authFormVerify" data-auth-form="verify" onsubmit="submitAuth(event, 'verify')">
+                        <form class="auth-form" id="authFormVerify" data-auth-form="verify"
+                            onsubmit="submitAuth(event, 'verify')">
                             <h3 class="auth-title">Xác thực Email</h3>
                             <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px; line-height: 1.5;">
                                 Mã xác thực 6 số đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư (kể cả Spam).
@@ -7451,10 +7594,8 @@
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Mã OTP</label>
-                                <input type="text" class="auth-input" id="verifyOtpCode"
-                                    placeholder="Nhập mã 6 số" maxlength="6"
-                                    pattern="[0-9]{6}" inputmode="numeric"
-                                    autocomplete="one-time-code"
+                                <input type="text" class="auth-input" id="verifyOtpCode" placeholder="Nhập mã 6 số"
+                                    maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code"
                                     style="text-align: center; font-size: 1.4rem; letter-spacing: 8px; font-weight: 700;">
                             </div>
 
@@ -7469,8 +7610,8 @@
                             </div>
 
                             <div class="auth-footer">
-                                <a href="javascript:void(0)" class="auth-link"
-                                    onclick="switchAuthView('login')">← Quay lại đăng nhập</a>
+                                <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">← Quay
+                                    lại đăng nhập</a>
                             </div>
                         </form>
 

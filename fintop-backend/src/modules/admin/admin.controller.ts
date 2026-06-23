@@ -9,6 +9,7 @@ import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery, ApiBody } from '@nestjs
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { AdminService } from './admin.service';
 import { ROLE_CODE, RECORD_STATUS } from '@prisma/client';
+import { CreatePlanDto, UpdatePlanDto } from './dto/plan.dto';
 
 @ApiTags('Admin Controls')
 @Controller('admin')
@@ -93,6 +94,16 @@ export class AdminController {
     return this.adminService.removeRole(parseInt(id, 10), roleCode, admin.id);
   }
 
+  @Delete('users/:id')
+  @Permissions('USER:DELETE')
+  @ApiOperation({ summary: 'Delete user (Soft delete)' })
+  async deleteUser(
+    @Param('id') id: string,
+    @CurrentUser() admin: any,
+  ) {
+    return this.adminService.deleteUser(parseInt(id, 10), admin.id);
+  }
+
   // ─────────────────────────────────────────────────────
   // RBAC
   // ─────────────────────────────────────────────────────
@@ -109,6 +120,25 @@ export class AdminController {
   @ApiOperation({ summary: 'List permissions for a specific role' })
   async getRolePermissions(@Param('id') id: string) {
     return this.adminService.getRolePermissions(parseInt(id, 10));
+  }
+
+  @Get('permissions')
+  @Permissions('ROLE:READ')
+  @ApiOperation({ summary: 'List all system permissions' })
+  async getAllPermissions() {
+    return this.adminService.getAllPermissions();
+  }
+
+  @Patch('roles/:id/permissions')
+  @Permissions('ROLE:UPDATE')
+  @ApiOperation({ summary: 'Update permissions for a specific role' })
+  @ApiBody({ schema: { properties: { permissionIds: { type: 'array', items: { type: 'number' } } } } })
+  async updateRolePermissions(
+    @Param('id') id: string,
+    @Body('permissionIds') permissionIds: number[],
+    @CurrentUser() admin: any,
+  ) {
+    return this.adminService.updateRolePermissions(parseInt(id, 10), permissionIds, admin.id);
   }
 
   // ─────────────────────────────────────────────────────
@@ -233,6 +263,37 @@ export class AdminController {
   @ApiOperation({ summary: 'List all subscription plans' })
   async getSubscriptionPlans() {
     return this.adminService.getSubscriptionPlans();
+  }
+
+  @Post('billing/plans')
+  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @ApiOperation({ summary: 'Create a new subscription plan' })
+  async createPlan(
+    @Body() dto: CreatePlanDto,
+    @CurrentUser() admin: any,
+  ) {
+    return this.adminService.createPlan(dto, admin.id);
+  }
+
+  @Patch('billing/plans/:id')
+  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @ApiOperation({ summary: 'Update a subscription plan' })
+  async updatePlan(
+    @Param('id') id: string,
+    @Body() dto: UpdatePlanDto,
+    @CurrentUser() admin: any,
+  ) {
+    return this.adminService.updatePlan(parseInt(id, 10), dto, admin.id);
+  }
+
+  @Delete('billing/plans/:id')
+  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @ApiOperation({ summary: 'Delete a subscription plan (Soft delete)' })
+  async deletePlan(
+    @Param('id') id: string,
+    @CurrentUser() admin: any,
+  ) {
+    return this.adminService.deletePlan(parseInt(id, 10), admin.id);
   }
 
   @Get('billing/invoices')

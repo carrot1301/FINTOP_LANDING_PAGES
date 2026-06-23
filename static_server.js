@@ -25,6 +25,7 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
+  console.log(`[Static Server] ${req.method} ${req.url}`);
   // Handle CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -105,8 +106,6 @@ const server = http.createServer((req, res) => {
       
       if (cacheableExtensions.includes(ext)) {
         cacheControl = 'public, max-age=86400'; // Cache for 24 hours
-      } else if (ext === '.css' || ext === '.js') {
-        cacheControl = 'public, max-age=3600';  // Cache for 1 hour
       }
 
       // Read and stream file

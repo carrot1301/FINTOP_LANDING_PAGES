@@ -49,6 +49,19 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             },
           },
         },
+        subscriptions: {
+          where: {
+            status: 'ACTIVE',
+            endDate: { gt: new Date() },
+          },
+          include: {
+            plan: true,
+          },
+          orderBy: {
+            endDate: 'desc',
+          },
+          take: 1,
+        },
       },
     });
 
@@ -66,12 +79,32 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       }
     }
 
+    let planFeaturesStr = '';
+    if (user.subscriptions && user.subscriptions.length > 0) {
+      planFeaturesStr = user.subscriptions[0].plan.features || '';
+    } else {
+      const standardPlan = await this.prisma.subscriptionPlan.findFirst({
+        where: {
+          tierLevel: 'STANDARD',
+          status: 'ACTIVE',
+          deletedAt: null,
+        },
+      });
+      planFeaturesStr = standardPlan?.features || '';
+    }
+
+    const planFeatures = planFeaturesStr
+      .split(';')
+      .map((f) => f.trim())
+      .filter(Boolean);
+
     const userData = {
       id: user.id,
       email: user.email,
       tierLevel: user.tierLevel,
       roles,
       permissions: Array.from(permissions),
+      planFeatures,
     };
 
     // Cache the validated data for 60 seconds

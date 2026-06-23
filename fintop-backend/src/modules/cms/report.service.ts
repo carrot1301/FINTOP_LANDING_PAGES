@@ -2,6 +2,7 @@ import { Injectable, Logger, NotFoundException, ForbiddenException } from '@nest
 import { PrismaService } from '../../common/database/prisma.service';
 import { AuditService } from '../../common/audit/audit.service';
 import { BLOG_STATUS, SUBSCRIPTION_TIER, AUDIT_SOURCE } from '@prisma/client';
+import { isFeatureAllowed } from '../../common/utils/subscription-helper';
 
 @Injectable()
 export class ReportService {
@@ -12,7 +13,7 @@ export class ReportService {
     private readonly auditService: AuditService,
   ) {}
 
-  async listReports(userTier?: SUBSCRIPTION_TIER, page = 1, limit = 10) {
+  async listReports(userFeatures?: string[], page = 1, limit = 10) {
     const skip = (page - 1) * limit;
 
     const total = await this.prisma.reportFile.count({
@@ -27,7 +28,7 @@ export class ReportService {
     });
 
     const mapped = reports.map(r => {
-      const locked = !this.isTierAllowed(userTier, r.minTierAccess);
+      const locked = !this.isTierAllowed(userFeatures, r.minTierAccess);
       return {
         id: r.id,
         title: r.title,
@@ -51,7 +52,7 @@ export class ReportService {
     };
   }
 
-  async downloadReport(reportId: number, userId: number, userTier: SUBSCRIPTION_TIER) {
+  async downloadReport(reportId: number, userId: number, userFeatures: string[]) {
     const report = await this.prisma.reportFile.findUnique({
       where: { id: reportId }
     });
@@ -60,7 +61,7 @@ export class ReportService {
       throw new NotFoundException('Report not found');
     }
 
-    const allowed = this.isTierAllowed(userTier, report.minTierAccess);
+    const allowed = this.isTierAllowed(userFeatures, report.minTierAccess);
     if (!allowed) {
       throw new ForbiddenException(`Access to this report requires a ${report.minTierAccess} subscription or higher.`);
     }
@@ -78,14 +79,7 @@ export class ReportService {
     };
   }
 
-  private isTierAllowed(userTier?: SUBSCRIPTION_TIER, minTier?: SUBSCRIPTION_TIER): boolean {
-    if (!userTier) return false;
-    const tierHierarchy = {
-      STANDARD: 1,
-      SILVER: 2,
-      GOLD: 3,
-      DIAMOND: 4,
-    };
-    return (tierHierarchy[userTier] || 0) >= (tierHierarchy[minTier || 'STANDARD'] || 0);
+  private isTierAllowed(userFeatures?: string[], minTier?: SUBSCRIPTION_TIER): boolean {
+    return isFeatureAllowed(userFeatures, minTier || 'STANDARD');
   }
 }

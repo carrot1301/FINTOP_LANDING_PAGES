@@ -32,8 +32,8 @@ export class BlogController {
   ) {
     const p = page ? parseInt(page, 10) : 1;
     const l = limit ? parseInt(limit, 10) : 10;
-    const tier = user?.tierLevel;
-    return this.blogService.listArticles(tier, p, l, category);
+    const features = user?.planFeatures;
+    return this.blogService.listArticles(features, p, l, category);
   }
 
   @Get('categories/all')
@@ -46,8 +46,8 @@ export class BlogController {
   @UseGuards(OptionalJwtAuthGuard)
   @ApiOperation({ summary: 'Get a published article by slug' })
   async getArticle(@Param('slug') slug: string, @CurrentUser() user?: any) {
-    const tier = user?.tierLevel;
-    return this.blogService.getArticleForUser(slug, tier);
+    const features = user?.planFeatures;
+    return this.blogService.getArticleForUser(slug, features);
   }
 
   @Post()

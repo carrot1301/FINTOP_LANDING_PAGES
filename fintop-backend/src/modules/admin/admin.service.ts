@@ -9,6 +9,7 @@ import {
   BLOG_STATUS,
   Prisma,
 } from '@prisma/client';
+import { CreatePlanDto, UpdatePlanDto } from './dto/plan.dto';
 
 @Injectable()
 export class AdminService {
@@ -271,6 +272,29 @@ export class AdminService {
     return { message: 'Role removed', userId, roleCode };
   }
 
+  async deleteUser(userId: number, adminId: number) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user || user.deletedAt) {
+      throw new NotFoundException('User not found');
+    }
+
+    const updated = await this.prisma.user.update({
+      where: { id: userId },
+      data: { deletedAt: new Date() },
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'USER_DELETED',
+      tableName: 'users',
+      recordId: userId.toString(),
+      oldValues: { email: user.email },
+    });
+
+    return { message: 'User deleted successfully', userId };
+  }
+
   // ─────────────────────────────────────────────────────
   // RBAC
   // ─────────────────────────────────────────────────────
@@ -319,6 +343,50 @@ export class AdminService {
         description: rp.permission.description,
       })),
     };
+  }
+
+  async getAllPermissions() {
+    return this.prisma.permission.findMany({
+      where: { status: RECORD_STATUS.ACTIVE, deletedAt: null },
+      orderBy: { code: 'asc' },
+    });
+  }
+
+  async updateRolePermissions(roleId: number, permissionIds: number[], adminId: number) {
+    const role = await this.prisma.role.findUnique({
+      where: { id: roleId, deletedAt: null },
+    });
+    if (!role) {
+      throw new NotFoundException(`Role #${roleId} not found`);
+    }
+
+    await this.prisma.$transaction(async (tx) => {
+      // 1. Delete existing
+      await tx.rolePermission.deleteMany({
+        where: { roleId },
+      });
+
+      // 2. Create new
+      if (permissionIds && permissionIds.length > 0) {
+        await tx.rolePermission.createMany({
+          data: permissionIds.map((pid) => ({
+            roleId,
+            permissionId: pid,
+          })),
+        });
+      }
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'ROLE_PERMISSIONS_UPDATED',
+      tableName: 'roles',
+      recordId: roleId.toString(),
+      newValues: { permissionIds },
+    });
+
+    return { message: 'Permissions updated successfully', roleId };
   }
 
   // ─────────────────────────────────────────────────────
@@ -587,6 +655,103 @@ export class AdminService {
       where: { deletedAt: null },
       orderBy: { id: 'asc' },
     });
+  }
+
+  async createPlan(dto: CreatePlanDto, adminId: number) {
+    const plan = await this.prisma.subscriptionPlan.create({
+      data: {
+        name: dto.name,
+        description: dto.description || '',
+        features: dto.features || '',
+        tierLevel: dto.tierLevel,
+        price: dto.price,
+        currency: dto.currency || 'VND',
+        durationDays: dto.durationDays,
+        status: RECORD_STATUS.ACTIVE,
+      },
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'PLAN_CREATED',
+      tableName: 'subscription_plans',
+      recordId: plan.id.toString(),
+      newValues: { ...dto },
+    });
+
+    return plan;
+  }
+
+  async updatePlan(id: number, dto: UpdatePlanDto, adminId: number) {
+    const existing = await this.prisma.subscriptionPlan.findUnique({
+      where: { id, deletedAt: null },
+    });
+    if (!existing) {
+      throw new NotFoundException(`Subscription plan #${id} not found`);
+    }
+
+    const oldValues = {
+      name: existing.name,
+      description: existing.description,
+      features: existing.features,
+      tierLevel: existing.tierLevel,
+      price: existing.price.toNumber(),
+      currency: existing.currency,
+      durationDays: existing.durationDays,
+      status: existing.status,
+    };
+
+    const plan = await this.prisma.subscriptionPlan.update({
+      where: { id },
+      data: {
+        name: dto.name,
+        description: dto.description,
+        features: dto.features,
+        tierLevel: dto.tierLevel,
+        price: dto.price,
+        currency: dto.currency,
+        durationDays: dto.durationDays,
+        status: dto.status,
+      },
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'PLAN_UPDATED',
+      tableName: 'subscription_plans',
+      recordId: id.toString(),
+      oldValues,
+      newValues: { ...dto },
+    });
+
+    return plan;
+  }
+
+  async deletePlan(id: number, adminId: number) {
+    const existing = await this.prisma.subscriptionPlan.findUnique({
+      where: { id, deletedAt: null },
+    });
+    if (!existing) {
+      throw new NotFoundException(`Subscription plan #${id} not found`);
+    }
+
+    const plan = await this.prisma.subscriptionPlan.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'PLAN_DELETED',
+      tableName: 'subscription_plans',
+      recordId: id.toString(),
+      oldValues: { name: existing.name },
+    });
+
+    return plan;
   }
 
   async getInvoices(page = 1, limit = 20) {

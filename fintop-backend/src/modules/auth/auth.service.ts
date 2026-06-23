@@ -83,6 +83,9 @@ export class AuthService {
       },
     });
 
+    // Dev mode logging to help local testing when SMTP is delayed/blocked
+    this.logger.log(`[DEV ONLY] Verification OTP for ${dto.email} is: ${otp}`);
+
     // Send OTP email (non-blocking)
     this.mailService.sendVerificationOTP(dto.email, otp, dto.fullName).catch((err) => {
       this.logger.error(`Failed to send verification email to ${dto.email}: ${err.message}`);
@@ -396,6 +399,9 @@ export class AuthService {
         expiresAt,
       },
     });
+
+    // Dev mode logging to help local testing when SMTP is delayed/blocked
+    this.logger.log(`[DEV ONLY] Verification OTP for ${email} is: ${otp}`);
 
     await this.mailService.sendVerificationOTP(email, otp, user.fullName);
 

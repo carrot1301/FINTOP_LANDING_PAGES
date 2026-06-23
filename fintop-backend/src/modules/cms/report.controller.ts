@@ -21,8 +21,8 @@ export class ReportController {
   ) {
     const p = page ? parseInt(page, 10) : 1;
     const l = limit ? parseInt(limit, 10) : 10;
-    const tier = user?.tierLevel;
-    return this.reportService.listReports(tier, p, l);
+    const features = user?.planFeatures;
+    return this.reportService.listReports(features, p, l);
   }
 
   @Get(':id/download')
@@ -33,6 +33,6 @@ export class ReportController {
     @Param('id') id: string,
     @CurrentUser() user: any,
   ) {
-    return this.reportService.downloadReport(parseInt(id, 10), user.id, user.tierLevel);
+    return this.reportService.downloadReport(parseInt(id, 10), user.id, user.planFeatures);
   }
 }

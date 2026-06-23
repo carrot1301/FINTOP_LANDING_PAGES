@@ -53,6 +53,7 @@ async function runAuthValidation() {
         passwordHash,
         status: 'ACTIVE',
         tierLevel: 'STANDARD',
+        emailVerifiedAt: new Date(),
       },
     });
 

@@ -181,6 +181,7 @@ async function main() {
       departmentId: execDept.id,
       tierLevel: SUBSCRIPTION_TIER.DIAMOND,
       status: RECORD_STATUS.ACTIVE,
+      emailVerifiedAt: new Date(),
     },
   });
 
@@ -196,6 +197,41 @@ async function main() {
     create: {
       userId: superAdminUser.id,
       roleId: superAdminRole.id,
+      assignedById: superAdminUser.id,
+    },
+  });
+
+  // 7. Seed Test User Account
+  console.log('👤 Seeding Test User Account...');
+  const testUserEmail = 'testuser@fintop.vn';
+  const testUserPasswordHash = await bcrypt.hash('TestUser@2026', 10);
+  const clientRole = roleMap[ROLE_CODE.CLIENT];
+
+  const testUser = await prisma.user.upsert({
+    where: { email: testUserEmail },
+    update: {},
+    create: {
+      email: testUserEmail,
+      passwordHash: testUserPasswordHash,
+      fullName: 'Khách hàng Thử nghiệm (Test User)',
+      phone: '0888888888',
+      tierLevel: SUBSCRIPTION_TIER.STANDARD,
+      status: RECORD_STATUS.ACTIVE,
+      emailVerifiedAt: new Date(),
+    },
+  });
+
+  await prisma.userRole.upsert({
+    where: {
+      userId_roleId: {
+        userId: testUser.id,
+        roleId: clientRole.id,
+      },
+    },
+    update: {},
+    create: {
+      userId: testUser.id,
+      roleId: clientRole.id,
       assignedById: superAdminUser.id,
     },
   });

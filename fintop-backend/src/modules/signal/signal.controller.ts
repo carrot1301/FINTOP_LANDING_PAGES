@@ -24,7 +24,7 @@ export class SignalController {
   async getSignals(@CurrentUser() user: any, @Query() pagination: PaginationDto) {
     const page = pagination.page ? parseInt(pagination.page as any, 10) : 1;
     const limit = pagination.limit ? parseInt(pagination.limit as any, 10) : 10;
-    return this.signalService.getSignalsForUser(user.id, user.tierLevel, page, limit);
+    return this.signalService.getSignalsForUser(user.id, user.planFeatures, page, limit);
   }
 
   @Post()

@@ -9,8 +9,8 @@
  */
 import { test, expect, Page } from '@playwright/test';
 
-const BASE = 'http://localhost:8080';
-const API = 'http://localhost:3000';
+const BASE = 'http://127.0.0.1:8080';
+const API = 'http://127.0.0.1:3000';
 
 function filterFatalErrors(errors: string[]): string[] {
   return errors.filter(e => 

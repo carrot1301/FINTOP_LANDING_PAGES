@@ -478,9 +478,9 @@
                         <div class="step-label">Bước 2: Liên kết tài khoản</div>
                         <div class="step-desc" style="text-align: left;">
                             <input class="demo-input" id="vipStockAccount" type="text"
-                                placeholder="Số TK chứng khoán..." style="width:100%; margin-bottom: 10px;">
+                                placeholder="Số TK chứng khoán..." style="margin-bottom: 10px;">
                             <input class="demo-input" id="vipStockCompany" type="text"
-                                placeholder="Công ty chứng khoán..." style="width:100%; margin-bottom: 10px;">
+                                placeholder="Công ty chứng khoán..." style="margin-bottom: 10px;">
                             <span class="text-muted-sm">Sau khi kiểm tra, hệ thống demo sẽ mở quyền V.I.P.</span>
                         </div>
                         <button class="btn-modal-action primary" type="button" onclick="submitVIP('link')">Yêu cầu liên
@@ -687,7 +687,15 @@
                     const planRes = await API().get(EP().SUBSCRIPTION_PLANS);
                     const list = planRes.data || planRes || [];
                     if (Array.isArray(list) && list.length > 0) {
-                        MEMBERSHIP_DATA = list.map(p => {
+                        const allowedTiers = ['STANDARD', 'SILVER', 'GOLD', 'DIAMOND'];
+                        const filteredList = list.filter(p => p.name && allowedTiers.includes(p.name.toUpperCase()));
+                        
+                        // Sort them in the exact order of allowedTiers
+                        filteredList.sort((a, b) => {
+                            return allowedTiers.indexOf(a.name.toUpperCase()) - allowedTiers.indexOf(b.name.toUpperCase());
+                        });
+
+                        MEMBERSHIP_DATA = filteredList.map(p => {
                             let subtitle = p.description || 'Gói hội viên đầu tư';
                             let priceText = formatPrice(p.price);
                             if (p.tierLevel === 'SILVER') {
@@ -703,17 +711,23 @@
                                 subtitle = 'Tiêu chuẩn';
                                 priceText = 'Miễn phí';
                             }
+
+                            let mappedId = 'standard';
+                            if (p.tierLevel === 'SILVER') mappedId = 'pro';
+                            else if (p.tierLevel === 'GOLD') mappedId = 'vip';
+                            else if (p.tierLevel === 'DIAMOND') mappedId = 'diamond';
+
                             return {
-                                id: p.id,
+                                id: mappedId,
                                 name: p.name,
                                 subtitle: subtitle,
                                 price: priceText,
                                 cta: 'Đăng ký',
                                 status: p.status === 'ACTIVE' ? 'Đang mở' : 'Tạm ngưng',
-                                features: p.tierLevel === 'GOLD' ? 'Full đặc quyền PRO; Kết nối chuyên gia; Phân tích chuyên gia; Liên kết tài khoản chứng khoán' : 
+                                features: p.features || (p.tierLevel === 'GOLD' ? 'Full đặc quyền PRO; Kết nối chuyên gia; Phân tích chuyên gia; Liên kết tài khoản chứng khoán' : 
                                          (p.tierLevel === 'DIAMOND' ? 'Full đặc quyền PRO; Full đặc quyền V.I.P; Cố vấn 1-1 chuyên gia; Hỗ trợ chiến lược danh mục' : 
                                          (p.tierLevel === 'SILVER' ? 'Bộ lọc cổ phiếu chuyên nghiệp; Nghiên cứu & phân tích chuyên sâu; Tool & dữ liệu nâng cao; PRO Data và PRO Analysis' : 
-                                          'Tra cứu cổ phiếu; Phân tích cơ bản; FinTop AI phân tích; Tool & dữ liệu cơ bản')),
+                                          'Tra cứu cổ phiếu; Phân tích cơ bản; FinTop AI phân tích; Tool & dữ liệu cơ bản'))),
                                 popupTitle: p.name,
                                 popupContent: p.description || '',
                                 tierLevel: p.tierLevel

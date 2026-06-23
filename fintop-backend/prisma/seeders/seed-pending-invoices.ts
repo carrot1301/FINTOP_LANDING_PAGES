@@ -28,6 +28,7 @@ async function main() {
         passwordHash: '$2b$10$xyz', // Dummy
         tierLevel: mu.tierLevel,
         status: 'ACTIVE',
+        emailVerifiedAt: new Date(),
       },
     });
     dbUsers.push(user);

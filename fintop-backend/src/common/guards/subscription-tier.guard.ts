@@ -1,16 +1,10 @@
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException, SetMetadata } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { SUBSCRIPTION_TIER, ROLE_CODE } from '@prisma/client';
+import { isFeatureAllowed } from '../utils/subscription-helper';
 
 export const TIER_KEY = 'subscription_tier';
 export const SubscriptionTier = (tier: SUBSCRIPTION_TIER) => SetMetadata(TIER_KEY, tier);
-
-const TierHierarchy: Record<SUBSCRIPTION_TIER, number> = {
-  [SUBSCRIPTION_TIER.STANDARD]: 1,
-  [SUBSCRIPTION_TIER.SILVER]: 2,
-  [SUBSCRIPTION_TIER.GOLD]: 3,
-  [SUBSCRIPTION_TIER.DIAMOND]: 4,
-};
 
 @Injectable()
 export class SubscriptionTierGuard implements CanActivate {
@@ -36,10 +30,7 @@ export class SubscriptionTierGuard implements CanActivate {
       return true; // Super Admin bypasses tier restrictions
     }
 
-    const userTierLevel = TierHierarchy[user.tierLevel as SUBSCRIPTION_TIER] || 0;
-    const requiredTierLevel = TierHierarchy[requiredTier];
-
-    if (userTierLevel < requiredTierLevel) {
+    if (!isFeatureAllowed(user.planFeatures, requiredTier)) {
       throw new ForbiddenException(`Access requires ${requiredTier} subscription or higher.`);
     }
 

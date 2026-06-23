@@ -14,12 +14,12 @@ export class PortfolioController {
   @Get()
   @ApiOperation({ summary: 'List all recommended portfolios' })
   async getPortfolios(@CurrentUser() user: any) {
-    return this.portfolioService.getPortfolios(user.id, user.tierLevel);
+    return this.portfolioService.getPortfolios(user.id, user.planFeatures);
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get details of a recommended portfolio' })
   async getPortfolioDetail(@CurrentUser() user: any, @Param('id') id: string) {
-    return this.portfolioService.getPortfolioDetail(parseInt(id, 10), user.id, user.tierLevel);
+    return this.portfolioService.getPortfolioDetail(parseInt(id, 10), user.id, user.planFeatures);
   }
 }

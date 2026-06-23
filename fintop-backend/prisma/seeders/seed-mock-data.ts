@@ -189,6 +189,11 @@ async function main() {
     { slug: 'pro-research', name: 'PRO Research' },
     { slug: 'doanh-nghiep', name: 'Doanh nghiệp' },
     { slug: 'ncpt-nganh', name: 'NCPT Ngành' },
+    { slug: 'vi-mo', name: 'Vĩ mô & Tiền tệ' },
+    { slug: 'kien-thuc', name: 'Kiến thức đầu tư' },
+    { slug: 'phan-tich-ky-thuat', name: 'Phân tích kỹ thuật' },
+    { slug: 'tin-tuc', name: 'Tin tức & Sự kiện' },
+    { slug: 'nhat-ky-giao-dich', name: 'Nhật ký giao dịch' },
   ];
 
   const categoryMap: Record<string, any> = {};
@@ -376,6 +381,7 @@ async function main() {
     {
       name: 'STANDARD',
       description: 'Gói cơ bản - Truy cập tra cứu cổ phiếu và dữ liệu nền',
+      features: 'Tra cứu cổ phiếu;Phân tích cơ bản;FinTop AI phân tích;Tool & dữ liệu cơ bản',
       tierLevel: SUBSCRIPTION_TIER.STANDARD,
       price: 0,
       durationDays: 365,
@@ -383,6 +389,7 @@ async function main() {
     {
       name: 'SILVER',
       description: 'Gói PRO - Bộ lọc chuyên nghiệp, PRO Data & Research',
+      features: 'Bộ lọc cổ phiếu chuyên nghiệp;Nghiên cứu & phân tích chuyên sâu;Tool & dữ liệu nâng cao;PRO Data và PRO Analysis',
       tierLevel: SUBSCRIPTION_TIER.SILVER,
       price: 2000000,
       durationDays: 90,
@@ -390,6 +397,7 @@ async function main() {
     {
       name: 'GOLD',
       description: 'Gói V.I.P - Full PRO + Copy Trade Chuyên gia + Kết nối Chuyên gia',
+      features: 'Full đặc quyền PRO;Kết nối chuyên gia;Phân tích chuyên gia;Liên kết tài khoản chứng khoán',
       tierLevel: SUBSCRIPTION_TIER.GOLD,
       price: 5000000,
       durationDays: 180,
@@ -397,6 +405,7 @@ async function main() {
     {
       name: 'DIAMOND',
       description: 'Gói Kim Cương - Full V.I.P + Cố vấn 1-1 Chuyên gia',
+      features: 'Full đặc quyền PRO;Full đặc quyền V.I.P;Cố vấn 1-1 chuyên gia;Hỗ trợ chiến lược danh mục',
       tierLevel: SUBSCRIPTION_TIER.DIAMOND,
       price: 15000000,
       durationDays: 365,
@@ -405,16 +414,24 @@ async function main() {
 
   for (const pd of planDefs) {
     const existing = await prisma.subscriptionPlan.findFirst({
-      where: { tierLevel: pd.tierLevel },
+      where: { name: pd.name },
     });
     if (existing) {
-      console.log(`   ⏩ Plan already exists: ${pd.name}`);
+      console.log(`   ⏩ Plan already exists: ${pd.name}. Updating features.`);
+      await prisma.subscriptionPlan.update({
+        where: { id: existing.id },
+        data: {
+          features: pd.features,
+          description: pd.description,
+        },
+      });
       continue;
     }
     await prisma.subscriptionPlan.create({
       data: {
         name: pd.name,
         description: pd.description,
+        features: pd.features,
         tierLevel: pd.tierLevel,
         price: new Prisma.Decimal(pd.price),
         currency: 'VND',

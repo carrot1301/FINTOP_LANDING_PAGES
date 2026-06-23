@@ -212,7 +212,7 @@ export default {
     });
 
     // Bind delete selected
-    container.querySelector('#btn-delete-selected')?.addEventListener('click', () => {
+    container.querySelector('#btn-delete-selected')?.addEventListener('click', async () => {
       const checked = container.querySelectorAll('.chk-user-item:checked');
       if (checked.length === 0) {
         showToast('Vui lòng chọn ít nhất một khách hàng để xóa.', 'error');
@@ -220,7 +220,19 @@ export default {
       }
       const ids = Array.from(checked).map(c => c.value);
       if (!confirm(`Bạn có chắc muốn xóa ${ids.length} khách hàng đã chọn?`)) return;
-      showToast(`Đã gửi yêu cầu xóa ${ids.length} khách hàng. (Chức năng cần backend hỗ trợ)`);
+      
+      const btn = container.querySelector('#btn-delete-selected');
+      if (btn) btn.disabled = true;
+      
+      try {
+        await Promise.all(ids.map(id => API().delete(EP().ADMIN_USER_DETAIL(id))));
+        showToast(`Đã xóa ${ids.length} khách hàng thành công!`);
+        if (table) table.refresh();
+      } catch (err) {
+        showToast(err.message || 'Lỗi khi xóa khách hàng', 'error');
+      } finally {
+        if (btn) btn.disabled = false;
+      }
     });
   },
 

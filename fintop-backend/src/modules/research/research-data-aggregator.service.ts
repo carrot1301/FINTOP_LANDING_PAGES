@@ -153,7 +153,7 @@ export class ResearchDataAggregatorService {
         }
 
         const detail = portfolioId !== -1 
-          ? await this.portfolioService.getPortfolioDetail(portfolioId, 1, 'DIAMOND') // use high tier to fetch detail
+          ? await this.portfolioService.getPortfolioDetail(portfolioId, 1, ['Full đặc quyền V.I.P', 'Cố vấn 1-1 chuyên gia']) // use high tier features to fetch detail
           : null;
 
         if (!detail) {

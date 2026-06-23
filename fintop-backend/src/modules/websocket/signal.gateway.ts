@@ -5,6 +5,7 @@ import { SocketAuthGuard } from './socket-auth.guard';
 import { SUBSCRIPTION_TIER } from '@prisma/client';
 import { AuditService } from '../../common/audit/audit.service';
 import { AUDIT_SOURCE } from '@prisma/client';
+import { isFeatureAllowed } from '../../common/utils/subscription-helper';
 
 const tierHierarchy = {
   STANDARD: 1,
@@ -26,10 +27,8 @@ export class SignalGateway {
   @SubscribeMessage('subscribe_signals')
   async handleSubscribeSignals(@ConnectedSocket() client: any, @MessageBody() minTier: SUBSCRIPTION_TIER) {
     const user = client.user;
-    const requestedTierValue = tierHierarchy[minTier];
-    const userTierValue = tierHierarchy[user.tierLevel as keyof typeof tierHierarchy];
 
-    if (userTierValue < requestedTierValue) {
+    if (!isFeatureAllowed(user.planFeatures, minTier)) {
       this.logger.warn(`User ${user.id} attempted to subscribe to tier ${minTier} signals without permission.`);
       client.emit('error', { message: 'Insufficient subscription tier' });
       return;

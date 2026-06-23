@@ -3,6 +3,7 @@ import { PrismaService } from '../../common/database/prisma.service';
 import { AuditService } from '../../common/audit/audit.service';
 import { RedisService } from '../../common/redis/redis.service';
 import { PORTFOLIO_STATUS, AUDIT_SOURCE, Prisma, SUBSCRIPTION_TIER } from '@prisma/client';
+import { isFeatureAllowed } from '../../common/utils/subscription-helper';
 
 export interface CreatePortfolioDto {
   name: string;
@@ -155,14 +156,14 @@ export class PortfolioService {
     });
   }
 
-  async getPortfolios(userId: number, userTier: SUBSCRIPTION_TIER) {
+  async getPortfolios(userId: number, userFeatures: string[]) {
     const portfolios = await this.prisma.recommendedPortfolio.findMany({
       where: { deletedAt: null },
       orderBy: { createdAt: 'desc' }
     });
 
     return portfolios.map(p => {
-      const locked = !this.isTierAllowed(userTier, p.minTierAccess);
+      const locked = !this.isTierAllowed(userFeatures, p.minTierAccess);
       return {
         ...p,
         initialCapital: p.initialCapital.toNumber(),
@@ -173,7 +174,7 @@ export class PortfolioService {
     });
   }
 
-  async getPortfolioDetail(portfolioId: number, userId: number, userTier: SUBSCRIPTION_TIER) {
+  async getPortfolioDetail(portfolioId: number, userId: number, userFeatures: string[]) {
     const portfolio = await this.prisma.recommendedPortfolio.findUnique({
       where: { id: portfolioId },
       include: {
@@ -189,7 +190,7 @@ export class PortfolioService {
       throw new NotFoundException('Portfolio not found');
     }
 
-    const locked = !this.isTierAllowed(userTier, portfolio.minTierAccess);
+    const locked = !this.isTierAllowed(userFeatures, portfolio.minTierAccess);
 
     const initialCapital = portfolio.initialCapital.toNumber();
     const currentNav = portfolio.currentNav.toNumber();
@@ -233,13 +234,7 @@ export class PortfolioService {
     };
   }
 
-  private isTierAllowed(userTier: SUBSCRIPTION_TIER, minTier: SUBSCRIPTION_TIER): boolean {
-    const tierHierarchy = {
-      STANDARD: 1,
-      SILVER: 2,
-      GOLD: 3,
-      DIAMOND: 4,
-    };
-    return (tierHierarchy[userTier] || 0) >= (tierHierarchy[minTier] || 0);
+  private isTierAllowed(userFeatures: string[] | undefined, minTier: SUBSCRIPTION_TIER): boolean {
+    return isFeatureAllowed(userFeatures, minTier);
   }
 }

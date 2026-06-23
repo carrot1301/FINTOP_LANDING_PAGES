@@ -3,6 +3,7 @@ import { PrismaService } from '../../common/database/prisma.service';
 import { RedisService } from '../../common/redis/redis.service';
 import { AuditService } from '../../common/audit/audit.service';
 import { BLOG_STATUS, REVISION_ACTION, AUDIT_SOURCE, CONTENT_VISIBILITY, SUBSCRIPTION_TIER, Prisma } from '@prisma/client';
+import { isFeatureAllowed } from '../../common/utils/subscription-helper';
 
 @Injectable()
 export class BlogService {
@@ -112,7 +113,7 @@ export class BlogService {
     return blog;
   }
 
-  async listArticles(userTier?: SUBSCRIPTION_TIER, page = 1, limit = 10, categorySlug?: string) {
+  async listArticles(userFeatures?: string[], page = 1, limit = 10, categorySlug?: string) {
     const skip = (page - 1) * limit;
 
     const whereClause: any = {
@@ -138,7 +139,7 @@ export class BlogService {
     });
 
     const mapped = articles.map(b => {
-      const locked = b.visibility === CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userTier, b.minTierAccess);
+      const locked = b.visibility === CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userFeatures, b.minTierAccess);
       return {
         id: b.id,
         title: b.title,
@@ -165,9 +166,9 @@ export class BlogService {
     };
   }
 
-  async getArticleForUser(slug: string, userTier?: SUBSCRIPTION_TIER) {
+  async getArticleForUser(slug: string, userFeatures?: string[]) {
     const b = await this.getArticle(slug);
-    const locked = b.visibility === CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userTier, b.minTierAccess);
+    const locked = b.visibility === CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userFeatures, b.minTierAccess);
 
     return {
       id: b.id,
@@ -184,15 +185,8 @@ export class BlogService {
     };
   }
 
-  private isTierAllowed(userTier?: SUBSCRIPTION_TIER, minTier?: SUBSCRIPTION_TIER): boolean {
-    if (!userTier) return false;
-    const tierHierarchy = {
-      STANDARD: 1,
-      SILVER: 2,
-      GOLD: 3,
-      DIAMOND: 4,
-    };
-    return (tierHierarchy[userTier] || 0) >= (tierHierarchy[minTier || 'STANDARD'] || 0);
+  private isTierAllowed(userFeatures?: string[], minTier?: SUBSCRIPTION_TIER): boolean {
+    return isFeatureAllowed(userFeatures, minTier || 'STANDARD');
   }
 
   async updateArticle(blogId: number, editorId: number, dto: any) {

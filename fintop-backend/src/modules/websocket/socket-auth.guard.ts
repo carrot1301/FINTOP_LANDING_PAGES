@@ -24,17 +24,54 @@ export class SocketAuthGuard implements CanActivate {
         secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
       });
 
-      // Verify user exists and get tier level
+      // Verify user exists and get tier level and features
       const user = await this.prisma.user.findUnique({
-        where: { id: payload.sub }
+        where: { id: payload.sub },
+        include: {
+          subscriptions: {
+            where: {
+              status: 'ACTIVE',
+              endDate: { gt: new Date() },
+            },
+            include: {
+              plan: true,
+            },
+            orderBy: {
+              endDate: 'desc',
+            },
+            take: 1,
+          },
+        },
       });
 
       if (!user || user.status !== 'ACTIVE') {
         throw new WsException('Invalid user');
       }
 
-      // Attach user to socket
-      client.user = user;
+      let planFeaturesStr = '';
+      if (user.subscriptions && user.subscriptions.length > 0) {
+        planFeaturesStr = user.subscriptions[0].plan.features || '';
+      } else {
+        const standardPlan = await this.prisma.subscriptionPlan.findFirst({
+          where: {
+            tierLevel: 'STANDARD',
+            status: 'ACTIVE',
+            deletedAt: null,
+          },
+        });
+        planFeaturesStr = standardPlan?.features || '';
+      }
+
+      const planFeatures = planFeaturesStr
+        .split(';')
+        .map((f) => f.trim())
+        .filter(Boolean);
+
+      // Attach user to socket with planFeatures
+      client.user = {
+        ...user,
+        planFeatures,
+      };
       return true;
     } catch (error) {
       this.logger.error(`Socket auth failed: ${error.message}`);
