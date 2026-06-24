@@ -4,9 +4,9 @@ window.FINTOP_MEMBERSHIP_DATA = [
         name: 'STANDARD',
         subtitle: 'Tiêu chuẩn',
         price: 'Miễn phí',
-        cta: 'Đăng ký',
+        cta: 'Đăng ký tài khoản',
         status: 'Đang mở',
-        features: 'Tra cứu cổ phiếu; Phân tích cơ bản; Tool & Dữ liệu cơ bản',
+        features: 'Tra cứu cổ phiếu; FinTop AI cơ bản; Dữ liệu nền; Hướng dẫn đầu tư; Miễn phí',
         popupTitle: 'Đăng ký tài khoản FinTop DATA miễn phí',
         popupContent: 'Phù hợp để bắt đầu tra cứu cổ phiếu và làm quen với hệ sinh thái dữ liệu.'
     },
@@ -15,9 +15,9 @@ window.FINTOP_MEMBERSHIP_DATA = [
         name: 'PRO',
         subtitle: 'Chuyên nghiệp',
         price: 'PRO1/PRO2/PRO3',
-        cta: 'Đăng ký',
+        cta: 'Đăng ký PRO',
         status: 'Đang mở',
-        features: 'Bộ lọc cổ phiếu; Pro Analysis; Pro Data',
+        features: 'Bộ lọc cổ phiếu chuyên nghiệp; PRO Data; PRO Research; Tool và dữ liệu nâng cao; PRO1/PRO2/PRO3',
         popupTitle: 'Đăng ký Hội viên PRO FinTop DATA',
         popupContent: 'Mở khóa bộ lọc, dữ liệu nâng cao, phân tích chuyên sâu và các công cụ hỗ trợ ra quyết định.'
     },
@@ -26,9 +26,9 @@ window.FINTOP_MEMBERSHIP_DATA = [
         name: 'V.I.P',
         subtitle: 'Cao cấp',
         price: 'Theo liên kết TKCK',
-        cta: 'Đăng ký',
+        cta: 'Liên kết V.I.P',
         status: 'Đang mở',
-        features: 'Đặc quyền PRO; Kết nối Chuyên gia; Phân tích Chuyên gia',
+        features: 'Full PRO; Kết nối chuyên gia; Phân tích chuyên gia; Liên kết tài khoản chứng khoán; Theo liên kết TKCK',
         popupTitle: 'Đặc quyền V.I.P FinTop DATA',
         popupContent: 'Dành cho khách hàng cần kết nối chuyên gia, hỗ trợ chiến lược và trải nghiệm dịch vụ ưu tiên.'
     },
@@ -37,9 +37,9 @@ window.FINTOP_MEMBERSHIP_DATA = [
         name: 'DIAMOND',
         subtitle: 'Kim cương',
         price: 'NAV từ 1 tỷ',
-        cta: 'Đăng ký',
+        cta: 'Cố vấn DIAMOND',
         status: 'Tư vấn riêng',
-        features: 'Đặc quyền V.I.P; Đặc quyền PRO; Cố vấn 1-1 Chuyên gia',
+        features: 'Full V.I.P; Cố vấn 1-1; Chiến lược danh mục theo NAV; Báo cáo định kỳ; NAV từ 1 tỷ',
         popupTitle: 'Gói hỗ trợ VIP PRO đặc biệt',
         popupContent: 'Dành cho khách hàng cần cố vấn chiến lược danh mục, quản trị rủi ro và đồng hành chuyên sâu.'
     }

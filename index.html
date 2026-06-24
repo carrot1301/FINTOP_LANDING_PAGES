@@ -2800,6 +2800,32 @@
             align-items: stretch;
         }
 
+        #panel-hoivien .panel-header {
+            text-align: center;
+        }
+
+        #panel-hoivien .function-shell {
+            background: transparent;
+            border-color: transparent;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .panel-pricing-grid {
+            max-width: 1120px;
+            margin: 2.75rem auto 0;
+        }
+
+        #panel-hoivien .pricing-card {
+            min-height: 355px;
+            cursor: pointer;
+        }
+
+        #panel-hoivien .pricing-card.active {
+            transform: translateY(-6px) !important;
+            filter: brightness(1.08);
+        }
+
         @media (max-width: 1024px) {
             .tv-nav {
                 display: none;
@@ -4876,33 +4902,12 @@
     <div class="submenu-panel" id="panel-hoivien">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Hội viên FinTop DATA</h2>
-            <p>Chọn đúng chức năng cần thực hiện. Khi khách hàng click vào mục nào, phần hướng dẫn và hành động của mục đó sẽ hiện ngay bên dưới.</p>
+            <h2 class="gradient-text" style="font-size: clamp(2.4rem, 5vw, 4.5rem);">Chọn Gói Hội Viên</h2>
+            <p>Nâng cấp trải nghiệm đầu tư của bạn ngay hôm nay</p>
         </div>
 
         <div class="function-shell">
-            <div class="membership-action-grid" aria-label="Chức năng hội viên">
-                <article class="membership-action-card active" data-membership-action="free" onclick="selectMembershipAction('free', this)">
-                    <span class="membership-action-icon">01</span>
-                    <h3>Đăng ký tài khoản FinTop DATA miễn phí</h3>
-                    <p>Điều hướng khách hàng sang mục đăng ký tài khoản và gợi ý nâng cấp khi có nhu cầu.</p>
-                </article>
-                <article class="membership-action-card" data-membership-action="pro" onclick="selectMembershipAction('pro', this)">
-                    <span class="membership-action-icon">02</span>
-                    <h3>Đăng ký Hội viên PRO FinTop DATA</h3>
-                    <p>Yêu cầu đăng nhập trước khi đăng ký, thanh toán và gửi yêu cầu phê duyệt PRO.</p>
-                </article>
-                <article class="membership-action-card" data-membership-action="vip" onclick="selectMembershipAction('vip', this)">
-                    <span class="membership-action-icon">03</span>
-                    <h3>Liên kết tài khoản chứng khoán (ID FinTop)</h3>
-                    <p>Mở hoặc liên kết tài khoản chứng khoán VPS/TCBS theo ID FinTop, sau đó chờ phê duyệt.</p>
-                </article>
-                <article class="membership-action-card" data-membership-action="diamond" onclick="selectMembershipAction('diamond', this)">
-                    <span class="membership-action-icon">04</span>
-                    <h3>Liên kết tài khoản Diamond (NAV từ 1 tỷ VND)</h3>
-                    <p>Luồng dành cho khách hàng cần cố vấn Diamond và xác nhận tài khoản chứng khoán/NAV.</p>
-                </article>
-            </div>
+            <div class="pricing-grid panel-pricing-grid" id="panelMembershipPricingGrid" aria-label="Gói hội viên FinTop DATA"></div>
 
             <section class="membership-flow-panel" id="membershipFlowPanel" aria-live="polite"></section>
         </div>
@@ -5530,7 +5535,7 @@
 
     <!-- PHẦN 4: BẢNG GIÁ HỘI VIÊN -->
     <section class="pricing-section" id="pricing">
-        <h2 class="gradient-text" style="position: relative; z-index: 1;">Chọn gói Hội viên</h2>
+        <h2 class="gradient-text" style="position: relative; z-index: 1;">Chọn Gói Hội Viên</h2>
         <p style="margin-top: 1rem; position: relative; z-index: 1;">Nâng cấp trải nghiệm đầu tư của bạn ngay hôm nay
         </p>
 
@@ -5538,49 +5543,57 @@
             <!-- GÓI STANDARD - Xanh lam -->
             <div class="pricing-card liquid-glass-card card-standard">
                 <div class="pricing-title">STANDARD</div>
-                <div class="pricing-subtitle" style="color: #7dd3fc;">(Tiêu chuẩn)</div>
+                <div class="pricing-subtitle" style="color: #7dd3fc;">Tiêu chuẩn</div>
                 <ul class="pricing-features">
                     <li><span class="check-icon">✦</span> Tra cứu cổ phiếu</li>
-                    <li><span class="check-icon">✦</span> Phân tích cơ bản</li>
-                    <li><span class="check-icon">✦</span> Tool & Dữ liệu cơ bản</li>
+                    <li><span class="check-icon">✦</span> FinTop AI cơ bản</li>
+                    <li><span class="check-icon">✦</span> Dữ liệu nền</li>
+                    <li><span class="check-icon">✦</span> Hướng dẫn đầu tư</li>
+                    <li><span class="check-icon">✦</span> Miễn phí</li>
                 </ul>
-                <button class="btn-tier" onclick="openPricingModal('standard')">Đăng ký</button>
+                <button class="btn-tier" onclick="submitStandard('register')">Đăng ký tài khoản</button>
             </div>
 
             <!-- GÓI PRO - Tím -->
             <div class="pricing-card liquid-glass-card card-pro">
-                <div class="pricing-title">PRO</div>
-                <div class="pricing-subtitle" style="color: #c4b5fd;">(Chuyên nghiệp)</div>
+                <div class="pricing-title">PRO ⭐</div>
+                <div class="pricing-subtitle" style="color: #c4b5fd;">Chuyên nghiệp</div>
                 <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Bộ lọc cổ phiếu</li>
-                    <li><span class="check-icon">✦</span> Pro Analysis</li>
-                    <li><span class="check-icon">✦</span> Pro Data</li>
+                    <li><span class="check-icon">✦</span> Bộ lọc cổ phiếu chuyên nghiệp</li>
+                    <li><span class="check-icon">✦</span> PRO Data</li>
+                    <li><span class="check-icon">✦</span> PRO Research</li>
+                    <li><span class="check-icon">✦</span> Tool và dữ liệu nâng cao</li>
+                    <li><span class="check-icon">✦</span> PRO1/PRO2/PRO3</li>
                 </ul>
-                <button class="btn-tier" onclick="openPricingModal('pro')">Đăng ký</button>
+                <button class="btn-tier" onclick="openPricingModal('pro')">Đăng ký PRO</button>
             </div>
 
             <!-- GÓI V.I.P - Xanh ngọc -->
             <div class="pricing-card liquid-glass-card card-vip">
                 <div class="pricing-title">V.I.P</div>
-                <div class="pricing-subtitle" style="color: #6ee7b7;">(Cao cấp)</div>
+                <div class="pricing-subtitle" style="color: #6ee7b7;">Cao cấp</div>
                 <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
-                    <li><span class="check-icon">✦</span> Kết nối Chuyên gia</li>
-                    <li><span class="check-icon">✦</span> Phân tích Chuyên gia</li>
+                    <li><span class="check-icon">✦</span> Full PRO</li>
+                    <li><span class="check-icon">✦</span> Kết nối chuyên gia</li>
+                    <li><span class="check-icon">✦</span> Phân tích chuyên gia</li>
+                    <li><span class="check-icon">✦</span> Liên kết tài khoản chứng khoán</li>
+                    <li><span class="check-icon">✦</span> Theo liên kết TKCK</li>
                 </ul>
-                <button class="btn-tier" onclick="openPricingModal('vip')">Đăng ký</button>
+                <button class="btn-tier" onclick="openPricingModal('vip')">Liên kết V.I.P</button>
             </div>
 
             <!-- GÓI DIAMOND - Vàng -->
             <div class="pricing-card liquid-glass-card card-diamond">
-                <div class="pricing-title">DIAMOND</div>
-                <div class="pricing-subtitle" style="color: #fcd34d;">(Kim cương)</div>
+                <div class="pricing-title">DIAMOND 💎</div>
+                <div class="pricing-subtitle" style="color: #fcd34d;">Kim cương</div>
                 <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Đặc quyền V.I.P</li>
-                    <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
-                    <li><span class="check-icon">✦</span> Cố vấn 1-1 Chuyên gia</li>
+                    <li><span class="check-icon">✦</span> Full V.I.P</li>
+                    <li><span class="check-icon">✦</span> Cố vấn 1-1</li>
+                    <li><span class="check-icon">✦</span> Chiến lược danh mục theo NAV</li>
+                    <li><span class="check-icon">✦</span> Báo cáo định kỳ</li>
+                    <li><span class="check-icon">✦</span> NAV từ 1 tỷ</li>
                 </ul>
-                <button class="btn-tier" onclick="openPricingModal('diamond')">Đăng ký</button>
+                <button class="btn-tier" onclick="openPricingModal('diamond')">Cố vấn DIAMOND</button>
             </div>
         </div>
     </section>
@@ -6413,7 +6426,7 @@
             const panel = document.getElementById('membershipFlowPanel');
             if (!panel) return;
 
-            document.querySelectorAll('.membership-action-card').forEach((card) => {
+            document.querySelectorAll('.membership-action-card, .pricing-card[data-membership-action]').forEach((card) => {
                 card.classList.toggle('active', card === clickedCard || (!clickedCard && card.dataset.membershipAction === action));
             });
 
@@ -6651,33 +6664,60 @@
         }
 
         function planDisplayName(plan) {
-            return plan.name;
+            const name = String(plan.name || '').trim();
+            const normalized = name.toUpperCase();
+            if (normalized === 'PRO' && !name.includes('⭐')) return `${name} ⭐`;
+            if (normalized === 'DIAMOND' && !name.includes('💎')) return `${name} 💎`;
+            return name;
         }
 
         function planSubtitleDisplay(plan) {
             const subtitle = (plan.subtitle || '').trim();
             if (!subtitle) return '';
-            return subtitle.startsWith('(') ? subtitle : `(${subtitle})`;
+            return subtitle.replace(/^\((.*)\)$/, '$1');
+        }
+
+        function membershipActionForPlan(planId) {
+            const id = String(planId || '').toLowerCase();
+            if (id === 'standard' || id === 'free') return 'free';
+            if (id.includes('diamond')) return 'diamond';
+            if (id.includes('vip')) return 'vip';
+            if (id.includes('pro')) return 'pro';
+            return 'free';
+        }
+
+        function handlePricingCardAction(button, event) {
+            if (event) event.stopPropagation();
+            const card = button.closest('.pricing-card');
+            const action = button.dataset.membershipAction || 'free';
+            const planId = button.dataset.planId || 'standard';
+            selectMembershipAction(action, card);
+            if (action === 'free' || planId === 'standard') {
+                submitStandard('register');
+                return;
+            }
+            openPricingModal(planId);
         }
 
         function renderMemberships() {
             if (MEMBERSHIP_DATA.length === 0) return;
-            const pricingGrid = document.querySelector('.pricing-grid');
-            if (pricingGrid) {
+            const pricingGrids = document.querySelectorAll('#pricing .pricing-grid, #panelMembershipPricingGrid');
+            pricingGrids.forEach((pricingGrid) => {
                 pricingGrid.innerHTML = MEMBERSHIP_DATA.map((plan) => {
-                    const features = splitList(plan.features).slice(0, 3);
+                    const features = splitList(plan.features);
+                    const action = membershipActionForPlan(plan.id);
                     return `
-                        <div class="pricing-card liquid-glass-card card-${escapeHtml(plan.id)}">
+                        <div class="pricing-card liquid-glass-card card-${escapeHtml(plan.id)}" data-membership-action="${escapeHtml(action)}" onclick="selectMembershipAction('${escapeHtml(action)}', this)">
                             <div class="pricing-title">${escapeHtml(planDisplayName(plan))}</div>
                             <div class="pricing-subtitle">${escapeHtml(planSubtitleDisplay(plan))}</div>
                             <ul class="pricing-features">
                                 ${features.map((feature) => `<li><span class="check-icon">✦</span> ${escapeHtml(feature)}</li>`).join('')}
                             </ul>
-                            <button class="btn-tier" onclick="openPricingModal('${escapeHtml(plan.id)}')">${escapeHtml(plan.cta || 'Đăng ký')}</button>
+                            <button class="btn-tier" type="button" data-plan-id="${escapeHtml(plan.id)}" data-membership-action="${escapeHtml(action)}" onclick="handlePricingCardAction(this, event)">${escapeHtml(plan.cta || 'Đăng ký')}</button>
                         </div>
                     `;
                 }).join('');
-            }
+            });
 
             const membershipGrid = document.querySelector('#panel-hoivien .function-grid');
             if (membershipGrid) {
@@ -6691,6 +6731,8 @@
                     </article>
                 `).join('');
             }
+
+            selectMembershipAction('free');
 
             MEMBERSHIP_DATA.forEach((plan) => {
                 const modal = document.getElementById(`modal-${plan.id}`);
@@ -6917,35 +6959,8 @@
 
         async function hydrateMemberships() {
             if (isMembershipHydrated) return;
-            const Infra = window.FintopInfra;
-            if (!Infra) return;
-            const API = () => Infra.ApiClient;
-            const EP = () => Infra.FintopEnv.API_ENDPOINTS;
-            const formatPrice = (val) => val ? Number(val).toLocaleString('vi-VN') : '—';
-            try {
-                const planRes = await API().get(EP().SUBSCRIPTION_PLANS);
-                const list = planRes.data || planRes || [];
-                if (Array.isArray(list) && list.length > 0) {
-                    MEMBERSHIP_DATA = list.map(p => ({
-                        id: p.id,
-                        name: p.name,
-                        subtitle: p.description || 'Gói hội viên đầu tư',
-                        price: p.price ? formatPrice(p.price) : '0',
-                        cta: 'Đăng Ký Ngay',
-                        status: p.status === 'ACTIVE' ? 'Đang mở' : 'Tạm ngưng',
-                        features: p.tierLevel === 'GOLD' ? 'Tín hiệu giao dịch; Phân tích Pro; Group hỗ trợ' : (p.tierLevel === 'DIAMOND' ? 'Copy Trade tự động; Tín hiệu giao dịch; Phân tích Pro; Group hỗ trợ' : 'Tra cứu cổ phiếu; Bộ lọc cơ bản'),
-                        popupTitle: p.name,
-                        popupContent: p.description || '',
-                        tierLevel: p.tierLevel
-                     }));
-                    window.MEMBERSHIP_DATA = MEMBERSHIP_DATA;
-                    renderMemberships();
-                    isMembershipHydrated = true;
-                    console.log('[Backend Hydrate] Membership plans loaded from backend:', list.length);
-                }
-            } catch (err) {
-                console.warn('[Backend Hydrate] Failed to load plans from backend:', err.message);
-            }
+            renderMemberships();
+            isMembershipHydrated = true;
         }
 
         async function hydrateSignals() {
