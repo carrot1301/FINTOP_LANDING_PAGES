@@ -423,7 +423,7 @@ function renderAll() {
             <th style="width:4%;text-align:center;">Mã CP</th>
             <th style="width:3%;text-align:center;">Sàn</th>
             <th style="width:7.5%;text-align:center;">Ngành HĐKD</th>
-            <th style="width:5.5%;text-align:center;">Cán bộ</th>
+            <th style="width:5.5%;text-align:center;">Kiểm soát DL</th>
             <th style="width:5.5%;text-align:center;">Update time</th>
             <th style="width:14%;text-align:center;">Mô tả Mô hình kỹ thuật (Model)</th>
             <th style="width:6.5%;text-align:center;">Kết quả Model</th>
