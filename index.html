@@ -1002,9 +1002,8 @@
         .membership-approval-note {
             color: #f0abfc;
             font-size: 0.82rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
+            font-weight: 700;
+            letter-spacing: 0;
         }
 
         .membership-user-summary {
@@ -1014,7 +1013,7 @@
             color: #fbcfe8;
             padding: 14px 16px;
             font-size: 0.85rem;
-            font-weight: 800;
+            font-weight: 700;
         }
 
         @media (max-width: 1024px) {
@@ -6351,75 +6350,78 @@
             const flows = {
                 free: {
                     title: 'Đăng ký tài khoản FinTop DATA miễn phí',
-                    copy: 'Khách hàng click đăng ký sẽ được điều hướng sang form đăng ký tài khoản. Sau khi đăng ký thành công, hệ thống có thể gợi ý nâng cấp tài khoản khi khách hàng có nhu cầu.',
+                    copy: 'Tạo tài khoản miễn phí để lưu danh sách theo dõi, sử dụng các công cụ cơ bản và nhận hỗ trợ khi cần nâng cấp trải nghiệm đầu tư.',
                     actionLabel: 'Đăng ký tài khoản',
                     action: "submitStandard('register')",
                     approval: false,
                     steps: [
                         {
-                            label: 'Bước 1',
-                            body: 'KH click vào đăng ký để mở form tạo tài khoản FinTop DATA miễn phí.'
+                            label: 'Tạo tài khoản',
+                            body: 'Nhấn đăng ký, điền thông tin cơ bản và xác nhận tài khoản FinTop DATA miễn phí.'
                         },
                         {
-                            label: 'Bước 2',
-                            body: 'KH đăng ký tài khoản xong sẽ nhận thông báo thành công, đồng thời có lựa chọn nâng cấp tài khoản khi cần.'
+                            label: 'Bắt đầu sử dụng',
+                            body: 'Sau khi đăng ký thành công, bạn có thể dùng các tính năng miễn phí và nâng cấp gói khi có nhu cầu.'
                         }
                     ],
-                    summary: 'Tổng hợp thông tin user sau đăng ký để phục vụ chăm sóc và nâng cấp.'
+                    summary: 'Thông tin đăng ký giúp FinTop hỗ trợ tài khoản và gửi thông báo dịch vụ phù hợp.'
                 },
                 pro: {
-                    title: 'Đăng ký Hội viên PRO FinTop DATA',
-                    copy: 'Luồng PRO yêu cầu khách hàng đăng nhập trước. Tài khoản đã đăng nhập sẽ chuyển sang màn hình đăng ký, thanh toán PRO và gửi yêu cầu phê duyệt.',
+                    title: 'Đăng ký gói PRO FinTop DATA',
+                    copy: 'Gói PRO dành cho khách hàng muốn mở khóa bộ lọc cổ phiếu chuyên nghiệp, dữ liệu PRO và báo cáo nghiên cứu chuyên sâu. Bạn chỉ cần đăng nhập, chọn gói phù hợp và hoàn tất thanh toán theo hướng dẫn.',
                     actionLabel: 'Đăng ký PRO',
                     action: "openPricingModal('pro')",
                     approval: true,
+                    approvalNote: 'FinTop sẽ thông báo ngay khi quyền PRO được kích hoạt.',
                     steps: [
                         {
-                            label: 'Yêu cầu đăng nhập',
-                            body: 'Nếu khách hàng chưa đăng nhập, hệ thống yêu cầu đăng nhập trước khi đăng ký.'
+                            label: 'Đăng nhập tài khoản',
+                            body: 'Nếu chưa đăng nhập, bạn sẽ được yêu cầu đăng nhập hoặc tạo tài khoản FinTop DATA trước khi đăng ký PRO.'
                         },
                         {
-                            label: 'Đăng ký & thanh toán',
-                            body: 'Tài khoản đã đăng nhập sẽ chuyển sang đăng ký và thanh toán PRO. Sau đó gửi yêu cầu phê duyệt.'
+                            label: 'Chọn gói & thanh toán',
+                            body: 'Chọn gói PRO phù hợp, xác nhận thông tin và hoàn tất thanh toán để FinTop xử lý kích hoạt.'
                         }
                     ],
-                    summary: 'Yêu cầu phê duyệt để kích hoạt quyền Hội viên PRO.'
+                    summary: 'Sau khi thanh toán được xác nhận, FinTop sẽ kích hoạt quyền PRO cho tài khoản của bạn.'
                 },
                 vip: {
                     title: 'Liên kết tài khoản chứng khoán (ID FinTop)',
-                    copy: 'Dành cho khách hàng cần liên kết tài khoản chứng khoán với ID FinTop để mở đặc quyền V.I.P.',
+                    copy: 'Gói V.I.P dành cho khách hàng muốn kết nối chuyên gia và sử dụng quyền lợi nâng cao thông qua tài khoản chứng khoán liên kết với FinTop.',
                     actionLabel: 'Liên kết V.I.P',
                     action: "openPricingModal('vip')",
                     approval: true,
+                    approvalNote: 'FinTop sẽ thông báo khi tài khoản V.I.P được xác nhận.',
                     steps: [
                         {
-                            label: 'Bước 1: Mở tài khoản chứng khoán',
-                            list: ['Mở TKCK VPS (FinTop ID BOJE).', 'Mở TKCK TCBS (ID 105CN48886).']
+                            label: 'Mở hoặc chọn tài khoản chứng khoán',
+                            list: ['Mở tài khoản VPS theo FinTop ID BOJE nếu bạn chưa có tài khoản phù hợp.', 'Hoặc mở tài khoản TCBS theo ID 105CN48886.']
                         },
                         {
-                            label: 'Bước 2: Liên kết user - tài khoản chứng khoán',
-                            list: ['Nhập số TKCK liên kết.', 'Nhập tên công ty chứng khoán.', 'Gửi yêu cầu phê duyệt.']
+                            label: 'Gửi thông tin liên kết',
+                            list: ['Nhập số tài khoản chứng khoán cần liên kết.', 'Chọn công ty chứng khoán tương ứng.', 'Gửi thông tin để FinTop kiểm tra và xác nhận.']
                         }
                     ],
-                    summary: 'Bảng tổng hợp thông tin các user liên kết tài khoản chứng khoán.'
+                    summary: 'Sau khi thông tin được xác nhận, tài khoản của bạn sẽ được mở quyền lợi V.I.P tương ứng.'
                 },
                 diamond: {
                     title: 'Liên kết tài khoản Diamond (NAV từ 1 tỷ VND)',
-                    copy: 'Dành cho khách hàng cần liên kết tài khoản chứng khoán/NAV để tham gia luồng cố vấn Diamond.',
+                    copy: 'Gói Diamond dành cho khách hàng có NAV từ 1 tỷ VND và cần đồng hành chuyên sâu về chiến lược danh mục, báo cáo định kỳ và cố vấn 1-1.',
                     actionLabel: 'Liên kết Diamond',
                     action: "openPricingModal('diamond')",
                     approval: true,
+                    approvalNote: 'FinTop sẽ liên hệ để xác nhận thông tin và kích hoạt dịch vụ Diamond.',
                     steps: [
                         {
-                            label: 'Bước 1: Mở tài khoản chứng khoán',
-                            list: ['Mở TKCK VPS (FinTop ID BOJE).', 'Mở TKCK TCBS (ID 105CN48886).']
+                            label: 'Chuẩn bị tài khoản chứng khoán',
+                            list: ['Mở tài khoản VPS theo FinTop ID BOJE nếu bạn chưa có tài khoản phù hợp.', 'Hoặc mở tài khoản TCBS theo ID 105CN48886.']
                         },
                         {
-                            label: 'Bước 2: Liên kết user - TK chứng khoán',
-                            list: ['Nhập số TKCK liên kết.', 'Nhập tên công ty chứng khoán.', 'Gửi yêu cầu phê duyệt Diamond.']
+                            label: 'Gửi thông tin Diamond',
+                            list: ['Nhập số tài khoản chứng khoán cần liên kết.', 'Cung cấp công ty chứng khoán và thông tin NAV.', 'Gửi thông tin để đội ngũ FinTop xác nhận.']
                         }
                     ],
-                    summary: 'Bảng tổng hợp thông tin user Diamond để theo dõi phê duyệt và chăm sóc riêng.'
+                    summary: 'Sau khi xác nhận đủ điều kiện, FinTop sẽ mở quyền Diamond và sắp xếp kênh hỗ trợ riêng cho bạn.'
                 }
             };
             const flow = flows[action] || flows.free;
@@ -6453,7 +6455,7 @@
                 <div class="membership-step-grid">${stepsMarkup}</div>
                 <div class="membership-user-summary">
                     ${escapeHtml(flow.summary)}
-                    ${flow.approval ? '<div class="membership-approval-note" style="margin-top: 8px;">Yêu cầu phê duyệt!</div>' : ''}
+                    ${flow.approval ? `<div class="membership-approval-note" style="margin-top: 8px;">${escapeHtml(flow.approvalNote || 'FinTop sẽ thông báo khi gói được kích hoạt.')}</div>` : ''}
                 </div>
             `;
         }
