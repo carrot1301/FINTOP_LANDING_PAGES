@@ -2425,7 +2425,7 @@
 
         .ai-message {
             text-align: left;
-            \n align-items: stretch;
+            align-items: stretch;
         }
 
         .ai-name {
@@ -2593,17 +2593,43 @@
             box-shadow: 0 20px 80px rgba(168, 85, 247, 0.4);
         }
 
-        .mockup-img {
+        .mockup-img,
+        .showcase-fireant-chart {
             width: 100%;
             aspect-ratio: 16 / 9;
             /* Ép cứng tỷ lệ màn hình Widescreen 16:9 */
             display: block;
             border-radius: 10px;
             background: #111;
+        }
+
+        .mockup-img {
             object-fit: cover;
             /* Phần ảnh dư theo chiều dọc tự động bị xén đi */
             object-position: top center;
             /* Thường sẽ lấy từ thanh công cụ bên trên xuống */
+        }
+
+        .showcase-fireant-chart {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .showcase-fireant-chart .fireant-chart-host,
+        .showcase-fireant-chart .fireant-chart-host>div,
+        .showcase-fireant-chart .fireant-widget-container {
+            width: 100%;
+            height: 100%;
+            min-height: 0;
+        }
+
+        .showcase-fireant-chart .fireant-widget,
+        .showcase-fireant-chart iframe {
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 0 !important;
+            border: 0;
+            border-radius: 10px;
         }
 
         /* Pricing Section */
@@ -2624,7 +2650,7 @@
             max-width: 1300px;
             margin: 4rem auto 0;
             text-align: left;
-            \n align-items: stretch;
+            align-items: stretch;
             align-items: stretch;
         }
 
@@ -2853,6 +2879,11 @@
         .pricing-subtitle {
             font-size: 0.9rem;
             margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .pricing-title {
+            text-align: center;
         }
 
         .pricing-features {
@@ -2977,15 +3008,15 @@
         }
 
         .team-member:nth-child(4) {
-            /* Right-upper */
+            /* Left-upper */
             top: 195px;
-            left: 636px;
+            left: 84px;
         }
 
         .team-member:nth-child(5) {
-            /* Right-lower */
-            top: 520px;
-            left: 570px;
+            /* Right-upper */
+            top: 195px;
+            left: 636px;
         }
 
         .team-member:nth-child(6) {
@@ -2995,9 +3026,9 @@
         }
 
         .team-member:nth-child(7) {
-            /* Left-upper */
-            top: 195px;
-            left: 84px;
+            /* Right-lower */
+            top: 520px;
+            left: 570px;
         }
 
         /* Connector lines from center to members */
@@ -3214,6 +3245,12 @@
             padding: 2.5rem;
         }
 
+        .about-highlight-fintech {
+            color: #c084fc;
+            font-style: normal;
+            font-weight: 700;
+        }
+
         .about-services-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -3234,7 +3271,7 @@
             border-radius: 16px;
             padding: 2rem;
             text-align: left;
-            \n align-items: stretch;
+            align-items: stretch;
             display: flex;
             flex-direction: column;
             gap: 0.8rem;
@@ -5309,7 +5346,7 @@
 
         <!-- PHÂN CẢNH 2: TÍNH NĂNG -->
         <section class="scene scene-2">
-            <div class="ai-cube gradient-text">Dữ Liệu Cho Nhà Đầu Tư Thế Hệ Mới!</div>
+            <div class="ai-cube gradient-text">Dữ liệu đầu tư thế hệ mới</div>
             <div class="panels-container">
                 <div class="panel">
                     <h3 style="color:var(--text-primary); margin-bottom:1rem;">DATA</h3>
@@ -5346,12 +5383,18 @@
     <!-- PHẦN 2.5: TRÌNH DIỄN GIAO DIỆN TERMINAL -->
     <section class="product-showcase">
         <div class="showcase-header">
-            <h2 class="gradient-text">Hệ Sinh Thái Phân Tích Đầu Tư Đỉnh Cao</h2>
+            <h2 class="gradient-text">Hệ sinh thái phân tích thông minh</h2>
             <p>Đồng hành trên +10,000 nhà đầu tư tại Việt Nam làm chủ dòng tiền đầu tư thông minh bằng bộ công cụ dữ
                 liệu tiêu chuẩn quốc tế.</p>
         </div>
         <div class="showcase-mockup-wrapper">
-            <img src="assets/images/fintop_terminal_mockup.png" alt="FinTop DATA Terminal Dashboard" class="mockup-img">
+            <div id="showcase-vnindex-chart-container" class="showcase-fireant-chart"
+                aria-label="Biểu đồ tổng quan VNINDEX từ FireAnt">
+                <div class="fireant-widget-container" style="height:100%;width:100%">
+                    <div id="fireant_showcase_vnindex_host" class="fireant-chart-host" style="height:100%;width:100%">
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -5373,7 +5416,7 @@
 
     <!-- PHẦN 4: BẢNG GIÁ HỘI VIÊN -->
     <section class="pricing-section" id="pricing">
-        <h2 class="gradient-text" style="position: relative; z-index: 1;">Chọn Gói Hội Viên</h2>
+        <h2 class="gradient-text" style="position: relative; z-index: 1;">Chọn gói Hội viên</h2>
         <p style="margin-top: 1rem; position: relative; z-index: 1;">Nâng cấp trải nghiệm đầu tư của bạn ngay hôm nay
         </p>
 
@@ -5383,7 +5426,7 @@
                 <div class="pricing-title">STANDARD</div>
                 <div class="pricing-subtitle" style="color: #7dd3fc;">(Tiêu chuẩn)</div>
                 <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Tra cứu CP</li>
+                    <li><span class="check-icon">✦</span> Tra cứu cổ phiếu</li>
                     <li><span class="check-icon">✦</span> Phân tích cơ bản</li>
                     <li><span class="check-icon">✦</span> Tool & Dữ liệu cơ bản</li>
                 </ul>
@@ -5392,10 +5435,10 @@
 
             <!-- GÓI PRO - Tím -->
             <div class="pricing-card liquid-glass-card card-pro">
-                <div class="pricing-title">PRO ⭐</div>
+                <div class="pricing-title">PRO</div>
                 <div class="pricing-subtitle" style="color: #c4b5fd;">(Chuyên nghiệp)</div>
                 <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Bộ Lọc CP</li>
+                    <li><span class="check-icon">✦</span> Bộ lọc cổ phiếu</li>
                     <li><span class="check-icon">✦</span> Pro Analysis</li>
                     <li><span class="check-icon">✦</span> Pro Data</li>
                 </ul>
@@ -5416,7 +5459,7 @@
 
             <!-- GÓI DIAMOND - Vàng -->
             <div class="pricing-card liquid-glass-card card-diamond">
-                <div class="pricing-title">DIAMOND 💎</div>
+                <div class="pricing-title">DIAMOND</div>
                 <div class="pricing-subtitle" style="color: #fcd34d;">(Kim cương)</div>
                 <ul class="pricing-features">
                     <li><span class="check-icon">✦</span> Đặc quyền V.I.P</li>
@@ -5430,7 +5473,7 @@
 
     <!-- PHẦN 5: ĐỘI NGŨ CHUYÊN GIA -->
     <section class="team-section" id="team">
-        <h2 class="gradient-text" style="position: relative; z-index: 1;">Đội Ngũ Chuyên Gia</h2>
+        <h2 class="gradient-text" style="position: relative; z-index: 1;">Đội ngũ Chuyên gia</h2>
         <p
             style="margin-top: 1rem; position: relative; z-index: 1; color: #94A3B8; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
             Hợp tác cùng Chuyên gia trên nền tảng Công nghệ &amp; Dữ liệu FinTop DATA.
@@ -5452,17 +5495,7 @@
                 <p class="team-desc">Nghiên cứu thị trường &amp; Quản trị chiến lược</p>
             </div>
 
-            <!-- 2. Phải trên -->
-            <div class="team-member">
-                <div class="team-avatar-wrapper avatar-cyan">
-                    <img src="assets/images/anh_Linh.png" alt="Trần Khánh Linh" class="team-avatar">
-                </div>
-                <h3 class="team-name">Trần Khánh Linh (Mr)</h3>
-                <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
-                <p class="team-desc">Doanh nghiệp &amp; Ngành kinh tế</p>
-            </div>
-
-            <!-- 3. Phải dưới -->
+            <!-- 2. Trái trên -->
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-green">
                     <img src="assets/images/anh_Phuc.png" alt="Nguyễn Thành Phúc" class="team-avatar"
@@ -5471,6 +5504,16 @@
                 <h3 class="team-name">Nguyễn Thành Phúc (Mr)</h3>
                 <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
                 <p class="team-desc">Dữ liệu Doanh nghiệp &amp; Cổ phiếu</p>
+            </div>
+
+            <!-- 3. Phải trên -->
+            <div class="team-member">
+                <div class="team-avatar-wrapper avatar-cyan">
+                    <img src="assets/images/anh_Linh.png" alt="Trần Khánh Linh" class="team-avatar">
+                </div>
+                <h3 class="team-name">Trần Khánh Linh (Mr)</h3>
+                <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
+                <p class="team-desc">Doanh nghiệp &amp; Ngành kinh tế</p>
             </div>
 
             <!-- 4. Trái dưới -->
@@ -5483,7 +5526,7 @@
                 <p class="team-desc">Thạc sĩ Kinh tế chiến lược (FSU JENA, Đức)</p>
             </div>
 
-            <!-- 5. Trái trên -->
+            <!-- 5. Phải dưới -->
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-purple">
                     <img src="assets/images/anh_Dung.png" alt="Mai Tiến Dũng" class="team-avatar">
@@ -5497,11 +5540,11 @@
 
     <!-- SECTION 6: GIỚI THIỆU FINTOP -->
     <section class="about-section" id="about">
-        <h2 class="gradient-text" style="position: relative; z-index: 1;">Giới Thiệu FINTOP</h2>
+        <h2 class="gradient-text" style="position: relative; z-index: 1;">Giới thiệu FINTOP</h2>
         <div class="about-description">
             <p>
                 <strong style="color: #c084fc;">Công Ty TNHH Đầu Tư & Phát Triển FINTOP</strong> là doanh nghiệp
-                <em>Fintech & Data</em> hoạt động và định hướng phát triển trong lĩnh vực
+                <span class="about-highlight-fintech">Fintech &amp; Data</span> hoạt động và định hướng phát triển trong lĩnh vực
                 <strong style="color: #38bdf8;">Công nghệ Tài chính</strong>,
                 Nghiên cứu - Phân tích - Xử lý - Xuất bản Dữ liệu với các
                 <strong style="color: #f59e0b;">"Mô hình tiên tiến" (Model)</strong> chuẩn hóa cho hiệu quả cao,
@@ -6336,9 +6379,13 @@
         }
 
         function planDisplayName(plan) {
-            if (plan.id === 'pro') return `${plan.name} ⭐`;
-            if (plan.id === 'diamond') return `${plan.name} 💎`;
             return plan.name;
+        }
+
+        function planSubtitleDisplay(plan) {
+            const subtitle = (plan.subtitle || '').trim();
+            if (!subtitle) return '';
+            return subtitle.startsWith('(') ? subtitle : `(${subtitle})`;
         }
 
         function renderMemberships() {
@@ -6346,14 +6393,13 @@
             const pricingGrid = document.querySelector('.pricing-grid');
             if (pricingGrid) {
                 pricingGrid.innerHTML = MEMBERSHIP_DATA.map((plan) => {
-                    const features = splitList(plan.features).slice(0, 4);
+                    const features = splitList(plan.features).slice(0, 3);
                     return `
                         <div class="pricing-card liquid-glass-card card-${escapeHtml(plan.id)}">
                             <div class="pricing-title">${escapeHtml(planDisplayName(plan))}</div>
-                            <div class="pricing-subtitle">${escapeHtml(plan.subtitle || '')}</div>
+                            <div class="pricing-subtitle">${escapeHtml(planSubtitleDisplay(plan))}</div>
                             <ul class="pricing-features">
                                 ${features.map((feature) => `<li><span class="check-icon">✦</span> ${escapeHtml(feature)}</li>`).join('')}
-                                <li><span class="check-icon">✦</span> ${escapeHtml(plan.price || '')}</li>
                             </ul>
                             <button class="btn-tier" onclick="openPricingModal('${escapeHtml(plan.id)}')">${escapeHtml(plan.cta || 'Đăng ký')}</button>
                         </div>
@@ -6764,6 +6810,7 @@
             hydrateFromBackend().catch((error) => {
                 console.warn('Backend hydrate skipped:', error);
             });
+            loadShowcaseVNIndexChart();
         });
 
         // =====================
@@ -6771,6 +6818,10 @@
         // =====================
         const FIREANT_WIDGET_SCRIPT = 'https://www.fireant.vn/Scripts/web/widgets.js';
         const FIREANT_CHART_TARGETS = {
+            showcase: {
+                hostId: 'fireant_showcase_vnindex_host',
+                containerId: 'showcase-vnindex-chart-container'
+            },
             tracuu: {
                 hostId: 'fireant_tracuu_chart_host',
                 containerId: 'fireant-tracuu-chart-container'
@@ -6893,6 +6944,39 @@
                     iframe.style.background = '#131722';
                 });
             }, 1000);
+        }
+
+        function loadShowcaseVNIndexChart() {
+            const container = document.getElementById(FIREANT_CHART_TARGETS.showcase.hostId);
+            if (!container) return;
+
+            showChartMessage('Đang tải tổng quan VNINDEX...', 'showcase');
+
+            loadFireAntScript(() => {
+                if (!window.FireAnt || typeof window.FireAnt.MarketsWidget !== 'function') {
+                    showChartMessage('Không tải được tổng quan thị trường FireAnt. Vui lòng thử lại sau.', 'showcase');
+                    return;
+                }
+
+                container.innerHTML = '';
+                const widgetId = `fireant_showcase_markets_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+                const placeholder = document.createElement('div');
+                placeholder.id = widgetId;
+                placeholder.style.cssText = 'height:100%;width:100%;';
+                container.appendChild(placeholder);
+
+                const widgetHeight = `${Math.max(320, Math.round(container.getBoundingClientRect().height || 500))}px`;
+                new window.FireAnt.MarketsWidget({
+                    container_id: widgetId,
+                    symbols: 'VNINDEX',
+                    locale: 'vi',
+                    price_line_color: '#c084fc',
+                    grid_color: '#334155',
+                    label_color: '#94a3b8',
+                    width: '100%',
+                    height: widgetHeight
+                });
+            });
         }
 
         function loadChart(ticker, target) {
