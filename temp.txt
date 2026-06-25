@@ -1,3 +1,0 @@
-Line 1905: .btn-tv-blue {
-Line 1917: .btn-tv-blue:hover {
-Line 3259: <button class="btn-tv-blue" onclick="openAuthModal('register')">Bắt đầu</button>

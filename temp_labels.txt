@@ -1,4 +1,0 @@
-Line 1269: .market-thumb-label {
-Line 3632: <div class="market-thumb-label">Chứng khoán Việt Nam: Nâng hạng lên cận biên mới nổi hạng 2
-Line 3660: <div class="market-thumb-label">Diễn biến xu hướng TTCK triển vọng ngành đầu tư công</div>
-Line 3687: <div class="market-thumb-label">Bản đồ dòng tiền: nhóm dẫn dắt và vùng hút thanh khoản</div>

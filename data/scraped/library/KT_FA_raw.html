@@ -1,0 +1,162 @@
+<style>
+    .title_table{
+        font-size:16px !important;
+    }
+    .table{
+        border-color: #670000
+    }
+    .scrollbar {
+    margin-left: 30px;
+    /* float: left; */
+    height: 1000px;
+    /* width: 65px; */
+    /* background: #F5F5F5; */
+    overflow-y: scroll;
+    margin-bottom: 25px;
+  }
+
+  .force-overflow {
+    min-height: 1000px;
+  }
+
+  #wrapper {
+    text-align: center;
+    width: 500px;
+    margin: auto;
+  }
+
+  /*
+    *  STYLE 2
+    */
+
+  #style-2::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+  }
+
+  #style-2::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+  }
+
+  #style-2::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #D62929;
+  }
+
+  .tv-lightweight-charts {
+    width: 100%;
+    padding-right: var(--bs-gutter-x, 0.5rem) !important;
+    padding-left: var(--bs-gutter-x, 0.5rem) !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+  }
+
+  .table {
+    border-color: #670000;
+  }
+
+  .table-responsive.pmd-card.pmd-z-depth {
+    height: 100%;
+    max-height: 650px;
+  }
+
+  #style-1 #table-data thead tr td {
+    position: sticky;
+    top: 0;
+  }
+
+  #frmLoadlist_signal .blur {
+    /* opacity: 0.2; */
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+
+</style>
+<div id="style-1">
+  <div class="table-responsive pmd-card pmd-z-depth table-container">
+        <table id="table-data" class="table  table-bordered table-striped table-condensed dataTable no-footer" style="background-color: #fff;">
+            <colgroup>
+                <col width="5%">
+                <col width="85%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <!-- <td align="center"><input type="checkbox" name="chk_all_item_id"
+                            onclick="checkbox_all_item_id(document.forms[0].chk_item_id);"></td> -->
+                    <td style="background: #92241a;color:white;" align="center"><b class="title_table">STT</b></td>
+                    <td style="background: #92241a;color:white;" align="center"><b class="title_table">Nội dung</b></td>
+                    <td style="background: #92241a;color:white;" align="center"><b class="title_table">Link</b></b></td>
+                </tr>
+            </thead>
+            <tbody>
+                
+                                    <tr>
+                        <!-- <td style="padding-top: 20px;"align="center"><input type="checkbox" name="chk_item_id"
+                                value="4ba56680-050b-4138-bec7-37e548a985c4"></td> -->
+                        <td align="center">1
+                        <td style="white-space: inherit;" ondblclick="" onclick="{select_row(this);}">
+                        Tìm hiểu cơ hội đầu tư khi đọc Báo cáo tài chính
+                        </td>
+                        <td align="center" >
+                            <a target="_blank" href="https://chienthangthitruong.com/tim-kiem-co-hoi-dau-tu-khi-doc-bao-cao-tai-chinh/">Chi tiết</a>
+                            
+                        </td>
+                    </tr>
+                                    <tr>
+                        <!-- <td style="padding-top: 20px;"align="center"><input type="checkbox" name="chk_item_id"
+                                value="07815b3b-a4cc-4a9d-b12c-7bd9e91f3834"></td> -->
+                        <td align="center">2
+                        <td style="white-space: inherit;" ondblclick="" onclick="{select_row(this);}">
+                        Chiến lược đầu tư nắm giữ cổ phiếu tốt
+                        </td>
+                        <td align="center" >
+                            <a target="_blank" href="https://chienthangthitruong.com/chien-luoc-dau-tu-nam-giu-co-phieu-tot/">Chi tiết</a>
+                            
+                        </td>
+                    </tr>
+                                    <tr>
+                        <!-- <td style="padding-top: 20px;"align="center"><input type="checkbox" name="chk_item_id"
+                                value="01a18fdc-84a9-4dff-ae54-8af7108cc989"></td> -->
+                        <td align="center">3
+                        <td style="white-space: inherit;" ondblclick="" onclick="{select_row(this);}">
+                        Phương pháp chiết khấu dòng tiền
+                        </td>
+                        <td align="center" >
+                            <a target="_blank" href="https://chienthangthitruong.com/phuong-phap-chiet-khau-dong-tien/">Chi tiết</a>
+                            
+                        </td>
+                    </tr>
+                                    <tr>
+                        <!-- <td style="padding-top: 20px;"align="center"><input type="checkbox" name="chk_item_id"
+                                value="7289a74a-abcd-465b-a791-eb13a1575999"></td> -->
+                        <td align="center">4
+                        <td style="white-space: inherit;" ondblclick="" onclick="{select_row(this);}">
+                        Phương pháp phân tích dòng tiền đơn giản
+                        </td>
+                        <td align="center" >
+                            <a target="_blank" href="https://chienthangthitruong.com/phuong-phap-phan-tich-dong-tien-don-gian/">Chi tiết</a>
+                            
+                        </td>
+                    </tr>
+                            </tbody>
+        </table>
+    </div>
+</div>
+<!-- <div class="modal" id="videomodal" role="dialog"></div> -->
+
+<script>
+function coppy(e) {
+  navigator.clipboard.writeText(e);
+  // Alert the copied text
+  Swal.fire({
+    position: 'top-start',
+    icon: 'success',
+    title: 'Coppy đường dẫn thành công!',
+    showConfirmButton: false,
+    timer: 3000
+    })
+}
+</script>

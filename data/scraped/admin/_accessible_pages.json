@@ -1,0 +1,128 @@
+[
+  {
+    "url": "/system/home",
+    "size": 1014773,
+    "hasUserList": true,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/user",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/users",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/blog",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/blogs",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/about",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/library",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/des",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/member",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/members",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/datafinancial",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/recommendations",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/notification",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/setting",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/system/config",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/admin",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/admin/home",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/admin/user",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/admin/users",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/admin/blog",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  },
+  {
+    "url": "/admin/blogs",
+    "size": 6603,
+    "hasUserList": false,
+    "hasBlogList": false
+  }
+]

@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="../clients/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../clients/img/LogoFinTop_notbg.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fintopdata.vn">
+    <meta property="fb:app_id" content="2115022521881483">
+
+    <meta property="og:image" content="https://fintopdata.vn/clients/img/LogoFinTop_notbg.jpg" />
+    <meta property="og:image:secure_url" content="https://fintopdata.vn/clients/img/LogoFinTop_notbg.jpg" />
+
+    <meta property="og:title" content="FinTop DATA | Dữ Liệu Chứng Khoán">
+    <meta property="og:description" content="FinTop DATA | Dữ Liệu Chứng Khoán">
+        
+
+    <!-- Load Require CSS -->
+    
+    <!-- <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> -->
+    <link href="../clients/fontawesome/css/all.min.css" rel="stylesheet">
+
+    <link href="../clients/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font CSS -->
+    <link href="../clients/css/boxicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Load Tempalte CSS -->
+    <link rel="stylesheet" href="../clients/css/templatemo.css?version=1.0.1">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../clients/css/custom.css">
+    <link rel="stylesheet" href="../assets/chosen/chosen.min.css">
+    <script src="https://unpkg.com/lightweight-charts@3.4.0/dist/lightweight-charts.standalone.production.js"></script>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <link rel="stylesheet" href="../assets/css/toast.min.css">
+</head>
+<style>
+    /* b,
+    span,
+    strong {
+        font-size: 14px;
+    } */
+
+    body {
+        background-image: url("../clients/img/bgctys.jpg");
+        /* background-repeat: no-repeat; */
+        background-size: cover;
+        position: relative;
+        background-position: 40% -200px;
+        background-attachment: fixed;
+    }
+
+    .bgs {
+        /* background-image: url("../clients/img/background2.jpg") !important; */
+        width: 100%;
+        background: #700e13;
+
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .bgft {
+        /* background-image: url("../clients/img/sequel-background-1.png") !important; */
+        width: 100%;
+        background: #731b1bde !important;
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .navbar-brand.header-logo {
+        width: 7%;
+    }
+
+    #menuClient {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    #navbar-toggler-success {
+        text-align: center;
+    }
+
+    #menuClient {
+        background-color: #700e13;
+    }
+
+    /* #menuClient .align-items-center{
+        background:#700e13
+    } */
+    #menu-content {
+        border-radius: 50%;
+        margin: auto;
+    }
+
+    .btn_close {
+        display: none;
+    }
+
+    @media (min-width: 992px) {
+        /* #menuClient {
+            display: block;
+        } */
+
+        .header-logo {
+            margin-left: 10%;
+        }
+
+        #navbar-toggler-success {
+            display: block;
+        }
+
+        .logo-title {
+            font-size: 3rem;
+        }
+
+        .title-reponsive {
+            width: 80%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .navbar-brand.header-logo {
+            width: 10%;
+        }
+
+        .navbar-toggler-success {
+            left: 30% !important;
+            transform: translateX(-40%) !important;
+        }
+
+        .navbar-toggler-success h1 {
+            padding-left: 22% !important;
+        }
+
+        .logo-title {
+            font-size: 2.5rem;
+        }
+    }
+
+    @media (max-width: 540px) {
+        .logo-title {
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: 450px) {
+        body.no-scroll {
+            overflow: hidden;
+            /* Ngăn cuộn */
+        }
+
+        .logo-title {
+            font-size: calc(1.375rem + 1.5vw);
+        }
+
+        .btn_close {
+            display: block;
+        }
+
+        #menuClient #navbar-toggler-success {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        #menuClient #navbar-toggler-success #menu-content {
+            border-radius: unset;
+            margin: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+        }
+
+        #menuClient #navbar-toggler-success #nav-menu-content {
+            background-color: #700e13;
+            bottom: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            animation: menu-show .5s;
+        }
+
+        @keyframes menu-show {
+            0% {
+                left: -200px;
+            }
+
+            100% {
+                left: 0;
+            }
+        }
+
+        #menu-content {
+            width: 100%;
+            background-color: #0000005c;
+        }
+
+        #nav-menu-content {
+            width: 60%;
+        }
+
+        .align-self-center.title-reponsive h1 {
+            font-size: 2rem !important;
+        }
+
+        #navbar-toggler-success {
+            text-align: left;
+        }
+    }
+
+    @media (max-width: 350px) {
+        .align-self-center.title-reponsive h1 {
+            font-size: 1.35rem !important;
+        }
+    }
+
+    .navbar-toggler.border-0:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .loader_bg {
+        position: fixed;
+        z-index: 9999999;
+        /* background: #fff; */
+        width: 100%;
+        height: 100%;
+    }
+
+    .loader {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loader img {
+        width: 100px;
+    }
+
+    .loader_bg_of {
+        display: none;
+    }
+
+    .logo-title {
+        font-size: 4.1em;
+    }
+</style>
+<script src="../clients/js/jquery.min.js"></script>
+<script type="text/javascript" src="/assets\js\NclLibrary.js"></script>
+
+<script type="text/javascript">
+    $('.button').click(function() {
+        $('.menu .items span').toggleClass('active');
+        $('.menu .button').toggleClass('active');
+    });
+
+    $(document).ready(function() {
+        // $('#textbox1').val(this.checked);
+        $('#checkbox1').change(function() {
+            if (this.checked) {
+                $('#pDetails').removeClass("hidden");
+                $('#pDetails').addClass("transform");
+            } else {
+                $('#pDetails').removeClass("transform");
+                $('#pDetails').addClass("hidden");
+            }
+
+        });
+    });
+</script>
+
+<body style="position: relative;" onload="loadBell()">
+    <!-- <div id="imageLoading" class="loader_bg_of">
+        <div class="loader_bg">
+            <div class="loader"><img src="../assets/images/loading.gif" alt="#" /></div>
+        </div>
+    </div> -->
+    <div class="header-one ">
+        <div class="container header-one">
+            <div class="date-header">
+                <span id="time"></span>
+            </div>
+            <div class="marquee-header">
+                <marquee style="color:white">
+                    <!-- <span>
+                    Cổ phiếu luôn là hình ảnh đại diện cho một công ty, do vậy bạn nên tìm hiểu kỹ chính sách kinh doanh của công ty trước khi quyết định đầu tư.
+                    </span>
+                    <span style="padding-left:200px">
+                    Cổ phiếu luôn là hình ảnh đại diện cho một công ty, do vậy bạn nên tìm hiểu kỹ chính sách kinh doanh của công ty trước khi quyết định đầu tư.
+                    </span>
+                    <span style="padding-left:200px">
+                    Thị trường chứng khoán thường xảy ra tình trạng lao dốc của những cổ phiếu, nhà đầu tư giỏi sẽ biết tìm kiếm cơ hội để mua cổ phiếu tiềm năng với giá rẻ.– Peter Lynch
+                    </span>
+                    <span style="padding-left:200px">
+                    Những cổ phiếu thành công không nói cho bạn khi nào nên bán. Khi bạn cảm thấy thích khoe khoang, có lẽ đã đến lúc để bán.– John Neff
+                    </span>
+                    <span style="padding-left:200px">
+                    Nếu bạn không sẵn sàng sở hữu một cổ phiếu trong mười năm, thậm chí đừng nghĩ đến việc sở hữu nó trong mười phút.– Warren Buffett
+                    </span> -->
+                    <span>Mọi thông tin phân tích chỉ mang tính chất tham khảo, nhà đầu tư tự ra quyêt định và chịu hoàn toàn trách nhiệm trước kết quả đầu tư của mình.</span>
+
+                </marquee>
+            </div>
+            <div class="user-login-header">
+                <!-- <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex" id="navbar-toggler-success"> -->
+                <ul class="navbar-nav">
+                    <!-- Authentication Links -->
+                                        <div style="display:flex;">
+                        <div>
+                                                        <li class="nav-item">
+                                <a class="nav-link" href="https://fintopdata.vn/login" style="color:white;padding:0px"><span>Đăng nhập</span> </a>
+                            </li>
+                                                    </div>
+                        <div style="padding-left:10px">
+                                                        <li class="nav-item">
+                                <a class="nav-link" href="https://fintopdata.vn/register" style="color:white;padding:0px"><span>Đăng ký</span> </a>
+                            </li>
+                                                    </div>
+                    </div>
+                                        
+                </ul>
+                <!-- Right Side Of Navbar -->
+            </div>
+        </div>
+    </div>
+    <!-- bg-white -->
+    <div class="bgs">
+        <nav id="main_nav" class="navbar navbar-expand-lg  shadow" style="padding:0px !important">
+            <div class="container d-flex justify-content-between align-items-center mt-3">
+                <div class="navbar-brand h1 header-logo" href="#">
+                    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon text-white"><i class="fa fa-bars"></i></span>
+                    </button>
+                    <span id="logo">
+                        <a  href="" >
+                            <img class="card-img " src="../clients/img/LogoFinTop_notbg.jpg" alt="Card image">
+                        </a>
+                        <span class="logo-title-mobile">
+                            Tài Chính & Đầu Tư
+                        </span>
+                    </span>
+                    <span id="auth-search">
+                                                <a href="https://fintopdata.vn/login"><i class="fa fa-user"></i></a>
+                        
+                        <span class="ms-1"><i class="fa fa-search"></i></span>
+                    </span>
+                </div>
+                <div class="align-self-center title-reponsive navbar-collapse flex-fill d-lg-flex collapse show navbar-toggler-success" id="navbar-toggler-success" style="color: white; margin: auto; position: relative;display:flex !important;justify-content:center;">
+                    <h1 class="logo-title" style="font-family: auto;font-weight: 500;color:#fff079;padding-left: 4%;">Tài Chính &amp; Đầu Tư</h1>
+                </div>
+                <div class="navbar-brand h1 header-logo" href="#"></div>
+            </div>
+            <div class="menu-mobile">
+                <div class="menu-mobile-home" style="display: flex;"><a href="https://fintopdata.vn/client/home/index"><i class="fas fa-home"></i></a></div>
+                <div class="menu-mobile-list">
+                    <ul>
+                                                                                                                        <li class="menu-link link-introduce">
+                            <a class="nav-link" href="https://fintopdata.vn/client/introduce/index">GIỚI THIỆU</a>
+                        </li>
+                                                                                                <li class="menu-link link-privileges">
+                            <a class="nav-link" href="https://fintopdata.vn/client/privileges/index">ĐẶC QUYỀN HỘI VIÊN</a>
+                        </li>
+                                                                                                <li class="menu-link link-datafinancial">
+                            <a class="nav-link" href="https://fintopdata.vn/client/datafinancial/index">DỮ LIỆU FINTOP</a>
+                        </li>
+                                                                                                <li class="menu-link link-about">
+                            <a class="nav-link" href="https://fintopdata.vn/client/about/index">BÁO CÁO PHÂN TÍCH</a>
+                        </li>
+                                                                                                <li class="menu-link link-library">
+                            <a class="nav-link" href="https://fintopdata.vn/client/library/index">CẨM NANG ĐẦU TƯ</a>
+                        </li>
+                                                                                                <li class="menu-link link-des">
+                            <a class="nav-link" href="https://fintopdata.vn/client/des/index">HƯỚNG DẪN ĐẦU TƯ A-Z</a>
+                        </li>
+                                                                    </ul>
+                </div>
+            </div>
+                                                                                                                                                            <div class="menu-mobile">
+                <div class="container d-flex justify-content-between align-items-center link-datafinancial active-menuClient active-menuClient-mobile">
+                    <ul class="navbar-nav d-flex justify-content-between text-dark">
+                                                <li class="nav-item" style="width: 100%">
+                            <a class="nav-link ps-3 link-index" style="color:black;" href="https://fintopdata.vn/client/datafinancial/index"></i><i class="fas fa-search"></i> Tra cứu cổ phiếu</a>
+                        </li>
+                                                <li class="nav-item" style="width: 100%">
+                            <a class="nav-link ps-3 link-signalIndex" style="color:black;" href="https://fintopdata.vn/client/datafinancial/signalIndex"></i><i class="fas fa-signal"></i> TOP cổ phiếu</a>
+                        </li>
+                                                <li class="nav-item" style="width: 100%">
+                            <a class="nav-link ps-3 link-recommendationsIndex" style="color:black;" href="https://fintopdata.vn/client/datafinancial/recommendationsIndex"></i><i class="fas fa-comments-dollar"></i> Tín Hiệu V.I.P</a>
+                        </li>
+                                                <li class="nav-item" style="width: 100%">
+                            <a class="nav-link ps-3 link-categoryFintopIndex" style="color:black;" href="https://fintopdata.vn/client/datafinancial/categoryFintopIndex"></i><i class="fas fa-sitemap"></i> Danh mục V.I.P</a>
+                        </li>
+                                            </ul>
+                </div>
+            </div>
+                                                                                                                                                                    </nav>
+    </div>
+    <nav id="menuClient" class=" navbar-expand-lg  shadow">
+        <div class="container d-flex justify-content-between align-items-center fixed-menu">
+            <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex align-items-center" id="navbar-toggler-success">
+                <style>
+    .nav-link:hover {
+        background: #ffffff;
+        color: #00b609 !important
+    }
+
+    /* #nav-menu-content {
+        background-color: #00000042;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    } */
+</style>
+<div id="menu-content">
+    <div id="nav-menu-content">
+        <div style="text-align: right; padding: .5rem; color:#fff;" class="btn_close">
+            <span type="button" class="menu-close"><i class="fas fa-times" aria-hidden="true"></i></span>
+        </div>
+        <ul class="nav navbar-nav d-flex justify-content-between text-dark">
+                        <li class="nav-item ">
+                <a class="nav-link ps-3 link-home" style="color:white" href="https://fintopdata.vn/client/home/index"></i><i class="fas fa-home"></i> TRANG CHỦ</a>
+                                            </li>
+                        <li class="nav-item ">
+                <a class="nav-link ps-3 link-introduce" style="color:white" href="https://fintopdata.vn/client/introduce/index"></i><i class="fas fa-globe-asia"></i> GIỚI THIỆU</a>
+                                            </li>
+                        <li class="nav-item ">
+                <a class="nav-link ps-3 link-privileges" style="color:white" href="https://fintopdata.vn/client/privileges/index"></i><i class="far fa-newspaper"></i> ĐẶC QUYỀN HỘI VIÊN</a>
+                                            </li>
+                        <li class="nav-item ">
+                <a class="nav-link ps-3 link-datafinancial" style="color:white" href="https://fintopdata.vn/client/datafinancial/index"></i><i class="far fa-newspaper"></i> DỮ LIỆU FINTOP</a>
+                                                <div class="container justify-content-between align-items-center link-datafinancial active-menuClient mobile">
+                    <div class="show" id="navbar-toggler-success 1">
+                        <div class="" style="border-radius:50%;margin:auto">
+                            <ul class="navbar-nav d-flex justify-content-between text-dark">
+                                                                <li class="nav-item">
+                                    <a class="nav-link ps-3 link-index" style="color:black;" href="https://fintopdata.vn/client/datafinancial/index"></i><i class="fas fa-search"></i> Tra cứu cổ phiếu</a>
+                                </li>
+                                                                <li class="nav-item">
+                                    <a class="nav-link ps-3 link-signalIndex" style="color:black;" href="https://fintopdata.vn/client/datafinancial/signalIndex"></i><i class="fas fa-signal"></i> TOP cổ phiếu</a>
+                                </li>
+                                                                <li class="nav-item">
+                                    <a class="nav-link ps-3 link-recommendationsIndex" style="color:black;" href="https://fintopdata.vn/client/datafinancial/recommendationsIndex"></i><i class="fas fa-comments-dollar"></i> Tín Hiệu V.I.P</a>
+                                </li>
+                                                                <li class="nav-item">
+                                    <a class="nav-link ps-3 link-categoryFintopIndex" style="color:black;" href="https://fintopdata.vn/client/datafinancial/categoryFintopIndex"></i><i class="fas fa-sitemap"></i> Danh mục V.I.P</a>
+                                </li>
+                                                            </ul>
+                        </div>
+                    </div>
+                </div>
+                            </li>
+                        <li class="nav-item ">
+                <a class="nav-link ps-3 link-about" style="color:white" href="https://fintopdata.vn/client/about/index"></i><i class="fas fa-hand-holding-usd"></i> BÁO CÁO PHÂN TÍCH</a>
+                                            </li>
+                        <li class="nav-item ">
+                <a class="nav-link ps-3 link-library" style="color:white" href="https://fintopdata.vn/client/library/index"></i><i class="fas fa-book-medical"></i> CẨM NANG ĐẦU TƯ</a>
+                                            </li>
+                        <li class="nav-item ">
+                <a class="nav-link ps-3 link-des" style="color:white" href="https://fintopdata.vn/client/des/index"></i><i class="far fa-question-circle"></i> HƯỚNG DẪN ĐẦU TƯ A-Z</a>
+                                            </li>
+                    </ul>
+
+                                                                                                        <div class="container d-flex justify-content-between align-items-center link-datafinancial active-menuClient web">
+            <div class="show" id="navbar-toggler-success 1">
+                <div class="" style="border-radius:50%;margin:auto">
+                    <ul class="navbar-nav d-flex justify-content-between text-dark">
+                                                <li class="nav-item">
+                            <a class="nav-link ps-3 link-index" style="color:black;" href="https://fintopdata.vn/client/datafinancial/index"></i><i class="fas fa-search"></i> Tra cứu cổ phiếu</a>
+                        </li>
+                                                <li class="nav-item">
+                            <a class="nav-link ps-3 link-signalIndex" style="color:black;" href="https://fintopdata.vn/client/datafinancial/signalIndex"></i><i class="fas fa-signal"></i> TOP cổ phiếu</a>
+                        </li>
+                                                <li class="nav-item">
+                            <a class="nav-link ps-3 link-recommendationsIndex" style="color:black;" href="https://fintopdata.vn/client/datafinancial/recommendationsIndex"></i><i class="fas fa-comments-dollar"></i> Tín Hiệu V.I.P</a>
+                        </li>
+                                                <li class="nav-item">
+                            <a class="nav-link ps-3 link-categoryFintopIndex" style="color:black;" href="https://fintopdata.vn/client/datafinancial/categoryFintopIndex"></i><i class="fas fa-sitemap"></i> Danh mục V.I.P</a>
+                        </li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+                                                                                            </div>
+</div>            </div>
+        </div>
+    </nav>
+    <title>TÀI CHÍNH & ĐẦU TƯ FINTOP</title>
+<section class="container">
+        <div class=" pb-3 d-lg-flex gx-5">
+        <div class="col-lg-12">
+            <form action="" method="POST" id="frmLoadlist_categoryFintop" class=" onload ">
+               <input type="hidden" name="_token" id="_token" value="s0hLNbmtoOWKWqZ2RsVOjenwIkytQA6nD6sGhYFX">
+                <div class="home_index_vnindex pt-1 pb-2" style="background:#b56c6cb5 !important;border-radius:0px !important">
+                    <!-- Chú giải xếp hạng TA/FA -->
+                    <!-- <div class="home_index_child" style="background:#ffffffe6 !important;">
+                        <div class="col-lg-12" style="padding:10px;">
+                            <h class=" py-2"><i class="fas fa-chart-bar"></i> <span class="transform-vip" style="font-size:16px;font-family: auto;">DANH MỤC V.I.P FINTOP</span></h>
+                            <br>
+                            <div class="py-2">
+                                <div class="transform-vip" id="table-container-categoryFintop_vip"></div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="home_index_child " style="background:#ffffffe6 !important">
+                        <div class="col-lg-12" style="padding:10px;">
+                            <h class=" py-2"><i class="far fa-chart-bar"></i>. <span style="font-size:16px;font-family: auto;" > DANH MỤC V.I.P FINTOP</span> </h> <br>
+                             <!-- Màn hình danh sách hieu qua  -->
+                                <div id="table-container-categoryFintop_vip"></div>
+                        </div>
+                    </div>
+                    <!-- biểu đồ FireAnt -->
+                    <div class="home_index_child " style="background:#ffffffe6 !important">
+                        <div class="col-lg-12" style="padding:10px;">
+                            <h class=" py-2"><i class="far fa-chart-bar"></i>. <span style="font-size:16px;font-family: auto;" > HIỆU QUẢ DANH MỤC FINTOP</span> </h> <br>
+                             <!-- Màn hình danh sách hieu qua  -->
+                                <div id="table-container-categoryFintop_basic"></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+<div class="modal" id="editmodal_fireAnt" role="dialog"></div>
+<script type="text/javascript" src="/dist\js\backend\client\DataFinancial\JS_CategoryFintop.js"></script>
+    <script src='../assets/js/jquery.js'></script>
+    <script type="text/javascript">
+        var baseUrl = 'https://fintopdata.vn';
+        var JS_CategoryFintop = new JS_CategoryFintop(baseUrl, 'client', 'datafinancial');
+        $(document).ready(function($) {
+            JS_CategoryFintop.loadIndex(baseUrl);
+            // if($("#frmLoadlist_categoryFintop").hasClass('onload')){
+            //     JS_CategoryFintop.checkLogin();
+            // }
+        })
+    </script>
+
+    
+    
+    <style>
+    .animate {
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -webkit-transition: all 0.2s ease-in-out;
+        animation: road-animates 1s linear infinite;
+        -webkit-animation: swing 0.09s linear infinite;
+        -moz-animation: swing 1s linear infinite;
+        -o-animation: swing 1s linear infinite;
+        transform-origin: center top;
+        -moz-transform-origin: center top;
+        -webkit-transform-origin: center top;
+    }
+    .animate-slow{
+        -webkit-animation: swing 0.2s linear infinite !important;
+    }
+    #notification{
+        position: fixed;
+        bottom: 50px;
+        right: 90px;
+        /* width: 190px; */
+    }
+    .bubble {
+        color: #fb0000;
+        position: relative;
+        width: 100%;
+        text-align: center;
+        line-height: 1.4em;
+        /* margin: 40px auto; */
+        background-color: #dbd62b;
+        border: 1px solid #dbd62b;
+        border-radius: 30px 30px 0;
+        font-family: sans-serif;
+        padding: 5px 10px;
+        font-size: large;
+    }
+    .bubble:before,
+    .bubble:after {
+        content: ' ';
+        position: absolute;
+        width: 0;
+        height: 0;
+    }
+    .speech:before {
+        right: -7px;
+        bottom: -25px;
+        border: 16px solid #dbd62b;
+        /* border-color: #333 transparent transparent #333; */
+        border-left: 30px solid transparent;
+        border-right: 0px solid transparent;
+        border-bottom: 10px solid transparent;
+        transform: skew(25deg);
+    }
+    .speech:after {
+        /* left: 38px;
+        bottom: -30px;
+        border: 15px solid;
+        border-color: #fff transparent transparent #fff; */
+    }
+
+    @-webkit-keyframes swing {
+        0% {
+            -webkit-transform: rotateZ(-5deg);
+            transform: rotateZ(-5deg);
+        }
+
+        50% {
+            -webkit-transform: rotateZ(5deg);
+            transform: rotateZ(5deg);
+        }
+
+        100% {
+            transform: rotateZ(-5deg);
+            -webkit-transform: rotateZ(-5deg);
+        }
+    }
+
+    @keyframes swing {
+        0% {
+            transform: rotateZ(-5deg);
+        }
+
+        50% {
+            transform: rotateZ(5deg);
+        }
+
+        100% {
+            transform: rotateZ(-5deg);
+        }
+    }
+
+    @-moz-keyframes swing {
+        0% {
+            transform: rotate(-5deg);
+        }
+
+        50% {
+            transform: rotate(5deg);
+        }
+
+        100% {
+            transform: rotate(-5deg);
+        }
+    }
+    .numberPhone{
+        display: none;
+        position: absolute;
+        right: 3.5rem;
+        top: 5px;
+        background-color: #fff079;
+        color: #fb0000;
+        padding: 10px;
+        width: 10.5rem;
+        border-radius: 2rem;
+    }
+    .contactPhone:hover .numberPhone{
+        display: block;
+    }
+</style>
+<form action="" method="POST" id="frmLoadlist_box">
+    <div id="form_chat">
+        <input type="hidden" name="_token" id="_token" value="s0hLNbmtoOWKWqZ2RsVOjenwIkytQA6nD6sGhYFX">
+        <span align="right">
+            <div onclick="viewFormContact_zalo()" class="input-group-btn mb-2">
+                    <img width="" height="50px" style="background-color: none"
+                    src="../clients/img/zalo.png" alt="">
+                </label>
+            </div>
+        </span>
+        <span align="right">
+            <div class="input-group-btn mb-2" onclick="JS_Recommendations.openMessage()">
+                    <img width="" height="50px" style="background-color: none;"
+                    src="../clients/img/icon_messager.jpg" alt="">
+                </label>
+            </div>
+        </span>
+        <span align="right">
+            <div class="input-group-btn mb-2 contactPhone" style="position: relative;" onclick="JS_Recommendations.openPhone()">
+                    <img width="" height="50px" style="background-color: none;"
+                    src="../clients/img/phone.png" alt="">
+                    <span class="numberPhone"><a style="color: #fb0000;font-weight: 600;" href="">Hotline 086.234.8886</a> </span>
+                </label>
+            </div>
+        </span>
+        <span align="right" class="form-group input-group" style="align-items: center;"  onload="loadBell()">
+            <div class="input-group-btn" onclick="readNotification()">
+                <label class="icon" for="checkbox1" style="border-radius:50px;background:#25aa33e8;">
+                    <i style="color:#ffd00f;padding:12px" id="icon-bell" class="far fa-bell fa-2x py-2  "></i>
+                </label>
+            </div>
+            <!-- <div>
+                <input hidden type="checkbox" id="checkbox1" checked />
+            </div> -->
+        </span>
+        
+        <section class="avenue-messenger " id="pDetails" hidden>
+            <div class="menu">
+                <div class="button" style="padding-right: 15px;padding-top: 5px;">
+                    <div>
+                        <label for="checkbox1">
+                            <i class="fa fa-window-close fa-xs" aria-hidden="true" 
+                                style="color: rgb(255, 255, 255);"></i>
+                        </label>
+                    </div>
+                    <div>
+                        <input hidden type="checkbox" id="checkbox1" checked />
+                    </div>
+                </div>
+                <!-- <div class="agent-face">
+                    <div class="half">
+                        <img class="agent circle"
+                            src="https://vcdn.subiz-cdn.com/widget-v4/public/assets/img/default_avatar.5b74dc1.png"
+                            alt="Jesse Tino">
+                    </div>
+                </div> -->
+            </div>
+            <div class="chat">
+                <!-- <div class="chat-title">
+                    <span style="color: #ffd2c4;font-size: 17px;letter-spacing: 1px;font-family: Trocchi, serif;">Tín Hiệu V.I.P</span>
+                </div> -->
+                <!-- Màn hình danh sách -->
+                <div class="table-responsive">
+                    <div id="table-container-box"></div>
+                </div> 
+            </div>
+        </section>
+    </div>
+        
+        </form>
+<div class="modal" id="formmodal" role="dialog"></div>
+<script type="text/javascript" src="/dist\js\backend\client\DataFinancial\JS_Recommendations.js"></script>
+<script>
+      var baseUrl = 'https://fintopdata.vn';
+        var JS_Recommendations = new JS_Recommendations(baseUrl, 'client', 'datafinancial');
+        $(document).ready(function($) {
+            JS_Recommendations.loadList_box(baseUrl);
+        })
+        /**
+         * Hàm hiển thị modal
+         *
+         * @param oForm (tên form)
+         *
+         * @return void
+         */
+        function viewFormContact_zalo () {
+            var url = this.baseUrl + '/client/upgradeAcc/viewFormContact_zalo';
+            console.log(222,url)
+            var myClass = this;
+            NclLib.loadding();
+            var data = '';
+            $.ajax({
+                url: url,
+                type: "GET",
+                //cache: true,
+                data: data,
+                success: function (arrResult) {
+                    if(arrResult.status == 2){
+                        Swal.fire({
+                            position: 'top-start',
+                            // icon: 'warning',
+                            title: arrResult.message,
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                        return false;
+                    }else{
+                        $('#formmodal').html(arrResult);
+                        $('#formmodal').modal('show');
+                    }
+                }
+            });
+        }
+</script>
+
+
+    
+    <!-- Start Footer -->
+    <footer class="bgft pt-4" style="background:#121d29bf">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mt-3">
+                <h2 class="h4 text-light light-300" style="min-height: 5rem;">
+                    <div style="display:flex">
+                        <div style="width:10%">
+                            <img src="../clients/img/LogoFinTop_notbg.jpg" alt="Card image" width="100%">
+                        </div>
+                        <div style="width:80%;padding-left:10px">
+                            <span style="color:#ff0000d1">
+                                <b style="font-family: auto;color:#ffe673;font-weight: 600;font-size: 23px;" class="title-footer">Trung tâm NC&PT  <br> Dữ liệu chứng khoán <br> FinTop DATA</b>
+                            </span>
+                        </div>
+                    </div>
+                    
+                </h2>
+                <table class="text-light">
+                    <colgroup>
+                        <col width="8%">
+                        <col width="92%">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td align="center" style="vertical-align: middle;"><i class="fas fa-phone-volume"></i></td>
+                            <td><a class="text-decoration-none pt-2 text-light py-1" href="tel:086.234.8886"> Hotline: 086.234.8886</a></td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="vertical-align: middle;"><i class="fas fa-envelope"></i></td>
+                            <td><a class="text-decoration-none pt-2 text-light py-1" href="mailto:FinTop.DVKH@gmail.com"> Email: DVKH@fintopdata.vn</a></td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="vertical-align: middle;"><i class="fas fa-map-marker-alt"></i></td>
+                            <td><span class="text-decoration-none pt-2 text-light py-1">Địa chỉ: 65 Ô Chợ Dừa, Đống Đa, Hà Nội.</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3 mt-3">
+                <h2 class="h4 text-light light-300" style="min-height: 5rem;display: flex;align-items: center;" >
+                    <i class="fas fa-handshake"></i> Đồng hành
+                </h2>
+                <!-- Đồng hành -->
+                <table class="text-light">
+                    <colgroup>
+                        <col width="8%">
+                        <col width="92%">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td align="center" style="vertical-align: middle;"><i class="fab fa-facebook"></i></td>
+                            <td><a class="text-decoration-none pt-2 text-light py-1" target="_blank" href="https://www.facebook.com/Fintopdata.vn"> Trung tâm NC&PT Dữ liệu chứng khoán FinTop</a></td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="vertical-align: middle;"><i class="fab fa-youtube"></i></td>
+                            <td><a class="text-decoration-none pt-2 text-light py-1" href="https://www.youtube.com/@fintopdata.kynguyendautu"> Kỷ Nguyên Đầu Tư | FinTop DATA</a></td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="vertical-align: middle;"><i class="fas fa-hand-point-right"></i></td>
+                            <td><a class="text-decoration-none pt-2 text-light py-1" href="https://zalo.me/g/qlbpzh027"> Tham gia Cộng đồng FinTop </a></td>
+                        </tr>
+                        <!-- <tr>
+                            <td colspan="2">
+                                <span>
+                                    <a class="text-light" style="text-decoration: none;" target="_blank" href="http://facebook.com/">
+                                        <i class='bx bxl-facebook-square bx-md'></i>
+                                    </a>
+                                </span>
+                                <span>
+                                    <a class="text-light" style="text-decoration: none;" target="_blank" href="https://www.linkedin.com/">
+                                        <i class='bx bxl-linkedin-square bx-md'></i>
+                                    </a>
+                                </span>
+                                <span>
+                                    <a class="text-light" style="text-decoration: none;" target="_blank" href="https://www.whatsapp.com/">
+                                        <i class='bx bxl-whatsapp-square bx-md'></i>
+                                    </a>
+                                </span>
+                                <span>
+                                    <a class="text-light" style="text-decoration: none;" target="_blank" href="https://www.flickr.com/">
+                                        <i class='bx bxl-flickr-square bx-md'></i>
+                                    </a>
+                                </span>
+                                <span>
+                                    <a class="text-light" style="text-decoration: none;" target="_blank" href="https://www.medium.com/">
+                                        <i class='bx bxl-medium-square bx-md'></i>
+                                    </a>
+                                </span>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3 mt-3">
+                <h2 class="h4 text-light light-300" style="min-height: 5rem;display: flex;align-items: center;" >
+                    <i class="fas fa-handshake"></i> Tải APP
+                </h2>
+                <!-- Tải app -->
+                <table class="text-light">
+                    <colgroup>
+                        <col width="50%">
+                        <col width="50%">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td style="vertical-align: top;">
+                                <table class="text-light">
+                                    <colgroup>
+                                        <col width="8%">
+                                        <col width="92%">
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <td align="center" style="vertical-align: middle;"><i class="fab fa-app-store-ios"></i></td>
+                                            <td><a class="text-decoration-none text-light py-1" href="tel:086.234.8886"> App Store </a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" style="vertical-align: middle;"><i class="fab fa-google-play"></i></td>
+                                            <td><a class="text-decoration-none text-light py-1" href="mailto:info@company.com"> Google Play</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" style="vertical-align: middle;"><i class="fas fa-qrcode"></i></td>
+                                            <td><a class="text-decoration-none text-light py-1" href="mailto:info@company.com"> QR zalo</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="vertical-align: top;">
+                                <p class="text-decoration-none text-light py-1"> <img class="card-img " src="/clients/img/LogoFinTop_notbg.jpg" alt="Card image" style="width:45%"> </p>
+                                <p class="btn btn-light" style="cursor: pointer;" onclick="gotop()" id="goTop"><i class="fas fa-arrow-up"></i> Về đầu trang</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr class="mt-3 text-light">
+            <div class="col-md-12">
+                <p class="text-lg-start text-center text-light light-300">
+                    Bản quyền @2023 , Trung tâm NC&PT Dữ liệu chứng khoán FinTop DATA
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>    <!-- End Footer -->
+    <!-- Bootstrap -->
+    <script src="../clients/js/bootstrap.bundle.min.js"></script>
+    <!-- Load jQuery require for isotope -->
+    <script src="../clients/js/jquery.min.js"></script>
+    <!-- Isotope -->
+    <script src="../clients/js/isotope.pkgd.js"></script>
+    <!-- Page Script -->
+    <script>
+        $(window).load(function() {
+            // init Isotope
+            var $projects = $('.projects').isotope({
+                itemSelector: '.project',
+                layoutMode: 'fitRows'
+            });
+            $(".filter-btn").click(function() {
+                var data_filter = $(this).attr("data-filter");
+                $projects.isotope({
+                    filter: data_filter
+                });
+                $(".filter-btn").removeClass("active");
+                $(".filter-btn").removeClass("shadow");
+                $(this).addClass("active");
+                $(this).addClass("shadow");
+                return false;
+            });
+        });
+    </script>
+    <script>
+        //setTimeout(() => {
+        //  $('#imageLoading').addClass("loader_bg_of");
+        //}, 2000)
+
+        function loadBell() {
+            if ($("#icon-bell").hasClass('animate-slow')) {
+                $("#icon-bell").removeClass('animate-slow');
+            } else {
+                $("#icon-bell").addClass('animate-slow');
+            }
+            setTimeout(() => {
+                loadBell();
+            }, 2000);
+        }
+    </script>
+    <script type="text/javascript" charset="utf-8">
+        let a;
+        let time;
+        var date = new Date().toLocaleDateString()
+        var dayvn = new Date();
+        // Lấy số thứ tự của ngày hiện tại
+        var current_day = dayvn.getDay();
+        // Biến lưu tên của thứ
+        var day_name = '';
+
+        // Lấy tên thứ của ngày hiện tại
+        switch (current_day) {
+            case 0:
+                day_name = "Chủ nhật";
+                break;
+            case 1:
+                day_name = "Thứ hai";
+                break;
+            case 2:
+                day_name = "Thứ ba";
+                break;
+            case 3:
+                day_name = "Thứ tư";
+                break;
+            case 4:
+                day_name = "Thứ năm";
+                break;
+            case 5:
+                day_name = "Thứ sau";
+                break;
+            case 6:
+                day_name = "Thứ bảy";
+        }
+        setInterval(() => {
+            a = new Date();
+            time = day_name + ', ngày ' + date + ' ' + a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds();
+            document.getElementById('time').innerHTML = time;
+        }, 1000);
+    </script>
+    <script type="text/jscript" src="../assets/chosen/chosen.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/sweetalert2.min.css" />
+    <script src="../assets/js/sweetalert2.min.js"></script>
+    <!-- Templatemo -->
+    <script src="../clients/js/templatemo.js"></script>
+    <!-- Custom -->
+    <script src="../clients/js/custom.js"></script>
+    <script src="../assets/js/plugins/chartjs.min.js"></script>
+    <script type="text/jscript" src="../assets/js/toast.min.js"></script>
+
+    <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+    <script type="text/javascript">
+        var pusher = new Pusher("b53fd6585787820b39e9", {
+            encrypted: true,
+            cluster: "ap1"
+        });
+        var channel = pusher.subscribe('NotificationEvent');
+        channel.bind('send-message', function(data) {
+            var newNotificationHtml = `<div class="card-body">
+            <div class="d-flex flex-row justify-content-start mb-4 avatarMessage">
+            <img src="https://vcdn.subiz-cdn.com/widget-v4/public/assets/img/default_avatar.5b74dc1.png" alt="avatar 1" style="width: 30px; height: 100%;">
+            <div style="padding-left:5px">
+            <div class="p-3 ms-3" style="border-radius: 15px; background-color: #e1ebe6;width:100%">
+            <p style="font-size:14px;font-family:auto" class="small mb-0"></p>
+            <h5>${data.title}</h5>
+            <span>Giá mua: ${data.price_buy}</span><br>
+            <span>Mục tiêu: ${data.target}</span><br>
+            <span>Dừng lỗ: ${data.stop_loss}</span><br>
+            <span>Thời gian: ` + formatDate(data.created_at) + `</span><br>
+            <p></p>
+            </div>
+            </div>
+            </div>
+            <div id="messages-content"></div>
+            </div>`;
+
+            $('.testsss').prepend(newNotificationHtml);
+            $("#alertNotifi").attr('class', 'form-control alertNotifi');
+            $("#alertNotifi").html('Bạn có ' + data.count + ' thông báo mới');
+            $("#alertNotifi").removeAttr('hidden');
+            $("#icon-bell").addClass('animate');
+        });
+
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear(),
+                hour = d.getHours(),
+                minute = d.getMinutes(),
+                second = d.getSeconds();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return hour + ':' + minute + ':' + second + ' ' + day + '-' + day + '-' + day;
+        }
+
+        function readNotification() {
+            var baseUrl = "https://fintopdata.vn";
+            var url = baseUrl + '/client/readNotification';
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function() {
+                    $("#alertNotifi").html('');
+                    $("#alertNotifi").removeAttr('class');
+                    $("#icon-bell").removeClass('animate');
+                    window.location.href = baseUrl + '/client/datafinancial/recommendationsIndex';
+                }
+            });
+        }
+    </script>
+    <script>
+        $(".menu-close").click(function() {
+            $("#navbar-toggler-success.navbar-collapse").removeClass('show');
+        })
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuContainer = document.querySelector('.menu-mobile-list');
+            const activeItem = document.querySelector('.menu-mobile-list .menu-link.active-menuClient');
+            if (activeItem) {
+                // Cuộn mục active ra giữa
+                const containerWidth = menuContainer.offsetWidth;
+                const itemLeft = activeItem.offsetLeft;
+                const itemWidth = activeItem.offsetWidth;
+                menuContainer.scrollLeft = itemLeft - (containerWidth - itemWidth) / 2;
+            }
+        });
+    </script>
+</body>
+
+</html>
