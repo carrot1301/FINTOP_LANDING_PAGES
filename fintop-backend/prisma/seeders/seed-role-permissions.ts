@@ -107,7 +107,8 @@ async function main() {
       where: { email: sd.email },
       update: {
         fullName: sd.fullName,
-        departmentId: sd.deptId
+        departmentId: sd.deptId,
+        emailVerifiedAt: new Date()
       },
       create: {
         email: sd.email,
