@@ -1,0 +1,121 @@
+{
+  "name": "Kiến thức phân tích kỹ thuật (TA)",
+  "category": "KT_TA",
+  "items": [
+    {
+      "stt": 1,
+      "id": "cbef9aaa-6422-4337-87e7-0680bf54aa8a",
+      "title": "TA1: Hướng dẫn đọc đồ thị nến Candelstick*",
+      "driveLink": null
+    },
+    {
+      "stt": 2,
+      "id": "5b596307-504c-4e00-a8c5-68463e0ebe84",
+      "title": "TA2: 10 mẫu nến cơ bản sử dụng trong dự đoán giá tăng giảm*",
+      "driveLink": null
+    },
+    {
+      "stt": 3,
+      "id": "8b5e4ecb-6628-4807-8827-157b4792cdb7",
+      "title": "TA3: 11 mô hình nến đảo chiều P1*",
+      "driveLink": null
+    },
+    {
+      "stt": 4,
+      "id": "81a405fc-2c4c-4480-9a8a-664452d57ae0",
+      "title": "TA4: 11 mô hình nến đảo chiều P2*",
+      "driveLink": null
+    },
+    {
+      "stt": 5,
+      "id": "c352baee-889d-4a43-ae7c-43fa2592388e",
+      "title": "TA5: Hướng dẫn sử dụng BB (BollingerBand) trong PTKT*",
+      "driveLink": null
+    },
+    {
+      "stt": 6,
+      "id": "c1d59c28-e399-4710-936f-0f1af35abd15",
+      "title": "TA6: Hướng dẫn sử dụng MA trong phân tích kỹ thuật (PTKT)*",
+      "driveLink": null
+    },
+    {
+      "stt": 7,
+      "id": "a4156bb6-158a-409b-9220-cdbd0dfebbbb",
+      "title": "TA7: Phân tích kỹ thuật P7 | Sử dụng đường trung bình EMA làm mức hỗ trợ và kháng cự",
+      "driveLink": null
+    },
+    {
+      "stt": 8,
+      "id": "85eb15b7-2edb-4fa5-8e96-9d46c98a0498",
+      "title": "TA8: Hướng dẫn sử dụng RSI trong xu hướng giá*",
+      "driveLink": null
+    },
+    {
+      "stt": 9,
+      "id": "227b16c9-4187-4832-8384-871e9f1f8078",
+      "title": "TA9: Phương pháp DCA trung bình giá",
+      "driveLink": null
+    },
+    {
+      "stt": 10,
+      "id": "fb66d88c-f41e-4fd5-b1cb-aa9015c421f9",
+      "title": "TA10: Hướng dẫn sử dụng MACD",
+      "driveLink": null
+    },
+    {
+      "stt": 11,
+      "id": "9b67a635-e6e6-4c69-aa4f-b1e4b247740b",
+      "title": "TA11: Hướng dẫn sử dụng Finbonaci",
+      "driveLink": null
+    },
+    {
+      "stt": 12,
+      "id": "a61e9a43-73dc-4f26-9e40-c2a5ea78d28a",
+      "title": "TA12: Hướng dẫn sử dụng Mây Ichimoku",
+      "driveLink": null
+    },
+    {
+      "stt": 13,
+      "id": "433f8d11-01f2-4b81-bd82-c30581cb74f6",
+      "title": "TA13: Lý thuyết Supply Demand | Cách vẽ kháng cự hỗ trợ và Trendline",
+      "driveLink": null
+    },
+    {
+      "stt": 14,
+      "id": "2df92ec2-391b-458d-87e6-780c3b56ff00",
+      "title": "TA14: Mô hình giá Vai - Đầu - Vai thuận và ngược",
+      "driveLink": null
+    },
+    {
+      "stt": 15,
+      "id": "7af0478d-5c29-42d4-bb0e-5f81f3ca7895",
+      "title": "TA16: Mô hình giá 3 đỉnh 3 đáy và 2 đỉnh 2 đáy",
+      "driveLink": null
+    },
+    {
+      "stt": 16,
+      "id": "3a6ea042-deb1-4da1-95fa-53304ff35267",
+      "title": "TA16: Điểm Break-out là gì? Phân biệt điểm phá ngưỡng thật giả?",
+      "driveLink": null
+    },
+    {
+      "stt": 17,
+      "id": "388217d9-bc15-4ecd-9527-5d68d13ac1d1",
+      "title": "TA nâng cao P1 | Phân tích đa khung thời gian 1.1 | Trader phải biết",
+      "driveLink": null
+    },
+    {
+      "stt": 18,
+      "id": "c42fbadd-6fb2-4390-93b1-e19b80448242",
+      "title": "TA nâng cao P2 | Phân tích đa khung thời gian 1.2 | Thực hành Trade",
+      "driveLink": null
+    },
+    {
+      "stt": 19,
+      "id": "e530ddb7-7232-4595-8841-5b525f49b612",
+      "title": "TA nâng cao P3 | Elliott nâng cao | Đặc điểm và chiến thuật trade trong mỗi con sóng",
+      "driveLink": null
+    }
+  ],
+  "count": 19
+}

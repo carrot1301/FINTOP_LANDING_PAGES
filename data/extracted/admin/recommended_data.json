@@ -1,0 +1,39 @@
+{
+  "source": "recommended",
+  "items": [
+    {
+      "columns": [
+        "",
+        "",
+        "STT",
+        "Mã cổ phiếu",
+        "Nhóm ngành",
+        "Ngày mua",
+        "Tỷ trọng",
+        "Giá mua",
+        "Vùng giá mục tiêu",
+        "Giá hiện tại",
+        "Lãi/Lỗ",
+        "Khuyến nghị hành động",
+        "Dừng lỗ",
+        "% Chốt",
+        "Ghi chú",
+        "Thứ tự",
+        ""
+      ]
+    },
+    {
+      "columns": [
+        "Tar 1",
+        "Tar 2",
+        "Tar 3"
+      ]
+    },
+    {
+      "columns": [
+        "Không tìm thấy dữ liệu!"
+      ]
+    }
+  ],
+  "count": 3
+}

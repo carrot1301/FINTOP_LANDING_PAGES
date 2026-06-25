@@ -1,0 +1,60 @@
+<style>
+    .unit-edit span {
+        font-size: 19px;
+    }
+</style>
+<div class="table-responsive pmd-card pmd-z-depth ">
+    <table  id="table-data" class="table  table-bordered table-striped table-condensed dataTable no-footer">
+        <thead>
+            <tr>
+                <td align="center"><input type="checkbox" name="chk_all_item_id"
+                        onclick="checkbox_all_item_id(document.forms[0].chk_item_id);"></td>
+                <td align="center"><b>STT</b></td>
+                <td align="center"><b>Ngày thêm</b></td>
+                <td align="center"><b>Tên bài viết</b></td>
+                <td align="center"><b>Ảnh</b></td>
+                <td align="center"><b>Loại</b></td>
+                <td align="center"><b>Trạng thái</b></td>
+                <td align="center"><b>#</b></td>
+            </tr>
+        </thead>
+        <tbody>
+                </tbody>
+    </table>
+    <div style="width:100%" class="row">
+    <tfoot>
+        <tr>
+            <td colspan="10">
+                <style>
+    .a {
+        color:red;
+    }
+</style>
+<input type="hidden" name="_currentPage" id="_currentPage" value="1">
+<div class="d-flex">
+    <div class="col-sm-3">
+        <div class="dataTables_info"><span class="page-link">Có 0/ 0 bản ghi</span></div>
+    </div>
+    <div class="col-sm-6">
+        <div class="main_paginate" >
+                        <ul class="pagination pagination-sm" style="margin: 0;white-space: nowrap;text-align: center;display: flex;justify-content: center;">
+                <li class="page-item disabled"><span class="page-link" style="color:black !important"><i class="fas fa-arrow-alt-circle-left fa-2x" style="color: steelblue;"></i></i></span></li>
+                <li class="page-item active"><span class="page-link" style="color:black">1</span></li>
+                <li class="page-item disabled"><span class="page-link" style="color:black"><i class="fas fa-arrow-alt-circle-right fa-2x" style="color: steelblue;"></i></span></li>
+            </ul>
+                    </div>
+    </div>
+    
+    <div class="col-sm-2">
+            <select id="cbo_nuber_record_page" class="col-sm-6 form-control input-sm" name="cbo_nuber_record_page">
+                <option id="15" name="15" value="15">15</option>
+                <option id="30" name="30" value="30">30</option>
+                <option id="50" name="50" value="50">50</option>
+            </select>
+        </div>
+</div>
+            </td>
+        </tr>
+    </tfoot>
+    </div>
+</div>

@@ -1,0 +1,183 @@
+{
+  "name": "Phân tích ngành",
+  "items": [
+    {
+      "columns": [
+        "",
+        "STT",
+        "Ngày thêm",
+        "Tên bài viết",
+        "Ảnh",
+        "Loại",
+        "Trạng thái",
+        "#"
+      ]
+    },
+    {
+      "id": "e2229d7e-8976-4c46-8017-4be75bb8de16",
+      "columns": [
+        "",
+        "1",
+        "2026-04-07 09:43:21",
+        "NGÀNH NGÂN HÀNG 2026 | Mục tiêu phát triển kinh tế gắn liền với tăng trưởng tín dụng",
+        "",
+        "BASIC",
+        "",
+        ""
+      ],
+      "image": "https://fintopdata.vn/file-image-client/blogs/2026_04_07_0943000000394625!~!rsz_cp_bank.jpg",
+      "editId": "e2229d7e-8976-4c46-8017-4be75bb8de16",
+      "blogId": "e2229d7e-8976-4c46-8017-4be75bb8de16"
+    },
+    {
+      "id": "de1db0d7-ce9f-4025-968f-21bc40e33a5e",
+      "columns": [
+        "",
+        "2",
+        "2025-07-02 16:53:30",
+        "CỔ PHIẾU BLUECHIP - VN30 | Triển Vọng Tăng Trưởng Nhờ Nâng Hạng Thị Trường Mới Nổi",
+        "",
+        "BASIC",
+        "",
+        ""
+      ],
+      "image": "https://fintopdata.vn/file-image-client/blogs/2025_07_02_1653000000255764!~!z6764515957653_0ef8f739dc2548956cb1e7638733985b1.jpg",
+      "editId": "de1db0d7-ce9f-4025-968f-21bc40e33a5e",
+      "blogId": "de1db0d7-ce9f-4025-968f-21bc40e33a5e"
+    },
+    {
+      "id": "fc23b6cb-3006-4a07-88cd-83c6ac4f38fe",
+      "columns": [
+        "",
+        "3",
+        "2025-06-12 14:07:58",
+        "NGÀNH THÉP VIỆT NAM 2025 (VPS)",
+        "",
+        "BASIC",
+        "",
+        ""
+      ],
+      "image": "https://fintopdata.vn/file-image-client/blogs/2025_06_12_1407000000982558!~!images1.jpg",
+      "editId": "fc23b6cb-3006-4a07-88cd-83c6ac4f38fe",
+      "blogId": "fc23b6cb-3006-4a07-88cd-83c6ac4f38fe"
+    },
+    {
+      "id": "06c9aaed-d056-4f6f-9256-3f7bc74325c8",
+      "columns": [
+        "",
+        "4",
+        "2025-04-18 09:35:31",
+        "NGÀNH ĐIỆN 2025 | Cơ Chế Mới Thúc Đẩy Triển Vọng Tăng Trưởng Cùng Kỷ Nguyên Điện Xanh",
+        "",
+        "BASIC",
+        "",
+        ""
+      ],
+      "image": "https://fintopdata.vn/file-image-client/blogs/2025_09_21_2300000000646865!~!anh-gia-dien-17285634012131640818544-0-0-400-640-crop-172856340547015344192701.jpg",
+      "editId": "06c9aaed-d056-4f6f-9256-3f7bc74325c8",
+      "blogId": "06c9aaed-d056-4f6f-9256-3f7bc74325c8"
+    },
+    {
+      "id": "18d1b089-fde9-4873-83da-7f1f57fc535c",
+      "columns": [
+        "",
+        "5",
+        "2025-04-01 17:33:53",
+        "NGÀNH THÉP | Tác Động Của Thuế Chống Bán Phá Giá Tôn Mạ Màu Lên Các Doanh Nghiệp Thép",
+        "",
+        "BASIC",
+        "",
+        ""
+      ],
+      "image": "https://fintopdata.vn/file-image-client/blogs/2025_04_01_1733000000433402!~!z6463533618691_44cbcce94c12ea483ea1c3f7712a14bd1.jpg",
+      "editId": "18d1b089-fde9-4873-83da-7f1f57fc535c",
+      "blogId": "18d1b089-fde9-4873-83da-7f1f57fc535c"
+    },
+    {
+      "id": "3e4907a5-6b83-49a1-9166-2781721d51c9",
+      "columns": [
+        "",
+        "6",
+        "2025-03-26 14:36:44",
+        "BẤT ĐỘNG SẢN 2025 | Tháo Gỡ Nút Thắt Pháp Lý Mở Ra Xu Hướng Hồi Phục",
+        "",
+        "BASIC",
+        "",
+        ""
+      ],
+      "image": "https://fintopdata.vn/file-image-client/blogs/2025_03_26_1607000000851251!~!z6444206201885_90c6efc0974e0229ec0c1cc193fbb9dc13.jpg",
+      "editId": "3e4907a5-6b83-49a1-9166-2781721d51c9",
+      "blogId": "3e4907a5-6b83-49a1-9166-2781721d51c9"
+    },
+    {
+      "id": "64e13915-4943-4e40-9d9b-46d18b5cc938",
+      "columns": [
+        "",
+        "7",
+        "2025-03-18 23:51:06",
+        "NGÀNH CHỨNG KHOÁN 2025 | Tác Động Của KRX Lên Thị Trường Chứng Khoán Việt Nam: Hổ Mọc Thêm Cánh?",
+        "",
+        "BASIC",
+        "",
+        ""
+      ],
+      "image": "https://fintopdata.vn/file-image-client/blogs/2025_09_21_2259000000548372!~!CK1.jpg",
+      "editId": "64e13915-4943-4e40-9d9b-46d18b5cc938",
+      "blogId": "64e13915-4943-4e40-9d9b-46d18b5cc938"
+    },
+    {
+      "id": "0c1ba4c3-2b3c-4f4d-8cda-e87d860ec219",
+      "columns": [
+        "",
+        "8",
+        "2025-03-09 22:23:32",
+        "NGÀNH BÁN LẺ 2025 | Cơ Hội Sinh Lời Từ Xu Hướng Tiêu Dùng Mới?",
+        "",
+        "BASIC",
+        "",
+        ""
+      ],
+      "image": "https://fintopdata.vn/file-image-client/blogs/2025_03_09_2223000000589382!~!BNL2025.webp",
+      "editId": "0c1ba4c3-2b3c-4f4d-8cda-e87d860ec219",
+      "blogId": "0c1ba4c3-2b3c-4f4d-8cda-e87d860ec219"
+    },
+    {
+      "id": "f8f0b15c-2726-4cd2-91e0-c9b5e457cc34",
+      "columns": [
+        "",
+        "9",
+        "2025-03-05 16:01:50",
+        "NGÀNH THÉP 2025 | Khởi Nguồn Tăng Trưởng Đột Phá Nhờ Thị Trường Nội Địa",
+        "",
+        "BASIC",
+        "",
+        ""
+      ],
+      "image": "https://fintopdata.vn/file-image-client/blogs/2025_09_21_2256000000781535!~!Thp1.jpeg",
+      "editId": "f8f0b15c-2726-4cd2-91e0-c9b5e457cc34",
+      "blogId": "f8f0b15c-2726-4cd2-91e0-c9b5e457cc34"
+    },
+    {
+      "id": "3d98012b-46a0-4d40-b22e-a20ad5d109b6",
+      "columns": [
+        "",
+        "10",
+        "2025-02-27 10:16:03",
+        "NGÀNH THÉP | Áp Thuế Chống Bán Phá Giá HRC Tác Động Như Thế Nào Đến Doanh Nghiệp Thép Trong Nước",
+        "",
+        "BASIC",
+        "",
+        ""
+      ],
+      "image": "https://fintopdata.vn/file-image-client/blogs/2025_02_27_103800000015277!~!z6356617242753_c331211a266abba3f67e48f7e4e70a271.jpg",
+      "editId": "3d98012b-46a0-4d40-b22e-a20ad5d109b6",
+      "blogId": "3d98012b-46a0-4d40-b22e-a20ad5d109b6"
+    },
+    {
+      "columns": [
+        "Có 10/ 10 bản ghi 1 15 30 50"
+      ]
+    }
+  ],
+  "count": 12
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "route": "/system/blog/index",
+    "size": 25421
+  },
+  {
+    "route": "/system/user/index",
+    "size": 24251
+  },
+  {
+    "route": "/system/datafinancial/index",
+    "size": 45083
+  }
+]

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/x-icon" href="../clients/img/LogoFinTop_notbg.jpg">
+
+    <title>
+        FinTop Tài chính - đầu tư
+    </title>
+    <!--     Fonts and icons     -->
+    <base href="/">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> -->
+    <link href="../clients/fontawesome/css/all.min.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="../assets/css/dashboard.css?v=2.0.4" rel="stylesheet" />
+    <!-- message aler (Thông báo) -->
+    <link rel="stylesheet" href="../assets/css/sweetalert2.min.css"/>
+    <script src="../assets/js/sweetalert2.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.min.css">
+    <link rel="stylesheet" href="../assets/chosen/chosen.min.css">
+    <link rel="stylesheet" href="../assets/datepicker/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="../assets/css/toast.min.css">
+    
+    <script src="../assets/js/croppie.js"></script>
+    <link rel="stylesheet" href="https://fintopdata.vn/assets/css/croppie.css">
+    <script src="../assets/js/croppie.min.js"></script>
+    <script type="text/jscript" src="../assets/js/CoreTable.js"></script>
+    <script src="../clients/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets\js\NclLibrary.js"></script>
+    <script type="text/javascript" src="/dist\js\backend\pages\JS_System_Security.js"></script>
+
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+</head>
+<style>
+    .cke_dialog_container label{
+        color: #000;
+    }
+</style>
+            <body id="addMenu" class="g-sidenav-show dark-version ">
+        <div id="imageLoading">
+            <div class="loader_bg">
+                <div class="loader"><img src="../assets/images/loading.gif" alt="#" /></div>
+            </div>
+        </div>
+        
+    <!-- <div class="min-height-300 bg-primary position-absolute w-100"></div> -->
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 ps " id="sidenav-main" style="background:#1d2440 !important">
+    <div style="margin-left: 90%;color:white" class="btn_closeMenu" id="btn_closeMenu">
+        <span onclick="Js_Main.remoteMenu(this)" >X</span>
+    </div>
+        <div class="sidenav-header">
+        <i class="fas fa-times cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+        <!-- target="_blank" -->
+        <a class="navbar-brand m-0" href="https://fintopdata.vn">
+            <img src="../clients/img/LogoFinTop_red.png" class="navbar-brand-imgh-120" alt="main_logo" style="width:80%;padding-left:20%">
+            <span class="ms-1 font-weight-bold"></span>
+        </a>
+        </div>
+        <hr class="horizontal dark mt-7">
+        <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main" >
+            <ul class="navbar-nav">
+                <!-- sidebar -->
+                                                            <li class="nav-item">
+                            <a style="color:white" class="nav-link link-home" href="/system/home/index">
+                                <i class="fas fa-home"></i>
+                                <span class="nav-link-text ms-1" >Trang Chủ</span>
+                            </a>
+                        </li>
+                                            <li class="nav-item">
+                            <a style="color:white" class="nav-link link-approvepayment" href="/system/approvepayment/index">
+                                <i class="fas fa-money-check-alt"></i>
+                                <span class="nav-link-text ms-1" >Phê duyệt thanh toán</span>
+                            </a>
+                        </li>
+                                            <li class="nav-item">
+                            <a style="color:white" class="nav-link link-signal" href="/system/signal/index">
+                                <i class="fas fa-signal"></i>
+                                <span class="nav-link-text ms-1" >Tín Hiệu V.I.P</span>
+                            </a>
+                        </li>
+                                            <li class="nav-item">
+                            <a style="color:white" class="nav-link link-recommended" href="/system/recommended/index">
+                                <i class="fas fa-list-alt"></i>
+                                <span class="nav-link-text ms-1" >Danh mục V.I.P</span>
+                            </a>
+                        </li>
+                                            <li class="nav-item">
+                            <a style="color:white" class="nav-link link-datafinancial" href="/system/datafinancial/index">
+                                <i class="fas fa-coins"></i>
+                                <span class="nav-link-text ms-1" >Dữ liệu chứng khoán</span>
+                            </a>
+                        </li>
+                                            <li class="nav-item">
+                            <a style="color:white" class="nav-link link-blog" href="/system/blog/index">
+                                <i class="far fa-calendar-alt"></i>
+                                <span class="nav-link-text ms-1" >Quản trị bài viết</span>
+                            </a>
+                        </li>
+                                            <li class="nav-item">
+                            <a style="color:white" class="nav-link link-user" href="/system/user/index">
+                                <i class="fas fa-users"></i>
+                                <span class="nav-link-text ms-1" >Quản trị nhân sự</span>
+                            </a>
+                        </li>
+                                            <li class="nav-item">
+                            <a style="color:white" class="nav-link link-client" href="/system/client/index">
+                                <i class="fas fa-users"></i>
+                                <span class="nav-link-text ms-1" >Quản trị khách hàng</span>
+                            </a>
+                        </li>
+                                            <li class="nav-item">
+                            <a style="color:white" class="nav-link link-category" href="/system/category/index">
+                                <i class="far fa-calendar-alt"></i>
+                                <span class="nav-link-text ms-1" >Quản trị danh mục</span>
+                            </a>
+                        </li>
+                                            <li class="nav-item">
+                            <a style="color:white" class="nav-link link-handbook" href="/system/handbook/index">
+                                <i class="fas fa-medkit"></i>
+                                <span class="nav-link-text ms-1" >Cẩm nang nhà đầu tư</span>
+                            </a>
+                        </li>
+                                                        <!-- <li class="nav-item">
+                        <a style="color:white" class="nav-link " href="../pages/billing.html">
+                            <i class="fas fa-user-cog"></i>
+                            <span class="nav-link-text ms-1">Quản trị mã khuyến mại </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color:white" class="nav-link " href="../pages/virtual-reality.html">
+                            <i class="fas fa-money-check-alt"></i>
+                            <span class="nav-link-text ms-1">Quản trị doanh thu</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color:white" class="nav-link " href="../pages/rtl.html">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            <span class="nav-link-text ms-1">Báo cáo</span>
+                        </a>
+                    </li> -->
+            </ul>
+        </div>
+    </aside>
+    <!-- style="background-color:#2a3352f0; padding:40px" -->
+    <main class="main-content position-relative border-radius-lg "  >
+            <!-- Content -->
+
+            <div id="app">
+            <center>
+            <div id="btn_addMenu" class="navbar navbar-expand-md shadow-sm menu_layout">
+               <button type="button" onclick="Js_Main.addMenu(this)" class="btn btn-light icon-menu-home" >Menu</button> 
+               <ul class="navbar-nav ms-auto acc_auth">
+                    <!-- Authentication Links -->
+                                            <li class="nav-item dropdown">
+                            <!-- <span id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="border-radius:50%;height: 30px;width: 30px;object-fit: cover;">
+                                </span>    -->
+                            <span id="navbarDropdown" class="dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <span>
+                                Nguyễn Văn Tuấn
+                                </span>
+                            </span>
+
+
+                            <div class="dropdown-menu dropdown-menu-end"  aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/system/userInfo/index">
+                                        <p>
+                                            Thông tin cá nhân
+                                        </p>
+                                </a>
+                                <a class="dropdown-item" href="https://fintopdata.vn/logout"
+                                    onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                                        <p>
+                                            Đăng xuất
+                                        </p>
+                                </a>
+                                <form id="logout-form" action="https://fintopdata.vn/logout" method="POST"
+                                    class="d-none">
+                                    <input type="hidden" name="_token" value="7QrHNQ7lW3vTCy1io5qTZvYj9pInRVDtFSb0gnHh">                                </form>
+                            </div>
+                        </li>
+                                    </ul>
+            </div>
+            </center>
+            <!-- style="background-color: #11112c5e; border-radius: 5px;" -->
+                <nav class="navbar navbar-expand-md shadow-sm" >
+                    <div class="container">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <!-- Left Side Of Navbar -->
+                            <ul class="navbar-nav me-auto">
+
+                            </ul>
+                            <span style="width:60%">
+                            <marquee>
+                            <span>
+                            Cổ phiếu luôn là hình ảnh đại diện cho một công ty, do vậy bạn nên tìm hiểu kỹ chính sách kinh doanh của công ty trước khi quyết định đầu tư.
+                            </span>
+                            <span style="padding-left:200px">
+                            Cổ phiếu luôn là hình ảnh đại diện cho một công ty, do vậy bạn nên tìm hiểu kỹ chính sách kinh doanh của công ty trước khi quyết định đầu tư.
+                            </span>
+                            <span style="padding-left:200px">
+                            Thị trường chứng khoán thường xảy ra tình trạng lao dốc của những cổ phiếu, nhà đầu tư giỏi sẽ biết tìm kiếm cơ hội để mua cổ phiếu tiềm năng với giá rẻ.– Peter Lynch
+                            </span>
+                            <span style="padding-left:200px">
+                            Những cổ phiếu thành công không nói cho bạn khi nào nên bán. Khi bạn cảm thấy thích khoe khoang, có lẽ đã đến lúc để bán.– John Neff
+                            </span>
+                            <span style="padding-left:200px">
+                            Nếu bạn không sẵn sàng sở hữu một cổ phiếu trong mười năm, thậm chí đừng nghĩ đến việc sở hữu nó trong mười phút.– Warren Buffett
+                            </span>
+                                
+                            </marquee>
+                            </span>
+
+                            <!-- Right Side Of Navbar -->
+                            <ul class="navbar-nav ms-auto">
+                                <!-- Authentication Links -->
+                                                                    <li class="nav-item dropdown">
+                                        <!-- <span id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                                <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="border-radius:50%;height: 30px;width: 30px;object-fit: cover;">
+                                            </span>    -->
+                                        <span id="navbarDropdown" class="dropdown-toggle" href="#" role="button"
+                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            <span>
+                                            Nguyễn Văn Tuấn
+                                            </span>
+                                        </span>
+
+
+                                        <div class="dropdown-menu dropdown-menu-end"  aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="/system/userInfo/index">
+                                                    <p>
+                                                        Thông tin cá nhân
+                                                    </p>
+                                            </a>
+                                            <a class="dropdown-item" href="https://fintopdata.vn/logout"
+                                                onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
+                                                    <p>
+                                                        Đăng xuất
+                                                    </p>
+                                            </a>
+                                            <form id="logout-form" action="https://fintopdata.vn/logout" method="POST"
+                                                class="d-none">
+                                                <input type="hidden" name="_token" value="7QrHNQ7lW3vTCy1io5qTZvYj9pInRVDtFSb0gnHh">                                            </form>
+                                        </div>
+                                    </li>
+                                                            </ul>
+                            <li class="nav-item px-3 d-flex align-items-center">
+                                <a href="javascript:;" class=" text-black p-0">
+                                    <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                                
+                                                                <a style="color:#00c101" href="javascript:;" class=" text-black p-0" id="dropdownMenuButton"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-bell cursor-pointer"></i>
+                                </a>
+                                                                <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
+                                    aria-labelledby="dropdownMenuButton">
+                                                                    </ul>
+                            </li>
+                        </div>
+                    </div>
+                </nav>
+
+                <main class="py-4" >
+                                    </main>
+            </div>
+            <style>
+        .tv-lightweight-charts{
+            margin-left: 300px !important;
+            margin-bottom:300px !important;
+    }
+</style>
+    <script type="text/javascript" src="/dist\js\backend\pages\JS_Home.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    
+    <form action="" method="POST" id="frmHome_index">
+        <main class="main-content position-relative border-radius-lg ">
+            <div class="container-fluid py-4">
+            <div class="container-fluid py-4">
+            <div class="row">
+                <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-xl-6 mb-xl-0 mb-4">
+                    <div class="card bg-transparent shadow-xl">
+                        <div class="overflow-hidden position-relative border-radius-xl" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/card-visa.jpg');">
+                        <span class="mask bg-gradient-dark"></span>
+                        <div class="card-body position-relative z-index-1 p-3">
+                            <i class="fas fa-wifi text-white p-2"></i>
+                            <h5 class="text-white mt-4 mb-5 pb-2">4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852</h5>
+                            <div class="d-flex">
+                            <div class="d-flex">
+                                <div class="me-4">
+                                <p class="text-white text-sm opacity-8 mb-0">Card Holder</p>
+                                <h6 class="text-white mb-0">Jack Peterson</h6>
+                                </div>
+                                <div>
+                                <p class="text-white text-sm opacity-8 mb-0">Expires</p>
+                                <h6 class="text-white mb-0">11/22</h6>
+                                </div>
+                            </div>
+                            <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
+                                <img class="w-60 mt-2" src="../assets/img/logos/mastercard.png" alt="logo">
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header mx-4 p-3 text-center">
+                            <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+                                <i class="fas fa-landmark opacity-10"></i>
+                            </div>
+                            </div>
+                            <div class="card-body pt-0 p-3 text-center">
+                            <h6 class="text-center mb-0">Salary</h6>
+                            <span class="text-xs">Belong Interactive</span>
+                            <hr class="horizontal dark my-3">
+                            <h5 class="mb-0">+$2000</h5>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6 mt-md-0 mt-4">
+                        <div class="card">
+                            <div class="card-header mx-4 p-3 text-center">
+                            <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+                                <i class="fab fa-paypal opacity-10"></i>
+                            </div>
+                            </div>
+                            <div class="card-body pt-0 p-3 text-center">
+                            <h6 class="text-center mb-0">Paypal</h6>
+                            <span class="text-xs">Freelance Payment</span>
+                            <hr class="horizontal dark my-3">
+                            <h5 class="mb-0">$455.00</h5>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-md-12 mb-lg-0 mb-4">
+                    <div class="card mt-4">
+                        <div class="card-header pb-0 p-3">
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center">
+                            <h6 class="mb-0">Payment Method</h6>
+                            </div>
+                            <div class="col-6 text-end">
+                            <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add New Card</a>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-md-6 mb-md-0 mb-4">
+                            <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                                <img class="w-10 me-3 mb-0" src="../assets/img/logos/mastercard.png" alt="logo">
+                                <h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852</h6>
+                                <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card"></i>
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                            <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                                <img class="w-10 me-3 mb-0" src="../assets/img/logos/visa.png" alt="logo">
+                                <h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248</h6>
+                                <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card"></i>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-header pb-0 p-3">
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center">
+                            <h6 class="mb-0">Invoices</h6>
+                            </div>
+                            <div class="col-6 text-end">
+                            <button class="btn btn-outline-primary btn-sm mb-0">View All</button>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="card-body p-3 pb-0">
+                        <ul class="list-group">
+                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                            <div class="d-flex flex-column">
+                                <h6 class="mb-1 text-dark font-weight-bold text-sm">March, 01, 2020</h6>
+                                <span class="text-xs">#MS-415646</span>
+                            </div>
+                            <div class="d-flex align-items-center text-sm">
+                                $180
+                                <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
+                            </div>
+                            </li>
+                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                            <div class="d-flex flex-column">
+                                <h6 class="text-dark mb-1 font-weight-bold text-sm">February, 10, 2021</h6>
+                                <span class="text-xs">#RV-126749</span>
+                            </div>
+                            <div class="d-flex align-items-center text-sm">
+                                $250
+                                <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
+                            </div>
+                            </li>
+                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                            <div class="d-flex flex-column">
+                                <h6 class="text-dark mb-1 font-weight-bold text-sm">April, 05, 2020</h6>
+                                <span class="text-xs">#FB-212562</span>
+                            </div>
+                            <div class="d-flex align-items-center text-sm">
+                                $560
+                                <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
+                            </div>
+                            </li>
+                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                            <div class="d-flex flex-column">
+                                <h6 class="text-dark mb-1 font-weight-bold text-sm">June, 25, 2019</h6>
+                                <span class="text-xs">#QW-103578</span>
+                            </div>
+                            <div class="d-flex align-items-center text-sm">
+                                $120
+                                <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
+                            </div>
+                            </li>
+                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
+                            <div class="d-flex flex-column">
+                                <h6 class="text-dark mb-1 font-weight-bold text-sm">March, 01, 2019</h6>
+                                <span class="text-xs">#AR-803481</span>
+                            </div>
+                            <div class="d-flex align-items-center text-sm">
+                                $300
+                                <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
+                            </div>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="content-wrapper">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row form-group">
+                                <div class="col-lg-12" style="padding:2px;">
+                                    <!-- <h class="h4 py-2"><i class="far fa-chart-bar"></i>. <span style="font-family: auto;" > Biểu đồ</span> </h> <br> -->
+                                    <iframe style="width:100%" height="620" src="https://fireant.vn/charts" 
+                                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                        allowfullscreen>
+                                    </iframe>
+                                    <p>Nguồn theo: fireant</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+        </main>
+    </form>
+    
+    <div class="modal fade" id="editmodal" role="dialog"></div>
+    <div class="modal " id="addfile" role="dialog"></div>
+
+    <div id="dialogconfirm"></div>
+    <script src='../assets/js/jquery.js'></script>
+    <script type="text/javascript">
+        var baseUrl = 'https://fintopdata.vn';
+        var JS_Home = new JS_Home(baseUrl, 'system', 'home');
+        $(document).ready(function($) {
+            JS_Home.loadIndex(baseUrl);
+        })
+    </script>
+
+        </main>
+    <!--   Core JS Files   -->
+    <script src='../assets/js/jquery.js'></script>
+    <script type="text/javascript" src="/..\assets\js\Js_Main.js"></script>
+                <script type="text/javascript">
+            var Js_Main = new Js_Main(this);
+            jQuery(document).ready(function ($) {
+                Js_Main.darkMode(1);
+            })
+        </script>
+            <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/chartjs.min.js"></script>
+    <script>
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+
+        // var JS_System_Security = new JS_System_Security();
+        //     $(document).ready(function($) {
+        //         JS_System_Security.security();
+        //     })
+    </script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+    
+    <!-- <script src="../assets/js/argon-dashboard.js"></script> -->
+    <script type="text/jscript" src="../assets/chosen/chosen.min.js"></script>
+    <script type="text/jscript" src="../assets/datepicker/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="../assets/ckeditor/ckeditor.js"></script>
+    <script type="text/jscript" src="../assets/js/toast.min.js"></script>
+    <script>
+        setTimeout(() => {
+            $('#imageLoading').addClass("loader_bg_of");
+        }, 2000)
+    </script>
+    </body>
+</html>

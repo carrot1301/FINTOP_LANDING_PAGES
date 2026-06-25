@@ -1,0 +1,165 @@
+<style>
+    .unit-edit span {
+        font-size: 19px;
+    }
+
+    td>p {
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    th>p {
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    .table {
+        border-color: #670000
+    }
+
+    .tdfull {
+        padding: 0 !important;
+    }
+    tr td{
+      padding: 2px;
+    }
+    #table-data-home tr td{
+      height: 58px;
+    }
+</style>
+<form id="frmSearchCP" role="form" action="" method="POST" style="width: 100%;overflow-x: scroll;">
+    <input type="hidden" name="_token" id="_token" value="7QrHNQ7lW3vTCy1io5qTZvYj9pInRVDtFSb0gnHh">
+    <!-- <div class="table-responsive pmd-card pmd-z-depth "> -->
+    <table id="table-data-home" class="table  table-bordered table-condensed dataTable no-footer" style="background: #0000000d;" onclick="window.location.href='/client/datafinancial/index'">
+        <colgroup>
+            <col width="4%">
+            <col width="6%"> <!-- macp -->
+            <col width="6%"> <!-- san -->
+            <col width="8%"> <!-- nhom nganh -->
+            <col width="10%"> <!-- thoi gian -->
+            <col width="6%"> <!-- xep hang -->
+            <col width="18%"> <!-- nhan dinh TA -->
+            <col width="11%"> <!-- hanh dong -->
+            <col width="10%"> <!-- vung gia -->
+            <col width="8%"> <!-- xep hang FA -->
+            <col width="11%"> <!-- thong tin -->
+        </colgroup>
+        <thead>
+            <tr>
+                <th style="white-space: inherit;vertical-align: middle;font-size: 22px;background:#700e13;color:#fff49b;height: 98px;" align="center" colspan="3">
+                    <center>NHẬP MÃ CP</center>
+                </th>
+                <th style="white-space: inherit;vertical-align: middle;font-size: 22px;background:#700e13;color:#fff49b" align="center" colspan="8">
+                    <center>TRA CỨU CHỨNG KHOÁN (TA - FA)</center>
+                </th>
+            </tr>
+            <tr style="background:#529845;color:white;font-size:.83rem">
+                <td style="white-space: inherit;vertical-align: middle" align="center"><b>STT</b></td>
+                <!-- <td style="white-space: inherit;vertical-align: middle;background: #00ad34;animation: lights 2s 750ms linear infinite;" align="center"><b> </i>Nhập mã cổ phiếu</b> <br> <i class="fas fa-angle-double-down"></td> -->
+                <td style="white-space: inherit;vertical-align: middle;background: #fff5a6;" align="center"><b><img width="30px" height="50px" src="../clients/img/arrow-red.gif" alt="Card image"></td>
+                <td style="white-space: inherit;vertical-align: middle" align="center"><b>Sàn</b></td>
+                <td style="white-space: inherit;vertical-align: middle" align="center"><b>Nhóm nghành <br> HĐKD</b></td>
+                <td style="white-space: inherit;vertical-align: middle" align="center"><b>Thời gian <br>cập nhật</b></td>
+                <td style="white-space: inherit;vertical-align: middle" align="center"><b>Xếp hạng <br>TA</b></td>
+                <td style="white-space: inherit;vertical-align: middle" align="center"><b>Xu hướng cổ phiếu</b></td>
+                <td style="white-space: inherit;vertical-align: middle" align="center"><b>Tín hiệu <br> hành động</b></td>
+                <td style="white-space: inherit;vertical-align: middle" align="center"><b>Vùng giá <br> giao dịch</b></td>
+                <td style="white-space: inherit;vertical-align: middle" align="center"><b>Xếp hạng <br> FA</b></td>
+                <td style="white-space: inherit;vertical-align: middle" align="center"><b>Thông tin/ <br>Phân tích</b></td>
+            </tr>
+        </thead>
+        <tbody id="body_data" style="background: #ffffff;">
+                         
+            <tr id="code_1">
+                <td  style="vertical-align: middle;color:#83beff" align="center">1</td>
+                <td class="td_code_cp_1 tdfull" style="vertical-align: middle;" align="center" onclick="click2('1', 'code_cp',this)">
+                    <span id="span_code_cp_1" class="span_code_cp_1 text-success text-uppercase fw-bold">...</span>
+                </td>
+                <td class="td_exchange_1" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_code_category_1" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_created_at_1" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_ratings_TA_1" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_identify_trend_1" align="center" style="vertical-align: middle;font-size: 14px !important;">
+                    <span id="span_identify_trend_1" class="span_identify_trend_1">-</span>
+                </td>
+                <td class="td_act_1" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_trading_price_range_1" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_ratings_FA_1" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_view_1" align="center" style="vertical-align: middle;">-</td>
+            </tr>
+             
+            <tr id="code_2">
+                <td  style="vertical-align: middle;color:#83beff" align="center">2</td>
+                <td class="td_code_cp_2 tdfull" style="vertical-align: middle;" align="center" onclick="click2('2', 'code_cp',this)">
+                    <span id="span_code_cp_2" class="span_code_cp_2 text-success text-uppercase fw-bold">...</span>
+                </td>
+                <td class="td_exchange_2" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_code_category_2" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_created_at_2" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_ratings_TA_2" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_identify_trend_2" align="center" style="vertical-align: middle;font-size: 14px !important;">
+                    <span id="span_identify_trend_2" class="span_identify_trend_2">-</span>
+                </td>
+                <td class="td_act_2" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_trading_price_range_2" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_ratings_FA_2" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_view_2" align="center" style="vertical-align: middle;">-</td>
+            </tr>
+             
+            <tr id="code_3">
+                <td  style="vertical-align: middle;color:#83beff" align="center">3</td>
+                <td class="td_code_cp_3 tdfull" style="vertical-align: middle;" align="center" onclick="click2('3', 'code_cp',this)">
+                    <span id="span_code_cp_3" class="span_code_cp_3 text-success text-uppercase fw-bold">...</span>
+                </td>
+                <td class="td_exchange_3" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_code_category_3" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_created_at_3" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_ratings_TA_3" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_identify_trend_3" align="center" style="vertical-align: middle;font-size: 14px !important;">
+                    <span id="span_identify_trend_3" class="span_identify_trend_3">-</span>
+                </td>
+                <td class="td_act_3" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_trading_price_range_3" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_ratings_FA_3" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_view_3" align="center" style="vertical-align: middle;">-</td>
+            </tr>
+             
+            <tr id="code_4">
+                <td  style="vertical-align: middle;color:#83beff" align="center">4</td>
+                <td class="td_code_cp_4 tdfull" style="vertical-align: middle;" align="center" onclick="click2('4', 'code_cp',this)">
+                    <span id="span_code_cp_4" class="span_code_cp_4 text-success text-uppercase fw-bold">...</span>
+                </td>
+                <td class="td_exchange_4" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_code_category_4" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_created_at_4" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_ratings_TA_4" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_identify_trend_4" align="center" style="vertical-align: middle;font-size: 14px !important;">
+                    <span id="span_identify_trend_4" class="span_identify_trend_4">-</span>
+                </td>
+                <td class="td_act_4" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_trading_price_range_4" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_ratings_FA_4" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_view_4" align="center" style="vertical-align: middle;">-</td>
+            </tr>
+             
+            <tr id="code_5">
+                <td  style="vertical-align: middle;color:#83beff" align="center">5</td>
+                <td class="td_code_cp_5 tdfull" style="vertical-align: middle;" align="center" onclick="click2('5', 'code_cp',this)">
+                    <span id="span_code_cp_5" class="span_code_cp_5 text-success text-uppercase fw-bold">...</span>
+                </td>
+                <td class="td_exchange_5" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_code_category_5" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_created_at_5" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_ratings_TA_5" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_identify_trend_5" align="center" style="vertical-align: middle;font-size: 14px !important;">
+                    <span id="span_identify_trend_5" class="span_identify_trend_5">-</span>
+                </td>
+                <td class="td_act_5" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_trading_price_range_5" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_ratings_FA_5" align="center" style="vertical-align: middle;">-</td>
+                <td class="td_view_5" align="center" style="vertical-align: middle;">-</td>
+            </tr>
+                    </tbody>
+    </table>
+    <!-- </div> -->
+</form>

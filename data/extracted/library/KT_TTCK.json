@@ -1,0 +1,73 @@
+{
+  "name": "Kiến thức chứng khoán, TTCK",
+  "category": "KT_TTCK",
+  "items": [
+    {
+      "stt": 1,
+      "id": "5c2d4622-accb-4fdf-96d6-0b6191d944a2",
+      "title": "Mở tài khoản chứng khoán VPS*",
+      "driveLink": null
+    },
+    {
+      "stt": 2,
+      "id": "ecc7d691-cb99-45dd-b5ee-c6f0cd3574e9",
+      "title": "Hướng dẫn đọc bảng giá chứng khoán*",
+      "driveLink": null
+    },
+    {
+      "stt": 3,
+      "id": "6bd3a7b9-344f-4bd5-b025-bc559219de04",
+      "title": "CafeF - Báo thông tin điện tử tổng hợp",
+      "driveLink": null
+    },
+    {
+      "stt": 4,
+      "id": "b6ddd41b-53e9-4d0f-9506-a447ee714169",
+      "title": "Hướng dẫn sử dụng FireAnt Web Platform, công cụ phân tích biểu đồ kỹ thuật*",
+      "driveLink": null
+    },
+    {
+      "stt": 5,
+      "id": "57b2c8a6-8957-4d4c-8a80-2242bf776c0e",
+      "title": "Hướng dẫn cài đặt và cập nhật dữ liệu Amibroker",
+      "driveLink": null
+    },
+    {
+      "stt": 6,
+      "id": "fc8426c2-af33-411d-b8a8-cd3d9c49e0ec",
+      "title": "Thị trường chứng khoán phái sinh là gì ?",
+      "driveLink": null
+    },
+    {
+      "stt": 7,
+      "id": "493f25f3-4659-4fae-822b-60ff7b9a4ccf",
+      "title": "Chứng khoán phái sinh hấp dẫn ở điểm gì ?",
+      "driveLink": null
+    },
+    {
+      "stt": 8,
+      "id": "d10a0628-04a0-4ad4-b518-13f54fd8cdd5",
+      "title": "Các câu hỏi thường gặp trên Thị trường CK Phái sinh",
+      "driveLink": null
+    },
+    {
+      "stt": 9,
+      "id": "3244b26f-dfaa-4cc5-9b89-629cba2f330f",
+      "title": "Thao túng trên thị trường chứng khoán phái sinh",
+      "driveLink": null
+    },
+    {
+      "stt": 10,
+      "id": "5e2cdaf6-a31e-4c77-bf37-1f563a736705",
+      "title": "Chứng quyền là gì? Hướng dẫn đầu tư chứng quyền hiệu quả",
+      "driveLink": null
+    },
+    {
+      "stt": 11,
+      "id": "d9034f33-70f2-473e-bef4-7a02614587a9",
+      "title": "Ký quỹ (Margin) là gì? Khi nào nên sử dụng giao dịch ký quỹ?",
+      "driveLink": null
+    }
+  ],
+  "count": 11
+}

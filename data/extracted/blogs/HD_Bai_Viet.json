@@ -1,0 +1,23 @@
+{
+  "name": "Bài viết tổng hợp",
+  "items": [
+    {
+      "columns": [
+        "",
+        "STT",
+        "Ngày thêm",
+        "Tên bài viết",
+        "Ảnh",
+        "Loại",
+        "Trạng thái",
+        "#"
+      ]
+    },
+    {
+      "columns": [
+        "Có 0/ 0 bản ghi 1 15 30 50"
+      ]
+    }
+  ],
+  "count": 2
+}

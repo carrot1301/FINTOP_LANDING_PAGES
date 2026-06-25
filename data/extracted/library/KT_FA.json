@@ -1,0 +1,31 @@
+{
+  "name": "Kiến thức phân tích cơ bản (FA)",
+  "category": "KT_FA",
+  "items": [
+    {
+      "stt": 1,
+      "id": "4ba56680-050b-4138-bec7-37e548a985c4",
+      "title": "Tìm hiểu cơ hội đầu tư khi đọc Báo cáo tài chính",
+      "driveLink": null
+    },
+    {
+      "stt": 2,
+      "id": "07815b3b-a4cc-4a9d-b12c-7bd9e91f3834",
+      "title": "Chiến lược đầu tư nắm giữ cổ phiếu tốt",
+      "driveLink": null
+    },
+    {
+      "stt": 3,
+      "id": "01a18fdc-84a9-4dff-ae54-8af7108cc989",
+      "title": "Phương pháp chiết khấu dòng tiền",
+      "driveLink": null
+    },
+    {
+      "stt": 4,
+      "id": "7289a74a-abcd-465b-a791-eb13a1575999",
+      "title": "Phương pháp phân tích dòng tiền đơn giản",
+      "driveLink": null
+    }
+  ],
+  "count": 4
+}

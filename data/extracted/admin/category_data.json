@@ -1,0 +1,80 @@
+{
+  "source": "category",
+  "items": [
+    {
+      "columns": [
+        "",
+        "",
+        "STT",
+        "Mã danh mục",
+        "Tên",
+        "Mô tả",
+        "Sắp sếp",
+        "Trạng thái",
+        ""
+      ]
+    },
+    {
+      "id": "60821694-2e90-448f-9606-04632512fc36",
+      "columns": [
+        "",
+        "1",
+        "DM_DATA_CK",
+        "Danh mục dữ liệu chứng khoán",
+        "Danh mục dữ liệu chứng khoán",
+        "1",
+        "",
+        ""
+      ],
+      "editId": "60821694-2e90-448f-9606-04632512fc36"
+    },
+    {
+      "id": "9a2f8c49-6d8c-4e96-a176-df36f3ef5104",
+      "columns": [
+        "",
+        "2",
+        "DM_BLOG",
+        "Danh mục bài viết",
+        "Báo cáo phân tích và Hướng dẫn đầu tư",
+        "1",
+        "",
+        ""
+      ],
+      "editId": "9a2f8c49-6d8c-4e96-a176-df36f3ef5104"
+    },
+    {
+      "id": "3893c412-0bd1-4a33-8909-d36dd0df5183",
+      "columns": [
+        "",
+        "3",
+        "CNK_001",
+        "Danh mục cẩm nang đầu tư",
+        "Cẩm nang đầu tư",
+        "3",
+        "",
+        ""
+      ],
+      "editId": "3893c412-0bd1-4a33-8909-d36dd0df5183"
+    },
+    {
+      "id": "6d964b37-1071-4e86-ace1-b007b2b8b8aa",
+      "columns": [
+        "",
+        "4",
+        "DM_QUYEN",
+        "Danh mục quyền",
+        "Danh mục quyền",
+        "5",
+        "",
+        ""
+      ],
+      "editId": "6d964b37-1071-4e86-ace1-b007b2b8b8aa"
+    },
+    {
+      "columns": [
+        "Có 4/ 4 bản ghi 1 15 30 50"
+      ]
+    }
+  ],
+  "count": 6
+}

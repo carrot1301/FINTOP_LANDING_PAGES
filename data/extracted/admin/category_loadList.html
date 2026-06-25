@@ -1,0 +1,165 @@
+<style>
+    .unit-edit span {
+        font-size: 19px;
+    }
+    td > p { overflow-y:scroll;overflow-x:hidden;} 
+</style>
+
+<div class="table-responsive pmd-card pmd-z-depth ">
+    <table id="table-data" class="table  table-bordered table-striped table-condensed dataTable no-footer">
+        <colgroup>
+            <col width="5%">
+            <col width="5%">
+            <col width="20%">
+            <col width="20%">
+            <col width="25%">
+            <col width="5%">
+            <col width="10%">
+            <col width="5%">
+        </colgroup>
+        <thead>
+            <tr>
+                <td align="center"><input type="checkbox" name="chk_all_item_id"
+                        onclick="checkbox_all_item_id(document.forms[0].chk_item_id);"></td>
+                <!-- <td align="center"><i class="fas fa-pen-alt"></i></td> -->
+                <td align="center"><b>STT</b></td>
+                <td align="center"><b>Mã danh mục</b></td>
+                <td align="center"><b>Tên</b></td>
+                <td align="center"><b>Mô tả</b></td>
+                <td align="center"><b>Sắp sếp</b></td>
+                <td align="center"><b>Trạng thái</b></td>
+                <td align="center"><b><span onclick="JS_Category.addrow()" class="text-cursor text-primary"><i class="fas fa-plus-square"></i></span></b></td>
+            </tr>
+        </thead>
+        <tbody id="body_data">
+                                                                <tr>
+                        <td align="center"><input type="checkbox" name="chk_item_id"
+                                value="60821694-2e90-448f-9606-04632512fc36"></td>
+                        <td onclick="{select_row(this);}" align="center">1</td>
+                        <td class="td_code_cate_60821694-2e90-448f-9606-04632512fc36" onclick="{select_row(this);}" ondblclick="click2('60821694-2e90-448f-9606-04632512fc36', 'code_cate')">
+                            <span id="span_code_cate_60821694-2e90-448f-9606-04632512fc36" class="span_code_cate_60821694-2e90-448f-9606-04632512fc36">DM_DATA_CK</span>
+                        </td>
+                        <td class="td_name_60821694-2e90-448f-9606-04632512fc36" onclick="{select_row(this);}" ondblclick="click2('60821694-2e90-448f-9606-04632512fc36', 'name')">
+                            <span id="span_name_60821694-2e90-448f-9606-04632512fc36" class="span_name_60821694-2e90-448f-9606-04632512fc36">Danh mục dữ liệu chứng khoán</span>
+                        </td>
+                        <td class="td_decision_60821694-2e90-448f-9606-04632512fc36" onclick="{select_row(this);}" ondblclick="click2('60821694-2e90-448f-9606-04632512fc36', 'decision')">
+                            <span id="span_decision_60821694-2e90-448f-9606-04632512fc36" class="span_decision_60821694-2e90-448f-9606-04632512fc36">Danh mục dữ liệu chứng khoán</span>
+                        </td>
+                        <td class="text-center td_order_60821694-2e90-448f-9606-04632512fc36" onclick="{select_row(this);}" ondblclick="click2('60821694-2e90-448f-9606-04632512fc36', 'order')">
+                            <span id="span_order_60821694-2e90-448f-9606-04632512fc36" class="span_order_60821694-2e90-448f-9606-04632512fc36">1</span>
+                        </td>
+                        <td onclick="{select_row(this);}" align="center">
+                            <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                                <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_60821694-2e90-448f-9606-04632512fc36" data-id="60821694-2e90-448f-9606-04632512fc36" checked>
+                                <span class="custom-control-indicator p-0 m-0" onclick="JS_Category.changeStatusCate('60821694-2e90-448f-9606-04632512fc36')"></span>
+                            </label>
+                        </td>
+                        <td align="center"><span class="text-cursor text-warning" onclick="JS_Category.edit('60821694-2e90-448f-9606-04632512fc36')"><i class="fas fa-edit"></i></span></td>
+                    </tr>
+                                                    <tr>
+                        <td align="center"><input type="checkbox" name="chk_item_id"
+                                value="9a2f8c49-6d8c-4e96-a176-df36f3ef5104"></td>
+                        <td onclick="{select_row(this);}" align="center">2</td>
+                        <td class="td_code_cate_9a2f8c49-6d8c-4e96-a176-df36f3ef5104" onclick="{select_row(this);}" ondblclick="click2('9a2f8c49-6d8c-4e96-a176-df36f3ef5104', 'code_cate')">
+                            <span id="span_code_cate_9a2f8c49-6d8c-4e96-a176-df36f3ef5104" class="span_code_cate_9a2f8c49-6d8c-4e96-a176-df36f3ef5104">DM_BLOG</span>
+                        </td>
+                        <td class="td_name_9a2f8c49-6d8c-4e96-a176-df36f3ef5104" onclick="{select_row(this);}" ondblclick="click2('9a2f8c49-6d8c-4e96-a176-df36f3ef5104', 'name')">
+                            <span id="span_name_9a2f8c49-6d8c-4e96-a176-df36f3ef5104" class="span_name_9a2f8c49-6d8c-4e96-a176-df36f3ef5104">Danh mục bài viết</span>
+                        </td>
+                        <td class="td_decision_9a2f8c49-6d8c-4e96-a176-df36f3ef5104" onclick="{select_row(this);}" ondblclick="click2('9a2f8c49-6d8c-4e96-a176-df36f3ef5104', 'decision')">
+                            <span id="span_decision_9a2f8c49-6d8c-4e96-a176-df36f3ef5104" class="span_decision_9a2f8c49-6d8c-4e96-a176-df36f3ef5104">Báo cáo phân tích và Hướng dẫn đầu tư</span>
+                        </td>
+                        <td class="text-center td_order_9a2f8c49-6d8c-4e96-a176-df36f3ef5104" onclick="{select_row(this);}" ondblclick="click2('9a2f8c49-6d8c-4e96-a176-df36f3ef5104', 'order')">
+                            <span id="span_order_9a2f8c49-6d8c-4e96-a176-df36f3ef5104" class="span_order_9a2f8c49-6d8c-4e96-a176-df36f3ef5104">1</span>
+                        </td>
+                        <td onclick="{select_row(this);}" align="center">
+                            <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                                <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_9a2f8c49-6d8c-4e96-a176-df36f3ef5104" data-id="9a2f8c49-6d8c-4e96-a176-df36f3ef5104" checked>
+                                <span class="custom-control-indicator p-0 m-0" onclick="JS_Category.changeStatusCate('9a2f8c49-6d8c-4e96-a176-df36f3ef5104')"></span>
+                            </label>
+                        </td>
+                        <td align="center"><span class="text-cursor text-warning" onclick="JS_Category.edit('9a2f8c49-6d8c-4e96-a176-df36f3ef5104')"><i class="fas fa-edit"></i></span></td>
+                    </tr>
+                                                    <tr>
+                        <td align="center"><input type="checkbox" name="chk_item_id"
+                                value="3893c412-0bd1-4a33-8909-d36dd0df5183"></td>
+                        <td onclick="{select_row(this);}" align="center">3</td>
+                        <td class="td_code_cate_3893c412-0bd1-4a33-8909-d36dd0df5183" onclick="{select_row(this);}" ondblclick="click2('3893c412-0bd1-4a33-8909-d36dd0df5183', 'code_cate')">
+                            <span id="span_code_cate_3893c412-0bd1-4a33-8909-d36dd0df5183" class="span_code_cate_3893c412-0bd1-4a33-8909-d36dd0df5183">CNK_001</span>
+                        </td>
+                        <td class="td_name_3893c412-0bd1-4a33-8909-d36dd0df5183" onclick="{select_row(this);}" ondblclick="click2('3893c412-0bd1-4a33-8909-d36dd0df5183', 'name')">
+                            <span id="span_name_3893c412-0bd1-4a33-8909-d36dd0df5183" class="span_name_3893c412-0bd1-4a33-8909-d36dd0df5183">Danh mục cẩm nang đầu tư</span>
+                        </td>
+                        <td class="td_decision_3893c412-0bd1-4a33-8909-d36dd0df5183" onclick="{select_row(this);}" ondblclick="click2('3893c412-0bd1-4a33-8909-d36dd0df5183', 'decision')">
+                            <span id="span_decision_3893c412-0bd1-4a33-8909-d36dd0df5183" class="span_decision_3893c412-0bd1-4a33-8909-d36dd0df5183">Cẩm nang đầu tư</span>
+                        </td>
+                        <td class="text-center td_order_3893c412-0bd1-4a33-8909-d36dd0df5183" onclick="{select_row(this);}" ondblclick="click2('3893c412-0bd1-4a33-8909-d36dd0df5183', 'order')">
+                            <span id="span_order_3893c412-0bd1-4a33-8909-d36dd0df5183" class="span_order_3893c412-0bd1-4a33-8909-d36dd0df5183">3</span>
+                        </td>
+                        <td onclick="{select_row(this);}" align="center">
+                            <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                                <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_3893c412-0bd1-4a33-8909-d36dd0df5183" data-id="3893c412-0bd1-4a33-8909-d36dd0df5183" checked>
+                                <span class="custom-control-indicator p-0 m-0" onclick="JS_Category.changeStatusCate('3893c412-0bd1-4a33-8909-d36dd0df5183')"></span>
+                            </label>
+                        </td>
+                        <td align="center"><span class="text-cursor text-warning" onclick="JS_Category.edit('3893c412-0bd1-4a33-8909-d36dd0df5183')"><i class="fas fa-edit"></i></span></td>
+                    </tr>
+                                                    <tr>
+                        <td align="center"><input type="checkbox" name="chk_item_id"
+                                value="6d964b37-1071-4e86-ace1-b007b2b8b8aa"></td>
+                        <td onclick="{select_row(this);}" align="center">4</td>
+                        <td class="td_code_cate_6d964b37-1071-4e86-ace1-b007b2b8b8aa" onclick="{select_row(this);}" ondblclick="click2('6d964b37-1071-4e86-ace1-b007b2b8b8aa', 'code_cate')">
+                            <span id="span_code_cate_6d964b37-1071-4e86-ace1-b007b2b8b8aa" class="span_code_cate_6d964b37-1071-4e86-ace1-b007b2b8b8aa">DM_QUYEN</span>
+                        </td>
+                        <td class="td_name_6d964b37-1071-4e86-ace1-b007b2b8b8aa" onclick="{select_row(this);}" ondblclick="click2('6d964b37-1071-4e86-ace1-b007b2b8b8aa', 'name')">
+                            <span id="span_name_6d964b37-1071-4e86-ace1-b007b2b8b8aa" class="span_name_6d964b37-1071-4e86-ace1-b007b2b8b8aa">Danh mục quyền</span>
+                        </td>
+                        <td class="td_decision_6d964b37-1071-4e86-ace1-b007b2b8b8aa" onclick="{select_row(this);}" ondblclick="click2('6d964b37-1071-4e86-ace1-b007b2b8b8aa', 'decision')">
+                            <span id="span_decision_6d964b37-1071-4e86-ace1-b007b2b8b8aa" class="span_decision_6d964b37-1071-4e86-ace1-b007b2b8b8aa">Danh mục quyền</span>
+                        </td>
+                        <td class="text-center td_order_6d964b37-1071-4e86-ace1-b007b2b8b8aa" onclick="{select_row(this);}" ondblclick="click2('6d964b37-1071-4e86-ace1-b007b2b8b8aa', 'order')">
+                            <span id="span_order_6d964b37-1071-4e86-ace1-b007b2b8b8aa" class="span_order_6d964b37-1071-4e86-ace1-b007b2b8b8aa">5</span>
+                        </td>
+                        <td onclick="{select_row(this);}" align="center">
+                            <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                                <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_6d964b37-1071-4e86-ace1-b007b2b8b8aa" data-id="6d964b37-1071-4e86-ace1-b007b2b8b8aa" checked>
+                                <span class="custom-control-indicator p-0 m-0" onclick="JS_Category.changeStatusCate('6d964b37-1071-4e86-ace1-b007b2b8b8aa')"></span>
+                            </label>
+                        </td>
+                        <td align="center"><span class="text-cursor text-warning" onclick="JS_Category.edit('6d964b37-1071-4e86-ace1-b007b2b8b8aa')"><i class="fas fa-edit"></i></span></td>
+                    </tr>
+                                    </tbody>
+    </table>
+    <tfoot>
+                <tr class="fw-bold" id="pagination">
+            <td colspan="10"><style>
+    .a {
+        color:red;
+    }
+</style>
+<input type="hidden" name="_currentPage" id="_currentPage" value="1">
+<div class="d-flex">
+    <div class="col-sm-3">
+        <div class="dataTables_info"><span class="page-link">Có 4/ 4 bản ghi</span></div>
+    </div>
+    <div class="col-sm-6">
+        <div class="main_paginate" >
+                        <ul class="pagination pagination-sm" style="margin: 0;white-space: nowrap;text-align: center;display: flex;justify-content: center;">
+                <li class="page-item disabled"><span class="page-link" style="color:black !important"><i class="fas fa-arrow-alt-circle-left fa-2x" style="color: steelblue;"></i></i></span></li>
+                <li class="page-item active"><span class="page-link" style="color:black">1</span></li>
+                <li class="page-item disabled"><span class="page-link" style="color:black"><i class="fas fa-arrow-alt-circle-right fa-2x" style="color: steelblue;"></i></span></li>
+            </ul>
+                    </div>
+    </div>
+    
+    <div class="col-sm-2">
+            <select id="cbo_nuber_record_page" class="col-sm-6 form-control input-sm" name="cbo_nuber_record_page">
+                <option id="15" name="15" value="15">15</option>
+                <option id="30" name="30" value="30">30</option>
+                <option id="50" name="50" value="50">50</option>
+            </select>
+        </div>
+</div></td>
+        </tr>
+            </tfoot>
+</div>

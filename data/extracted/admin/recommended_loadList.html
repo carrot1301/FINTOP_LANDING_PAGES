@@ -1,0 +1,61 @@
+<style>
+    .unit-edit span {
+        font-size: 19px;
+    }
+</style>
+
+<div class="table-responsive pmd-card pmd-z-depth ">
+    <table id="table-data" class="table  table-bordered table-striped table-condensed dataTable no-footer">
+        <!-- <colgroup>
+            <col width="5%">
+            <col width="5%">
+            <col width="7%">
+            <col width="7%">
+            <col width="7%">
+            <col width="7%">
+            <col width="7%">
+            <col width="7%">
+            <col width="7%">
+            <col width="7%">
+            <col width="7%">
+            <col width="7%">
+            <col width="7%">
+            <col width="7%">
+            <col width="5%">
+        </colgroup> -->
+        <thead>
+            <tr>
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><input type="checkbox" name="chk_all_item_id"
+                        onclick="checkbox_all_item_id(document.forms[0].chk_item_id);"></td>
+                <!-- <td align="center"><i class="fas fa-pen-alt"></i></td> -->
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b>STT</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b>Mã cổ phiếu</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b>Nhóm ngành</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b>Ngày mua</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b>Tỷ trọng</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b>Giá mua</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;" colspan="3"><b>Vùng giá mục tiêu</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b>Giá hiện tại</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b>Lãi/Lỗ</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b>Khuyến nghị hành động</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b>Dừng lỗ</b></td>
+                <!-- <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b>% Chốt</b></td> -->
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b>Ghi chú</b></td>
+                <td style="white-space: inherit;vertical-align: middle" rowspan="2"><b>Thứ tự</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;" rowspan="2"><b><span onclick="JS_Recommended.addrow()" class="text-cursor text-primary"><i class="fas fa-plus-square"></i></span></b></td>
+            </tr>
+            <tr>
+                <td align="center" style="white-space: inherit; vertical-align: middle;"><b>Tar 1</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;"><b>Tar 2</b></td>
+                <td align="center" style="white-space: inherit; vertical-align: middle;"><b>Tar 3</b></td>
+            </tr>
+        </thead>
+        <tbody id="body_data">
+                    </tbody>
+    </table>
+    <tfoot>
+                <tr id="pagination">
+            <td colspan="10">Không tìm thấy dữ liệu!</td>
+        </tr>
+            </tfoot>
+</div>

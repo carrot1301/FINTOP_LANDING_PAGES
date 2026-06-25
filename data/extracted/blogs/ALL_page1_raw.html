@@ -1,0 +1,564 @@
+<style>
+    .unit-edit span {
+        font-size: 19px;
+    }
+</style>
+<div class="table-responsive pmd-card pmd-z-depth ">
+    <table  id="table-data" class="table  table-bordered table-striped table-condensed dataTable no-footer">
+        <thead>
+            <tr>
+                <td align="center"><input type="checkbox" name="chk_all_item_id"
+                        onclick="checkbox_all_item_id(document.forms[0].chk_item_id);"></td>
+                <td align="center"><b>STT</b></td>
+                <td align="center"><b>Ngày thêm</b></td>
+                <td align="center"><b>Tên bài viết</b></td>
+                <td align="center"><b>Ảnh</b></td>
+                <td align="center"><b>Loại</b></td>
+                <td align="center"><b>Trạng thái</b></td>
+                <td align="center"><b>#</b></td>
+            </tr>
+        </thead>
+        <tbody>
+                        <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="3719c6eb-8f41-4011-a63a-c4c4ca1c756f"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">1</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2026-04-17 23:07:18</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">VIB 2026 | &quot;Ngôi Sao Bán Lẻ&quot; Của Ngành Ngân Hàng</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2026_04_17_2307000000867045!~!ava-vib.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_3719c6eb-8f41-4011-a63a-c4c4ca1c756f" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('3719c6eb-8f41-4011-a63a-c4c4ca1c756f')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('3719c6eb-8f41-4011-a63a-c4c4ca1c756f')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('3719c6eb-8f41-4011-a63a-c4c4ca1c756f')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="a7f11783-5cc4-4161-8857-2bd576adf6e5"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2026-04-12 19:59:01</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">LPB 2026 | Tái định vị vị thế thông qua cải cách bộ máy vận hành và chiến lược tín dụng linh hoạt theo thị trường</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2026_04_12_1959000000972816!~!tru-so-lpb2.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">undefined</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_a7f11783-5cc4-4161-8857-2bd576adf6e5" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('a7f11783-5cc4-4161-8857-2bd576adf6e5')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('a7f11783-5cc4-4161-8857-2bd576adf6e5')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('a7f11783-5cc4-4161-8857-2bd576adf6e5')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="e2229d7e-8976-4c46-8017-4be75bb8de16"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">3</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2026-04-07 09:43:21</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">NGÀNH NGÂN HÀNG 2026 | Mục tiêu phát triển kinh tế gắn liền với tăng trưởng tín dụng</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2026_04_07_0943000000394625!~!rsz_cp_bank.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_e2229d7e-8976-4c46-8017-4be75bb8de16" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('e2229d7e-8976-4c46-8017-4be75bb8de16')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('e2229d7e-8976-4c46-8017-4be75bb8de16')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('e2229d7e-8976-4c46-8017-4be75bb8de16')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="568c81a6-92bd-40ba-98f5-56aa20f518e5"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">4</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2026-04-01 19:20:36</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">PHÂN TÍCH THỊ TRƯỜNG 2026 | Đón đầu điểm đảo chiều dòng vốn ngoại</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2026_04_01_1920000000920457!~!nnghng.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_568c81a6-92bd-40ba-98f5-56aa20f518e5" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('568c81a6-92bd-40ba-98f5-56aa20f518e5')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('568c81a6-92bd-40ba-98f5-56aa20f518e5')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('568c81a6-92bd-40ba-98f5-56aa20f518e5')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="0147094d-6200-4e75-8a3f-b63c4e30dced"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">5</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-11-17 21:07:03</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">[HỘI THẢO ĐẦU TƯ] CHIẾN LƯỢC CUỐI 2025 - TẦM NHÌN 2026 - PHÂN TÍCH ĐẦU TƯ CỔ PHIẾU NGÀNH ĐẦU TƯ CÔNG</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_11_17_2107000000229405!~!SlideHiTho20261.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_0147094d-6200-4e75-8a3f-b63c4e30dced" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('0147094d-6200-4e75-8a3f-b63c4e30dced')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('0147094d-6200-4e75-8a3f-b63c4e30dced')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('0147094d-6200-4e75-8a3f-b63c4e30dced')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="b4523140-931e-4192-a6f0-83c93964bc72"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">6</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-10-30 21:30:40</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">VCK | Bom tấn IPO VPS - Cổ phiếu &quot;Kỳ Lân Bán lẻ Tài chính - Công nghệ  FinTech&quot;</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_10_31_1030000000721102!~!nhchunPNG2.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_b4523140-931e-4192-a6f0-83c93964bc72" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('b4523140-931e-4192-a6f0-83c93964bc72')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('b4523140-931e-4192-a6f0-83c93964bc72')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('b4523140-931e-4192-a6f0-83c93964bc72')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="de1db0d7-ce9f-4025-968f-21bc40e33a5e"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">7</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-07-02 16:53:30</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">CỔ PHIẾU BLUECHIP - VN30 | Triển Vọng Tăng Trưởng Nhờ Nâng Hạng Thị Trường Mới Nổi</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_07_02_1653000000255764!~!z6764515957653_0ef8f739dc2548956cb1e7638733985b1.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_de1db0d7-ce9f-4025-968f-21bc40e33a5e" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('de1db0d7-ce9f-4025-968f-21bc40e33a5e')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('de1db0d7-ce9f-4025-968f-21bc40e33a5e')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('de1db0d7-ce9f-4025-968f-21bc40e33a5e')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="fa3c799d-bec2-47ea-99ed-c10ea54316ec"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">8</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-06-13 23:58:59</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">PLC | Thời Cơ Bứt Tốc Cùng Sóng Đầu Tư Công 2025</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_09_21_2255000000541744!~!PLC1.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_fa3c799d-bec2-47ea-99ed-c10ea54316ec" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('fa3c799d-bec2-47ea-99ed-c10ea54316ec')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('fa3c799d-bec2-47ea-99ed-c10ea54316ec')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('fa3c799d-bec2-47ea-99ed-c10ea54316ec')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="fc23b6cb-3006-4a07-88cd-83c6ac4f38fe"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">9</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-06-12 14:07:58</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">NGÀNH THÉP VIỆT NAM 2025 (VPS)</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_06_12_1407000000982558!~!images1.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_fc23b6cb-3006-4a07-88cd-83c6ac4f38fe" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('fc23b6cb-3006-4a07-88cd-83c6ac4f38fe')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('fc23b6cb-3006-4a07-88cd-83c6ac4f38fe')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('fc23b6cb-3006-4a07-88cd-83c6ac4f38fe')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="1ed0552b-b784-49fd-9096-fed8f2594eb0"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">10</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-04-28 09:28:59</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">HPG | Tiềm Năng Tăng Trưởng Cùng Làn Sóng Đầu Tư Công 2025</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_09_21_2253000000995655!~!HPG1.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_1ed0552b-b784-49fd-9096-fed8f2594eb0" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('1ed0552b-b784-49fd-9096-fed8f2594eb0')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('1ed0552b-b784-49fd-9096-fed8f2594eb0')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('1ed0552b-b784-49fd-9096-fed8f2594eb0')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="06c9aaed-d056-4f6f-9256-3f7bc74325c8"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">11</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-04-18 09:35:31</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">NGÀNH ĐIỆN 2025 | Cơ Chế Mới Thúc Đẩy Triển Vọng Tăng Trưởng Cùng Kỷ Nguyên Điện Xanh</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_09_21_2300000000646865!~!anh-gia-dien-17285634012131640818544-0-0-400-640-crop-172856340547015344192701.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_06c9aaed-d056-4f6f-9256-3f7bc74325c8" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('06c9aaed-d056-4f6f-9256-3f7bc74325c8')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('06c9aaed-d056-4f6f-9256-3f7bc74325c8')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('06c9aaed-d056-4f6f-9256-3f7bc74325c8')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="18d1b089-fde9-4873-83da-7f1f57fc535c"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">12</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-04-01 17:33:53</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">NGÀNH THÉP | Tác Động Của Thuế Chống Bán Phá Giá Tôn Mạ Màu Lên Các Doanh Nghiệp Thép</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_04_01_1733000000433402!~!z6463533618691_44cbcce94c12ea483ea1c3f7712a14bd1.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_18d1b089-fde9-4873-83da-7f1f57fc535c" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('18d1b089-fde9-4873-83da-7f1f57fc535c')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('18d1b089-fde9-4873-83da-7f1f57fc535c')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('18d1b089-fde9-4873-83da-7f1f57fc535c')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="3e4907a5-6b83-49a1-9166-2781721d51c9"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">13</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-03-26 14:36:44</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">BẤT ĐỘNG SẢN 2025 | Tháo Gỡ Nút Thắt Pháp Lý Mở Ra Xu Hướng Hồi Phục</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_03_26_1607000000851251!~!z6444206201885_90c6efc0974e0229ec0c1cc193fbb9dc13.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_3e4907a5-6b83-49a1-9166-2781721d51c9" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('3e4907a5-6b83-49a1-9166-2781721d51c9')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('3e4907a5-6b83-49a1-9166-2781721d51c9')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('3e4907a5-6b83-49a1-9166-2781721d51c9')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="ce2500b5-b1f7-4658-9ca9-8082dda81e68"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">14</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-03-23 22:10:53</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">DIG | Cổ Phiếu Rã Đông Hồi Phục Hoạt Động Kinh Doanh Các Dự Án Phía Nam</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_09_21_2252000000722610!~!DIG2.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_ce2500b5-b1f7-4658-9ca9-8082dda81e68" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('ce2500b5-b1f7-4658-9ca9-8082dda81e68')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('ce2500b5-b1f7-4658-9ca9-8082dda81e68')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('ce2500b5-b1f7-4658-9ca9-8082dda81e68')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="64e13915-4943-4e40-9d9b-46d18b5cc938"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">15</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-03-18 23:51:06</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">NGÀNH CHỨNG KHOÁN 2025 | Tác Động Của KRX Lên Thị Trường Chứng Khoán Việt Nam: Hổ Mọc Thêm Cánh?</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_09_21_2259000000548372!~!CK1.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_64e13915-4943-4e40-9d9b-46d18b5cc938" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('64e13915-4943-4e40-9d9b-46d18b5cc938')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('64e13915-4943-4e40-9d9b-46d18b5cc938')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('64e13915-4943-4e40-9d9b-46d18b5cc938')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="9729295e-74ac-4d7d-9f54-40df0ba94bf3"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">16</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-03-17 15:04:19</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">HDC  |  Bứt Phá Xu Hướng Giảm - Cơ Hội Vàng Đón Sóng Bất Động Sản 2025.</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_03_17_1513000000336564!~!hodeco-7310.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_9729295e-74ac-4d7d-9f54-40df0ba94bf3" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('9729295e-74ac-4d7d-9f54-40df0ba94bf3')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('9729295e-74ac-4d7d-9f54-40df0ba94bf3')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('9729295e-74ac-4d7d-9f54-40df0ba94bf3')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="aded4706-ebcc-4ba8-8871-f68d09d9676c"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">17</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-03-10 09:49:14</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">MWG| Thế Giới Di Động Và Cổ Phiếu Ngành Bán Lẻ  Đang Bước Vào Chu Kỳ Tăng Trưởng</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_09_21_2251000000797116!~!tixung21.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_aded4706-ebcc-4ba8-8871-f68d09d9676c" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('aded4706-ebcc-4ba8-8871-f68d09d9676c')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('aded4706-ebcc-4ba8-8871-f68d09d9676c')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('aded4706-ebcc-4ba8-8871-f68d09d9676c')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="0c1ba4c3-2b3c-4f4d-8cda-e87d860ec219"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">18</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-03-09 22:23:32</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">NGÀNH BÁN LẺ 2025 | Cơ Hội Sinh Lời Từ Xu Hướng Tiêu Dùng Mới?</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_03_09_2223000000589382!~!BNL2025.webp" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_0c1ba4c3-2b3c-4f4d-8cda-e87d860ec219" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('0c1ba4c3-2b3c-4f4d-8cda-e87d860ec219')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('0c1ba4c3-2b3c-4f4d-8cda-e87d860ec219')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('0c1ba4c3-2b3c-4f4d-8cda-e87d860ec219')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="48d504de-d706-4a7a-83a9-4429af5b74e9"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">19</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-03-07 10:07:28</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">DXG | Hoạt động kinh doanh khởi sắc và định giá rẻ là cơ hội đầu tư vàng cho năm 2025</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_09_21_2251000000919497!~!DXG1.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_48d504de-d706-4a7a-83a9-4429af5b74e9" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('48d504de-d706-4a7a-83a9-4429af5b74e9')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('48d504de-d706-4a7a-83a9-4429af5b74e9')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('48d504de-d706-4a7a-83a9-4429af5b74e9')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="f8f0b15c-2726-4cd2-91e0-c9b5e457cc34"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">20</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-03-05 16:01:50</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">NGÀNH THÉP 2025 | Khởi Nguồn Tăng Trưởng Đột Phá Nhờ Thị Trường Nội Địa</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_09_21_2256000000781535!~!Thp1.jpeg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_f8f0b15c-2726-4cd2-91e0-c9b5e457cc34" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('f8f0b15c-2726-4cd2-91e0-c9b5e457cc34')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('f8f0b15c-2726-4cd2-91e0-c9b5e457cc34')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('f8f0b15c-2726-4cd2-91e0-c9b5e457cc34')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="3d98012b-46a0-4d40-b22e-a20ad5d109b6"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">21</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-02-27 10:16:03</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">NGÀNH THÉP | Áp Thuế Chống Bán Phá Giá HRC Tác Động Như Thế Nào Đến Doanh Nghiệp Thép Trong Nước</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_02_27_103800000015277!~!z6356617242753_c331211a266abba3f67e48f7e4e70a271.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_3d98012b-46a0-4d40-b22e-a20ad5d109b6" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('3d98012b-46a0-4d40-b22e-a20ad5d109b6')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('3d98012b-46a0-4d40-b22e-a20ad5d109b6')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('3d98012b-46a0-4d40-b22e-a20ad5d109b6')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="b2c1e639-fc7d-43bf-aba1-7e9daadd072e"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">22</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-02-26 13:01:20</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">HDB | Tăng Trưởng Tín Dụng Mạnh Mẽ Và Thương Vụ Sáp Nhập DongA Bank</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_09_21_2308000000797805!~!HDB1.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_b2c1e639-fc7d-43bf-aba1-7e9daadd072e" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('b2c1e639-fc7d-43bf-aba1-7e9daadd072e')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('b2c1e639-fc7d-43bf-aba1-7e9daadd072e')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('b2c1e639-fc7d-43bf-aba1-7e9daadd072e')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="d385101b-9697-43e3-8f72-36de8a87e9d7"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">23</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2025-02-25 15:09:37</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">CTCP Tập đoàn Masan (MSN): Mở đầu chu kỳ tăng trưởng</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_09_21_2250000000283766!~!MSN1.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">BASIC</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_d385101b-9697-43e3-8f72-36de8a87e9d7" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('d385101b-9697-43e3-8f72-36de8a87e9d7')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('d385101b-9697-43e3-8f72-36de8a87e9d7')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('d385101b-9697-43e3-8f72-36de8a87e9d7')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td style="width:5% ;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="154eb374-b8a7-4150-9fd6-5ec3d7077cfe"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">24</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">2024-12-26 22:58:34</td>
+                    <td style="width:20% ;white-space: inherit;vertical-align: middle;">CTD BƯỚC NGOẶT MỞ SÓNG TĂNG TRƯỞNG TRUNG &amp; DÀI HẠN NGÀNH XÂY DỰNG &amp; ĐẦU TƯ CÔNG</td>
+                    <td style="width:20%;vertical-align: middle;" align="center"><img  src="https://fintopdata.vn/file-image-client/blogs/2025_09_21_23040000007341!~!tixung61.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;"></td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">VIP</td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_154eb374-b8a7-4150-9fd6-5ec3d7077cfe" >
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_Blogs.changeStatus('154eb374-b8a7-4150-9fd6-5ec3d7077cfe')"></span>
+                        </label>    
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                         <button onclick="JS_Blogs.infoBlog('154eb374-b8a7-4150-9fd6-5ec3d7077cfe')" class="btn btn-light" type="button">
+                              <i style="color:#00740a" class="far fa-eye"></i>
+                        </button>
+                        <span class="btn btn-warning text-cursor" onclick="JS_Blogs.edit('154eb374-b8a7-4150-9fd6-5ec3d7077cfe')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                    </tbody>
+    </table>
+    <div style="width:100%" class="row">
+    <tfoot>
+        <tr>
+            <td colspan="10">
+                <style>
+    .a {
+        color:red;
+    }
+</style>
+<input type="hidden" name="_currentPage" id="_currentPage" value="1">
+<div class="d-flex">
+    <div class="col-sm-3">
+        <div class="dataTables_info"><span class="page-link">Có 24/ 24 bản ghi</span></div>
+    </div>
+    <div class="col-sm-6">
+        <div class="main_paginate" >
+                        <ul class="pagination pagination-sm" style="margin: 0;white-space: nowrap;text-align: center;display: flex;justify-content: center;">
+                <li class="page-item disabled"><span class="page-link" style="color:black !important"><i class="fas fa-arrow-alt-circle-left fa-2x" style="color: steelblue;"></i></i></span></li>
+                <li class="page-item active"><span class="page-link" style="color:black">1</span></li>
+                <li class="page-item disabled"><span class="page-link" style="color:black"><i class="fas fa-arrow-alt-circle-right fa-2x" style="color: steelblue;"></i></span></li>
+            </ul>
+                    </div>
+    </div>
+    
+    <div class="col-sm-2">
+            <select id="cbo_nuber_record_page" class="col-sm-6 form-control input-sm" name="cbo_nuber_record_page">
+                <option id="15" name="15" value="15">15</option>
+                <option id="30" name="30" value="30">30</option>
+                <option id="50" name="50" value="50">50</option>
+            </select>
+        </div>
+</div>
+            </td>
+        </tr>
+    </tfoot>
+    </div>
+</div>
