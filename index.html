@@ -196,7 +196,6 @@
             will-change: transform, opacity;
         }
 
-        .dropdown:hover .dropdown-content,
         .dropdown-content.pinned {
             visibility: visible;
             opacity: 1;
@@ -903,7 +902,144 @@
             background: rgba(245, 158, 11, 0.12);
         }
 
+        .membership-action-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .membership-action-card {
+            min-height: 210px;
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            color: #cbd5e1;
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .membership-action-card:hover,
+        .membership-action-card.active {
+            transform: translateY(-3px);
+            border-color: rgba(168, 85, 247, 0.42);
+            background: rgba(168, 85, 247, 0.12);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.26);
+        }
+
+        .membership-action-card h3 {
+            color: #fff;
+            font-size: 1rem;
+            line-height: 1.35;
+            margin: 10px 0 8px;
+        }
+
+        .membership-action-card p {
+            color: #94A3B8;
+            font-size: 0.84rem;
+            line-height: 1.6;
+        }
+
+        .membership-action-icon {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            color: #c084fc;
+            background: rgba(168, 85, 247, 0.16);
+            font-size: 1.1rem;
+        }
+
+        .membership-flow-panel {
+            border-radius: 14px;
+            border: 1px solid rgba(168, 85, 247, 0.24);
+            background: rgba(15, 15, 25, 0.74);
+            padding: 24px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .membership-flow-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 16px;
+        }
+
+        .membership-flow-title {
+            color: #fff;
+            font-size: 1.18rem;
+            font-weight: 900;
+            margin-bottom: 6px;
+        }
+
+        .membership-flow-copy {
+            color: #94A3B8;
+            font-size: 0.9rem;
+            line-height: 1.65;
+        }
+
+        .membership-step-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .membership-step {
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 16px;
+        }
+
+        .membership-step strong {
+            display: block;
+            color: #c084fc;
+            margin-bottom: 8px;
+            font-size: 0.86rem;
+        }
+
+        .membership-step p,
+        .membership-step li {
+            color: #cbd5e1;
+            font-size: 0.84rem;
+            line-height: 1.6;
+        }
+
+        .membership-step ul {
+            display: grid;
+            gap: 6px;
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .membership-approval-note {
+            color: #f0abfc;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0;
+        }
+
+        .membership-user-summary {
+            border-radius: 12px;
+            border: 1px solid rgba(236, 72, 153, 0.25);
+            background: rgba(236, 72, 153, 0.08);
+            color: #fbcfe8;
+            padding: 14px 16px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
         @media (max-width: 1024px) {
+            .membership-action-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
             .library-layout {
                 grid-template-columns: 1fr;
             }
@@ -925,6 +1061,15 @@
 
             .function-metric-row {
                 grid-template-columns: 96px 1fr 42px;
+            }
+
+            .membership-action-grid,
+            .membership-step-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .membership-flow-head {
+                flex-direction: column;
             }
         }
 
@@ -2452,7 +2597,7 @@
 
         .ai-message {
             text-align: left;
-            \n align-items: stretch;
+            align-items: stretch;
         }
 
         .ai-name {
@@ -2625,17 +2770,43 @@
             box-shadow: 0 20px 80px rgba(168, 85, 247, 0.4);
         }
 
-        .mockup-img {
+        .mockup-img,
+        .showcase-fireant-chart {
             width: 100%;
             aspect-ratio: 16 / 9;
             /* Ép cứng tỷ lệ màn hình Widescreen 16:9 */
             display: block;
             border-radius: 10px;
             background: #111;
+        }
+
+        .mockup-img {
             object-fit: cover;
             /* Phần ảnh dư theo chiều dọc tự động bị xén đi */
             object-position: top center;
             /* Thường sẽ lấy từ thanh công cụ bên trên xuống */
+        }
+
+        .showcase-fireant-chart {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .showcase-fireant-chart .fireant-chart-host,
+        .showcase-fireant-chart .fireant-chart-host>div,
+        .showcase-fireant-chart .fireant-widget-container {
+            width: 100%;
+            height: 100%;
+            min-height: 0;
+        }
+
+        .showcase-fireant-chart .fireant-widget,
+        .showcase-fireant-chart iframe {
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 0 !important;
+            border: 0;
+            border-radius: 10px;
         }
 
         /* Pricing Section */
@@ -2659,8 +2830,34 @@
             max-width: 1300px;
             margin: 4rem auto 0;
             text-align: left;
-            \n align-items: stretch;
             align-items: stretch;
+            align-items: stretch;
+        }
+
+        #panel-hoivien .panel-header {
+            text-align: center;
+        }
+
+        #panel-hoivien .function-shell {
+            background: transparent;
+            border-color: transparent;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .panel-pricing-grid {
+            max-width: 1120px;
+            margin: 2.75rem auto 0;
+        }
+
+        #panel-hoivien .pricing-card {
+            min-height: 355px;
+            cursor: pointer;
+        }
+
+        #panel-hoivien .pricing-card.active {
+            transform: translateY(-6px) !important;
+            filter: brightness(1.08);
         }
 
         @media (max-width: 1024px) {
@@ -2891,6 +3088,11 @@
         .pricing-subtitle {
             font-size: 0.9rem;
             margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .pricing-title {
+            text-align: center;
         }
 
         .pricing-features {
@@ -3018,15 +3220,15 @@
         }
 
         .team-member:nth-child(4) {
-            /* Right-upper */
+            /* Left-upper */
             top: 195px;
-            left: 636px;
+            left: 84px;
         }
 
         .team-member:nth-child(5) {
-            /* Right-lower */
-            top: 520px;
-            left: 570px;
+            /* Right-upper */
+            top: 195px;
+            left: 636px;
         }
 
         .team-member:nth-child(6) {
@@ -3036,9 +3238,9 @@
         }
 
         .team-member:nth-child(7) {
-            /* Left-upper */
-            top: 195px;
-            left: 84px;
+            /* Right-lower */
+            top: 520px;
+            left: 570px;
         }
 
         /* Connector lines from center to members */
@@ -3259,6 +3461,12 @@
             padding: 2.5rem;
             will-change: transform;
             transform: translate3d(0, 0, 0);
+        }
+
+        .about-highlight-fintech {
+            color: #c084fc;
+            font-style: normal;
+            font-weight: 700;
         }
 
         .about-services-grid {
@@ -3532,9 +3740,23 @@
             font-weight: 700;
         }
 
+        .testimonial-author-info {
+            display: grid;
+            gap: 3px;
+        }
+
         .testimonial-role {
             color: #94A3B8;
             font-size: 0.85rem;
+            line-height: 1.35;
+            min-height: 2.3em;
+        }
+
+        .testimonial-org {
+            color: #cbd5e1;
+            font-size: 0.82rem;
+            line-height: 1.35;
+            min-height: 2.2em;
         }
 
         /* Biến thể màu đánh giá */
@@ -3653,14 +3875,14 @@
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content" id="dc-phan-tich">
                     <a href="javascript:void(0)" data-panel="panel-analysis-market"
-                        onclick="openPanel('panel-analysis-market', this)">Thị trường</a>
+                        onclick="openPanel('panel-analysis-market', this)">Nghiên cứu thị trường</a>
                     <a href="javascript:void(0)" data-panel="panel-analysis-pro"
-                        onclick="openPanel('panel-analysis-pro', this)">PRO Research <span
+                        onclick="openPanel('panel-analysis-pro', this)">Nghiên cứu chuyên sâu <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="javascript:void(0)" data-panel="panel-analysis-company"
-                        onclick="openPanel('panel-analysis-company', this)">Doanh nghiệp</a>
+                        onclick="openPanel('panel-analysis-company', this)">Nghiên cứu Doanh nghiệp</a>
                     <a href="javascript:void(0)" data-panel="panel-analysis-sector"
-                        onclick="openPanel('panel-analysis-sector', this)">NCPT Ngành</a>
+                        onclick="openPanel('panel-analysis-sector', this)">Nghiên cứu nhóm Ngành</a>
                 </div>
             </li>
 
@@ -3853,7 +4075,6 @@
                         <th>Mã CP</th>
                         <th>Sàn</th>
                         <th>Ngành HĐKD</th>
-                        <th>Cán bộ</th>
                         <th>Update time</th>
                         <th>Mô tả Mô hình kỹ thuật (Model)</th>
                         <th>Trạng thái Model</th>
@@ -4004,7 +4225,7 @@
     <div class="submenu-panel" id="panel-analysis-market">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Phân Tích Thị Trường</h2>
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Nghiên cứu thị trường</h2>
             <p>Demo chuyên mục bài viết chiến lược, dòng tiền và bối cảnh vĩ mô theo phong cách FinTop DATA.</p>
         </div>
 
@@ -4057,9 +4278,8 @@
                 </aside>
             </section>
 
-            <div class="market-section-bar"
-                style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                <div class="market-section-title">Bài viết</div>
+            <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                <div class="market-section-title">3 bài phân tích tiếp theo</div>
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
                     <input type="text" id="search-analysis-market" placeholder="Tìm kiếm bài viết..."
                         style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;"
@@ -4208,7 +4428,7 @@
     <div class="submenu-panel" id="panel-analysis-pro">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">PRO Analysis</h2>
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Nghiên cứu chuyên sâu</h2>
             <p>Báo cáo chiến lược chuyên sâu, kịch bản thị trường và danh mục cổ phiếu ưu tiên.</p>
         </div>
 
@@ -4272,9 +4492,8 @@
                 </aside>
             </section>
 
-            <div class="market-section-bar"
-                style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                <div class="market-section-title">Chiến lược & Kịch bản</div>
+            <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                <div class="market-section-title">3 bài nghiên cứu tiếp theo</div>
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
                     <input type="text" id="search-analysis-pro" placeholder="Tìm kiếm PRO..."
                         style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;"
@@ -4394,7 +4613,7 @@
     <div class="submenu-panel" id="panel-analysis-company">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Phân Tích Doanh Nghiệp</h2>
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Nghiên cứu Doanh nghiệp</h2>
             <p>Radar định giá, chất lượng tăng trưởng và báo cáo doanh nghiệp theo từng mã cổ phiếu.</p>
         </div>
 
@@ -4443,9 +4662,8 @@
                 </aside>
             </section>
 
-            <div class="market-section-bar"
-                style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                <div class="market-section-title">Doanh nghiệp nổi bật</div>
+            <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                <div class="market-section-title">3 bài nghiên cứu tiếp theo</div>
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
                     <input type="text" id="search-analysis-company" placeholder="Tìm mã CP..."
                         style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 150px; transition: border-color 0.2s;"
@@ -4559,7 +4777,7 @@
     <div class="submenu-panel" id="panel-analysis-sector">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">NCPT Ngành</h2>
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Nghiên cứu nhóm Ngành</h2>
             <p>Nghiên cứu phân tích ngành, bản đồ chu kỳ và dòng tiền theo nhóm cổ phiếu.</p>
         </div>
 
@@ -4601,9 +4819,8 @@
                 </aside>
             </section>
 
-            <div class="market-section-bar"
-                style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                <div class="market-section-title">Bản đồ ngành</div>
+            <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                <div class="market-section-title">3 bài nghiên cứu tiếp theo</div>
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
                     <input type="text" id="search-analysis-sector" placeholder="Tìm kiếm ngành..."
                         style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;"
@@ -4749,80 +4966,14 @@
     <div class="submenu-panel" id="panel-hoivien">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Hội Viên FinTop DATA</h2>
-            <p>Demo quyền truy cập theo các gói hội viên hiện có trên landing page và luồng đăng ký tương ứng.</p>
+            <h2 class="gradient-text" style="font-size: clamp(2.4rem, 5vw, 4.5rem);">Chọn Gói Hội Viên</h2>
+            <p>Nâng cấp trải nghiệm đầu tư của bạn ngay hôm nay</p>
         </div>
 
         <div class="function-shell">
-            <section class="function-hero">
-                <article class="function-card">
-                    <span class="function-kicker">Membership Access</span>
-                    <h3>Mỗi gói mở khóa một cấp độ dữ liệu, công cụ và chuyên gia khác nhau</h3>
-                    <p>
-                        STANDARD phù hợp để bắt đầu tra cứu và dùng dữ liệu cơ bản. PRO mở khóa bộ lọc, PRO Data và
-                        phân tích chuyên sâu. V.I.P bổ sung kết nối chuyên gia và liên kết tài khoản chứng khoán.
-                        DIAMOND dành cho nhu cầu cố vấn chiến lược 1-1.
-                    </p>
-                    <div class="function-actions">
-                        <button class="function-btn" onclick="openPricingModal('pro')">Đăng ký PRO</button>
-                        <button class="function-btn-ghost" onclick="openPricingModal('vip')">Liên kết V.I.P</button>
-                        <button class="function-btn-ghost" onclick="openPricingModal('diamond')">Cố vấn DIAMOND</button>
-                    </div>
-                </article>
+            <div class="pricing-grid panel-pricing-grid" id="panelMembershipPricingGrid" aria-label="Gói hội viên FinTop DATA"></div>
 
-                <aside class="function-card">
-                    <span class="function-kicker">Quy trình</span>
-                    <div class="function-metric-list">
-                        <div class="function-metric-row">
-                            <span>Tạo tài khoản</span>
-                            <div class="function-bar"><span style="--value: 100%;"></span></div>
-                            <strong>Free</strong>
-                        </div>
-                        <div class="function-metric-row">
-                            <span>Kích hoạt PRO</span>
-                            <div class="function-bar"><span style="--value: 78%;"></span></div>
-                            <strong>1-3d</strong>
-                        </div>
-                        <div class="function-metric-row">
-                            <span>Liên kết TKCK</span>
-                            <div class="function-bar"><span style="--value: 68%;"></span></div>
-                            <strong>VIP</strong>
-                        </div>
-                        <div class="function-metric-row">
-                            <span>Cố vấn 1-1</span>
-                            <div class="function-bar"><span style="--value: 92%;"></span></div>
-                            <strong>1 tỷ</strong>
-                        </div>
-                    </div>
-                </aside>
-            </section>
-
-            <div class="function-grid">
-                <article class="function-mini-card">
-                    <h4>STANDARD</h4>
-                    <p>Tra cứu cổ phiếu, phân tích cơ bản, FinTop AI và dữ liệu nền.</p>
-                    <div class="function-actions"><button class="function-btn-ghost"
-                            onclick="openPricingModal('standard')">Đăng ký</button></div>
-                </article>
-                <article class="function-mini-card">
-                    <h4>PRO</h4>
-                    <p>Bộ lọc CP chuyên nghiệp, nghiên cứu chuyên sâu, tool và dữ liệu nâng cao.</p>
-                    <div class="function-actions"><button class="function-btn" onclick="openPricingModal('pro')">Đăng
-                            ký</button></div>
-                </article>
-                <article class="function-mini-card">
-                    <h4>V.I.P</h4>
-                    <p>Full PRO, kết nối chuyên gia, phân tích chuyên gia và liên kết tài khoản chứng khoán.</p>
-                    <div class="function-actions"><button class="function-btn-ghost"
-                            onclick="openPricingModal('vip')">Đăng ký</button></div>
-                </article>
-                <article class="function-mini-card">
-                    <h4>DIAMOND</h4>
-                    <p>Full V.I.P, cố vấn 1-1 chuyên gia và hỗ trợ chiến lược danh mục theo NAV.</p>
-                    <div class="function-actions"><button class="function-btn"
-                            onclick="openPricingModal('diamond')">Đăng ký</button></div>
-                </article>
-            </div>
+            <section class="membership-flow-panel" id="membershipFlowPanel" aria-live="polite"></section>
         </div>
     </div>
 
@@ -5426,38 +5577,17 @@
             </div>
         </section>
 
-        <!-- PHẦN 3: THỐNG KÊ SỐ LIỆU -->
-        <section class="stats-section">
-            <div class="stat-item">
-                <h3 class="stat-number" data-target="1500" data-suffix="+">0</h3>
-                <p>Cổ phiếu được Cover</p>
-            </div>
-            <div class="stat-item">
-                <h3 class="stat-number" data-target="50" data-suffix="+">0</h3>
-                <p>Chuyên gia Thị trường</p>
-            </div>
-            <div class="stat-item">
-                <h3 class="stat-number" data-target="98" data-suffix="%">0</h3>
-                <p>Độ chính xác AI Model</p>
-            </div>
-        </section>
-
-        <!-- PHẦN 4: BẢNG GIÁ HỘI VIÊN -->
-        <section class="pricing-section" id="pricing">
-            <h2 class="gradient-text" style="position: relative; z-index: 1;">Chọn Gói Hội Viên</h2>
-            <p style="margin-top: 1rem; position: relative; z-index: 1;">Nâng cấp trải nghiệm đầu tư của bạn ngay hôm
-                nay
-            </p>
-
-            <div class="pricing-grid">
-                <!-- GÓI STANDARD - Xanh lam -->
-                <div class="pricing-card liquid-glass-card card-standard">
-                    <div class="pricing-title">STANDARD</div>
-                    <div class="pricing-subtitle" style="color: #7dd3fc;">(Tiêu chuẩn)</div>
-                    <ul class="pricing-features">
-                        <li><span class="check-icon">✦</span> Tra cứu CP</li>
-                        <li><span class="check-icon">✦</span> Phân tích cơ bản</li>
-                        <li><span class="check-icon">✦</span> Tool & Dữ liệu cơ bản</li>
+        <!-- PHÂN CẢNH 2: TÍNH NĂNG -->
+        <section class="scene scene-2">
+            <div class="ai-cube gradient-text">Dữ liệu đầu tư thế hệ mới</div>
+            <div class="panels-container">
+                <div class="panel">
+                    <h3 style="color:var(--text-primary); margin-bottom:1rem;">DATA</h3>
+                    <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
+                        <li>✓ Tra cứu Cổ phiếu</li>
+                        <li>✓ Bộ lọc Cổ phiếu</li>
+                        <li>✓ Phân tích định lượng</li>
+                        <li>✓ Stock Data</li>
                     </ul>
                     <button class="btn-tier" onclick="openPricingModal('standard')">Đăng ký</button>
                 </div>
@@ -5500,239 +5630,322 @@
             </div>
         </section>
 
-        <!-- PHẦN 5: ĐỘI NGŨ CHUYÊN GIA -->
-        <section class="team-section" id="team">
-            <h2 class="gradient-text" style="position: relative; z-index: 1;">Đội Ngũ Chuyên Gia</h2>
-            <p
-                style="margin-top: 1rem; position: relative; z-index: 1; color: #94A3B8; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-                Hợp tác cùng Chuyên gia trên nền tảng Công nghệ &amp; Dữ liệu FinTop DATA.
+    </div>
+
+    <!-- PHẦN 2.5: TRÌNH DIỄN GIAO DIỆN TERMINAL -->
+    <section class="product-showcase">
+        <div class="showcase-header">
+            <h2 class="gradient-text">Hệ sinh thái phân tích thông minh</h2>
+            <p>Đồng hành trên +10,000 nhà đầu tư tại Việt Nam làm chủ dòng tiền đầu tư thông minh bằng bộ công cụ dữ
+                liệu tiêu chuẩn quốc tế.</p>
+        </div>
+        <div class="showcase-mockup-wrapper">
+            <div id="showcase-vnindex-chart-container" class="showcase-fireant-chart"
+                aria-label="Biểu đồ tổng quan VNINDEX từ FireAnt">
+                <div class="fireant-widget-container" style="height:100%;width:100%">
+                    <div id="fireant_showcase_vnindex_host" class="fireant-chart-host" style="height:100%;width:100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PHẦN 3: THỐNG KÊ SỐ LIỆU -->
+    <section class="stats-section">
+        <div class="stat-item">
+            <h3 class="stat-number" data-target="1500" data-suffix="+">0</h3>
+            <p>Cổ phiếu được Cover</p>
+        </div>
+        <div class="stat-item">
+            <h3 class="stat-number" data-target="50" data-suffix="+">0</h3>
+            <p>Chuyên gia Thị trường</p>
+        </div>
+        <div class="stat-item">
+            <h3 class="stat-number" data-target="98" data-suffix="%">0</h3>
+            <p>Độ chính xác AI Model</p>
+        </div>
+    </section>
+
+    <!-- PHẦN 4: BẢNG GIÁ HỘI VIÊN -->
+    <section class="pricing-section" id="pricing">
+        <h2 class="gradient-text" style="position: relative; z-index: 1;">Chọn Gói Hội Viên</h2>
+        <p style="margin-top: 1rem; position: relative; z-index: 1;">Nâng cấp trải nghiệm đầu tư của bạn ngay hôm nay
+        </p>
+
+        <div class="pricing-grid">
+            <!-- GÓI STANDARD - Xanh lam -->
+            <div class="pricing-card liquid-glass-card card-standard">
+                <div class="pricing-title">STANDARD</div>
+                <div class="pricing-subtitle" style="color: #7dd3fc;">Tiêu chuẩn</div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✦</span> Tra cứu cổ phiếu</li>
+                    <li><span class="check-icon">✦</span> FinTop AI cơ bản</li>
+                    <li><span class="check-icon">✦</span> Dữ liệu nền</li>
+                    <li><span class="check-icon">✦</span> Hướng dẫn đầu tư</li>
+                    <li><span class="check-icon">✦</span> Miễn phí</li>
+                </ul>
+                <button class="btn-tier" onclick="submitStandard('register')">Đăng ký tài khoản</button>
+            </div>
+
+            <!-- GÓI PRO - Tím -->
+            <div class="pricing-card liquid-glass-card card-pro">
+                <div class="pricing-title">PRO ⭐</div>
+                <div class="pricing-subtitle" style="color: #c4b5fd;">Chuyên nghiệp</div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✦</span> Bộ lọc cổ phiếu chuyên nghiệp</li>
+                    <li><span class="check-icon">✦</span> PRO Data</li>
+                    <li><span class="check-icon">✦</span> PRO Research</li>
+                    <li><span class="check-icon">✦</span> Tool và dữ liệu nâng cao</li>
+                    <li><span class="check-icon">✦</span> PRO1/PRO2/PRO3</li>
+                </ul>
+                <button class="btn-tier" onclick="openPricingModal('pro')">Đăng ký PRO</button>
+            </div>
+
+            <!-- GÓI V.I.P - Xanh ngọc -->
+            <div class="pricing-card liquid-glass-card card-vip">
+                <div class="pricing-title">V.I.P</div>
+                <div class="pricing-subtitle" style="color: #6ee7b7;">Cao cấp</div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✦</span> Full PRO</li>
+                    <li><span class="check-icon">✦</span> Kết nối chuyên gia</li>
+                    <li><span class="check-icon">✦</span> Phân tích chuyên gia</li>
+                    <li><span class="check-icon">✦</span> Liên kết tài khoản chứng khoán</li>
+                    <li><span class="check-icon">✦</span> Theo liên kết TKCK</li>
+                </ul>
+                <button class="btn-tier" onclick="openPricingModal('vip')">Liên kết V.I.P</button>
+            </div>
+
+            <!-- GÓI DIAMOND - Vàng -->
+            <div class="pricing-card liquid-glass-card card-diamond">
+                <div class="pricing-title">DIAMOND 💎</div>
+                <div class="pricing-subtitle" style="color: #fcd34d;">Kim cương</div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✦</span> Full V.I.P</li>
+                    <li><span class="check-icon">✦</span> Cố vấn 1-1</li>
+                    <li><span class="check-icon">✦</span> Chiến lược danh mục theo NAV</li>
+                    <li><span class="check-icon">✦</span> Báo cáo định kỳ</li>
+                    <li><span class="check-icon">✦</span> NAV từ 1 tỷ</li>
+                </ul>
+                <button class="btn-tier" onclick="openPricingModal('diamond')">Cố vấn DIAMOND</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PHẦN 5: ĐỘI NGŨ CHUYÊN GIA -->
+    <section class="team-section" id="team">
+        <h2 class="gradient-text" style="position: relative; z-index: 1;">Đội ngũ Chuyên gia</h2>
+        <p
+            style="margin-top: 1rem; position: relative; z-index: 1; color: #94A3B8; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+            Hợp tác cùng Chuyên gia trên nền tảng Công nghệ &amp; Dữ liệu FinTop DATA.
+        </p>
+
+        <!-- Vòng tròn chuyên gia -->
+        <div class="team-circle-container">
+            <!-- Decorative elements -->
+            <div class="team-orbit-ring"></div>
+            <div class="team-center-glow"></div>
+
+            <!-- 1. CEO - Đỉnh vòng tròn -->
+            <div class="team-member">
+                <div class="team-avatar-wrapper avatar-gold">
+                    <img src="assets/images/anh_Hai.png" alt="Nguyễn Đình Hải" class="team-avatar">
+                </div>
+                <h3 class="team-name">Nguyễn Đình Hải (Mr)</h3>
+                <p class="team-role">Giám đốc NC&amp;PT Dữ liệu đầu tư</p>
+                <p class="team-desc">Nghiên cứu thị trường &amp; Quản trị chiến lược</p>
+            </div>
+
+            <!-- 2. Trái trên -->
+            <div class="team-member">
+                <div class="team-avatar-wrapper avatar-green">
+                    <img src="assets/images/anh_Phuc.png" alt="Nguyễn Thành Phúc" class="team-avatar"
+                        onerror="this.src='assets/images/placeholder.png'">
+                </div>
+                <h3 class="team-name">Nguyễn Thành Phúc (Mr)</h3>
+                <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
+                <p class="team-desc">Dữ liệu Doanh nghiệp &amp; Cổ phiếu</p>
+            </div>
+
+            <!-- 3. Phải trên -->
+            <div class="team-member">
+                <div class="team-avatar-wrapper avatar-cyan">
+                    <img src="assets/images/anh_Linh.png" alt="Trần Khánh Linh" class="team-avatar">
+                </div>
+                <h3 class="team-name">Trần Khánh Linh (Mr)</h3>
+                <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
+                <p class="team-desc">Doanh nghiệp &amp; Ngành kinh tế</p>
+            </div>
+
+            <!-- 4. Trái dưới -->
+            <div class="team-member">
+                <div class="team-avatar-wrapper avatar-pink">
+                    <img src="assets/images/chi_Hanh.png" alt="Nguyễn Minh Hạnh" class="team-avatar">
+                </div>
+                <h3 class="team-name">Nguyễn Minh Hạnh (Ms)</h3>
+                <p class="team-role">Chuyên gia NC&amp;PT Vĩ mô - Ngành</p>
+                <p class="team-desc">Thạc sĩ Kinh tế chiến lược (FSU JENA, Đức)</p>
+            </div>
+
+            <!-- 5. Phải dưới -->
+            <div class="team-member">
+                <div class="team-avatar-wrapper avatar-purple">
+                    <img src="assets/images/anh_Dung.png" alt="Mai Tiến Dũng" class="team-avatar">
+                </div>
+                <h3 class="team-name">Mai Tiến Dũng (Mr)</h3>
+                <p class="team-role">Chuyên gia NC&amp;PT Doanh nghiệp</p>
+                <p class="team-desc">Thạc sĩ Tài chính số - FinTech (Loughborough Uni, Anh)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: GIỚI THIỆU FINTOP -->
+    <section class="about-section" id="about">
+        <h2 class="gradient-text" style="position: relative; z-index: 1;">Giới thiệu FINTOP</h2>
+        <div class="about-description">
+            <p>
+                <strong style="color: #c084fc;">Công Ty TNHH Đầu Tư & Phát Triển FINTOP</strong> là doanh nghiệp
+                <span class="about-highlight-fintech">Fintech &amp; Data</span> hoạt động và định hướng phát triển trong lĩnh vực
+                <strong style="color: #38bdf8;">Công nghệ Tài chính</strong>,
+                Nghiên cứu - Phân tích - Xử lý - Xuất bản Dữ liệu với các
+                <strong style="color: #f59e0b;">"Mô hình tiên tiến" (Model)</strong> chuẩn hóa cho hiệu quả cao,
+                ứng dụng <strong style="color: #34d399;">"Công nghệ AI"</strong> trong phân tích, nghiên cứu cùng
+                Đội ngũ Chuyên gia giàu kinh nghiệm nhằm mang đến những công cụ và dữ liệu bổ trợ mạnh mẽ
+                cho hoạt động phân tích, nghiên cứu và ra quyết định đầu tư.
             </p>
 
-            <!-- Vòng tròn chuyên gia -->
-            <div class="team-circle-container">
-                <!-- Decorative elements -->
-                <div class="team-orbit-ring"></div>
-                <div class="team-center-glow"></div>
-
-                <!-- 1. CEO - Đỉnh vòng tròn -->
-                <div class="team-member">
-                    <div class="team-avatar-wrapper avatar-gold">
-                        <img src="assets/images/anh_Hai.png" alt="Nguyễn Đình Hải" class="team-avatar">
-                    </div>
-                    <h3 class="team-name">Nguyễn Đình Hải (Mr)</h3>
-                    <p class="team-role">Giám đốc NC&amp;PT Dữ liệu đầu tư</p>
-                    <p class="team-desc">Nghiên cứu thị trường &amp; Quản trị chiến lược</p>
+        <!-- Thẻ Đánh Giá Từ Người Dùng -->
+        <div class="testimonial-grid">
+            <div class="testimonial-card testimonial-cyan">
+                <div class="testimonial-quote">
+                    <span class="quote-mark">&ldquo;</span>
+                    FinTop là đơn vị uy tín, chuyên nghiệp, cung cấp công cụ dữ liệu thông minh, thông tin hiệu quả cho
+                    nhà đầu tư và cả các chuyên gia. Cách làm việc chuyên nghiệp, Đội ngũ FINTOP với kinh nghiệm dày
+                    dạn, nghiên cứu chuyên sâu đã hỗ trợ cung cấp những thông tin và dữ liệu ưu việt cho chuyên gia và
+                    các nhà đầu tư để hoạch định chiến lược giao dịch tối ưu, đầu tư đạt hiệu quả cao. Dữ liệu từ FinTop
+                    DATA sẽ là một sự đồng hành tuyệt vời giúp nhà đầu tư hoàn toàn làm chủ hoạt động nghiên cứu, phân
+                    tích và đầu tư của mình.
+                    <span class="quote-mark">&rdquo;</span>
                 </div>
-
-                <!-- 2. Phải trên -->
-                <div class="team-member">
-                    <div class="team-avatar-wrapper avatar-cyan">
-                        <img src="assets/images/anh_Linh.png" alt="Trần Khánh Linh" class="team-avatar">
-                    </div>
-                    <h3 class="team-name">Trần Khánh Linh (Mr)</h3>
-                    <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
-                    <p class="team-desc">Doanh nghiệp &amp; Ngành kinh tế</p>
-                </div>
-
-                <!-- 3. Phải dưới -->
-                <div class="team-member">
-                    <div class="team-avatar-wrapper avatar-green">
-                        <img src="assets/images/anh_Phuc.png" alt="Nguyễn Thành Phúc" class="team-avatar"
-                            onerror="this.src='assets/images/placeholder.png'">
-                    </div>
-                    <h3 class="team-name">Nguyễn Thành Phúc (Mr)</h3>
-                    <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
-                    <p class="team-desc">Dữ liệu Doanh nghiệp &amp; Cổ phiếu</p>
-                </div>
-
-                <!-- 4. Trái dưới -->
-                <div class="team-member">
-                    <div class="team-avatar-wrapper avatar-pink">
-                        <img src="assets/images/chi_Hanh.png" alt="Nguyễn Minh Hạnh" class="team-avatar">
-                    </div>
-                    <h3 class="team-name">Nguyễn Minh Hạnh (Ms)</h3>
-                    <p class="team-role">Chuyên gia NC&amp;PT Vĩ mô - Ngành</p>
-                    <p class="team-desc">Thạc sĩ Kinh tế chiến lược (FSU JENA, Đức)</p>
-                </div>
-
-                <!-- 5. Trái trên -->
-                <div class="team-member">
-                    <div class="team-avatar-wrapper avatar-purple">
-                        <img src="assets/images/anh_Dung.png" alt="Mai Tiến Dũng" class="team-avatar">
-                    </div>
-                    <h3 class="team-name">Mai Tiến Dũng (Mr)</h3>
-                    <p class="team-role">Chuyên gia NC&amp;PT Doanh nghiệp</p>
-                    <p class="team-desc">Thạc sĩ Tài chính số - FinTech (Loughborough Uni, Anh)</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 6: GIỚI THIỆU FINTOP -->
-        <section class="about-section" id="about">
-            <h2 class="gradient-text" style="position: relative; z-index: 1;">Giới Thiệu FINTOP</h2>
-            <div class="about-description">
-                <p>
-                    <strong style="color: #c084fc;">Công Ty TNHH Đầu Tư & Phát Triển FINTOP</strong> là doanh nghiệp
-                    <em>Fintech & Data</em> hoạt động và định hướng phát triển trong lĩnh vực
-                    <strong style="color: #38bdf8;">Công nghệ Tài chính</strong>,
-                    Nghiên cứu - Phân tích - Xử lý - Xuất bản Dữ liệu với các
-                    <strong style="color: #f59e0b;">"Mô hình tiên tiến" (Model)</strong> chuẩn hóa cho hiệu quả cao,
-                    ứng dụng <strong style="color: #34d399;">"Công nghệ AI"</strong> trong phân tích, nghiên cứu cùng
-                    Đội ngũ Chuyên gia giàu kinh nghiệm nhằm mang đến những công cụ và dữ liệu bổ trợ mạnh mẽ
-                    cho hoạt động phân tích, nghiên cứu và ra quyết định đầu tư.
-                </p>
-                <p style="margin-top: 1rem;">
-                    FINTOP không ngừng mở rộng, hợp tác phát triển, cung cấp các sản phẩm/dịch vụ trọng yếu,
-                    đa dạng về dữ liệu cho thị trường <strong style="color: #c084fc;">Tài chính & Đầu tư</strong>.
-                </p>
-            </div>
-
-            <!-- Thẻ Đánh Giá Từ Người Dùng -->
-            <div class="testimonial-grid">
-                <div class="testimonial-card testimonial-cyan">
-                    <div class="testimonial-quote">
-                        <span class="quote-mark">&ldquo;</span>
-                        FinTop là đơn vị uy tín chuyên cung cấp dữ liệu, kiến thức thực tế, chiến lược đầu tư và các báo
-                        cáo
-                        phân tích kịp thời, vô cùng hữu dụng cho nhà đầu tư và cả các chuyên gia về chứng khoán. Với
-                        chiến
-                        lược và cách làm chuyên nghiệp, đặc biệt Đội ngũ FinTop với nhiều năm kinh nghiệm trên thị
-                        trường sẽ
-                        giúp nhà đầu tư tối ưu hiệu quả và đạt được lợi nhuận tốt nhất trong quá trình giao dịch. Với sự
-                        hỗ
-                        trợ từ FinTop nhà đầu tư sẽ thông thái, chủ động với việc đầu tư và kỷ luật với chiến lược giao
-                        dịch
-                        đã đề ra.
-                        <span class="quote-mark">&rdquo;</span>
-                    </div>
-                    <div class="testimonial-author">
-                        <img src="assets/images/anh_Long.png" alt="Anh Lê Văn Long" class="testimonial-avatar">
-                        <div>
-                            <h4 class="testimonial-name">Anh Lê Văn Long</h4>
-                            <p class="testimonial-role">Giám đốc Tư vấn đầu tư — Công ty Cổ phần Chứng khoán VPS</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card testimonial-pink">
-                    <div class="testimonial-quote">
-                        <span class="quote-mark">&ldquo;</span>
-                        FINTOP là nơi tập hợp tinh hoa của đội ngũ chuyên gia trẻ, năng động, có kinh nghiệm thực chiến
-                        trên
-                        thị trường chứng khoán, vừa có kiến thức chuyên sâu về phân tích cơ bản và vừa có độ nhạy bén
-                        trong
-                        phân tích kỹ thuật. Đây là một trang web uy tín, đáng tin cậy, giúp cung cấp các phân tích và
-                        cập
-                        nhật thị trường, chọn lọc cổ phiếu. Ngoài ra, đội ngũ chuyên gia của FINTOP cũng thường xuyên
-                        cung
-                        cấp các phân tích chiến lược đầu tư hay có các báo cáo phân tích ngành và phân tích doanh
-                        nghiệp,
-                        giúp cho nhà đầu tư có căn cứ để đưa ra các quyết định đầu tư sáng suốt. Nếu nhà đầu tư chưa có
-                        nhiều kiến thức, kinh nghiệm, hoặc không có nhiều thời gian để tìm hiểu và nghiên cứu về chứng
-                        khoán
-                        thì FINTOP chính là người đồng hành tuyệt vời của nhà đầu tư.
-                        <span class="quote-mark">&rdquo;</span>
-                    </div>
-                    <div class="testimonial-author">
-                        <img src="assets/images/chi_Helena.png" alt="Chị Helena Hạnh Đặng" class="testimonial-avatar">
-                        <div>
-                            <h4 class="testimonial-name">Chị Helena Hạnh Đặng</h4>
-                            <p class="testimonial-role">Chuyên gia Đào tạo Tài chính cá nhân — Khách hàng đối tác</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card testimonial-green">
-                    <div class="testimonial-quote">
-                        <span class="quote-mark">&ldquo;</span>
-                        FinTop là một đội ngũ chuyên nghiệp, không ngừng nghiên cứu, học hỏi, cầu thị và luôn luôn lắng
-                        nghe
-                        khách hàng, đối tác. Những báo cáo phân tích, đánh giá của Team mang lại nhiều hữu ích cho mình
-                        là
-                        một người công tác trong lĩnh vực Tài chính với các báo cáo phân tích ngành, dữ liệu kinh tế vĩ
-                        mô,
-                        phân tích đánh giá doanh nghiệp. Đặc biệt có phần tra cứu xu hướng cổ phiếu rất hay bên cạnh
-                        chia sẻ
-                        cẩm nang, phương pháp đầu tư để mọi người cùng tìm hiểu. Chúc FinTop Team sẽ tiếp tục phát huy
-                        và
-                        luôn có những báo cáo phân tích chất lượng nhất đến khách hàng.
-                        <span class="quote-mark">&rdquo;</span>
-                    </div>
-                    <div class="testimonial-author">
-                        <img src="assets/images/chi_Lich.png" alt="Chị Trần Thị Hồng Lịch" class="testimonial-avatar">
-                        <div>
-                            <h4 class="testimonial-name">Chị Trần Thị Hồng Lịch</h4>
-                            <p class="testimonial-role">Nhà Đầu Tư — Khách Hàng Đối Tác FinTop</p>
-                        </div>
-                    </div>
-                </div>
-
-        </section>
-
-        <footer style="position: relative; z-index: 10; background: #07070D;">
-            <div class="footer-grid">
-                <div>
-                    <h2 class="logo">FinTop DATA</h2>
-                    <p style="margin-top: 1rem;">Nơi hội tụ Data - Chuyên gia - Công nghệ &amp; AI.</p>
-                </div>
-                <div>
-                    <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Sản phẩm</h4>
-                    <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-                        <a href="hoi-vien/index.html">Hội Viên</a>
-                        <a href="fintop-data/index.html">FinTop Data</a>
-                        <a href="chuyen-gia/index.html">Chuyên Gia</a>
-                        <a href="fintop-ai/index.html">FinTop AI</a>
-                        <a href="stock-data/index.html">Stock Data</a>
-                        <a href="huong-dan/index.html">Hướng Dẫn</a>
-                    </div>
-                </div>
-                <div>
-                    <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Liên hệ</h4>
-                    <div style="display: flex; flex-direction: column; gap: 0.6rem; color: #94A3B8;">
-                        <p style="display: flex; align-items: center; gap: 6px;"><img
-                                src="assets/images/icons8-phone-color-hand-drawn-favicons/web/icons8-phone-color-hand-drawn-32.png"
-                                alt="Phone" width="20" height="20" style="vertical-align: middle;"> Hotline: <a
-                                href="tel:0862348886" style="color: #c084fc;">086.234.8886</a></p>
-                        <p style="display: flex; align-items: center; gap: 6px;">📧 Email: <a
-                                href="mailto:DVKH@fintopdata.vn" style="color: #c084fc;">DVKH@fintopdata.vn</a></p>
-                        <p style="display: flex; align-items: center; gap: 6px;">📍 65 Ô Chợ Dừa, Đống Đa, Hà Nội</p>
-                    </div>
-                </div>
-                <div style="text-align: center;">
-                    <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Tải ứng dụng</h4>
-                    <div style="display: flex; flex-direction: column; gap: 0.8rem; align-items: center;">
-                        <a href="#"
-                            style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
-                            <img src="assets/images/icons8-app-store-color-favicons/web/icons8-app-store-color-32.png"
-                                alt="App Store" width="20" height="20"> App Store
-                        </a>
-                        <a href="#"
-                            style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
-                            <img src="assets/images/icons8-google-play-windows-11-color-favicons/web/icons8-google-play-windows-11-color-32.png"
-                                alt="Google Play" width="20" height="20"> Google Play
-                        </a>
-                        <div
-                            style="margin-top: 0.5rem; background: #fff; border-radius: 8px; padding: 8px; display: inline-block;">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&amp;data=https://zalo.me/fintopdata"
-                                alt="QR Zalo" width="80" height="80" style="display: block;">
-                        </div>
-                        <span
-                            style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem; color: #94A3B8;"><img
-                                src="assets/images/icons8-zalo-color-hand-drawn-favicons/web/icons8-zalo-color-hand-drawn-32.png"
-                                alt="Zalo" width="18" height="18"> Zalo FinTop</span>
+                <div class="testimonial-author">
+                    <img src="assets/images/anh_Long.png" alt="Anh Lê Văn Long" class="testimonial-avatar">
+                    <div class="testimonial-author-info">
+                        <h4 class="testimonial-name">(Anh) Lê Văn Long</h4>
+                        <p class="testimonial-role">Giám đốc Tư vấn đầu tư</p>
+                        <p class="testimonial-org">CTCP Chứng khoán VPS</p>
                     </div>
                 </div>
             </div>
-            <div
-                style="max-width: 1200px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
-                <p>© 2026 FinTop DATA. All rights reserved.</p>
+
+            <div class="testimonial-card testimonial-pink">
+                <div class="testimonial-quote">
+                    <span class="quote-mark">&ldquo;</span>
+                    FINTOP là nơi tập hợp tinh hoa của đội ngũ chuyên gia trẻ, năng động, kiến thức chuyên sâu và am
+                    hiểu trong lĩnh vực nghiên cứu thị trường. Sản phẩm Team với những nghiên cứu, công cụ và dữ liệu
+                    đầu tư hiệu quả, hỗ trợ đắc lực cho khách hàng và đối tác trong hoạt động nghiên cứu thị trường. Đây
+                    là một trang web uy tín, đáng tin cậy, giúp cung cấp dữ liệu phân tích, thông tin thị trường, bộ lọc
+                    cổ phiếu. Ngoài ra, còn có các dữ liệu nghiên cứu chuyên sâu về ngành và các doanh nghiệp, giúp cho
+                    nhà đầu tư có căn cứ để hiểu rõ về doanh nghiệp và đưa ra các quyết định đầu tư sáng suốt. Nếu nhà
+                    đầu tư chưa có nhiều kiến thức, kinh nghiệm, hoặc không có nhiều thời gian để tìm hiểu và nghiên cứu
+                    thì FINTOP chính là người đồng hành tuyệt vời.
+                    <span class="quote-mark">&rdquo;</span>
+                </div>
+                <div class="testimonial-author">
+                    <img src="assets/images/chi_Helena.png" alt="Chị Helena Hạnh Đặng" class="testimonial-avatar">
+                    <div class="testimonial-author-info">
+                        <h4 class="testimonial-name">(Chị) Helena Hạnh Đặng</h4>
+                        <p class="testimonial-role">Khách hàng Đối tác</p>
+                        <p class="testimonial-org">Chuyên gia Đào tạo Tài chính</p>
+                    </div>
+                </div>
             </div>
-            <div class="footer-disclaimer">
-                <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu
-                tư.
-                Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
+
+            <div class="testimonial-card testimonial-green">
+                <div class="testimonial-quote">
+                    <span class="quote-mark">&ldquo;</span>
+                    FinTop là một đơn vị chuyên nghiệp, không ngừng nghiên cứu phát triển, học hỏi và cầu thị, luôn luôn
+                    lắng nghe khách hàng, đối tác. Những dữ liệu phân tích, thông tin chuyên sâu đã mang lại nhiều hữu
+                    ích cho mình là một người công tác trong lĩnh vực Tài chính với dữ liệu kinh tế vĩ mô, nghiên cứu về
+                    ngành và doanh nghiệp. Đặc biệt có phần tra cứu xu hướng vận động cổ phiếu của các doanh nghiệp rất
+                    hay và hiệu quả bên cạnh chia sẻ những cẩm nang, kiến thức, tài liệu và phương pháp nghiên cứu để
+                    mọi người cùng tìm hiểu. Chúc FinTop Team sẽ tiếp tục phát huy và luôn có những sản phẩm chất lượng
+                    nhất đến khách hàng.
+                    <span class="quote-mark">&rdquo;</span>
+                </div>
+                <div class="testimonial-author">
+                    <img src="assets/images/chi_Lich.png" alt="Chị Trần Thị Hồng Lịch" class="testimonial-avatar">
+                    <div class="testimonial-author-info">
+                        <h4 class="testimonial-name">(Chị) Trần Thị Hồng Lịch</h4>
+                        <p class="testimonial-role">Nhà đầu tư</p>
+                        <p class="testimonial-org">Khách hàng Đối tác FINTOP</p>
+                    </div>
+                </div>
             </div>
-        </footer>
+
+        </div>
+    </section>
+
+    <footer style="position: relative; z-index: 10; background: #07070D;">
+        <div class="footer-grid">
+            <div>
+                <h2 class="logo">FinTop DATA</h2>
+                <p style="margin-top: 1rem;">Nơi hội tụ Data - Chuyên gia - Công nghệ &amp; AI.</p>
+            </div>
+            <div>
+                <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Sản phẩm</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                    <a href="javascript:void(0)" onclick="openPanel('panel-hoivien', this)">Hội viên</a>
+                    <a href="javascript:void(0)" onclick="openPanel('panel-tracuu', this)">FinTop Data</a>
+                    <a href="javascript:void(0)" onclick="openPanel('panel-analysis-market', this)">Nghiên cứu</a>
+                    <a href="javascript:void(0)" onclick="openPanel('panel-stock-quant', this)">Dữ liệu</a>
+                    <a href="javascript:void(0)" onclick="openPanel('panel-guide-trading', this)">Hướng dẫn</a>
+                </div>
+            </div>
+            <div>
+                <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Liên hệ</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.6rem; color: #94A3B8;">
+                    <p style="display: flex; align-items: center; gap: 6px;"><img
+                            src="assets/images/icons8-phone-color-hand-drawn-favicons/web/icons8-phone-color-hand-drawn-32.png"
+                            alt="Phone" width="20" height="20" style="vertical-align: middle;"> Hotline: <a
+                            href="tel:0862348886" style="color: #c084fc;">086.234.8886</a></p>
+                    <p style="display: flex; align-items: center; gap: 6px;">📧 Email: <a
+                            href="mailto:DVKH@fintopdata.vn" style="color: #c084fc;">DVKH@fintopdata.vn</a></p>
+                    <p style="display: flex; align-items: center; gap: 6px;">📍 65 Ô Chợ Dừa, Đống Đa, Hà Nội</p>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Tải ứng dụng</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; align-items: center;">
+                    <a href="#"
+                        style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
+                        <img src="assets/images/icons8-app-store-color-favicons/web/icons8-app-store-color-32.png"
+                            alt="App Store" width="20" height="20"> App Store
+                    </a>
+                    <a href="#"
+                        style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 16px; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none;">
+                        <img src="assets/images/icons8-google-play-windows-11-color-favicons/web/icons8-google-play-windows-11-color-32.png"
+                            alt="Google Play" width="20" height="20"> Google Play
+                    </a>
+                    <div
+                        style="margin-top: 0.5rem; background: #fff; border-radius: 8px; padding: 8px; display: inline-block;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&amp;data=https://zalo.me/fintopdata"
+                            alt="QR Zalo" width="80" height="80" style="display: block;">
+                    </div>
+                    <span
+                        style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem; color: #94A3B8;"><img
+                            src="assets/images/icons8-zalo-color-hand-drawn-favicons/web/icons8-zalo-color-hand-drawn-32.png"
+                            alt="Zalo" width="18" height="18"> Zalo FinTop</span>
+                </div>
+            </div>
+        </div>
+        <div
+            style="max-width: 1200px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+            <p>© 2026 FinTop DATA. All rights reserved.</p>
+        </div>
+        <div class="footer-disclaimer">
+            <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư.
+            Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
+        </div>
+    </footer>
     </div>
 
     <script src="data/stock-search-data.js"></script>
@@ -5804,13 +6017,14 @@
         function toggleDropdownPin(dropdownId) {
             const dropdown = document.getElementById(dropdownId);
             const dc = dropdown.querySelector('.dropdown-content');
+            const shouldPin = !dc.classList.contains('pinned');
 
             // Close other dropdowns
             document.querySelectorAll('.dropdown-content.pinned').forEach(d => {
                 if (d !== dc) d.classList.remove('pinned');
             });
 
-            dc.classList.toggle('pinned');
+            dc.classList.toggle('pinned', shouldPin);
         }
 
         // Open content panel
@@ -5870,8 +6084,14 @@
             // Mark clicked link active
             if (clickedLink) clickedLink.classList.add('active-submenu');
 
-            // Unpin all dropdown menus to close them when entering a subpage
-            document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('pinned'));
+            // Keep the parent submenu pinned when opening a panel from a submenu item.
+            const parentDropdownContent = clickedLink ? clickedLink.closest('.dropdown-content') : null;
+            if (parentDropdownContent) {
+                document.querySelectorAll('.dropdown-content.pinned').forEach((d) => {
+                    if (d !== parentDropdownContent) d.classList.remove('pinned');
+                });
+                parentDropdownContent.classList.add('pinned');
+            }
 
             // Auto-render Bộ lọc table on first open
             if (panelId === 'panel-boloc' && !bolocRendered) {
@@ -6190,7 +6410,7 @@
             if (BOLOC_DATA.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="12" style="text-align: center; color: #94A3B8; padding: 24px;">
+                        <td colspan="11" style="text-align: center; color: #94A3B8; padding: 24px;">
                             Chưa tải được dữ liệu bộ lọc cổ phiếu.
                         </td>
                     </tr>
@@ -6210,7 +6430,6 @@
                     <td class="ticker-cell">${d.ticker}</td>
                     <td>${d.san}</td>
                     <td>${d.nganh}</td>
-                    <td class="officer-cell">${d.canBo}</td>
                     <td class="time-cell">${d.time}</td>
                     <td class="desc-cell">${d.desc}</td>
                     <td>${statusMarkup}</td>
@@ -6310,6 +6529,122 @@
                 .filter(Boolean);
         }
 
+        function selectMembershipAction(action, clickedCard) {
+            const flows = {
+                free: {
+                    title: 'Đăng ký tài khoản FinTop DATA miễn phí',
+                    copy: 'Tạo tài khoản miễn phí để lưu danh sách theo dõi, sử dụng các công cụ cơ bản và nhận hỗ trợ khi cần nâng cấp trải nghiệm đầu tư.',
+                    actionLabel: 'Đăng ký tài khoản',
+                    action: "submitStandard('register')",
+                    approval: false,
+                    steps: [
+                        {
+                            label: 'Tạo tài khoản',
+                            body: 'Nhấn đăng ký, điền thông tin cơ bản và xác nhận tài khoản FinTop DATA miễn phí.'
+                        },
+                        {
+                            label: 'Bắt đầu sử dụng',
+                            body: 'Sau khi đăng ký thành công, bạn có thể dùng các tính năng miễn phí và nâng cấp gói khi có nhu cầu.'
+                        }
+                    ],
+                    summary: 'Thông tin đăng ký giúp FinTop hỗ trợ tài khoản và gửi thông báo dịch vụ phù hợp.'
+                },
+                pro: {
+                    title: 'Đăng ký gói PRO FinTop DATA',
+                    copy: 'Gói PRO dành cho khách hàng muốn mở khóa bộ lọc cổ phiếu chuyên nghiệp, dữ liệu PRO và báo cáo nghiên cứu chuyên sâu. Bạn chỉ cần đăng nhập, chọn gói phù hợp và hoàn tất thanh toán theo hướng dẫn.',
+                    actionLabel: 'Đăng ký PRO',
+                    action: "openPricingModal('pro')",
+                    approval: true,
+                    approvalNote: 'FinTop sẽ thông báo ngay khi quyền PRO được kích hoạt.',
+                    steps: [
+                        {
+                            label: 'Đăng nhập tài khoản',
+                            body: 'Nếu chưa đăng nhập, bạn sẽ được yêu cầu đăng nhập hoặc tạo tài khoản FinTop DATA trước khi đăng ký PRO.'
+                        },
+                        {
+                            label: 'Chọn gói & thanh toán',
+                            body: 'Chọn gói PRO phù hợp, xác nhận thông tin và hoàn tất thanh toán để FinTop xử lý kích hoạt.'
+                        }
+                    ],
+                    summary: 'Sau khi thanh toán được xác nhận, FinTop sẽ kích hoạt quyền PRO cho tài khoản của bạn.'
+                },
+                vip: {
+                    title: 'Liên kết tài khoản chứng khoán (ID FinTop)',
+                    copy: 'Gói V.I.P dành cho khách hàng muốn kết nối chuyên gia và sử dụng quyền lợi nâng cao thông qua tài khoản chứng khoán liên kết với FinTop.',
+                    actionLabel: 'Liên kết V.I.P',
+                    action: "openPricingModal('vip')",
+                    approval: true,
+                    approvalNote: 'FinTop sẽ thông báo khi tài khoản V.I.P được xác nhận.',
+                    steps: [
+                        {
+                            label: 'Mở hoặc chọn tài khoản chứng khoán',
+                            list: ['Mở tài khoản VPS theo FinTop ID BOJE nếu bạn chưa có tài khoản phù hợp.', 'Hoặc mở tài khoản TCBS theo ID 105CN48886.']
+                        },
+                        {
+                            label: 'Gửi thông tin liên kết',
+                            list: ['Nhập số tài khoản chứng khoán cần liên kết.', 'Chọn công ty chứng khoán tương ứng.', 'Gửi thông tin để FinTop kiểm tra và xác nhận.']
+                        }
+                    ],
+                    summary: 'Sau khi thông tin được xác nhận, tài khoản của bạn sẽ được mở quyền lợi V.I.P tương ứng.'
+                },
+                diamond: {
+                    title: 'Liên kết tài khoản Diamond (NAV từ 1 tỷ VND)',
+                    copy: 'Gói Diamond dành cho khách hàng có NAV từ 1 tỷ VND và cần đồng hành chuyên sâu về chiến lược danh mục, báo cáo định kỳ và cố vấn 1-1.',
+                    actionLabel: 'Liên kết Diamond',
+                    action: "openPricingModal('diamond')",
+                    approval: true,
+                    approvalNote: 'FinTop sẽ liên hệ để xác nhận thông tin và kích hoạt dịch vụ Diamond.',
+                    steps: [
+                        {
+                            label: 'Chuẩn bị tài khoản chứng khoán',
+                            list: ['Mở tài khoản VPS theo FinTop ID BOJE nếu bạn chưa có tài khoản phù hợp.', 'Hoặc mở tài khoản TCBS theo ID 105CN48886.']
+                        },
+                        {
+                            label: 'Gửi thông tin Diamond',
+                            list: ['Nhập số tài khoản chứng khoán cần liên kết.', 'Cung cấp công ty chứng khoán và thông tin NAV.', 'Gửi thông tin để đội ngũ FinTop xác nhận.']
+                        }
+                    ],
+                    summary: 'Sau khi xác nhận đủ điều kiện, FinTop sẽ mở quyền Diamond và sắp xếp kênh hỗ trợ riêng cho bạn.'
+                }
+            };
+            const flow = flows[action] || flows.free;
+            const panel = document.getElementById('membershipFlowPanel');
+            if (!panel) return;
+
+            document.querySelectorAll('.membership-action-card, .pricing-card[data-membership-action]').forEach((card) => {
+                card.classList.toggle('active', card === clickedCard || (!clickedCard && card.dataset.membershipAction === action));
+            });
+
+            const stepsMarkup = flow.steps.map((step) => {
+                const body = step.list
+                    ? `<ul>${step.list.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
+                    : `<p>${escapeHtml(step.body || '')}</p>`;
+                return `
+                    <article class="membership-step">
+                        <strong>${escapeHtml(step.label)}</strong>
+                        ${body}
+                    </article>
+                `;
+            }).join('');
+
+            panel.innerHTML = `
+                <div class="membership-flow-head">
+                    <div>
+                        <div class="membership-flow-title">${escapeHtml(flow.title)}</div>
+                        <div class="membership-flow-copy">${escapeHtml(flow.copy)}</div>
+                    </div>
+                    <button class="function-btn" type="button" onclick="${flow.action}">${escapeHtml(flow.actionLabel)}</button>
+                </div>
+                <div class="membership-step-grid">${stepsMarkup}</div>
+                <div class="membership-user-summary">
+                    ${escapeHtml(flow.summary)}
+                    ${flow.approval ? `<div class="membership-approval-note" style="margin-top: 8px;">${escapeHtml(flow.approvalNote || 'FinTop sẽ thông báo khi gói được kích hoạt.')}</div>` : ''}
+                </div>
+            `;
+        }
+
+        window.selectMembershipAction = selectMembershipAction;
+
         function makeInitials(name) {
             return String(name || 'FT')
                 .split(/\s+/)
@@ -6371,10 +6706,22 @@
             return row.status !== 'Nháp' && row.status !== 'Chờ duyệt';
         }
 
+        function parseResearchTimestamp(value) {
+            const raw = String(value || '').trim();
+            const match = raw.match(/(?:(\d{1,2}):(\d{2})\s+)?(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+            if (!match) return 0;
+            const hour = Number(match[1] || 0);
+            const minute = Number(match[2] || 0);
+            const day = Number(match[3] || 1);
+            const month = Number(match[4] || 1) - 1;
+            const year = Number(match[5] || 1970);
+            return new Date(year, month, day, hour, minute).getTime();
+        }
+
         function getResearchBySection(section) {
             return RESEARCH_DATA
                 .filter((row) => row.section === section && researchIsPublished(row))
-                .sort((a, b) => String(b.publishTime || '').localeCompare(String(a.publishTime || ''), 'vi'));
+                .sort((a, b) => parseResearchTimestamp(b.publishTime) - parseResearchTimestamp(a.publishTime));
         }
 
         function getMarketCategory(row) {
@@ -6449,68 +6796,121 @@
             `;
         }
 
+        function updateFeaturedResearch(panelSelector, articles) {
+            if (!articles.length) return;
+            const featured = articles[0];
+            const panel = document.querySelector(panelSelector);
+            if (!panel) return;
+
+            const title = panel.querySelector('.market-featured-title');
+            const copy = panel.querySelector('.market-featured-copy');
+            const meta = panel.querySelector('.market-featured .market-meta');
+            const kicker = panel.querySelector('.market-featured .market-kicker');
+            const detailLink = panel.querySelector('.market-featured .market-primary-link');
+
+            if (kicker) kicker.textContent = featured.category || featured.section || 'Research';
+            if (title) title.textContent = featured.title;
+            if (copy) copy.textContent = featured.excerpt || '';
+            if (detailLink) detailLink.setAttribute('href', featured.link || 'chuyen-gia/index.html');
+            if (meta) {
+                meta.innerHTML = `
+                    <span>${escapeHtml(featured.author || 'FinTop Research')}</span>
+                    <span>${escapeHtml(featured.publishTime || '')}</span>
+                    <span>${escapeHtml(featured.status || 'Đã đăng')}</span>
+                `;
+            }
+        }
+
         function renderResearchPanels() {
             if (RESEARCH_DATA.length === 0) return;
 
             const marketArticles = getResearchBySection('Thị trường');
             const marketList = document.querySelector('#panel-analysis-market .market-article-list');
             if (marketList && marketArticles.length > 0) {
-                marketList.innerHTML = marketArticles.map(buildMarketArticleCard).join('');
-                const featured = marketArticles[0];
-                const title = document.querySelector('#panel-analysis-market .market-featured-title');
-                const copy = document.querySelector('#panel-analysis-market .market-featured-copy');
-                const meta = document.querySelector('#panel-analysis-market .market-featured .market-meta');
-                if (title) title.textContent = featured.title;
-                if (copy) copy.textContent = featured.excerpt || '';
-                if (meta) {
-                    meta.innerHTML = `
-                        <span>${escapeHtml(featured.author || 'FinTop Research')}</span>
-                        <span>${escapeHtml(featured.publishTime || '')}</span>
-                        <span>${escapeHtml(featured.status || 'Đã đăng')}</span>
-                    `;
-                }
+                updateFeaturedResearch('#panel-analysis-market', marketArticles);
+                const nextArticles = marketArticles.slice(1, 4);
+                marketList.innerHTML = nextArticles.map(buildMarketArticleCard).join('');
                 const count = document.getElementById('marketArticleCount');
-                if (count) count.textContent = `Có tất cả ${marketArticles.length}/${marketArticles.length} bài viết`;
+                if (count) count.textContent = `Hiển thị ${nextArticles.length}/${Math.max(marketArticles.length - 1, 0)} bài viết tiếp theo`;
             }
 
             const proGrid = document.querySelector('#panel-analysis-pro .analysis-report-grid');
             const proArticles = getResearchBySection('PRO Research');
-            if (proGrid && proArticles.length > 0) proGrid.innerHTML = proArticles.map(buildReportCard).join('');
+            if (proGrid && proArticles.length > 0) {
+                updateFeaturedResearch('#panel-analysis-pro', proArticles);
+                proGrid.innerHTML = proArticles.slice(1, 4).map(buildReportCard).join('');
+            }
 
             const companyGrid = document.querySelector('#panel-analysis-company .analysis-company-grid');
             const companyArticles = getResearchBySection('Doanh nghiệp');
-            if (companyGrid && companyArticles.length > 0) companyGrid.innerHTML = companyArticles.map(buildCompanyCard).join('');
+            if (companyGrid && companyArticles.length > 0) {
+                updateFeaturedResearch('#panel-analysis-company', companyArticles);
+                companyGrid.innerHTML = companyArticles.slice(1, 4).map(buildCompanyCard).join('');
+            }
 
             const sectorGrid = document.querySelector('#panel-analysis-sector .analysis-report-grid');
             const sectorArticles = getResearchBySection('Ngành');
-            if (sectorGrid && sectorArticles.length > 0) sectorGrid.innerHTML = sectorArticles.map(buildReportCard).join('');
+            if (sectorGrid && sectorArticles.length > 0) {
+                updateFeaturedResearch('#panel-analysis-sector', sectorArticles);
+                sectorGrid.innerHTML = sectorArticles.slice(1, 4).map(buildReportCard).join('');
+            }
         }
 
         function planDisplayName(plan) {
-            if (plan.id === 'pro') return `${plan.name} ⭐`;
-            if (plan.id === 'diamond') return `${plan.name} 💎`;
-            return plan.name;
+            const name = String(plan.name || '').trim();
+            const normalized = name.toUpperCase();
+            if (normalized === 'PRO' && !name.includes('⭐')) return `${name} ⭐`;
+            if (normalized === 'DIAMOND' && !name.includes('💎')) return `${name} 💎`;
+            return name;
+        }
+
+        function planSubtitleDisplay(plan) {
+            const subtitle = (plan.subtitle || '').trim();
+            if (!subtitle) return '';
+            return subtitle.replace(/^\((.*)\)$/, '$1');
+        }
+
+        function membershipActionForPlan(planId) {
+            const id = String(planId || '').toLowerCase();
+            if (id === 'standard' || id === 'free') return 'free';
+            if (id.includes('diamond')) return 'diamond';
+            if (id.includes('vip')) return 'vip';
+            if (id.includes('pro')) return 'pro';
+            return 'free';
+        }
+
+        function handlePricingCardAction(button, event) {
+            if (event) event.stopPropagation();
+            const card = button.closest('.pricing-card');
+            const action = button.dataset.membershipAction || 'free';
+            const planId = button.dataset.planId || 'standard';
+            selectMembershipAction(action, card);
+            if (action === 'free' || planId === 'standard') {
+                submitStandard('register');
+                return;
+            }
+            openPricingModal(planId);
         }
 
         function renderMemberships() {
             if (MEMBERSHIP_DATA.length === 0) return;
-            const pricingGrid = document.querySelector('.pricing-grid');
-            if (pricingGrid) {
+            const pricingGrids = document.querySelectorAll('#pricing .pricing-grid, #panelMembershipPricingGrid');
+            pricingGrids.forEach((pricingGrid) => {
                 pricingGrid.innerHTML = MEMBERSHIP_DATA.map((plan) => {
-                    const features = splitList(plan.features).slice(0, 4);
+                    const features = splitList(plan.features);
+                    const action = membershipActionForPlan(plan.id);
                     return `
-                        <div class="pricing-card liquid-glass-card card-${escapeHtml(plan.id)}">
+                        <div class="pricing-card liquid-glass-card card-${escapeHtml(plan.id)}" data-membership-action="${escapeHtml(action)}" onclick="selectMembershipAction('${escapeHtml(action)}', this)">
                             <div class="pricing-title">${escapeHtml(planDisplayName(plan))}</div>
-                            <div class="pricing-subtitle">${escapeHtml(plan.subtitle || '')}</div>
+                            <div class="pricing-subtitle">${escapeHtml(planSubtitleDisplay(plan))}</div>
                             <ul class="pricing-features">
                                 ${features.map((feature) => `<li><span class="check-icon">✦</span> ${escapeHtml(feature)}</li>`).join('')}
-                                <li><span class="check-icon">✦</span> ${escapeHtml(plan.price || '')}</li>
                             </ul>
-                            <button class="btn-tier" onclick="openPricingModal('${escapeHtml(plan.id)}')">${escapeHtml(plan.cta || 'Đăng ký')}</button>
+                            <button class="btn-tier" type="button" data-plan-id="${escapeHtml(plan.id)}" data-membership-action="${escapeHtml(action)}" onclick="handlePricingCardAction(this, event)">${escapeHtml(plan.cta || 'Đăng ký')}</button>
                         </div>
                     `;
                 }).join('');
-            }
+            });
 
             const membershipGrid = document.querySelector('#panel-hoivien .function-grid');
             if (membershipGrid) {
@@ -6524,6 +6924,8 @@
                     </article>
                 `).join('');
             }
+
+            selectMembershipAction('free');
 
             MEMBERSHIP_DATA.forEach((plan) => {
                 const modal = document.getElementById(`modal-${plan.id}`);
@@ -6751,50 +7153,8 @@
 
         async function hydrateMemberships() {
             if (isMembershipHydrated) return;
-            const Infra = window.FintopInfra;
-            if (!Infra) return;
-            const API = () => Infra.ApiClient;
-            const EP = () => Infra.FintopEnv.API_ENDPOINTS;
-            const formatPrice = (val) => val ? Number(val).toLocaleString('vi-VN') : '—';
-            try {
-                const planRes = await API().get(EP().SUBSCRIPTION_PLANS);
-                const list = planRes.data || planRes || [];
-                if (Array.isArray(list) && list.length > 0) {
-                    const allowedTiers = ['STANDARD', 'SILVER', 'GOLD', 'DIAMOND'];
-                    const filteredList = list.filter(p => p.name && allowedTiers.includes(p.name.toUpperCase()));
-
-                    // Sort them in the exact order of allowedTiers
-                    filteredList.sort((a, b) => {
-                        return allowedTiers.indexOf(a.name.toUpperCase()) - allowedTiers.indexOf(b.name.toUpperCase());
-                    });
-
-                    MEMBERSHIP_DATA = filteredList.map(p => {
-                        let mappedId = 'standard';
-                        if (p.tierLevel === 'SILVER') mappedId = 'pro';
-                        else if (p.tierLevel === 'GOLD') mappedId = 'vip';
-                        else if (p.tierLevel === 'DIAMOND') mappedId = 'diamond';
-
-                        return {
-                            id: mappedId,
-                            name: p.name,
-                            subtitle: p.description || 'Gói hội viên đầu tư',
-                            price: p.price ? formatPrice(p.price) : '0',
-                            cta: 'Đăng Ký Ngay',
-                            status: p.status === 'ACTIVE' ? 'Đang mở' : 'Tạm ngưng',
-                            features: p.features || (p.tierLevel === 'GOLD' ? 'Tín hiệu giao dịch; Phân tích Pro; Group hỗ trợ' : (p.tierLevel === 'DIAMOND' ? 'Copy Trade tự động; Tín hiệu giao dịch; Phân tích Pro; Group hỗ trợ' : 'Tra cứu cổ phiếu; Bộ lọc cơ bản')),
-                            popupTitle: p.name,
-                            popupContent: p.description || '',
-                            tierLevel: p.tierLevel
-                        };
-                    });
-                    window.MEMBERSHIP_DATA = MEMBERSHIP_DATA;
-                    renderMemberships();
-                    isMembershipHydrated = true;
-                    console.log('[Backend Hydrate] Membership plans loaded from backend:', filteredList.length);
-                }
-            } catch (err) {
-                console.warn('[Backend Hydrate] Failed to load plans from backend:', err.message);
-            }
+            renderMemberships();
+            isMembershipHydrated = true;
         }
 
         async function hydrateSignals() {
@@ -6925,12 +7285,14 @@
             applyLandingContent();
             renderResearchPanels();
             renderMemberships();
+            selectMembershipAction('free');
             hydrateFromSupabase().catch((error) => {
                 console.warn('Supabase hydrate skipped:', error);
             });
             hydrateFromBackend().catch((error) => {
                 console.warn('Backend hydrate skipped:', error);
             });
+            loadShowcaseVNIndexChart();
         });
 
         // =====================
@@ -6938,6 +7300,10 @@
         // =====================
         const FIREANT_WIDGET_SCRIPT = 'https://www.fireant.vn/Scripts/web/widgets.js';
         const FIREANT_CHART_TARGETS = {
+            showcase: {
+                hostId: 'fireant_showcase_vnindex_host',
+                containerId: 'showcase-vnindex-chart-container'
+            },
             tracuu: {
                 hostId: 'fireant_tracuu_chart_host',
                 containerId: 'fireant-tracuu-chart-container'
@@ -7060,6 +7426,39 @@
                     iframe.style.background = '#131722';
                 });
             }, 1000);
+        }
+
+        function loadShowcaseVNIndexChart() {
+            const container = document.getElementById(FIREANT_CHART_TARGETS.showcase.hostId);
+            if (!container) return;
+
+            showChartMessage('Đang tải tổng quan VNINDEX...', 'showcase');
+
+            loadFireAntScript(() => {
+                if (!window.FireAnt || typeof window.FireAnt.MarketsWidget !== 'function') {
+                    showChartMessage('Không tải được tổng quan thị trường FireAnt. Vui lòng thử lại sau.', 'showcase');
+                    return;
+                }
+
+                container.innerHTML = '';
+                const widgetId = `fireant_showcase_markets_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+                const placeholder = document.createElement('div');
+                placeholder.id = widgetId;
+                placeholder.style.cssText = 'height:100%;width:100%;';
+                container.appendChild(placeholder);
+
+                const widgetHeight = `${Math.max(320, Math.round(container.getBoundingClientRect().height || 500))}px`;
+                new window.FireAnt.MarketsWidget({
+                    container_id: widgetId,
+                    symbols: 'VNINDEX',
+                    locale: 'vi',
+                    price_line_color: '#c084fc',
+                    grid_color: '#334155',
+                    label_color: '#94a3b8',
+                    width: '100%',
+                    height: widgetHeight
+                });
+            });
         }
 
         function loadChart(ticker, target) {
