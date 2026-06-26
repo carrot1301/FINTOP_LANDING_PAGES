@@ -2,6 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { PrismaService } from '../database/prisma.service';
 import { RedisService } from '../redis/redis.service';
+import { MailService } from '../mail/mail.service';
 import { SkipThrottle } from '@nestjs/throttler';
 
 interface ServiceHealth {
@@ -19,6 +20,7 @@ export class HealthController {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly redisService: RedisService,
+    private readonly mailService: MailService,
   ) {}
 
   @Get()
@@ -35,6 +37,7 @@ export class HealthController {
       uptime: Math.floor((Date.now() - this.startTime) / 1000),
       timestamp: new Date().toISOString(),
       services: { database: db, cache },
+      smtp: this.mailService.getStatus(),
     };
   }
 

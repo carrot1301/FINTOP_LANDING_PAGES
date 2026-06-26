@@ -204,6 +204,25 @@ export class MailService {
 </html>`;
   }
 
+  // ─────────────────────────────────────────────────────
+  // DIAGNOSTIC METHODS
+  // ─────────────────────────────────────────────────────
+
+  /** Returns true if SMTP credentials are configured (transporter is active) */
+  isConfigured(): boolean {
+    return !!this.transporter;
+  }
+
+  /** Returns SMTP status info for health checks */
+  getStatus(): { configured: boolean; host: string; user: string; frontendUrl: string } {
+    return {
+      configured: !!this.transporter,
+      host: this.config.get<string>('SMTP_HOST', '(not set)'),
+      user: this.config.get<string>('SMTP_USER', '') ? '***configured***' : '(not set)',
+      frontendUrl: this.frontendUrl,
+    };
+  }
+
   private escapeHtml(text: string): string {
     return text
       .replace(/&/g, '&amp;')
