@@ -10,30 +10,38 @@ export class MailService {
   private readonly frontendUrl: string;
 
   constructor(private readonly config: ConfigService) {
-    const host = this.config.get<string>('SMTP_HOST', 'smtp.gmail.com');
-    const port = this.config.get<number>('SMTP_PORT', 587);
-    const user = this.config.get<string>('SMTP_USER', '');
-    const pass = this.config.get<string>('SMTP_PASS', '');
-    this.fromAddress = this.config.get<string>('SMTP_FROM', `FinTop DATA <${user}>`);
     this.frontendUrl = this.config.get<string>('FRONTEND_URL', 'https://fintop-frontend-staging.onrender.com');
 
-    if (!user || !pass) {
-      this.logger.warn('SMTP credentials not configured — emails will be logged but not sent.');
+    const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
+    if (resendApiKey) {
+      this.fromAddress = this.config.get<string>('RESEND_FROM', 'FinTop DATA <no-reply@fintopdata.vn>');
+      this.logger.log('Resend API key configured — emails will be sent via Resend HTTPS API.');
       this.transporter = null as any;
     } else {
-      this.transporter = nodemailer.createTransport({
-        host,
-        port,
-        secure: port === 465,
-        auth: { user, pass },
-      });
+      const host = this.config.get<string>('SMTP_HOST', 'smtp.gmail.com');
+      const port = this.config.get<number>('SMTP_PORT', 587);
+      const user = this.config.get<string>('SMTP_USER', '');
+      const pass = this.config.get<string>('SMTP_PASS', '');
+      this.fromAddress = this.config.get<string>('SMTP_FROM', `FinTop DATA <${user}>`);
 
-      // Verify SMTP connection on startup
-      this.transporter.verify().then(() => {
-        this.logger.log(`SMTP connected: ${host}:${port} as ${user}`);
-      }).catch((err) => {
-        this.logger.error(`SMTP connection failed: ${err.message}`);
-      });
+      if (!user || !pass) {
+        this.logger.warn('Neither Resend API Key nor SMTP credentials configured — emails will be logged but not sent.');
+        this.transporter = null as any;
+      } else {
+        this.transporter = nodemailer.createTransport({
+          host,
+          port,
+          secure: port === 465,
+          auth: { user, pass },
+        });
+
+        // Verify SMTP connection on startup
+        this.transporter.verify().then(() => {
+          this.logger.log(`SMTP connected: ${host}:${port} as ${user}`);
+        }).catch((err) => {
+          this.logger.error(`SMTP connection failed: ${err.message}`);
+        });
+      }
     }
   }
 
@@ -77,6 +85,11 @@ export class MailService {
   // ─────────────────────────────────────────────────────
 
   private async sendMail(to: string, subject: string, html: string): Promise<boolean> {
+    const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
+    if (resendApiKey) {
+      return this.sendMailViaResend(to, subject, html, resendApiKey);
+    }
+
     if (!this.transporter) {
       this.logger.warn(`[DRY RUN] Email to ${to}: ${subject}`);
       this.logger.debug(`[DRY RUN] HTML body length: ${html.length}`);
@@ -95,6 +108,37 @@ export class MailService {
       return true;
     } catch (err) {
       this.logger.error(`Failed to send email to ${to}: ${err.message}`);
+      return false;
+    }
+  }
+
+  private async sendMailViaResend(to: string, subject: string, html: string, apiKey: string): Promise<boolean> {
+    try {
+      this.logger.log(`Sending email to ${to} via Resend HTTPS API...`);
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: this.fromAddress,
+          to: [to],
+          subject,
+          html,
+        }),
+      });
+
+      const data = await response.json() as any;
+
+      if (!response.ok) {
+        throw new Error(data?.message || `HTTP status ${response.status}`);
+      }
+
+      this.logger.log(`Email sent to ${to} via Resend successfully: ${data.id}`);
+      return true;
+    } catch (err) {
+      this.logger.error(`Failed to send email to ${to} via Resend: ${err.message}`);
       return false;
     }
   }
@@ -208,17 +252,24 @@ export class MailService {
   // DIAGNOSTIC METHODS
   // ─────────────────────────────────────────────────────
 
-  /** Returns true if SMTP credentials are configured (transporter is active) */
+  /** Returns true if SMTP or Resend credentials are configured */
   isConfigured(): boolean {
-    return !!this.transporter;
+    const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
+    return !!resendApiKey || !!this.transporter;
   }
 
-  /** Returns SMTP status info for health checks */
-  getStatus(): { configured: boolean; host: string; user: string; frontendUrl: string } {
+  /** Returns mail sender status info for health checks */
+  getStatus(): { status: 'up' | 'down'; configured: boolean; provider: 'resend' | 'smtp' | 'none'; host: string; user: string; frontendUrl: string } {
+    const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
+    const hasResend = !!resendApiKey;
+    const hasSmtp = !!this.transporter;
+
     return {
-      configured: !!this.transporter,
-      host: this.config.get<string>('SMTP_HOST', '(not set)'),
-      user: this.config.get<string>('SMTP_USER', '') ? '***configured***' : '(not set)',
+      status: (hasResend || hasSmtp) ? 'up' : 'down',
+      configured: hasResend || hasSmtp,
+      provider: hasResend ? 'resend' : (hasSmtp ? 'smtp' : 'none'),
+      host: hasResend ? 'api.resend.com' : this.config.get<string>('SMTP_HOST', '(not set)'),
+      user: hasResend ? '***configured***' : (this.config.get<string>('SMTP_USER', '') ? '***configured***' : '(not set)'),
       frontendUrl: this.frontendUrl,
     };
   }
