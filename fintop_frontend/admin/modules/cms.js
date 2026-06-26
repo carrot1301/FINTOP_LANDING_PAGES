@@ -527,8 +527,7 @@ function injectStyles() {
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(10, 10, 15, 0.95); /* Semi-transparent dark overlay */
-      backdrop-filter: blur(10px);
+      background-color: #1e2540; /* Dark navy */
       z-index: 10000;
       display: flex;
       flex-direction: column;
@@ -540,243 +539,96 @@ function injectStyles() {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 24px;
-      background-color: rgba(10, 10, 15, 0.95);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 24px 32px 10px 32px;
+      background-color: #1e2540;
     }
     .cms-preview-title {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 700;
       color: #fff;
       margin: 0;
     }
     .cms-preview-close-btn {
-      background: #700e13;
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background-color: #ffffff;
+      color: #000000;
+      border: none;
       font-weight: bold;
       font-size: 14px;
-      padding: 8px 20px;
+      width: 80px;
+      height: 36px;
       border-radius: 6px;
       cursor: pointer;
-      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
     }
     .cms-preview-close-btn:hover {
-      background: #901c22;
-      transform: scale(1.05);
+      background-color: #f3f4f6;
     }
     .cms-preview-body {
       flex: 1;
       overflow-y: auto;
-      padding: 24px;
+      padding: 10px 32px 32px 32px;
+      background-color: #1e2540;
     }
-    
-    /* Scoped User View Styles */
-    .cms-preview-overlay .user-perspective-card {
-      background: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-      margin-bottom: 2rem;
-      position: relative;
-      color: #1e293b;
-      overflow: hidden;
-      padding: 0;
-      text-align: left;
-    }
-    .cms-preview-overlay .article-header-banner {
-      background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url("../assets/images/bgctys.jpg");
-      background-size: cover;
-      background-position: center 30%;
-      min-height: 220px;
+    .cms-preview-grid {
       display: flex;
-      align-items: center;
-      padding: 1.5rem 3rem;
-      position: relative;
-      gap: 2rem;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
     }
-    .cms-preview-overlay .article-banner-logo-box {
-      background: #700e13;
-      border: 3px solid rgba(255, 255, 255, 0.2);
-      padding: 12px;
-      width: 140px;
-      height: 140px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      border-radius: 6px;
-      flex-shrink: 0;
+    .cms-preview-row-half {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
     }
-    .cms-preview-overlay .article-banner-logo-box img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-    .cms-preview-overlay .article-banner-title {
-      color: #ffffff;
-      font-size: 2.1rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      line-height: 1.35;
-      font-family: 'Be Vietnam Pro', sans-serif;
-      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.8);
-      flex-grow: 1;
-      text-align: center;
-      margin: 0;
-      padding-right: 140px;
-    }
-    .cms-preview-overlay .article-date-bar {
-      background: #700e13;
-      color: #ffffff;
-      padding: 12px 3rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-align: right;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-      letter-spacing: 0.5px;
-    }
-    .cms-preview-overlay .article-body-wrapper {
-      padding: 2.5rem 3rem;
-      position: relative;
-      background-color: #ffffff;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Ctext x='50%25' y='50%25' fill='rgba(0, 0, 0, 0.025)' font-size='30' font-family='Arial, sans-serif' font-weight='bold' text-anchor='middle' transform='rotate(-32, 140, 140)'%3EFINTOP%3C/text%3E%3C/svg%3E");
-      background-repeat: repeat;
-      min-height: 400px;
-    }
-    .cms-preview-overlay .article-content {
+    .cms-preview-label {
       font-size: 16px;
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.8;
-      color: #000000;
-      text-align: justify;
-    }
-    .cms-preview-overlay .article-content p,
-    .cms-preview-overlay .article-content blockquote {
-      margin-bottom: 1.5rem;
-      color: #000000;
-    }
-    .cms-preview-overlay .article-content ul, 
-    .cms-preview-overlay .article-content ol {
-      padding-left: 1.75rem;
-      margin-bottom: 1.5rem;
-    }
-    .cms-preview-overlay .article-content li {
-      margin-bottom: 0.6rem;
-      color: #000000;
-    }
-    .cms-preview-overlay .article-content a {
-      color: #0056b3;
-      text-decoration: underline;
-    }
-    .cms-preview-overlay .article-content a:hover {
-      color: #700e13;
-    }
-    .cms-preview-overlay .article-content img {
-      width: 100% !important;
-      max-width: 100% !important;
-      height: auto !important;
-      display: block;
-      margin: 2rem auto;
-      border-radius: 4px;
-    }
-    .cms-preview-overlay .article-content iframe {
-      width: 100% !important;
-      max-width: 100% !important;
-      height: auto !important;
-      min-height: 450px;
-      display: block;
-      margin: 2rem auto;
-      border: none;
-    }
-    .cms-preview-overlay .article-content h1 {
-      font-size: 1.6rem;
-      color: #000000;
-      font-weight: bold;
-      margin-top: 2.2rem;
-      margin-bottom: 1.1rem;
-    }
-    .cms-preview-overlay .article-content h2 {
-      font-size: 1.4rem;
-      color: #000000;
-      font-weight: bold;
-      margin-top: 1.8rem;
-      margin-bottom: 0.9rem;
-    }
-    .cms-preview-overlay .article-content h3 {
-      font-size: 1.2rem;
-      color: #000000;
-      font-weight: bold;
-      margin-top: 1.6rem;
-      margin-bottom: 0.8rem;
-    }
-    .cms-preview-overlay .article-content h4,
-    .cms-preview-overlay .article-content h5,
-    .cms-preview-overlay .article-content h6 {
-      font-size: 1.1rem;
-      color: #000000;
-      font-weight: bold;
-      margin-top: 1.4rem;
-      margin-bottom: 0.8rem;
-    }
-    .cms-preview-overlay .article-content table {
-      width: 100% !important;
-      border-collapse: collapse;
-      margin: 2.5rem 0;
-      background: #ffffff;
-      border: 1px solid #dddddd;
-    }
-    .cms-preview-overlay .article-content th, .cms-preview-overlay .article-content td {
-      border: 1px solid #dddddd;
-      padding: 12px 15px;
-      text-align: left;
-      font-size: 0.92rem;
-    }
-    .cms-preview-overlay .article-content th {
-      background-color: #f2f2f2;
-      color: #333333;
-      font-weight: bold;
-    }
-    .cms-preview-overlay .article-content td {
-      color: #264451;
-    }
-    .cms-preview-overlay .article-content tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-    .cms-preview-overlay .tag-pill {
-      background: #f1f5f9;
-      border: 1px solid #e2e8f0;
-      color: #475569;
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 0.8rem;
       font-weight: 500;
-      text-decoration: none;
-      transition: all 0.2s;
+      color: #a0aec0;
+      margin-bottom: 10px;
     }
-    @media (max-width: 768px) {
-      .cms-preview-overlay .article-header-banner {
-        flex-direction: column;
-        height: auto;
-        padding: 2.5rem 1.5rem;
-        text-align: center;
-        gap: 1.2rem;
-      }
-      .cms-preview-overlay .article-banner-logo-box {
-        width: 110px;
-        height: 110px;
-      }
-      .cms-preview-overlay .article-banner-title {
-        font-size: 1.45rem;
-        padding-right: 0;
-      }
-      .cms-preview-overlay .article-date-bar {
-        padding: 10px 1.5rem;
-        font-size: 0.85rem;
-        text-align: center;
-      }
-      .cms-preview-overlay .article-body-wrapper {
-        padding: 2rem 1.5rem;
-      }
+    .cms-preview-input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 8px;
+      border: none;
+      background-color: #eaecef; /* Light background matching screenshot */
+      color: #2d3748 !important; /* Dark text matching screenshot */
+      font-size: 15px;
+      font-weight: 500;
+      outline: none;
+      box-sizing: border-box;
+      cursor: default;
+    }
+    .cms-preview-textarea {
+      width: 100%;
+      height: 200px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      border: none;
+      background-color: #eaecef; /* Light background matching screenshot */
+      color: #2d3748 !important; /* Dark text matching screenshot */
+      font-size: 14px;
+      font-family: monospace;
+      line-height: 1.5;
+      resize: vertical;
+      outline: none;
+      box-sizing: border-box;
+      cursor: default;
+      overflow-y: auto;
+    }
+    .cms-preview-image-container {
+      margin-top: 5px;
+    }
+    .cms-preview-img-tag {
+      max-width: 300px;
+      max-height: 200px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      object-fit: cover;
     }
   `;
   document.head.appendChild(style);
@@ -1087,49 +939,67 @@ function renderPagination(meta, paginationEl, contentEl, mainContainer) {
 function renderPreviewOverlay(container, blog) {
   document.body.style.overflow = 'hidden';
   
-  const dateStr = formatDate(blog.publishedAt || blog.createdAt).split(' ')[0]; // dd/mm/yyyy
+  const dateStr = formatDateStr(blog.publishedAt || blog.createdAt);
   const catName = blog.category?.name || 'Chưa phân loại';
   const statusStr = blog.status === 'PUBLISHED' ? 'Hoạt động' : 'Bản nháp';
   const authorName = blog.author?.fullName || 'Nguyễn Thành Phúc';
+  
+  const imgUrl = extractFirstImage(blog.content);
+  const showImg = imgUrl && !imgUrl.includes('placeholder.png');
 
   const overlay = document.createElement('div');
   overlay.className = 'cms-preview-overlay';
   overlay.innerHTML = `
     <div class="cms-preview-header">
-      <h2 class="cms-preview-title">Xem trước bài viết (Giao diện Người dùng)</h2>
-      <button type="button" class="cms-preview-close-btn" id="cms-preview-close-x">✕ Đóng</button>
+      <h2 class="cms-preview-title">Thông tin chi tiết bài viết</h2>
+      <button type="button" class="cms-preview-close-btn" id="cms-preview-close-x">x</button>
     </div>
     
     <div class="cms-preview-body">
-      <div style="max-width: 900px; margin: 0 auto;">
-        
-        <!-- User Perspective Article Card -->
-        <div class="user-perspective-card">
-          <!-- Full Width Header Banner -->
-          <div class="article-header-banner">
-            <div class="article-banner-logo-box">
-              <img src="../assets/images/LogoFinTop_notbg.jpg" alt="FinTop Logo" onerror="this.src='../../assets/images/LogoFinTop_notbg.jpg'">
-            </div>
-            <h1 class="article-banner-title">${esc(blog.title)}</h1>
+      <div class="cms-preview-grid">
+        <!-- Row 1 -->
+        <div class="cms-preview-row-half">
+          <div class="cms-form-group">
+            <label class="cms-preview-label">Người tạo</label>
+            <input type="text" class="cms-preview-input" value="${esc(authorName)}" disabled>
           </div>
-
-          <!-- Red Publication Date Bar -->
-          <div class="article-date-bar">
-            Ngày xuất bản: <span>${dateStr}</span>
-          </div>
-
-          <!-- Watermarked content area -->
-          <div class="article-body-wrapper">
-            <div class="article-content">
-              ${blog.content || 'Nội dung trống.'}
-            </div>
-
-            <div class="tags-wrapper" style="display: ${blog.tags && blog.tags.length > 0 ? 'flex' : 'none'}; gap: 10px; margin-top: 3.5rem; flex-wrap: wrap;">
-              ${(blog.tags || []).map(t => `<span class="tag-pill">#${esc(t)}</span>`).join('')}
-            </div>
+          <div class="cms-form-group">
+            <label class="cms-preview-label">Ngày tạo bài viết</label>
+            <input type="text" class="cms-preview-input" value="${dateStr}" disabled>
           </div>
         </div>
-
+        
+        <!-- Row 2 -->
+        <div class="cms-preview-row-half">
+          <div class="cms-form-group">
+            <label class="cms-preview-label">Thể loại</label>
+            <input type="text" class="cms-preview-input" value="${esc(catName)}" disabled>
+          </div>
+          <div class="cms-form-group">
+            <label class="cms-preview-label">Trạng thái</label>
+            <input type="text" class="cms-preview-input" value="${esc(statusStr)}" disabled>
+          </div>
+        </div>
+        
+        <!-- Row 3 -->
+        <div class="cms-form-group">
+          <label class="cms-preview-label">Tên bài viết</label>
+          <input type="text" class="cms-preview-input" value="${esc(blog.title)}" disabled>
+        </div>
+        
+        <!-- Row 4 -->
+        <div class="cms-form-group">
+          <label class="cms-preview-label">Nội dung</label>
+          <textarea class="cms-preview-textarea" disabled>${esc(blog.content)}</textarea>
+        </div>
+        
+        <!-- Row 5 -->
+        <div class="cms-form-group">
+          <label class="cms-preview-label">Ảnh bài viết</label>
+          <div class="cms-preview-image-container">
+            ${showImg ? `<img src="${imgUrl}" class="cms-preview-img-tag" alt="Ảnh bài viết">` : ``}
+          </div>
+        </div>
       </div>
     </div>
   `;

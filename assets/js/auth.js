@@ -186,6 +186,7 @@ function openAuthModal(view = 'login') {
             window.FintopInfra.AuthFormUI.clearError('authFormLogin');
             window.FintopInfra.AuthFormUI.clearError('authFormRegister');
             window.FintopInfra.AuthFormUI.clearError('authFormVerify');
+            window.FintopInfra.AuthFormUI.clearError('authFormForgot');
         }
         
         // Enable inputs when modal is open
@@ -231,11 +232,10 @@ function switchAuthView(view, animate = true) {
         if (forgotForm) window.FintopInfra.AuthFormUI.clearError('authFormForgot');
     }
 
-    // Hide all forms first
-    const allForms = [loginForm, registerForm, verifyForm, forgotForm].filter(Boolean);
-    allForms.forEach(f => {
-        f.classList.remove('active', 'slide-left');
-        f.style.transform = '';
+    const forms = [loginForm, registerForm, verifyForm, forgotForm].filter(Boolean);
+    forms.forEach((form) => {
+        form.classList.remove('active', 'slide-left');
+        form.style.transform = '';
     });
 
     if (view === 'verify' && verifyForm) {
@@ -253,13 +253,18 @@ function switchAuthView(view, animate = true) {
     } else if (view === 'register') {
         if (animate) {
             loginForm.classList.add('slide-left');
-            setTimeout(() => registerForm.classList.add('active'), 50);
+            
+            setTimeout(() => {
+                registerForm.classList.add('active');
+            }, 50); // Small delay to let browser process class changes
         } else {
             registerForm.classList.add('active');
         }
     } else { // 'login'
         if (animate) {
-            setTimeout(() => loginForm.classList.add('active'), 50);
+            setTimeout(() => {
+                loginForm.classList.add('active');
+            }, 50);
         } else {
             loginForm.classList.add('active');
         }
@@ -273,7 +278,7 @@ function switchAuthView(view, animate = true) {
  * NEW: Routes to AuthUI handlers which call real backend APIs
  * 
  * @param {Event} event
- * @param {'login'|'register'|'forgot'} type
+ * @param {'login'|'register'|'forgot'|'verify'|'resend'} type
  */
 function submitAuth(event, type) {
     event.preventDefault();

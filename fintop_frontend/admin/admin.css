@@ -739,9 +739,7 @@ table.admin-table tbody tr:last-child td {
 }
 
 @keyframes admin-spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 /* ─── TABS ─────────────────────────────────────────────── */
@@ -796,24 +794,12 @@ table.admin-table tbody tr:last-child td {
   max-width: 400px;
 }
 
-.admin-toast.success {
-  border-color: rgba(16, 185, 129, 0.4);
-}
-
-.admin-toast.error {
-  border-color: rgba(248, 113, 113, 0.4);
-}
+.admin-toast.success { border-color: rgba(16, 185, 129, 0.4); }
+.admin-toast.error { border-color: rgba(248, 113, 113, 0.4); }
 
 @keyframes admin-toast-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ─── RESPONSIVE ───────────────────────────────────────── */
@@ -821,11 +807,9 @@ table.admin-table tbody tr:last-child td {
   .admin-sidebar {
     transform: translateX(-100%);
   }
-
   .admin-sidebar.open {
     transform: translateX(0);
   }
-
   .admin-main {
     margin-left: 0;
   }
@@ -866,10 +850,7 @@ table.admin-table tbody tr:last-child td {
 .toggle-slider {
   position: absolute;
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(248, 113, 113, 0.4);
   border-radius: 24px;
   transition: 0.3s;
@@ -887,21 +868,18 @@ table.admin-table tbody tr:last-child td {
   transition: 0.3s;
 }
 
-.toggle-switch input:checked+.toggle-slider {
+.toggle-switch input:checked + .toggle-slider {
   background: rgba(16, 185, 129, 0.6);
 }
 
-.toggle-switch input:checked+.toggle-slider::before {
+.toggle-switch input:checked + .toggle-slider::before {
   transform: translateX(20px);
 }
 
 /* ─── MODAL OVERLAY ───────────────────────────────────── */
 .admin-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0, 0, 0, 0.65);
   display: flex;
   align-items: center;
@@ -911,13 +889,8 @@ table.admin-table tbody tr:last-child td {
 }
 
 @keyframes modal-fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .admin-modal {
@@ -932,15 +905,8 @@ table.admin-table tbody tr:last-child td {
 }
 
 @keyframes modal-scale-in {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .admin-modal-header {
@@ -1166,3 +1132,4 @@ table.admin-table tbody tr:last-child td {
   color: var(--text-primary);
   font-weight: normal;
 }
+

@@ -671,32 +671,31 @@ const AuthUI = {
     try {
       const result = await ApiClient.post('/auth/register', { email, password, fullName }, { skipAuth: true });
 
-      // If verification is required, switch to OTP verification view
       if (result?.data?.verificationRequired) {
-        // Store email for the verify form
-        if (typeof switchAuthView === 'function') {
-          switchAuthView('verify');
-        }
-        // Pre-fill email in the verify form
         const verifyEmailInput = document.getElementById('verifyEmailAddress');
         if (verifyEmailInput) verifyEmailInput.value = email;
 
+        if (typeof switchAuthView === 'function') {
+          switchAuthView('verify');
+        }
+
         AuthFormUI.showSuccess('authFormVerify',
-          '📧 Mã xác thực đã được gửi đến ' + email + '. Vui lòng kiểm tra email.'
+          'Mã xác thực đã được gửi đến ' + email + '. Vui lòng kiểm tra email.'
         );
       } else {
-        // Fallback: direct to login
-        fullNameInput.value = '';
         emailInput.value = '';
-        passwordInput.value = '';
 
         if (typeof switchAuthView === 'function') {
           switchAuthView('login');
         }
-        AuthFormUI.showSuccess('authFormLogin', 'Đăng ký tài khoản thành công! Vui lòng đăng nhập.');
+
+        AuthFormUI.showSuccess('authFormLogin', 'Đăng ký tài khoản thành công! Vui lòng đăng nhập lại.');
+
+        setTimeout(() => {
+          AuthFormUI.clearSuccess('authFormLogin');
+        }, 3000);
       }
 
-      // Clear form
       fullNameInput.value = '';
       passwordInput.value = '';
     } catch (err) {
@@ -718,7 +717,6 @@ const AuthUI = {
   async handleForgotPassword(event) {
     if (event) event.preventDefault();
 
-    // Get the email from the dedicated forgot form
     const emailInput = document.getElementById('forgotEmail');
     const email = emailInput ? emailInput.value.trim() : '';
 
@@ -734,36 +732,24 @@ const AuthUI = {
       return;
     }
 
-    // Set loading state on submit button for forgot password form
-    const btn = document.querySelector('#authFormForgot .auth-btn-submit');
-    let originalText = '';
-    if (btn) {
-      originalText = btn.textContent;
-      btn.textContent = 'Đang xử lý...';
-      btn.disabled = true;
-      btn.style.opacity = '0.7';
-    }
+    AuthFormUI.clearError('authFormForgot');
+    AuthFormUI.setLoading('authFormForgot', true);
 
     try {
-      AuthFormUI.clearError('authFormForgot');
       await ApiClient.post('/auth/forgot-password', { email }, { skipAuth: true });
       AuthFormUI.showSuccess('authFormForgot',
-        '📧 Link đặt lại mật khẩu đã được gửi vào email. Vui lòng kiểm tra hộp thư (kể cả mục Spam).'
+        'Link đặt lại mật khẩu đã được gửi vào email. Vui lòng kiểm tra hộp thư, kể cả mục Spam.'
       );
     } catch (err) {
       const translated = ErrorTranslator.translate(err);
       AuthFormUI.showError('authFormForgot', translated.message);
     } finally {
-      if (btn) {
-        btn.textContent = originalText;
-        btn.disabled = false;
-        btn.style.opacity = '';
-      }
+      AuthFormUI.setLoading('authFormForgot', false);
     }
   },
 
   // ─────────────────────────────────────────────────────
-  // EMAIL VERIFICATION (OTP) HANDLER
+  // EMAIL VERIFICATION HANDLERS
   // ─────────────────────────────────────────────────────
 
   async handleVerifyEmail(event) {
@@ -777,6 +763,11 @@ const AuthUI = {
     const email = emailInput.value.trim();
     const code = codeInput.value.trim();
 
+    if (!email) {
+      AuthFormUI.showError('authFormVerify', 'Không tìm thấy email cần xác thực. Vui lòng đăng ký hoặc đăng nhập lại.');
+      return;
+    }
+
     if (!code || code.length !== 6) {
       AuthFormUI.showError('authFormVerify', 'Vui lòng nhập mã OTP 6 số.');
       codeInput.focus();
@@ -784,36 +775,21 @@ const AuthUI = {
     }
 
     AuthFormUI.clearError('authFormVerify');
-
-    // Set loading state on verify button
-    const btn = document.querySelector('#authFormVerify .auth-btn-submit');
-    if (btn) {
-      btn.dataset.originalText = btn.textContent;
-      btn.textContent = 'Đang xác thực...';
-      btn.disabled = true;
-      btn.style.opacity = '0.7';
-    }
+    AuthFormUI.setLoading('authFormVerify', true);
 
     try {
       await ApiClient.post('/auth/verify-email', { email, code }, { skipAuth: true });
-
-      // Reset OTP input
       codeInput.value = '';
 
-      // Switch to login view with success message
       if (typeof switchAuthView === 'function') {
         switchAuthView('login');
       }
-      AuthFormUI.showSuccess('authFormLogin', '✅ Xác thực email thành công! Vui lòng đăng nhập.');
+      AuthFormUI.showSuccess('authFormLogin', 'Xác thực email thành công. Vui lòng đăng nhập.');
     } catch (err) {
       const translated = ErrorTranslator.translate(err);
       AuthFormUI.showError('authFormVerify', translated.message);
     } finally {
-      if (btn) {
-        btn.textContent = btn.dataset.originalText || 'Xác thực';
-        btn.disabled = false;
-        btn.style.opacity = '';
-      }
+      AuthFormUI.setLoading('authFormVerify', false);
     }
   },
 
@@ -824,7 +800,10 @@ const AuthUI = {
     if (!emailInput) return;
 
     const email = emailInput.value.trim();
-    if (!email) return;
+    if (!email) {
+      AuthFormUI.showError('authFormVerify', 'Không tìm thấy email cần xác thực.');
+      return;
+    }
 
     const resendBtn = document.getElementById('resendOtpBtn');
     if (resendBtn) {
@@ -834,9 +813,8 @@ const AuthUI = {
 
     try {
       await ApiClient.post('/auth/resend-verification', { email }, { skipAuth: true });
-      AuthFormUI.showSuccess('authFormVerify', '📧 Mã OTP mới đã được gửi vào email.');
+      AuthFormUI.showSuccess('authFormVerify', 'Mã OTP mới đã được gửi vào email.');
 
-      // Countdown 60s before allowing resend
       if (resendBtn) {
         let countdown = 60;
         resendBtn.textContent = `Gửi lại (${countdown}s)`;

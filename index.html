@@ -8,7 +8,7 @@
 
     <!-- Anti-flicker micro-script (High Performance Session Restore) -->
     <script>
-        (function () {
+        (function() {
             try {
                 if (localStorage.getItem('fintop_access_token')) {
                     const style = document.createElement('style');
@@ -19,7 +19,7 @@
                     `;
                     document.head.appendChild(style);
                 }
-            } catch (e) { }
+            } catch (e) {}
         })();
     </script>
 
@@ -54,8 +54,6 @@
             overflow: hidden;
             pointer-events: none;
             background: var(--bg-primary);
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         .video-bg {
@@ -65,9 +63,6 @@
             /* Phóng to lấp đầy màn hình để xóa khoảng đen */
             object-position: center;
             /* Luôn giữ trọng tâm video ở giữa */
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
-            backface-visibility: hidden;
         }
 
         .video-overlay {
@@ -78,8 +73,6 @@
             height: 100%;
             background-color: rgba(10, 10, 15, 0.5);
             z-index: -99;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         .neon-logo {
@@ -110,14 +103,11 @@
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
             border-bottom: none;
             transition: background 0.3s ease;
-            will-change: transform, background;
-            transform: translate3d(0, 0, 0);
         }
 
         .tv-header.scrolled {
-            background: rgba(10, 10, 15, 0.95);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -178,9 +168,9 @@
             left: 0;
             right: 0;
             width: 100%;
-            background: rgba(10, 10, 18, 0.96);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(10, 10, 18, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border-top: 1px solid rgba(168, 85, 247, 0.3);
             border-bottom: 1px solid rgba(168, 85, 247, 0.15);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(168, 85, 247, 0.08);
@@ -193,7 +183,6 @@
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             padding: 0;
             z-index: 999;
-            will-change: transform, opacity;
         }
 
         .dropdown-content.pinned {
@@ -253,8 +242,7 @@
             margin-top: 72px;
             min-height: calc(100vh - 72px);
             z-index: 998;
-            background: #07070d;
-            /* Solid dark background to prevent heavy GPU compositing blur */
+            background: #07070d; /* Solid dark background to prevent heavy GPU compositing blur */
             overflow: visible;
             padding: 40px 5% 3rem;
             animation: panelSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -275,14 +263,12 @@
             .tv-search-bar {
                 display: none !important;
             }
-
             .footer-grid {
                 grid-template-columns: 1fr !important;
                 gap: 1.5rem;
                 text-align: center;
             }
-
-            .footer-grid>div {
+            .footer-grid > div {
                 align-items: center;
                 display: flex;
                 flex-direction: column;
@@ -396,12 +382,9 @@
             border: 1px solid rgba(168, 85, 247, 0.2);
             overflow-x: auto;
             overflow-y: visible;
-            background: rgba(15, 15, 25, 0.85);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(15, 15, 25, 0.6);
+            backdrop-filter: blur(12px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         /* Thanh cuộn ngang phong cách neon */
@@ -626,12 +609,10 @@
         .function-table-card {
             border-radius: 14px;
             border: 1px solid rgba(168, 85, 247, 0.22);
-            background: rgba(15, 15, 25, 0.88);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(15, 15, 25, 0.68);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         .function-card {
@@ -1251,19 +1232,16 @@
         /* === SIGNAL MESSAGE BOX === */
         .signal-msg-box {
             position: relative;
-            background: rgba(15, 15, 25, 0.85);
+            background: rgba(15, 15, 25, 0.7);
             border: 1px solid rgba(168, 85, 247, 0.2);
             border-radius: 18px;
             padding: 0;
             margin-bottom: 1.5rem;
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(12px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(168, 85, 247, 0.05);
             overflow: hidden;
             animation: msgSlideIn 0.5s ease forwards;
             opacity: 0;
-            will-change: transform, opacity;
-            transform: translate3d(0, 0, 0);
         }
 
         .signal-msg-box:nth-child(1) {
@@ -1557,12 +1535,10 @@
             padding: 1.4rem;
             border-radius: 14px;
             border: 1px solid rgba(168, 85, 247, 0.24);
-            background: linear-gradient(135deg, rgba(15, 15, 25, 0.92), rgba(31, 25, 52, 0.78));
+            background: linear-gradient(135deg, rgba(15, 15, 25, 0.82), rgba(31, 25, 52, 0.58));
             box-shadow: 0 16px 44px rgba(0, 0, 0, 0.35), inset 0 0 28px rgba(168, 85, 247, 0.04);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         .market-kicker {
@@ -2553,9 +2529,8 @@
             bottom: 50px;
             right: 50px;
             z-index: 2;
-            background: rgba(15, 15, 20, 0.82);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(15, 15, 20, 0.4);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(168, 85, 247, 0.4);
             border-radius: 16px;
             padding: 18px;
@@ -2565,8 +2540,6 @@
             max-width: 360px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(168, 85, 247, 0.15);
             animation: float-ai 5s ease-in-out infinite;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         @keyframes float-ai {
@@ -2667,18 +2640,16 @@
         }
 
         .panel {
-            background: rgba(15, 10, 25, 0.88);
+            background: rgba(15, 10, 25, 0.65);
             border: 1px solid rgba(168, 85, 247, 0.5);
             border-radius: 16px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             box-shadow: 0 0 15px rgba(168, 85, 247, 0.15), 0 0 30px rgba(168, 85, 247, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
             padding: 2rem;
             text-align: left;
             flex: 1;
             animation: neonPulse 3s ease-in-out infinite;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         @keyframes neonPulse {
@@ -2718,13 +2689,10 @@
             display: flex;
             justify-content: space-around;
             text-align: center;
-            background: rgba(15, 15, 26, 0.9);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(15, 15, 26, 0.7);
+            backdrop-filter: blur(15px);
             border-top: 1px solid var(--purple-border);
             border-bottom: 1px solid var(--purple-border);
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         .stat-item h3 {
@@ -2814,11 +2782,8 @@
             position: relative;
             padding: 8rem 5%;
             text-align: center;
-            background: rgba(10, 10, 15, 0.92);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(10px);
         }
 
         .pricing-grid {
@@ -2902,9 +2867,8 @@
 
         /* LIQUID GLASS EFFECT - Base */
         .liquid-glass-card {
-            background: rgba(15, 15, 25, 0.88) !important;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             opacity: 1 !important;
             border-radius: 16px;
             padding: 2rem;
@@ -2913,13 +2877,11 @@
             gap: 0.5rem;
             height: 100%;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         /* STANDARD - Cyan/Blue */
         .liquid-glass-card.card-standard {
-            background: linear-gradient(135deg, rgba(15, 15, 25, 0.95), rgba(30, 25, 52, 0.9));
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.04));
             border: 1px solid rgba(56, 189, 248, 0.25);
             border-top: 1px solid rgba(56, 189, 248, 0.4);
             border-left: 1px solid rgba(56, 189, 248, 0.4);
@@ -2961,7 +2923,7 @@
 
         /* GÓI PRO - Tím */
         .liquid-glass-card.card-pro {
-            background: linear-gradient(135deg, rgba(15, 10, 30, 0.95), rgba(30, 15, 55, 0.9));
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(139, 92, 246, 0.06));
             border: 1px solid rgba(168, 85, 247, 0.3);
             border-top: 1px solid rgba(168, 85, 247, 0.5);
             border-left: 1px solid rgba(168, 85, 247, 0.5);
@@ -3003,7 +2965,7 @@
 
         /* GÓI V.I.P - Xanh ngọc */
         .liquid-glass-card.card-vip {
-            background: linear-gradient(135deg, rgba(10, 25, 20, 0.95), rgba(15, 35, 30, 0.9));
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.05));
             border: 1px solid rgba(16, 185, 129, 0.3);
             border-top: 1px solid rgba(16, 185, 129, 0.45);
             border-left: 1px solid rgba(16, 185, 129, 0.45);
@@ -3045,7 +3007,7 @@
 
         /* GÓI DIAMOND - Vàng */
         .liquid-glass-card.card-diamond {
-            background: linear-gradient(135deg, rgba(25, 20, 10, 0.95), rgba(35, 30, 15, 0.9));
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.05));
             border: 1px solid rgba(245, 158, 11, 0.3);
             border-top: 1px solid rgba(245, 158, 11, 0.5);
             border-left: 1px solid rgba(245, 158, 11, 0.5);
@@ -3115,12 +3077,9 @@
             position: relative;
             padding: 6rem 5% 8rem;
             text-align: center;
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            background: rgba(10, 10, 15, 0.6);
+            backdrop-filter: blur(10px);
             z-index: 5;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         /* === CIRCULAR ORBIT LAYOUT === */
@@ -3438,12 +3397,9 @@
             position: relative;
             padding: 8rem 5%;
             text-align: center;
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(10px);
             z-index: 5;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         .about-description {
@@ -3453,14 +3409,11 @@
             font-size: 1.05rem;
             line-height: 1.9;
             text-align: justify;
-            background: rgba(15, 15, 20, 0.88);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
             padding: 2.5rem;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         .about-highlight-fintech {
@@ -3484,9 +3437,8 @@
         }
 
         .about-card {
-            background: rgba(15, 15, 25, 0.88);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border-radius: 16px;
             padding: 2rem;
             text-align: left;
@@ -3495,8 +3447,6 @@
             flex-direction: column;
             gap: 0.8rem;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         .about-card:hover {
@@ -3545,7 +3495,7 @@
 
         /* Biến thể màu thẻ */
         .about-card-cyan {
-            background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(20, 30, 45, 0.9));
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.03));
             border: 1px solid rgba(56, 189, 248, 0.25);
             border-top: 1px solid rgba(56, 189, 248, 0.4);
             border-left: 1px solid rgba(56, 189, 248, 0.35);
@@ -3564,7 +3514,7 @@
         }
 
         .about-card-pink {
-            background: linear-gradient(135deg, rgba(20, 15, 20, 0.95), rgba(35, 20, 30, 0.9));
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(244, 114, 182, 0.03));
             border: 1px solid rgba(236, 72, 153, 0.25);
             border-top: 1px solid rgba(236, 72, 153, 0.4);
             border-left: 1px solid rgba(236, 72, 153, 0.35);
@@ -3583,7 +3533,7 @@
         }
 
         .about-card-green {
-            background: linear-gradient(135deg, rgba(10, 20, 15, 0.95), rgba(15, 35, 25, 0.9));
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.03));
             border: 1px solid rgba(16, 185, 129, 0.25);
             border-top: 1px solid rgba(16, 185, 129, 0.4);
             border-left: 1px solid rgba(16, 185, 129, 0.35);
@@ -3602,7 +3552,7 @@
         }
 
         .about-card-purple {
-            background: linear-gradient(135deg, rgba(15, 12, 25, 0.95), rgba(25, 18, 45, 0.9));
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(167, 139, 250, 0.03));
             border: 1px solid rgba(139, 92, 246, 0.25);
             border-top: 1px solid rgba(139, 92, 246, 0.4);
             border-left: 1px solid rgba(139, 92, 246, 0.35);
@@ -3621,7 +3571,7 @@
         }
 
         .about-card-gold {
-            background: linear-gradient(135deg, rgba(20, 15, 10, 0.95), rgba(35, 25, 15, 0.9));
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(251, 191, 36, 0.03));
             border: 1px solid rgba(245, 158, 11, 0.25);
             border-top: 1px solid rgba(245, 158, 11, 0.4);
             border-left: 1px solid rgba(245, 158, 11, 0.35);
@@ -3683,17 +3633,14 @@
         }
 
         .testimonial-card {
-            background: rgba(15, 15, 25, 0.88);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border-radius: 16px;
             padding: 2rem;
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
         }
 
         .testimonial-card:hover {
@@ -3761,7 +3708,7 @@
 
         /* Biến thể màu đánh giá */
         .testimonial-cyan {
-            background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(20, 30, 45, 0.9));
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.03));
             border: 1px solid rgba(56, 189, 248, 0.2);
             border-top: 1px solid rgba(56, 189, 248, 0.35);
             border-left: 1px solid rgba(56, 189, 248, 0.3);
@@ -3780,7 +3727,7 @@
         }
 
         .testimonial-pink {
-            background: linear-gradient(135deg, rgba(20, 15, 20, 0.95), rgba(35, 20, 30, 0.9));
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(244, 114, 182, 0.03));
             border: 1px solid rgba(236, 72, 153, 0.2);
             border-top: 1px solid rgba(236, 72, 153, 0.35);
             border-left: 1px solid rgba(236, 72, 153, 0.3);
@@ -3799,7 +3746,7 @@
         }
 
         .testimonial-green {
-            background: linear-gradient(135deg, rgba(10, 20, 15, 0.95), rgba(15, 35, 25, 0.9));
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.03));
             border: 1px solid rgba(16, 185, 129, 0.2);
             border-top: 1px solid rgba(16, 185, 129, 0.35);
             border-left: 1px solid rgba(16, 185, 129, 0.3);
@@ -3852,8 +3799,7 @@
             </div>
         </div>
         <ul class="tv-nav">
-            <li class="nav-item"><a href="index.html" onclick="event.preventDefault(); closeAllPanels();">Trang chủ</a>
-            </li>
+            <li class="nav-item"><a href="index.html" onclick="event.preventDefault(); closeAllPanels();">Trang chủ</a></li>
             <li class="nav-item"><a href="javascript:void(0)" data-panel="panel-hoivien"
                     onclick="openPanel('panel-hoivien', this)">Hội viên</a></li>
             <li class="nav-item dropdown" id="dropdown-fintop-data">
@@ -3923,16 +3869,14 @@
                 <div class="user-dropdown-menu">
                     <a href="javascript:void(0)" class="user-dropdown-item login-btn"
                         onclick="openAuthModal('login')">👤 Đăng nhập</a>
-                    <a href="fintop_frontend/admin/index.html" class="user-dropdown-item" id="adminAccessLink">🔐 Trang
-                        quản trị</a>
+                    <a href="fintop_frontend/admin/index.html" class="user-dropdown-item" id="adminAccessLink">🔐 Trang quản trị</a>
                     <a href="javascript:void(0)" class="user-dropdown-item"
                         onclick="alert('Mở Trung tâm trợ giúp')">Trung tâm Trợ giúp</a>
                     <a href="javascript:void(0)" class="user-dropdown-item"
                         onclick="alert('Tính năng mới sắp ra mắt!')">Có gì mới</a>
                 </div>
             </div>
-            <button class="btn-tv-blue" id="fintopStartBtn" data-hide-when-auth onclick="openAuthModal('login')">Bắt
-                đầu</button>
+            <button class="btn-tv-blue" id="fintopStartBtn" data-hide-when-auth onclick="openAuthModal('login')">Bắt đầu</button>
         </div>
     </header>
 
@@ -4056,8 +4000,7 @@
             </h4>
             <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.8; margin-bottom: 0.8rem;">
                 Bảng tổng hợp danh mục cổ phiếu theo <strong style="color: #c084fc;">Trạng thái Model</strong>, <strong
-                    style="color: #c084fc;">sức mạnh xu hướng dòng tiền</strong> và các vùng kiểm định kỹ thuật theo
-                phương pháp phân tích
+                    style="color: #c084fc;">sức mạnh xu hướng dòng tiền</strong> và các vùng kiểm định kỹ thuật theo phương pháp phân tích
                 định lượng được trích xuất hoàn toàn tự động và tổng hợp theo các nhóm ngành. Đây là công cụ lọc và phân
                 loại dữ liệu khách quan, hỗ trợ người dùng có thêm góc nhìn tổng quan về thị trường.
             </p>
@@ -4281,9 +4224,7 @@
             <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div class="market-section-title">3 bài phân tích tiếp theo</div>
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="search-analysis-market" placeholder="Tìm kiếm bài viết..."
-                        style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;"
-                        oninput="applyMarketArticlesFilter()">
+                    <input type="text" id="search-analysis-market" placeholder="Tìm kiếm bài viết..." style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;" oninput="applyMarketArticlesFilter()">
                     <div class="market-tabs" aria-label="Bộ lọc bài viết">
                         <button class="market-tab active" type="button" onclick="filterMarketArticles('all', this)">Tất
                             cả</button>
@@ -4495,9 +4436,7 @@
             <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div class="market-section-title">3 bài nghiên cứu tiếp theo</div>
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="search-analysis-pro" placeholder="Tìm kiếm PRO..."
-                        style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;"
-                        oninput="applyProArticlesFilter()">
+                    <input type="text" id="search-analysis-pro" placeholder="Tìm kiếm PRO..." style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;" oninput="applyProArticlesFilter()">
                     <div class="market-tabs" aria-label="Phân nhóm PRO Analysis">
                         <button class="market-tab active" type="button">Tổng quan</button>
                         <button class="market-tab" type="button">Danh mục</button>
@@ -4665,9 +4604,7 @@
             <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div class="market-section-title">3 bài nghiên cứu tiếp theo</div>
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="search-analysis-company" placeholder="Tìm mã CP..."
-                        style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 150px; transition: border-color 0.2s;"
-                        oninput="applyCompanyArticlesFilter()">
+                    <input type="text" id="search-analysis-company" placeholder="Tìm mã CP..." style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 150px; transition: border-color 0.2s;" oninput="applyCompanyArticlesFilter()">
                     <div class="market-tabs" aria-label="Nhóm phân tích doanh nghiệp">
                         <button class="market-tab active" type="button">Large Cap</button>
                         <button class="market-tab" type="button">Tăng trưởng</button>
@@ -4822,9 +4759,7 @@
             <div class="market-section-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div class="market-section-title">3 bài nghiên cứu tiếp theo</div>
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="search-analysis-sector" placeholder="Tìm kiếm ngành..."
-                        style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;"
-                        oninput="applySectorArticlesFilter()">
+                    <input type="text" id="search-analysis-sector" placeholder="Tìm kiếm ngành..." style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.6); color: #fff; font-size: 0.85rem; outline: none; width: 180px; transition: border-color 0.2s;" oninput="applySectorArticlesFilter()">
                     <div class="market-tabs" aria-label="Bộ lọc ngành">
                         <button class="market-tab active" type="button">Momentum</button>
                         <button class="market-tab" type="button">Định giá</button>
@@ -5482,98 +5417,48 @@
         <!-- VÙNG CUỘN HIỆU ỨNG ĐIỆN ẢNH -->
         <div id="cinematic-container">
 
-            <!-- Hiệu Ứng Flash Chuyển Cảnh -->
-            <div class="flash-overlay"></div>
+        <!-- Hiệu Ứng Flash Chuyển Cảnh -->
+        <div class="flash-overlay"></div>
 
-            <!-- PHÂN CẢNH 1: TRANG CHỦ HERO -->
-            <section class="scene scene-1">
-                <div class="hero-content">
-                    <h1 class="hero-title gradient-text">Kỷ Nguyên Đầu Tư Cùng FinTop DATA.</h1>
-                    <p class="hero-subtitle">Nơi hội tụ Data - Chuyên gia - Công nghệ & AI. Tinh gọn và hiệu quả.</p>
-                    <div class="hero-cta-wrapper">
-                        <button class="btn-white-huge" onclick="handleStartBtnClick()">Bắt đầu miễn
-                            phí</button>
-                        <span style="font-size: 0.9rem; color: #94A3B8; letter-spacing: 0.5px;"></span>
-                    </div>
+        <!-- PHÂN CẢNH 1: TRANG CHỦ HERO -->
+        <section class="scene scene-1">
+            <div class="hero-content">
+                <h1 class="hero-title gradient-text">Kỷ Nguyên Đầu Tư Cùng FinTop DATA.</h1>
+                <p class="hero-subtitle">Nơi hội tụ Data - Chuyên gia - Công nghệ & AI. Tinh gọn và hiệu quả.</p>
+                <div class="hero-cta-wrapper">
+                    <button class="btn-white-huge" onclick="handleStartBtnClick()">Bắt đầu miễn
+                        phí</button>
+                    <span style="font-size: 0.9rem; color: #94A3B8; letter-spacing: 0.5px;"></span>
                 </div>
+            </div>
 
-                <!-- Giao Diện Giả Lập Trợ Lý AI -->
-                <div class="ai-assistant-widget">
-                    <div class="ai-avatar">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-                            <path d="M5 3v4" />
-                            <path d="M19 17v4" />
-                            <path d="M3 5h4" />
-                            <path d="M17 19h4" />
-                        </svg>
-                    </div>
-                    <div class="ai-message">
-                        <div class="ai-name">
-                            FinTop AI
-                            <div class="ai-status-dot"></div>
-                        </div>
-                        <div class="ai-text">"Phát hiện dòng tiền lớn thâm nhập mã FPT. Khuyến nghị Tích lũy vùng giá
-                            132.
-                            Bạn muốn mở phân tích chuyên sâu chứ?"</div>
-                    </div>
-                </div>
-
-                <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); opacity: 0.5;">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"></polyline>
+            <!-- Giao Diện Giả Lập Trợ Lý AI -->
+            <div class="ai-assistant-widget">
+                <div class="ai-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+                        <path d="M5 3v4" />
+                        <path d="M19 17v4" />
+                        <path d="M3 5h4" />
+                        <path d="M17 19h4" />
                     </svg>
                 </div>
-            </section>
-
-            <!-- PHÂN CẢNH 2: TÍNH NĂNG -->
-            <section class="scene scene-2">
-                <div class="ai-cube gradient-text">Dữ Liệu Cho Nhà Đầu Tư Thế Hệ Mới!</div>
-                <div class="panels-container">
-                    <div class="panel">
-                        <h3 style="color:var(--text-primary); margin-bottom:1rem;">DATA</h3>
-                        <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
-                            <li>✓ Tra cứu Cổ phiếu</li>
-                            <li>✓ Bộ lọc Cổ phiếu</li>
-                            <li>✓ Phân tích định lượng</li>
-                            <li>✓ Stock Data</li>
-                        </ul>
+                <div class="ai-message">
+                    <div class="ai-name">
+                        FinTop AI
+                        <div class="ai-status-dot"></div>
                     </div>
-                    <div class="panel">
-                        <h3 style="color:var(--text-primary); margin-bottom:1rem;">CHUYÊN GIA</h3>
-                        <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
-                            <li>✓ Nghiên cứu thị trường</li>
-                            <li>✓ Phân tích chuyên sâu</li>
-                            <li>✓ Phân tích Doanh nghiệp</li>
-                            <li>✓ Phân tích Ngành</li>
-                        </ul>
-                    </div>
-                    <div class="panel">
-                        <h3 style="color:var(--text-primary); margin-bottom:1rem;">AI PHÂN TÍCH</h3>
-                        <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
-                            <li>✓ Công cụ FinTop AI</li>
-                            <li>✓ Phân tích Sentiment</li>
-                            <li>✓ Phân tích biên độ giá</li>
-                            <li>✓ Phân tích QTRR</li>
-                        </ul>
-                    </div>
+                    <div class="ai-text">"Phát hiện dòng tiền lớn thâm nhập mã FPT. Khuyến nghị Tích lũy vùng giá 132.
+                        Bạn muốn mở phân tích chuyên sâu chứ?"</div>
                 </div>
-            </section>
-
-        </div>
-
-        <!-- PHẦN 2.5: TRÌNH DIỄN GIAO DIỆN TERMINAL -->
-        <section class="product-showcase">
-            <div class="showcase-header">
-                <h2 class="gradient-text">Hệ Sinh Thái Phân Tích Đầu Tư Đỉnh Cao</h2>
-                <p>Đồng hành trên +10,000 nhà đầu tư tại Việt Nam làm chủ dòng tiền đầu tư thông minh bằng bộ công cụ dữ
-                    liệu tiêu chuẩn quốc tế.</p>
             </div>
-            <div class="showcase-mockup-wrapper">
-                <img src="assets/images/fintop_terminal_mockup.png" alt="FinTop DATA Terminal Dashboard"
-                    class="mockup-img">
+
+            <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); opacity: 0.5;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
             </div>
         </section>
 
@@ -5589,43 +5474,24 @@
                         <li>✓ Phân tích định lượng</li>
                         <li>✓ Stock Data</li>
                     </ul>
-                    <button class="btn-tier" onclick="openPricingModal('standard')">Đăng ký miễn phí</button>
                 </div>
-
-                <!-- GÓI PRO - Tím -->
-                <div class="pricing-card liquid-glass-card card-pro">
-                    <div class="pricing-title">PRO</div>
-                    <div class="pricing-subtitle" style="color: #c4b5fd;">(Chuyên nghiệp)</div>
-                    <ul class="pricing-features">
-                        <li><span class="check-icon">✦</span> Bộ lọc cổ phiếu</li>
-                        <li><span class="check-icon">✦</span> Pro Research</li>
-                        <li><span class="check-icon">✦</span> Pro Data</li>
+                <div class="panel">
+                    <h3 style="color:var(--text-primary); margin-bottom:1rem;">CHUYÊN GIA</h3>
+                    <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
+                        <li>✓ Nghiên cứu thị trường</li>
+                        <li>✓ Phân tích chuyên sâu</li>
+                        <li>✓ Phân tích Doanh nghiệp</li>
+                        <li>✓ Phân tích Ngành</li>
                     </ul>
-                    <button class="btn-tier" onclick="openPricingModal('pro')">Đăng ký PRO</button>
                 </div>
-
-                <!-- GÓI V.I.P - Xanh ngọc -->
-                <div class="pricing-card liquid-glass-card card-vip">
-                    <div class="pricing-title">V.I.P</div>
-                    <div class="pricing-subtitle" style="color: #6ee7b7;">(Cao cấp)</div>
-                    <ul class="pricing-features">
-                        <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
-                        <li><span class="check-icon">✦</span> Kết nối Chuyên gia</li>
-                        <li><span class="check-icon">✦</span> Phân tích Chuyên gia</li>
+                <div class="panel">
+                    <h3 style="color:var(--text-primary); margin-bottom:1rem;">AI PHÂN TÍCH</h3>
+                    <ul style="color: var(--text-secondary); line-height: 2; white-space: nowrap;">
+                        <li>✓ Công cụ FinTop AI</li>
+                        <li>✓ Phân tích Sentiment</li>
+                        <li>✓ Phân tích biên độ giá</li>
+                        <li>✓ Phân tích QTRR</li>
                     </ul>
-                    <button class="btn-tier" onclick="openPricingModal('vip')">Đăng ký V.I.P</button>
-                </div>
-
-                <!-- GÓI DIAMOND - Vàng -->
-                <div class="pricing-card liquid-glass-card card-diamond">
-                    <div class="pricing-title">DIAMOND</div>
-                    <div class="pricing-subtitle" style="color: #fcd34d;">(Kim cương)</div>
-                    <ul class="pricing-features">
-                        <li><span class="check-icon">✦</span> Đặc quyền V.I.P</li>
-                        <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
-                        <li><span class="check-icon">✦</span> Cố vấn 1-1 Chuyên gia</li>
-                    </ul>
-                    <button class="btn-tier" onclick="openPricingModal('diamond')">Đăng ký Diamond</button>
                 </div>
             </div>
         </section>
@@ -5804,6 +5670,11 @@
                 Đội ngũ Chuyên gia giàu kinh nghiệm nhằm mang đến những công cụ và dữ liệu bổ trợ mạnh mẽ
                 cho hoạt động phân tích, nghiên cứu và ra quyết định đầu tư.
             </p>
+            <p style="margin-top: 1rem;">
+                FINTOP không ngừng mở rộng, hợp tác phát triển, cung cấp các sản phẩm/dịch vụ trọng yếu,
+                đa dạng về dữ liệu cho thị trường <strong style="color: #c084fc;">Tài chính & Đầu tư</strong>.
+            </p>
+        </div>
 
         <!-- Thẻ Đánh Giá Từ Người Dùng -->
         <div class="testimonial-grid">
@@ -5963,27 +5834,27 @@
 
         // Sample stock data for Tra cứu dùng chung với trang quản trị.
         // Priority: 1) Admin-synced localStorage  2) Static JS file
-        let STOCK_DB = (function () {
+        let STOCK_DB = (function() {
             try {
                 const synced = localStorage.getItem('fintop_stock_search_sync');
                 if (synced) {
                     const parsed = JSON.parse(synced);
                     if (parsed && Object.keys(parsed).length > 0) return parsed;
                 }
-            } catch (e) { }
+            } catch(e) {}
             return window.FINTOP_STOCK_SEARCH_DATA || {};
         })();
 
         // Bộ lọc data dùng chung với trang quản trị.
         // Priority: 1) Admin-synced localStorage  2) Static JS file
-        let BOLOC_DATA = (function () {
+        let BOLOC_DATA = (function() {
             try {
                 const synced = localStorage.getItem('fintop_stock_filter_sync');
                 if (synced) {
                     const parsed = JSON.parse(synced);
                     if (Array.isArray(parsed) && parsed.length > 0) return parsed;
                 }
-            } catch (e) { }
+            } catch(e) {}
             return Array.isArray(window.FINTOP_STOCK_FILTER_DATA)
                 ? window.FINTOP_STOCK_FILTER_DATA
                 : [];
@@ -5993,9 +5864,7 @@
             ? window.FINTOP_RESEARCH_DATA
             : [];
 
-        let MEMBERSHIP_DATA = Array.isArray(window.FINTOP_MEMBERSHIP_DATA)
-            ? window.FINTOP_MEMBERSHIP_DATA
-            : [];
+        let MEMBERSHIP_DATA = normalizeMembershipPlans(window.FINTOP_MEMBERSHIP_DATA);
 
         let LANDING_CONTENT_DATA = Array.isArray(window.FINTOP_LANDING_CONTENT_DATA)
             ? window.FINTOP_LANDING_CONTENT_DATA
@@ -6155,7 +6024,7 @@
             cards.forEach((card) => {
                 const categories = (card.dataset.marketCategory || '').split(' ');
                 const matchesTab = activeMarketTabFilter === 'all' || categories.includes(activeMarketTabFilter);
-
+                
                 const title = (card.querySelector('.market-article-title')?.textContent || '').toLowerCase();
                 const excerpt = (card.querySelector('.market-article-excerpt')?.textContent || '').toLowerCase();
                 const badge = (card.querySelector('.market-thumb-badge')?.textContent || '').toLowerCase();
@@ -6188,7 +6057,7 @@
             cards.forEach((card) => {
                 const ticker = (card.querySelector('.analysis-ticker')?.textContent || '').toLowerCase();
                 const name = (card.querySelector('.analysis-company-name')?.textContent || '').toLowerCase();
-
+                
                 // Read title from the first kv-row
                 const title = (card.querySelector('.analysis-kv-row strong')?.textContent || '').toLowerCase();
                 const matches = !query || ticker.includes(query) || name.includes(query) || title.includes(query);
@@ -6258,78 +6127,24 @@
             }
         });
 
-        async function addStockTicker() {
+        function addStockTicker() {
             const input = document.getElementById('stockSearchInput');
-            const button = document.querySelector('.stock-search-btn');
             const ticker = input.value.trim().toUpperCase();
 
             if (!ticker) return;
 
             // Check if ticker exists in DB
             if (!STOCK_DB[ticker]) {
-                // Try to dynamically look up ticker from backend metadata
-                if (window.FintopInfra) {
-                    try {
-                        input.disabled = true;
-                        if (button) {
-                            button.disabled = true;
-                            button.innerHTML = '🔍 Tìm...';
-                        }
-                        
-                        const ep = window.FintopInfra.FintopEnv.API_ENDPOINTS;
-                        const lookupUrl = (ep && typeof ep.MARKET_LOOKUP === 'function')
-                            ? ep.MARKET_LOOKUP(ticker)
-                            : `/market/stocks/lookup/${encodeURIComponent(ticker)}`;
-                            
-                        const res = await window.FintopInfra.ApiClient.get(lookupUrl);
-                        const data = res.data || res;
-                        
-                        if (data && data.symbol) {
-                            STOCK_DB[ticker] = {
-                                san: data.exchange || 'HOSE',
-                                nganh: data.industry || 'Chưa phân loại',
-                                time: new Date().toLocaleString('vi-VN'),
-                                desc: `Mã cổ phiếu ${data.companyName || data.symbol} được tra cứu động từ hệ thống.`,
-                                status: 'neutral',
-                                statusText: 'TRUNG LẬP',
-                                updated_at: new Date().toISOString()
-                            };
-                        } else {
-                            throw new Error('Symbol lookup returned empty result');
-                        }
-                    } catch (err) {
-                        console.warn('[Search] Fallback backend lookup failed for ticker:', ticker, err);
-                        // Shake animation for invalid ticker
-                        input.style.borderColor = '#f87171';
-                        input.style.boxShadow = '0 0 15px rgba(248, 113, 113, 0.3)';
-                        input.classList.add('shake');
-                        setTimeout(() => {
-                            input.style.borderColor = 'rgba(168, 85, 247, 0.3)';
-                            input.style.boxShadow = 'none';
-                            input.classList.remove('shake');
-                        }, 1500);
-                        input.value = '';
-                        return;
-                    } finally {
-                        input.disabled = false;
-                        if (button) {
-                            button.disabled = false;
-                            button.innerHTML = '⚡ Tra cứu';
-                        }
-                    }
-                } else {
-                    // Shake animation for invalid ticker when offline/no infra
-                    input.style.borderColor = '#f87171';
-                    input.style.boxShadow = '0 0 15px rgba(248, 113, 113, 0.3)';
-                    input.classList.add('shake');
-                    setTimeout(() => {
-                        input.style.borderColor = 'rgba(168, 85, 247, 0.3)';
-                        input.style.boxShadow = 'none';
-                        input.classList.remove('shake');
-                    }, 1500);
-                    input.value = '';
-                    return;
-                }
+                // Shake animation for invalid ticker
+                input.style.borderColor = '#f87171';
+                input.style.boxShadow = '0 0 15px rgba(248, 113, 113, 0.3)';
+                input.classList.add('shake');
+                setTimeout(() => {
+                    input.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+                    input.style.boxShadow = 'none';
+                }, 1500);
+                input.value = '';
+                return;
             }
 
             // Check if already in list
@@ -6519,6 +6334,109 @@
                 .split(';')
                 .map((item) => item.trim())
                 .filter(Boolean);
+        }
+
+        function formatMembershipPrice(value, fallback) {
+            if (value === null || value === undefined || value === '') return fallback;
+            const numberValue = Number(value);
+            if (!Number.isNaN(numberValue)) {
+                if (numberValue === 0) return 'Miễn phí';
+                return `${numberValue.toLocaleString('vi-VN')} VND`;
+            }
+            return String(value);
+        }
+
+        function resolveMembershipId(plan) {
+            const tier = String(plan?.tierLevel || plan?.tier_level || plan?.tier || '').toLowerCase();
+            const raw = [
+                plan?.id,
+                plan?.name,
+                plan?.subtitle,
+                plan?.description
+            ].filter(Boolean).join(' ').toLowerCase();
+
+            if (tier.includes('standard') || tier.includes('free')) return 'standard';
+            if (tier.includes('silver') || tier.includes('pro')) return 'pro';
+            if (tier.includes('gold') || tier.includes('vip')) return 'vip';
+            if (tier.includes('diamond')) return 'diamond';
+
+            if (raw.includes('diamond')) return 'diamond';
+            if (raw.includes('v.i.p') || raw.includes('vip') || raw.includes('gold')) return 'vip';
+            if (raw.includes('pro') || raw.includes('silver')) return 'pro';
+            if (raw.includes('standard') || raw.includes('free') || raw.includes('miễn phí')) return 'standard';
+            return null;
+        }
+
+        function normalizeMembershipPlans(rows) {
+            const basePlans = {
+                standard: {
+                    id: 'standard',
+                    name: 'STANDARD',
+                    subtitle: 'Tiêu chuẩn',
+                    price: 'Miễn phí',
+                    cta: 'Đăng ký miễn phí',
+                    status: 'Đang mở',
+                    features: 'Tra cứu cổ phiếu; Phân tích cơ bản; Tool & Dữ liệu cơ bản',
+                    popupTitle: 'Đăng ký tài khoản FinTop DATA miễn phí',
+                    popupContent: 'Phù hợp để bắt đầu tra cứu cổ phiếu và làm quen với hệ sinh thái dữ liệu.'
+                },
+                pro: {
+                    id: 'pro',
+                    name: 'PRO',
+                    subtitle: 'Chuyên nghiệp',
+                    price: 'PRO1/PRO2/PRO3',
+                    cta: 'Đăng ký PRO',
+                    status: 'Đang mở',
+                    features: 'Bộ lọc cổ phiếu; Pro Research; Pro Data',
+                    popupTitle: 'Đăng ký Hội viên PRO FinTop DATA',
+                    popupContent: 'Mở khóa bộ lọc, dữ liệu nâng cao, phân tích chuyên sâu và các công cụ hỗ trợ ra quyết định.'
+                },
+                vip: {
+                    id: 'vip',
+                    name: 'V.I.P',
+                    subtitle: 'Cao cấp',
+                    price: 'CS hợp tác - không thu phí',
+                    cta: 'Đăng ký V.I.P',
+                    status: 'Đang mở',
+                    features: 'Đặc quyền PRO; Kết nối Chuyên gia; Phân tích Chuyên gia',
+                    popupTitle: 'Đặc quyền V.I.P FinTop DATA',
+                    popupContent: 'Dành cho khách hàng cần kết nối chuyên gia, hỗ trợ chiến lược và trải nghiệm dịch vụ ưu tiên.'
+                },
+                diamond: {
+                    id: 'diamond',
+                    name: 'DIAMOND',
+                    subtitle: 'Kim cương',
+                    price: 'CS hợp tác - không thu phí',
+                    cta: 'Đăng ký Diamond',
+                    status: 'Tư vấn riêng',
+                    features: 'Đặc quyền V.I.P; Đặc quyền PRO; Cố vấn 1-1 Chuyên gia',
+                    popupTitle: 'Gói hỗ trợ VIP PRO đặc biệt',
+                    popupContent: 'Dành cho khách hàng cần cố vấn chiến lược danh mục, quản trị rủi ro và đồng hành chuyên sâu.'
+                }
+            };
+            const normalized = {};
+
+            (Array.isArray(rows) ? rows : []).forEach((row) => {
+                const id = resolveMembershipId(row);
+                if (!id || normalized[id]) return;
+
+                const base = basePlans[id];
+                const rowFeatures = Array.isArray(row.features) ? row.features.join('; ') : row.features;
+                const description = row.description || row.popup_content || row.popupContent || '';
+                const rowStatus = row.status === 'ACTIVE' ? 'Đang mở' : row.status;
+
+                normalized[id] = {
+                    ...base,
+                    price: formatMembershipPrice(row.price, base.price),
+                    status: rowStatus || base.status,
+                    features: rowFeatures || base.features,
+                    popupTitle: row.popup_title || row.popupTitle || base.popupTitle,
+                    popupContent: description || base.popupContent,
+                    backendId: row.id || row.backendId || null
+                };
+            });
+
+            return ['standard', 'pro', 'vip', 'diamond'].map((id) => normalized[id] || basePlans[id]);
         }
 
         function selectMembershipAction(action, clickedCard) {
@@ -6717,17 +6635,10 @@
         }
 
         function getMarketCategory(row) {
-            const slug = String(row.categorySlug || '').toLowerCase();
             const category = String(row.category || '').toLowerCase();
             const title = String(row.title || '').toLowerCase();
             const excerpt = String(row.excerpt || '').toLowerCase();
-            const text = slug + ' ' + category + ' ' + title + ' ' + excerpt;
-
-            if (slug === 'vi-mo' || slug === 'tin-tuc') return 'macro strategy';
-            if (slug === 'nhat-ky-giao-dich' || slug === 'phan-tich-ky-thuat') return 'flow strategy';
-            if (slug === 'kien-thuc') return 'strategy';
-            if (slug === 'thi-truong') return 'macro flow strategy';
-
+            const text = category + ' ' + title + ' ' + excerpt;
             if (text.includes('dòng') || text.includes('flow') || text.includes('tiền')) return 'flow strategy';
             if (text.includes('chiến') || text.includes('portfolio') || text.includes('danh mục') || text.includes('phân bổ')) return 'strategy';
             return 'macro strategy';
@@ -6783,7 +6694,6 @@
                     <div class="analysis-kv-row"><span>Cập nhật</span><strong>${escapeHtml(row.publishTime || '')}</strong></div>
                     <div class="analysis-kv-row"><span>Tác giả</span><strong>${escapeHtml(row.author || '')}</strong></div>
                     <div class="analysis-kv-row"><span>Trạng thái</span><strong>${escapeHtml(row.status || '')}</strong></div>
-                    <a class="market-detail-link" href="${escapeHtml(row.link || 'chuyen-gia/index.html')}">Xem chi tiết</a>
                 </article>
             `;
         }
@@ -6881,6 +6791,7 @@
         }
 
         function renderMemberships() {
+            MEMBERSHIP_DATA = normalizeMembershipPlans(MEMBERSHIP_DATA);
             if (MEMBERSHIP_DATA.length === 0) return;
             const pricingGrids = document.querySelectorAll('#pricing .pricing-grid, #panelMembershipPricingGrid');
             pricingGrids.forEach((pricingGrid) => {
@@ -7043,17 +6954,7 @@
             }
 
             if (Array.isArray(membershipResult.data) && membershipResult.data.length > 0) {
-                MEMBERSHIP_DATA = membershipResult.data.map((row) => ({
-                    id: row.id,
-                    name: row.name,
-                    subtitle: row.subtitle,
-                    price: row.price,
-                    cta: row.cta,
-                    status: row.status,
-                    features: Array.isArray(row.features) ? row.features.join('; ') : row.features,
-                    popupTitle: row.popup_title,
-                    popupContent: row.popup_content
-                }));
+                MEMBERSHIP_DATA = normalizeMembershipPlans(membershipResult.data);
                 renderMemberships();
             }
 
@@ -7113,15 +7014,14 @@
                             section = 'PRO Research';
                         } else if (catSlug === 'doanh-nghiep') {
                             section = 'Doanh nghiệp';
-                        } else if (catSlug === 'nganh' || catSlug === 'ncpt-nganh') {
+                        } else if (catSlug === 'nganh') {
                             section = 'Ngành';
                         }
-
+                        
                         return {
                             id: b.id,
                             section: section,
                             category: b.category?.name || 'Research',
-                            categorySlug: catSlug,
                             title: b.title,
                             publishTime: b.publishedAt ? new Date(b.publishedAt).toLocaleDateString('vi-VN') : '',
                             status: 'Đã đăng',
@@ -7160,10 +7060,10 @@
                     SIGNAL_DATA = list.map(s => {
                         const expertName = s.author?.fullName || 'Hệ thống';
                         const tickerDisplay = s.symbol + ' ' + (s.entryPrice ? formatPrice(s.entryPrice) : '');
-
+                        
                         let details = [];
                         let rawNotes = s.notes || '';
-
+                        
                         try {
                             if (rawNotes.trim().startsWith('{')) {
                                 const parsed = JSON.parse(rawNotes);
@@ -7686,14 +7586,11 @@
                 </div>
             </div>
             <div class="modal-body">
-                <h4 class="text-center mb-2" style="color:#c4b5fd; font-size: 1.1rem;">Đăng ký Hội viên PRO FinTop DATA
-                </h4>
+                <h4 class="text-center mb-2" style="color:#c4b5fd; font-size: 1.1rem;">Đăng ký Hội viên PRO FinTop DATA</h4>
                 <div class="modal-steps-container mt-4 pro-steps-2col">
                     <div class="modal-step-box" style="text-align: left;">
-                        <div class="step-label" style="text-align: center;">Bước 1: Chọn gói Hội viên và thanh toán
-                        </div>
-                        <div class="text-muted-sm text-center mb-3">Hội viên chọn 1 trong các gói PRO1, PRO2, PRO3 đăng
-                            ký tương ứng. Giá đã bao gồm VAT 10%.</div>
+                        <div class="step-label" style="text-align: center;">Bước 1: Chọn gói Hội viên và thanh toán</div>
+                        <div class="text-muted-sm text-center mb-3">Hội viên chọn 1 trong các gói PRO1, PRO2, PRO3 đăng ký tương ứng. Giá đã bao gồm VAT 10%.</div>
 
                         <div class="pro-packages-grid">
                             <div class="pro-package-card active" data-package="PRO1" data-months="3">
@@ -7727,61 +7624,47 @@
                                 <div class="payment-label">Nội dung:</div>
                                 <div class="payment-value" id="pro-payment-note">
                                     [HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI PRO1 - 3 THÁNG]<br>
-                                    <span style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A 0862348886 PRO1 3
-                                        THÁNG</span>
+                                    <span style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A 0862348886 PRO1 3 THÁNG</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-step-box" style="text-align: left;">
-                        <div class="step-label" style="text-align: center;">Bước 2: Xác nhận thanh toán & Yêu cầu phê
-                            duyệt</div>
-                        <div class="text-muted-sm text-center mb-3">Sau khi chuyển khoản, điền thông tin bên dưới để
-                            FinTop xác nhận và kích hoạt tài khoản PRO.</div>
+                        <div class="step-label" style="text-align: center;">Bước 2: Xác nhận thanh toán & Yêu cầu phê duyệt</div>
+                        <div class="text-muted-sm text-center mb-3">Sau khi chuyển khoản, điền thông tin bên dưới để FinTop xác nhận và kích hoạt tài khoản PRO.</div>
 
                         <div class="pro-payment-form">
                             <div class="payment-form-group">
-                                <label class="payment-form-label" for="proFullName">Họ và tên <span
-                                        style="color:#f87171;">*</span></label>
-                                <input class="payment-form-input" id="proFullName" type="text"
-                                    placeholder="Nhập họ tên đầy đủ (giống tên chuyển khoản)" required>
+                                <label class="payment-form-label" for="proFullName">Họ và tên <span style="color:#f87171;">*</span></label>
+                                <input class="payment-form-input" id="proFullName" type="text" placeholder="Nhập họ tên đầy đủ (giống tên chuyển khoản)" required>
                             </div>
                             <div class="payment-form-group">
-                                <label class="payment-form-label" for="proPhone">Số điện thoại <span
-                                        style="color:#f87171;">*</span></label>
-                                <input class="payment-form-input" id="proPhone" type="tel"
-                                    placeholder="Ví dụ: 0862348886" required>
+                                <label class="payment-form-label" for="proPhone">Số điện thoại <span style="color:#f87171;">*</span></label>
+                                <input class="payment-form-input" id="proPhone" type="tel" placeholder="Ví dụ: 0862348886" required>
                             </div>
                             <div class="payment-form-group">
                                 <label class="payment-form-label" for="proTransferNote">Nội dung chuyển khoản</label>
-                                <input class="payment-form-input" id="proTransferNote" type="text"
-                                    placeholder="Ví dụ: NGUYEN VAN A 0862348886 PRO1 3 THANG" readonly
-                                    style="color:#94a3b8; cursor:not-allowed;">
+                                <input class="payment-form-input" id="proTransferNote" type="text" placeholder="Ví dụ: NGUYEN VAN A 0862348886 PRO1 3 THANG" readonly style="color:#94a3b8; cursor:not-allowed;">
                             </div>
                             <div class="payment-form-group">
-                                <label class="payment-form-label" for="proReceiptUpload">Ảnh xác nhận chuyển
-                                    khoản</label>
+                                <label class="payment-form-label" for="proReceiptUpload">Ảnh xác nhận chuyển khoản</label>
                                 <div class="upload-area" id="proUploadArea">
-                                    <input type="file" id="proReceiptUpload" accept="image/*" style="display:none;"
-                                        onchange="handleReceiptPreview(this)">
-                                    <div class="upload-placeholder" id="proUploadPlaceholder"
-                                        onclick="document.getElementById('proReceiptUpload').click()">
+                                    <input type="file" id="proReceiptUpload" accept="image/*" style="display:none;" onchange="handleReceiptPreview(this)">
+                                    <div class="upload-placeholder" id="proUploadPlaceholder" onclick="document.getElementById('proReceiptUpload').click()">
                                         <span class="upload-icon">📎</span>
                                         <span class="upload-text">Nhấn để tải ảnh chuyển khoản lên</span>
                                         <span class="upload-hint">(PNG, JPG — tối đa 5MB)</span>
                                     </div>
                                     <div class="upload-preview" id="proUploadPreview" style="display:none;">
                                         <img id="proReceiptImg" src="" alt="Receipt preview">
-                                        <button type="button" class="upload-remove-btn"
-                                            onclick="removeReceiptPreview()">✕ Xóa</button>
+                                        <button type="button" class="upload-remove-btn" onclick="removeReceiptPreview()">✕ Xóa</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <button class="btn-modal-action primary" type="button" id="btnProSubmit"
-                            onclick="submitProApproval()">Gửi yêu cầu phê duyệt</button>
+                        <button class="btn-modal-action primary" type="button" id="btnProSubmit" onclick="submitProApproval()">Gửi yêu cầu phê duyệt</button>
                     </div>
                 </div>
             </div>
@@ -7827,10 +7710,10 @@
                         <div class="step-desc" style="text-align: left;">
                             <p class="mb-2 text-muted-sm">Vui lòng điền thông tin bên dưới để yêu cầu phê duyệt liên
                                 kết:</p>
-                            <input class="demo-input" type="text" id="vipStockAccount"
-                                placeholder="Số TK chứng khoán..." style="margin-bottom: 10px;">
-                            <input class="demo-input" type="text" id="vipStockCompany"
-                                placeholder="Công ty chứng khoán..." style="margin-bottom: 15px;">
+                            <input type="text" id="vipStockAccount" placeholder="Số TK chứng khoán..."
+                                style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 10px;">
+                            <input type="text" id="vipStockCompany" placeholder="Công ty chứng khoán..."
+                                style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 15px;">
                         </div>
                         <button class="btn-modal-action primary" onclick="submitVIP('link')">YÊU CẦU LIÊN KẾT</button>
                     </div>
@@ -7900,22 +7783,19 @@
                     <div class="auth-forms-wrapper">
 
                         <!-- FORM ĐĂNG NHẬP -->
-                        <form class="auth-form active" id="authFormLogin" data-auth-form="login"
-                            onsubmit="submitAuth(event, 'login')">
+                        <form class="auth-form active" id="authFormLogin" data-auth-form="login" onsubmit="submitAuth(event, 'login')">
                             <h3 class="auth-title">Đăng nhập</h3>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Email hoặc Tên đăng nhập</label>
-                                <input type="text" class="auth-input" id="loginEmail" data-auth-email="login"
-                                    placeholder="Nhập email của bạn" required disabled>
+                                <input type="text" class="auth-input" id="loginEmail" data-auth-email="login" placeholder="Nhập email của bạn" required disabled>
                             </div>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Mật khẩu</label>
-                                <input type="password" class="auth-input" id="loginPassword" data-auth-password="login"
-                                    placeholder="Nhập mật khẩu" required disabled>
-                                <button type="button" class="password-toggle" data-target="loginPassword"
-                                    disabled>👁️</button>
+                                <input type="password" class="auth-input" id="loginPassword" data-auth-password="login" placeholder="Nhập mật khẩu"
+                                    required disabled>
+                                <button type="button" class="password-toggle" data-target="loginPassword" disabled>👁️</button>
                             </div>
 
                             <div class="auth-options">
@@ -7926,8 +7806,7 @@
                                     onclick="switchAuthView('forgot')">Quên mật khẩu?</a>
                             </div>
 
-                            <button type="submit" class="auth-btn-submit" data-auth-submit="login" disabled>Đăng
-                                nhập</button>
+                            <button type="submit" class="auth-btn-submit" data-auth-submit="login" disabled>Đăng nhập</button>
 
                             <div class="auth-footer">
                                 Chưa có tài khoản? <a href="javascript:void(0)" class="auth-link"
@@ -7936,32 +7815,28 @@
                         </form>
 
                         <!-- FORM ĐĂNG KÝ -->
-                        <form class="auth-form" id="authFormRegister" data-auth-form="register"
-                            onsubmit="submitAuth(event, 'register')">
+                        <form class="auth-form" id="authFormRegister" data-auth-form="register" onsubmit="submitAuth(event, 'register')">
                             <h3 class="auth-title">Tạo tài khoản mới</h3>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Họ và tên</label>
-                                <input type="text" class="auth-input" id="registerFullName" data-auth-name="register"
-                                    placeholder="Nhập họ và tên" required disabled>
+                                <input type="text" class="auth-input" id="registerFullName" data-auth-name="register" placeholder="Nhập họ và tên" required disabled>
                             </div>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Email</label>
-                                <input type="email" class="auth-input" id="registerEmail" data-auth-email="register"
-                                    placeholder="Nhập email của bạn" required disabled>
+                                <input type="email" class="auth-input" id="registerEmail" data-auth-email="register" placeholder="Nhập email của bạn" required disabled>
                             </div>
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Mật khẩu</label>
-                                <input type="password" class="auth-input" id="registerPassword"
-                                    data-auth-password="register" placeholder="Tạo mật khẩu" required disabled>
-                                <button type="button" class="password-toggle" data-target="registerPassword"
-                                    disabled>👁️</button>
+                                <input type="password" class="auth-input" id="registerPassword" data-auth-password="register"
+                                    placeholder="Tạo mật khẩu" required disabled>
+                                <button type="button" class="password-toggle"
+                                    data-target="registerPassword" disabled>👁️</button>
                             </div>
 
-                            <button type="submit" class="auth-btn-submit" data-auth-submit="register" disabled>Đăng
-                                ký</button>
+                            <button type="submit" class="auth-btn-submit" data-auth-submit="register" disabled>Đăng ký</button>
 
                             <div class="auth-footer">
                                 Đã có tài khoản? <a href="javascript:void(0)" class="auth-link"
@@ -7970,11 +7845,10 @@
                         </form>
 
                         <!-- FORM XÁC THỰC EMAIL (OTP) -->
-                        <form class="auth-form" id="authFormVerify" data-auth-form="verify"
-                            onsubmit="submitAuth(event, 'verify')">
+                        <form class="auth-form" id="authFormVerify" data-auth-form="verify" onsubmit="submitAuth(event, 'verify')">
                             <h3 class="auth-title">Xác thực Email</h3>
                             <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px; line-height: 1.5;">
-                                Mã xác thực 6 số đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư (kể cả Spam).
+                                Mã xác thực 6 số đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư, kể cả mục Spam.
                             </p>
 
                             <input type="hidden" id="verifyEmailAddress" value="">
@@ -7991,20 +7865,16 @@
                             <div style="text-align: center; margin-top: 12px;">
                                 <button type="button" id="resendOtpBtn" class="auth-link"
                                     style="background: none; border: none; cursor: pointer; color: #a78bfa; font-size: 0.85rem;"
-                                    onclick="submitAuth(event, 'resend')">
-                                    Gửi lại mã OTP
-                                </button>
+                                    onclick="submitAuth(event, 'resend')">Gửi lại mã OTP</button>
                             </div>
 
                             <div class="auth-footer">
-                                <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">← Quay
-                                    lại đăng nhập</a>
+                                <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">Quay lại đăng nhập</a>
                             </div>
                         </form>
 
                         <!-- FORM QUÊN MẬT KHẨU -->
-                        <form class="auth-form" id="authFormForgot" data-auth-form="forgot"
-                            onsubmit="submitAuth(event, 'forgot')">
+                        <form class="auth-form" id="authFormForgot" data-auth-form="forgot" onsubmit="submitAuth(event, 'forgot')">
                             <h3 class="auth-title">Quên mật khẩu</h3>
                             <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px; line-height: 1.5;">
                                 Nhập email đăng ký của bạn để nhận liên kết đặt lại mật khẩu.
@@ -8018,7 +7888,7 @@
                             <button type="submit" class="auth-btn-submit" data-auth-submit="forgot" disabled>Yêu cầu</button>
 
                             <div class="auth-footer">
-                                <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">← Quay lại đăng nhập</a>
+                                <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">Quay lại đăng nhập</a>
                             </div>
                         </form>
 

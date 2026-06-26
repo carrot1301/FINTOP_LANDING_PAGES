@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="../assets/css/modals.css">
     <link rel="stylesheet" href="../assets/css/auth.css">
     <link rel="stylesheet" href="../assets/css/demo-pages.css">
-    <script src="../assets/js/demo-nav.js" defer></script>
     <!-- Anti-flicker micro-script (High Performance Session Restore) -->
     <script>
         (function () {
@@ -59,23 +58,23 @@
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-phan-tich">
-                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Phân tích <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="../index.html#panel-analysis-market">Nghiên cứu thị trường</a>
-                    <a href="../index.html#panel-analysis-pro">Nghiên cứu chuyên sâu <span
+                    <a href="../index.html#panel-analysis-market">Thị trường</a>
+                    <a href="../index.html#panel-analysis-pro">PRO analysis <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
-                    <a href="../index.html#panel-analysis-company">Nghiên cứu Doanh nghiệp</a>
-                    <a href="../index.html#panel-analysis-sector">Nghiên cứu nhóm Ngành</a>
+                    <a href="../index.html#panel-analysis-company">Doanh nghiệp</a>
+                    <a href="../index.html#panel-analysis-sector">NCPT Ngành</a>
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-stock-data">
-                <a href="../stock-data/index.html">Dữ liệu <span style="font-size: 0.7em;">▼</span></a>
+                <a href="../stock-data/index.html">Stock Data <span style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="../stock-data/index.html#quant">Tổng quan</a>
+                    <a href="../stock-data/index.html#quant">Quant Data</a>
                     <a href="../stock-data/index.html#pro-data">PRO Data <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
-                    <a href="../stock-data/index.html#sector">Định lượng</a>
+                    <a href="../stock-data/index.html#sector">Dữ liệu ngành</a>
                     <a href="../stock-data/index.html#reports">Báo cáo</a>
                 </div>
             </li>
@@ -479,9 +478,9 @@
                         <div class="step-label">Bước 2: Liên kết tài khoản</div>
                         <div class="step-desc" style="text-align: left;">
                             <input class="demo-input" id="vipStockAccount" type="text"
-                                placeholder="Số TK chứng khoán..." style="margin-bottom: 10px;">
+                                placeholder="Số TK chứng khoán..." style="width:100%; margin-bottom: 10px;">
                             <input class="demo-input" id="vipStockCompany" type="text"
-                                placeholder="Công ty chứng khoán..." style="margin-bottom: 10px;">
+                                placeholder="Công ty chứng khoán..." style="width:100%; margin-bottom: 10px;">
                             <span class="text-muted-sm">Sau khi kiểm tra, hệ thống demo sẽ mở quyền V.I.P.</span>
                         </div>
                         <button class="btn-modal-action primary" type="button" onclick="submitVIP('link')">Yêu cầu liên
@@ -624,17 +623,15 @@
                         <form class="auth-form" id="authFormVerify" data-auth-form="verify" onsubmit="submitAuth(event, 'verify')">
                             <h3 class="auth-title">Xác thực Email</h3>
                             <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px; line-height: 1.5;">
-                                Mã xác thực 6 số đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư (kể cả Spam).
+                                Mã xác thực 6 số đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư, kể cả mục Spam.
                             </p>
 
                             <input type="hidden" id="verifyEmailAddress" value="">
 
                             <div class="auth-input-group">
                                 <label class="auth-label">Mã OTP</label>
-                                <input type="text" class="auth-input" id="verifyOtpCode"
-                                    placeholder="Nhập mã 6 số" maxlength="6"
-                                    pattern="[0-9]{6}" inputmode="numeric"
-                                    autocomplete="one-time-code"
+                                <input type="text" class="auth-input" id="verifyOtpCode" placeholder="Nhập mã 6 số"
+                                    maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code"
                                     style="text-align: center; font-size: 1.4rem; letter-spacing: 8px; font-weight: 700;">
                             </div>
 
@@ -643,20 +640,16 @@
                             <div style="text-align: center; margin-top: 12px;">
                                 <button type="button" id="resendOtpBtn" class="auth-link"
                                     style="background: none; border: none; cursor: pointer; color: #a78bfa; font-size: 0.85rem;"
-                                    onclick="submitAuth(event, 'resend')">
-                                    Gửi lại mã OTP
-                                </button>
+                                    onclick="submitAuth(event, 'resend')">Gửi lại mã OTP</button>
                             </div>
 
                             <div class="auth-footer">
-                                <a href="javascript:void(0)" class="auth-link"
-                                    onclick="switchAuthView('login')">← Quay lại đăng nhập</a>
+                                <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">Quay lại đăng nhập</a>
                             </div>
                         </form>
 
                         <!-- FORM QUÊN MẬT KHẨU -->
-                        <form class="auth-form" id="authFormForgot" data-auth-form="forgot"
-                            onsubmit="submitAuth(event, 'forgot')">
+                        <form class="auth-form" id="authFormForgot" data-auth-form="forgot" onsubmit="submitAuth(event, 'forgot')">
                             <h3 class="auth-title">Quên mật khẩu</h3>
                             <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px; line-height: 1.5;">
                                 Nhập email đăng ký của bạn để nhận liên kết đặt lại mật khẩu.
@@ -670,7 +663,7 @@
                             <button type="submit" class="auth-btn-submit" data-auth-submit="forgot" disabled>Yêu cầu</button>
 
                             <div class="auth-footer">
-                                <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">← Quay lại đăng nhập</a>
+                                <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">Quay lại đăng nhập</a>
                             </div>
                         </form>
 
@@ -701,6 +694,90 @@
                 return Number(val).toLocaleString('vi-VN');
             };
 
+            function resolveMembershipId(plan) {
+                const tier = String(plan?.tierLevel || plan?.tier_level || plan?.tier || '').toLowerCase();
+                const raw = [
+                    plan?.id,
+                    plan?.name,
+                    plan?.subtitle,
+                    plan?.description
+                ].filter(Boolean).join(' ').toLowerCase();
+
+                if (tier.includes('standard') || tier.includes('free')) return 'standard';
+                if (tier.includes('silver') || tier.includes('pro')) return 'pro';
+                if (tier.includes('gold') || tier.includes('vip')) return 'vip';
+                if (tier.includes('diamond')) return 'diamond';
+
+                if (raw.includes('diamond')) return 'diamond';
+                if (raw.includes('v.i.p') || raw.includes('vip') || raw.includes('gold')) return 'vip';
+                if (raw.includes('pro') || raw.includes('silver')) return 'pro';
+                if (raw.includes('standard') || raw.includes('free') || raw.includes('miễn phí')) return 'standard';
+                return null;
+            }
+
+            function normalizeMembershipPlans(rows) {
+                const basePlans = {
+                    standard: {
+                        id: 'standard',
+                        tierLevel: 'STANDARD',
+                        name: 'STANDARD',
+                        subtitle: 'Tiêu chuẩn',
+                        price: 'Miễn phí',
+                        features: 'Tra cứu cổ phiếu; Phân tích cơ bản; Tool & Dữ liệu cơ bản',
+                        popupContent: 'Phù hợp để bắt đầu tra cứu cổ phiếu và làm quen với hệ sinh thái dữ liệu.'
+                    },
+                    pro: {
+                        id: 'pro',
+                        tierLevel: 'SILVER',
+                        name: 'PRO',
+                        subtitle: 'Chuyên nghiệp',
+                        price: 'PRO1/PRO2/PRO3',
+                        features: 'Bộ lọc cổ phiếu; Pro Research; Pro Data',
+                        popupContent: 'Mở khóa bộ lọc, dữ liệu nâng cao, phân tích chuyên sâu và các công cụ hỗ trợ ra quyết định.'
+                    },
+                    vip: {
+                        id: 'vip',
+                        tierLevel: 'GOLD',
+                        name: 'V.I.P',
+                        subtitle: 'Cao cấp',
+                        price: 'CS hợp tác - không thu phí',
+                        features: 'Đặc quyền PRO; Kết nối Chuyên gia; Phân tích Chuyên gia',
+                        popupContent: 'Dành cho khách hàng cần kết nối chuyên gia, hỗ trợ chiến lược và trải nghiệm dịch vụ ưu tiên.'
+                    },
+                    diamond: {
+                        id: 'diamond',
+                        tierLevel: 'DIAMOND',
+                        name: 'DIAMOND',
+                        subtitle: 'Kim cương',
+                        price: 'CS hợp tác - không thu phí',
+                        features: 'Đặc quyền V.I.P; Đặc quyền PRO; Cố vấn 1-1 Chuyên gia',
+                        popupContent: 'Dành cho khách hàng cần cố vấn chiến lược danh mục, quản trị rủi ro và đồng hành chuyên sâu.'
+                    }
+                };
+                const normalized = {};
+
+                (Array.isArray(rows) ? rows : []).forEach((row) => {
+                    const id = resolveMembershipId(row);
+                    if (!id || normalized[id]) return;
+
+                    const base = basePlans[id];
+                    const rowFeatures = Array.isArray(row.features) ? row.features.join('; ') : row.features;
+                    const priceText = row.price !== undefined && row.price !== null && row.price !== ''
+                        ? formatPrice(row.price)
+                        : base.price;
+
+                    normalized[id] = {
+                        ...base,
+                        price: priceText,
+                        features: rowFeatures || base.features,
+                        popupContent: row.description || row.popupContent || row.popup_content || base.popupContent,
+                        backendId: row.id || null
+                    };
+                });
+
+                return ['standard', 'pro', 'vip', 'diamond'].map((id) => normalized[id] || basePlans[id]);
+            }
+
             async function hydrateMemberships() {
                 const API = () => Infra.ApiClient;
                 const EP = () => Infra.FintopEnv.API_ENDPOINTS;
@@ -708,52 +785,7 @@
                     const planRes = await API().get(EP().SUBSCRIPTION_PLANS);
                     const list = planRes.data || planRes || [];
                     if (Array.isArray(list) && list.length > 0) {
-                        const allowedTiers = ['STANDARD', 'SILVER', 'GOLD', 'DIAMOND'];
-                        const filteredList = list.filter(p => p.name && allowedTiers.includes(p.name.toUpperCase()));
-                        
-                        // Sort them in the exact order of allowedTiers
-                        filteredList.sort((a, b) => {
-                            return allowedTiers.indexOf(a.name.toUpperCase()) - allowedTiers.indexOf(b.name.toUpperCase());
-                        });
-
-                        MEMBERSHIP_DATA = filteredList.map(p => {
-                            let subtitle = p.description || 'Gói hội viên đầu tư';
-                            let priceText = formatPrice(p.price);
-                            if (p.tierLevel === 'SILVER') {
-                                subtitle = 'Chuyên nghiệp';
-                                priceText = `Từ ${formatPrice(p.price)} VND`;
-                            } else if (p.tierLevel === 'GOLD') {
-                                subtitle = 'Cao cấp';
-                                priceText = 'Theo điều kiện liên kết';
-                            } else if (p.tierLevel === 'DIAMOND') {
-                                subtitle = 'Kim cương';
-                                priceText = 'NAV từ 1 tỷ VND';
-                            } else if (p.tierLevel === 'STANDARD') {
-                                subtitle = 'Tiêu chuẩn';
-                                priceText = 'Miễn phí';
-                            }
-
-                            let mappedId = 'standard';
-                            if (p.tierLevel === 'SILVER') mappedId = 'pro';
-                            else if (p.tierLevel === 'GOLD') mappedId = 'vip';
-                            else if (p.tierLevel === 'DIAMOND') mappedId = 'diamond';
-
-                            return {
-                                id: mappedId,
-                                name: p.name,
-                                subtitle: subtitle,
-                                price: priceText,
-                                cta: 'Đăng ký',
-                                status: p.status === 'ACTIVE' ? 'Đang mở' : 'Tạm ngưng',
-                                features: p.features || (p.tierLevel === 'GOLD' ? 'Full đặc quyền PRO; Kết nối chuyên gia; Phân tích chuyên gia; Liên kết tài khoản chứng khoán' : 
-                                         (p.tierLevel === 'DIAMOND' ? 'Full đặc quyền PRO; Full đặc quyền V.I.P; Cố vấn 1-1 chuyên gia; Hỗ trợ chiến lược danh mục' : 
-                                         (p.tierLevel === 'SILVER' ? 'Bộ lọc cổ phiếu chuyên nghiệp; Nghiên cứu & phân tích chuyên sâu; Tool & dữ liệu nâng cao; PRO Data và PRO Analysis' : 
-                                          'Tra cứu cổ phiếu; Phân tích cơ bản; FinTop AI phân tích; Tool & dữ liệu cơ bản'))),
-                                popupTitle: p.name,
-                                popupContent: p.description || '',
-                                tierLevel: p.tierLevel
-                            };
-                        });
+                        MEMBERSHIP_DATA = normalizeMembershipPlans(list);
                         window.MEMBERSHIP_DATA = MEMBERSHIP_DATA;
                         renderMemberships();
                     }
@@ -773,6 +805,7 @@
             }
 
             function renderMemberships() {
+                MEMBERSHIP_DATA = normalizeMembershipPlans(MEMBERSHIP_DATA);
                 if (MEMBERSHIP_DATA.length === 0) return;
                 const tierGrid = document.querySelector('.tier-grid');
                 if (tierGrid) {
