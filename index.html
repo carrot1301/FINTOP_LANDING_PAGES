@@ -7935,7 +7935,7 @@
                                     <input type="checkbox" checked disabled> Ghi nhớ đăng nhập
                                 </label>
                                 <a href="javascript:void(0)" class="auth-link"
-                                    onclick="submitAuth(event, 'forgot')">Quên mật khẩu?</a>
+                                    onclick="switchAuthView('forgot')">Quên mật khẩu?</a>
                             </div>
 
                             <button type="submit" class="auth-btn-submit" data-auth-submit="login" disabled>Đăng
@@ -8011,6 +8011,26 @@
                             <div class="auth-footer">
                                 <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">← Quay
                                     lại đăng nhập</a>
+                            </div>
+                        </form>
+
+                        <!-- FORM QUÊN MẬT KHẨU -->
+                        <form class="auth-form" id="authFormForgot" data-auth-form="forgot"
+                            onsubmit="submitAuth(event, 'forgot')">
+                            <h3 class="auth-title">Quên mật khẩu</h3>
+                            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px; line-height: 1.5;">
+                                Nhập email đăng ký của bạn để nhận liên kết đặt lại mật khẩu.
+                            </p>
+
+                            <div class="auth-input-group">
+                                <label class="auth-label">Email</label>
+                                <input type="email" class="auth-input" id="forgotEmail" placeholder="Nhập email của bạn" required disabled>
+                            </div>
+
+                            <button type="submit" class="auth-btn-submit" data-auth-submit="forgot" disabled>Yêu cầu</button>
+
+                            <div class="auth-footer">
+                                <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">← Quay lại đăng nhập</a>
                             </div>
                         </form>
 

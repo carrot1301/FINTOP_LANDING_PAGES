@@ -219,6 +219,7 @@ function switchAuthView(view, animate = true) {
     const loginForm = document.getElementById('authFormLogin');
     const registerForm = document.getElementById('authFormRegister');
     const verifyForm = document.getElementById('authFormVerify');
+    const forgotForm = document.getElementById('authFormForgot');
     
     if (!loginForm || !registerForm) return;
 
@@ -227,10 +228,11 @@ function switchAuthView(view, animate = true) {
         window.FintopInfra.AuthFormUI.clearError('authFormLogin');
         window.FintopInfra.AuthFormUI.clearError('authFormRegister');
         if (verifyForm) window.FintopInfra.AuthFormUI.clearError('authFormVerify');
+        if (forgotForm) window.FintopInfra.AuthFormUI.clearError('authFormForgot');
     }
 
     // Hide all forms first
-    const allForms = [loginForm, registerForm, verifyForm].filter(Boolean);
+    const allForms = [loginForm, registerForm, verifyForm, forgotForm].filter(Boolean);
     allForms.forEach(f => {
         f.classList.remove('active', 'slide-left');
         f.style.transform = '';
@@ -241,6 +243,12 @@ function switchAuthView(view, animate = true) {
             setTimeout(() => verifyForm.classList.add('active'), 50);
         } else {
             verifyForm.classList.add('active');
+        }
+    } else if (view === 'forgot' && forgotForm) {
+        if (animate) {
+            setTimeout(() => forgotForm.classList.add('active'), 50);
+        } else {
+            forgotForm.classList.add('active');
         }
     } else if (view === 'register') {
         if (animate) {

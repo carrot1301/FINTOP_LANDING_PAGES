@@ -718,31 +718,47 @@ const AuthUI = {
   async handleForgotPassword(event) {
     if (event) event.preventDefault();
 
-    // Get the email from the login form
-    const emailInput = document.getElementById('loginEmail');
+    // Get the email from the dedicated forgot form
+    const emailInput = document.getElementById('forgotEmail');
     const email = emailInput ? emailInput.value.trim() : '';
 
     if (!email) {
-      AuthFormUI.showError('authFormLogin', 'Vui lòng nhập email để khôi phục mật khẩu.');
+      AuthFormUI.showError('authFormForgot', 'Vui lòng nhập email để khôi phục mật khẩu.');
       if (emailInput) emailInput.focus();
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      AuthFormUI.showError('authFormLogin', 'Email không đúng định dạng.');
+      AuthFormUI.showError('authFormForgot', 'Email không đúng định dạng.');
       return;
     }
 
+    // Set loading state on submit button for forgot password form
+    const btn = document.querySelector('#authFormForgot .auth-btn-submit');
+    let originalText = '';
+    if (btn) {
+      originalText = btn.textContent;
+      btn.textContent = 'Đang xử lý...';
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+    }
+
     try {
-      AuthFormUI.clearError('authFormLogin');
+      AuthFormUI.clearError('authFormForgot');
       await ApiClient.post('/auth/forgot-password', { email }, { skipAuth: true });
-      AuthFormUI.showSuccess('authFormLogin',
+      AuthFormUI.showSuccess('authFormForgot',
         '📧 Link đặt lại mật khẩu đã được gửi vào email. Vui lòng kiểm tra hộp thư (kể cả mục Spam).'
       );
     } catch (err) {
       const translated = ErrorTranslator.translate(err);
-      AuthFormUI.showError('authFormLogin', translated.message);
+      AuthFormUI.showError('authFormForgot', translated.message);
+    } finally {
+      if (btn) {
+        btn.textContent = originalText;
+        btn.disabled = false;
+        btn.style.opacity = '';
+      }
     }
   },
 
