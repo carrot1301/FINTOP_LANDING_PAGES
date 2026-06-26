@@ -110,9 +110,11 @@ export class MailService {
     }
 
     try {
+      const replyTo = this.config.get<string>('MAIL_REPLY_TO', 'fintopdata.info@gmail.com');
       const info = await this.transporter.sendMail({
         from: this.fromAddress,
         to,
+        replyTo,
         subject,
         html,
       });
@@ -159,6 +161,7 @@ export class MailService {
   private async sendMailViaBrevo(to: string, subject: string, html: string, apiKey: string): Promise<boolean> {
     const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
     const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+    const replyTo = this.config.get<string>('MAIL_REPLY_TO', 'fintopdata.info@gmail.com');
     try {
       this.logger.log(`Sending email to ${to} via Brevo HTTPS API...`);
       const response = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -178,6 +181,9 @@ export class MailService {
               email: to,
             },
           ],
+          replyTo: {
+            email: replyTo,
+          },
           subject,
           htmlContent: html,
         }),
@@ -222,8 +228,9 @@ export class MailService {
       </div>
       <p style="color:#64748b;font-size:13px;line-height:1.6;margin:0 0 8px;">⏱ Link có hiệu lực trong <strong>30 phút</strong>.</p>
       <p style="color:#64748b;font-size:13px;line-height:1.6;margin:0 0 24px;">Nếu bạn không yêu cầu đặt lại mật khẩu, hãy bỏ qua email này. Tài khoản của bạn vẫn an toàn.</p>
-      <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:16px;">
-        <p style="color:#475569;font-size:11px;text-align:center;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
+      <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:16px;text-align:center;">
+        <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Nếu gặp sự cố, bạn vui lòng phản hồi lại email này hoặc liên hệ hotline: 086.234.8886</p>
+        <p style="color:#475569;font-size:11px;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
       </div>
     </td></tr>
   </table>
@@ -253,8 +260,9 @@ export class MailService {
       <div style="text-align:center;margin:28px 0 32px;">${digitBoxes}</div>
       <p style="color:#64748b;font-size:13px;line-height:1.6;margin:0 0 8px;">⏱ Mã có hiệu lực trong <strong>10 phút</strong>.</p>
       <p style="color:#64748b;font-size:13px;line-height:1.6;margin:0 0 24px;">Nếu bạn không yêu cầu mã này, hãy bỏ qua email này.</p>
-      <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:16px;">
-        <p style="color:#475569;font-size:11px;text-align:center;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
+      <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:16px;text-align:center;">
+        <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Nếu gặp sự cố xác thực, bạn vui lòng phản hồi lại email này hoặc liên hệ hotline: 086.234.8886</p>
+        <p style="color:#475569;font-size:11px;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
       </div>
     </td></tr>
   </table>
@@ -293,8 +301,9 @@ export class MailService {
           Bắt đầu khám phá
         </a>
       </div>
-      <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:24px;">
-        <p style="color:#475569;font-size:11px;text-align:center;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
+      <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:24px;text-align:center;">
+        <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Cần hỗ trợ? Bạn vui lòng phản hồi lại email này hoặc gọi hotline: 086.234.8886</p>
+        <p style="color:#475569;font-size:11px;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
       </div>
     </td></tr>
   </table>
