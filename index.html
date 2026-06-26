@@ -2917,31 +2917,6 @@
             transform: translate3d(0, 0, 0);
         }
 
-        .pricing-badge {
-            min-height: 28px;
-            margin: -0.65rem -0.65rem 0.8rem;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #00d848, #00b533);
-            color: #03140a;
-            font-size: 0.76rem;
-            line-height: 1.2;
-            font-weight: 900;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0;
-            padding: 6px 10px;
-            box-shadow: 0 0 18px rgba(0, 216, 72, 0.25);
-        }
-
-        .pricing-badge.is-empty {
-            visibility: hidden;
-            background: transparent;
-            box-shadow: none;
-        }
-
         /* STANDARD - Cyan/Blue */
         .liquid-glass-card.card-standard {
             background: linear-gradient(135deg, rgba(15, 15, 25, 0.95), rgba(30, 25, 52, 0.9));
@@ -5702,7 +5677,6 @@
         <div class="pricing-grid">
             <!-- GÓI STANDARD - Xanh lam -->
             <div class="pricing-card liquid-glass-card card-standard">
-                <div class="pricing-badge is-empty" aria-hidden="true">CS HỢP TÁC - KO THU PHÍ</div>
                 <div class="pricing-title">STANDARD</div>
                 <div class="pricing-subtitle" style="color: #7dd3fc;">(Tiêu chuẩn)</div>
                 <ul class="pricing-features">
@@ -5715,7 +5689,6 @@
 
             <!-- GÓI PRO - Tím -->
             <div class="pricing-card liquid-glass-card card-pro">
-                <div class="pricing-badge is-empty" aria-hidden="true">CS HỢP TÁC - KO THU PHÍ</div>
                 <div class="pricing-title">PRO</div>
                 <div class="pricing-subtitle" style="color: #c4b5fd;">(Chuyên nghiệp)</div>
                 <ul class="pricing-features">
@@ -5728,7 +5701,6 @@
 
             <!-- GÓI V.I.P - Xanh ngọc -->
             <div class="pricing-card liquid-glass-card card-vip">
-                <div class="pricing-badge">CS HỢP TÁC - KO THU PHÍ</div>
                 <div class="pricing-title">V.I.P</div>
                 <div class="pricing-subtitle" style="color: #6ee7b7;">(Cao cấp)</div>
                 <ul class="pricing-features">
@@ -5741,7 +5713,6 @@
 
             <!-- GÓI DIAMOND - Vàng -->
             <div class="pricing-card liquid-glass-card card-diamond">
-                <div class="pricing-badge">CS HỢP TÁC - KO THU PHÍ</div>
                 <div class="pricing-title">DIAMOND</div>
                 <div class="pricing-subtitle" style="color: #fcd34d;">(Kim cương)</div>
                 <ul class="pricing-features">
@@ -6918,10 +6889,8 @@
                 pricingGrid.innerHTML = MEMBERSHIP_DATA.map((plan) => {
                     const features = splitList(plan.features);
                     const action = membershipActionForPlan(plan.id);
-                    const badge = String(plan.badge || '').trim();
                     return `
                         <div class="pricing-card liquid-glass-card card-${escapeHtml(plan.id)}" data-membership-action="${escapeHtml(action)}" onclick="selectMembershipAction('${escapeHtml(action)}', this)">
-                            <div class="pricing-badge${badge ? '' : ' is-empty'}" aria-hidden="${badge ? 'false' : 'true'}">${escapeHtml(badge || 'CS HỢP TÁC - KO THU PHÍ')}</div>
                             <div class="pricing-title">${escapeHtml(planDisplayName(plan))}</div>
                             <div class="pricing-subtitle">${escapeHtml(planSubtitleDisplay(plan))}</div>
                             <ul class="pricing-features">
@@ -7083,7 +7052,6 @@
                     price: row.price,
                     cta: row.cta,
                     status: row.status,
-                    badge: row.badge || row.plan_badge || '',
                     features: Array.isArray(row.features) ? row.features.join('; ') : row.features,
                     popupTitle: row.popup_title,
                     popupContent: row.popup_content
