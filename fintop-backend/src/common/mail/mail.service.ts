@@ -13,9 +13,17 @@ export class MailService {
     this.frontendUrl = this.config.get<string>('FRONTEND_URL', 'https://fintop-frontend-staging.onrender.com');
 
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
+    const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
+
     if (resendApiKey) {
       this.fromAddress = this.config.get<string>('RESEND_FROM', 'FinTop DATA <no-reply@fintopdata.vn>');
       this.logger.log('Resend API key configured — emails will be sent via Resend HTTPS API.');
+      this.transporter = null as any;
+    } else if (brevoApiKey) {
+      const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
+      const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+      this.fromAddress = `${fromName} <${fromEmail}>`;
+      this.logger.log('Brevo API key configured — emails will be sent via Brevo HTTPS API.');
       this.transporter = null as any;
     } else {
       const host = this.config.get<string>('SMTP_HOST', 'smtp.gmail.com');
@@ -25,7 +33,7 @@ export class MailService {
       this.fromAddress = this.config.get<string>('SMTP_FROM', `FinTop DATA <${user}>`);
 
       if (!user || !pass) {
-        this.logger.warn('Neither Resend API Key nor SMTP credentials configured — emails will be logged but not sent.');
+        this.logger.warn('Neither Resend, Brevo API Key nor SMTP credentials configured — emails will be logged but not sent.');
         this.transporter = null as any;
       } else {
         this.transporter = nodemailer.createTransport({
@@ -90,6 +98,11 @@ export class MailService {
       return this.sendMailViaResend(to, subject, html, resendApiKey);
     }
 
+    const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
+    if (brevoApiKey) {
+      return this.sendMailViaBrevo(to, subject, html, brevoApiKey);
+    }
+
     if (!this.transporter) {
       this.logger.warn(`[DRY RUN] Email to ${to}: ${subject}`);
       this.logger.debug(`[DRY RUN] HTML body length: ${html.length}`);
@@ -139,6 +152,47 @@ export class MailService {
       return true;
     } catch (err) {
       this.logger.error(`Failed to send email to ${to} via Resend: ${err.message}`);
+      return false;
+    }
+  }
+
+  private async sendMailViaBrevo(to: string, subject: string, html: string, apiKey: string): Promise<boolean> {
+    const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
+    const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+    try {
+      this.logger.log(`Sending email to ${to} via Brevo HTTPS API...`);
+      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'api-key': apiKey,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          sender: {
+            name: fromName,
+            email: fromEmail,
+          },
+          to: [
+            {
+              email: to,
+            },
+          ],
+          subject,
+          htmlContent: html,
+        }),
+      });
+
+      const data = await response.json() as any;
+
+      if (!response.ok) {
+        throw new Error(data?.message || `HTTP status ${response.status}`);
+      }
+
+      this.logger.log(`Email sent to ${to} via Brevo successfully: ${data.messageId}`);
+      return true;
+    } catch (err) {
+      this.logger.error(`Failed to send email to ${to} via Brevo: ${err.message}`);
       return false;
     }
   }
@@ -252,24 +306,45 @@ export class MailService {
   // DIAGNOSTIC METHODS
   // ─────────────────────────────────────────────────────
 
-  /** Returns true if SMTP or Resend credentials are configured */
+  /** Returns true if SMTP, Resend or Brevo credentials are configured */
   isConfigured(): boolean {
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
-    return !!resendApiKey || !!this.transporter;
+    const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
+    return !!resendApiKey || !!brevoApiKey || !!this.transporter;
   }
 
   /** Returns mail sender status info for health checks */
-  getStatus(): { status: 'up' | 'down'; configured: boolean; provider: 'resend' | 'smtp' | 'none'; host: string; user: string; frontendUrl: string } {
+  getStatus(): { status: 'up' | 'down'; configured: boolean; provider: 'resend' | 'brevo' | 'smtp' | 'none'; host: string; user: string; frontendUrl: string } {
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
+    const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
     const hasResend = !!resendApiKey;
+    const hasBrevo = !!brevoApiKey;
     const hasSmtp = !!this.transporter;
 
+    let provider: 'resend' | 'brevo' | 'smtp' | 'none' = 'none';
+    let host = '(not set)';
+    let user = '(not set)';
+
+    if (hasResend) {
+      provider = 'resend';
+      host = 'api.resend.com';
+      user = '***configured***';
+    } else if (hasBrevo) {
+      provider = 'brevo';
+      host = 'api.brevo.com';
+      user = this.config.get<string>('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+    } else if (hasSmtp) {
+      provider = 'smtp';
+      host = this.config.get<string>('SMTP_HOST', '(not set)');
+      user = '***configured***';
+    }
+
     return {
-      status: (hasResend || hasSmtp) ? 'up' : 'down',
-      configured: hasResend || hasSmtp,
-      provider: hasResend ? 'resend' : (hasSmtp ? 'smtp' : 'none'),
-      host: hasResend ? 'api.resend.com' : this.config.get<string>('SMTP_HOST', '(not set)'),
-      user: hasResend ? '***configured***' : (this.config.get<string>('SMTP_USER', '') ? '***configured***' : '(not set)'),
+      status: (hasResend || hasBrevo || hasSmtp) ? 'up' : 'down',
+      configured: hasResend || hasBrevo || hasSmtp,
+      provider,
+      host,
+      user,
       frontendUrl: this.frontendUrl,
     };
   }
