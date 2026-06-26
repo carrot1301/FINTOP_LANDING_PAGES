@@ -228,7 +228,7 @@
         </div>
         <ul class="tv-nav" id="navMenu">
             <li><a href="../../index.html">Trang chủ</a></li>
-            <li><a href="../../hoi-vien/index.html">Hội viên</a></li>
+            <li><a href="../../index.html#panel-hoivien">Hội viên</a></li>
             <li><a href="../index.html">Tra cứu CP</a></li>
             <li><a href="../bo-loc/index.html">Bộ lọc CP</a></li>
             <li><a href="../tin-hieu/index.html">Tín hiệu CG</a></li>
@@ -447,7 +447,7 @@
                         if (typeof window.openAuthModal === 'function') {
                             window.openAuthModal();
                         } else {
-                            location.href = '../../hoi-vien/index.html';
+                            location.href = '../../index.html#panel-hoivien';
                         }
                         return;
                     }
@@ -455,7 +455,7 @@
                     const tier = user?.tierLevel || 'STANDARD';
                     if (tier !== 'DIAMOND') {
                         alert(`Tính năng Sao Chép Lệnh yêu cầu gói Hội viên DIAMOND. Hiện tại tài khoản của bạn đang là gói ${tier}. Vui lòng nâng cấp để sử dụng!`);
-                        location.href = '../../hoi-vien/index.html';
+                        location.href = '../../index.html#panel-hoivien';
                         return;
                     }
                 }

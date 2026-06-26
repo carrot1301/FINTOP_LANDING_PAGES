@@ -332,7 +332,7 @@ class RbacEvaluatorSingleton {
         <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 1rem;">
           Nâng cấp tài khoản để truy cập tính năng này.
         </p>
-        <a href="/hoi-vien/index.html" style="
+        <a href="/index.html#panel-hoivien" style="
           background: #7c3aed; color: white; padding: 0.6rem 1.5rem;
           border-radius: 8px; text-decoration: none; font-weight: 600;
         ">Xem gói hội viên</a>

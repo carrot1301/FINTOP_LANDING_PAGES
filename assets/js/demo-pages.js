@@ -556,7 +556,7 @@ function renderReportsTab() {
                             <div style="font-size: 0.7rem; color: #fbbf24; font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px;">BÁO CÁO ${r.minTierAccess}</div>
                             <h3 style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 8px;">${r.title}</h3>
                             <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 12px;">Đặc quyền Hội viên ${r.minTierAccess} trở lên.</p>
-                            <button class="btn-tv-blue" style="background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; font-weight: bold; border: none; padding: 6px 12px; font-size: 0.75rem;" onclick="window.location.href='../hoi-vien/index.html'">
+                            <button class="btn-tv-blue" style="background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; font-weight: bold; border: none; padding: 6px 12px; font-size: 0.75rem;" onclick="window.location.href='../index.html#panel-hoivien'">
                                 Nâng cấp để đọc
                             </button>
                         </article>
@@ -699,7 +699,7 @@ function loadPortfolioDetail(id) {
                                 <p style="color: #94a3b8; font-size: 0.8rem; max-width: 380px; margin: 0 auto 16px;">
                                     Danh mục khuyến nghị chuyên gia này yêu cầu gói tài khoản ${data.minTierAccess} trở lên để xem đầy đủ chi tiết mã, khối lượng và tỷ trọng phân bổ.
                                 </p>
-                                <button class="btn-tv-blue" style="background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; font-weight: bold; border: none; padding: 6px 16px; font-size: 0.8rem;" onclick="window.location.href='../hoi-vien/index.html'">
+                                <button class="btn-tv-blue" style="background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; font-weight: bold; border: none; padding: 6px 16px; font-size: 0.8rem;" onclick="window.location.href='../index.html#panel-hoivien'">
                                     Nâng cấp ngay
                                 </button>
                             </td>
