@@ -42,7 +42,7 @@ export class MailService {
   // ─────────────────────────────────────────────────────
 
   async sendPasswordResetEmail(email: string, token: string, fullName: string): Promise<boolean> {
-    const resetLink = `${this.frontendUrl}/fintop_frontend/reset-password/index.html?token=${encodeURIComponent(token)}`;
+    const resetLink = `${this.frontendUrl}/reset-password/?token=${encodeURIComponent(token)}`;
 
     const subject = '🔐 Đặt lại mật khẩu — FinTop DATA';
     const html = this.buildPasswordResetTemplate(fullName, resetLink);

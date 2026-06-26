@@ -8,6 +8,7 @@ import { GlobalExceptionFilter } from '../src/common/filters/global-exception.fi
 import { LoggingInterceptor } from '../src/common/interceptors/logging.interceptor';
 import { PrismaService } from '../src/common/database/prisma.service';
 import { HashUtil } from '../src/common/utils/hash.util';
+import { MailService } from '../src/common/mail/mail.service';
 
 async function runAuthValidation() {
   console.log('🔍 Bắt đầu kiểm thử Authentication & Authorization Runtime Validation...');
@@ -110,8 +111,68 @@ async function runAuthValidation() {
       .expect(HttpStatus.UNAUTHORIZED);
     console.log('  [PASS] Revoked token rejected correctly.');
 
+    // Test #7: Forgot Password & Reset Password Flow
+    console.log('\n⚡ Test #7: Forgot Password & Reset Password Flow');
+    const mailService = app.get(MailService);
+    let capturedToken = '';
+    const originalSend = mailService.sendPasswordResetEmail;
+    mailService.sendPasswordResetEmail = async (email: string, token: string, fullName: string) => {
+      capturedToken = token;
+      return true;
+    };
+
+    // Request reset
+    await request(app.getHttpServer())
+      .post('/auth/forgot-password')
+      .send({ email: testEmail })
+      .expect(HttpStatus.OK);
+    
+    if (!capturedToken) {
+      throw new Error('Failed to capture password reset token');
+    }
+    console.log('  [PASS] Forgot password requested, token captured.');
+
+    // Try reset with invalid token
+    await request(app.getHttpServer())
+      .post('/auth/reset-password')
+      .send({ token: 'invalid_token', newPassword: 'NewPassword123!' })
+      .expect(HttpStatus.BAD_REQUEST);
+    console.log('  [PASS] Invalid token rejected.');
+
+    // Try reset with too short password
+    await request(app.getHttpServer())
+      .post('/auth/reset-password')
+      .send({ token: capturedToken, newPassword: '123' })
+      .expect(HttpStatus.BAD_REQUEST);
+    console.log('  [PASS] Too short password rejected.');
+
+    // Successful reset
+    const newPassword = 'NewPassword123!';
+    await request(app.getHttpServer())
+      .post('/auth/reset-password')
+      .send({ token: capturedToken, newPassword })
+      .expect(HttpStatus.OK);
+    console.log('  [PASS] Password reset successfully.');
+
+    // Verify old password fails
+    await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: testEmail, password: testPassword })
+      .expect(HttpStatus.UNAUTHORIZED);
+    console.log('  [PASS] Login with old password rejected.');
+
+    // Verify new password succeeds
+    await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: testEmail, password: newPassword })
+      .expect(HttpStatus.OK);
+    console.log('  [PASS] Login with new password succeeded.');
+
+    // Clean up spy
+    mailService.sendPasswordResetEmail = originalSend;
+
     // Throttling Test
-    console.log('\n⚡ Test #7: Throttling Enforcement');
+    console.log('\n⚡ Test #8: Throttling Enforcement');
     for (let i = 0; i < 11; i++) {
       const res = await request(app.getHttpServer())
         .post('/auth/login')
