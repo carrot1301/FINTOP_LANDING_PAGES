@@ -47,6 +47,15 @@ const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://localhost:${PORT}`);
   let pathname = parsedUrl.pathname;
 
+  if (pathname === '/hoi-vien' || pathname === '/hoi-vien/' || pathname === '/hoi-vien/index.html') {
+    res.writeHead(302, {
+      'Location': '/index.html#panel-hoivien',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+    });
+    res.end();
+    return;
+  }
+
   // Determine target physical file path
   let filePath = '';
 
