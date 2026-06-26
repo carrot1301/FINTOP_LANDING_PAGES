@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="../assets/css/variables.css">
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/demo-pages.css">
+    <script src="../assets/js/demo-nav.js" defer></script>
     
     <!-- Custom JS -->
     <script src="../assets/js/table.js" defer></script>
@@ -30,28 +32,76 @@
 </head>
 <body class="light-mode"> <!-- Kích hoạt màu nền sáng cho inner page -->
 
-    <!-- HEADER (Có thể chuyển sang màu tối hoặc màu light tuỳ thích, ở đây giữ nguyên Dark như Spec header sticky) -->
-    <header class="sticky-nav">
-        <a href="../index.html" class="logo">FinTop DATA</a>
-        <ul class="nav-menu">
-            <li><a href="../hoi-vien/index.html">Hội Viên</a></li>
-            <li>
-                <a href="index.html" style="color: var(--purple-glow);">FinTop Data ▾</a>
-                <div class="dropdown-menu">
-                    <a href="index.html">Tra cứu CP</a>
-                    <a href="bo-loc/index.html">Bộ Lọc CP</a>
-                    <a href="tin-hieu/index.html">Tín Hiệu CG</a>
-                    <a href="danh-muc/index.html">Copy Trade</a>
+    <header class="tv-header">
+        <div class="tv-left">
+            <a href="../index.html">
+                <img src="../assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo">
+            </a>
+            <div class="tv-search-bar">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                </svg>
+                Tìm kiếm (Ctrl+K)
+            </div>
+        </div>
+        <ul class="tv-nav">
+            <li class="nav-item"><a href="../index.html">Trang chủ</a></li>
+            <li class="nav-item"><a href="../hoi-vien/index.html">Hội viên</a></li>
+            <li class="nav-item dropdown" id="dropdown-fintop-data">
+                <a href="javascript:void(0)" class="active-page" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../index.html#panel-tracuu" class="active-submenu">📊 Tra cứu cổ phiếu</a>
+                    <a href="../index.html#panel-boloc">🔍 Bộ lọc cổ phiếu <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../fintop-ai/index.html">🤖 FinTop AI</a>
+                    <a href="../index.html#panel-tinhieu">📡 Copy Trade Chuyên gia</a>
                 </div>
             </li>
-            <li><a href="../chuyen-gia/index.html">Chuyên Gia</a></li>
-            <li><a href="../fintop-ai/index.html">FinTop AI</a></li>
-            <li><a href="../stock-data/index.html">Stock Data</a></li>
-            <li><a href="../huong-dan/index.html">Hướng Dẫn</a></li>
+            <li class="nav-item dropdown" id="dropdown-phan-tich">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../index.html#panel-analysis-market">Nghiên cứu thị trường</a>
+                    <a href="../index.html#panel-analysis-pro">Nghiên cứu chuyên sâu <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../index.html#panel-analysis-company">Nghiên cứu Doanh nghiệp</a>
+                    <a href="../index.html#panel-analysis-sector">Nghiên cứu nhóm Ngành</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-stock-data">
+                <a href="../stock-data/index.html">Dữ liệu <span style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../stock-data/index.html#quant">Tổng quan</a>
+                    <a href="../stock-data/index.html#pro-data">PRO Data <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../stock-data/index.html#sector">Định lượng</a>
+                    <a href="../stock-data/index.html#reports">Báo cáo</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-huongdan">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../huong-dan/index.html#trading">📖 Giao dịch & Đầu tư</a>
+                    <a href="../huong-dan/index.html#ta">📈 Phân tích kỹ thuật (TA)</a>
+                    <a href="../huong-dan/index.html#fa">📊 Phân tích cơ bản (FA)</a>
+                    <a href="../huong-dan/index.html#library">📚 Tủ sách đầu tư</a>
+                </div>
+            </li>
         </ul>
-        <div class="header-actions">
-            <!-- Icon/User profile mock -->
-            <button class="btn-primary btn-sm">Tài khoản</button>
+        <div class="tv-right">
+            <span class="icon-link">🌐 VI</span>
+            <div class="user-dropdown-container">
+                <span class="icon-link" style="cursor: pointer;">👤</span>
+                <div class="user-dropdown-menu">
+                    <a href="../index.html" class="user-dropdown-item">👤 Đăng nhập</a>
+                    <a href="../huong-dan/index.html" class="user-dropdown-item">Trung tâm Trợ giúp</a>
+                    <a href="../index.html" class="user-dropdown-item">Có gì mới</a>
+                </div>
+            </div>
+            <button class="btn-tv-blue" type="button" onclick="window.location.href='../hoi-vien/index.html#membership-plans'">Bắt đầu</button>
         </div>
     </header>
 

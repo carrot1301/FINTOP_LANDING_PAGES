@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="../assets/css/components.css">
     <link rel="stylesheet" href="../assets/css/modals.css">
     <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="../assets/css/demo-pages.css">
+    <script src="../assets/js/demo-nav.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -22,18 +24,22 @@
         .tv-header {
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 1rem 5%; height: 72px;
-            background: rgba(10,10,15,0.85); backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            gap: 24px;
+            padding: 0 5%; height: 72px;
+            background: rgba(10,10,15,0.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.22);
         }
-        .tv-left { display: flex; align-items: center; gap: 2rem; }
-        .neon-logo { height: 70px; width: auto; filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 15px rgba(168,85,247,0.8)); transition: all 0.3s ease; }
-        .neon-logo:hover { filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 25px rgba(192,132,252,1)); transform: scale(1.05); }
-        .tv-nav { display: flex; gap: 2rem; align-items: center; list-style: none; }
-        .tv-nav a { font-size: 0.9rem; font-weight: 600; color: #fff; opacity: 0.8; transition: opacity 0.2s; text-decoration: none; }
-        .tv-nav a:hover { opacity: 1; text-shadow: 0 0 8px rgba(255,255,255,0.5); }
-        .tv-right { display: flex; align-items: center; gap: 1rem; }
-        .btn-tv-blue { background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; border: none; border-radius: 8px; padding: 8px 20px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+        .tv-left { display: flex; align-items: center; gap: 18px; min-width: max-content; }
+        .neon-logo { height: 70px; width: auto; display: block; filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 15px rgba(168,85,247,0.72)); transition: transform 0.25s ease, filter 0.25s ease; }
+        .neon-logo:hover { filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 25px rgba(192,132,252,0.92)); transform: scale(1.04); }
+        .tv-nav { display: flex; gap: 26px; align-items: center; justify-content: center; flex: 1; list-style: none; }
+        .tv-nav a { font-size: 0.9rem; font-weight: 800; color: #fff; opacity: 0.82; transition: opacity 0.2s, color 0.2s, text-shadow 0.2s; text-decoration: none; }
+        .tv-nav a:hover,
+        .tv-nav a.active-page { opacity: 1; text-shadow: 0 0 10px rgba(168,85,247,0.52); }
+        .tv-right { display: flex; align-items: center; gap: 18px; min-width: max-content; }
+        .btn-tv-blue { background: #2563EB; color: #fff; border: none; border-radius: 7px; padding: 10px 24px; font-weight: 800; font-size: 0.9rem; cursor: pointer; }
 
         /* Breadcrumb */
         .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 2rem; font-size: 0.85rem; color: #475569; }
@@ -414,14 +420,71 @@
     <header class="tv-header">
         <div class="tv-left">
             <a href="../index.html"><img src="../assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo"></a>
-        </div>
-        <ul class="tv-nav" id="navMenu"></ul>
-        <div class="tv-right">
-            <span style="color:#94A3B8;font-size:0.9rem;cursor:pointer;">VI</span>
-            <!-- User Menu Area -->
-            <div class="user-dropdown-container" id="userDropdownContainer">
-                <button class="btn-tv-blue" id="fintopStartBtn" onclick="location.href='../hoi-vien/index.html'">Bắt đầu</button>
+            <div class="tv-search-bar">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                </svg>
+                Tìm kiếm (Ctrl+K)
             </div>
+        </div>
+        <ul class="tv-nav">
+            <li class="nav-item"><a href="../index.html">Trang chủ</a></li>
+            <li class="nav-item"><a href="../hoi-vien/index.html">Hội viên</a></li>
+            <li class="nav-item dropdown" id="dropdown-fintop-data">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../index.html#panel-tracuu">📊 Tra cứu cổ phiếu</a>
+                    <a href="../index.html#panel-boloc">🔍 Bộ lọc cổ phiếu <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../fintop-ai/index.html">🤖 FinTop AI</a>
+                    <a href="../index.html#panel-tinhieu">📡 Copy Trade Chuyên gia</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-phan-tich">
+                <a href="javascript:void(0)" class="active-page" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../index.html#panel-analysis-market">Nghiên cứu thị trường</a>
+                    <a href="../index.html#panel-analysis-pro">Nghiên cứu chuyên sâu <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../index.html#panel-analysis-company">Nghiên cứu Doanh nghiệp</a>
+                    <a href="../index.html#panel-analysis-sector">Nghiên cứu nhóm Ngành</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-stock-data">
+                <a href="../stock-data/index.html">Dữ liệu <span style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../stock-data/index.html#quant">Tổng quan</a>
+                    <a href="../stock-data/index.html#pro-data">PRO Data <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../stock-data/index.html#sector">Định lượng</a>
+                    <a href="../stock-data/index.html#reports">Báo cáo</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-huongdan">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../huong-dan/index.html#trading">📖 Giao dịch & Đầu tư</a>
+                    <a href="../huong-dan/index.html#ta">📈 Phân tích kỹ thuật (TA)</a>
+                    <a href="../huong-dan/index.html#fa">📊 Phân tích cơ bản (FA)</a>
+                    <a href="../huong-dan/index.html#library">📚 Tủ sách đầu tư</a>
+                </div>
+            </li>
+        </ul>
+        <div class="tv-right">
+            <span class="icon-link">🌐 VI</span>
+            <div class="user-dropdown-container">
+                <span class="icon-link" style="cursor: pointer;">👤</span>
+                <div class="user-dropdown-menu">
+                    <a href="../index.html" class="user-dropdown-item">👤 Đăng nhập</a>
+                    <a href="../huong-dan/index.html" class="user-dropdown-item">Trung tâm Trợ giúp</a>
+                    <a href="../index.html" class="user-dropdown-item">Có gì mới</a>
+                </div>
+            </div>
+            <button class="btn-tv-blue" id="fintopStartBtn" onclick="location.href='../hoi-vien/index.html#membership-plans'">Bắt đầu</button>
         </div>
     </header>
 
@@ -508,20 +571,6 @@
     <script type="module" src="../assets/js/core/index.js"></script>
     <script>
     (function(){
-        // Render Navbar
-        var navItems = [
-            {text:'Trang chủ', href:'../index.html'},
-            {text:'Hội viên', href:'../hoi-vien/index.html'},
-            {text:'Tín hiệu CG', href:'../fintop-data/tin-hieu/index.html'},
-            {text:'Danh mục CG', href:'../fintop-data/danh-muc/index.html'},
-            {text:'FinTop AI', href:'../fintop-ai/index.html'},
-            {text:'Hướng dẫn', href:'../huong-dan/index.html'}
-        ];
-        var html = navItems.map(function(n){
-            return '<li><a href="'+n.href+'">'+n.text+'</a></li>';
-        }).join('');
-        document.getElementById('navMenu').innerHTML = html;
-
         function getRelativeTimeString(date) {
             var now = new Date();
             var diffMs = now - date;
