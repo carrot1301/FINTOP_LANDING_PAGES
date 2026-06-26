@@ -2917,6 +2917,31 @@
             transform: translate3d(0, 0, 0);
         }
 
+        .pricing-badge {
+            min-height: 28px;
+            margin: -0.65rem -0.65rem 0.8rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #00d848, #00b533);
+            color: #03140a;
+            font-size: 0.76rem;
+            line-height: 1.2;
+            font-weight: 900;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            padding: 6px 10px;
+            box-shadow: 0 0 18px rgba(0, 216, 72, 0.25);
+        }
+
+        .pricing-badge.is-empty {
+            visibility: hidden;
+            background: transparent;
+            box-shadow: none;
+        }
+
         /* STANDARD - Cyan/Blue */
         .liquid-glass-card.card-standard {
             background: linear-gradient(135deg, rgba(15, 15, 25, 0.95), rgba(30, 25, 52, 0.9));
@@ -5675,58 +5700,54 @@
         <div class="pricing-grid">
             <!-- GÓI STANDARD - Xanh lam -->
             <div class="pricing-card liquid-glass-card card-standard">
+                <div class="pricing-badge is-empty" aria-hidden="true">CS HỢP TÁC - KO THU PHÍ</div>
                 <div class="pricing-title">STANDARD</div>
-                <div class="pricing-subtitle" style="color: #7dd3fc;">Tiêu chuẩn</div>
+                <div class="pricing-subtitle" style="color: #7dd3fc;">(Tiêu chuẩn)</div>
                 <ul class="pricing-features">
                     <li><span class="check-icon">✦</span> Tra cứu cổ phiếu</li>
-                    <li><span class="check-icon">✦</span> FinTop AI cơ bản</li>
-                    <li><span class="check-icon">✦</span> Dữ liệu nền</li>
-                    <li><span class="check-icon">✦</span> Hướng dẫn đầu tư</li>
-                    <li><span class="check-icon">✦</span> Miễn phí</li>
+                    <li><span class="check-icon">✦</span> Phân tích cơ bản</li>
+                    <li><span class="check-icon">✦</span> Tool &amp; Dữ liệu cơ bản</li>
                 </ul>
-                <button class="btn-tier" onclick="submitStandard('register')">Đăng ký tài khoản</button>
+                <button class="btn-tier" onclick="submitStandard('register')">Đăng ký</button>
             </div>
 
             <!-- GÓI PRO - Tím -->
             <div class="pricing-card liquid-glass-card card-pro">
-                <div class="pricing-title">PRO ⭐</div>
-                <div class="pricing-subtitle" style="color: #c4b5fd;">Chuyên nghiệp</div>
+                <div class="pricing-badge is-empty" aria-hidden="true">CS HỢP TÁC - KO THU PHÍ</div>
+                <div class="pricing-title">PRO</div>
+                <div class="pricing-subtitle" style="color: #c4b5fd;">(Chuyên nghiệp)</div>
                 <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Bộ lọc cổ phiếu chuyên nghiệp</li>
-                    <li><span class="check-icon">✦</span> PRO Data</li>
-                    <li><span class="check-icon">✦</span> PRO Research</li>
-                    <li><span class="check-icon">✦</span> Tool và dữ liệu nâng cao</li>
-                    <li><span class="check-icon">✦</span> PRO1/PRO2/PRO3</li>
+                    <li><span class="check-icon">✦</span> Bộ lọc cổ phiếu</li>
+                    <li><span class="check-icon">✦</span> Pro Research</li>
+                    <li><span class="check-icon">✦</span> Pro Data</li>
                 </ul>
-                <button class="btn-tier" onclick="openPricingModal('pro')">Đăng ký PRO</button>
+                <button class="btn-tier" onclick="openPricingModal('pro')">Đăng ký</button>
             </div>
 
             <!-- GÓI V.I.P - Xanh ngọc -->
             <div class="pricing-card liquid-glass-card card-vip">
+                <div class="pricing-badge">CS HỢP TÁC - KO THU PHÍ</div>
                 <div class="pricing-title">V.I.P</div>
-                <div class="pricing-subtitle" style="color: #6ee7b7;">Cao cấp</div>
+                <div class="pricing-subtitle" style="color: #6ee7b7;">(Cao cấp)</div>
                 <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Full PRO</li>
-                    <li><span class="check-icon">✦</span> Kết nối chuyên gia</li>
-                    <li><span class="check-icon">✦</span> Phân tích chuyên gia</li>
-                    <li><span class="check-icon">✦</span> Liên kết tài khoản chứng khoán</li>
-                    <li><span class="check-icon">✦</span> Theo liên kết TKCK</li>
+                    <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
+                    <li><span class="check-icon">✦</span> Kết nối Chuyên gia</li>
+                    <li><span class="check-icon">✦</span> Phân tích Chuyên gia</li>
                 </ul>
-                <button class="btn-tier" onclick="openPricingModal('vip')">Liên kết V.I.P</button>
+                <button class="btn-tier" onclick="openPricingModal('vip')">Đăng ký</button>
             </div>
 
             <!-- GÓI DIAMOND - Vàng -->
             <div class="pricing-card liquid-glass-card card-diamond">
-                <div class="pricing-title">DIAMOND 💎</div>
-                <div class="pricing-subtitle" style="color: #fcd34d;">Kim cương</div>
+                <div class="pricing-badge">CS HỢP TÁC - KO THU PHÍ</div>
+                <div class="pricing-title">DIAMOND</div>
+                <div class="pricing-subtitle" style="color: #fcd34d;">(Kim cương)</div>
                 <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Full V.I.P</li>
-                    <li><span class="check-icon">✦</span> Cố vấn 1-1</li>
-                    <li><span class="check-icon">✦</span> Chiến lược danh mục theo NAV</li>
-                    <li><span class="check-icon">✦</span> Báo cáo định kỳ</li>
-                    <li><span class="check-icon">✦</span> NAV từ 1 tỷ</li>
+                    <li><span class="check-icon">✦</span> Đặc quyền V.I.P</li>
+                    <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
+                    <li><span class="check-icon">✦</span> Cố vấn 1-1 Chuyên gia</li>
                 </ul>
-                <button class="btn-tier" onclick="openPricingModal('diamond')">Cố vấn DIAMOND</button>
+                <button class="btn-tier" onclick="openPricingModal('diamond')">Đăng ký</button>
             </div>
         </div>
     </section>
@@ -6534,7 +6555,7 @@
                 free: {
                     title: 'Đăng ký tài khoản FinTop DATA miễn phí',
                     copy: 'Tạo tài khoản miễn phí để lưu danh sách theo dõi, sử dụng các công cụ cơ bản và nhận hỗ trợ khi cần nâng cấp trải nghiệm đầu tư.',
-                    actionLabel: 'Đăng ký tài khoản',
+                    actionLabel: 'Đăng ký',
                     action: "submitStandard('register')",
                     approval: false,
                     steps: [
@@ -6552,7 +6573,7 @@
                 pro: {
                     title: 'Đăng ký gói PRO FinTop DATA',
                     copy: 'Gói PRO dành cho khách hàng muốn mở khóa bộ lọc cổ phiếu chuyên nghiệp, dữ liệu PRO và báo cáo nghiên cứu chuyên sâu. Bạn chỉ cần đăng nhập, chọn gói phù hợp và hoàn tất thanh toán theo hướng dẫn.',
-                    actionLabel: 'Đăng ký PRO',
+                    actionLabel: 'Đăng ký',
                     action: "openPricingModal('pro')",
                     approval: true,
                     approvalNote: 'FinTop sẽ thông báo ngay khi quyền PRO được kích hoạt.',
@@ -6571,7 +6592,7 @@
                 vip: {
                     title: 'Liên kết tài khoản chứng khoán (ID FinTop)',
                     copy: 'Gói V.I.P dành cho khách hàng muốn kết nối chuyên gia và sử dụng quyền lợi nâng cao thông qua tài khoản chứng khoán liên kết với FinTop.',
-                    actionLabel: 'Liên kết V.I.P',
+                    actionLabel: 'Đăng ký',
                     action: "openPricingModal('vip')",
                     approval: true,
                     approvalNote: 'FinTop sẽ thông báo khi tài khoản V.I.P được xác nhận.',
@@ -6590,7 +6611,7 @@
                 diamond: {
                     title: 'Liên kết tài khoản Diamond (NAV từ 1 tỷ VND)',
                     copy: 'Gói Diamond dành cho khách hàng có NAV từ 1 tỷ VND và cần đồng hành chuyên sâu về chiến lược danh mục, báo cáo định kỳ và cố vấn 1-1.',
-                    actionLabel: 'Liên kết Diamond',
+                    actionLabel: 'Đăng ký',
                     action: "openPricingModal('diamond')",
                     approval: true,
                     approvalNote: 'FinTop sẽ liên hệ để xác nhận thông tin và kích hoạt dịch vụ Diamond.',
@@ -6857,17 +6878,13 @@
         }
 
         function planDisplayName(plan) {
-            const name = String(plan.name || '').trim();
-            const normalized = name.toUpperCase();
-            if (normalized === 'PRO' && !name.includes('⭐')) return `${name} ⭐`;
-            if (normalized === 'DIAMOND' && !name.includes('💎')) return `${name} 💎`;
-            return name;
+            return String(plan.name || '').trim();
         }
 
         function planSubtitleDisplay(plan) {
             const subtitle = (plan.subtitle || '').trim();
             if (!subtitle) return '';
-            return subtitle.replace(/^\((.*)\)$/, '$1');
+            return subtitle.startsWith('(') ? subtitle : `(${subtitle})`;
         }
 
         function membershipActionForPlan(planId) {
@@ -6899,8 +6916,10 @@
                 pricingGrid.innerHTML = MEMBERSHIP_DATA.map((plan) => {
                     const features = splitList(plan.features);
                     const action = membershipActionForPlan(plan.id);
+                    const badge = String(plan.badge || '').trim();
                     return `
                         <div class="pricing-card liquid-glass-card card-${escapeHtml(plan.id)}" data-membership-action="${escapeHtml(action)}" onclick="selectMembershipAction('${escapeHtml(action)}', this)">
+                            <div class="pricing-badge${badge ? '' : ' is-empty'}" aria-hidden="${badge ? 'false' : 'true'}">${escapeHtml(badge || 'CS HỢP TÁC - KO THU PHÍ')}</div>
                             <div class="pricing-title">${escapeHtml(planDisplayName(plan))}</div>
                             <div class="pricing-subtitle">${escapeHtml(planSubtitleDisplay(plan))}</div>
                             <ul class="pricing-features">
@@ -7062,6 +7081,7 @@
                     price: row.price,
                     cta: row.cta,
                     status: row.status,
+                    badge: row.badge || row.plan_badge || '',
                     features: Array.isArray(row.features) ? row.features.join('; ') : row.features,
                     popupTitle: row.popup_title,
                     popupContent: row.popup_content
