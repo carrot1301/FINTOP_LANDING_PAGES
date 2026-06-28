@@ -167,7 +167,7 @@ export class MailService {
     const bccEmail = this.config.get<string>('MAIL_BCC', 'fintopdata.info@gmail.com');
     try {
       this.logger.log(`Sending email to ${to} via Brevo HTTPS API...`);
-      
+
       const bodyPayload: any = {
         sender: {
           name: fromName,
@@ -230,7 +230,7 @@ export class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <img src="${this.frontendUrl}/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
+        <img src="https://raw.githubusercontent.com/carrot1301/FINTOP_LANDING_PAGES/main/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <h2 style="color:#ffffff;font-size:18px;font-weight:600;margin-top:0;margin-bottom:20px;text-align:center;letter-spacing:0.5px;">YÊU CẦU ĐẶT LẠI MẬT KHẨU</h2>
@@ -267,7 +267,7 @@ export class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <img src="${this.frontendUrl}/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
+        <img src="https://raw.githubusercontent.com/carrot1301/FINTOP_LANDING_PAGES/main/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <h2 style="color:#ffffff;font-size:18px;font-weight:600;margin-top:0;margin-bottom:20px;text-align:center;letter-spacing:0.5px;">XÁC THỰC TÀI KHOẢN</h2>
@@ -295,7 +295,7 @@ export class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <img src="${this.frontendUrl}/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
+        <img src="https://raw.githubusercontent.com/carrot1301/FINTOP_LANDING_PAGES/main/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <div style="text-align:center;margin-bottom:24px;">
