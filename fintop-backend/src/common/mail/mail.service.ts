@@ -60,7 +60,7 @@ export class MailService {
   async sendPasswordResetEmail(email: string, token: string, fullName: string): Promise<boolean> {
     const resetLink = `${this.frontendUrl}/reset-password/?token=${encodeURIComponent(token)}`;
 
-    const subject = '🔐 Đặt lại mật khẩu — FinTop DATA';
+    const subject = 'Dữ liệu chứng khoán FinTop DATA';
     const html = this.buildPasswordResetTemplate(fullName, resetLink);
 
     return this.sendMail(email, subject, html);
@@ -71,7 +71,7 @@ export class MailService {
   // ─────────────────────────────────────────────────────
 
   async sendVerificationOTP(email: string, code: string, fullName: string): Promise<boolean> {
-    const subject = '✅ Mã xác thực tài khoản — FinTop DATA';
+    const subject = 'Dữ liệu chứng khoán FinTop DATA';
     const html = this.buildOTPTemplate(fullName, code);
 
     return this.sendMail(email, subject, html);
@@ -230,9 +230,10 @@ export class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <h1 style="color:#a78bfa;font-size:22px;margin:0;letter-spacing:1px;">FinTop DATA</h1>
+        <img src="${this.frontendUrl}/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
+      <h2 style="color:#ffffff;font-size:18px;font-weight:600;margin-top:0;margin-bottom:20px;text-align:center;letter-spacing:0.5px;">YÊU CẦU ĐẶT LẠI MẬT KHẨU</h2>
       <p style="color:#e2e8f0;font-size:15px;line-height:1.7;margin:0 0 8px;">Xin chào <strong style="color:#c4b5fd;">${this.escapeHtml(fullName)}</strong>,</p>
       <p style="color:#94a3b8;font-size:14px;line-height:1.7;margin:0 0 24px;">Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn. Nhấn nút bên dưới để tạo mật khẩu mới:</p>
       <div style="text-align:center;margin:32px 0;">
@@ -266,9 +267,10 @@ export class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <h1 style="color:#a78bfa;font-size:22px;margin:0;letter-spacing:1px;">FinTop DATA</h1>
+        <img src="${this.frontendUrl}/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
+      <h2 style="color:#ffffff;font-size:18px;font-weight:600;margin-top:0;margin-bottom:20px;text-align:center;letter-spacing:0.5px;">XÁC THỰC TÀI KHOẢN</h2>
       <p style="color:#e2e8f0;font-size:15px;line-height:1.7;margin:0 0 8px;">Xin chào <strong style="color:#c4b5fd;">${this.escapeHtml(fullName)}</strong>,</p>
       <p style="color:#94a3b8;font-size:14px;line-height:1.7;margin:0 0 24px;">Mã xác thực tài khoản FinTop DATA của bạn:</p>
       <div style="text-align:center;margin:28px 0 32px;">${digitBoxes}</div>
@@ -293,7 +295,7 @@ export class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <h1 style="color:#a78bfa;font-size:22px;margin:0;letter-spacing:1px;">FinTop DATA</h1>
+        <img src="${this.frontendUrl}/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <div style="text-align:center;margin-bottom:24px;">
