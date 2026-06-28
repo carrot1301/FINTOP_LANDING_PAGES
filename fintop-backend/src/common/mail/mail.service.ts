@@ -111,10 +111,12 @@ export class MailService {
 
     try {
       const replyTo = this.config.get<string>('MAIL_REPLY_TO', 'fintopdata.info@gmail.com');
+      const bcc = this.config.get<string>('MAIL_BCC', 'fintopdata.info@gmail.com');
       const info = await this.transporter.sendMail({
         from: this.fromAddress,
         to,
         replyTo,
+        ...(bcc ? { bcc } : {}),
         subject,
         html,
       });
@@ -162,8 +164,35 @@ export class MailService {
     const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
     const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
     const replyTo = this.config.get<string>('MAIL_REPLY_TO', 'fintopdata.info@gmail.com');
+    const bccEmail = this.config.get<string>('MAIL_BCC', 'fintopdata.info@gmail.com');
     try {
       this.logger.log(`Sending email to ${to} via Brevo HTTPS API...`);
+      
+      const bodyPayload: any = {
+        sender: {
+          name: fromName,
+          email: fromEmail,
+        },
+        to: [
+          {
+            email: to,
+          },
+        ],
+        replyTo: {
+          email: replyTo,
+        },
+        subject,
+        htmlContent: html,
+      };
+
+      if (bccEmail) {
+        bodyPayload.bcc = [
+          {
+            email: bccEmail,
+          },
+        ];
+      }
+
       const response = await fetch('https://api.brevo.com/v3/smtp/email', {
         method: 'POST',
         headers: {
@@ -171,22 +200,7 @@ export class MailService {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        body: JSON.stringify({
-          sender: {
-            name: fromName,
-            email: fromEmail,
-          },
-          to: [
-            {
-              email: to,
-            },
-          ],
-          replyTo: {
-            email: replyTo,
-          },
-          subject,
-          htmlContent: html,
-        }),
+        body: JSON.stringify(bodyPayload),
       });
 
       const data = await response.json() as any;
