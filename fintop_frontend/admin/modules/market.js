@@ -1,14 +1,13 @@
 /**
  * market.js — Dữ liệu chứng khoán (Stock Data Financial Module)
  * ============================================================
- * Replicated from legacy web: /system/datafinancial/index
+ * Admin nhập liệu chứng khoán dùng chung cho trang Tra cứu và Bộ lọc.
  *
  * Features matching legacy web:
- *   - Full analysis table: STT, Mã CP, Sàn, Nhóm ngành HĐKD,
- *     Người đảm nhận, Thời gian cập nhật, Xếp hạng TA, Xu hướng CP,
- *     Tín hiệu hành động, Vùng giá giao dịch, Điểm QTRR, Xếp hạng FA,
- *     Phân tích DN FA, Thứ tự, TOP Cổ Phiếu
- *   - Toolbar: Thêm/Xóa CP, Lọc hành động, Lọc nhóm ngành, Tìm kiếm mã CP
+ *   - Full analysis table: STT, Mã CP, Sàn, Ngành HĐKD,
+ *     Cán bộ, Update time, Mô tả Model, Trạng thái Model,
+ *     Kết quả Model, Sức mạnh xu hướng, vùng kỹ thuật, Thứ tự
+ *   - Toolbar: Thêm/Xóa CP, Lọc Kết quả Model, Lọc nhóm ngành, Tìm kiếm mã CP
  *   - Toggle biểu đồ (Fireant iframe)
  *   - Inline edit (double click to edit cell)
  *   - Edit button per row
@@ -149,21 +148,32 @@ function getStatusClass(act) {
 }
 
 function formatSyncTime(updatedAtStr) {
+  const pad = (n) => String(n).padStart(2, '0');
   if (!updatedAtStr) {
     const now = new Date();
     const timeStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-    const dateStr = now.toLocaleDateString('vi-VN');
-    return `${timeStr.replace(':', 'h')}\n${dateStr.substring(0, 5)}`;
+    const dateStr = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}`;
+    return `${timeStr} ${dateStr}`;
   }
-  let formatted = updatedAtStr.replace(':', 'h').replace(' ', '\n');
-  const parts = formatted.split('\n');
-  if (parts.length === 2) {
-    const dateParts = parts[1].split('/');
-    if (dateParts.length >= 2) {
-      formatted = `${parts[0]}\n${dateParts[0]}/${dateParts[1]}`;
-    }
+
+  const raw = String(updatedAtStr)
+    .trim()
+    .replace(/\\n/g, ' ')
+    .replace(/\n/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/(\d{1,2})h(\d{2})/i, '$1:$2');
+
+  const match = raw.match(/(\d{1,2}):(\d{2})(?::\d{2})?\s+(\d{1,2})[/-](\d{1,2})/);
+  if (match) {
+    return `${pad(match[1])}:${match[2]} ${pad(match[3])}/${pad(match[4])}`;
   }
-  return formatted;
+
+  const parsed = new Date(updatedAtStr);
+  if (!Number.isNaN(parsed.getTime())) {
+    return `${pad(parsed.getHours())}:${pad(parsed.getMinutes())} ${pad(parsed.getDate())}/${pad(parsed.getMonth() + 1)}`;
+  }
+
+  return raw.replace(/(\d{1,2}:\d{2}):\d{2}/, '$1');
 }
 
 let container = null;
@@ -267,6 +277,7 @@ async function syncUserPageData() {
       desc: s.identify_trend || '',
       status: getStatusClass(s.act),
       statusText: s.act || 'TRUNG LẬP',
+      modelResult: s.act || 'TRUNG LẬP',
       trend: s.rsi_mfi || 'ĐI NGANG',
       vungKiemDinh: s.trading_price_range || '',
       khangCu: s.resistance_range || '',
@@ -378,7 +389,7 @@ function renderAll() {
       <!-- Action Filter (Multi-select dropdown) -->
       <div class="df-filter-group" style="position:relative;">
         <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-toggle-action-filter" style="min-width:130px;">
-          Lọc hành động ${selectedActions.size > 0 ? `<span style="color:#f59e0b">(${selectedActions.size})</span>` : ''}
+          Lọc Kết quả Model ${selectedActions.size > 0 ? `<span style="color:#f59e0b">(${selectedActions.size})</span>` : ''}
         </button>
         <div id="action-filter-dropdown" class="df-filter-dropdown" style="display:${actionDropdownVisible ? 'block' : 'none'};position:absolute;top:100%;left:0;z-index:1010;width:180px;border:1px solid #5e72e4;background:var(--bg-card);border-radius:0 0 6px 6px;padding:4px 0;max-height:250px;overflow-y:auto;">
           ${ACTION_FILTERS.map(af => `
@@ -426,6 +437,7 @@ function renderAll() {
             <th style="width:5.5%;text-align:center;">Kiểm soát DL</th>
             <th style="width:5.5%;text-align:center;">Update time</th>
             <th style="width:14%;text-align:center;">Mô tả Mô hình kỹ thuật (Model)</th>
+            <th style="width:6.5%;text-align:center;">Trạng thái Model</th>
             <th style="width:6.5%;text-align:center;">Kết quả Model</th>
             <th style="width:7.5%;text-align:center;">Sức mạnh xu hướng<br/>Dòng tiền - RSI/MFI</th>
             <th style="width:13%;text-align:center;">Vùng kiểm định<br/>kỹ thuật</th>
@@ -439,7 +451,7 @@ function renderAll() {
         </thead>
         <tbody id="df-table-body">
           ${filtered.length === 0 ? `
-            <tr><td colspan="17" style="text-align:center;padding:2rem;color:var(--text-muted);">Không có dữ liệu phù hợp.</td></tr>
+            <tr><td colspan="16" style="text-align:center;padding:2rem;color:var(--text-muted);">Không có dữ liệu phù hợp.</td></tr>
           ` : filtered.map((s, idx) => renderStockRow(s, idx)).join('')}
         </tbody>
       </table>
@@ -495,6 +507,9 @@ function renderStockRow(s, idx) {
           <option value="KO TÍCH CỰC" ${s.act === 'KO TÍCH CỰC' ? 'selected' : ''}>KO TÍCH CỰC</option>
           <option value="TIÊU CỰC" ${s.act === 'TIÊU CỰC' ? 'selected' : ''}>TIÊU CỰC</option>
         </select>
+      </td>
+      <td style="text-align:center;vertical-align:middle;">
+        ${actBadge(s.act || 'TRUNG LẬP')}
       </td>
       <td style="text-align:center;vertical-align:middle;">
         <select class="df-direct-input df-premium-select" data-field="rsi_mfi" data-sid="${s.id}" style="width:95px;">

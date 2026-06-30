@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Cập nhật nội dung chuyển khoản mẫu
             const noteElement = document.getElementById('pro-payment-note');
             if (noteElement) {
-                noteElement.innerHTML = `[HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI ${pkgValue} - ${months} THÁNG]<br>
-                <span style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A 0862348886 ${pkgValue} ${months} THÁNG</span>`;
+                noteElement.innerHTML = `<div>[HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI ${pkgValue} - ${months} THÁNG]</div>
+                <div style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A_0862348886_${pkgValue} - ${months} THÁNG</div>`;
             }
 
             // Cập nhật nội dung chuyển khoản tự động ở Bước 2
@@ -63,10 +63,10 @@ function updateTransferNote() {
             // Format standard for transfer note
             const safeName = nameVal.replace(/[^A-Z0-9 ]/g, '');
             const safePhone = phoneVal.replace(/[^0-9]/g, '');
-            transferNoteInput.value = `${safeName || '[HO TEN]'} ${safePhone || '[SDT]'} ${pkgValue} ${months} THANG`;
+            transferNoteInput.value = `${safeName || '[HO TEN]'}_${safePhone || '[SDT]'}_${pkgValue} - ${months} THANG`;
         } else {
             transferNoteInput.value = '';
-            transferNoteInput.placeholder = `Ví dụ: NGUYEN VAN A 0862348886 ${pkgValue} ${months} THANG`;
+            transferNoteInput.placeholder = `Ví dụ: NGUYEN VAN A_0862348886_${pkgValue} - ${months} THANG`;
         }
     }
 }
@@ -296,6 +296,12 @@ async function submitProApproval() {
         return;
     }
 
+    const receiptFile = document.getElementById('proReceiptUpload')?.files?.[0];
+    if (!receiptFile) {
+        alert('Vui lòng tải ảnh xác nhận chuyển khoản trước khi gửi yêu cầu phê duyệt.');
+        return;
+    }
+
     // 3. Lấy gói đã chọn
     const activeCard = document.querySelector('.pro-package-card.active');
     const selectedPkg = activeCard ? activeCard.getAttribute('data-package') : 'PRO1';
@@ -327,12 +333,10 @@ async function submitProApproval() {
         const invoiceId = data.invoice?.id || data.id;
 
         alert(
-            `✅ Yêu cầu phê duyệt thành công!\n\n` +
-            `Hóa đơn #${invoiceId} đã được tạo ở trạng thái Chờ duyệt.\n` +
-            `Gói đã chọn: ${selectedPkg} (${selectedMonths} tháng)\n` +
-            `Họ tên: ${fullName}\n` +
-            `SĐT: ${phone}\n\n` +
-            `Anh/Chị vui lòng thực hiện chuyển khoản thanh toán. FinTop sẽ kích hoạt tài khoản PRO ngay sau khi xác nhận.`
+            `Yêu cầu phê duyệt thành công!\n\n` +
+            `Thông tin phê duyệt của Anh/Chị sẽ được xử lý trong 1-3 ngày làm việc.\n` +
+            `Mã yêu cầu: #${invoiceId}\n` +
+            `Gói đã chọn: ${selectedPkg} (${selectedMonths} tháng)`
         );
         closePricingModal();
 
@@ -387,7 +391,8 @@ async function submitVIP(type) {
         return;
     }
 
-    const submitBtn = document.querySelector('#modal-vip .btn-modal-action.primary');
+    const submitBtn = Array.from(document.querySelectorAll('#modal-vip .btn-modal-action.primary'))
+        .find((btn) => btn.getAttribute('onclick') === "submitVIP('link')");
     const originalText = submitBtn ? submitBtn.textContent : '';
     if (submitBtn) {
         submitBtn.disabled = true;
@@ -420,6 +425,79 @@ async function submitVIP(type) {
     } catch (err) {
         console.error('[Billing] Failed to create linking invoice:', err);
         alert(`Yêu cầu liên kết thất bại: ${err.message || 'Không thể tạo yêu cầu phê duyệt.'}`);
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
+    }
+}
+
+/**
+ * Gửi yêu cầu liên kết tài khoản Diamond.
+ */
+async function submitDiamond(type) {
+    if (type === 'open') {
+        alert("Đang chuyển hướng tới trang Mở tài khoản Chứng khoán...");
+        return;
+    }
+
+    const Infra = window.FintopInfra;
+    if (!Infra) {
+        alert("Hệ thống chưa sẵn sàng. Vui lòng thử lại sau.");
+        return;
+    }
+
+    if (!Infra.AuthManager.isAuthenticated) {
+        alert("Vui lòng đăng nhập để gửi yêu cầu liên kết tài khoản Diamond.");
+        if (typeof openAuthModal === 'function') {
+            openAuthModal('login');
+        }
+        return;
+    }
+
+    const accountVal = (document.getElementById('diamondStockAccount')?.value || '').trim();
+    const companyVal = (document.getElementById('diamondStockCompany')?.value || '').trim();
+    const navVal = (document.getElementById('diamondNav')?.value || '').trim();
+
+    if (!accountVal || !companyVal || !navVal) {
+        alert("Vui lòng điền đầy đủ Số tài khoản chứng khoán, Công ty chứng khoán và NAV dự kiến.");
+        return;
+    }
+
+    const submitBtn = Array.from(document.querySelectorAll('#modal-diamond .btn-modal-action.primary'))
+        .find((btn) => btn.getAttribute('onclick') === "submitDiamond('link')");
+    const originalText = submitBtn ? submitBtn.textContent : '';
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Đang xử lý...';
+    }
+
+    try {
+        const plansRes = await Infra.ApiClient.get(Infra.FintopEnv.API_ENDPOINTS.SUBSCRIPTION_PLANS);
+        const plans = plansRes.data || plansRes || [];
+        const targetPlan = plans.find(p => p.tierLevel === 'DIAMOND');
+
+        if (!targetPlan) {
+            throw new Error("Không tìm thấy cấu hình gói Diamond trên hệ thống.");
+        }
+
+        const invoiceRes = await Infra.ApiClient.post('/billing/invoices', { planId: targetPlan.id });
+        const data = invoiceRes.data || invoiceRes;
+        const invoiceId = data.invoice?.id || data.id;
+
+        alert(`Yêu cầu phê duyệt Diamond thành công!\nThông tin phê duyệt của Anh/Chị sẽ được xử lý trong 1-3 ngày làm việc.\nMã yêu cầu: #${invoiceId}`);
+        closePricingModal();
+
+        const accountInput = document.getElementById('diamondStockAccount');
+        const companyInput = document.getElementById('diamondStockCompany');
+        const navInput = document.getElementById('diamondNav');
+        if (accountInput) accountInput.value = '';
+        if (companyInput) companyInput.value = '';
+        if (navInput) navInput.value = '';
+    } catch (err) {
+        console.error('[Billing] Failed to create Diamond linking invoice:', err);
+        alert(`Yêu cầu liên kết Diamond thất bại: ${err.message || 'Không thể tạo yêu cầu phê duyệt.'}`);
     } finally {
         if (submitBtn) {
             submitBtn.disabled = false;
