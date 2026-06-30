@@ -26,7 +26,7 @@ window.FINTOP_MEMBERSHIP_DATA = [
         name: 'V.I.P',
         subtitle: 'Cao cấp',
         price: 'CS hợp tác - không thu phí',
-        cta: 'Đăng ký V.I.P',
+        cta: 'Liên kết V.I.P',
         status: 'Đang mở',
         features: 'Đặc quyền PRO; Kết nối Chuyên gia; Phân tích Chuyên gia',
         popupTitle: 'Đặc quyền V.I.P FinTop DATA',
@@ -37,10 +37,10 @@ window.FINTOP_MEMBERSHIP_DATA = [
         name: 'DIAMOND',
         subtitle: 'Kim cương',
         price: 'CS hợp tác - không thu phí',
-        cta: 'Đăng ký Diamond',
+        cta: 'Liên kết Diamond',
         status: 'Tư vấn riêng',
         features: 'Đặc quyền V.I.P; Đặc quyền PRO; Cố vấn 1-1 Chuyên gia',
-        popupTitle: 'Gói hỗ trợ VIP PRO đặc biệt',
+        popupTitle: 'Liên kết tài khoản Diamond',
         popupContent: 'Dành cho khách hàng cần cố vấn chiến lược danh mục, quản trị rủi ro và đồng hành chuyên sâu.'
     }
 ];
