@@ -3,7 +3,7 @@ window.FINTOP_LANDING_CONTENT_DATA = [
         id: 'hero-title',
         section: 'Hero',
         label: 'Hero text',
-        value: 'Kỷ Nguyên Đầu Tư Cùng FinTop DATA.',
+        value: 'Kỷ Nguyên Đầu Tư Cùng FinTop DATA',
         status: 'Đang dùng',
         note: 'Tiêu đề chính ở màn đầu tiên'
     },
@@ -19,7 +19,7 @@ window.FINTOP_LANDING_CONTENT_DATA = [
         id: 'primary-cta',
         section: 'CTA',
         label: 'Primary CTA',
-        value: 'Bắt đầu',
+        value: 'Bắt đầu miễn phí',
         status: 'Đang dùng',
         note: 'Nút đăng ký trên header/hero'
     },
