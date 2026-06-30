@@ -354,43 +354,42 @@
 
 table.admin-table {
   width: 100%;
-  border-collapse: collapse;
-  font-size: 0.825rem;
+  border-collapse: collapse !important;
+  font-size: 0.85rem;
+  border: 1px solid #3c4c68 !important;
+  background-color: #1a2536 !important;
 }
 
 table.admin-table thead {
-  background: rgba(124, 58, 237, 0.06);
+  background: #2b3c58 !important;
 }
 
 table.admin-table th {
-  padding: 0.7rem 1rem;
-  text-align: left;
-  color: var(--text-secondary);
+  padding: 0.8rem 1rem;
+  text-align: center !important;
+  color: #ffffff !important;
   font-weight: 600;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-size: 0.85rem;
+  text-transform: none;
+  letter-spacing: 0.02em;
   white-space: nowrap;
-  border-bottom: 1px solid var(--purple-border);
+  border: 1px solid #3c4c68 !important;
 }
 
 table.admin-table td {
-  padding: 0.65rem 1rem;
-  color: var(--text-primary);
-  border-bottom: 1px solid rgba(124, 58, 237, 0.08);
+  padding: 0.75rem 1rem;
+  color: #e2e8f0;
+  border: 1px solid #3c4c68 !important;
   vertical-align: middle;
+  background-color: #1c283a !important;
 }
 
 table.admin-table tbody tr {
   transition: background 0.15s ease;
 }
 
-table.admin-table tbody tr:hover {
-  background: rgba(124, 58, 237, 0.06);
-}
-
-table.admin-table tbody tr:last-child td {
-  border-bottom: none;
+table.admin-table tbody tr:hover td {
+  background-color: #24334a !important;
 }
 
 /* ─── PAGINATION ───────────────────────────────────────── */
@@ -1131,5 +1130,25 @@ table.admin-table tbody tr:last-child td {
   background: var(--bg-card);
   color: var(--text-primary);
   font-weight: normal;
+}
+
+/* User Info Card style mapping old web */
+.user-info-card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  color: #e2e8f0 !important;
+  font-size: 0.85rem !important;
+  line-height: 1.5 !important;
+  text-align: left !important;
+}
+
+.user-info-card div {
+  margin-bottom: 3px;
+}
+
+.user-info-card strong {
+  color: #ffffff;
 }
 

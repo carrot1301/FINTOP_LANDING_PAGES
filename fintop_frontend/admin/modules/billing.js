@@ -140,6 +140,62 @@ export default {
           </div>
         </div>
       </div>
+
+      <!-- Glassmorphic Plan Edit Modal (Restoring Package Editing UI) -->
+      <div id="plan-edit-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5, 5, 10, 0.85); backdrop-filter:blur(8px); z-index:10000; align-items:center; justify-content:center; padding:1rem;">
+        <div style="background:var(--bg-card); border:1px solid var(--purple-border); border-radius:12px; max-width:550px; width:100%; padding:1.5rem; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.6); max-height: 90vh; overflow-y: auto;">
+          <button id="plan-modal-close-btn" style="position:absolute; top:1rem; right:1.5rem; background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer;">✕</button>
+          <h3 id="plan-modal-title" style="font-size:1.15rem; margin-bottom:1.25rem; color:#fff; display:flex; align-items:center; gap:0.5rem;">✏️ Sửa Gói dịch vụ</h3>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+            <div class="admin-form-group" style="grid-column: span 2; margin-bottom: 0;">
+              <label class="admin-form-label">Tên gói dịch vụ</label>
+              <input type="text" class="admin-input" id="plan-name" placeholder="Ví dụ: Standard, Silver..." />
+            </div>
+            <div class="admin-form-group" style="margin-bottom: 0;">
+              <label class="admin-form-label">Cấp độ VIP (Tier)</label>
+              <select class="admin-select" id="plan-tier" style="width: 100%;">
+                <option value="STANDARD">Standard</option>
+                <option value="SILVER">Silver</option>
+                <option value="GOLD">Gold</option>
+                <option value="DIAMOND">Diamond</option>
+              </select>
+            </div>
+            <div class="admin-form-group" style="margin-bottom: 0;">
+              <label class="admin-form-label">Giá (VNĐ)</label>
+              <input type="number" class="admin-input" id="plan-price" placeholder="Nhập giá gói..." />
+            </div>
+            <div class="admin-form-group" style="margin-bottom: 0;">
+              <label class="admin-form-label">Số ngày sử dụng</label>
+              <input type="number" class="admin-input" id="plan-duration" placeholder="Ví dụ: 30, 90, 365..." />
+            </div>
+            <div class="admin-form-group" style="margin-bottom: 0;">
+              <label class="admin-form-label">Tiền tệ</label>
+              <input type="text" class="admin-input" id="plan-currency" value="VND" />
+            </div>
+            <div class="admin-form-group" style="grid-column: span 2; margin-bottom: 0;">
+              <label class="admin-form-label">Tính năng (Mỗi tính năng phân tách bằng dấu chấm phẩy ;)</label>
+              <textarea class="admin-textarea" id="plan-features" placeholder="Ví dụ: Báo cáo phân tích; Tín hiệu VIP; Hỗ trợ 24/7" style="height: 80px;"></textarea>
+            </div>
+            <div class="admin-form-group" style="grid-column: span 2; margin-bottom: 0;">
+              <label class="admin-form-label">Mô tả ngắn</label>
+              <input type="text" class="admin-input" id="plan-description" placeholder="Nhập mô tả gói dịch vụ..." />
+            </div>
+            <div class="admin-form-group" id="plan-status-container" style="grid-column: span 2; margin-bottom: 0; display: none;">
+              <label class="admin-form-label">Trạng thái hoạt động</label>
+              <select class="admin-select" id="plan-status" style="width: 100%;">
+                <option value="ACTIVE">Hoạt động (Active)</option>
+                <option value="INACTIVE">Ngưng hoạt động (Inactive)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem;">
+            <button id="plan-modal-cancel-btn" class="admin-btn admin-btn-secondary" style="height:38px;">Hủy bỏ</button>
+            <button id="plan-modal-save-btn" class="admin-btn admin-btn-primary" style="height:38px; font-weight:700;">Lưu gói dịch vụ</button>
+          </div>
+        </div>
+      </div>
     `;
 
     // Bind modal close buttons
@@ -182,28 +238,183 @@ async function renderPlans(contentEl) {
     subscriptionPlans = plans;
 
     if (!Array.isArray(plans) || plans.length === 0) {
-      contentEl.innerHTML = '<div class="admin-empty-state"><div class="empty-icon">📋</div><div class="empty-title">Chưa có gói dịch vụ nào</div></div>';
+      contentEl.innerHTML = `
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+          <button class="admin-btn admin-btn-primary" id="btn-add-plan">➕ Thêm gói mới</button>
+        </div>
+        <div class="admin-empty-state"><div class="empty-icon">📋</div><div class="empty-title">Chưa có gói dịch vụ nào</div></div>
+      `;
+      contentEl.querySelector('#btn-add-plan')?.addEventListener('click', () => {
+        showPlanModal(null, contentEl);
+      });
       return;
     }
 
     contentEl.innerHTML = `
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+        <button class="admin-btn admin-btn-primary" id="btn-add-plan">➕ Thêm gói mới</button>
+      </div>
       <div class="admin-kpi-grid">
         ${plans.map(p => `
-          <div class="admin-kpi-card">
+          <div class="admin-kpi-card" data-plan-id="${p.id}">
             <div class="admin-kpi-icon">${tierIcon(p.tierLevel)}</div>
             <div class="admin-kpi-value">${formatNumber(p.price)}đ</div>
             <div class="admin-kpi-label">${esc(p.name)}</div>
             <div class="admin-kpi-sub">
               ${tierBadge(p.tierLevel)} · ${p.durationDays} ngày · ${esc(p.currency)}
             </div>
-            <div style="margin-top:0.5rem;">${statusBadge(p.status)}</div>
+            <div style="margin-top:0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.75rem;">
+              ${statusBadge(p.status)}
+              <div style="display: flex; gap: 0.35rem;">
+                <button class="admin-btn admin-btn-secondary admin-btn-sm btn-edit-plan" data-id="${p.id}" style="padding: 2px 6px;">✏️ Sửa</button>
+                <button class="admin-btn admin-btn-danger admin-btn-sm btn-delete-plan" data-id="${p.id}" style="padding: 2px 6px;">🗑️ Xóa</button>
+              </div>
+            </div>
           </div>
         `).join('')}
       </div>
     `;
+
+    // Bind Add button
+    contentEl.querySelector('#btn-add-plan')?.addEventListener('click', () => {
+      showPlanModal(null, contentEl);
+    });
+
+    // Bind Edit buttons
+    contentEl.querySelectorAll('.btn-edit-plan').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const plan = subscriptionPlans.find(p => String(p.id) === String(id));
+        if (plan) {
+          showPlanModal(plan, contentEl);
+        }
+      });
+    });
+
+    // Bind Delete buttons
+    contentEl.querySelectorAll('.btn-delete-plan').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.dataset.id;
+        const plan = subscriptionPlans.find(p => String(p.id) === String(id));
+        if (!plan) return;
+        if (!confirm(`Bạn có chắc chắn muốn xóa gói dịch vụ "${plan.name}" không?`)) {
+          return;
+        }
+        try {
+          await API().delete(EP().ADMIN_BILLING_PLANS + '/' + id);
+          showToast('Đã xóa gói dịch vụ thành công!', 'success');
+          await renderPlans(contentEl);
+        } catch (err) {
+          showToast(`Lỗi xóa gói dịch vụ: ${err.message}`, 'error');
+        }
+      });
+    });
   } catch (err) {
     contentEl.innerHTML = `<div class="admin-empty-state"><div class="empty-icon">⚠️</div><div class="empty-desc">${esc(err.message)}</div></div>`;
   }
+}
+
+function showPlanModal(plan = null, contentEl) {
+  const modalEl = document.getElementById('plan-edit-modal');
+  if (!modalEl) return;
+
+  const isEdit = !!plan;
+
+  // Title
+  document.getElementById('plan-modal-title').textContent = isEdit ? '✏️ Chỉnh sửa Gói dịch vụ' : '➕ Thêm Gói dịch vụ mới';
+
+  // Fields
+  document.getElementById('plan-name').value = isEdit ? plan.name : '';
+  document.getElementById('plan-tier').value = isEdit ? plan.tierLevel : 'STANDARD';
+  document.getElementById('plan-price').value = isEdit ? plan.price : '';
+  document.getElementById('plan-duration').value = isEdit ? plan.durationDays : '';
+  document.getElementById('plan-currency').value = isEdit ? plan.currency : 'VND';
+  document.getElementById('plan-features').value = isEdit ? (plan.features || '') : '';
+  document.getElementById('plan-description').value = isEdit ? (plan.description || '') : '';
+
+  const statusContainer = document.getElementById('plan-status-container');
+  if (isEdit) {
+    statusContainer.style.display = 'block';
+    document.getElementById('plan-status').value = plan.status;
+  } else {
+    statusContainer.style.display = 'none';
+  }
+
+  // Clear and clone confirm button to avoid listener duplication
+  const oldSaveBtn = document.getElementById('plan-modal-save-btn');
+  const newSaveBtn = oldSaveBtn.cloneNode(true);
+  oldSaveBtn.parentNode.replaceChild(newSaveBtn, oldSaveBtn);
+
+  // Bind cancel buttons
+  const closeModal = () => { modalEl.style.display = 'none'; };
+  
+  // Clean up old listener registrations by using replacement elements or resetting handlers
+  const oldCloseBtn = document.getElementById('plan-modal-close-btn');
+  const newCloseBtn = oldCloseBtn.cloneNode(true);
+  oldCloseBtn.parentNode.replaceChild(newCloseBtn, oldCloseBtn);
+  newCloseBtn.addEventListener('click', closeModal);
+
+  const oldCancelBtn = document.getElementById('plan-modal-cancel-btn');
+  const newCancelBtn = oldCancelBtn.cloneNode(true);
+  oldCancelBtn.parentNode.replaceChild(newCancelBtn, oldCancelBtn);
+  newCancelBtn.addEventListener('click', closeModal);
+
+  newSaveBtn.addEventListener('click', async () => {
+    const name = document.getElementById('plan-name').value.trim();
+    const tierLevel = document.getElementById('plan-tier').value;
+    const priceStr = document.getElementById('plan-price').value;
+    const durationStr = document.getElementById('plan-duration').value;
+    const currency = document.getElementById('plan-currency').value.trim() || 'VND';
+    const features = document.getElementById('plan-features').value.trim();
+    const description = document.getElementById('plan-description').value.trim();
+    
+    if (!name) {
+      showToast('Vui lòng nhập tên gói dịch vụ!', 'error');
+      return;
+    }
+    if (!priceStr || Number(priceStr) < 0) {
+      showToast('Giá tiền không hợp lệ!', 'error');
+      return;
+    }
+    if (!durationStr || Number(durationStr) <= 0) {
+      showToast('Số ngày sử dụng phải lớn hơn 0!', 'error');
+      return;
+    }
+
+    const payload = {
+      name,
+      tierLevel,
+      price: Number(priceStr),
+      durationDays: Number(durationStr),
+      currency,
+      features,
+      description,
+    };
+
+    if (isEdit) {
+      payload.status = document.getElementById('plan-status').value;
+    }
+
+    newSaveBtn.disabled = true;
+    try {
+      if (isEdit) {
+        await API().patch(EP().ADMIN_BILLING_PLANS + '/' + plan.id, payload);
+        showToast('Đã cập nhật thông tin gói dịch vụ!', 'success');
+      } else {
+        await API().post(EP().ADMIN_BILLING_PLANS, payload);
+        showToast('Đã tạo mới gói dịch vụ thành công!', 'success');
+      }
+
+      closeModal();
+      await renderPlans(contentEl);
+    } catch (err) {
+      showToast(`Lỗi lưu gói: ${err.message}`, 'error');
+      newSaveBtn.disabled = false;
+    }
+  });
+
+  // Display modal
+  modalEl.style.display = 'flex';
 }
 
 function tierIcon(tier) {

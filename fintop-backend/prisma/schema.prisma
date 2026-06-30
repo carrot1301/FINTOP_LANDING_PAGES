@@ -289,6 +289,11 @@ model User {
   teamId       Int?
 
   riskTaste RISK_TASTE?
+  investmentDuration String? @db.VarChar(50)
+  investmentStyle    String? @db.VarChar(50)
+  stockCompany       String? @db.VarChar(100)
+  stockAccount      String? @db.VarChar(100)
+  legacyTier         String? @db.VarChar(50)
   tierLevel SUBSCRIPTION_TIER @default(STANDARD)
   status    RECORD_STATUS     @default(ACTIVE)
 
@@ -1275,4 +1280,19 @@ model EmailVerificationToken {
 
   @@index([userId])
   @@map("email_verification_tokens")
+}
+
+model Handbook {
+  id          Int           @id @default(autoincrement())
+  title       String        @db.VarChar(255)
+  driveLink   String?       @db.VarChar(1024)
+  category    String        @db.VarChar(50) // TU_SACH_DAU_TU | KT_TA | KT_FA | KT_TTCK
+  description String?       @db.Text
+  linkType    String        @default("link") @db.VarChar(50) // link | file
+  order       Int           @default(0)
+  status      RECORD_STATUS @default(ACTIVE)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("handbooks")
 }

@@ -70,7 +70,16 @@ export class AdminService {
   // USER MANAGEMENT
   // ─────────────────────────────────────────────────────
 
-  async getUsers(page = 1, limit = 20, search?: string, status?: string) {
+  // Staff role codes — used for userType filtering
+  private static readonly STAFF_ROLE_CODES = [
+    'SUPER_ADMIN', 'CEO', 'ASSISTANT_CEO',
+    'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR',
+    'SALE_ADMIN', 'SALE', 'EXPERT',
+  ];
+
+  private static readonly CLIENT_ROLE_CODES = ['CLIENT', 'CLIENT_VIP'];
+
+  async getUsers(page = 1, limit = 20, search?: string, status?: string, userType?: string) {
     const skip = (page - 1) * limit;
     const where: Prisma.UserWhereInput = { deletedAt: null };
 
@@ -86,6 +95,50 @@ export class AdminService {
       where.status = status as RECORD_STATUS;
     }
 
+    // Filter by user type (staff vs client)
+    if (userType === 'staff') {
+      where.userRoles = {
+        some: {
+          role: { code: { in: AdminService.STAFF_ROLE_CODES as any } },
+        },
+      };
+      where.email = { not: 'admin@fintop.vn' };
+    } else if (userType === 'client') {
+      // Client = has CLIENT/CLIENT_VIP role OR has no roles at all
+      where.OR = where.OR
+        ? [
+            ...where.OR,
+            {
+              AND: [
+                { userRoles: { none: { role: { code: { in: AdminService.STAFF_ROLE_CODES as any } } } } },
+              ],
+            },
+          ]
+        : undefined;
+
+      if (!where.OR) {
+        where.userRoles = {
+          none: {
+            role: { code: { in: AdminService.STAFF_ROLE_CODES as any } },
+          },
+        };
+      } else {
+        // When search + client filter are combined, wrap properly
+        const searchConditions = where.OR;
+        delete where.OR;
+        where.AND = [
+          { OR: searchConditions },
+          {
+            userRoles: {
+              none: {
+                role: { code: { in: AdminService.STAFF_ROLE_CODES as any } },
+              },
+            },
+          },
+        ];
+      }
+    }
+
     const [total, users] = await Promise.all([
       this.prisma.user.count({ where }),
       this.prisma.user.findMany({
@@ -95,9 +148,39 @@ export class AdminService {
           email: true,
           fullName: true,
           phone: true,
+          dob: true,
+          address: true,
+          avatarUrl: true,
           tierLevel: true,
           status: true,
           createdAt: true,
+          investmentDuration: true,
+          investmentStyle: true,
+          stockCompany: true,
+          stockAccount: true,
+          legacyTier: true,
+          broker: {
+            select: {
+              id: true,
+              fullName: true,
+              department: { select: { code: true } },
+              team: { select: { code: true } },
+            },
+          },
+          department: {
+            select: {
+              id: true,
+              name: true,
+              code: true,
+            },
+          },
+          team: {
+            select: {
+              id: true,
+              name: true,
+              code: true,
+            },
+          },
           userRoles: {
             select: {
               role: { select: { code: true, name: true } },
@@ -293,6 +376,68 @@ export class AdminService {
     });
 
     return { message: 'User deleted successfully', userId };
+  }
+
+  async updateUser(userId: number, dto: any, adminId: number) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user || user.deletedAt) {
+      throw new NotFoundException('User not found');
+    }
+
+    const data: Prisma.UserUpdateInput = {};
+    
+    if (dto.fullName !== undefined) data.fullName = dto.fullName;
+    if (dto.phone !== undefined) data.phone = dto.phone;
+    if (dto.address !== undefined) data.address = dto.address;
+    if (dto.birthDate !== undefined) {
+      data.dob = dto.birthDate ? new Date(dto.birthDate) : null;
+    }
+    if (dto.investmentDuration !== undefined) data.investmentDuration = dto.investmentDuration;
+    if (dto.investmentStyle !== undefined) data.investmentStyle = dto.investmentStyle;
+    if (dto.stockCompany !== undefined) data.stockCompany = dto.stockCompany;
+    if (dto.stockAccount !== undefined) data.stockAccount = dto.stockAccount;
+    if (dto.legacyTier !== undefined) data.legacyTier = dto.legacyTier;
+
+    const updated = await this.prisma.user.update({
+      where: { id: userId },
+      data,
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        phone: true,
+        dob: true,
+        address: true,
+        tierLevel: true,
+        status: true,
+        investmentDuration: true,
+        investmentStyle: true,
+        stockCompany: true,
+        stockAccount: true,
+        legacyTier: true,
+      }
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'USER_UPDATED',
+      tableName: 'users',
+      recordId: userId.toString(),
+      oldValues: {
+        fullName: user.fullName,
+        phone: user.phone,
+        address: user.address,
+        dob: user.dob,
+        investmentDuration: user.investmentDuration,
+        investmentStyle: user.investmentStyle,
+        stockCompany: user.stockCompany,
+        stockAccount: user.stockAccount,
+      },
+      newValues: data,
+    });
+
+    return updated;
   }
 
   // ─────────────────────────────────────────────────────
@@ -883,5 +1028,168 @@ export class AdminService {
       manager: p.manager ? { fullName: p.manager.fullName, email: p.manager.email } : null,
       createdAt: p.createdAt,
     }));
+  }
+
+  // ─────────────────────────────────────────────────────
+  // HANDBOOKS
+  // ─────────────────────────────────────────────────────
+
+  async getHandbooks(category?: string, search?: string) {
+    const where: any = {};
+    if (category) {
+      where.category = category;
+    }
+    if (search) {
+      where.title = { contains: search, mode: 'insensitive' };
+    }
+
+    return this.prisma.handbook.findMany({
+      where,
+      orderBy: [
+        { order: 'asc' },
+        { createdAt: 'asc' }
+      ],
+    });
+  }
+
+  async createHandbook(dto: { title: string; driveLink?: string; category: string; description?: string; linkType?: string; order?: number }, adminId: number) {
+    const orderVal = dto.order !== undefined ? dto.order : 0;
+
+    // Dịch chuyển các cẩm nang có order >= orderVal tăng thêm 1
+    if (orderVal > 0) {
+      await this.prisma.handbook.updateMany({
+        where: {
+          category: dto.category,
+          order: {
+            gte: orderVal,
+          },
+        },
+        data: {
+          order: {
+            increment: 1,
+          },
+        },
+      });
+    }
+
+    const handbook = await this.prisma.handbook.create({
+      data: {
+        title: dto.title,
+        driveLink: dto.driveLink,
+        category: dto.category,
+        description: dto.description,
+        linkType: dto.linkType || 'link',
+        order: orderVal,
+      },
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'HANDBOOK_CREATED',
+      tableName: 'handbooks',
+      recordId: handbook.id.toString(),
+      newValues: dto,
+    });
+
+    return handbook;
+  }
+
+  async updateHandbook(id: number, dto: { title?: string; driveLink?: string; category?: string; description?: string; linkType?: string; order?: number; status?: RECORD_STATUS }, adminId: number) {
+    const existing = await this.prisma.handbook.findUnique({ where: { id } });
+    if (!existing) {
+      throw new NotFoundException(`Handbook #${id} not found`);
+    }
+
+    const newOrder = dto.order;
+    const oldOrder = existing.order;
+
+    // Tự động sắp xếp lại thứ tự khi thay đổi thứ tự
+    if (newOrder !== undefined && newOrder !== oldOrder) {
+      const category = dto.category || existing.category;
+
+      await this.prisma.$transaction(async (tx) => {
+        if (newOrder > oldOrder) {
+          // Di chuyển xuống dưới: các bài từ (oldOrder + 1) đến newOrder giảm đi 1
+          await tx.handbook.updateMany({
+            where: {
+              category,
+              order: {
+                gt: oldOrder,
+                lte: newOrder,
+              },
+              id: { not: id },
+            },
+            data: {
+              order: {
+                decrement: 1,
+              },
+            },
+          });
+        } else {
+          // Di chuyển lên trên: các bài từ newOrder đến (oldOrder - 1) tăng thêm 1
+          await tx.handbook.updateMany({
+            where: {
+              category,
+              order: {
+                gte: newOrder,
+                lt: oldOrder,
+              },
+              id: { not: id },
+            },
+            data: {
+              order: {
+                increment: 1,
+              },
+            },
+          });
+        }
+      });
+    }
+
+    const updated = await this.prisma.handbook.update({
+      where: { id },
+      data: dto,
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'HANDBOOK_UPDATED',
+      tableName: 'handbooks',
+      recordId: id.toString(),
+      oldValues: {
+        title: existing.title,
+        driveLink: existing.driveLink,
+        category: existing.category,
+        description: existing.description,
+        linkType: existing.linkType,
+        order: existing.order,
+        status: existing.status,
+      },
+      newValues: dto,
+    });
+
+    return updated;
+  }
+
+  async deleteHandbook(id: number, adminId: number) {
+    const existing = await this.prisma.handbook.findUnique({ where: { id } });
+    if (!existing) {
+      throw new NotFoundException(`Handbook #${id} not found`);
+    }
+
+    await this.prisma.handbook.delete({ where: { id } });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'HANDBOOK_DELETED',
+      tableName: 'handbooks',
+      recordId: id.toString(),
+      oldValues: { title: existing.title },
+    });
+
+    return { message: 'Handbook deleted successfully', id };
   }
 }
