@@ -534,10 +534,9 @@
             --boloc-header-bg: #2C2068;
             --boloc-header-text: #FFFFFF;
             --boloc-row-bg: rgba(15, 23, 42, 0.92);
+            --boloc-row-alt-bg: rgba(22, 30, 49, 0.92);
             --boloc-row-text: #E2E8F0;
             --boloc-strength-bg: #FDE0C7;
-            --boloc-support-bg: #FFFB33;
-            --boloc-support-text: #FF0004;
         }
 
         #panel-boloc .boloc-filter-bar {
@@ -607,19 +606,15 @@
         }
 
         #bolocTable th:nth-child(9) {
-            background: linear-gradient(135deg, #4B2F68, #2C2068);
-        }
-
-        #bolocTable th:nth-child(10) {
             background: linear-gradient(135deg, #17304A, #2C2068);
         }
 
-        #bolocTable th:nth-child(11) {
+        #bolocTable th:nth-child(10) {
             background: linear-gradient(135deg, #31245B, #2C2068);
         }
 
-        #bolocTable th:nth-child(12) {
-            background: linear-gradient(135deg, #4C4612, #2C2068);
+        #bolocTable th:nth-child(11) {
+            background: linear-gradient(135deg, #16372F, #2C2068);
         }
 
         #bolocTable td {
@@ -633,9 +628,16 @@
             transition: filter 0.2s ease, box-shadow 0.2s ease;
         }
 
-        #bolocTable tbody tr:nth-child(even),
-        #bolocTable tbody tr:hover {
-            background: rgba(255, 255, 255, 0.025);
+        #bolocTable tbody tr:nth-child(odd) td:nth-child(-n+7) {
+            background: var(--boloc-row-bg);
+        }
+
+        #bolocTable tbody tr:nth-child(even) td:nth-child(-n+7) {
+            background: var(--boloc-row-alt-bg);
+        }
+
+        #bolocTable tbody tr:hover td:nth-child(-n+7) {
+            background: rgba(32, 41, 65, 0.96);
         }
 
         #bolocTable tbody tr:hover td {
@@ -655,7 +657,6 @@
         }
 
         #bolocTable .time-cell,
-        #bolocTable .officer-cell,
         #bolocTable .price-cell {
             color: #E2E8F0;
             font-weight: 600;
@@ -663,11 +664,25 @@
         }
 
         #bolocTable .boloc-status-cell {
-            background: var(--status-bg, rgba(255, 255, 255, 0.04));
-            color: var(--status-text, #E2E8F0);
+            color: #E2E8F0;
             font-weight: 900;
             white-space: nowrap;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+        }
+
+        #bolocTable .boloc-status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 112px;
+            padding: 6px 12px;
+            border: 1px solid var(--status-border, rgba(226, 232, 240, 0.22));
+            border-radius: 999px;
+            background: var(--status-bg, rgba(148, 163, 184, 0.14));
+            color: var(--status-text, #E2E8F0);
+            box-shadow: var(--status-shadow, none);
+            font-size: 0.78rem;
+            line-height: 1.2;
+            letter-spacing: 0;
         }
 
         #bolocTable .boloc-strength-cell {
@@ -678,24 +693,24 @@
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38), inset 0 -1px 0 rgba(94, 53, 23, 0.14);
         }
 
-        #bolocTable td:nth-child(10) {
+        #bolocTable td:nth-child(9) {
             background: linear-gradient(135deg, rgba(20, 43, 70, 0.95), rgba(10, 20, 38, 0.93));
             color: #DBEAFE;
             box-shadow: inset 0 1px 0 rgba(125, 211, 252, 0.08);
         }
 
-        #bolocTable td:nth-child(11) {
+        #bolocTable td:nth-child(10) {
             background: linear-gradient(135deg, rgba(45, 33, 82, 0.95), rgba(16, 22, 39, 0.93));
             color: #EDE9FE;
             box-shadow: inset 0 1px 0 rgba(196, 181, 253, 0.1);
         }
 
         #bolocTable .boloc-support-cell {
-            background: linear-gradient(135deg, var(--boloc-support-bg), #FFF985);
-            color: var(--boloc-support-text);
+            background: linear-gradient(135deg, rgba(15, 64, 55, 0.94), rgba(10, 25, 34, 0.93));
+            color: #D1FAE5;
             font-weight: 900;
             white-space: nowrap;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.48), inset 0 -1px 0 rgba(150, 120, 0, 0.16);
+            box-shadow: inset 0 1px 0 rgba(110, 231, 183, 0.12);
         }
 
         #bolocTable .table-filter-btn {
@@ -741,12 +756,10 @@
             #bolocTable td:nth-child(5),
             #bolocTable th:nth-child(6),
             #bolocTable td:nth-child(6),
-            #bolocTable th:nth-child(7),
-            #bolocTable td:nth-child(7),
+            #bolocTable th:nth-child(9),
+            #bolocTable td:nth-child(9),
             #bolocTable th:nth-child(10),
-            #bolocTable td:nth-child(10),
-            #bolocTable th:nth-child(11),
-            #bolocTable td:nth-child(11) {
+            #bolocTable td:nth-child(10) {
                 display: none;
             }
 
@@ -755,12 +768,6 @@
                 padding: 10px 8px;
                 font-size: 0.78rem;
             }
-        }
-
-        .dark-table .officer-cell {
-            color: #cbd5e1;
-            font-weight: 600;
-            white-space: nowrap;
         }
 
         /* === STATUS BADGES (Dark Theme) === */
@@ -4452,7 +4459,7 @@
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
             <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Bộ Lọc Cổ Phiếu</h2>
-            <p>TOP trạng thái kỹ thuật Ngành đầu tư — Dữ liệu phân tích mô hình AI FinTop DATA</p>
+            <p>TOP trạng thái kỹ thuật — Dữ liệu phân tích mô hình AI FinTop DATA</p>
         </div>
 
         <!-- HƯỚNG DẪN SỬ DỤNG -->
@@ -4485,7 +4492,7 @@
         </div>
 
         <div class="dark-table-wrapper">
-            <div class="boloc-table-title">Bộ lọc cổ phiếu - TOP trạng thái kỹ thuật Ngành đầu tư</div>
+            <div class="boloc-table-title">Bộ lọc cổ phiếu - TOP trạng thái kỹ thuật</div>
             <table class="dark-table" id="bolocTable">
                 <thead>
                     <tr>
@@ -4493,7 +4500,6 @@
                         <th>Mã CP</th>
                         <th>Sàn</th>
                         <th>Ngành HĐKD</th>
-                        <th>Cán bộ</th>
                         <th>Update time</th>
                         <th>Mô tả Mô hình kỹ thuật (Model)</th>
                         <th><span class="filterable-heading">Trạng thái Model <button class="table-filter-btn" type="button" title="Lọc Trạng thái Model" onclick="focusBolocFilter('status')">▾</button></span></th>
@@ -6393,12 +6399,42 @@
         let bolocFilters = { status: '', strength: '' };
 
         const BOLOC_STATUS_COLORS = {
-            'RẤT TÍCH CỰC': { bg: '#FF2AFA', text: '#000000' },
-            'TÍCH CỰC': { bg: '#00D92B', text: '#000000' },
-            'KHẢ QUAN': { bg: '#C3FB33', text: '#000000' },
-            'TRUNG LẬP': { bg: '#475569', text: '#F8FAFC' },
-            'KO TÍCH CỰC': { bg: '#F97316', text: '#111827' },
-            'TIÊU CỰC': { bg: '#EF4444', text: '#FFFFFF' }
+            'RẤT TÍCH CỰC': {
+                bg: 'rgba(168, 85, 247, 0.2)',
+                text: '#E9D5FF',
+                border: 'rgba(216, 180, 254, 0.58)',
+                shadow: '0 0 18px rgba(168, 85, 247, 0.46), inset 0 0 14px rgba(168, 85, 247, 0.14)'
+            },
+            'TÍCH CỰC': {
+                bg: 'rgba(16, 185, 129, 0.18)',
+                text: '#A7F3D0',
+                border: 'rgba(52, 211, 153, 0.55)',
+                shadow: '0 0 16px rgba(16, 185, 129, 0.38), inset 0 0 14px rgba(16, 185, 129, 0.12)'
+            },
+            'KHẢ QUAN': {
+                bg: 'rgba(245, 158, 11, 0.16)',
+                text: '#FDE68A',
+                border: 'rgba(251, 191, 36, 0.52)',
+                shadow: '0 0 14px rgba(245, 158, 11, 0.28), inset 0 0 12px rgba(245, 158, 11, 0.12)'
+            },
+            'TRUNG LẬP': {
+                bg: 'rgba(100, 116, 139, 0.18)',
+                text: '#E2E8F0',
+                border: 'rgba(148, 163, 184, 0.36)',
+                shadow: 'inset 0 0 12px rgba(148, 163, 184, 0.08)'
+            },
+            'KO TÍCH CỰC': {
+                bg: 'rgba(249, 115, 22, 0.16)',
+                text: '#FDBA74',
+                border: 'rgba(251, 146, 60, 0.45)',
+                shadow: '0 0 12px rgba(249, 115, 22, 0.2), inset 0 0 10px rgba(249, 115, 22, 0.1)'
+            },
+            'TIÊU CỰC': {
+                bg: 'rgba(239, 68, 68, 0.16)',
+                text: '#FCA5A5',
+                border: 'rgba(248, 113, 113, 0.45)',
+                shadow: '0 0 12px rgba(239, 68, 68, 0.22), inset 0 0 10px rgba(239, 68, 68, 0.1)'
+            }
         };
 
         const BOLOC_STRENGTH_TEXT_COLORS = {
@@ -6737,7 +6773,12 @@
         }
 
         function getBolocStatusColors(statusText) {
-            return BOLOC_STATUS_COLORS[normalizeBolocLabel(statusText)] || { bg: 'rgba(255, 255, 255, 0.04)', text: '#E2E8F0' };
+            return BOLOC_STATUS_COLORS[normalizeBolocLabel(statusText)] || {
+                bg: 'rgba(148, 163, 184, 0.14)',
+                text: '#E2E8F0',
+                border: 'rgba(226, 232, 240, 0.22)',
+                shadow: 'none'
+            };
         }
 
         function getBolocStrengthTextColor(strengthText) {
@@ -6846,7 +6887,7 @@
             if (BOLOC_DATA.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="12" style="text-align: center; color: #111827; padding: 24px;">
+                        <td colspan="11" style="text-align: center; color: #E2E8F0; padding: 24px;">
                             Chưa tải được dữ liệu bộ lọc cổ phiếu.
                         </td>
                     </tr>
@@ -6857,7 +6898,7 @@
             if (rows.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="12" style="text-align: center; color: #111827; padding: 24px;">
+                        <td colspan="11" style="text-align: center; color: #E2E8F0; padding: 24px;">
                             Không có dữ liệu phù hợp với bộ lọc hiện tại.
                         </td>
                     </tr>
@@ -6878,10 +6919,11 @@
                     <td class="ticker-cell">${escapeHtml(d.ticker)}</td>
                     <td>${escapeHtml(d.san)}</td>
                     <td>${escapeHtml(d.nganh)}</td>
-                    <td class="officer-cell">${escapeHtml(d.canBo || d.officer || '')}</td>
                     <td class="time-cell">${escapeHtml(formatStockDisplayTime(d.time))}</td>
                     <td class="desc-cell">${escapeHtml(d.desc)}</td>
-                    <td class="boloc-status-cell" style="--status-bg: ${statusColors.bg}; --status-text: ${statusColors.text};">${escapeHtml(statusText)}</td>
+                    <td class="boloc-status-cell">
+                        <span class="boloc-status-badge" style="--status-bg: ${statusColors.bg}; --status-text: ${statusColors.text}; --status-border: ${statusColors.border}; --status-shadow: ${statusColors.shadow};">${escapeHtml(statusText)}</span>
+                    </td>
                     <td class="boloc-strength-cell" style="--strength-text: ${strengthTextColor};">${escapeHtml(strengthText)}</td>
                     <td class="price-cell">${escapeHtml(d.vungKiemDinh)}</td>
                     <td class="price-cell">${escapeHtml(d.khangCu)}</td>
@@ -8499,8 +8541,8 @@
             <div class="auth-modal-left">
                 <img src="assets/images/AI.jpg" alt="FinTop DATA" class="auth-hero-bg">
                 <div class="auth-hero-content">
-                    <span class="auth-brand-mark">FinTop DATA</span>
-                    <h2>Tài khoản đầu tư</h2>
+                    <span class="auth-brand-mark">Dữ liệu FinTop DATA</span>
+                    <h2>Tài khoản truy cập</h2>
                 </div>
             </div>
 
@@ -8548,7 +8590,7 @@
                         <form class="auth-form" id="authFormRegister" data-auth-form="register" onsubmit="submitAuth(event, 'register')" novalidate>
                             <div class="register-form-shell" data-register-flow>
                                 <div class="auth-heading">
-                                    <p class="auth-eyebrow">Mở tài khoản</p>
+                                    <p class="auth-eyebrow">Tạo tài khoản truy cập</p>
                                     <h3 class="auth-title">Đăng ký FinTop DATA</h3>
                                 </div>
 
