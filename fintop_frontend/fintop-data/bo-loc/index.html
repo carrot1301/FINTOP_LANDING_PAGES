@@ -128,6 +128,72 @@
             color: #ffffff !important;
             font-weight: 900 !important;
         }
+
+        .filter-toolbar.is-locked {
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .data-table-wrapper {
+            position: relative;
+        }
+
+        .data-table-wrapper.is-locked tbody {
+            filter: blur(5px);
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .stock-filter-lock-overlay {
+            position: absolute;
+            inset: 58px 0 0;
+            z-index: 8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 22px;
+            background:
+                radial-gradient(circle at center, rgba(168, 85, 247, 0.22), rgba(7, 7, 13, 0.74) 44%, rgba(7, 7, 13, 0.92)),
+                linear-gradient(180deg, rgba(7, 7, 13, 0.22), rgba(7, 7, 13, 0.88));
+            backdrop-filter: blur(2px);
+        }
+
+        .stock-filter-lock-overlay[hidden] {
+            display: none;
+        }
+
+        .stock-filter-lock-card {
+            width: min(430px, calc(100vw - 32px));
+            border-radius: 8px;
+            border: 1px solid rgba(216, 180, 254, 0.42);
+            background: rgba(10, 10, 18, 0.92);
+            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.48);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stock-filter-lock-card h2 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .stock-filter-lock-card p {
+            color: #cbd5e1;
+            line-height: 1.65;
+            font-size: 0.9rem;
+            margin-bottom: 18px;
+        }
+
+        .stock-filter-lock-btn {
+            border: 0;
+            border-radius: 8px;
+            padding: 11px 18px;
+            color: #fff;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            font-weight: 800;
+            cursor: pointer;
+        }
         
         .page-footer {
             background: #07070D;
@@ -209,6 +275,13 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="stock-filter-lock-overlay" id="stockFilterLockOverlay" hidden>
+                <div class="stock-filter-lock-card">
+                    <h2>Đăng nhập để xem Bộ lọc cổ phiếu</h2>
+                    <p>Dữ liệu Model, xu hướng dòng tiền và các vùng kỹ thuật chỉ hiển thị sau khi tài khoản được xác thực.</p>
+                    <button class="stock-filter-lock-btn" type="button" onclick="openStockFilterLogin()">Đăng nhập</button>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -227,9 +300,58 @@
             const searchInput = document.getElementById('stockFilterSearch');
             const filterSan = document.getElementById('filterSan');
             const filterAct = document.getElementById('filterAct');
+            const toolbar = document.querySelector('.filter-toolbar');
+            const tableWrapper = document.querySelector('.data-table-wrapper');
+            const lockOverlay = document.getElementById('stockFilterLockOverlay');
+
+            function hasStockFilterAccess() {
+                return Boolean(window.FintopInfra?.AuthManager?.isAuthenticated);
+            }
+
+            function openStockFilterLogin() {
+                window.location.href = '../../index.html#panel-boloc';
+            }
+
+            function setLockedState(isLocked) {
+                toolbar?.classList.toggle('is-locked', isLocked);
+                tableWrapper?.classList.toggle('is-locked', isLocked);
+                if (lockOverlay) lockOverlay.hidden = !isLocked;
+                [searchInput, filterSan, filterAct].forEach((control) => {
+                    if (control) control.disabled = isLocked;
+                });
+            }
+
+            function renderLockedPreview() {
+                filterData = [];
+                setLockedState(true);
+                tbody.innerHTML = Array.from({ length: 8 }, (_, i) => `
+                    <tr>
+                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96);">${i + 1}</td>
+                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96); color: #fff; font-weight: 700;">•••</td>
+                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96);">••••</td>
+                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96);">Nhóm ngành hội viên</td>
+                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96); color: #94a3b8;">--:-- --/--</td>
+                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96);">Dữ liệu Model được khóa cho tài khoản đã đăng nhập.</td>
+                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96); text-align:center;">ĐĂNG NHẬP</td>
+                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96); text-align:center; color:#C084FC; font-weight:900;">••••••</td>
+                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96);">•• - ••</td>
+                        <td style="padding: 12px 16px; background: linear-gradient(135deg, rgba(45, 33, 82, 0.95), rgba(16, 22, 39, 0.93)); color: #C084FC; font-weight: 900;">•• - ••</td>
+                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96); color: #FBBF24; font-weight: 900;">•• - ••</td>
+                    </tr>
+                `).join('');
+            }
+
+            window.openStockFilterLogin = openStockFilterLogin;
 
             // 3. Load data
             async function loadData() {
+                if (!hasStockFilterAccess()) {
+                    renderLockedPreview();
+                    return;
+                }
+
+                setLockedState(false);
+
                 // If window.FintopInfra is ready, load from backend API first
                 if (window.FintopInfra) {
                     try {
@@ -353,6 +475,11 @@
 
             // 5. Filter & Search handlers
             function applyFilters() {
+                if (!hasStockFilterAccess()) {
+                    renderLockedPreview();
+                    return;
+                }
+
                 const q = (searchInput.value || '').trim().toUpperCase();
                 const san = filterSan.value;
                 const act = filterAct.value;
@@ -387,6 +514,15 @@
             // Bootstrap loading
             function checkInfra() {
                 if (window.FintopInfra) {
+                    const events = window.FintopInfra.AppState?.EVENTS;
+                    if (events) {
+                        window.FintopInfra.AppState.on(events.AUTH_LOGIN, loadData);
+                        window.FintopInfra.AppState.on(events.AUTH_LOGOUT, renderLockedPreview);
+                        window.FintopInfra.AppState.on(events.AUTH_CHANGED, () => {
+                            if (hasStockFilterAccess()) loadData();
+                            else renderLockedPreview();
+                        });
+                    }
                     loadData();
                 } else {
                     setTimeout(checkInfra, 50);
@@ -394,7 +530,7 @@
             }
 
             // Load initial data
-            loadData();
+            renderLockedPreview();
             checkInfra();
         })();
     </script>
