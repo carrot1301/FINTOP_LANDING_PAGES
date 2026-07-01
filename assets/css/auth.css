@@ -67,11 +67,11 @@
     --auth-ink: #f7fafc;
     --auth-muted: #a8b3c7;
     --auth-line: rgba(148, 163, 184, 0.24);
-    --auth-line-strong: rgba(45, 212, 191, 0.42);
-    --auth-accent: #14b8a6;
-    --auth-accent-strong: #5eead4;
-    --auth-accent-soft: rgba(20, 184, 166, 0.15);
-    --auth-blue: #a78bfa;
+    --auth-line-strong: rgba(167, 139, 250, 0.42);
+    --auth-accent: #8b5cf6;
+    --auth-accent-strong: #c4b5fd;
+    --auth-accent-soft: rgba(139, 92, 246, 0.16);
+    --auth-blue: #ddd6fe;
     --auth-button: #8b5cf6;
     --auth-button-hover: #a78bfa;
     --auth-button-soft: rgba(139, 92, 246, 0.16);
@@ -140,8 +140,8 @@
 }
 
 .btn-close-auth:hover {
-    border-color: rgba(94, 234, 212, 0.45);
-    background: rgba(20, 184, 166, 0.12);
+    border-color: rgba(167, 139, 250, 0.45);
+    background: rgba(139, 92, 246, 0.14);
     color: var(--auth-ink);
     transform: translateY(-1px);
 }
@@ -153,7 +153,7 @@
     min-width: 0;
     overflow: hidden;
     padding: 42px;
-    background: radial-gradient(circle at 24% 18%, rgba(94, 234, 212, 0.16), transparent 34%),
+    background: radial-gradient(circle at 24% 18%, rgba(139, 92, 246, 0.16), transparent 34%),
         radial-gradient(circle at 82% 76%, rgba(167, 139, 250, 0.14), transparent 32%),
         #0b0e17;
 }
@@ -180,7 +180,7 @@
     position: relative;
     z-index: 2;
     align-self: flex-end;
-    max-width: 320px;
+    max-width: min(100%, 460px);
 }
 
 .auth-brand-mark {
@@ -196,10 +196,11 @@
 .auth-hero-content h2 {
     margin: 0;
     color: var(--auth-ink);
-    font-size: 2.15rem;
+    font-size: clamp(1.85rem, 2.8vw, 2.15rem);
     font-weight: 800;
     line-height: 1.08;
     letter-spacing: 0;
+    white-space: nowrap;
 }
 
 /* === RIGHT SIDE === */
@@ -338,7 +339,7 @@
 .auth-input:focus {
     border-color: var(--auth-accent);
     background: rgba(255, 255, 255, 0.07);
-    box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15);
+    box-shadow: 0 0 0 4px var(--auth-accent-soft);
 }
 
 .auth-input[aria-invalid="true"] {
@@ -566,8 +567,8 @@
 .register-step.is-active .register-step-index {
     border-color: var(--auth-accent);
     background: var(--auth-accent);
-    color: #031412;
-    box-shadow: 0 0 0 5px rgba(20, 184, 166, 0.16);
+    color: #ffffff;
+    box-shadow: 0 0 0 5px var(--auth-accent-soft);
 }
 
 .register-step.is-complete .register-step-index {
@@ -649,7 +650,7 @@
 }
 
 .auth-choice-group input:focus-visible + span {
-    box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15);
+    box-shadow: 0 0 0 4px var(--auth-accent-soft);
 }
 
 .auth-conditional-field {
@@ -692,7 +693,7 @@
 
 .auth-status-note {
     margin: 2px 0 16px;
-    border: 1px solid rgba(20, 184, 166, 0.28);
+    border: 1px solid rgba(167, 139, 250, 0.3);
     border-radius: 10px;
     background: var(--auth-accent-soft);
     color: var(--auth-accent-strong);
@@ -830,6 +831,7 @@
 
     .auth-hero-content h2 {
         font-size: 1.58rem;
+        white-space: normal;
     }
 
     .auth-modal-right {

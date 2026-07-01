@@ -529,14 +529,14 @@
         }
 
         #panel-boloc {
-            --boloc-title-bg: linear-gradient(135deg, rgba(168, 85, 247, 0.26), rgba(15, 23, 42, 0.96));
+            --boloc-title-bg: linear-gradient(135deg, #C000FF 0%, #A100F2 48%, #8200D6 100%);
             --boloc-title-text: #F8FAFC;
             --boloc-header-bg: #2C2068;
             --boloc-header-text: #FFFFFF;
-            --boloc-row-bg: rgba(15, 23, 42, 0.92);
-            --boloc-row-alt-bg: rgba(22, 30, 49, 0.92);
+            --boloc-row-bg: rgba(7, 25, 52, 0.96);
             --boloc-row-text: #E2E8F0;
             --boloc-strength-bg: #FDE0C7;
+            padding-top: 28px;
         }
 
         #panel-boloc .boloc-filter-bar {
@@ -575,8 +575,7 @@
             font-weight: 900;
             line-height: 1.25;
             text-transform: none;
-            border-bottom: 1px solid rgba(168, 85, 247, 0.32);
-            text-shadow: 0 0 18px rgba(168, 85, 247, 0.36);
+            border-bottom: 1px solid rgba(233, 213, 255, 0.28);
         }
 
         #bolocTable {
@@ -602,19 +601,19 @@
         }
 
         #bolocTable th:nth-child(8) {
-            background: linear-gradient(135deg, #3A2478, #2C2068);
+            background: var(--boloc-header-bg);
         }
 
         #bolocTable th:nth-child(9) {
-            background: linear-gradient(135deg, #17304A, #2C2068);
+            background: var(--boloc-header-bg);
         }
 
         #bolocTable th:nth-child(10) {
-            background: linear-gradient(135deg, #31245B, #2C2068);
+            background: var(--boloc-header-bg);
         }
 
         #bolocTable th:nth-child(11) {
-            background: linear-gradient(135deg, #16372F, #2C2068);
+            background: var(--boloc-header-bg);
         }
 
         #bolocTable td {
@@ -624,20 +623,7 @@
             text-align: center;
             font-weight: 600;
             vertical-align: middle;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
-            transition: filter 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        #bolocTable tbody tr:nth-child(odd) td:nth-child(-n+7) {
-            background: var(--boloc-row-bg);
-        }
-
-        #bolocTable tbody tr:nth-child(even) td:nth-child(-n+7) {
-            background: var(--boloc-row-alt-bg);
-        }
-
-        #bolocTable tbody tr:hover td:nth-child(-n+7) {
-            background: rgba(32, 41, 65, 0.96);
+            transition: filter 0.2s ease;
         }
 
         #bolocTable tbody tr:hover td {
@@ -679,38 +665,35 @@
             border-radius: 999px;
             background: var(--status-bg, rgba(148, 163, 184, 0.14));
             color: var(--status-text, #E2E8F0);
-            box-shadow: var(--status-shadow, none);
             font-size: 0.78rem;
             line-height: 1.2;
             letter-spacing: 0;
         }
 
         #bolocTable .boloc-strength-cell {
-            background: linear-gradient(135deg, rgba(253, 224, 199, 0.98), rgba(245, 207, 174, 0.94));
-            color: var(--strength-text, #000000);
+            background: var(--boloc-row-bg);
+            color: #C084FC;
             font-weight: 900;
+            text-transform: uppercase;
             white-space: nowrap;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38), inset 0 -1px 0 rgba(94, 53, 23, 0.14);
         }
 
         #bolocTable td:nth-child(9) {
-            background: linear-gradient(135deg, rgba(20, 43, 70, 0.95), rgba(10, 20, 38, 0.93));
-            color: #DBEAFE;
-            box-shadow: inset 0 1px 0 rgba(125, 211, 252, 0.08);
+            background: var(--boloc-row-bg);
+            color: #E2E8F0;
         }
 
         #bolocTable td:nth-child(10) {
             background: linear-gradient(135deg, rgba(45, 33, 82, 0.95), rgba(16, 22, 39, 0.93));
-            color: #EDE9FE;
-            box-shadow: inset 0 1px 0 rgba(196, 181, 253, 0.1);
+            color: #C084FC;
+            font-weight: 900;
         }
 
         #bolocTable .boloc-support-cell {
-            background: linear-gradient(135deg, rgba(15, 64, 55, 0.94), rgba(10, 25, 34, 0.93));
-            color: #D1FAE5;
+            background: var(--boloc-row-bg);
+            color: #FBBF24;
             font-weight: 900;
             white-space: nowrap;
-            box-shadow: inset 0 1px 0 rgba(110, 231, 183, 0.12);
         }
 
         #bolocTable .table-filter-btn {
@@ -4457,10 +4440,6 @@
     <!-- ============================================ -->
     <div class="submenu-panel" id="panel-boloc">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
-        <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Bộ Lọc Cổ Phiếu</h2>
-            <p>TOP trạng thái kỹ thuật — Dữ liệu phân tích mô hình AI FinTop DATA</p>
-        </div>
 
         <!-- HƯỚNG DẪN SỬ DỤNG -->
         <div
@@ -4492,7 +4471,7 @@
         </div>
 
         <div class="dark-table-wrapper">
-            <div class="boloc-table-title">Bộ lọc cổ phiếu - TOP trạng thái kỹ thuật</div>
+            <div class="boloc-table-title">[FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ</div>
             <table class="dark-table" id="bolocTable">
                 <thead>
                     <tr>
@@ -6403,44 +6382,38 @@
                 bg: 'rgba(168, 85, 247, 0.2)',
                 text: '#E9D5FF',
                 border: 'rgba(216, 180, 254, 0.58)',
-                shadow: '0 0 18px rgba(168, 85, 247, 0.46), inset 0 0 14px rgba(168, 85, 247, 0.14)'
+                shadow: 'none'
             },
             'TÍCH CỰC': {
                 bg: 'rgba(16, 185, 129, 0.18)',
                 text: '#A7F3D0',
                 border: 'rgba(52, 211, 153, 0.55)',
-                shadow: '0 0 16px rgba(16, 185, 129, 0.38), inset 0 0 14px rgba(16, 185, 129, 0.12)'
+                shadow: 'none'
             },
             'KHẢ QUAN': {
                 bg: 'rgba(245, 158, 11, 0.16)',
                 text: '#FDE68A',
                 border: 'rgba(251, 191, 36, 0.52)',
-                shadow: '0 0 14px rgba(245, 158, 11, 0.28), inset 0 0 12px rgba(245, 158, 11, 0.12)'
+                shadow: 'none'
             },
             'TRUNG LẬP': {
                 bg: 'rgba(100, 116, 139, 0.18)',
                 text: '#E2E8F0',
                 border: 'rgba(148, 163, 184, 0.36)',
-                shadow: 'inset 0 0 12px rgba(148, 163, 184, 0.08)'
+                shadow: 'none'
             },
             'KO TÍCH CỰC': {
                 bg: 'rgba(249, 115, 22, 0.16)',
                 text: '#FDBA74',
                 border: 'rgba(251, 146, 60, 0.45)',
-                shadow: '0 0 12px rgba(249, 115, 22, 0.2), inset 0 0 10px rgba(249, 115, 22, 0.1)'
+                shadow: 'none'
             },
             'TIÊU CỰC': {
                 bg: 'rgba(239, 68, 68, 0.16)',
                 text: '#FCA5A5',
                 border: 'rgba(248, 113, 113, 0.45)',
-                shadow: '0 0 12px rgba(239, 68, 68, 0.22), inset 0 0 10px rgba(239, 68, 68, 0.1)'
+                shadow: 'none'
             }
-        };
-
-        const BOLOC_STRENGTH_TEXT_COLORS = {
-            'TĂNG MẠNH': '#FF2AFA',
-            'TĂNG': '#234418',
-            'TĂNG DẦN': '#000000'
         };
 
         // Toggle dropdown pin
@@ -6782,7 +6755,7 @@
         }
 
         function getBolocStrengthTextColor(strengthText) {
-            return BOLOC_STRENGTH_TEXT_COLORS[normalizeBolocLabel(strengthText)] || '#000000';
+            return '#C084FC';
         }
 
         function getFilteredBolocData() {
