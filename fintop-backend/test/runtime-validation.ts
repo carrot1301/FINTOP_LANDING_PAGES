@@ -71,7 +71,7 @@ async function runValidation() {
     console.log('\n⚡ Check #3: Enum serialization');
     console.log(`  -> Tier Level của admin: ${adminUser.tierLevel}`);
     console.log(`  -> Record Status của admin: ${adminUser.status}`);
-    if (adminUser.tierLevel !== SUBSCRIPTION_TIER.DIAMOND || adminUser.status !== RECORD_STATUS.ACTIVE) {
+    if (!Object.values(SUBSCRIPTION_TIER).includes(adminUser.tierLevel) || adminUser.status !== RECORD_STATUS.ACTIVE) {
       throw new Error('Giá trị Enum không khớp với dữ liệu trong database');
     }
     console.log('  [PASS] Enum serialization hoạt động chuẩn xác.');

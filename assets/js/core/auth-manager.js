@@ -320,20 +320,26 @@ class AuthManagerSingleton {
   async logout({ silent = false, all = false } = {}) {
     this._cancelRefreshTimer();
 
-    if (!silent) {
+    const refreshToken = TokenStorage.getRefreshToken();
+    
+    // Clear local session first so the UI updates INSTANTLY
+    this._clearSession();
+
+    if (!silent && refreshToken) {
       try {
         const endpoint = all ? API_ENDPOINTS.AUTH_LOGOUT_ALL : API_ENDPOINTS.AUTH_LOGOUT;
-        const refreshToken = TokenStorage.getRefreshToken();
-        await ApiClient.post(endpoint, { refreshToken });
+        // Run the server-side revocation in the background (non-blocking)
+        ApiClient.post(endpoint, { refreshToken }).catch(err => {
+          if (FintopEnv.DEBUG) {
+            console.warn('[AuthManager] Server logout background request failed:', err.message);
+          }
+        });
       } catch (err) {
-        // If server-side logout fails, still clear local state
         if (FintopEnv.DEBUG) {
-          console.warn('[AuthManager] Server logout failed (clearing local state anyway):', err.message);
+          console.warn('[AuthManager] Failed to initiate background logout:', err.message);
         }
       }
     }
-
-    this._clearSession();
 
     if (FintopEnv.DEBUG) {
       console.log('%c[AuthManager] Logged out ✓', 'color: #f87171;');

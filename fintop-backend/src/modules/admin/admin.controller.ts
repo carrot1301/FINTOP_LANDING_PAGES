@@ -40,15 +40,17 @@ export class AdminController {
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'search', required: false })
   @ApiQuery({ name: 'status', required: false })
+  @ApiQuery({ name: 'userType', required: false, description: 'Filter by user type: staff | client' })
   async getUsers(
     @Query('page') page?: string,
     @Query('limit') limit?: string,
     @Query('search') search?: string,
     @Query('status') status?: string,
+    @Query('userType') userType?: string,
   ) {
     const p = page ? parseInt(page, 10) : 1;
     const l = limit ? parseInt(limit, 10) : 20;
-    return this.adminService.getUsers(p, l, search, status);
+    return this.adminService.getUsers(p, l, search, status, userType);
   }
 
   @Get('users/:id')
@@ -102,6 +104,17 @@ export class AdminController {
     @CurrentUser() admin: any,
   ) {
     return this.adminService.deleteUser(parseInt(id, 10), admin.id);
+  }
+
+  @Patch('users/:id')
+  @Permissions('USER:UPDATE')
+  @ApiOperation({ summary: 'Update user profile information' })
+  async updateUser(
+    @Param('id') id: string,
+    @Body() dto: any,
+    @CurrentUser() admin: any,
+  ) {
+    return this.adminService.updateUser(parseInt(id, 10), dto, admin.id);
   }
 
   // ─────────────────────────────────────────────────────
@@ -351,5 +364,52 @@ export class AdminController {
   @ApiOperation({ summary: 'List all recommended portfolios' })
   async getPortfolios() {
     return this.adminService.getPortfolios();
+  }
+
+  // ─────────────────────────────────────────────────────
+  // HANDBOOKS
+  // ─────────────────────────────────────────────────────
+
+  @Get('handbooks')
+  @Permissions('USER:READ')
+  @ApiOperation({ summary: 'List all handbooks with category filter and search' })
+  @ApiQuery({ name: 'category', required: false })
+  @ApiQuery({ name: 'search', required: false })
+  async getHandbooks(
+    @Query('category') category?: string,
+    @Query('search') search?: string,
+  ) {
+    return this.adminService.getHandbooks(category, search);
+  }
+
+  @Post('handbooks')
+  @Permissions('USER:UPDATE')
+  @ApiOperation({ summary: 'Create a new handbook' })
+  async createHandbook(
+    @Body() dto: { title: string; driveLink: string; category: string },
+    @CurrentUser() admin: any,
+  ) {
+    return this.adminService.createHandbook(dto, admin.id);
+  }
+
+  @Patch('handbooks/:id')
+  @Permissions('USER:UPDATE')
+  @ApiOperation({ summary: 'Update a handbook' })
+  async updateHandbook(
+    @Param('id') id: string,
+    @Body() dto: { title?: string; driveLink?: string; category?: string },
+    @CurrentUser() admin: any,
+  ) {
+    return this.adminService.updateHandbook(parseInt(id, 10), dto, admin.id);
+  }
+
+  @Delete('handbooks/:id')
+  @Permissions('USER:DELETE')
+  @ApiOperation({ summary: 'Delete a handbook' })
+  async deleteHandbook(
+    @Param('id') id: string,
+    @CurrentUser() admin: any,
+  ) {
+    return this.adminService.deleteHandbook(parseInt(id, 10), admin.id);
   }
 }

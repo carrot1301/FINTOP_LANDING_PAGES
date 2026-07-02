@@ -4366,15 +4366,11 @@
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content" id="dc-phan-tich">
-                    <a href="javascript:void(0)" data-panel="panel-analysis-market"
-                        onclick="openPanel('panel-analysis-market', this)">Nghiên cứu thị trường</a>
-                    <a href="javascript:void(0)" data-panel="panel-analysis-pro"
-                        onclick="openPanel('panel-analysis-pro', this)">Nghiên cứu chuyên sâu <span
+                    <a href="nghien-cuu/thi-truong/index.html">Nghiên cứu thị trường</a>
+                    <a href="nghien-cuu/chuyen-sau/index.html">Nghiên cứu chuyên sâu <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
-                    <a href="javascript:void(0)" data-panel="panel-analysis-company"
-                        onclick="openPanel('panel-analysis-company', this)">Nghiên cứu Doanh nghiệp</a>
-                    <a href="javascript:void(0)" data-panel="panel-analysis-sector"
-                        onclick="openPanel('panel-analysis-sector', this)">Nghiên cứu nhóm Ngành</a>
+                    <a href="nghien-cuu/doanh-nghiep/index.html">Nghiên cứu Doanh nghiệp</a>
+                    <a href="nghien-cuu/nhom-nganh/index.html">Nghiên cứu nhóm Ngành</a>
                 </div>
             </li>
 
@@ -4605,6 +4601,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="boloc-disclaimer">
+            <strong>MIỄN TRỪ TRÁCH NHIỆM!</strong>
+            Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.
         </div>
         <div class="boloc-disclaimer">
             <strong>MIỄN TRỪ TRÁCH NHIỆM!</strong>
@@ -6374,7 +6374,7 @@
                 <div style="display: flex; flex-direction: column; gap: 0.6rem;">
                     <a href="javascript:void(0)" onclick="openPanel('panel-hoivien', this)">Hội viên</a>
                     <a href="javascript:void(0)" onclick="openPanel('panel-tracuu', this)">FinTop Data</a>
-                    <a href="javascript:void(0)" onclick="openPanel('panel-analysis-market', this)">Nghiên cứu</a>
+                    <a href="nghien-cuu/thi-truong/index.html">Nghiên cứu</a>
                     <a href="javascript:void(0)" onclick="openPanel('panel-stock-quant', this)">Dữ liệu</a>
                     <a href="javascript:void(0)" onclick="openPanel('panel-guide-trading', this)">Hướng dẫn</a>
                 </div>
@@ -7042,6 +7042,9 @@
         function renderBolocTable() {
             const tbody = document.getElementById('bolocBody');
             tbody.innerHTML = '';
+            populateBolocFilterOptions();
+
+            const rows = getFilteredBolocData();
 
             if (!hasBolocAccess()) {
                 populateBolocFilterOptions();

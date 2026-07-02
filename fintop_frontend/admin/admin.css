@@ -354,43 +354,42 @@
 
 table.admin-table {
   width: 100%;
-  border-collapse: collapse;
-  font-size: 0.825rem;
+  border-collapse: collapse !important;
+  font-size: 0.85rem;
+  border: 1px solid #3c4c68 !important;
+  background-color: #1a2536 !important;
 }
 
 table.admin-table thead {
-  background: rgba(124, 58, 237, 0.06);
+  background: #2b3c58 !important;
 }
 
 table.admin-table th {
-  padding: 0.7rem 1rem;
-  text-align: left;
-  color: var(--text-secondary);
+  padding: 0.8rem 1rem;
+  text-align: center !important;
+  color: #ffffff !important;
   font-weight: 600;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-size: 0.85rem;
+  text-transform: none;
+  letter-spacing: 0.02em;
   white-space: nowrap;
-  border-bottom: 1px solid var(--purple-border);
+  border: 1px solid #3c4c68 !important;
 }
 
 table.admin-table td {
-  padding: 0.65rem 1rem;
-  color: var(--text-primary);
-  border-bottom: 1px solid rgba(124, 58, 237, 0.08);
+  padding: 0.75rem 1rem;
+  color: #e2e8f0;
+  border: 1px solid #3c4c68 !important;
   vertical-align: middle;
+  background-color: #1c283a !important;
 }
 
 table.admin-table tbody tr {
   transition: background 0.15s ease;
 }
 
-table.admin-table tbody tr:hover {
-  background: rgba(124, 58, 237, 0.06);
-}
-
-table.admin-table tbody tr:last-child td {
-  border-bottom: none;
+table.admin-table tbody tr:hover td {
+  background-color: #24334a !important;
 }
 
 /* ─── PAGINATION ───────────────────────────────────────── */
@@ -1132,4 +1131,122 @@ table.admin-table tbody tr:last-child td {
   color: var(--text-primary);
   font-weight: normal;
 }
+
+/* User Info Card style mapping old web */
+.user-info-card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  color: #e2e8f0 !important;
+  font-size: 0.85rem !important;
+  line-height: 1.5 !important;
+  text-align: left !important;
+}
+
+.user-info-card div {
+  margin-bottom: 3px;
+}
+
+.user-info-card strong {
+  color: #ffffff;
+}
+
+/* ─── HEADER USER DROPDOWN ────────────────────────────── */
+.admin-user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.admin-dropdown-trigger {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px solid var(--purple-border);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  font-family: var(--font-family);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.admin-dropdown-trigger:hover,
+.admin-user-dropdown.active .admin-dropdown-trigger {
+  background: rgba(124, 58, 237, 0.1);
+  color: var(--text-primary);
+  border-color: var(--purple-core);
+}
+
+.dropdown-caret {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.admin-user-dropdown.active .dropdown-caret {
+  transform: rotate(180deg);
+}
+
+.admin-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--purple-border);
+  border-radius: 8px;
+  min-width: 185px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  animation: admin-fade-in 0.2s ease;
+}
+
+.admin-user-dropdown.active .admin-dropdown-menu {
+  display: flex;
+}
+
+.admin-dropdown-item {
+  padding: 0.7rem 1rem;
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-family);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.admin-dropdown-item:hover {
+  background: rgba(124, 58, 237, 0.08);
+  color: var(--text-primary);
+}
+
+.admin-dropdown-item.logout-item {
+  border-top: 1px solid var(--purple-border);
+  color: #f87171;
+}
+
+.admin-dropdown-item.logout-item:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+}
+
+@keyframes admin-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 

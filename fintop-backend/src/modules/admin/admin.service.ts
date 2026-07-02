@@ -2,6 +2,8 @@ import { Injectable, Logger, NotFoundException, BadRequestException } from '@nes
 import { PrismaService } from '../../common/database/prisma.service';
 import { AuditService } from '../../common/audit/audit.service';
 import { NotificationService } from '../notification/notification.service';
+import { RedisService } from '../../common/redis/redis.service';
+import * as bcrypt from 'bcrypt';
 import {
   RECORD_STATUS,
   AUDIT_SOURCE,
@@ -19,7 +21,18 @@ export class AdminService {
     private readonly prisma: PrismaService,
     private readonly auditService: AuditService,
     private readonly notificationService: NotificationService,
+    private readonly redisService: RedisService,
   ) {}
+
+  private async clearUserPermissionsCache(userId: number) {
+    try {
+      const cacheKey = `user:permissions:${userId}`;
+      await this.redisService.getClient().del(cacheKey);
+      this.logger.log(`Cleared permissions cache for user #${userId}`);
+    } catch (err: any) {
+      this.logger.error(`Failed to clear permissions cache for user #${userId}: ${err.message}`);
+    }
+  }
 
   // ─────────────────────────────────────────────────────
   // OVERVIEW / KPIs
@@ -70,7 +83,16 @@ export class AdminService {
   // USER MANAGEMENT
   // ─────────────────────────────────────────────────────
 
-  async getUsers(page = 1, limit = 20, search?: string, status?: string) {
+  // Staff role codes — used for userType filtering
+  private static readonly STAFF_ROLE_CODES = [
+    'SUPER_ADMIN', 'CEO', 'ASSISTANT_CEO',
+    'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR',
+    'SALE_ADMIN', 'SALE', 'EXPERT',
+  ];
+
+  private static readonly CLIENT_ROLE_CODES = ['CLIENT', 'CLIENT_VIP'];
+
+  async getUsers(page = 1, limit = 20, search?: string, status?: string, userType?: string) {
     const skip = (page - 1) * limit;
     const where: Prisma.UserWhereInput = { deletedAt: null };
 
@@ -86,6 +108,50 @@ export class AdminService {
       where.status = status as RECORD_STATUS;
     }
 
+    // Filter by user type (staff vs client)
+    if (userType === 'staff') {
+      where.userRoles = {
+        some: {
+          role: { code: { in: AdminService.STAFF_ROLE_CODES as any } },
+        },
+      };
+      where.email = { not: 'admin@fintop.vn' };
+    } else if (userType === 'client') {
+      // Client = has CLIENT/CLIENT_VIP role OR has no roles at all
+      where.OR = where.OR
+        ? [
+            ...where.OR,
+            {
+              AND: [
+                { userRoles: { none: { role: { code: { in: AdminService.STAFF_ROLE_CODES as any } } } } },
+              ],
+            },
+          ]
+        : undefined;
+
+      if (!where.OR) {
+        where.userRoles = {
+          none: {
+            role: { code: { in: AdminService.STAFF_ROLE_CODES as any } },
+          },
+        };
+      } else {
+        // When search + client filter are combined, wrap properly
+        const searchConditions = where.OR;
+        delete where.OR;
+        where.AND = [
+          { OR: searchConditions },
+          {
+            userRoles: {
+              none: {
+                role: { code: { in: AdminService.STAFF_ROLE_CODES as any } },
+              },
+            },
+          },
+        ];
+      }
+    }
+
     const [total, users] = await Promise.all([
       this.prisma.user.count({ where }),
       this.prisma.user.findMany({
@@ -95,9 +161,45 @@ export class AdminService {
           email: true,
           fullName: true,
           phone: true,
+          dob: true,
+          address: true,
+          avatarUrl: true,
           tierLevel: true,
           status: true,
           createdAt: true,
+          investmentDuration: true,
+          investmentStyle: true,
+          stockCompany: true,
+          stockAccount: true,
+          referralId: true,
+          referralName: true,
+          legacyTier: true,
+          company: true,
+          position: true,
+          joinDate: true,
+          sortOrder: true,
+          broker: {
+            select: {
+              id: true,
+              fullName: true,
+              department: { select: { code: true } },
+              team: { select: { code: true } },
+            },
+          },
+          department: {
+            select: {
+              id: true,
+              name: true,
+              code: true,
+            },
+          },
+          team: {
+            select: {
+              id: true,
+              name: true,
+              code: true,
+            },
+          },
           userRoles: {
             select: {
               role: { select: { code: true, name: true } },
@@ -201,6 +303,7 @@ export class AdminService {
       newValues: { status: newStatus },
     });
 
+    await this.clearUserPermissionsCache(userId);
     return updated;
   }
 
@@ -238,6 +341,7 @@ export class AdminService {
       newValues: { userId, roleCode },
     });
 
+    await this.clearUserPermissionsCache(userId);
     return { message: 'Role assigned', userId, roleCode };
   }
 
@@ -269,6 +373,7 @@ export class AdminService {
       oldValues: { userId, roleCode },
     });
 
+    await this.clearUserPermissionsCache(userId);
     return { message: 'Role removed', userId, roleCode };
   }
 
@@ -292,7 +397,160 @@ export class AdminService {
       oldValues: { email: user.email },
     });
 
+    await this.clearUserPermissionsCache(userId);
     return { message: 'User deleted successfully', userId };
+  }
+
+  async updateUser(userId: number, dto: any, adminId: number) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user || user.deletedAt) {
+      throw new NotFoundException('User not found');
+    }
+
+    const data: Prisma.UserUncheckedUpdateInput = {};
+    
+    if (dto.password !== undefined && dto.password !== '') {
+      data.passwordHash = await bcrypt.hash(dto.password, 10);
+    }
+    
+    if (dto.fullName !== undefined) data.fullName = dto.fullName;
+    if (dto.email !== undefined) data.email = dto.email;
+    if (dto.phone !== undefined) data.phone = dto.phone;
+    if (dto.address !== undefined) data.address = dto.address;
+    if (dto.status !== undefined) data.status = dto.status;
+    if (dto.avatarUrl !== undefined) data.avatarUrl = dto.avatarUrl;
+    
+    if (dto.birthDate !== undefined) {
+      data.dob = dto.birthDate ? new Date(dto.birthDate) : null;
+    }
+    if (dto.investmentDuration !== undefined) data.investmentDuration = dto.investmentDuration;
+    if (dto.investmentStyle !== undefined) data.investmentStyle = dto.investmentStyle;
+    if (dto.stockCompany !== undefined) data.stockCompany = dto.stockCompany;
+    if (dto.stockAccount !== undefined) data.stockAccount = dto.stockAccount;
+    if (dto.referralId !== undefined) data.referralId = dto.referralId;
+    if (dto.referralName !== undefined) data.referralName = dto.referralName;
+    if (dto.legacyTier !== undefined) data.legacyTier = dto.legacyTier;
+
+    // New fields
+    if (dto.company !== undefined) data.company = dto.company;
+    if (dto.position !== undefined) data.position = dto.position;
+    if (dto.joinDate !== undefined) {
+      data.joinDate = dto.joinDate ? new Date(dto.joinDate) : null;
+    }
+    if (dto.sortOrder !== undefined) {
+      data.sortOrder = dto.sortOrder ? parseInt(dto.sortOrder, 10) : null;
+    }
+
+    // Manager / Broker
+    if (dto.brokerId !== undefined) {
+      data.brokerId = dto.brokerId ? parseInt(dto.brokerId, 10) : null;
+    }
+
+    // Staff code (ID nhân sự) mapping to team or department
+    if (dto.staffCode !== undefined) {
+      if (!dto.staffCode || dto.staffCode.trim() === '') {
+        data.teamId = null;
+      } else {
+        const code = dto.staffCode.trim();
+        const team = await this.prisma.team.findUnique({ where: { code } });
+        if (team) {
+          data.teamId = team.id;
+          data.departmentId = team.departmentId;
+        } else {
+          const dept = await this.prisma.department.findUnique({ where: { code } });
+          if (dept) {
+            data.departmentId = dept.id;
+            data.teamId = null;
+          } else {
+            // Auto create team under SALES department if it doesn't exist
+            const salesDept = await this.prisma.department.findUnique({ where: { code: 'SALES' } });
+            if (salesDept) {
+              const newTeam = await this.prisma.team.create({
+                data: {
+                  name: `Team ${code}`,
+                  code,
+                  departmentId: salesDept.id,
+                },
+              });
+              data.teamId = newTeam.id;
+              data.departmentId = salesDept.id;
+            }
+          }
+        }
+      }
+    }
+
+    // Update roles
+    if (dto.roleCodes !== undefined) {
+      await this.prisma.userRole.deleteMany({ where: { userId } });
+      if (Array.isArray(dto.roleCodes) && dto.roleCodes.length > 0) {
+        const roles = await this.prisma.role.findMany({
+          where: { code: { in: dto.roleCodes as any } },
+        });
+        await this.prisma.userRole.createMany({
+          data: roles.map(r => ({
+            userId,
+            roleId: r.id,
+            assignedById: adminId,
+          })),
+        });
+      }
+    }
+
+    const updated = await this.prisma.user.update({
+      where: { id: userId },
+      data,
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        phone: true,
+        dob: true,
+        address: true,
+        tierLevel: true,
+        status: true,
+        investmentDuration: true,
+        investmentStyle: true,
+        stockCompany: true,
+        stockAccount: true,
+        legacyTier: true,
+        company: true,
+        position: true,
+        joinDate: true,
+        sortOrder: true,
+        avatarUrl: true,
+        brokerId: true,
+      }
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'USER_UPDATED',
+      tableName: 'users',
+      recordId: userId.toString(),
+      oldValues: {
+        fullName: user.fullName,
+        phone: user.phone,
+        address: user.address,
+        dob: user.dob,
+        investmentDuration: user.investmentDuration,
+        investmentStyle: user.investmentStyle,
+        stockCompany: user.stockCompany,
+        stockAccount: user.stockAccount,
+        company: user.company,
+        position: user.position,
+        joinDate: user.joinDate,
+        sortOrder: user.sortOrder,
+        brokerId: user.brokerId,
+        avatarUrl: user.avatarUrl,
+        status: user.status,
+      },
+      newValues: data,
+    });
+
+    await this.clearUserPermissionsCache(userId);
+    return updated;
   }
 
   // ─────────────────────────────────────────────────────
@@ -385,6 +643,19 @@ export class AdminService {
       recordId: roleId.toString(),
       newValues: { permissionIds },
     });
+
+    // Clear cache for all users assigned to this role
+    try {
+      const userRoles = await this.prisma.userRole.findMany({
+        where: { roleId },
+        select: { userId: true },
+      });
+      for (const ur of userRoles) {
+        await this.clearUserPermissionsCache(ur.userId);
+      }
+    } catch (err: any) {
+      this.logger.error(`Failed to clear cache for role #${roleId} users: ${err.message}`);
+    }
 
     return { message: 'Permissions updated successfully', roleId };
   }
@@ -883,5 +1154,168 @@ export class AdminService {
       manager: p.manager ? { fullName: p.manager.fullName, email: p.manager.email } : null,
       createdAt: p.createdAt,
     }));
+  }
+
+  // ─────────────────────────────────────────────────────
+  // HANDBOOKS
+  // ─────────────────────────────────────────────────────
+
+  async getHandbooks(category?: string, search?: string) {
+    const where: any = {};
+    if (category) {
+      where.category = category;
+    }
+    if (search) {
+      where.title = { contains: search, mode: 'insensitive' };
+    }
+
+    return this.prisma.handbook.findMany({
+      where,
+      orderBy: [
+        { order: 'asc' },
+        { createdAt: 'asc' }
+      ],
+    });
+  }
+
+  async createHandbook(dto: { title: string; driveLink?: string; category: string; description?: string; linkType?: string; order?: number }, adminId: number) {
+    const orderVal = dto.order !== undefined ? dto.order : 0;
+
+    // Dịch chuyển các cẩm nang có order >= orderVal tăng thêm 1
+    if (orderVal > 0) {
+      await this.prisma.handbook.updateMany({
+        where: {
+          category: dto.category,
+          order: {
+            gte: orderVal,
+          },
+        },
+        data: {
+          order: {
+            increment: 1,
+          },
+        },
+      });
+    }
+
+    const handbook = await this.prisma.handbook.create({
+      data: {
+        title: dto.title,
+        driveLink: dto.driveLink,
+        category: dto.category,
+        description: dto.description,
+        linkType: dto.linkType || 'link',
+        order: orderVal,
+      },
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'HANDBOOK_CREATED',
+      tableName: 'handbooks',
+      recordId: handbook.id.toString(),
+      newValues: dto,
+    });
+
+    return handbook;
+  }
+
+  async updateHandbook(id: number, dto: { title?: string; driveLink?: string; category?: string; description?: string; linkType?: string; order?: number; status?: RECORD_STATUS }, adminId: number) {
+    const existing = await this.prisma.handbook.findUnique({ where: { id } });
+    if (!existing) {
+      throw new NotFoundException(`Handbook #${id} not found`);
+    }
+
+    const newOrder = dto.order;
+    const oldOrder = existing.order;
+
+    // Tự động sắp xếp lại thứ tự khi thay đổi thứ tự
+    if (newOrder !== undefined && newOrder !== oldOrder) {
+      const category = dto.category || existing.category;
+
+      await this.prisma.$transaction(async (tx) => {
+        if (newOrder > oldOrder) {
+          // Di chuyển xuống dưới: các bài từ (oldOrder + 1) đến newOrder giảm đi 1
+          await tx.handbook.updateMany({
+            where: {
+              category,
+              order: {
+                gt: oldOrder,
+                lte: newOrder,
+              },
+              id: { not: id },
+            },
+            data: {
+              order: {
+                decrement: 1,
+              },
+            },
+          });
+        } else {
+          // Di chuyển lên trên: các bài từ newOrder đến (oldOrder - 1) tăng thêm 1
+          await tx.handbook.updateMany({
+            where: {
+              category,
+              order: {
+                gte: newOrder,
+                lt: oldOrder,
+              },
+              id: { not: id },
+            },
+            data: {
+              order: {
+                increment: 1,
+              },
+            },
+          });
+        }
+      });
+    }
+
+    const updated = await this.prisma.handbook.update({
+      where: { id },
+      data: dto,
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'HANDBOOK_UPDATED',
+      tableName: 'handbooks',
+      recordId: id.toString(),
+      oldValues: {
+        title: existing.title,
+        driveLink: existing.driveLink,
+        category: existing.category,
+        description: existing.description,
+        linkType: existing.linkType,
+        order: existing.order,
+        status: existing.status,
+      },
+      newValues: dto,
+    });
+
+    return updated;
+  }
+
+  async deleteHandbook(id: number, adminId: number) {
+    const existing = await this.prisma.handbook.findUnique({ where: { id } });
+    if (!existing) {
+      throw new NotFoundException(`Handbook #${id} not found`);
+    }
+
+    await this.prisma.handbook.delete({ where: { id } });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'HANDBOOK_DELETED',
+      tableName: 'handbooks',
+      recordId: id.toString(),
+      oldValues: { title: existing.title },
+    });
+
+    return { message: 'Handbook deleted successfully', id };
   }
 }

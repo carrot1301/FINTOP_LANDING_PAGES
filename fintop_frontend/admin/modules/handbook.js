@@ -1,312 +1,345 @@
 /**
  * handbook.js — Investor Guides & Tutorials CMS Manager
+ * ============================================================
+ * Replicated from legacy web: /system/handbook/index
+ *
+ * Features matching legacy web:
+ *   - 4 Category Tabs: Tủ sách đầu tư, Phân tích kỹ thuật (TA), Phân tích cơ bản (FA), Chứng khoán TTCK
+ *   - Search by title
+ *   - Add, Edit, Delete handbooks (sync with database)
+ *   - Drive Link integration
  */
 import { esc, showToast } from '../admin-shell.js';
 
-let selectedTopicId = 'trading';
-let localTopics = {};
+const API = () => window.FintopInfra.ApiClient;
+const EP = () => window.FintopInfra.FintopEnv.API_ENDPOINTS;
 
-function loadLocalTopics() {
-  const cached = localStorage.getItem('fintop_handbook_topics');
-  if (cached) {
-    localTopics = JSON.parse(cached);
-  } else {
-    // If not loaded yet, we can set up standard defaults or try to fetch them
-    localTopics = {
-      trading: { label: "Giao dịch & Đầu tư", title: "Lộ trình giao dịch", intro: "Chọn cổ phiếu", lessons: [], checklist: [], rows: [] }
-    };
-  }
-}
+let currentCategory = 'TU_SACH_DAU_TU';
+let searchKeyword = '';
+let handbooksList = [];
 
-function saveLocalTopics() {
-  localStorage.setItem('fintop_handbook_topics', JSON.stringify(localTopics));
-  showToast('Đã lưu thay đổi cẩm nang thành công!', 'success');
-}
+const CATEGORY_TABS = [
+  { id: 'TU_SACH_DAU_TU', label: 'Tủ sách đầu tư' },
+  { id: 'KT_TA',          label: 'Kiến thức phân tích kỹ thuật (TA)' },
+  { id: 'KT_FA',          label: 'Kiến thức phân tích cơ bản (FA)' },
+  { id: 'KT_TTCK',        label: 'Kiến thức chứng khoán, TTCK' }
+];
 
 export default {
   id: 'handbook',
   label: 'Cẩm nang nhà đầu tư',
-  icon: '🏥',
+  icon: '📖',
 
   async render(container) {
-    loadLocalTopics();
-
     container.innerHTML = `
+      <div id="handbook-modal-area"></div>
       <div class="admin-portfolio-layout">
-        <div class="admin-table-container" style="margin-bottom:1.5rem;">
-          <div class="admin-table-toolbar">
-            <div class="admin-table-title">📖 Quản trị Cẩm nang & Hướng dẫn</div>
-            <div class="admin-table-actions">
-              <select id="handbook-topic-select" class="admin-select" style="min-width:250px;">
-                ${Object.keys(localTopics).map(k => `
-                  <option value="${k}" ${k === selectedTopicId ? 'selected' : ''}>${esc(localTopics[k].label || k)}</option>
-                `).join('')}
-              </select>
-            </div>
+        <!-- Toolbar & Category Tabs -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:1rem;">
+          <div style="display:flex; gap:0.5rem;">
+            <button class="admin-btn" id="btn-add-handbook" style="background:#22c55e;" title="Thêm cẩm nang mới">➕</button>
+            <button class="admin-btn" id="btn-delete-selected-handbooks" style="background:#ef4444;" title="Xóa cẩm nang đã chọn">🗑️</button>
+          </div>
+          
+          <div class="handbook-tabs" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            ${CATEGORY_TABS.map(tab => `
+              <button class="tab-item ${tab.id === currentCategory ? 'active' : ''}" data-cat="${tab.id}" style="padding:8px 16px; border-radius:4px; border:none; cursor:pointer; font-weight:500; transition:all 0.2s;">
+                ${esc(tab.label)}
+              </button>
+            `).join('')}
           </div>
         </div>
 
-        <div id="handbook-editor-content"></div>
+        <!-- Search Bar -->
+        <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem;">
+          <input type="text" id="handbook-search-input" class="admin-input" style="flex:1;" placeholder="Tìm kiếm cẩm nang..." value="${esc(searchKeyword)}" />
+          <button class="admin-btn" id="btn-search-handbook" style="background:#1e293b; border:1px solid rgba(255,255,255,0.1);">🔍</button>
+        </div>
+
+        <!-- Handbooks Table -->
+        <div class="admin-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width:5%; text-align:center;"><input type="checkbox" id="chk-all-handbooks" /></th>
+                <th style="width:8%; text-align:center;">STT</th>
+                <th>Tên cẩm nang</th>
+                <th style="width:15%; text-align:center;">#</th>
+              </tr>
+            </thead>
+            <tbody id="handbooks-tbody">
+              <tr><td colspan="4" style="text-align:center; padding:2rem;"><div class="admin-spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     `;
 
-    const selectEl = container.querySelector('#handbook-topic-select');
-    selectEl.addEventListener('change', (e) => {
-      selectedTopicId = e.target.value;
-      renderEditor(container.querySelector('#handbook-editor-content'));
+    // Inject CSS for active tab
+    if (!document.getElementById('handbook-tab-styles')) {
+      const style = document.createElement('style');
+      style.id = 'handbook-tab-styles';
+      style.innerHTML = `
+        .handbook-tabs .tab-item {
+          background: rgba(255,255,255,0.05);
+          color: var(--text-muted);
+          border: 1px solid rgba(255,255,255,0.05);
+        }
+        .handbook-tabs .tab-item.active {
+          background: #22c55e !important;
+          color: #fff !important;
+          box-shadow: 0 4px 12px rgba(34,197,94,0.2);
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    // Bind events
+    const tbody = container.querySelector('#handbooks-tbody');
+    
+    // Tab switching
+    container.querySelectorAll('.handbook-tabs .tab-item').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        container.querySelectorAll('.handbook-tabs .tab-item').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.cat;
+        loadHandbooks(tbody);
+      });
     });
 
-    renderEditor(container.querySelector('#handbook-editor-content'));
+    // Search
+    const searchInput = container.querySelector('#handbook-search-input');
+    const triggerSearch = () => {
+      searchKeyword = searchInput.value.trim();
+      loadHandbooks(tbody);
+    };
+    container.querySelector('#btn-search-handbook').addEventListener('click', triggerSearch);
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') triggerSearch();
+    });
+
+    // Add
+    container.querySelector('#btn-add-handbook').addEventListener('click', () => {
+      showHandbookModal(null, tbody);
+    });
+
+    // Delete selected
+    container.querySelector('#btn-delete-selected-handbooks').addEventListener('click', async () => {
+      const checked = container.querySelectorAll('.chk-hb-item:checked');
+      if (checked.length === 0) {
+        showToast('Vui lòng chọn ít nhất một cẩm nang để xóa.', 'error');
+        return;
+      }
+      const ids = Array.from(checked).map(c => parseInt(c.value));
+      if (!confirm(`Bạn có chắc chắn muốn xóa ${ids.length} cẩm nang đã chọn?`)) return;
+
+      try {
+        await Promise.all(ids.map(id => API().delete(`/admin/handbooks/${id}`)));
+        showToast(`Đã xóa thành công ${ids.length} cẩm nang!`);
+        loadHandbooks(tbody);
+      } catch (err) {
+        showToast(err.message || 'Lỗi khi xóa cẩm nang', 'error');
+      }
+    });
+
+    // Checkbox all
+    container.querySelector('#chk-all-handbooks').addEventListener('change', (e) => {
+      container.querySelectorAll('.chk-hb-item').forEach(chk => {
+        chk.checked = e.target.checked;
+      });
+    });
+
+    // Load initial data
+    loadHandbooks(tbody);
   },
 
   destroy() {}
 };
 
-function renderEditor(contentEl) {
-  const topic = localTopics[selectedTopicId];
-  if (!topic) {
-    contentEl.innerHTML = '<div class="admin-empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Chủ đề không tồn tại</div></div>';
-    return;
+async function loadHandbooks(tbody) {
+  tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:2rem;"><div class="admin-spinner"></div></td></tr>';
+  
+  try {
+    const qs = API().toQuery({ category: currentCategory, search: searchKeyword });
+    const res = await API().get('/admin/handbooks' + qs);
+    handbooksList = res.data || res || [];
+
+    if (handbooksList.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Không tìm thấy cẩm nang nào.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = handbooksList.map((hb, idx) => `
+      <tr data-hbid="${hb.id}">
+        <td style="text-align:center; vertical-align:middle;">
+          <input type="checkbox" class="chk-hb-item" value="${hb.id}" />
+        </td>
+        <td style="text-align:center; vertical-align:middle; color:var(--text-muted);">${idx + 1}</td>
+        <td style="vertical-align:middle; font-weight:500;">${esc(hb.title)}</td>
+        <td style="text-align:center; vertical-align:middle;">
+          <div style="display:flex; gap:0.25rem; justify-content:center;">
+            ${hb.driveLink ? `
+              <a href="${esc(hb.driveLink)}" target="_blank" class="admin-btn admin-btn-sm" style="background:#0284c7; display:flex; align-items:center; justify-content:center; width:32px; height:32px;" title="Xem tài liệu">
+                🌐
+              </a>
+            ` : `
+              <button class="admin-btn admin-btn-sm" style="background:rgba(255,255,255,0.05); color:var(--text-muted); width:32px; height:32px; cursor:not-allowed;" disabled title="Không có tài liệu">
+                —
+              </button>
+            `}
+            <button class="admin-btn admin-btn-sm btn-edit-hb" data-id="${hb.id}" style="background:#f97316; display:flex; align-items:center; justify-content:center; width:32px; height:32px;" title="Sửa thông tin">
+              ✏️
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    // Bind edit buttons
+    tbody.querySelectorAll('.btn-edit-hb').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const hbId = parseInt(btn.dataset.id);
+        const hb = handbooksList.find(h => h.id === hbId);
+        if (hb) showHandbookModal(hb, tbody);
+      });
+    });
+
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#ef4444; padding:2rem;">Lỗi tải dữ liệu: ${esc(err.message)}</td></tr>`;
   }
+}
 
-  contentEl.innerHTML = `
-    <div style="display:grid; grid-template-columns: 1fr; gap: 1.5rem;">
-      <!-- Title & Intro Form -->
-      <div class="admin-form-container" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:1.5rem; border-radius:8px;">
-        <h3 style="font-size:1.1rem;margin-bottom:1rem;color:#fff;">ℹ️ Thông tin chung chủ đề</h3>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
-          <div>
-            <label class="admin-label" style="display:block;margin-bottom:0.25rem;">Tên Tab hiển thị</label>
-            <input type="text" id="topic-label" class="admin-input" style="width:100%;" value="${esc(topic.label)}">
-          </div>
-          <div>
-            <label class="admin-label" style="display:block;margin-bottom:0.25rem;">Tiêu đề chính (H2)</label>
-            <input type="text" id="topic-title" class="admin-input" style="width:100%;" value="${esc(topic.title)}">
-          </div>
-        </div>
-        <div style="margin-bottom:1rem;">
-          <label class="admin-label" style="display:block;margin-bottom:0.25rem;">Mô tả ngắn lộ trình (Intro)</label>
-          <textarea id="topic-intro" class="admin-input" style="width:100%; height:80px;">${esc(topic.intro)}</textarea>
-        </div>
-        <button class="admin-btn" id="save-topic-info-btn">Lưu thông tin chung</button>
-      </div>
+function showHandbookModal(hb, tbody) {
+  const modalArea = document.getElementById('handbook-modal-area');
+  if (!modalArea) return;
 
-      <!-- Lessons Manager -->
-      <div class="admin-table-container">
-        <div class="admin-table-toolbar">
-          <div class="admin-table-title">📚 Danh sách bài học (${topic.lessons?.length || 0})</div>
-          <div class="admin-table-actions">
-            <button class="admin-btn admin-btn-sm" id="add-lesson-btn" style="background:var(--success);">➕ Thêm bài học</button>
+  const isEdit = !!hb;
+  
+  modalArea.innerHTML = `
+    <div class="admin-modal-overlay" id="hb-modal-overlay" style="display:flex; align-items:center; justify-content:center; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999;">
+      <div class="admin-modal" style="max-width:650px; width:90%; background:#1e2235; border-radius:8px; padding:1.5rem 2rem; border:1px solid rgba(255,255,255,0.05); position:relative;">
+        
+        <button class="admin-btn-close" id="btn-close-hb-modal" style="position:absolute; top:1.5rem; right:1.5rem; background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; font-weight:bold;">x</button>
+        
+        <h2 style="font-size:1.5rem; font-weight:bold; margin-bottom:2rem; color:#fff;">${isEdit ? 'Cập nhật cẩm nang' : 'Thêm cẩm nang mới'}</h2>
+        
+        <div class="admin-modal-body" style="display:flex; flex-direction:column; gap:1.25rem; margin-bottom:2rem;">
+          
+          <!-- Loại cẩm nang -->
+          <div style="display:flex; align-items:center;">
+            <label style="width:30%; font-weight:500; color:#cbd5e1; font-size:0.95rem;">Loại cẩm nang <span style="color:#ef4444;">*</span></label>
+            <select id="modal-hb-category" class="admin-select" style="flex:1; background:#fff; color:#1e293b; border:1px solid #cbd5e1; border-radius:8px; padding:10px 14px; font-size:0.95rem;">
+              ${CATEGORY_TABS.map(tab => `
+                <option value="${tab.id}" ${(isEdit ? hb.category : currentCategory) === tab.id ? 'selected' : ''}>${esc(tab.label)}</option>
+              `).join('')}
+            </select>
           </div>
-        </div>
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th style="width:30%;">Tên bài học</th>
-              <th>Nội dung bài học</th>
-              <th style="width:150px;">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody id="lessons-tbody">
-            ${(!topic.lessons || topic.lessons.length === 0) ? `
-              <tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:1.5rem;">Chưa có bài học nào.</td></tr>
-            ` : topic.lessons.map((l, index) => `
-              <tr>
-                <td><strong>${esc(l[0])}</strong></td>
-                <td>${esc(l[1])}</td>
-                <td>
-                  <button class="admin-btn admin-btn-sm btn-edit-lesson" data-index="${index}" style="margin-right:0.25rem;">✏️ Sửa</button>
-                  <button class="admin-btn admin-btn-sm btn-delete-lesson" data-index="${index}" style="background:var(--danger);">🗑️ Xóa</button>
-                </td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
 
-      <!-- Checklist Manager -->
-      <div class="admin-table-container">
-        <div class="admin-table-toolbar">
-          <div class="admin-table-title">✅ Checklist thực hành (${topic.checklist?.length || 0})</div>
-          <div class="admin-table-actions">
-            <button class="admin-btn admin-btn-sm" id="add-checklist-btn" style="background:var(--success);">➕ Thêm checklist</button>
+          <!-- Tên cẩm nang -->
+          <div style="display:flex; align-items:center;">
+            <label style="width:30%; font-weight:500; color:#cbd5e1; font-size:0.95rem;">Tên cẩm nang <span style="color:#ef4444;">*</span></label>
+            <input type="text" id="modal-hb-title" class="admin-input" style="flex:1; background:#fff; color:#1e293b; border:1px solid #cbd5e1; border-radius:8px; padding:10px 14px; font-size:0.95rem;" value="${isEdit && hb.title ? esc(hb.title) : ''}" placeholder="Nhập tên cẩm nang..." />
           </div>
-        </div>
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>Mục checklist</th>
-              <th style="width:150px;">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody id="checklist-tbody">
-            ${(!topic.checklist || topic.checklist.length === 0) ? `
-              <tr><td colspan="2" style="text-align:center;color:var(--text-muted);padding:1.5rem;">Chưa có checklist nào.</td></tr>
-            ` : topic.checklist.map((c, index) => `
-              <tr>
-                <td>${esc(c)}</td>
-                <td>
-                  <button class="admin-btn admin-btn-sm btn-edit-checklist" data-index="${index}" style="margin-right:0.25rem;">✏️ Sửa</button>
-                  <button class="admin-btn admin-btn-sm btn-delete-checklist" data-index="${index}" style="background:var(--danger);">🗑️ Xóa</button>
-                </td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
 
-      <!-- Application Table Manager -->
-      <div class="admin-table-container">
-        <div class="admin-table-toolbar">
-          <div class="admin-table-title">📊 Bảng ứng dụng mẫu (${topic.rows?.length || 0})</div>
-          <div class="admin-table-actions">
-            <button class="admin-btn admin-btn-sm" id="add-row-btn" style="background:var(--success);">➕ Thêm dòng</button>
+          <!-- Đường dẫn -->
+          <div style="display:flex; align-items:center;">
+            <label style="width:30%; font-weight:500; color:#cbd5e1; font-size:0.95rem;">Đường dẫn <span style="color:#ef4444;">*</span></label>
+            <input type="text" id="modal-hb-link" class="admin-input" style="flex:1; background:#fff; color:#1e293b; border:1px solid #cbd5e1; border-radius:8px; padding:10px 14px; font-size:0.95rem;" value="${isEdit && hb.driveLink ? esc(hb.driveLink) : ''}" placeholder="Dán đường dẫn tài liệu..." />
           </div>
+
+          <!-- Kiểu đường dẫn -->
+          <div style="display:flex; align-items:center;">
+            <label style="width:30%; font-weight:500; color:#cbd5e1; font-size:0.95rem;">Kiểu đường dẫn <span style="color:#ef4444;">*</span></label>
+            <select id="modal-hb-link-type" class="admin-select" style="flex:1; background:#fff; color:#1e293b; border:1px solid #cbd5e1; border-radius:8px; padding:10px 14px; font-size:0.95rem;">
+              <option value="link" ${isEdit && hb.linkType === 'link' ? 'selected' : ''}>Link liên kết</option>
+              <option value="file" ${isEdit && hb.linkType === 'file' ? 'selected' : ''}>Tài liệu tải lên</option>
+            </select>
+          </div>
+
+          <!-- Mô tả -->
+          <div style="display:flex; align-items:center;">
+            <label style="width:30%; font-weight:500; color:#cbd5e1; font-size:0.95rem;">Mô tả</label>
+            <input type="text" id="modal-hb-desc" class="admin-input" style="flex:1; background:#fff; color:#1e293b; border:1px solid #cbd5e1; border-radius:8px; padding:10px 14px; font-size:0.95rem;" value="${isEdit && hb.description ? esc(hb.description) : ''}" placeholder="Nhập mô tả..." />
+          </div>
+
+          <!-- Thứ tự -->
+          <div style="display:flex; align-items:center;">
+            <label style="width:30%; font-weight:500; color:#cbd5e1; font-size:0.95rem;">Thứ tự</label>
+            <input type="number" id="modal-hb-order" class="admin-input" style="flex:1; background:#fff; color:#1e293b; border:1px solid #cbd5e1; border-radius:8px; padding:10px 14px; font-size:0.95rem;" value="${isEdit && (hb.order !== undefined && hb.order !== null) ? hb.order : '0'}" />
+          </div>
+
+          <!-- Trạng thái -->
+          <div style="display:flex; align-items:center; padding-left:30%;">
+            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; color:#cbd5e1; font-size:0.95rem; font-weight:500;">
+              <input type="checkbox" id="modal-hb-status" ${!isEdit || hb.status === 'ACTIVE' ? 'checked' : ''} style="width:18px; height:18px; cursor:pointer;" />
+              Hoạt động
+            </label>
+          </div>
+
         </div>
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>Mã/Module</th>
-              <th>Tín hiệu</th>
-              <th>Hành động ứng dụng</th>
-              <th style="width:150px;">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody id="rows-tbody">
-            ${(!topic.rows || topic.rows.length === 0) ? `
-              <tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:1.5rem;">Chưa có dòng dữ liệu nào.</td></tr>
-            ` : topic.rows.map((r, index) => `
-              <tr>
-                <td><strong>${esc(r[0])}</strong></td>
-                <td><span class="admin-badge">${esc(r[1])}</span></td>
-                <td>${esc(r[2])}</td>
-                <td>
-                  <button class="admin-btn admin-btn-sm btn-edit-row" data-index="${index}" style="margin-right:0.25rem;">✏️ Sửa</button>
-                  <button class="admin-btn admin-btn-sm btn-delete-row" data-index="${index}" style="background:var(--danger);">🗑️ Xóa</button>
-                </td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
+        <div class="admin-modal-footer" style="display:flex; justify-content:flex-end; gap:0.75rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:1.25rem;">
+          <button class="admin-btn" id="btn-save-hb-modal" style="background:#5c6bc0; color:#fff; font-weight:bold; border-radius:8px; padding:10px 20px; font-size:0.95rem; border:none; cursor:pointer; transition:all 0.2s;">
+            ${isEdit ? 'Cập nhật' : 'Thêm mới'}
+          </button>
+          <button class="admin-btn" id="btn-cancel-hb-modal" style="background:rgba(255,255,255,0.05); color:#cbd5e1; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:10px 20px; font-size:0.95rem; cursor:pointer; transition:all 0.2s;">
+            Đóng
+          </button>
+        </div>
       </div>
     </div>
   `;
 
-  // Bind save topic info
-  contentEl.querySelector('#save-topic-info-btn').addEventListener('click', () => {
-    topic.label = contentEl.querySelector('#topic-label').value;
-    topic.title = contentEl.querySelector('#topic-title').value;
-    topic.intro = contentEl.querySelector('#topic-intro').value;
-    saveLocalTopics();
+  const closeModal = () => { modalArea.innerHTML = ''; };
+  modalArea.querySelector('#btn-close-hb-modal').addEventListener('click', closeModal);
+  modalArea.querySelector('#btn-cancel-hb-modal').addEventListener('click', closeModal);
+  modalArea.querySelector('#hb-modal-overlay').addEventListener('click', (e) => {
+    if (e.target.id === 'hb-modal-overlay') closeModal();
   });
 
-  // Bind Lesson actions
-  contentEl.querySelector('#add-lesson-btn').addEventListener('click', () => {
-    const name = prompt('Nhập tên bài học:');
-    if (!name) return;
-    const desc = prompt('Nhập nội dung/mô tả bài học:');
-    if (!desc) return;
-    if (!topic.lessons) topic.lessons = [];
-    topic.lessons.push([name, desc]);
-    saveLocalTopics();
-    renderEditor(contentEl);
-  });
+  // Save handler
+  modalArea.querySelector('#btn-save-hb-modal').addEventListener('click', async (e) => {
+    const title = modalArea.querySelector('#modal-hb-title').value.trim();
+    const driveLink = modalArea.querySelector('#modal-hb-link').value.trim();
+    const category = modalArea.querySelector('#modal-hb-category').value;
+    const linkType = modalArea.querySelector('#modal-hb-link-type').value;
+    const description = modalArea.querySelector('#modal-hb-desc').value.trim();
+    const order = parseInt(modalArea.querySelector('#modal-hb-order').value, 10) || 0;
+    const status = modalArea.querySelector('#modal-hb-status').checked ? 'ACTIVE' : 'INACTIVE';
+    
+    if (!title) {
+      showToast('Vui lòng nhập tên cẩm nang.', 'error');
+      return;
+    }
+    if (!driveLink) {
+      showToast('Vui lòng nhập đường dẫn tài liệu.', 'error');
+      return;
+    }
 
-  contentEl.querySelectorAll('.btn-edit-lesson').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = btn.dataset.index;
-      const l = topic.lessons[idx];
-      const name = prompt('Sửa tên bài học:', l[0]);
-      if (!name) return;
-      const desc = prompt('Sửa nội dung bài học:', l[1]);
-      if (!desc) return;
-      topic.lessons[idx] = [name, desc];
-      saveLocalTopics();
-      renderEditor(contentEl);
-    });
-  });
+    e.target.disabled = true;
 
-  contentEl.querySelectorAll('.btn-delete-lesson').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = btn.dataset.index;
-      if (confirm('Bạn có chắc chắn muốn xóa bài học này?')) {
-        topic.lessons.splice(idx, 1);
-        saveLocalTopics();
-        renderEditor(contentEl);
+    const payload = {
+      title,
+      driveLink,
+      category,
+      linkType,
+      description: description || null,
+      order,
+      status
+    };
+
+    try {
+      if (isEdit) {
+        await API().patch(`/admin/handbooks/${hb.id}`, payload);
+        showToast('Cập nhật cẩm nang thành công!');
+      } else {
+        await API().post('/admin/handbooks', payload);
+        showToast('Thêm cẩm nang mới thành công!');
       }
-    });
-  });
-
-  // Bind Checklist actions
-  contentEl.querySelector('#add-checklist-btn').addEventListener('click', () => {
-    const text = prompt('Nhập mục checklist thực hành mới:');
-    if (!text) return;
-    if (!topic.checklist) topic.checklist = [];
-    topic.checklist.push(text);
-    saveLocalTopics();
-    renderEditor(contentEl);
-  });
-
-  contentEl.querySelectorAll('.btn-edit-checklist').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = btn.dataset.index;
-      const text = prompt('Sửa mục checklist:', topic.checklist[idx]);
-      if (!text) return;
-      topic.checklist[idx] = text;
-      saveLocalTopics();
-      renderEditor(contentEl);
-    });
-  });
-
-  contentEl.querySelectorAll('.btn-delete-checklist').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = btn.dataset.index;
-      if (confirm('Bạn có chắc chắn muốn xóa checklist này?')) {
-        topic.checklist.splice(idx, 1);
-        saveLocalTopics();
-        renderEditor(contentEl);
-      }
-    });
-  });
-
-  // Bind Row actions
-  contentEl.querySelector('#add-row-btn').addEventListener('click', () => {
-    const symbol = prompt('Nhập Mã/Module:');
-    if (!symbol) return;
-    const signal = prompt('Nhập trạng thái/Tín hiệu:');
-    if (!signal) return;
-    const action = prompt('Nhập hành động demo:');
-    if (!action) return;
-    if (!topic.rows) topic.rows = [];
-    topic.rows.push([symbol, signal, action]);
-    saveLocalTopics();
-    renderEditor(contentEl);
-  });
-
-  contentEl.querySelectorAll('.btn-edit-row').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = btn.dataset.index;
-      const r = topic.rows[idx];
-      const symbol = prompt('Sửa Mã/Module:', r[0]);
-      if (!symbol) return;
-      const signal = prompt('Sửa trạng thái/Tín hiệu:', r[1]);
-      if (!signal) return;
-      const action = prompt('Sửa hành động demo:', r[2]);
-      if (!action) return;
-      topic.rows[idx] = [symbol, signal, action];
-      saveLocalTopics();
-      renderEditor(contentEl);
-    });
-  });
-
-  contentEl.querySelectorAll('.btn-delete-row').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = btn.dataset.index;
-      if (confirm('Bạn có chắc chắn muốn xóa dòng dữ liệu mẫu này?')) {
-        topic.rows.splice(idx, 1);
-        saveLocalTopics();
-        renderEditor(contentEl);
-      }
-    });
+      closeModal();
+      loadHandbooks(tbody);
+    } catch (err) {
+      showToast(err.message || 'Lỗi khi lưu cẩm nang', 'error');
+      e.target.disabled = false;
+    }
   });
 }

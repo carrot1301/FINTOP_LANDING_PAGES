@@ -13,9 +13,17 @@ export class MailService {
     this.frontendUrl = this.config.get<string>('FRONTEND_URL', 'https://fintop-frontend-staging.onrender.com');
 
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
+    const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
+
     if (resendApiKey) {
       this.fromAddress = this.config.get<string>('RESEND_FROM', 'FinTop DATA <no-reply@fintopdata.vn>');
       this.logger.log('Resend API key configured — emails will be sent via Resend HTTPS API.');
+      this.transporter = null as any;
+    } else if (brevoApiKey) {
+      const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
+      const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+      this.fromAddress = `${fromName} <${fromEmail}>`;
+      this.logger.log('Brevo API key configured — emails will be sent via Brevo HTTPS API.');
       this.transporter = null as any;
     } else {
       const host = this.config.get<string>('SMTP_HOST', 'smtp.gmail.com');
@@ -25,7 +33,7 @@ export class MailService {
       this.fromAddress = this.config.get<string>('SMTP_FROM', `FinTop DATA <${user}>`);
 
       if (!user || !pass) {
-        this.logger.warn('Neither Resend API Key nor SMTP credentials configured — emails will be logged but not sent.');
+        this.logger.warn('Neither Resend, Brevo API Key nor SMTP credentials configured — emails will be logged but not sent.');
         this.transporter = null as any;
       } else {
         this.transporter = nodemailer.createTransport({
@@ -52,7 +60,7 @@ export class MailService {
   async sendPasswordResetEmail(email: string, token: string, fullName: string): Promise<boolean> {
     const resetLink = `${this.frontendUrl}/reset-password/?token=${encodeURIComponent(token)}`;
 
-    const subject = '🔐 Đặt lại mật khẩu — FinTop DATA';
+    const subject = 'Dữ liệu chứng khoán FinTop DATA';
     const html = this.buildPasswordResetTemplate(fullName, resetLink);
 
     return this.sendMail(email, subject, html);
@@ -63,7 +71,7 @@ export class MailService {
   // ─────────────────────────────────────────────────────
 
   async sendVerificationOTP(email: string, code: string, fullName: string): Promise<boolean> {
-    const subject = '✅ Mã xác thực tài khoản — FinTop DATA';
+    const subject = 'Dữ liệu chứng khoán FinTop DATA';
     const html = this.buildOTPTemplate(fullName, code);
 
     return this.sendMail(email, subject, html);
@@ -90,6 +98,11 @@ export class MailService {
       return this.sendMailViaResend(to, subject, html, resendApiKey);
     }
 
+    const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
+    if (brevoApiKey) {
+      return this.sendMailViaBrevo(to, subject, html, brevoApiKey);
+    }
+
     if (!this.transporter) {
       this.logger.warn(`[DRY RUN] Email to ${to}: ${subject}`);
       this.logger.debug(`[DRY RUN] HTML body length: ${html.length}`);
@@ -97,9 +110,13 @@ export class MailService {
     }
 
     try {
+      const replyTo = this.config.get<string>('MAIL_REPLY_TO', 'fintopdata.info@gmail.com');
+      const bcc = this.config.get<string>('MAIL_BCC', 'fintopdata.info@gmail.com');
       const info = await this.transporter.sendMail({
         from: this.fromAddress,
         to,
+        replyTo,
+        ...(bcc ? { bcc } : {}),
         subject,
         html,
       });
@@ -143,6 +160,63 @@ export class MailService {
     }
   }
 
+  private async sendMailViaBrevo(to: string, subject: string, html: string, apiKey: string): Promise<boolean> {
+    const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
+    const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+    const replyTo = this.config.get<string>('MAIL_REPLY_TO', 'fintopdata.info@gmail.com');
+    const bccEmail = this.config.get<string>('MAIL_BCC', 'fintopdata.info@gmail.com');
+    try {
+      this.logger.log(`Sending email to ${to} via Brevo HTTPS API...`);
+
+      const bodyPayload: any = {
+        sender: {
+          name: fromName,
+          email: fromEmail,
+        },
+        to: [
+          {
+            email: to,
+          },
+        ],
+        replyTo: {
+          email: replyTo,
+        },
+        subject,
+        htmlContent: html,
+      };
+
+      if (bccEmail) {
+        bodyPayload.bcc = [
+          {
+            email: bccEmail,
+          },
+        ];
+      }
+
+      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'api-key': apiKey,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(bodyPayload),
+      });
+
+      const data = await response.json() as any;
+
+      if (!response.ok) {
+        throw new Error(data?.message || `HTTP status ${response.status}`);
+      }
+
+      this.logger.log(`Email sent to ${to} via Brevo successfully: ${data.messageId}`);
+      return true;
+    } catch (err) {
+      this.logger.error(`Failed to send email to ${to} via Brevo: ${err.message}`);
+      return false;
+    }
+  }
+
   // ─────────────────────────────────────────────────────
   // HTML TEMPLATES
   // ─────────────────────────────────────────────────────
@@ -156,9 +230,10 @@ export class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <h1 style="color:#a78bfa;font-size:22px;margin:0;letter-spacing:1px;">FinTop DATA</h1>
+        <img src="https://raw.githubusercontent.com/carrot1301/FINTOP_LANDING_PAGES/main/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
+      <h2 style="color:#ffffff;font-size:18px;font-weight:600;margin-top:0;margin-bottom:20px;text-align:center;letter-spacing:0.5px;">YÊU CẦU ĐẶT LẠI MẬT KHẨU</h2>
       <p style="color:#e2e8f0;font-size:15px;line-height:1.7;margin:0 0 8px;">Xin chào <strong style="color:#c4b5fd;">${this.escapeHtml(fullName)}</strong>,</p>
       <p style="color:#94a3b8;font-size:14px;line-height:1.7;margin:0 0 24px;">Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn. Nhấn nút bên dưới để tạo mật khẩu mới:</p>
       <div style="text-align:center;margin:32px 0;">
@@ -168,8 +243,9 @@ export class MailService {
       </div>
       <p style="color:#64748b;font-size:13px;line-height:1.6;margin:0 0 8px;">⏱ Link có hiệu lực trong <strong>30 phút</strong>.</p>
       <p style="color:#64748b;font-size:13px;line-height:1.6;margin:0 0 24px;">Nếu bạn không yêu cầu đặt lại mật khẩu, hãy bỏ qua email này. Tài khoản của bạn vẫn an toàn.</p>
-      <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:16px;">
-        <p style="color:#475569;font-size:11px;text-align:center;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
+      <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:16px;text-align:center;">
+        <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Nếu gặp sự cố, bạn vui lòng phản hồi lại email này hoặc liên hệ hotline: 086.234.8886</p>
+        <p style="color:#475569;font-size:11px;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
       </div>
     </td></tr>
   </table>
@@ -191,16 +267,18 @@ export class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <h1 style="color:#a78bfa;font-size:22px;margin:0;letter-spacing:1px;">FinTop DATA</h1>
+        <img src="https://raw.githubusercontent.com/carrot1301/FINTOP_LANDING_PAGES/main/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
+      <h2 style="color:#ffffff;font-size:18px;font-weight:600;margin-top:0;margin-bottom:20px;text-align:center;letter-spacing:0.5px;">XÁC THỰC TÀI KHOẢN</h2>
       <p style="color:#e2e8f0;font-size:15px;line-height:1.7;margin:0 0 8px;">Xin chào <strong style="color:#c4b5fd;">${this.escapeHtml(fullName)}</strong>,</p>
       <p style="color:#94a3b8;font-size:14px;line-height:1.7;margin:0 0 24px;">Mã xác thực tài khoản FinTop DATA của bạn:</p>
       <div style="text-align:center;margin:28px 0 32px;">${digitBoxes}</div>
       <p style="color:#64748b;font-size:13px;line-height:1.6;margin:0 0 8px;">⏱ Mã có hiệu lực trong <strong>10 phút</strong>.</p>
       <p style="color:#64748b;font-size:13px;line-height:1.6;margin:0 0 24px;">Nếu bạn không yêu cầu mã này, hãy bỏ qua email này.</p>
-      <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:16px;">
-        <p style="color:#475569;font-size:11px;text-align:center;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
+      <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:16px;text-align:center;">
+        <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Nếu gặp sự cố xác thực, bạn vui lòng phản hồi lại email này hoặc liên hệ hotline: 086.234.8886</p>
+        <p style="color:#475569;font-size:11px;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
       </div>
     </td></tr>
   </table>
@@ -217,7 +295,7 @@ export class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <h1 style="color:#a78bfa;font-size:22px;margin:0;letter-spacing:1px;">FinTop DATA</h1>
+        <img src="https://raw.githubusercontent.com/carrot1301/FINTOP_LANDING_PAGES/main/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <div style="text-align:center;margin-bottom:24px;">
@@ -239,8 +317,9 @@ export class MailService {
           Bắt đầu khám phá
         </a>
       </div>
-      <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:24px;">
-        <p style="color:#475569;font-size:11px;text-align:center;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
+      <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:24px;text-align:center;">
+        <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Cần hỗ trợ? Bạn vui lòng phản hồi lại email này hoặc gọi hotline: 086.234.8886</p>
+        <p style="color:#475569;font-size:11px;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
       </div>
     </td></tr>
   </table>
@@ -252,24 +331,45 @@ export class MailService {
   // DIAGNOSTIC METHODS
   // ─────────────────────────────────────────────────────
 
-  /** Returns true if SMTP or Resend credentials are configured */
+  /** Returns true if SMTP, Resend or Brevo credentials are configured */
   isConfigured(): boolean {
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
-    return !!resendApiKey || !!this.transporter;
+    const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
+    return !!resendApiKey || !!brevoApiKey || !!this.transporter;
   }
 
   /** Returns mail sender status info for health checks */
-  getStatus(): { status: 'up' | 'down'; configured: boolean; provider: 'resend' | 'smtp' | 'none'; host: string; user: string; frontendUrl: string } {
+  getStatus(): { status: 'up' | 'down'; configured: boolean; provider: 'resend' | 'brevo' | 'smtp' | 'none'; host: string; user: string; frontendUrl: string } {
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
+    const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
     const hasResend = !!resendApiKey;
+    const hasBrevo = !!brevoApiKey;
     const hasSmtp = !!this.transporter;
 
+    let provider: 'resend' | 'brevo' | 'smtp' | 'none' = 'none';
+    let host = '(not set)';
+    let user = '(not set)';
+
+    if (hasResend) {
+      provider = 'resend';
+      host = 'api.resend.com';
+      user = '***configured***';
+    } else if (hasBrevo) {
+      provider = 'brevo';
+      host = 'api.brevo.com';
+      user = this.config.get<string>('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+    } else if (hasSmtp) {
+      provider = 'smtp';
+      host = this.config.get<string>('SMTP_HOST', '(not set)');
+      user = '***configured***';
+    }
+
     return {
-      status: (hasResend || hasSmtp) ? 'up' : 'down',
-      configured: hasResend || hasSmtp,
-      provider: hasResend ? 'resend' : (hasSmtp ? 'smtp' : 'none'),
-      host: hasResend ? 'api.resend.com' : this.config.get<string>('SMTP_HOST', '(not set)'),
-      user: hasResend ? '***configured***' : (this.config.get<string>('SMTP_USER', '') ? '***configured***' : '(not set)'),
+      status: (hasResend || hasBrevo || hasSmtp) ? 'up' : 'down',
+      configured: hasResend || hasBrevo || hasSmtp,
+      provider,
+      host,
+      user,
       frontendUrl: this.frontendUrl,
     };
   }

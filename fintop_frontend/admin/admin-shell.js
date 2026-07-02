@@ -22,26 +22,27 @@
 // ─────────────────────────────────────────────────────────────
 
 const MODULES = [
-  { id: 'overview',          label: 'Trang Chủ',            icon: '🏠', section: 'Chính',      permission: null },
-  { id: 'billing',           label: 'Phê duyệt',            icon: '💵', section: 'Chính',      permission: null },
-  { id: 'copilot',           label: 'AI Copilot',           icon: '🧠', section: 'Chính',      permission: null, hidden: true },
-  { id: 'signals',           label: 'Tín Hiệu V.I.P',       icon: '📊', section: 'Dữ liệu',   permission: 'UPDATE_SIGNAL', hidden: true },
-  { id: 'copy-trade',        label: 'Copy Trade',           icon: '🔄', section: 'Dữ liệu',   permission: 'UPDATE_SIGNAL', hidden: true },
-  { id: 'market',            label: 'Dữ liệu',              icon: '🪙', section: 'Dữ liệu',   permission: null },
-  { id: 'market-intelligence', label: 'Market Intelligence', icon: '📈', section: 'Dữ liệu',   permission: null, hidden: true },
-  { id: 'research-center',   label: 'Research Center',      icon: '📝', section: 'Dữ liệu',   permission: null, hidden: true },
-  { id: 'cms',               label: 'Bài viết',             icon: '📅', section: 'Nội dung',   permission: 'UPDATE_BLOG' },
-  { id: 'rbac',              label: 'Nhân sự',              icon: '👥', section: 'Quản lý',   permission: 'MANAGE_ROLES' },
-  { id: 'users',             label: 'Khách hàng',           icon: '👥', section: 'Quản lý',   permission: 'MANAGE_USERS' },
-  { id: 'portfolio-manager', label: 'Danh mục Web',         icon: '📅', section: 'Quản lý',   permission: null },
-  { id: 'handbook',          label: 'Hướng dẫn',            icon: '🏥', section: 'Nội dung',   permission: null },
-  
+  { id: 'overview', label: 'Trang Chủ', icon: '🏠', section: 'Chính', permission: null },
+  { id: 'billing', label: 'Phê duyệt', icon: '💵', section: 'Chính', permission: null },
+  { id: 'copilot', label: 'AI Copilot', icon: '🧠', section: 'Chính', permission: null },
+  { id: 'signals', label: 'Tín Hiệu V.I.P', icon: '📊', section: 'Dữ liệu', permission: 'UPDATE_SIGNAL', hidden: true },
+  { id: 'copy-trade', label: 'Copy Trade', icon: '🔄', section: 'Dữ liệu', permission: 'UPDATE_SIGNAL' },
+  { id: 'market', label: 'Dữ liệu', icon: '🪙', section: 'Dữ liệu', permission: null },
+  { id: 'market-intelligence', label: 'Market Intelligence', icon: '📈', section: 'Dữ liệu', permission: null, hidden: true },
+  { id: 'research-center', label: 'Research Center', icon: '📝', section: 'Dữ liệu', permission: null, hidden: true },
+  { id: 'cms', label: 'Bài viết', icon: '📅', section: 'Nội dung', permission: 'UPDATE_BLOG' },
+  { id: 'rbac', label: 'Nhân sự', icon: '👥', section: 'Quản lý', permission: 'MANAGE_ROLES' },
+  { id: 'users', label: 'Khách hàng', icon: '👥', section: 'Quản lý', permission: 'MANAGE_USERS' },
+  { id: 'portfolio-manager', label: 'Danh mục Web', icon: '📅', section: 'Quản lý', permission: null },
+  { id: 'handbook', label: 'Hướng dẫn', icon: '🏥', section: 'Nội dung', permission: null },
+  { id: 'profile', label: 'Thông tin cá nhân', icon: '👤', section: 'Tài khoản', permission: null },
+
   // Hidden modules (preserved for code stability, E2E checks and URL routing)
-  { id: 'notifications', label: 'Thông báo',       icon: '🔔', section: 'Hệ thống',   permission: null, hidden: true },
-  { id: 'portfolios',    label: 'Danh mục cũ',     icon: '💼', section: 'Hệ thống',   permission: null, hidden: true },
-  { id: 'audit',         label: 'Nhật ký',         icon: '📋', section: 'Hệ thống',   permission: 'VIEW_AUDIT_LOGS', hidden: true },
-  { id: 'system',        label: 'Hệ thống',        icon: '⚙️', section: 'Hệ thống',   permission: null, hidden: true },
-  { id: 'ai-ops',        label: 'AI Ops / QA',     icon: '🤖', section: 'Hệ thống',   permission: null, hidden: true },
+  { id: 'notifications', label: 'Thông báo', icon: '🔔', section: 'Hệ thống', permission: null, hidden: true },
+  { id: 'portfolios', label: 'Danh mục cũ', icon: '💼', section: 'Hệ thống', permission: null, hidden: true },
+  { id: 'audit', label: 'Nhật ký', icon: '📋', section: 'Hệ thống', permission: 'VIEW_AUDIT_LOGS' },
+  { id: 'system', label: 'Hệ thống', icon: '⚙️', section: 'Hệ thống', permission: null },
+  { id: 'ai-ops', label: 'AI Ops / QA', icon: '🤖', section: 'Hệ thống', permission: null },
 ];
 
 let currentModule = null;
@@ -341,6 +342,27 @@ async function initShell() {
   // Populate user badge
   buildUserBadge();
 
+  // Dropdown toggle logic
+  const dropdown = document.getElementById('admin-user-dropdown');
+  const trigger = document.getElementById('admin-dropdown-trigger');
+
+  trigger?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dropdown?.classList.toggle('active');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (dropdown && !dropdown.contains(e.target)) {
+      dropdown.classList.remove('active');
+    }
+  });
+
+  // Close dropdown on navigating to any page (hash change)
+  window.addEventListener('hashchange', () => {
+    dropdown?.classList.remove('active');
+  });
+
   // Logout handler
   document.getElementById('admin-logout-btn')?.addEventListener('click', async () => {
     if (Infra.AuthManager && typeof Infra.AuthManager.logout === 'function') {
@@ -398,13 +420,21 @@ function buildUserBadge() {
   const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
   const roles = (user.roles || []).join(', ') || 'Admin';
 
-  badge.innerHTML = `
-    <div class="admin-user-avatar">${initials}</div>
-    <div class="admin-user-info">
-      <div class="admin-user-name">${esc(name)}</div>
-      <div class="admin-user-role">${esc(roles)}</div>
-    </div>
-  `;
+  if (badge) {
+    badge.innerHTML = `
+      <div class="admin-user-avatar">${initials}</div>
+      <div class="admin-user-info">
+        <div class="admin-user-name">${esc(name)}</div>
+        <div class="admin-user-role">${esc(roles)}</div>
+      </div>
+    `;
+  }
+
+  // Populate username in topbar dropdown trigger
+  const headerUsernameEl = document.getElementById('admin-header-username');
+  if (headerUsernameEl) {
+    headerUsernameEl.textContent = name;
+  }
 }
 
 async function onHashChange() {
