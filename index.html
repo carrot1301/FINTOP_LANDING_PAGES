@@ -558,11 +558,112 @@
 
         #panel-boloc .dark-table-wrapper {
             max-width: 1540px;
+            position: relative;
             border-radius: 14px;
             border: 1px solid rgba(168, 85, 247, 0.24);
             background: rgba(15, 15, 25, 0.68);
             backdrop-filter: blur(12px);
             box-shadow: 0 18px 48px rgba(0, 0, 0, 0.42);
+        }
+
+        #panel-boloc .boloc-filter-bar.is-locked {
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        #panel-boloc .dark-table-wrapper.is-locked #bolocTable tbody {
+            filter: blur(5px);
+            user-select: none;
+            pointer-events: none;
+        }
+
+        #panel-boloc .dark-table-wrapper.is-locked #bolocTable tbody td {
+            color: rgba(226, 232, 240, 0.58);
+        }
+
+        .boloc-access-overlay {
+            position: absolute;
+            inset: 62px 0 0;
+            z-index: 8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 24px;
+            background:
+                radial-gradient(circle at center, rgba(168, 85, 247, 0.22), rgba(7, 7, 13, 0.72) 42%, rgba(7, 7, 13, 0.9)),
+                linear-gradient(180deg, rgba(7, 7, 13, 0.25), rgba(7, 7, 13, 0.86));
+            backdrop-filter: blur(2px);
+        }
+
+        .boloc-access-overlay[hidden] {
+            display: none;
+        }
+
+        .boloc-access-card {
+            width: min(440px, calc(100vw - 32px));
+            border-radius: 8px;
+            border: 1px solid rgba(216, 180, 254, 0.42);
+            background: rgba(10, 10, 18, 0.92);
+            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.48);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .boloc-access-eyebrow {
+            color: #fbbf24;
+            font-size: 0.76rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .boloc-access-title {
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 900;
+            line-height: 1.35;
+            margin-bottom: 10px;
+        }
+
+        .boloc-access-desc {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            margin-bottom: 18px;
+        }
+
+        .boloc-access-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .boloc-login-btn,
+        .boloc-register-btn {
+            border: 0;
+            border-radius: 8px;
+            padding: 11px 16px;
+            color: #fff;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .boloc-login-btn {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+        }
+
+        .boloc-register-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .boloc-login-btn:hover,
+        .boloc-register-btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.08);
         }
 
         .boloc-table-title {
@@ -4265,15 +4366,11 @@
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content" id="dc-phan-tich">
-                    <a href="javascript:void(0)" data-panel="panel-analysis-market"
-                        onclick="openPanel('panel-analysis-market', this)">Nghiên cứu thị trường</a>
-                    <a href="javascript:void(0)" data-panel="panel-analysis-pro"
-                        onclick="openPanel('panel-analysis-pro', this)">Nghiên cứu chuyên sâu <span
+                    <a href="nghien-cuu/thi-truong/index.html">Nghiên cứu thị trường</a>
+                    <a href="nghien-cuu/chuyen-sau/index.html">Nghiên cứu chuyên sâu <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
-                    <a href="javascript:void(0)" data-panel="panel-analysis-company"
-                        onclick="openPanel('panel-analysis-company', this)">Nghiên cứu Doanh nghiệp</a>
-                    <a href="javascript:void(0)" data-panel="panel-analysis-sector"
-                        onclick="openPanel('panel-analysis-sector', this)">Nghiên cứu nhóm Ngành</a>
+                    <a href="nghien-cuu/doanh-nghiep/index.html">Nghiên cứu Doanh nghiệp</a>
+                    <a href="nghien-cuu/nhom-nganh/index.html">Nghiên cứu nhóm Ngành</a>
                 </div>
             </li>
 
@@ -4491,6 +4588,23 @@
                 <tbody id="bolocBody">
                 </tbody>
             </table>
+            <div class="boloc-access-overlay" id="bolocAccessOverlay" hidden>
+                <div class="boloc-access-card">
+                    <div class="boloc-access-eyebrow">Khu vực hội viên</div>
+                    <div class="boloc-access-title">Đăng nhập để xem Bộ lọc cổ phiếu</div>
+                    <div class="boloc-access-desc">
+                        Bảng trạng thái Model, sức mạnh xu hướng và vùng kỹ thuật chỉ hiển thị sau khi tài khoản được xác thực.
+                    </div>
+                    <div class="boloc-access-actions">
+                        <button class="boloc-login-btn" type="button" onclick="openBolocLogin('login')">Đăng nhập</button>
+                        <button class="boloc-register-btn" type="button" onclick="openBolocLogin('register')">Đăng ký</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="boloc-disclaimer">
+            <strong>MIỄN TRỪ TRÁCH NHIỆM!</strong>
+            Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.
         </div>
         <div class="boloc-disclaimer">
             <strong>MIỄN TRỪ TRÁCH NHIỆM!</strong>
@@ -6260,7 +6374,7 @@
                 <div style="display: flex; flex-direction: column; gap: 0.6rem;">
                     <a href="javascript:void(0)" onclick="openPanel('panel-hoivien', this)">Hội viên</a>
                     <a href="javascript:void(0)" onclick="openPanel('panel-tracuu', this)">FinTop Data</a>
-                    <a href="javascript:void(0)" onclick="openPanel('panel-analysis-market', this)">Nghiên cứu</a>
+                    <a href="nghien-cuu/thi-truong/index.html">Nghiên cứu</a>
                     <a href="javascript:void(0)" onclick="openPanel('panel-stock-quant', this)">Dữ liệu</a>
                     <a href="javascript:void(0)" onclick="openPanel('panel-guide-trading', this)">Hướng dẫn</a>
                 </div>
@@ -6314,7 +6428,6 @@
     </div>
 
     <script src="data/stock-search-data.js"></script>
-    <script src="data/stock-filter-data.js"></script>
     <script src="data/signals-data.js"></script>
     <script src="data/research-data.js"></script>
     <script src="data/memberships-data.js"></script>
@@ -6347,9 +6460,10 @@
             return window.FINTOP_STOCK_SEARCH_DATA || {};
         })();
 
-        // Bộ lọc data dùng chung với trang quản trị.
-        // Priority: 1) Admin-synced localStorage  2) Static JS file
-        let BOLOC_DATA = (function() {
+        // Bộ lọc cổ phiếu là dữ liệu hội viên: chỉ đọc sau khi phiên đăng nhập được xác thực.
+        let BOLOC_DATA = [];
+
+        function readSyncedBolocData() {
             try {
                 const synced = localStorage.getItem('fintop_stock_filter_sync');
                 if (synced) {
@@ -6357,10 +6471,14 @@
                     if (Array.isArray(parsed) && parsed.length > 0) return parsed;
                 }
             } catch(e) {}
-            return Array.isArray(window.FINTOP_STOCK_FILTER_DATA)
-                ? window.FINTOP_STOCK_FILTER_DATA
-                : [];
-        })();
+            return [];
+        }
+
+        function clearSyncedBolocData() {
+            try {
+                localStorage.removeItem('fintop_stock_filter_sync');
+            } catch(e) {}
+        }
 
         let RESEARCH_DATA = Array.isArray(window.FINTOP_RESEARCH_DATA)
             ? window.FINTOP_RESEARCH_DATA
@@ -6758,6 +6876,60 @@
             return '#C084FC';
         }
 
+        function hasBolocAccess() {
+            const Infra = window.FintopInfra;
+            if (!Infra) return false;
+            return Boolean(Infra.AuthManager?.isAuthenticated || Infra.RbacEvaluator?.isAuthenticated?.());
+        }
+
+        function openBolocLogin(view = 'login') {
+            if (typeof openAuthModal === 'function') {
+                openAuthModal(view);
+                return;
+            }
+            window.location.href = 'index.html#panel-boloc';
+        }
+
+        function setBolocLockedState(isLocked) {
+            const panel = document.getElementById('panel-boloc');
+            const wrapper = panel?.querySelector('.dark-table-wrapper');
+            const filterBar = panel?.querySelector('.boloc-filter-bar');
+            const overlay = document.getElementById('bolocAccessOverlay');
+            const statusSelect = document.getElementById('bolocStatusFilter');
+            const strengthSelect = document.getElementById('bolocStrengthFilter');
+            const resetBtn = panel?.querySelector('.boloc-filter-reset');
+
+            panel?.classList.toggle('boloc-locked', isLocked);
+            wrapper?.classList.toggle('is-locked', isLocked);
+            filterBar?.classList.toggle('is-locked', isLocked);
+            if (overlay) overlay.hidden = !isLocked;
+            [statusSelect, strengthSelect, resetBtn].forEach((control) => {
+                if (control) control.disabled = isLocked;
+            });
+        }
+
+        function renderBolocLockedPreview() {
+            const tbody = document.getElementById('bolocBody');
+            if (!tbody) return;
+            setBolocLockedState(true);
+            const previewRows = Array.from({ length: 8 }, (_, i) => `
+                <tr class="animate-in" style="animation-delay: ${i * 0.04}s;">
+                    <td>${i + 1}</td>
+                    <td class="ticker-cell">•••</td>
+                    <td>••••</td>
+                    <td>Nhóm ngành hội viên</td>
+                    <td class="time-cell">--:-- --/--</td>
+                    <td class="desc-cell">Dữ liệu Model được khóa cho tài khoản đã đăng nhập.</td>
+                    <td class="boloc-status-cell"><span class="boloc-status-badge">ĐĂNG NHẬP</span></td>
+                    <td class="boloc-strength-cell">••••••</td>
+                    <td class="price-cell">•• - ••</td>
+                    <td class="price-cell">•• - ••</td>
+                    <td class="boloc-support-cell">•• - ••</td>
+                </tr>
+            `).join('');
+            tbody.innerHTML = previewRows;
+        }
+
         function getFilteredBolocData() {
             return BOLOC_DATA.filter((row) => {
                 const statusText = getBolocStatusText(row);
@@ -6773,6 +6945,14 @@
             const strengthSelect = document.getElementById('bolocStrengthFilter');
             if (!statusSelect || !strengthSelect) return;
 
+            if (!hasBolocAccess()) {
+                statusSelect.innerHTML = '<option value="">Đăng nhập để lọc Trạng thái Model</option>';
+                strengthSelect.innerHTML = '<option value="">Đăng nhập để lọc Sức mạnh xu hướng</option>';
+                statusSelect.disabled = true;
+                strengthSelect.disabled = true;
+                return;
+            }
+
             const statuses = [...new Set(BOLOC_DATA.map(getBolocStatusText).filter(Boolean))];
             const strengths = [...new Set(BOLOC_DATA.map(getBolocStrengthText).filter(Boolean))];
 
@@ -6787,11 +6967,19 @@
         }
 
         function setBolocFilter(type, value) {
+            if (!hasBolocAccess()) {
+                openBolocLogin('login');
+                return;
+            }
             bolocFilters[type] = value;
             renderBolocTable();
         }
 
         function resetBolocFilters() {
+            if (!hasBolocAccess()) {
+                openBolocLogin('login');
+                return;
+            }
             bolocFilters = { status: '', strength: '' };
             renderBolocTable();
         }
@@ -6807,6 +6995,7 @@
         window.setBolocFilter = setBolocFilter;
         window.resetBolocFilters = resetBolocFilters;
         window.focusBolocFilter = focusBolocFilter;
+        window.openBolocLogin = openBolocLogin;
 
         function renderTracuuTable() {
             const tbody = document.getElementById('tracuuBody');
@@ -6853,6 +7042,17 @@
         function renderBolocTable() {
             const tbody = document.getElementById('bolocBody');
             tbody.innerHTML = '';
+            populateBolocFilterOptions();
+
+            const rows = getFilteredBolocData();
+
+            if (!hasBolocAccess()) {
+                populateBolocFilterOptions();
+                renderBolocLockedPreview();
+                return;
+            }
+
+            setBolocLockedState(false);
             populateBolocFilterOptions();
 
             const rows = getFilteredBolocData();
@@ -7626,9 +7826,12 @@
 
             await loadScriptOnce('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2', () => Boolean(window.supabase));
             const client = window.supabase.createClient(config.url, config.anonKey);
+            const canLoadStockData = hasBolocAccess();
 
             const [stockResult, signalResult, researchResult, membershipResult, landingResult] = await Promise.all([
-                client.from('stock_prices').select('*').order('ticker', { ascending: true }),
+                canLoadStockData
+                    ? client.from('stock_prices').select('*').order('ticker', { ascending: true })
+                    : Promise.resolve({ data: [] }),
                 client.from('signals').select('*').order('created_at', { ascending: false }),
                 client.from('research').select('*').order('publish_time', { ascending: false }),
                 client.from('memberships').select('*').order('sort_order', { ascending: true }),
@@ -7705,6 +7908,12 @@
             if (isStockHydrated) return;
             const Infra = window.FintopInfra;
             if (!Infra) return;
+            if (!Infra.AuthManager?.isAuthenticated) {
+                if (document.getElementById('panel-boloc')?.classList.contains('active') || bolocRendered) {
+                    renderBolocTable();
+                }
+                return;
+            }
             const API = () => Infra.ApiClient;
             const EP = () => Infra.FintopEnv.API_ENDPOINTS;
             try {
@@ -7719,8 +7928,55 @@
                 }
             } catch (err) {
                 console.warn('[Backend Hydrate] Failed to load stock data from backend:', err.message);
+                const synced = readSyncedBolocData();
+                if (synced.length > 0) {
+                    BOLOC_DATA = synced;
+                    if (bolocRendered || document.getElementById('panel-boloc')?.classList.contains('active')) {
+                        renderBolocTable();
+                    }
+                    isStockHydrated = true;
+                    console.log('[Local Hydrate] Stock filter data loaded from authenticated local sync:', synced.length);
+                } else if (bolocRendered || document.getElementById('panel-boloc')?.classList.contains('active')) {
+                    renderBolocTable();
+                }
             }
         }
+
+        function bindBolocAuthState() {
+            const Infra = window.FintopInfra;
+            if (!Infra?.AppState) {
+                setTimeout(bindBolocAuthState, 50);
+                return;
+            }
+
+            const events = Infra.AppState.EVENTS;
+            if (!Infra.AuthManager?.isAuthenticated && !localStorage.getItem('fintop_access_token')) {
+                clearSyncedBolocData();
+            }
+            Infra.AppState.on(events.AUTH_LOGIN, () => {
+                isStockHydrated = false;
+                hydrateStockPrices();
+                if (bolocRendered || document.getElementById('panel-boloc')?.classList.contains('active')) {
+                    renderBolocTable();
+                }
+            });
+            Infra.AppState.on(events.AUTH_LOGOUT, () => {
+                BOLOC_DATA = [];
+                bolocFilters = { status: '', strength: '' };
+                isStockHydrated = false;
+                clearSyncedBolocData();
+                if (bolocRendered || document.getElementById('panel-boloc')?.classList.contains('active')) {
+                    renderBolocTable();
+                }
+            });
+            Infra.AppState.on(events.AUTH_CHANGED, () => {
+                if (bolocRendered || document.getElementById('panel-boloc')?.classList.contains('active')) {
+                    renderBolocTable();
+                }
+            });
+        }
+
+        bindBolocAuthState();
 
         async function hydrateResearch() {
             if (isResearchHydrated) return;

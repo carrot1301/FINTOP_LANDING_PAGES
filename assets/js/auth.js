@@ -117,6 +117,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     updateAdminAccessLink();
+
+    // Check if URL hash is #login or #register and open the modal
+    const checkHash = () => {
+        if (window.location.hash === '#login') {
+            openAuthModal('login');
+        } else if (window.location.hash === '#register') {
+            openAuthModal('register');
+        }
+    };
+    checkHash();
+    window.addEventListener('hashchange', checkHash);
 });
 
 function showAdminAccessLink(isVisible) {
@@ -676,9 +687,24 @@ const RegisterStepper = {
             return;
         }
 
-        window.setTimeout(() => {
-            this.showSuccess();
-        }, 240);
+        // Call real API through AuthUI if available
+        if (window.FintopInfra && window.FintopInfra.AuthUI) {
+            try {
+                // Create a synthetic event with the form as target
+                const syntheticEvent = { preventDefault: () => {}, target: this.els.form };
+                await window.FintopInfra.AuthUI.handleRegister(syntheticEvent);
+                // handleRegister will switch to verify view on success
+            } catch (err) {
+                console.error('[RegisterStepper] Registration API error:', err);
+                this.setStatus('Đăng ký thất bại. Vui lòng thử lại.', 'error');
+                this.setButtonLoading(submitBtn, false, 'Hoàn tất');
+            }
+        } else {
+            // Fallback: mock registration for demo mode
+            window.setTimeout(() => {
+                this.showSuccess();
+            }, 240);
+        }
     },
 
     getFirstInvalidStepBeforeOtp() {

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../assets/css/variables.css">
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/auth.css">
     
     <!-- Custom JS -->
     <script src="../assets/js/table.js" defer></script>
@@ -50,8 +51,15 @@
             <li><a href="../huong-dan/index.html">Hướng Dẫn</a></li>
         </ul>
         <div class="header-actions">
-            <!-- Icon/User profile mock -->
-            <button class="btn-primary btn-sm">Tài khoản</button>
+            <div class="user-dropdown-container" id="userDropdownContainer">
+                <span class="icon-link" style="cursor: pointer; color: #fff;">👤</span>
+                <div class="user-dropdown-menu">
+                    <a href="../index.html#login" class="user-dropdown-item login-btn">👤 Đăng nhập</a>
+                    <a href="../huong-dan/index.html" class="user-dropdown-item">Trung tâm Trợ giúp</a>
+                    <a href="../index.html" class="user-dropdown-item">Có gì mới</a>
+                </div>
+            </div>
+            <button class="btn-tv-blue" id="fintopStartBtn" type="button" onclick="window.location.href='../index.html#panel-hoivien'">Bắt đầu</button>
         </div>
     </header>
 
@@ -99,6 +107,7 @@
     </footer>
 
     <!-- Core Infrastructure Bootstrap -->
+    <script src="../../assets/js/auth.js" defer></script>
     <script type="module" src="../../assets/js/core/index.js"></script>
     <script>
         (function() {

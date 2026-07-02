@@ -701,11 +701,11 @@
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="../index.html#panel-analysis-market">Nghiên cứu thị trường</a>
-                    <a href="../index.html#panel-analysis-pro">Nghiên cứu chuyên sâu <span
+                    <a href="../nghien-cuu/thi-truong/index.html">Nghiên cứu thị trường</a>
+                    <a href="../nghien-cuu/chuyen-sau/index.html">Nghiên cứu chuyên sâu <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
-                    <a href="../index.html#panel-analysis-company">Nghiên cứu Doanh nghiệp</a>
-                    <a href="../index.html#panel-analysis-sector">Nghiên cứu nhóm Ngành</a>
+                    <a href="../nghien-cuu/doanh-nghiep/index.html">Nghiên cứu Doanh nghiệp</a>
+                    <a href="../nghien-cuu/nhom-nganh/index.html">Nghiên cứu nhóm Ngành</a>
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-stock-data">
@@ -731,16 +731,15 @@
         </ul>
         <div class="tv-right">
             <span class="icon-link">🌐 VI</span>
-            <div class="user-dropdown-container">
+            <div class="user-dropdown-container" id="userDropdownContainer">
                 <span class="icon-link" style="cursor: pointer;">👤</span>
                 <div class="user-dropdown-menu">
-                    <a href="javascript:void(0)" class="user-dropdown-item login-btn"
-                        onclick="window.FintopInfra?.AuthUI?.openModal?.('login')">👤 Đăng nhập</a>
+                    <a href="../index.html#login" class="user-dropdown-item login-btn">👤 Đăng nhập</a>
                     <a href="../huong-dan/index.html" class="user-dropdown-item">Trung tâm Trợ giúp</a>
                     <a href="../index.html" class="user-dropdown-item">Có gì mới</a>
                 </div>
             </div>
-            <button class="btn-tv-blue" type="button" onclick="window.location.href='../index.html#panel-hoivien'">Bắt đầu</button>
+            <button class="btn-tv-blue" id="fintopStartBtn" type="button" onclick="window.location.href='../index.html#panel-hoivien'">Bắt đầu</button>
         </div>
     </header>
 
@@ -816,6 +815,7 @@
     </main>
 
     <!-- Core Infrastructure Bootstrap -->
+    <script src="../assets/js/auth.js" defer></script>
     <script type="module" src="../assets/js/core/index.js"></script>
 
     <script>

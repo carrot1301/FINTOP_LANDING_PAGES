@@ -24,16 +24,17 @@ Dữ liệu public dạng tĩnh nằm trong thư mục `data/`:
 
 ```
 data/stock-search-data.js
-data/stock-filter-data.js
 data/signals-data.js
 data/research-data.js
 data/memberships-data.js
 data/landing-content-data.js
 ```
 
+`data/stock-filter-data.js` là dữ liệu hội viên và không được nạp trực tiếp trên landing page. Bộ lọc cổ phiếu phải lấy dữ liệu qua API đã xác thực.
+
 Các module hiện có trong admin: Dashboard tổng quan, Tra cứu cổ phiếu, Bộ lọc cổ phiếu, Bài viết/Nghiên cứu, Copy Trade/Tín hiệu, Gói hội viên, Nội dung landing page.
 
-Hiện `index.html` đọc trực tiếp các file `stock-search-data.js`, `stock-filter-data.js`, `signals-data.js`, `research-data.js`, `memberships-data.js` và `landing-content-data.js`. Admin cũng quản lý thêm `customers-data.js` để theo dõi khách hàng theo tier hội viên.
+Hiện `index.html` đọc trực tiếp các file `stock-search-data.js`, `signals-data.js`, `research-data.js`, `memberships-data.js` và `landing-content-data.js`. Admin cũng quản lý thêm `customers-data.js` để theo dõi khách hàng theo tier hội viên.
 
 Commit baseline trước đợt productionize này:
 
@@ -83,7 +84,7 @@ window.FINTOP_SUPABASE_CONFIG = {
 </script>
 ```
 
-Nếu không có config, site tự fallback về `data/*.js`.
+Nếu không có config, các dữ liệu public fallback về `data/*.js`; riêng Bộ lọc cổ phiếu không fallback về file tĩnh khi chưa đăng nhập.
 
 ## 📁 Cấu trúc thư mục
 

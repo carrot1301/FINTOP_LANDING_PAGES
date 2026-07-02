@@ -3,6 +3,7 @@ import { PrismaService } from '../../common/database/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuditService } from '../../common/audit/audit.service';
 import { MailService } from '../../common/mail/mail.service';
+import { RedisService } from '../../common/redis/redis.service';
 import { HashUtil } from '../../common/utils/hash.util';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -23,7 +24,18 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly auditService: AuditService,
     private readonly mailService: MailService,
+    private readonly redisService: RedisService,
   ) {}
+
+  private async clearUserPermissionsCache(userId: number) {
+    try {
+      const cacheKey = `user:permissions:${userId}`;
+      await this.redisService.getClient().del(cacheKey);
+      this.logger.log(`Cleared permissions cache for user #${userId}`);
+    } catch (err: any) {
+      this.logger.error(`Failed to clear permissions cache for user #${userId}: ${err.message}`);
+    }
+  }
 
   generateRefreshToken(userId: number): string {
     const randomHex = randomBytes(40).toString('hex');
@@ -48,6 +60,15 @@ export class AuthService {
           email: dto.email,
           passwordHash,
           fullName: dto.fullName,
+          phone: dto.phone || null,
+          dob: dto.dob ? new Date(dto.dob) : null,
+          address: dto.address || null,
+          investmentDuration: dto.investmentDuration || null,
+          investmentStyle: dto.investmentStyle || null,
+          stockCompany: dto.stockCompany || null,
+          stockAccount: dto.stockAccount || null,
+          referralId: dto.referralId || null,
+          referralName: dto.referralName || null,
           status: RECORD_STATUS.ACTIVE,
           emailVerifiedAt: null, // Requires email verification
         },
@@ -112,6 +133,13 @@ export class AuthService {
   async login(dto: LoginDto, ipAddress: string, userAgent: string) {
     const user = await this.prisma.user.findFirst({
       where: { email: dto.email, deletedAt: null },
+      include: {
+        userRoles: {
+          include: {
+            role: true,
+          },
+        },
+      },
     });
 
     if (!user) {
@@ -159,13 +187,51 @@ export class AuthService {
       userAgent,
     });
 
+    // Evaluate max tierLevel based on roles
+    const TIER_HIERARCHY_VALUES = {
+      STANDARD: 1,
+      SILVER: 2,
+      GOLD: 3,
+      DIAMOND: 4,
+    };
+
+    const ROLE_TIER_MAPPING = {
+      SUPER_ADMIN: 'DIAMOND',
+      CEO: 'DIAMOND',
+      ASSISTANT_CEO: 'DIAMOND',
+      ADMIN: 'DIAMOND',
+      EDITOR_ADMIN: 'DIAMOND',
+      SALE_ADMIN: 'DIAMOND',
+      EXPERT: 'GOLD',
+      EDITOR_PRO: 'GOLD',
+      EDITOR: 'SILVER',
+      SALE: 'SILVER',
+      CLIENT_VIP: 'GOLD',
+    };
+
+    let maxUserTier: string = user.tierLevel;
+    let maxUserLevel = TIER_HIERARCHY_VALUES[maxUserTier] || 1;
+
+    if (user.userRoles && Array.isArray(user.userRoles)) {
+      for (const ur of user.userRoles) {
+        const mappedTier = ROLE_TIER_MAPPING[ur.role.code];
+        if (mappedTier) {
+          const mappedLevel = TIER_HIERARCHY_VALUES[mappedTier] || 1;
+          if (mappedLevel > maxUserLevel) {
+            maxUserLevel = mappedLevel;
+            maxUserTier = mappedTier;
+          }
+        }
+      }
+    }
+
     return {
       accessToken,
       refreshToken,
       user: {
         id: user.id,
         email: user.email,
-        tierLevel: user.tierLevel,
+        tierLevel: maxUserTier,
       },
     };
   }
@@ -509,6 +575,8 @@ export class AuthService {
         break;
       }
     }
+
+    await this.clearUserPermissionsCache(userId);
   }
 
   async logoutAll(userId: number, ipAddress: string, userAgent: string) {
@@ -525,6 +593,8 @@ export class AuthService {
       ipAddress,
       userAgent,
     });
+
+    await this.clearUserPermissionsCache(userId);
   }
 
   // ─────────────────────────────────────────────────────

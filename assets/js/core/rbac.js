@@ -172,10 +172,35 @@ class RbacEvaluatorSingleton {
     if (this.isSuperAdmin()) return true;
 
     const userTier = AppState.get('user', 'tierLevel') || 'STANDARD';
-    const userLevel = TIER_HIERARCHY[userTier] || 0;
-    const requiredLevel = TIER_HIERARCHY[requiredTier] || 0;
+    let maxUserLevel = TIER_HIERARCHY[userTier] || 1;
 
-    return userLevel >= requiredLevel;
+    const roles = AppState.get('user', 'roles') || [];
+    const ROLE_TIER_MAPPING = {
+      SUPER_ADMIN:   'DIAMOND',
+      CEO:           'DIAMOND',
+      ASSISTANT_CEO: 'DIAMOND',
+      ADMIN:         'DIAMOND',
+      EDITOR_ADMIN:  'DIAMOND',
+      SALE_ADMIN:    'DIAMOND',
+      EXPERT:        'GOLD',
+      EDITOR_PRO:    'GOLD',
+      EDITOR:        'SILVER',
+      SALE:          'SILVER',
+      CLIENT_VIP:    'GOLD',
+    };
+
+    for (const role of roles) {
+      const mappedTier = ROLE_TIER_MAPPING[role];
+      if (mappedTier) {
+        const mappedLevel = TIER_HIERARCHY[mappedTier] || 1;
+        if (mappedLevel > maxUserLevel) {
+          maxUserLevel = mappedLevel;
+        }
+      }
+    }
+
+    const requiredLevel = TIER_HIERARCHY[requiredTier] || 0;
+    return maxUserLevel >= requiredLevel;
   }
 
   hasPermission(permissionCode) {
