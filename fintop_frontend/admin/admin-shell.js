@@ -22,27 +22,27 @@
 // ─────────────────────────────────────────────────────────────
 
 const MODULES = [
-  { id: 'overview',          label: 'Trang Chủ',            icon: '🏠', section: 'Chính',      permission: null },
-  { id: 'billing',           label: 'Phê duyệt',            icon: '💵', section: 'Chính',      permission: null },
-  { id: 'copilot',           label: 'AI Copilot',           icon: '🧠', section: 'Chính',      permission: null, hidden: true },
-  { id: 'signals',           label: 'Tín Hiệu V.I.P',       icon: '📊', section: 'Dữ liệu',   permission: 'UPDATE_SIGNAL', hidden: true },
-  { id: 'copy-trade',        label: 'Copy Trade',           icon: '🔄', section: 'Dữ liệu',   permission: 'UPDATE_SIGNAL', hidden: true },
-  { id: 'market',            label: 'Dữ liệu',              icon: '🪙', section: 'Dữ liệu',   permission: null },
-  { id: 'market-intelligence', label: 'Market Intelligence', icon: '📈', section: 'Dữ liệu',   permission: null, hidden: true },
-  { id: 'research-center',   label: 'Research Center',      icon: '📝', section: 'Dữ liệu',   permission: null, hidden: true },
-  { id: 'cms',               label: 'Bài viết',             icon: '📅', section: 'Nội dung',   permission: 'UPDATE_BLOG' },
-  { id: 'rbac',              label: 'Nhân sự',              icon: '👥', section: 'Quản lý',   permission: 'MANAGE_ROLES' },
-  { id: 'users',             label: 'Khách hàng',           icon: '👥', section: 'Quản lý',   permission: 'MANAGE_USERS' },
-  { id: 'portfolio-manager', label: 'Danh mục Web',         icon: '📅', section: 'Quản lý',   permission: null },
-  { id: 'handbook',          label: 'Hướng dẫn',            icon: '🏥', section: 'Nội dung',   permission: null },
-  { id: 'profile',           label: 'Thông tin cá nhân',    icon: '👤', section: 'Tài khoản',  permission: null },
-  
+  { id: 'overview', label: 'Trang Chủ', icon: '🏠', section: 'Chính', permission: null },
+  { id: 'billing', label: 'Phê duyệt', icon: '💵', section: 'Chính', permission: null },
+  { id: 'copilot', label: 'AI Copilot', icon: '🧠', section: 'Chính', permission: null, hidden: true },
+  { id: 'signals', label: 'Tín Hiệu V.I.P', icon: '📊', section: 'Dữ liệu', permission: 'UPDATE_SIGNAL', hidden: true },
+  { id: 'copy-trade', label: 'Copy Trade', icon: '🔄', section: 'Dữ liệu', permission: 'UPDATE_SIGNAL', hidden: true },
+  { id: 'market', label: 'Dữ liệu', icon: '🪙', section: 'Dữ liệu', permission: null },
+  { id: 'market-intelligence', label: 'Market Intelligence', icon: '📈', section: 'Dữ liệu', permission: null, hidden: true },
+  { id: 'research-center', label: 'Research Center', icon: '📝', section: 'Dữ liệu', permission: null, hidden: true },
+  { id: 'cms', label: 'Bài viết', icon: '📅', section: 'Nội dung', permission: 'UPDATE_BLOG' },
+  { id: 'rbac', label: 'Nhân sự', icon: '👥', section: 'Quản lý', permission: 'MANAGE_ROLES' },
+  { id: 'users', label: 'Khách hàng', icon: '👥', section: 'Quản lý', permission: 'MANAGE_USERS' },
+  { id: 'portfolio-manager', label: 'Danh mục Web', icon: '📅', section: 'Quản lý', permission: null },
+  { id: 'handbook', label: 'Hướng dẫn', icon: '🏥', section: 'Nội dung', permission: null },
+  { id: 'profile', label: 'Thông tin cá nhân', icon: '👤', section: 'Tài khoản', permission: null },
+
   // Hidden modules (preserved for code stability, E2E checks and URL routing)
-  { id: 'notifications', label: 'Thông báo',       icon: '🔔', section: 'Hệ thống',   permission: null, hidden: true },
-  { id: 'portfolios',    label: 'Danh mục cũ',     icon: '💼', section: 'Hệ thống',   permission: null, hidden: true },
-  { id: 'audit',         label: 'Nhật ký',         icon: '📋', section: 'Hệ thống',   permission: 'VIEW_AUDIT_LOGS', hidden: true },
-  { id: 'system',        label: 'Hệ thống',        icon: '⚙️', section: 'Hệ thống',   permission: null, hidden: true },
-  { id: 'ai-ops',        label: 'AI Ops / QA',     icon: '🤖', section: 'Hệ thống',   permission: null, hidden: true },
+  { id: 'notifications', label: 'Thông báo', icon: '🔔', section: 'Hệ thống', permission: null, hidden: true },
+  { id: 'portfolios', label: 'Danh mục cũ', icon: '💼', section: 'Hệ thống', permission: null, hidden: true },
+  { id: 'audit', label: 'Nhật ký', icon: '📋', section: 'Hệ thống', permission: 'VIEW_AUDIT_LOGS', hidden: true },
+  { id: 'system', label: 'Hệ thống', icon: '⚙️', section: 'Hệ thống', permission: null, hidden: true },
+  { id: 'ai-ops', label: 'AI Ops / QA', icon: '🤖', section: 'Hệ thống', permission: null, hidden: true },
 ];
 
 let currentModule = null;
@@ -345,7 +345,7 @@ async function initShell() {
   // Dropdown toggle logic
   const dropdown = document.getElementById('admin-user-dropdown');
   const trigger = document.getElementById('admin-dropdown-trigger');
-  
+
   trigger?.addEventListener('click', (e) => {
     e.stopPropagation();
     dropdown?.classList.toggle('active');

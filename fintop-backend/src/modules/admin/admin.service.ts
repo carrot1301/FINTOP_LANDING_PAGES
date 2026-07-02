@@ -171,6 +171,8 @@ export class AdminService {
           investmentStyle: true,
           stockCompany: true,
           stockAccount: true,
+          referralId: true,
+          referralName: true,
           legacyTier: true,
           company: true,
           position: true,
@@ -425,6 +427,8 @@ export class AdminService {
     if (dto.investmentStyle !== undefined) data.investmentStyle = dto.investmentStyle;
     if (dto.stockCompany !== undefined) data.stockCompany = dto.stockCompany;
     if (dto.stockAccount !== undefined) data.stockAccount = dto.stockAccount;
+    if (dto.referralId !== undefined) data.referralId = dto.referralId;
+    if (dto.referralName !== undefined) data.referralName = dto.referralName;
     if (dto.legacyTier !== undefined) data.legacyTier = dto.legacyTier;
 
     // New fields

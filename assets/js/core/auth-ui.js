@@ -664,11 +664,46 @@ const AuthUI = {
       return;
     }
 
+    // Collect all additional registration fields
+    const phoneInput = document.getElementById('registerPhone');
+    const birthdayInput = document.getElementById('registerBirthday');
+    const cityInput = document.getElementById('registerCity');
+    const stockAccountInput = document.getElementById('registerStockAccount');
+    const refIdInput = document.getElementById('registerRefId');
+    const refNameInput = document.getElementById('registerRefName');
+
+    const phone = phoneInput ? phoneInput.value.trim() : '';
+    const dob = birthdayInput ? birthdayInput.value : '';
+    const address = cityInput ? cityInput.value.trim() : '';
+    const stockAccount = stockAccountInput ? stockAccountInput.value.trim() : '';
+    const referralId = refIdInput ? refIdInput.value.trim() : '';
+    const referralName = refNameInput ? refNameInput.value.trim() : '';
+
+    // Radio button values
+    const investmentDurationRadio = form.querySelector('input[name="investmentDuration"]:checked');
+    const riskAppetiteRadio = form.querySelector('input[name="riskAppetite"]:checked');
+    const brokerageCompanyRadio = form.querySelector('input[name="brokerageCompany"]:checked');
+
+    const investmentDuration = investmentDurationRadio ? investmentDurationRadio.value : '';
+    const investmentStyle = riskAppetiteRadio ? riskAppetiteRadio.value : '';
+    const stockCompany = brokerageCompanyRadio ? brokerageCompanyRadio.value : '';
+
     AuthFormUI.clearError('authFormRegister');
     AuthFormUI.setLoading('authFormRegister', true);
 
     try {
-      const result = await ApiClient.post('/auth/register', { email, password, fullName }, { skipAuth: true });
+      const payload = { email, password, fullName };
+      if (phone) payload.phone = phone;
+      if (dob) payload.dob = dob;
+      if (address) payload.address = address;
+      if (investmentDuration) payload.investmentDuration = investmentDuration;
+      if (investmentStyle) payload.investmentStyle = investmentStyle;
+      if (stockCompany && stockCompany !== 'none') payload.stockCompany = stockCompany;
+      if (stockAccount) payload.stockAccount = stockAccount;
+      if (referralId) payload.referralId = referralId;
+      if (referralName) payload.referralName = referralName;
+
+      const result = await ApiClient.post('/auth/register', payload, { skipAuth: true });
 
       if (result?.data?.verificationRequired) {
         const verifyEmailInput = document.getElementById('verifyEmailAddress');

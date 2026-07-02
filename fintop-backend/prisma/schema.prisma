@@ -293,6 +293,8 @@ model User {
   investmentStyle    String? @db.VarChar(50)
   stockCompany       String? @db.VarChar(100)
   stockAccount      String? @db.VarChar(100)
+  referralId        String? @db.VarChar(50)
+  referralName      String? @db.VarChar(255)
   legacyTier         String? @db.VarChar(50)
   tierLevel SUBSCRIPTION_TIER @default(STANDARD)
   status    RECORD_STATUS     @default(ACTIVE)

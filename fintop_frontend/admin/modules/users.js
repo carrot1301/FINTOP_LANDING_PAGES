@@ -33,12 +33,21 @@ const INVESTMENT_DURATION_LABELS = {
   '3_6':  '3 - 6 tháng',
   '6_12': '6 - 12 tháng',
   '12_':  'Trên 12 tháng',
+  // Vietnamese values from registration form
+  '0-3 tháng':  '0 - 3 tháng',
+  '3-6 tháng':  '3 - 6 tháng',
+  '6-12 tháng': '6 - 12 tháng',
+  'Trên 1 năm': 'Trên 12 tháng',
 };
 
 const INVESTMENT_STYLE_LABELS = {
   'short_term':   'Lướt sóng ngắn hạn',
   'medium_long':  'Trung và dài hạn',
   'flexible':     'Linh hoạt kết hợp',
+  // Vietnamese values from registration form
+  'Lướt sóng ngắn hạn': 'Lướt sóng ngắn hạn',
+  'Trung và dài hạn':   'Trung và dài hạn',
+  'Linh hoạt kết hợp':  'Linh hoạt kết hợp',
 };
 
 const TIER_LABELS = {
@@ -156,6 +165,9 @@ export default {
         const roleLabel = getRoleLabel(u.roles);
         const isActive = (u.status || '').toUpperCase() === 'ACTIVE';
 
+        const refId = u.referralId || '';
+        const refName = u.referralName || '';
+
         return `
           <tr data-uid="${u.id}">
             <td style="width:5%;vertical-align:middle;text-align:center;">
@@ -172,7 +184,9 @@ export default {
                 <div>Thời gian đầu tư: ${esc(investDuration)}</div>
                 <div>Khẩu vị đầu tư : ${esc(investStyle)}</div>
                 <div>Công ty chứng khoán  : ${esc(stockCompany)}</div>
-                <div>Số TKCK VPS (nếu có) : ${esc(stockAccount)}</div>
+                <div>Số TKCK (nếu có) : ${esc(stockAccount)}</div>
+                <div>ID người giới thiệu : ${esc(refId)}</div>
+                <div>Tên người giới thiệu : ${esc(refName)}</div>
                 <div>Loại tài khoản :  ${tierHtml} </div>
                 <div>Quyền truy cập : ${roleLabel}</div>
               </div>
@@ -314,19 +328,27 @@ async function showEditModal(userId) {
                 <label>Công ty chứng khoán</label>
                 <select class="admin-select" id="edit-stock-company">
                   <option value="">-- Chọn --</option>
-                  <option value="vps" ${(u.stockCompany || u.securitiesCompany) === 'vps' ? 'selected' : ''}>VPS</option>
-                  <option value="ssi" ${(u.stockCompany || u.securitiesCompany) === 'ssi' ? 'selected' : ''}>SSI</option>
-                  <option value="vnds" ${(u.stockCompany || u.securitiesCompany) === 'vnds' ? 'selected' : ''}>VNDS</option>
-                  <option value="hsc" ${(u.stockCompany || u.securitiesCompany) === 'hsc' ? 'selected' : ''}>HSC</option>
-                  <option value="mbs" ${(u.stockCompany || u.securitiesCompany) === 'mbs' ? 'selected' : ''}>MBS</option>
-                  <option value="fpts" ${(u.stockCompany || u.securitiesCompany) === 'fpts' ? 'selected' : ''}>FPTS</option>
-                  <option value="tcbs" ${(u.stockCompany || u.securitiesCompany) === 'tcbs' ? 'selected' : ''}>TCBS</option>
-                  <option value="khac" ${['khac','other'].includes((u.stockCompany || u.securitiesCompany || '').toLowerCase()) ? 'selected' : ''}>Khác</option>
+                  <option value="VPS" ${(u.stockCompany || '').toUpperCase() === 'VPS' ? 'selected' : ''}>VPS</option>
+                  <option value="SSI" ${(u.stockCompany || '').toUpperCase() === 'SSI' ? 'selected' : ''}>SSI</option>
+                  <option value="VND" ${['VND','VNDS'].includes((u.stockCompany || '').toUpperCase()) ? 'selected' : ''}>VND</option>
+                  <option value="HSC" ${(u.stockCompany || '').toUpperCase() === 'HSC' ? 'selected' : ''}>HSC</option>
+                  <option value="MBS" ${(u.stockCompany || '').toUpperCase() === 'MBS' ? 'selected' : ''}>MBS</option>
+                  <option value="FPTS" ${(u.stockCompany || '').toUpperCase() === 'FPTS' ? 'selected' : ''}>FPTS</option>
+                  <option value="TCBS" ${(u.stockCompany || '').toUpperCase() === 'TCBS' ? 'selected' : ''}>TCBS</option>
+                  <option value="Công ty khác" ${['KHÁC','OTHER','CÔNG TY KHÁC'].includes((u.stockCompany || '').toUpperCase()) ? 'selected' : ''}>Công ty khác</option>
                 </select>
               </div>
               <div class="admin-form-group">
                 <label>Số TKCK (nếu có)</label>
                 <input type="text" class="admin-input" id="edit-stock-account" value="${esc(u.stockAccount || u.securitiesAccount || '')}" />
+              </div>
+              <div class="admin-form-group">
+                <label>ID người giới thiệu</label>
+                <input type="text" class="admin-input" id="edit-referral-id" value="${esc(u.referralId || '')}" />
+              </div>
+              <div class="admin-form-group">
+                <label>Tên người giới thiệu</label>
+                <input type="text" class="admin-input" id="edit-referral-name" value="${esc(u.referralName || '')}" />
               </div>
             </div>
           </div>
@@ -358,6 +380,8 @@ async function showEditModal(userId) {
         investmentStyle: editModalEl.querySelector('#edit-invest-style').value,
         stockCompany: editModalEl.querySelector('#edit-stock-company').value,
         stockAccount: editModalEl.querySelector('#edit-stock-account').value,
+        referralId: editModalEl.querySelector('#edit-referral-id').value,
+        referralName: editModalEl.querySelector('#edit-referral-name').value,
       };
 
       e.target.disabled = true;

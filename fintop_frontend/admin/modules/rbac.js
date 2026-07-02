@@ -482,10 +482,10 @@ async function showStaffEditModal(userId) {
                 <label class="edit-label">Thời gian đầu tư</label>
                 <select class="edit-select" id="staff-edit-inv-duration">
                   <option value="">-- Chọn thời gian --</option>
-                  <option value="0 - 3 tháng" ${u.investmentDuration === '0 - 3 tháng' ? 'selected' : ''}>0 - 3 tháng</option>
-                  <option value="3 - 6 tháng" ${u.investmentDuration === '3 - 6 tháng' ? 'selected' : ''}>3 - 6 tháng</option>
-                  <option value="6 - 12 tháng" ${u.investmentDuration === '6 - 12 tháng' ? 'selected' : ''}>6 - 12 tháng</option>
-                  <option value="Trên 12 tháng" ${u.investmentDuration === 'Trên 12 tháng' ? 'selected' : ''}>Trên 12 tháng</option>
+                  <option value="0 - 3 tháng" ${['0 - 3 tháng', '0-3 tháng'].includes(u.investmentDuration) ? 'selected' : ''}>0 - 3 tháng</option>
+                  <option value="3 - 6 tháng" ${['3 - 6 tháng', '3-6 tháng'].includes(u.investmentDuration) ? 'selected' : ''}>3 - 6 tháng</option>
+                  <option value="6 - 12 tháng" ${['6 - 12 tháng', '6-12 tháng'].includes(u.investmentDuration) ? 'selected' : ''}>6 - 12 tháng</option>
+                  <option value="Trên 12 tháng" ${['Trên 12 tháng', 'Trên 1 năm'].includes(u.investmentDuration) ? 'selected' : ''}>Trên 12 tháng</option>
                 </select>
               </div>
               <div class="edit-form-group">
@@ -506,7 +506,7 @@ async function showStaffEditModal(userId) {
                   <option value="VND" ${u.stockCompany === 'VND' ? 'selected' : ''}>VND</option>
                   <option value="TCBS" ${u.stockCompany === 'TCBS' ? 'selected' : ''}>TCBS</option>
                   <option value="MBS" ${u.stockCompany === 'MBS' ? 'selected' : ''}>MBS</option>
-                  <option value="Khác" ${u.stockCompany === 'Khác' ? 'selected' : ''}>Khác</option>
+                  <option value="Khác" ${['Khác', 'Công ty khác'].includes(u.stockCompany) ? 'selected' : ''}>Khác</option>
                 </select>
               </div>
               <div class="edit-form-group full-width">
