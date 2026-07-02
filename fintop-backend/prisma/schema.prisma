@@ -297,6 +297,12 @@ model User {
   tierLevel SUBSCRIPTION_TIER @default(STANDARD)
   status    RECORD_STATUS     @default(ACTIVE)
 
+  // New fields from the personnel edit form
+  company            String?   @db.VarChar(255)
+  position           String?   @db.VarChar(255)
+  joinDate           DateTime? @db.Date
+  sortOrder          Int?
+
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?

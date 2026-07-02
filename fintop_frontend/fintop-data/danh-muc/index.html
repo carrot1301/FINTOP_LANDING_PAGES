@@ -8,6 +8,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="../../assets/css/variables.css">
     <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/auth.css">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
@@ -236,7 +237,18 @@
             <li><a href="../../fintop-ai/index.html">FinTop AI</a></li>
             <li><a href="../../huong-dan/index.html">Hướng dẫn</a></li>
         </ul>
-        <div style="width: 80px;"></div>
+        <div class="tv-right">
+            <span style="color:#94A3B8;font-size:0.9rem;cursor:pointer;">VI</span>
+            <div class="user-dropdown-container" id="userDropdownContainer">
+                <span class="icon-link" style="cursor: pointer; color: #fff;">👤</span>
+                <div class="user-dropdown-menu">
+                    <a href="../../index.html#login" class="user-dropdown-item login-btn">👤 Đăng nhập</a>
+                    <a href="../../huong-dan/index.html" class="user-dropdown-item">Trung tâm Trợ giúp</a>
+                    <a href="../../index.html" class="user-dropdown-item">Có gì mới</a>
+                </div>
+            </div>
+            <button class="btn-tv-blue" id="fintopStartBtn" type="button" onclick="location.href='../../index.html#panel-hoivien'">Bắt đầu</button>
+        </div>
     </header>
 
     <main class="main-container">
@@ -291,6 +303,7 @@
     </footer>
 
     <!-- Core Infrastructure Bootstrap -->
+    <script src="../../assets/js/auth.js" defer></script>
     <script type="module" src="../../assets/js/core/index.js"></script>
     <script>
         (function() {

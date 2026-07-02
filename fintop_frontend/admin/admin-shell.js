@@ -35,6 +35,7 @@ const MODULES = [
   { id: 'users',             label: 'Quản trị khách hàng',  icon: '👥', section: 'Quản lý',   permission: 'MANAGE_USERS' },
   { id: 'portfolio-manager', label: 'Quản trị danh mục',    icon: '📅', section: 'Quản lý',   permission: null },
   { id: 'handbook',          label: 'Cẩm nang nhà đầu tư',  icon: '🏥', section: 'Nội dung',   permission: null },
+  { id: 'profile',           label: 'Thông tin cá nhân',    icon: '👤', section: 'Tài khoản',  permission: null },
   
   // Hidden modules (preserved for code stability, E2E checks and URL routing)
   { id: 'notifications', label: 'Thông báo',       icon: '🔔', section: 'Hệ thống',   permission: null, hidden: true },
@@ -341,6 +342,27 @@ async function initShell() {
   // Populate user badge
   buildUserBadge();
 
+  // Dropdown toggle logic
+  const dropdown = document.getElementById('admin-user-dropdown');
+  const trigger = document.getElementById('admin-dropdown-trigger');
+  
+  trigger?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dropdown?.classList.toggle('active');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (dropdown && !dropdown.contains(e.target)) {
+      dropdown.classList.remove('active');
+    }
+  });
+
+  // Close dropdown on navigating to any page (hash change)
+  window.addEventListener('hashchange', () => {
+    dropdown?.classList.remove('active');
+  });
+
   // Logout handler
   document.getElementById('admin-logout-btn')?.addEventListener('click', async () => {
     if (Infra.AuthManager && typeof Infra.AuthManager.logout === 'function') {
@@ -398,13 +420,21 @@ function buildUserBadge() {
   const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
   const roles = (user.roles || []).join(', ') || 'Admin';
 
-  badge.innerHTML = `
-    <div class="admin-user-avatar">${initials}</div>
-    <div class="admin-user-info">
-      <div class="admin-user-name">${esc(name)}</div>
-      <div class="admin-user-role">${esc(roles)}</div>
-    </div>
-  `;
+  if (badge) {
+    badge.innerHTML = `
+      <div class="admin-user-avatar">${initials}</div>
+      <div class="admin-user-info">
+        <div class="admin-user-name">${esc(name)}</div>
+        <div class="admin-user-role">${esc(roles)}</div>
+      </div>
+    `;
+  }
+
+  // Populate username in topbar dropdown trigger
+  const headerUsernameEl = document.getElementById('admin-header-username');
+  if (headerUsernameEl) {
+    headerUsernameEl.textContent = name;
+  }
 }
 
 async function onHashChange() {

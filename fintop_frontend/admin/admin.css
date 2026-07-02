@@ -1152,3 +1152,101 @@ table.admin-table tbody tr:hover td {
   color: #ffffff;
 }
 
+/* ─── HEADER USER DROPDOWN ────────────────────────────── */
+.admin-user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.admin-dropdown-trigger {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px solid var(--purple-border);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  font-family: var(--font-family);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.admin-dropdown-trigger:hover,
+.admin-user-dropdown.active .admin-dropdown-trigger {
+  background: rgba(124, 58, 237, 0.1);
+  color: var(--text-primary);
+  border-color: var(--purple-core);
+}
+
+.dropdown-caret {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.admin-user-dropdown.active .dropdown-caret {
+  transform: rotate(180deg);
+}
+
+.admin-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--purple-border);
+  border-radius: 8px;
+  min-width: 185px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  animation: admin-fade-in 0.2s ease;
+}
+
+.admin-user-dropdown.active .admin-dropdown-menu {
+  display: flex;
+}
+
+.admin-dropdown-item {
+  padding: 0.7rem 1rem;
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-family);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.admin-dropdown-item:hover {
+  background: rgba(124, 58, 237, 0.08);
+  color: var(--text-primary);
+}
+
+.admin-dropdown-item.logout-item {
+  border-top: 1px solid var(--purple-border);
+  color: #f87171;
+}
+
+.admin-dropdown-item.logout-item:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+}
+
+@keyframes admin-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+

@@ -1,8 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException, Logger } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../common/database/prisma.service';
 import { ConfigService } from '@nestjs/config';
 import { WsException } from '@nestjs/websockets';
+import { getFeaturesByTier } from '../../common/utils/subscription-helper';
 
 @Injectable()
 export class SocketAuthGuard implements CanActivate {
@@ -28,6 +29,11 @@ export class SocketAuthGuard implements CanActivate {
       const user = await this.prisma.user.findUnique({
         where: { id: payload.sub },
         include: {
+          userRoles: {
+            include: {
+              role: true,
+            },
+          },
           subscriptions: {
             where: {
               status: 'ACTIVE',
@@ -48,24 +54,43 @@ export class SocketAuthGuard implements CanActivate {
         throw new WsException('Invalid user');
       }
 
-      let planFeaturesStr = '';
-      if (user.subscriptions && user.subscriptions.length > 0) {
-        planFeaturesStr = user.subscriptions[0].plan.features || '';
-      } else {
-        const standardPlan = await this.prisma.subscriptionPlan.findFirst({
-          where: {
-            tierLevel: 'STANDARD',
-            status: 'ACTIVE',
-            deletedAt: null,
-          },
-        });
-        planFeaturesStr = standardPlan?.features || '';
+      const TIER_HIERARCHY_VALUES = {
+        STANDARD: 1,
+        SILVER: 2,
+        GOLD: 3,
+        DIAMOND: 4,
+      };
+
+      const ROLE_TIER_MAPPING = {
+        SUPER_ADMIN: 'DIAMOND',
+        CEO: 'DIAMOND',
+        ASSISTANT_CEO: 'DIAMOND',
+        ADMIN: 'DIAMOND',
+        EDITOR_ADMIN: 'DIAMOND',
+        SALE_ADMIN: 'DIAMOND',
+        EXPERT: 'GOLD',
+        EDITOR_PRO: 'GOLD',
+        EDITOR: 'SILVER',
+        SALE: 'SILVER',
+        CLIENT_VIP: 'GOLD',
+      };
+
+      const roles = user.userRoles.map((ur) => ur.role.code);
+      let maxUserTier = user.tierLevel;
+      let maxUserLevel = TIER_HIERARCHY_VALUES[maxUserTier] || 1;
+
+      for (const role of roles) {
+        const mappedTier = ROLE_TIER_MAPPING[role];
+        if (mappedTier) {
+          const mappedLevel = TIER_HIERARCHY_VALUES[mappedTier] || 1;
+          if (mappedLevel > maxUserLevel) {
+            maxUserLevel = mappedLevel;
+            maxUserTier = mappedTier as any;
+          }
+        }
       }
 
-      const planFeatures = planFeaturesStr
-        .split(';')
-        .map((f) => f.trim())
-        .filter(Boolean);
+      const planFeatures = getFeaturesByTier(maxUserTier);
 
       // Attach user to socket with planFeatures
       client.user = {

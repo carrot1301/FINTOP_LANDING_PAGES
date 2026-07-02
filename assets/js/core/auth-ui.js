@@ -510,8 +510,7 @@ const AuthUI = {
         if (FintopEnv.DEBUG) console.warn('[AuthUI] Notification WS connection failed:', err.message);
       });
     } else {
-      // Don't re-render guest if the HTML already has the guest state
-      // (prevents flickering on first load)
+      NavbarAuth.renderGuest();
     }
 
     if (FintopEnv.DEBUG) {

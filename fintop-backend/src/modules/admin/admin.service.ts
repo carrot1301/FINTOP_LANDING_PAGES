@@ -2,6 +2,8 @@ import { Injectable, Logger, NotFoundException, BadRequestException } from '@nes
 import { PrismaService } from '../../common/database/prisma.service';
 import { AuditService } from '../../common/audit/audit.service';
 import { NotificationService } from '../notification/notification.service';
+import { RedisService } from '../../common/redis/redis.service';
+import * as bcrypt from 'bcrypt';
 import {
   RECORD_STATUS,
   AUDIT_SOURCE,
@@ -19,7 +21,18 @@ export class AdminService {
     private readonly prisma: PrismaService,
     private readonly auditService: AuditService,
     private readonly notificationService: NotificationService,
+    private readonly redisService: RedisService,
   ) {}
+
+  private async clearUserPermissionsCache(userId: number) {
+    try {
+      const cacheKey = `user:permissions:${userId}`;
+      await this.redisService.getClient().del(cacheKey);
+      this.logger.log(`Cleared permissions cache for user #${userId}`);
+    } catch (err: any) {
+      this.logger.error(`Failed to clear permissions cache for user #${userId}: ${err.message}`);
+    }
+  }
 
   // ─────────────────────────────────────────────────────
   // OVERVIEW / KPIs
@@ -159,6 +172,10 @@ export class AdminService {
           stockCompany: true,
           stockAccount: true,
           legacyTier: true,
+          company: true,
+          position: true,
+          joinDate: true,
+          sortOrder: true,
           broker: {
             select: {
               id: true,
@@ -284,6 +301,7 @@ export class AdminService {
       newValues: { status: newStatus },
     });
 
+    await this.clearUserPermissionsCache(userId);
     return updated;
   }
 
@@ -321,6 +339,7 @@ export class AdminService {
       newValues: { userId, roleCode },
     });
 
+    await this.clearUserPermissionsCache(userId);
     return { message: 'Role assigned', userId, roleCode };
   }
 
@@ -352,6 +371,7 @@ export class AdminService {
       oldValues: { userId, roleCode },
     });
 
+    await this.clearUserPermissionsCache(userId);
     return { message: 'Role removed', userId, roleCode };
   }
 
@@ -375,6 +395,7 @@ export class AdminService {
       oldValues: { email: user.email },
     });
 
+    await this.clearUserPermissionsCache(userId);
     return { message: 'User deleted successfully', userId };
   }
 
@@ -384,11 +405,19 @@ export class AdminService {
       throw new NotFoundException('User not found');
     }
 
-    const data: Prisma.UserUpdateInput = {};
+    const data: Prisma.UserUncheckedUpdateInput = {};
+    
+    if (dto.password !== undefined && dto.password !== '') {
+      data.passwordHash = await bcrypt.hash(dto.password, 10);
+    }
     
     if (dto.fullName !== undefined) data.fullName = dto.fullName;
+    if (dto.email !== undefined) data.email = dto.email;
     if (dto.phone !== undefined) data.phone = dto.phone;
     if (dto.address !== undefined) data.address = dto.address;
+    if (dto.status !== undefined) data.status = dto.status;
+    if (dto.avatarUrl !== undefined) data.avatarUrl = dto.avatarUrl;
+    
     if (dto.birthDate !== undefined) {
       data.dob = dto.birthDate ? new Date(dto.birthDate) : null;
     }
@@ -397,6 +426,72 @@ export class AdminService {
     if (dto.stockCompany !== undefined) data.stockCompany = dto.stockCompany;
     if (dto.stockAccount !== undefined) data.stockAccount = dto.stockAccount;
     if (dto.legacyTier !== undefined) data.legacyTier = dto.legacyTier;
+
+    // New fields
+    if (dto.company !== undefined) data.company = dto.company;
+    if (dto.position !== undefined) data.position = dto.position;
+    if (dto.joinDate !== undefined) {
+      data.joinDate = dto.joinDate ? new Date(dto.joinDate) : null;
+    }
+    if (dto.sortOrder !== undefined) {
+      data.sortOrder = dto.sortOrder ? parseInt(dto.sortOrder, 10) : null;
+    }
+
+    // Manager / Broker
+    if (dto.brokerId !== undefined) {
+      data.brokerId = dto.brokerId ? parseInt(dto.brokerId, 10) : null;
+    }
+
+    // Staff code (ID nhân sự) mapping to team or department
+    if (dto.staffCode !== undefined) {
+      if (!dto.staffCode || dto.staffCode.trim() === '') {
+        data.teamId = null;
+      } else {
+        const code = dto.staffCode.trim();
+        const team = await this.prisma.team.findUnique({ where: { code } });
+        if (team) {
+          data.teamId = team.id;
+          data.departmentId = team.departmentId;
+        } else {
+          const dept = await this.prisma.department.findUnique({ where: { code } });
+          if (dept) {
+            data.departmentId = dept.id;
+            data.teamId = null;
+          } else {
+            // Auto create team under SALES department if it doesn't exist
+            const salesDept = await this.prisma.department.findUnique({ where: { code: 'SALES' } });
+            if (salesDept) {
+              const newTeam = await this.prisma.team.create({
+                data: {
+                  name: `Team ${code}`,
+                  code,
+                  departmentId: salesDept.id,
+                },
+              });
+              data.teamId = newTeam.id;
+              data.departmentId = salesDept.id;
+            }
+          }
+        }
+      }
+    }
+
+    // Update roles
+    if (dto.roleCodes !== undefined) {
+      await this.prisma.userRole.deleteMany({ where: { userId } });
+      if (Array.isArray(dto.roleCodes) && dto.roleCodes.length > 0) {
+        const roles = await this.prisma.role.findMany({
+          where: { code: { in: dto.roleCodes as any } },
+        });
+        await this.prisma.userRole.createMany({
+          data: roles.map(r => ({
+            userId,
+            roleId: r.id,
+            assignedById: adminId,
+          })),
+        });
+      }
+    }
 
     const updated = await this.prisma.user.update({
       where: { id: userId },
@@ -415,6 +510,12 @@ export class AdminService {
         stockCompany: true,
         stockAccount: true,
         legacyTier: true,
+        company: true,
+        position: true,
+        joinDate: true,
+        sortOrder: true,
+        avatarUrl: true,
+        brokerId: true,
       }
     });
 
@@ -433,10 +534,18 @@ export class AdminService {
         investmentStyle: user.investmentStyle,
         stockCompany: user.stockCompany,
         stockAccount: user.stockAccount,
+        company: user.company,
+        position: user.position,
+        joinDate: user.joinDate,
+        sortOrder: user.sortOrder,
+        brokerId: user.brokerId,
+        avatarUrl: user.avatarUrl,
+        status: user.status,
       },
       newValues: data,
     });
 
+    await this.clearUserPermissionsCache(userId);
     return updated;
   }
 
@@ -530,6 +639,19 @@ export class AdminService {
       recordId: roleId.toString(),
       newValues: { permissionIds },
     });
+
+    // Clear cache for all users assigned to this role
+    try {
+      const userRoles = await this.prisma.userRole.findMany({
+        where: { roleId },
+        select: { userId: true },
+      });
+      for (const ur of userRoles) {
+        await this.clearUserPermissionsCache(ur.userId);
+      }
+    } catch (err: any) {
+      this.logger.error(`Failed to clear cache for role #${roleId} users: ${err.message}`);
+    }
 
     return { message: 'Permissions updated successfully', roleId };
   }

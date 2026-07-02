@@ -113,6 +113,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     updateAdminAccessLink();
+
+    // Check if URL hash is #login or #register and open the modal
+    const checkHash = () => {
+        if (window.location.hash === '#login') {
+            openAuthModal('login');
+        } else if (window.location.hash === '#register') {
+            openAuthModal('register');
+        }
+    };
+    checkHash();
+    window.addEventListener('hashchange', checkHash);
 });
 
 function showAdminAccessLink(isVisible) {

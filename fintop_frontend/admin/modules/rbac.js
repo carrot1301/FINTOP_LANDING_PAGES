@@ -220,42 +220,364 @@ function renderStaffTable(container) {
 async function showStaffEditModal(userId) {
   if (!staffEditModalEl) return;
 
-  staffEditModalEl.innerHTML = '<div class="admin-loading"><div class="admin-spinner"></div></div>';
+  staffEditModalEl.innerHTML = '<div class="admin-loading"><div class="admin-spinner"></div> Đang tải...</div>';
 
   try {
-    const res = await API().get(EP().ADMIN_USER_DETAIL(userId));
-    const u = res.data || res;
+    const [userDetailRes, staffListRes] = await Promise.all([
+      API().get(EP().ADMIN_USER_DETAIL(userId)),
+      API().get(EP().ADMIN_USERS + '?userType=staff&limit=100'),
+    ]);
+    
+    const u = userDetailRes.data || userDetailRes;
+    const staffList = staffListRes.data || [];
+
+    const birthDate = u.dob ? new Date(u.dob).toISOString().split('T')[0] : '';
+    const joinDate = u.joinDate ? new Date(u.joinDate).toISOString().split('T')[0] : '';
+    const staffCode = u.team?.code || u.department?.code || '';
+    const userRoles = (u.roles || []).map(r => r.code);
+    const phone = u.phone || '';
+    const address = u.address || '';
+
+    let avatarUrl = u.avatarUrl || u.avatar || '';
+    if (!avatarUrl || avatarUrl.includes('avatar_default.png')) {
+      avatarUrl = 'https://fintopdata.vn/file-image/avatar/avatar_default.png';
+    }
+
+    // Populate Manager dropdown
+    const managerOptions = staffList
+      .filter(s => s.id !== u.id) // Cannot be own manager
+      .map(s => {
+        const code = s.team?.code || s.department?.code || '';
+        const label = code ? `${s.fullName} - ${code}` : s.fullName;
+        return `<option value="${s.id}" ${u.brokerId === s.id ? 'selected' : ''}>${esc(label)}</option>`;
+      })
+      .join('');
 
     staffEditModalEl.innerHTML = `
-      <div class="admin-modal-overlay" id="staff-edit-overlay">
-        <div class="admin-modal" style="max-width:500px;">
-          <div class="admin-modal-header">
-            <h3>✏️ Sửa thông tin nhân viên</h3>
-            <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-close-staff-edit">✕</button>
+      <style>
+        .edit-modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(15, 23, 42, 0.8);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+          backdrop-filter: blur(4px);
+        }
+        .edit-modal-container {
+          background: #20263f;
+          border-radius: 8px;
+          width: 100%;
+          max-width: 800px;
+          max-height: 90vh;
+          overflow-y: auto;
+          box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
+          padding: 24px;
+          color: #fff;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .edit-modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid rgba(255,255,255,0.05);
+          padding-bottom: 12px;
+          margin-bottom: 20px;
+        }
+        .edit-modal-title {
+          font-size: 1.25rem;
+          font-weight: bold;
+          margin: 0;
+        }
+        .edit-modal-close-btn {
+          background: #fff;
+          color: #000;
+          border: none;
+          padding: 4px 12px;
+          border-radius: 4px;
+          font-weight: bold;
+          cursor: pointer;
+        }
+        .edit-section-title {
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #94a3b8;
+          margin-top: 1.5rem;
+          margin-bottom: 1rem;
+          font-weight: 600;
+        }
+        .edit-form-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+        }
+        .edit-form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+        .edit-form-group.full-width {
+          grid-column: span 2;
+        }
+        .edit-form-group.third-width {
+          grid-column: span 1;
+        }
+        @media (max-width: 768px) {
+          .edit-form-grid {
+            grid-template-columns: 1fr;
+          }
+          .edit-form-group.full-width, .edit-form-group.third-width {
+            grid-column: span 1;
+          }
+        }
+        .edit-label {
+          font-size: 0.85rem;
+          color: #cbd5e1;
+        }
+        .edit-label span.required {
+          color: #ef4444;
+        }
+        .edit-input, .edit-select {
+          background: #fff;
+          color: #000;
+          border: 1px solid #cbd5e1;
+          padding: 10px 12px;
+          border-radius: 6px;
+          font-size: 0.95rem;
+          width: 100%;
+          outline: none;
+          box-sizing: border-box;
+        }
+        .edit-input:disabled {
+          background: #e2e8f0;
+          color: #64748b;
+          cursor: not-allowed;
+        }
+        .checkbox-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+          margin-top: 8px;
+          padding-left: 10px;
+        }
+        .checkbox-label {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: #fff;
+          font-size: 0.9rem;
+          cursor: pointer;
+        }
+        .checkbox-input {
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+        .edit-modal-footer {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 24px;
+          border-top: 1px solid rgba(255,255,255,0.05);
+          padding-top: 16px;
+        }
+        .btn-update {
+          background: #3b82f6;
+          color: #fff;
+          border: none;
+          padding: 10px 24px;
+          border-radius: 6px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+        .btn-update:hover {
+          background: #2563eb;
+        }
+        .btn-close {
+          background: #f1f5f9;
+          color: #0f172a;
+          border: none;
+          padding: 10px 24px;
+          border-radius: 6px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+        .btn-close:hover {
+          background: #e2e8f0;
+        }
+      </style>
+
+      <div class="edit-modal-overlay" id="staff-edit-overlay">
+        <div class="edit-modal-container">
+          <div class="edit-modal-header">
+            <h3 class="edit-modal-title">Cập nhật người dùng</h3>
+            <button class="edit-modal-close-btn" id="btn-close-staff-edit">✕</button>
           </div>
-          <div class="admin-modal-body">
-            <div class="admin-form-grid">
-              <div class="admin-form-group">
-                <label>Họ tên</label>
-                <input type="text" class="admin-input" id="staff-edit-fullname" value="${esc(u.fullName || u.name || '')}" />
+          <div class="edit-modal-body">
+            
+            <div class="edit-section-title">Thông tin cơ bản</div>
+            <div class="edit-form-grid">
+              <div class="edit-form-group">
+                <label class="edit-label">Tên <span class="required">*</span></label>
+                <input type="text" class="edit-input" id="staff-edit-fullname" value="${esc(u.fullName)}" required />
               </div>
-              <div class="admin-form-group">
-                <label>Số điện thoại</label>
-                <input type="text" class="admin-input" id="staff-edit-phone" value="${esc(u.phone || u.phoneNumber || '')}" />
+              <div class="edit-form-group">
+                <label class="edit-label">Địa chỉ Email <span class="required">*</span></label>
+                <input type="email" class="edit-input" id="staff-edit-email" value="${esc(u.email)}" required />
               </div>
-              <div class="admin-form-group">
-                <label>Email</label>
-                <input type="email" class="admin-input" id="staff-edit-email" value="${esc(u.email || '')}" disabled />
+              <div class="edit-form-group">
+                <label class="edit-label">Ngày sinh <span class="required">*</span></label>
+                <input type="date" class="edit-input" id="staff-edit-dob" value="${birthDate}" required />
               </div>
-              <div class="admin-form-group">
-                <label>Địa chỉ</label>
-                <input type="text" class="admin-input" id="staff-edit-address" value="${esc(u.address || u.city || '')}" />
+              <div class="edit-form-group">
+                <label class="edit-label">Số điện thoại <span class="required">*</span></label>
+                <input type="text" class="edit-input" id="staff-edit-phone" value="${esc(phone)}" required />
+              </div>
+              <div class="edit-form-group">
+                <label class="edit-label">Thứ tự</label>
+                <input type="number" class="edit-input" id="staff-edit-sort-order" value="${u.sortOrder || ''}" />
+              </div>
+              <div class="edit-form-group">
+                <label class="edit-label">Mật khẩu</label>
+                <div>
+                  <button type="button" class="btn-blue" id="btn-edit-change-pass" style="background:#3b82f6; color:#fff; border:none; padding:8px 16px; border-radius:6px; font-weight:600; cursor:pointer;">Đổi mật khẩu</button>
+                </div>
               </div>
             </div>
+
+            <div class="edit-section-title">Thông tin liên lạc</div>
+            <div class="edit-form-grid">
+              <div class="edit-form-group">
+                <label class="edit-label">Địa chỉ</label>
+                <input type="text" class="edit-input" id="staff-edit-address" value="${esc(address)}" />
+              </div>
+              <div class="edit-form-group">
+                <label class="edit-label">ID nhân sự</label>
+                <input type="text" class="edit-input" id="staff-edit-code" value="${esc(staffCode)}" />
+              </div>
+              <div class="edit-form-group full-width">
+                <label class="edit-label">Người quản lý</label>
+                <select class="edit-select" id="staff-edit-broker-id">
+                  <option value="">-- Chọn người quản lý --</option>
+                  ${managerOptions}
+                </select>
+              </div>
+              <div class="edit-form-group">
+                <label class="edit-label">Công ty</label>
+                <input type="text" class="edit-input" id="staff-edit-company" value="${esc(u.company || '')}" />
+              </div>
+              <div class="edit-form-group">
+                <label class="edit-label">Chức vụ</label>
+                <input type="text" class="edit-input" id="staff-edit-position" value="${esc(u.position || '')}" />
+              </div>
+              <div class="edit-form-group">
+                <label class="edit-label">Gia nhập ngày</label>
+                <input type="date" class="edit-input" id="staff-edit-joindate" value="${joinDate}" />
+              </div>
+              <div class="edit-form-group">
+                <label class="edit-label">Thời gian đầu tư</label>
+                <select class="edit-select" id="staff-edit-inv-duration">
+                  <option value="">-- Chọn thời gian --</option>
+                  <option value="0 - 3 tháng" ${u.investmentDuration === '0 - 3 tháng' ? 'selected' : ''}>0 - 3 tháng</option>
+                  <option value="3 - 6 tháng" ${u.investmentDuration === '3 - 6 tháng' ? 'selected' : ''}>3 - 6 tháng</option>
+                  <option value="6 - 12 tháng" ${u.investmentDuration === '6 - 12 tháng' ? 'selected' : ''}>6 - 12 tháng</option>
+                  <option value="Trên 12 tháng" ${u.investmentDuration === 'Trên 12 tháng' ? 'selected' : ''}>Trên 12 tháng</option>
+                </select>
+              </div>
+              <div class="edit-form-group">
+                <label class="edit-label">Khẩu vị đầu tư</label>
+                <select class="edit-select" id="staff-edit-inv-style">
+                  <option value="">-- Chọn khẩu vị --</option>
+                  <option value="Lướt sóng ngắn hạn" ${u.investmentStyle === 'Lướt sóng ngắn hạn' ? 'selected' : ''}>Lướt sóng ngắn hạn</option>
+                  <option value="Trung và dài hạn" ${u.investmentStyle === 'Trung và dài hạn' ? 'selected' : ''}>Trung và dài hạn</option>
+                  <option value="Linh hoạt kết hợp" ${u.investmentStyle === 'Linh hoạt kết hợp' ? 'selected' : ''}>Linh hoạt kết hợp</option>
+                </select>
+              </div>
+              <div class="edit-form-group">
+                <label class="edit-label">Công ty chứng khoán</label>
+                <select class="edit-select" id="staff-edit-stock-company">
+                  <option value="">-- Chọn công ty --</option>
+                  <option value="VPS" ${u.stockCompany === 'VPS' ? 'selected' : ''}>VPS</option>
+                  <option value="SSI" ${u.stockCompany === 'SSI' ? 'selected' : ''}>SSI</option>
+                  <option value="VND" ${u.stockCompany === 'VND' ? 'selected' : ''}>VND</option>
+                  <option value="TCBS" ${u.stockCompany === 'TCBS' ? 'selected' : ''}>TCBS</option>
+                  <option value="MBS" ${u.stockCompany === 'MBS' ? 'selected' : ''}>MBS</option>
+                  <option value="Khác" ${u.stockCompany === 'Khác' ? 'selected' : ''}>Khác</option>
+                </select>
+              </div>
+              <div class="edit-form-group full-width">
+                <label class="edit-label">Nhập số TKCK VPS (nếu có)</label>
+                <input type="text" class="edit-input" id="staff-edit-stock-account" value="${esc(u.stockAccount || '')}" placeholder="Nhập số TKCK VPS (nếu có)" />
+              </div>
+            </div>
+
+            <div class="edit-form-group full-width" style="margin-top:1.5rem;">
+              <label class="edit-label" style="font-weight:bold;">Quyền <span class="required">*</span></label>
+              <div class="checkbox-grid">
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="SUPER_ADMIN" ${userRoles.includes('SUPER_ADMIN') || userRoles.includes('CEO') ? 'checked' : ''} />
+                  CEO - Quản trị hệ thống
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="ASSISTANT_CEO" ${userRoles.includes('ASSISTANT_CEO') ? 'checked' : ''} />
+                  Trợ lý CEO
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="EDITOR_ADMIN" ${userRoles.includes('EDITOR_ADMIN') ? 'checked' : ''} />
+                  Editor Admin
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="EDITOR_PRO" ${userRoles.includes('EDITOR_PRO') ? 'checked' : ''} />
+                  Editor Pro
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="EDITOR" ${userRoles.includes('EDITOR') ? 'checked' : ''} />
+                  Editor
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="SALE_ADMIN" ${userRoles.includes('SALE_ADMIN') ? 'checked' : ''} />
+                  Sale - Admin
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="SALE" ${userRoles.includes('SALE') ? 'checked' : ''} />
+                  Sale
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="CLIENT" ${userRoles.includes('CLIENT') || userRoles.includes('CLIENT_VIP') ? 'checked' : ''} />
+                  Người dùng/ Khách hàng
+                </label>
+              </div>
+            </div>
+
+            <div class="edit-form-group full-width" style="margin-top:1.5rem;">
+              <label class="edit-label" style="font-weight:bold;">Trạng thái <span class="required">*</span></label>
+              <div style="padding-left:10px; margin-top:8px;">
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input" id="staff-edit-status" ${u.status === 'ACTIVE' ? 'checked' : ''} />
+                  Hoạt động
+                </label>
+              </div>
+            </div>
+
+            <div class="edit-form-group full-width" style="margin-top:1.5rem;">
+              <label class="edit-label" style="font-weight:bold;">Chọn ảnh đại diện</label>
+              <div style="margin-top:8px;">
+                <button type="button" class="btn-close" id="btn-edit-select-avatar" style="background:#fff; color:#000; border:none; padding:8px 16px; border-radius:4px; font-weight:600; cursor:pointer;">Chọn ảnh</button>
+                <input type="file" id="input-edit-avatar-file" accept="image/*" style="display:none;" />
+              </div>
+              <div style="margin-top:12px;">
+                <img id="img-edit-avatar-preview" src="${esc(avatarUrl)}" style="height:120px; width:120px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,0.1);" />
+              </div>
+            </div>
+
           </div>
-          <div class="admin-modal-footer">
-            <button class="admin-btn admin-btn-secondary" id="btn-cancel-staff-edit">Hủy</button>
-            <button class="admin-btn admin-btn-primary" id="btn-save-staff-edit" data-uid="${u.id}">💾 Lưu thay đổi</button>
+          <div class="edit-modal-footer">
+            <button class="btn-update" id="btn-save-staff-edit" data-uid="${u.id}">Cập nhật</button>
+            <button class="btn-close" id="btn-close-footer-staff-edit">Đóng</button>
           </div>
         </div>
       </div>
@@ -263,23 +585,92 @@ async function showStaffEditModal(userId) {
 
     const closeModal = () => { staffEditModalEl.innerHTML = ''; };
     staffEditModalEl.querySelector('#btn-close-staff-edit').addEventListener('click', closeModal);
-    staffEditModalEl.querySelector('#btn-cancel-staff-edit').addEventListener('click', closeModal);
+    staffEditModalEl.querySelector('#btn-close-footer-staff-edit').addEventListener('click', closeModal);
     staffEditModalEl.querySelector('#staff-edit-overlay').addEventListener('click', (e) => {
       if (e.target.id === 'staff-edit-overlay') closeModal();
     });
 
+    // Change Password Trigger
+    staffEditModalEl.querySelector('#btn-edit-change-pass').addEventListener('click', () => {
+      showChangePasswordModal(u.id, u.fullName);
+    });
+
+    // Avatar Upload Trigger
+    const btnSelectAvatar = staffEditModalEl.querySelector('#btn-edit-select-avatar');
+    const inputAvatarFile = staffEditModalEl.querySelector('#input-edit-avatar-file');
+    const imgAvatarPreview = staffEditModalEl.querySelector('#img-edit-avatar-preview');
+    let uploadedAvatarUrl = u.avatarUrl || u.avatar || '';
+
+    btnSelectAvatar.addEventListener('click', () => {
+      inputAvatarFile.click();
+    });
+
+    inputAvatarFile.addEventListener('change', async () => {
+      const file = inputAvatarFile.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append('upload', file);
+
+      try {
+        showToast('Đang tải ảnh lên...');
+        const token = window.localStorage.getItem('token') || window.sessionStorage.getItem('token');
+        const response = await fetch('/blogs/upload', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: formData
+        });
+        if (!response.ok) throw new Error('Không thể tải ảnh lên');
+        const result = await response.json();
+        uploadedAvatarUrl = result.url;
+        imgAvatarPreview.src = result.url;
+        showToast('Tải ảnh lên thành công!');
+      } catch (err) {
+        showToast(err.message || 'Lỗi tải ảnh lên', 'error');
+      }
+    });
+
+    // Save Action
     staffEditModalEl.querySelector('#btn-save-staff-edit').addEventListener('click', async (e) => {
       const uid = e.target.dataset.uid;
+      
+      // Collect Checked Roles
+      const roleCodes = Array.from(staffEditModalEl.querySelectorAll('.edit-role-chk:checked')).map(el => el.value);
+      if (roleCodes.length === 0) {
+        showToast('Vui lòng chọn ít nhất một vai trò!', 'error');
+        return;
+      }
+
+      const status = staffEditModalEl.querySelector('#staff-edit-status').checked ? 'ACTIVE' : 'INACTIVE';
+      const brokerId = staffEditModalEl.querySelector('#staff-edit-broker-id').value;
+
       const payload = {
         fullName: staffEditModalEl.querySelector('#staff-edit-fullname').value,
+        email: staffEditModalEl.querySelector('#staff-edit-email').value,
+        birthDate: staffEditModalEl.querySelector('#staff-edit-dob').value,
         phone: staffEditModalEl.querySelector('#staff-edit-phone').value,
+        sortOrder: staffEditModalEl.querySelector('#staff-edit-sort-order').value || null,
         address: staffEditModalEl.querySelector('#staff-edit-address').value,
+        staffCode: staffEditModalEl.querySelector('#staff-edit-code').value,
+        brokerId: brokerId ? parseInt(brokerId, 10) : null,
+        company: staffEditModalEl.querySelector('#staff-edit-company').value,
+        position: staffEditModalEl.querySelector('#staff-edit-position').value,
+        joinDate: staffEditModalEl.querySelector('#staff-edit-joindate').value || null,
+        investmentDuration: staffEditModalEl.querySelector('#staff-edit-inv-duration').value || null,
+        investmentStyle: staffEditModalEl.querySelector('#staff-edit-inv-style').value || null,
+        stockCompany: staffEditModalEl.querySelector('#staff-edit-stock-company').value || null,
+        stockAccount: staffEditModalEl.querySelector('#staff-edit-stock-account').value || null,
+        status: status,
+        roleCodes: roleCodes,
+        avatarUrl: uploadedAvatarUrl
       };
 
       e.target.disabled = true;
       try {
         await API().patch(EP().ADMIN_USER_DETAIL(uid), payload);
-        showToast('Đã cập nhật thông tin nhân viên!');
+        showToast('Đã cập nhật thông tin thành viên thành công!');
         closeModal();
         if (staffTable) staffTable.refresh();
       } catch (err) {
@@ -287,6 +678,7 @@ async function showStaffEditModal(userId) {
         e.target.disabled = false;
       }
     });
+
   } catch (err) {
     staffEditModalEl.innerHTML = `<div class="admin-empty-state"><div class="empty-icon">⚠️</div><div class="empty-desc">${esc(err.message)}</div></div>`;
   }
@@ -312,87 +704,101 @@ async function showStaffDetail(userId) {
     const unassignedRoles = (allRoles || []).filter(r => !assignedCodes.includes(r.code));
 
     staffDetailEl.innerHTML = `
-      <div class="admin-detail-panel">
-        <div class="admin-detail-header">
-          <div class="admin-detail-title">👤 ${esc(u.fullName)} <span style="font-weight:400;color:var(--text-muted);font-size:0.85rem;">#${u.id}</span></div>
-          <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="this.closest('.admin-detail-panel').remove()">✕ Đóng</button>
-        </div>
-        <div class="admin-detail-grid">
-          <div class="admin-detail-field">
-            <div class="admin-detail-label">Email</div>
-            <div class="admin-detail-value">${esc(u.email)}</div>
+      <div class="admin-modal-overlay" id="staff-detail-overlay">
+        <div class="admin-modal" style="max-width:700px; max-height:90vh; overflow-y:auto;">
+          <div class="admin-modal-header">
+            <h3>👤 Chi tiết & Phân quyền: ${esc(u.fullName)} <span style="font-weight:400;color:var(--text-muted);font-size:0.85rem;">#${u.id}</span></h3>
+            <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-close-staff-detail">✕</button>
           </div>
-          <div class="admin-detail-field">
-            <div class="admin-detail-label">Số điện thoại</div>
-            <div class="admin-detail-value">${esc(u.phone) || '—'}</div>
-          </div>
-          <div class="admin-detail-field">
-            <div class="admin-detail-label">Phòng ban</div>
-            <div class="admin-detail-value">${esc(u.department?.name) || '—'}</div>
-          </div>
-          <div class="admin-detail-field">
-            <div class="admin-detail-label">Trạng thái</div>
-            <div class="admin-detail-value">${statusBadge(u.status)}</div>
-          </div>
-          <div class="admin-detail-field" style="grid-column: span 2;">
-            <div class="admin-detail-label">Vai trò hiện tại</div>
-            <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.25rem;">
-              ${(u.roles || []).map(r => `
-                <div class="admin-badge role-badge" style="display:flex; align-items:center; gap:0.35rem; padding: 0.25rem 0.5rem;">
-                  <span>${esc(r.name || r.code || r)}</span>
-                  <button class="admin-btn-remove-role" data-role-code="${esc(r.code || r)}" data-uid="${u.id}" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-weight:bold; font-size:0.85rem; padding:0 0 0 0.35rem; line-height:1;">✕</button>
+          <div class="admin-modal-body">
+            <div class="admin-detail-grid">
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Email</div>
+                <div class="admin-detail-value">${esc(u.email)}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Số điện thoại</div>
+                <div class="admin-detail-value">${esc(u.phone) || '—'}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Phòng ban</div>
+                <div class="admin-detail-value">${esc(u.department?.name) || '—'}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Trạng thái</div>
+                <div class="admin-detail-value">${statusBadge(u.status)}</div>
+              </div>
+              <div class="admin-detail-field" style="grid-column: span 2;">
+                <div class="admin-detail-label">Vai trò hiện tại</div>
+                <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.25rem;">
+                  ${(u.roles || []).map(r => `
+                    <div class="admin-badge role-badge" style="display:flex; align-items:center; gap:0.35rem; padding: 0.25rem 0.5rem;">
+                      <span>${esc(r.name || r.code || r)}</span>
+                      <button class="admin-btn-remove-role" data-role-code="${esc(r.code || r)}" data-uid="${u.id}" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-weight:bold; font-size:0.85rem; padding:0 0 0 0.35rem; line-height:1;">✕</button>
+                    </div>
+                  `).join('') || '—'}
                 </div>
-              `).join('') || '—'}
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Ngày tạo</div>
+                <div class="admin-detail-value">${formatDate(u.createdAt)}</div>
+              </div>
             </div>
-          </div>
-          <div class="admin-detail-field">
-            <div class="admin-detail-label">Ngày tạo</div>
-            <div class="admin-detail-value">${formatDate(u.createdAt)}</div>
-          </div>
-        </div>
 
-        <div style="margin-top:1.25rem;display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
-          <div style="display:flex;gap:0.5rem;">
-            <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="ACTIVE" data-uid="${u.id}">✅ Kích hoạt</button>
-            <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="INACTIVE" data-uid="${u.id}">⏸️ Ngưng</button>
-            <button class="admin-btn admin-btn-danger admin-btn-sm" data-status-action="LOCKED" data-uid="${u.id}">🔒 Khóa</button>
-          </div>
-        </div>
-
-        <div class="admin-detail-panel" style="margin-top:1.25rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:1rem;">
-          <div class="admin-detail-label" style="margin-bottom:0.5rem;">🔑 Cấp vai trò mới</div>
-          ${unassignedRoles.length === 0 ? `
-            <div style="font-size:0.8rem; color:var(--text-muted);">Nhân viên đã sở hữu tất cả các vai trò.</div>
-          ` : `
-            <div style="display:flex; gap:0.5rem; align-items:center;">
-              <select class="admin-select" id="staff-assign-role-select" style="min-width:180px;">
-                <option value="">-- Chọn vai trò --</option>
-                ${unassignedRoles.map(r => `<option value="${esc(r.code)}">${esc(r.name)}</option>`).join('')}
-              </select>
-              <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-staff-assign-role">Gán vai trò</button>
+            <div style="margin-top:1.25rem;display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
+              <div style="display:flex;gap:0.5rem;">
+                <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="ACTIVE" data-uid="${u.id}" ${u.status === 'ACTIVE' ? 'disabled' : ''}>✅ Kích hoạt</button>
+                <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="INACTIVE" data-uid="${u.id}" ${u.status === 'INACTIVE' ? 'disabled' : ''}>⏸️ Ngưng</button>
+                <button class="admin-btn admin-btn-danger admin-btn-sm" data-status-action="LOCKED" data-uid="${u.id}" ${u.status === 'LOCKED' ? 'disabled' : ''}>🔒 Khóa</button>
+              </div>
             </div>
-          `}
-        </div>
 
-        ${u.recentSessions && u.recentSessions.length > 0 ? `
-          <div style="margin-top:1.25rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
-            <div class="admin-detail-label" style="margin-bottom:0.5rem;">Phiên đăng nhập gần đây</div>
-            <table class="admin-table" style="font-size:0.75rem;">
-              <thead><tr><th>IP</th><th>User Agent</th><th>Thời gian</th></tr></thead>
-              <tbody>
-                ${u.recentSessions.map(s => `
-                  <tr>
-                    <td>${esc(s.ipAddress)}</td>
-                    <td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(s.userAgent)}</td>
-                    <td>${formatDate(s.createdAt)}</td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
+            <div style="margin-top:1.25rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:1rem;">
+              <div class="admin-detail-label" style="margin-bottom:0.5rem;">🔑 Cấp vai trò mới</div>
+              ${unassignedRoles.length === 0 ? `
+                <div style="font-size:0.8rem; color:var(--text-muted);">Nhân viên đã sở hữu tất cả các vai trò.</div>
+              ` : `
+                <div style="display:flex; gap:0.5rem; align-items:center;">
+                  <select class="admin-select" id="staff-assign-role-select" style="min-width:180px;">
+                    <option value="">-- Chọn vai trò --</option>
+                    ${unassignedRoles.map(r => `<option value="${esc(r.code)}">${esc(r.name)}</option>`).join('')}
+                  </select>
+                  <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-staff-assign-role">Gán vai trò</button>
+                </div>
+              `}
+            </div>
+
+            ${u.recentSessions && u.recentSessions.length > 0 ? `
+              <div style="margin-top:1.25rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
+                <div class="admin-detail-label" style="margin-bottom:0.5rem;">Phiên đăng nhập gần đây</div>
+                <table class="admin-table" style="font-size:0.75rem;">
+                  <thead><tr><th>IP</th><th>User Agent</th><th>Thời gian</th></tr></thead>
+                  <tbody>
+                    ${u.recentSessions.map(s => `
+                      <tr>
+                        <td>${esc(s.ipAddress)}</td>
+                        <td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(s.userAgent)}</td>
+                        <td>${formatDate(s.createdAt)}</td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            ` : ''}
           </div>
-        ` : ''}
+          <div class="admin-modal-footer">
+            <button class="admin-btn admin-btn-secondary" id="btn-footer-close-staff-detail">Đóng</button>
+          </div>
+        </div>
       </div>
     `;
+
+    const closeModal = () => { staffDetailEl.innerHTML = ''; };
+    staffDetailEl.querySelector('#btn-close-staff-detail')?.addEventListener('click', closeModal);
+    staffDetailEl.querySelector('#btn-footer-close-staff-detail')?.addEventListener('click', closeModal);
+    staffDetailEl.querySelector('#staff-detail-overlay')?.addEventListener('click', (e) => {
+      if (e.target.id === 'staff-detail-overlay') closeModal();
+    });
 
     // Status action buttons
     staffDetailEl.querySelectorAll('[data-status-action]').forEach(btn => {
@@ -467,6 +873,55 @@ async function showStaffDetail(userId) {
   } catch (err) {
     staffDetailEl.innerHTML = `<div class="admin-empty-state"><div class="empty-icon">⚠️</div><div class="empty-desc">${esc(err.message)}</div></div>`;
   }
+}
+
+function showChangePasswordModal(userId, fullName) {
+  const modalArea = document.getElementById('prof-change-pass-modal-area');
+  if (!modalArea) return;
+
+  modalArea.innerHTML = `
+    <div class="admin-modal-overlay" id="change-pass-overlay">
+      <div class="admin-modal" style="max-width:400px; margin-top: 10%;">
+        <div class="admin-modal-header">
+          <h3>🔑 Đổi mật khẩu nhân viên</h3>
+          <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-close-change-pass">✕</button>
+        </div>
+        <div class="admin-modal-body">
+          <div class="admin-form-group">
+            <label class="profile-label">Mật khẩu mới cho: ${esc(fullName)}</label>
+            <input type="password" class="admin-input" id="change-pass-input" placeholder="Nhập mật khẩu mới..." />
+          </div>
+        </div>
+        <div class="admin-modal-footer">
+          <button class="admin-btn admin-btn-secondary" id="btn-cancel-change-pass">Hủy</button>
+          <button class="admin-btn admin-btn-primary" id="btn-save-change-pass">Lưu mật khẩu</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const closeModal = () => { modalArea.innerHTML = ''; };
+  modalArea.querySelector('#btn-close-change-pass').addEventListener('click', closeModal);
+  modalArea.querySelector('#btn-cancel-change-pass').addEventListener('click', closeModal);
+  modalArea.querySelector('#change-pass-overlay').addEventListener('click', (e) => {
+    if (e.target.id === 'change-pass-overlay') closeModal();
+  });
+
+  modalArea.querySelector('#btn-save-change-pass').addEventListener('click', async () => {
+    const newPassword = modalArea.querySelector('#change-pass-input').value;
+    if (!newPassword || newPassword.trim().length < 6) {
+      showToast('Mật khẩu phải có ít nhất 6 ký tự!', 'error');
+      return;
+    }
+
+    try {
+      await API().patch(EP().ADMIN_USER_DETAIL(userId), { password: newPassword });
+      showToast('Đổi mật khẩu thành công!');
+      closeModal();
+    } catch (err) {
+      showToast(err.message || 'Lỗi đổi mật khẩu', 'error');
+    }
+  });
 }
 
 // ─────────────────────────────────────────────────────────────
