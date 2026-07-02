@@ -135,10 +135,10 @@ const Formatter = {
       const year    = vnDate.getUTCFullYear();
 
       switch (format) {
-        case 'time':        return `${hours}:${minutes}:${seconds}`;
+        case 'time':        return `${hours}:${minutes}`;
         case 'date':        return `${day}-${month}-${year}`;
-        case 'full':        return `${hours}:${minutes}:${seconds} ${day}-${month}-${year}`;
-        case 'vietnamese':  return `${hours}:${minutes}:${seconds}\n${day}-${month}-${year}`;
+        case 'full':        return `${hours}:${minutes} ${day}-${month}-${year}`;
+        case 'vietnamese':  return `${hours}:${minutes} ${day}-${month}-${year}`;
         case 'short':       return `${day}/${month}`;
         case 'datetime':    return `${day}/${month}/${year} ${hours}:${minutes}`;
         default:            return `${hours}:${minutes}:${seconds} ${day}-${month}-${year}`;

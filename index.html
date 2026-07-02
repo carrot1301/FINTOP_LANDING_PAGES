@@ -412,7 +412,7 @@
         }
 
         #bolocTable {
-            min-width: 1420px;
+            min-width: 1540px;
         }
 
         .dark-table thead {
@@ -471,14 +471,286 @@
         .dark-table .time-cell {
             font-size: 0.78rem;
             color: #64748b;
-            white-space: pre-line;
+            white-space: nowrap;
             line-height: 1.4;
         }
 
-        .dark-table .officer-cell {
+        .filterable-heading {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            white-space: normal;
+        }
+
+        .table-filter-btn {
+            width: 24px;
+            height: 24px;
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            border-radius: 6px;
+            background: rgba(168, 85, 247, 0.12);
+            color: #c084fc;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .table-filter-btn:hover {
+            background: rgba(168, 85, 247, 0.22);
+        }
+
+        .boloc-filter-bar {
+            max-width: 1300px;
+            margin: 0 auto 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .boloc-filter-select {
+            min-width: 210px;
+            background: rgba(15, 15, 25, 0.82);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 8px;
+            color: #e2e8f0;
+            padding: 9px 12px;
+            font-size: 0.82rem;
+        }
+
+        .boloc-filter-reset {
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            border-radius: 8px;
+            background: rgba(148, 163, 184, 0.08);
             color: #cbd5e1;
+            padding: 9px 12px;
+            font-size: 0.82rem;
+            cursor: pointer;
+        }
+
+        #panel-boloc {
+            --boloc-title-bg: linear-gradient(135deg, #C000FF 0%, #A100F2 48%, #8200D6 100%);
+            --boloc-title-text: #F8FAFC;
+            --boloc-header-bg: #2C2068;
+            --boloc-header-text: #FFFFFF;
+            --boloc-row-bg: rgba(7, 25, 52, 0.96);
+            --boloc-row-text: #E2E8F0;
+            --boloc-strength-bg: #FDE0C7;
+            padding-top: 28px;
+        }
+
+        #panel-boloc .boloc-filter-bar {
+            max-width: 1540px;
+        }
+
+        #panel-boloc .boloc-filter-select {
+            background: rgba(15, 15, 25, 0.82);
+            border-color: rgba(168, 85, 247, 0.3);
+            color: #e2e8f0;
+        }
+
+        #panel-boloc .boloc-filter-reset {
+            background: rgba(168, 85, 247, 0.12);
+            border-color: rgba(168, 85, 247, 0.32);
+            color: #e9d5ff;
+            font-weight: 700;
+        }
+
+        #panel-boloc .dark-table-wrapper {
+            max-width: 1540px;
+            border-radius: 14px;
+            border: 1px solid rgba(168, 85, 247, 0.24);
+            background: rgba(15, 15, 25, 0.68);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 18px 48px rgba(0, 0, 0, 0.42);
+        }
+
+        .boloc-table-title {
+            min-width: 1540px;
+            padding: 16px 18px;
+            background: var(--boloc-title-bg);
+            color: var(--boloc-title-text);
+            text-align: center;
+            font-size: clamp(1.15rem, 2.2vw, 1.85rem);
+            font-weight: 900;
+            line-height: 1.25;
+            text-transform: none;
+            border-bottom: 1px solid rgba(233, 213, 255, 0.28);
+        }
+
+        #bolocTable {
+            min-width: 1540px;
+            background: var(--boloc-row-bg);
+            color: var(--boloc-row-text);
+            border-collapse: collapse;
+        }
+
+        #bolocTable thead {
+            background: var(--boloc-header-bg);
+        }
+
+        #bolocTable th {
+            background: var(--boloc-header-bg);
+            color: var(--boloc-header-text);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+            font-weight: 900;
+            letter-spacing: 0;
+            text-transform: none;
+            vertical-align: middle;
+        }
+
+        #bolocTable th:nth-child(8) {
+            background: var(--boloc-header-bg);
+        }
+
+        #bolocTable th:nth-child(9) {
+            background: var(--boloc-header-bg);
+        }
+
+        #bolocTable th:nth-child(10) {
+            background: var(--boloc-header-bg);
+        }
+
+        #bolocTable th:nth-child(11) {
+            background: var(--boloc-header-bg);
+        }
+
+        #bolocTable td {
+            background: var(--boloc-row-bg);
+            color: var(--boloc-row-text);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            text-align: center;
+            font-weight: 600;
+            vertical-align: middle;
+            transition: filter 0.2s ease;
+        }
+
+        #bolocTable tbody tr:hover td {
+            filter: brightness(1.06);
+        }
+
+        #bolocTable .ticker-cell {
+            color: #FFFFFF;
+            font-weight: 900;
+        }
+
+        #bolocTable .desc-cell {
+            color: #CBD5E1;
+            max-width: 300px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        #bolocTable .time-cell,
+        #bolocTable .price-cell {
+            color: #E2E8F0;
             font-weight: 600;
             white-space: nowrap;
+        }
+
+        #bolocTable .boloc-status-cell {
+            color: #E2E8F0;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        #bolocTable .boloc-status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 112px;
+            padding: 6px 12px;
+            border: 1px solid var(--status-border, rgba(226, 232, 240, 0.22));
+            border-radius: 999px;
+            background: var(--status-bg, rgba(148, 163, 184, 0.14));
+            color: var(--status-text, #E2E8F0);
+            font-size: 0.78rem;
+            line-height: 1.2;
+            letter-spacing: 0;
+        }
+
+        #bolocTable .boloc-strength-cell {
+            background: var(--boloc-row-bg);
+            color: #C084FC;
+            font-weight: 900;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        #bolocTable td:nth-child(9) {
+            background: var(--boloc-row-bg);
+            color: #E2E8F0;
+        }
+
+        #bolocTable td:nth-child(10) {
+            background: linear-gradient(135deg, rgba(45, 33, 82, 0.95), rgba(16, 22, 39, 0.93));
+            color: #C084FC;
+            font-weight: 900;
+        }
+
+        #bolocTable .boloc-support-cell {
+            background: var(--boloc-row-bg);
+            color: #FBBF24;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        #bolocTable .table-filter-btn {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.42);
+            color: #fff;
+        }
+
+        .boloc-disclaimer {
+            max-width: 1540px;
+            margin: 1rem auto 0;
+            padding: 14px 18px;
+            border: 1px solid rgba(168, 85, 247, 0.28);
+            border-radius: 12px;
+            background: rgba(15, 15, 25, 0.72);
+            color: #CBD5E1;
+            text-align: center;
+            font-size: 0.92rem;
+            line-height: 1.55;
+            backdrop-filter: blur(12px);
+        }
+
+        .boloc-disclaimer strong {
+            display: block;
+            color: #F87171;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .boloc-table-title,
+            #bolocTable {
+                min-width: 720px;
+            }
+
+            #bolocTable th:nth-child(1),
+            #bolocTable td:nth-child(1),
+            #bolocTable th:nth-child(3),
+            #bolocTable td:nth-child(3),
+            #bolocTable th:nth-child(4),
+            #bolocTable td:nth-child(4),
+            #bolocTable th:nth-child(5),
+            #bolocTable td:nth-child(5),
+            #bolocTable th:nth-child(6),
+            #bolocTable td:nth-child(6),
+            #bolocTable th:nth-child(9),
+            #bolocTable td:nth-child(9),
+            #bolocTable th:nth-child(10),
+            #bolocTable td:nth-child(10) {
+                display: none;
+            }
+
+            #bolocTable th,
+            #bolocTable td {
+                padding: 10px 8px;
+                font-size: 0.78rem;
+            }
         }
 
         /* === STATUS BADGES (Dark Theme) === */
@@ -952,6 +1224,14 @@
             padding-bottom: 16px;
         }
 
+        .membership-flow-actions {
+            display: flex;
+            flex: 0 0 auto;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
         .membership-flow-title {
             color: #fff;
             font-size: 1.18rem;
@@ -996,7 +1276,24 @@
             display: grid;
             gap: 6px;
             margin: 0;
-            padding-left: 18px;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .membership-step li {
+            position: relative;
+            padding-left: 22px;
+        }
+
+        .membership-step li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            top: 0.08em;
+            color: #a855f7;
+            font-size: 0.78rem;
+            line-height: 1.6;
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.45);
         }
 
         .membership-approval-note {
@@ -1051,6 +1348,11 @@
 
             .membership-flow-head {
                 flex-direction: column;
+            }
+
+            .membership-flow-actions {
+                justify-content: flex-start;
+                width: 100%;
             }
         }
 
@@ -2865,211 +3167,340 @@
             }
         }
 
-        /* LIQUID GLASS EFFECT - Base */
+        /* Membership cards */
+        :root {
+            --membership-card-bg: linear-gradient(160deg, #1A1F36 0%, #241522 100%);
+            --membership-card-bg-inner-panel: #12172B;
+            --membership-text-primary: #FFFFFF;
+            --membership-text-secondary: #B7BCD6;
+            --membership-accent-standard: #4DA3FF;
+            --membership-accent-pro: #9B6BFF;
+            --membership-accent-vip: #F2C94C;
+            --membership-accent-diamond: #7FE6E0;
+        }
+
         .liquid-glass-card {
+            --tier-accent: var(--membership-accent-standard);
+            --tier-soft: rgba(77, 163, 255, 0.16);
+            --tier-border: rgba(77, 163, 255, 0.42);
+            --tier-gradient: linear-gradient(135deg, #4DA3FF, #1677FF);
+            --tier-button-color: #FFFFFF;
+            position: relative;
+            overflow: hidden;
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             opacity: 1 !important;
-            border-radius: 16px;
-            padding: 2rem;
+            background: var(--membership-card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 1.2rem;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 1rem;
             height: 100%;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            min-height: 390px;
+            cursor: pointer;
+            transform: none;
+            z-index: 1;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 18px 46px rgba(0, 0, 0, 0.32);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
         }
 
-        /* STANDARD - Cyan/Blue */
+        .liquid-glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--tier-gradient);
+        }
+
+        .liquid-glass-card::after {
+            content: '';
+            position: absolute;
+            inset: 4px 0 auto 0;
+            height: 72px;
+            background: linear-gradient(180deg, var(--tier-soft), rgba(255, 255, 255, 0));
+            pointer-events: none;
+        }
+
+        .liquid-glass-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .liquid-glass-card:hover,
+        .pricing-card.active,
+        .pricing-card:focus-within {
+            border-color: var(--tier-border);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 22px 58px rgba(0, 0, 0, 0.42), 0 0 26px var(--tier-soft);
+            transform: translateY(-6px) !important;
+        }
+
         .liquid-glass-card.card-standard {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.04));
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            border-top: 1px solid rgba(56, 189, 248, 0.4);
-            border-left: 1px solid rgba(56, 189, 248, 0.4);
-            box-shadow: inset 0 0 20px rgba(56, 189, 248, 0.05), 0 8px 32px rgba(0, 0, 0, 0.3);
+            --tier-accent: var(--membership-accent-standard);
+            --tier-soft: rgba(77, 163, 255, 0.16);
+            --tier-border: rgba(77, 163, 255, 0.45);
+            --tier-gradient: linear-gradient(135deg, #4DA3FF, #1677FF);
+            --tier-button-color: #FFFFFF;
         }
 
-        .liquid-glass-card.card-standard:hover {
-            box-shadow: inset 0 0 20px rgba(56, 189, 248, 0.08), 0 12px 40px rgba(56, 189, 248, 0.15);
-            transform: translateY(-6px) !important;
-        }
-
-        .card-standard .pricing-title {
-            color: #38bdf8;
-        }
-
-        .card-standard .check-icon {
-            color: #38bdf8;
-        }
-
-        .card-standard .btn-tier {
-            background: transparent;
-            color: #38bdf8;
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            border-radius: 8px;
-            padding: 12px 28px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .card-standard .btn-tier:hover {
-            background: rgba(56, 189, 248, 0.15);
-            border-color: #38bdf8;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
-        }
-
-        /* GÓI PRO - Tím */
         .liquid-glass-card.card-pro {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(139, 92, 246, 0.06));
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            border-top: 1px solid rgba(168, 85, 247, 0.5);
-            border-left: 1px solid rgba(168, 85, 247, 0.5);
-            box-shadow: inset 0 0 20px rgba(168, 85, 247, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
+            --tier-accent: var(--membership-accent-pro);
+            --tier-soft: rgba(155, 107, 255, 0.18);
+            --tier-border: rgba(155, 107, 255, 0.48);
+            --tier-gradient: linear-gradient(135deg, #9B6BFF, #6D3BDF);
+            --tier-button-color: #FFFFFF;
         }
 
-        .liquid-glass-card.card-pro:hover {
-            box-shadow: inset 0 0 20px rgba(168, 85, 247, 0.12), 0 16px 50px rgba(168, 85, 247, 0.25);
-            transform: translateY(-6px) !important;
-        }
-
-        .card-pro .pricing-title {
-            color: #c084fc;
-        }
-
-        .card-pro .check-icon {
-            color: #a855f7;
-        }
-
-        .card-pro .btn-tier {
-            background: linear-gradient(135deg, #a855f7, #7c3aed);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 28px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 1.5rem;
-            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.35);
-            transition: all 0.3s ease;
-        }
-
-        .card-pro .btn-tier:hover {
-            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.5);
-            transform: translateY(-2px);
-        }
-
-        /* GÓI V.I.P - Xanh ngọc */
         .liquid-glass-card.card-vip {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.05));
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-top: 1px solid rgba(16, 185, 129, 0.45);
-            border-left: 1px solid rgba(16, 185, 129, 0.45);
-            box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.06), 0 8px 32px rgba(0, 0, 0, 0.3);
+            --tier-accent: var(--membership-accent-vip);
+            --tier-soft: rgba(242, 201, 76, 0.18);
+            --tier-border: rgba(242, 201, 76, 0.5);
+            --tier-gradient: linear-gradient(135deg, #F2C94C, #C89518);
+            --tier-button-color: #16110A;
         }
 
-        .liquid-glass-card.card-vip:hover {
-            box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.1), 0 12px 40px rgba(16, 185, 129, 0.18);
-            transform: translateY(-6px) !important;
-        }
-
-        .card-vip .pricing-title {
-            color: #34d399;
-        }
-
-        .card-vip .check-icon {
-            color: #10b981;
-        }
-
-        .card-vip .btn-tier {
-            background: transparent;
-            color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            border-radius: 8px;
-            padding: 12px 28px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .card-vip .btn-tier:hover {
-            background: rgba(16, 185, 129, 0.15);
-            border-color: #34d399;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
-        }
-
-        /* GÓI DIAMOND - Vàng */
         .liquid-glass-card.card-diamond {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.05));
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-top: 1px solid rgba(245, 158, 11, 0.5);
-            border-left: 1px solid rgba(245, 158, 11, 0.5);
-            box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.06), 0 8px 32px rgba(0, 0, 0, 0.3);
+            --tier-accent: var(--membership-accent-diamond);
+            --tier-soft: rgba(127, 230, 224, 0.18);
+            --tier-border: rgba(127, 230, 224, 0.5);
+            --tier-gradient: linear-gradient(135deg, #7FE6E0, #25B9C0);
+            --tier-button-color: #062321;
         }
 
-        .liquid-glass-card.card-diamond:hover {
-            box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.1), 0 12px 40px rgba(245, 158, 11, 0.2);
-            transform: translateY(-6px) !important;
+        .membership-card-top {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .card-diamond .pricing-title {
-            color: #f59e0b;
+        .membership-card-label {
+            color: var(--membership-text-primary);
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            line-height: 1.2;
         }
 
-        .card-diamond .check-icon {
-            color: #fbbf24;
-        }
-
-        .card-diamond .btn-tier {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: #000;
-            border: none;
+        .membership-expand {
+            width: 28px;
+            height: 28px;
+            display: inline-grid;
+            place-items: center;
             border-radius: 8px;
-            padding: 12px 28px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 1.5rem;
-            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
-            transition: all 0.3s ease;
+            color: var(--tier-accent);
+            background: var(--tier-soft);
+            border: 1px solid var(--tier-border);
+            font-size: 0.95rem;
+            flex: 0 0 auto;
         }
 
-        .card-diamond .btn-tier:hover {
-            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .pricing-subtitle {
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
+        .membership-card-main {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+        }
+
+        .membership-card-main>div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .membership-icon-shell {
+            width: 58px;
+            height: 58px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: var(--membership-card-bg-inner-panel);
+            border: 1px solid var(--tier-border);
+            box-shadow: inset 0 0 18px var(--tier-soft), 0 10px 26px rgba(0, 0, 0, 0.28);
+        }
+
+        .membership-tier-icon {
+            width: 32px;
+            height: 32px;
+            display: block;
+            color: var(--tier-accent);
+            filter: drop-shadow(0 0 10px var(--tier-soft));
+        }
+
+        .membership-tier-icon svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .membership-icon-standard .membership-tier-icon {
+            width: 31px;
+            height: 31px;
+        }
+
+        .membership-icon-pro .membership-tier-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        .membership-icon-vip .membership-tier-icon {
+            width: 34px;
+            height: 34px;
+        }
+
+        .membership-icon-diamond .membership-tier-icon {
+            width: 34px;
+            height: 34px;
+        }
+
+        .membership-tier-name {
+            color: var(--membership-text-primary);
+            font-size: 1.08rem;
+            font-weight: 800;
+            line-height: 1.25;
+            margin: 0 0 0.2rem;
         }
 
         .pricing-title {
+            color: var(--tier-accent);
+            font-size: 0.82rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             text-align: center;
+            margin: 0;
+        }
+
+        .pricing-subtitle {
+            color: var(--membership-text-secondary);
+            font-size: 0.84rem;
+            line-height: 1.35;
+            text-align: center;
+            margin: 0.2rem 0 0;
+        }
+
+        .membership-badge {
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            margin-top: 0.55rem;
+            padding: 0.28rem 0.55rem;
+            border-radius: 999px;
+            color: var(--tier-accent);
+            background: var(--tier-soft);
+            border: 1px solid var(--tier-border);
+            font-size: 0.72rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .membership-benefit-panel {
+            flex: 1 1 auto;
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            border-radius: 8px;
+            background: var(--membership-card-bg-inner-panel);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .pricing-features {
-            color: var(--text-secondary);
-            line-height: 2.2;
-            flex: 1 1 auto;
-            margin-bottom: 1.5rem;
+            color: var(--membership-text-secondary);
+            line-height: 1.35;
+            margin: 0;
             padding-left: 0;
             list-style: none;
+            display: grid;
+            justify-content: center;
+            width: 100%;
+            max-width: 240px;
         }
 
         .pricing-features li {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            align-items: flex-start;
+            gap: 0.55rem;
+            margin-bottom: 0.72rem;
+            font-size: 0.94rem;
+            text-align: left;
+        }
+
+        .pricing-features li:last-child {
+            margin-bottom: 0;
+        }
+
+        .check-icon {
+            color: var(--tier-accent);
+            flex: 0 0 18px;
+            width: 18px;
+            line-height: 1.35;
+            text-align: center;
+        }
+
+        .btn-tier {
+            width: 100%;
+            min-height: 46px;
+            margin: 0;
+            padding: 12px 18px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--tier-gradient);
+            color: var(--tier-button-color);
+            font-weight: 800;
+            font-size: 0.94rem;
+            line-height: 1.2;
+            cursor: pointer;
+            box-shadow: 0 10px 24px var(--tier-soft);
+            transition: transform 0.25s ease, filter 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .btn-tier:hover {
+            filter: brightness(1.08);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px var(--tier-soft);
+        }
+
+        .btn-tier:active {
+            transform: translateY(0);
+            filter: brightness(0.95);
+        }
+
+        .btn-tier:disabled,
+        .pricing-card.disabled .btn-tier {
+            cursor: not-allowed;
+            filter: grayscale(0.4) brightness(0.7);
+            opacity: 0.58;
+        }
+
+        @media (max-width: 768px) {
+            .liquid-glass-card {
+                min-height: auto;
+                padding: 1rem;
+            }
+
+            .membership-card-main {
+                gap: 0.8rem;
+            }
+
+            .membership-icon-shell {
+                width: 52px;
+                height: 52px;
+            }
+
         }
 
         /* === PHẦN ĐỘI NGŨ === */
@@ -3156,7 +3587,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 200px;
+            width: 260px;
             text-align: center;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
             /* Centered at orbit point, then offset by half width/height */
@@ -3334,15 +3765,24 @@
             color: #c084fc;
             font-size: 0.78rem;
             font-weight: 600;
-            margin-bottom: 0.2rem;
+            margin: 0 0 0.18rem;
             font-style: italic;
-            line-height: 1.35;
+            line-height: 1.22;
+            max-width: 260px;
+            text-wrap: balance;
         }
 
         .team-desc {
             color: #94A3B8;
             font-size: 0.72rem;
-            line-height: 1.4;
+            line-height: 1.25;
+            max-width: 250px;
+            margin: 0;
+            text-wrap: balance;
+        }
+
+        .team-nowrap {
+            white-space: nowrap;
         }
 
         /* Responsive: stack vertically on mobile */
@@ -3367,7 +3807,7 @@
                 position: static !important;
                 transform: none !important;
                 width: auto;
-                max-width: 280px;
+                max-width: 320px;
             }
 
             .team-member:hover {
@@ -3636,10 +4076,10 @@
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border-radius: 16px;
-            padding: 2rem;
+            padding: 1.75rem;
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 1rem;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
@@ -3650,7 +4090,7 @@
         .testimonial-quote {
             color: #cbd5e1;
             font-size: 0.95rem;
-            line-height: 1.8;
+            line-height: 1.65;
             font-style: italic;
             flex-grow: 1;
         }
@@ -3667,43 +4107,48 @@
         .testimonial-author {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding-top: 1rem;
+            gap: 14px;
+            padding-top: 0.85rem;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .testimonial-avatar {
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             object-fit: cover;
             object-position: center top;
             border: 2px solid rgba(255, 255, 255, 0.2);
+            flex: 0 0 56px;
         }
 
         .testimonial-name {
             color: #fff;
             font-size: 1rem;
             font-weight: 700;
+            line-height: 1.2;
+            margin: 0;
         }
 
         .testimonial-author-info {
             display: grid;
-            gap: 3px;
+            gap: 4px;
+            text-align: left;
+            min-width: 0;
         }
 
         .testimonial-role {
             color: #94A3B8;
             font-size: 0.85rem;
-            line-height: 1.35;
-            min-height: 2.3em;
+            line-height: 1.25;
+            margin: 0;
         }
 
         .testimonial-org {
             color: #cbd5e1;
             font-size: 0.82rem;
-            line-height: 1.35;
-            min-height: 2.2em;
+            line-height: 1.25;
+            margin: 0;
         }
 
         /* Biến thể màu đánh giá */
@@ -3865,7 +4310,7 @@
                 <div class="user-dropdown-menu">
                     <a href="javascript:void(0)" class="user-dropdown-item login-btn"
                         onclick="openAuthModal('login')">👤 Đăng nhập</a>
-                    <a href="fintop_frontend/admin/index.html" class="user-dropdown-item" id="adminAccessLink">🔐 Trang quản trị</a>
+                    <a href="admin/index.html" class="user-dropdown-item" id="adminAccessLink">🔐 Trang quản trị</a>
                     <a href="javascript:void(0)" class="user-dropdown-item"
                         onclick="alert('Mở Trung tâm trợ giúp')">Trung tâm Trợ giúp</a>
                     <a href="javascript:void(0)" class="user-dropdown-item"
@@ -3890,6 +4335,10 @@
                 placeholder="Nhập mã CP (VD: FPT, VNM...)" maxlength="10" autocomplete="off">
             <button class="stock-search-btn" onclick="addStockTicker()">⚡ Tra cứu</button>
             <span class="stock-search-hint">Nhấn Enter hoặc nút Tra cứu • Tối đa 10 mã</span>
+        </div>
+        <div
+            style="max-width: 1300px; margin: 0 auto 1rem; padding: 1rem 1.25rem; border-radius: 12px; background: rgba(168, 85, 247, 0.07); border: 1px solid rgba(168, 85, 247, 0.22); color: #cbd5e1; font-size: 0.86rem; line-height: 1.7;">
+            Thuật toán Mô hình (Model) sử dụng tích hợp AI và các Indicators (MA, Bollinger Band - Kênh xu hướng, RSI, Nến, ...) trên các khung thời gian để hiển thị các Trạng thái Mô hình (Model).
         </div>
         <div class="dark-table-wrapper">
             <table class="dark-table" id="tracuuTable">
@@ -3975,6 +4424,11 @@
                 Chỉ số thị trường cung cấp bởi FireAnt • Nhập mã cổ phiếu để xem biểu đồ giá chi tiết
             </p>
         </div>
+
+        <div class="disclaimer-msg" style="max-width: 1300px; margin: 1.5rem auto 0;">
+            <h4><span style="font-size: 1.1rem;">⚠️</span> MIỄN TRỪ TRÁCH NHIỆM!</h4>
+            <p>Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.</p>
+        </div>
     </div>
 
     <!-- ============================================ -->
@@ -3982,12 +4436,8 @@
     <!-- ============================================ -->
     <div class="submenu-panel" id="panel-boloc">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
-        <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Bộ Lọc Cổ Phiếu</h2>
-            <p>TOP trạng thái kỹ thuật Ngành đầu tư — Dữ liệu phân tích mô hình AI FinTop DATA</p>
-        </div>
 
-        <!-- HƯỚNG DẪN SỊ DỤNG -->
+        <!-- HƯỚNG DẪN SỬ DỤNG -->
         <div
             style="max-width: 1300px; margin: 0 auto 1.5rem; padding: 1.5rem 2rem; border-radius: 14px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(99, 102, 241, 0.04)); border: 1px solid rgba(168, 85, 247, 0.25); border-left: 3px solid #a855f7;">
             <h4
@@ -4006,7 +4456,18 @@
             </p>
         </div>
 
+        <div class="boloc-filter-bar">
+            <select class="boloc-filter-select" id="bolocStatusFilter" onchange="setBolocFilter('status', this.value)" aria-label="Lọc Trạng thái Model">
+                <option value="">Tất cả Trạng thái Model</option>
+            </select>
+            <select class="boloc-filter-select" id="bolocStrengthFilter" onchange="setBolocFilter('strength', this.value)" aria-label="Lọc Sức mạnh xu hướng">
+                <option value="">Tất cả Sức mạnh xu hướng</option>
+            </select>
+            <button class="boloc-filter-reset" type="button" onclick="resetBolocFilters()">Xóa lọc</button>
+        </div>
+
         <div class="dark-table-wrapper">
+            <div class="boloc-table-title">[FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ</div>
             <table class="dark-table" id="bolocTable">
                 <thead>
                     <tr>
@@ -4016,8 +4477,8 @@
                         <th>Ngành HĐKD</th>
                         <th>Update time</th>
                         <th>Mô tả Mô hình kỹ thuật (Model)</th>
-                        <th>Trạng thái Model</th>
-                        <th>Sức mạnh xu hướng<br>Dòng tiền - RSI/MFI</th>
+                        <th><span class="filterable-heading">Trạng thái Model <button class="table-filter-btn" type="button" title="Lọc Trạng thái Model" onclick="focusBolocFilter('status')">▾</button></span></th>
+                        <th><span class="filterable-heading">Sức mạnh xu hướng<br>Dòng tiền - RSI/MFI <button class="table-filter-btn" type="button" title="Lọc Sức mạnh xu hướng" onclick="focusBolocFilter('strength')">▾</button></span></th>
                         <th>Vùng kiểm định<br>kỹ thuật</th>
                         <th>Vùng kháng cự<br>kỹ thuật</th>
                         <th>Vùng hỗ trợ<br>kỹ thuật</th>
@@ -4026,6 +4487,10 @@
                 <tbody id="bolocBody">
                 </tbody>
             </table>
+        </div>
+        <div class="boloc-disclaimer">
+            <strong>MIỄN TRỪ TRÁCH NHIỆM!</strong>
+            Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.
         </div>
 
         <!-- BIỂU ĐỒ FIREANT VIỀN NEON -->
@@ -4089,17 +4554,9 @@
         </div>
 
         <!-- MIỄN TRỪ TRÁCH NHIỆM -->
-        <div
-            style="max-width: 1300px; margin: 1.5rem auto 0; padding: 1.2rem 2rem; border-radius: 12px; background: rgba(248, 113, 113, 0.06); border: 1px solid rgba(248, 113, 113, 0.2); text-align: center;">
-            <h4
-                style="color: #f87171; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.06em; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                <span style="font-size: 1.1rem;">⚠️</span> Miễn Trừ Trách Nhiệm !
-            </h4>
-            <p style="color: #94A3B8; font-size: 0.84rem; line-height: 1.7;">
-                Dữ liệu chỉ mang tính chất tham khảo, <strong style="color: #f87171;">không khuyến nghị đầu
-                    tư</strong>.<br>
-                Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.
-            </p>
+        <div class="disclaimer-msg" style="max-width: 1300px; margin: 1.5rem auto 0;">
+            <h4><span style="font-size: 1.1rem;">⚠️</span> MIỄN TRỪ TRÁCH NHIỆM!</h4>
+            <p>Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.</p>
         </div>
     </div>
 
@@ -4153,8 +4610,7 @@
         <!-- MIỄN TRỪ TRÁCH NHIỆM -->
         <div class="disclaimer-msg">
             <h4><span style="font-size: 1.1rem;">⚠️</span> Miễn Trừ Trách Nhiệm !</h4>
-            <p>Tín hiệu chỉ mang tính chất tham khảo, <strong>không khuyến nghị đầu tư</strong>.<br>
-                Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.</p>
+            <p>Tín hiệu chỉ mang tính chất tham khảo, <strong>không khuyến nghị đầu tư</strong>. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.</p>
         </div>
     </div>
 
@@ -5419,7 +5875,7 @@
         <!-- PHÂN CẢNH 1: TRANG CHỦ HERO -->
         <section class="scene scene-1">
             <div class="hero-content">
-                <h1 class="hero-title gradient-text">Kỷ Nguyên Đầu Tư Cùng FinTop DATA.</h1>
+                <h1 class="hero-title gradient-text">Kỷ Nguyên Đầu Tư Cùng FinTop DATA</h1>
                 <p class="hero-subtitle">Nơi hội tụ Data - Chuyên gia - Công nghệ & AI. Tinh gọn và hiệu quả.</p>
                 <div class="hero-cta-wrapper">
                     <button class="btn-white-huge" onclick="handleStartBtnClick()">Bắt đầu miễn
@@ -5530,57 +5986,103 @@
 
     <!-- PHẦN 4: BẢNG GIÁ HỘI VIÊN -->
     <section class="pricing-section" id="pricing">
-        <h2 class="gradient-text" style="position: relative; z-index: 1;">Chọn Gói Hội Viên</h2>
+        <h2 class="gradient-text" style="position: relative; z-index: 1;">Chọn gói Hội viên</h2>
         <p style="margin-top: 1rem; position: relative; z-index: 1;">Nâng cấp trải nghiệm đầu tư của bạn ngay hôm nay
         </p>
 
         <div class="pricing-grid">
-            <!-- GÓI STANDARD - Xanh lam -->
-            <div class="pricing-card liquid-glass-card card-standard">
-                <div class="pricing-title">STANDARD</div>
-                <div class="pricing-subtitle" style="color: #7dd3fc;">(Tiêu chuẩn)</div>
-                <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Tra cứu cổ phiếu</li>
-                    <li><span class="check-icon">✦</span> Phân tích cơ bản</li>
-                    <li><span class="check-icon">✦</span> Tool &amp; Dữ liệu cơ bản</li>
-                </ul>
-                <button class="btn-tier" onclick="submitStandard('register')">Đăng ký miễn phí</button>
+            <div class="pricing-card liquid-glass-card card-standard" data-membership-action="free" onclick="selectMembershipAction('free', this)">
+                <div class="membership-card-top">
+                    <span class="membership-card-label">ĐẶC QUYỀN HỘI VIÊN</span>
+                    <span class="membership-expand" aria-hidden="true">▾</span>
+                </div>
+                <div class="membership-card-main">
+                    <span class="membership-icon-shell membership-icon-standard" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="5.5"></circle><path d="M16 16l4 4"></path><path d="M8.5 10h5"></path><path d="M8.5 12.5h3.5"></path></svg></span></span>
+                    <div>
+                        <h3 class="membership-tier-name">Hội viên Tiêu chuẩn</h3>
+                        <div class="pricing-title">STANDARD</div>
+                        <div class="pricing-subtitle">(Tiêu chuẩn)</div>
+                    </div>
+                </div>
+                <div class="membership-benefit-panel">
+                    <ul class="pricing-features">
+                        <li><span class="check-icon">✦</span> Tra cứu cổ phiếu</li>
+                        <li><span class="check-icon">✦</span> Phân tích cơ bản</li>
+                        <li><span class="check-icon">✦</span> Tool &amp; Dữ liệu cơ bản</li>
+                    </ul>
+                </div>
+                <button class="btn-tier" type="button" data-plan-id="standard" data-membership-action="free" onclick="handlePricingCardAction(this, event)">Đăng ký miễn phí</button>
             </div>
 
-            <!-- GÓI PRO - Tím -->
-            <div class="pricing-card liquid-glass-card card-pro">
-                <div class="pricing-title">PRO</div>
-                <div class="pricing-subtitle" style="color: #c4b5fd;">(Chuyên nghiệp)</div>
-                <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Bộ lọc cổ phiếu</li>
-                    <li><span class="check-icon">✦</span> Pro Research</li>
-                    <li><span class="check-icon">✦</span> Pro Data</li>
-                </ul>
-                <button class="btn-tier" onclick="openPricingModal('pro')">Đăng ký PRO</button>
+            <div class="pricing-card liquid-glass-card card-pro" data-membership-action="pro" onclick="selectMembershipAction('pro', this)">
+                <div class="membership-card-top">
+                    <span class="membership-card-label">ĐẶC QUYỀN HỘI VIÊN</span>
+                    <span class="membership-expand" aria-hidden="true">▾</span>
+                </div>
+                <div class="membership-card-main">
+                    <span class="membership-icon-shell membership-icon-pro" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5h16l-6.2 7.1v4.9L10.2 19v-6.4L4 5.5z"></path><path d="M8 5.5h8"></path></svg></span></span>
+                    <div>
+                        <h3 class="membership-tier-name">Hội viên PRO</h3>
+                        <div class="pricing-title">PRO</div>
+                        <div class="pricing-subtitle">(Chuyên nghiệp)</div>
+                        <span class="membership-badge">Phổ biến nhất</span>
+                    </div>
+                </div>
+                <div class="membership-benefit-panel">
+                    <ul class="pricing-features">
+                        <li><span class="check-icon">✦</span> Bộ lọc cổ phiếu</li>
+                        <li><span class="check-icon">✦</span> Pro Research</li>
+                        <li><span class="check-icon">✦</span> Pro Data</li>
+                    </ul>
+                </div>
+                <button class="btn-tier" type="button" data-plan-id="pro" data-membership-action="pro" onclick="handlePricingCardAction(this, event)">Đăng ký PRO</button>
             </div>
 
-            <!-- GÓI V.I.P - Xanh ngọc -->
-            <div class="pricing-card liquid-glass-card card-vip">
-                <div class="pricing-title">V.I.P</div>
-                <div class="pricing-subtitle" style="color: #6ee7b7;">(Cao cấp)</div>
-                <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
-                    <li><span class="check-icon">✦</span> Kết nối Chuyên gia</li>
-                    <li><span class="check-icon">✦</span> Phân tích Chuyên gia</li>
-                </ul>
-                <button class="btn-tier" onclick="openPricingModal('vip')">Đăng ký V.I.P</button>
+            <div class="pricing-card liquid-glass-card card-vip" data-membership-action="vip" onclick="selectMembershipAction('vip', this)">
+                <div class="membership-card-top">
+                    <span class="membership-card-label">ĐẶC QUYỀN HỘI VIÊN</span>
+                    <span class="membership-expand" aria-hidden="true">▾</span>
+                </div>
+                <div class="membership-card-main">
+                    <span class="membership-icon-shell membership-icon-vip" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M4.5 17.5h15l-1 3h-13l-1-3z"></path><path d="M5.5 16.5 7 7l5 5 5-5 1.5 9.5"></path><path d="M12 12V4"></path><path d="M10 4h4"></path></svg></span></span>
+                    <div>
+                        <h3 class="membership-tier-name">Hội viên V.I.P</h3>
+                        <div class="pricing-title">V.I.P</div>
+                        <div class="pricing-subtitle">(Cao cấp)</div>
+                        <span class="membership-badge">Khuyến nghị</span>
+                    </div>
+                </div>
+                <div class="membership-benefit-panel">
+                    <ul class="pricing-features">
+                        <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
+                        <li><span class="check-icon">✦</span> Kết nối Chuyên gia</li>
+                        <li><span class="check-icon">✦</span> Phân tích Chuyên gia</li>
+                    </ul>
+                </div>
+                <button class="btn-tier" type="button" data-plan-id="vip" data-membership-action="vip" onclick="handlePricingCardAction(this, event)">Liên kết V.I.P</button>
             </div>
 
-            <!-- GÓI DIAMOND - Vàng -->
-            <div class="pricing-card liquid-glass-card card-diamond">
-                <div class="pricing-title">DIAMOND</div>
-                <div class="pricing-subtitle" style="color: #fcd34d;">(Kim cương)</div>
-                <ul class="pricing-features">
-                    <li><span class="check-icon">✦</span> Đặc quyền V.I.P</li>
-                    <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
-                    <li><span class="check-icon">✦</span> Cố vấn 1-1 Chuyên gia</li>
-                </ul>
-                <button class="btn-tier" onclick="openPricingModal('diamond')">Đăng ký Diamond</button>
+            <div class="pricing-card liquid-glass-card card-diamond" data-membership-action="diamond" onclick="selectMembershipAction('diamond', this)">
+                <div class="membership-card-top">
+                    <span class="membership-card-label">ĐẶC QUYỀN HỘI VIÊN</span>
+                    <span class="membership-expand" aria-hidden="true">▾</span>
+                </div>
+                <div class="membership-card-main">
+                    <span class="membership-icon-shell membership-icon-diamond" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M6.5 4h11L22 10l-10 10L2 10l4.5-6z"></path><path d="M2 10h20"></path><path d="M8.5 4 12 20 15.5 4"></path></svg></span></span>
+                    <div>
+                        <h3 class="membership-tier-name">Hội viên Diamond</h3>
+                        <div class="pricing-title">DIAMOND</div>
+                        <div class="pricing-subtitle">(Kim cương)</div>
+                    </div>
+                </div>
+                <div class="membership-benefit-panel">
+                    <ul class="pricing-features">
+                        <li><span class="check-icon">✦</span> Đặc quyền V.I.P</li>
+                        <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
+                        <li><span class="check-icon">✦</span> Cố vấn 1-1 Chuyên gia</li>
+                    </ul>
+                </div>
+                <button class="btn-tier" type="button" data-plan-id="diamond" data-membership-action="diamond" onclick="handlePricingCardAction(this, event)">Liên kết Diamond</button>
             </div>
         </div>
     </section>
@@ -5590,7 +6092,7 @@
         <h2 class="gradient-text" style="position: relative; z-index: 1;">Đội ngũ Chuyên gia</h2>
         <p
             style="margin-top: 1rem; position: relative; z-index: 1; color: #94A3B8; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-            Hợp tác cùng Chuyên gia trên nền tảng Công nghệ &amp; Dữ liệu FinTop DATA.
+            Đồng hành cùng Chuyên gia trên nền tảng Công nghệ &amp; Dữ liệu FinTop DATA.
         </p>
 
         <!-- Vòng tròn chuyên gia -->
@@ -5606,18 +6108,18 @@
                 </div>
                 <h3 class="team-name">Nguyễn Đình Hải (Mr)</h3>
                 <p class="team-role">Giám đốc NC&amp;PT Dữ liệu đầu tư</p>
-                <p class="team-desc">Nghiên cứu thị trường &amp; Quản trị chiến lược</p>
+                <p class="team-desc">Nghiên cứu thị trường &amp; <span class="team-nowrap">Quản trị chiến lược</span></p>
             </div>
 
             <!-- 2. Trái trên -->
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-green">
-                    <img src="assets/images/anh_Phuc.jpg" alt="Nguyễn Thành Phúc" class="team-avatar"
+                    <img src="assets/images/anh_Phuc.jpeg" alt="Nguyễn Thành Phúc" class="team-avatar"
                         onerror="this.src='assets/images/placeholder.png'">
                 </div>
                 <h3 class="team-name">Nguyễn Thành Phúc (Mr)</h3>
-                <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
-                <p class="team-desc">Dữ liệu Doanh nghiệp &amp; Cổ phiếu</p>
+                <p class="team-role">Chuyên gia Nghiên cứu &amp; <span class="team-nowrap">Phân tích</span></p>
+                <p class="team-desc">Dữ liệu <span class="team-nowrap">Doanh nghiệp</span> &amp; Cổ phiếu</p>
             </div>
 
             <!-- 3. Phải trên -->
@@ -5626,8 +6128,8 @@
                     <img src="assets/images/anh_Linh.png" alt="Trần Khánh Linh" class="team-avatar">
                 </div>
                 <h3 class="team-name">Trần Khánh Linh (Mr)</h3>
-                <p class="team-role">Chuyên gia Nghiên cứu &amp; Phân tích</p>
-                <p class="team-desc">Doanh nghiệp &amp; Ngành kinh tế</p>
+                <p class="team-role">Chuyên gia Nghiên cứu &amp; <span class="team-nowrap">Phân tích</span></p>
+                <p class="team-desc"><span class="team-nowrap">Doanh nghiệp</span> &amp; Ngành kinh tế</p>
             </div>
 
             <!-- 4. Trái dưới -->
@@ -5637,7 +6139,7 @@
                 </div>
                 <h3 class="team-name">Nguyễn Minh Hạnh (Ms)</h3>
                 <p class="team-role">Chuyên gia NC&amp;PT Vĩ mô - Ngành</p>
-                <p class="team-desc">Thạc sĩ Kinh tế chiến lược (FSU JENA, Đức)</p>
+                <p class="team-desc">Thạc sĩ Kinh tế chiến lược<br><span class="team-nowrap">(FSU JENA, Đức)</span></p>
             </div>
 
             <!-- 5. Phải dưới -->
@@ -5646,8 +6148,8 @@
                     <img src="assets/images/anh_Dung.png" alt="Mai Tiến Dũng" class="team-avatar">
                 </div>
                 <h3 class="team-name">Mai Tiến Dũng (Mr)</h3>
-                <p class="team-role">Chuyên gia NC&amp;PT Doanh nghiệp</p>
-                <p class="team-desc">Thạc sĩ Tài chính số - FinTech (Loughborough Uni, Anh)</p>
+                <p class="team-role">Chuyên gia NC&amp;PT <span class="team-nowrap">Doanh nghiệp</span></p>
+                <p class="team-desc">Thạc sĩ Tài chính số - FinTech <span class="team-nowrap">(Loughborough Uni, Anh)</span></p>
             </div>
         </div>
     </section>
@@ -5726,7 +6228,7 @@
                     ích cho mình là một người công tác trong lĩnh vực Tài chính với dữ liệu kinh tế vĩ mô, nghiên cứu về
                     ngành và doanh nghiệp. Đặc biệt có phần tra cứu xu hướng vận động cổ phiếu của các doanh nghiệp rất
                     hay và hiệu quả bên cạnh chia sẻ những cẩm nang, kiến thức, tài liệu và phương pháp nghiên cứu để
-                    mọi người cùng tìm hiểu. Chúc FinTop Team sẽ tiếp tục phát huy và luôn có những sản phẩm chất lượng
+                    mọi người cùng tìm hiểu. Chúc đội ngũ FinTop sẽ tiếp tục phát huy và luôn có những sản phẩm chất lượng
                     nhất đến khách hàng.
                     <span class="quote-mark">&rdquo;</span>
                 </div>
@@ -5767,7 +6269,7 @@
                             alt="Phone" width="20" height="20" style="vertical-align: middle;"> Hotline: <a
                             href="tel:0862348886" style="color: #c084fc;">086.234.8886</a></p>
                     <p style="display: flex; align-items: center; gap: 6px;">📧 Email: <a
-                            href="mailto:DVKH@fintopdata.vn" style="color: #c084fc;">DVKH@fintopdata.vn</a></p>
+                            href="mailto:fintopdata.info@gmail.com" style="color: #c084fc;">fintopdata.info@gmail.com</a></p>
                     <p style="display: flex; align-items: center; gap: 6px;">📍 65 Ô Chợ Dừa, Đống Đa, Hà Nội</p>
                 </div>
             </div>
@@ -5869,6 +6371,46 @@
         // Track searched tickers
         let searchedTickers = [];
         let bolocRendered = false;
+        let bolocFilters = { status: '', strength: '' };
+
+        const BOLOC_STATUS_COLORS = {
+            'RẤT TÍCH CỰC': {
+                bg: 'rgba(168, 85, 247, 0.2)',
+                text: '#E9D5FF',
+                border: 'rgba(216, 180, 254, 0.58)',
+                shadow: 'none'
+            },
+            'TÍCH CỰC': {
+                bg: 'rgba(16, 185, 129, 0.18)',
+                text: '#A7F3D0',
+                border: 'rgba(52, 211, 153, 0.55)',
+                shadow: 'none'
+            },
+            'KHẢ QUAN': {
+                bg: 'rgba(245, 158, 11, 0.16)',
+                text: '#FDE68A',
+                border: 'rgba(251, 191, 36, 0.52)',
+                shadow: 'none'
+            },
+            'TRUNG LẬP': {
+                bg: 'rgba(100, 116, 139, 0.18)',
+                text: '#E2E8F0',
+                border: 'rgba(148, 163, 184, 0.36)',
+                shadow: 'none'
+            },
+            'KO TÍCH CỰC': {
+                bg: 'rgba(249, 115, 22, 0.16)',
+                text: '#FDBA74',
+                border: 'rgba(251, 146, 60, 0.45)',
+                shadow: 'none'
+            },
+            'TIÊU CỰC': {
+                bg: 'rgba(239, 68, 68, 0.16)',
+                text: '#FCA5A5',
+                border: 'rgba(248, 113, 113, 0.45)',
+                shadow: 'none'
+            }
+        };
 
         // Toggle dropdown pin
         function toggleDropdownPin(dropdownId) {
@@ -6164,6 +6706,104 @@
             input.focus();
         }
 
+        function formatStockDisplayTime(value) {
+            const raw = String(value || '').trim();
+            if (!raw) return '';
+
+            const compact = raw
+                .replace(/\\n/g, ' ')
+                .replace(/\n/g, ' ')
+                .replace(/\s+/g, ' ')
+                .replace(/(\d{1,2})h(\d{2})/i, '$1:$2')
+                .trim();
+
+            const match = compact.match(/(\d{1,2}):(\d{2})(?::\d{2})?\s+(\d{1,2})[/-](\d{1,2})/);
+            if (match) {
+                const hour = match[1].padStart(2, '0');
+                const minute = match[2];
+                const day = match[3].padStart(2, '0');
+                const month = match[4].padStart(2, '0');
+                return `${hour}:${minute} ${day}/${month}`;
+            }
+
+            return compact.replace(/(\d{1,2}:\d{2}):\d{2}/, '$1');
+        }
+
+        function getBolocStatusText(row) {
+            return row.statusText || row.modelStatusText || row.model_status_text || 'TRUNG LẬP';
+        }
+
+        function normalizeBolocLabel(value) {
+            return String(value || '').trim().toUpperCase().replace(/\s+/g, ' ');
+        }
+
+        function getBolocStrengthText(row) {
+            return row.trend || row.strength || row.strengthText || row.rsiMfi || row.rsi_mfi || '';
+        }
+
+        function getBolocStatusColors(statusText) {
+            return BOLOC_STATUS_COLORS[normalizeBolocLabel(statusText)] || {
+                bg: 'rgba(148, 163, 184, 0.14)',
+                text: '#E2E8F0',
+                border: 'rgba(226, 232, 240, 0.22)',
+                shadow: 'none'
+            };
+        }
+
+        function getBolocStrengthTextColor(strengthText) {
+            return '#C084FC';
+        }
+
+        function getFilteredBolocData() {
+            return BOLOC_DATA.filter((row) => {
+                const statusText = getBolocStatusText(row);
+                const strengthText = getBolocStrengthText(row);
+                const matchesStatus = !bolocFilters.status || statusText === bolocFilters.status;
+                const matchesStrength = !bolocFilters.strength || strengthText === bolocFilters.strength;
+                return matchesStatus && matchesStrength;
+            });
+        }
+
+        function populateBolocFilterOptions() {
+            const statusSelect = document.getElementById('bolocStatusFilter');
+            const strengthSelect = document.getElementById('bolocStrengthFilter');
+            if (!statusSelect || !strengthSelect) return;
+
+            const statuses = [...new Set(BOLOC_DATA.map(getBolocStatusText).filter(Boolean))];
+            const strengths = [...new Set(BOLOC_DATA.map(getBolocStrengthText).filter(Boolean))];
+
+            const selectedStatus = bolocFilters.status;
+            const selectedStrength = bolocFilters.strength;
+            statusSelect.innerHTML = '<option value="">Tất cả Trạng thái Model</option>' +
+                statuses.map((status) => `<option value="${escapeHtml(status)}">${escapeHtml(status)}</option>`).join('');
+            strengthSelect.innerHTML = '<option value="">Tất cả Sức mạnh xu hướng</option>' +
+                strengths.map((strength) => `<option value="${escapeHtml(strength)}">${escapeHtml(strength)}</option>`).join('');
+            statusSelect.value = selectedStatus;
+            strengthSelect.value = selectedStrength;
+        }
+
+        function setBolocFilter(type, value) {
+            bolocFilters[type] = value;
+            renderBolocTable();
+        }
+
+        function resetBolocFilters() {
+            bolocFilters = { status: '', strength: '' };
+            renderBolocTable();
+        }
+
+        function focusBolocFilter(type) {
+            const select = document.getElementById(type === 'strength' ? 'bolocStrengthFilter' : 'bolocStatusFilter');
+            if (select) {
+                select.focus();
+                select.click();
+            }
+        }
+
+        window.setBolocFilter = setBolocFilter;
+        window.resetBolocFilters = resetBolocFilters;
+        window.focusBolocFilter = focusBolocFilter;
+
         function renderTracuuTable() {
             const tbody = document.getElementById('tracuuBody');
             const empty = document.getElementById('tracuuEmpty');
@@ -6186,12 +6826,12 @@
                 tr.style.animationDelay = `${i * 0.05}s`;
                 tr.innerHTML = `
                     <td>${i + 1}</td>
-                    <td class="ticker-cell">${ticker}</td>
-                    <td>${d.san}</td>
-                    <td>${d.nganh}</td>
-                    <td class="time-cell">${d.time}</td>
-                    <td class="desc-cell">${d.desc}</td>
-                    <td><span class="status-badge ${d.status}">${d.statusText}</span></td>
+                    <td class="ticker-cell">${escapeHtml(ticker)}</td>
+                    <td>${escapeHtml(d.san)}</td>
+                    <td>${escapeHtml(d.nganh)}</td>
+                    <td class="time-cell">${escapeHtml(formatStockDisplayTime(d.time))}</td>
+                    <td class="desc-cell">${escapeHtml(d.desc)}</td>
+                    <td><span class="status-badge ${escapeHtml(d.status || 'neutral')}">${escapeHtml(d.statusText)}</span></td>
                 `;
                 const tickerTd = tr.querySelector('.ticker-cell');
                 if (tickerTd) {
@@ -6209,11 +6849,14 @@
         function renderBolocTable() {
             const tbody = document.getElementById('bolocBody');
             tbody.innerHTML = '';
+            populateBolocFilterOptions();
+
+            const rows = getFilteredBolocData();
 
             if (BOLOC_DATA.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="11" style="text-align: center; color: #94A3B8; padding: 24px;">
+                        <td colspan="11" style="text-align: center; color: #E2E8F0; padding: 24px;">
                             Chưa tải được dữ liệu bộ lọc cổ phiếu.
                         </td>
                     </tr>
@@ -6221,25 +6864,39 @@
                 return;
             }
 
-            BOLOC_DATA.forEach((d, i) => {
+            if (rows.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="11" style="text-align: center; color: #E2E8F0; padding: 24px;">
+                            Không có dữ liệu phù hợp với bộ lọc hiện tại.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            rows.forEach((d, i) => {
                 const tr = document.createElement('tr');
                 tr.className = 'animate-in';
                 tr.style.animationDelay = `${i * 0.04}s`;
-                const statusMarkup = d.statusText
-                    ? `<span class="status-badge ${d.status}">${d.statusText}</span>`
-                    : '';
+                const statusText = getBolocStatusText(d);
+                const strengthText = getBolocStrengthText(d);
+                const statusColors = getBolocStatusColors(statusText);
+                const strengthTextColor = getBolocStrengthTextColor(strengthText);
                 tr.innerHTML = `
                     <td>${i + 1}</td>
-                    <td class="ticker-cell">${d.ticker}</td>
-                    <td>${d.san}</td>
-                    <td>${d.nganh}</td>
-                    <td class="time-cell">${d.time}</td>
-                    <td class="desc-cell">${d.desc}</td>
-                    <td>${statusMarkup}</td>
-                    <td class="trend-cell">${d.trend}</td>
-                    <td class="price-cell">${d.vungKiemDinh}</td>
-                    <td class="price-cell">${d.khangCu}</td>
-                    <td class="score-cell">${d.hoTro}</td>
+                    <td class="ticker-cell">${escapeHtml(d.ticker)}</td>
+                    <td>${escapeHtml(d.san)}</td>
+                    <td>${escapeHtml(d.nganh)}</td>
+                    <td class="time-cell">${escapeHtml(formatStockDisplayTime(d.time))}</td>
+                    <td class="desc-cell">${escapeHtml(d.desc)}</td>
+                    <td class="boloc-status-cell">
+                        <span class="boloc-status-badge" style="--status-bg: ${statusColors.bg}; --status-text: ${statusColors.text}; --status-border: ${statusColors.border}; --status-shadow: ${statusColors.shadow};">${escapeHtml(statusText)}</span>
+                    </td>
+                    <td class="boloc-strength-cell" style="--strength-text: ${strengthTextColor};">${escapeHtml(strengthText)}</td>
+                    <td class="price-cell">${escapeHtml(d.vungKiemDinh)}</td>
+                    <td class="price-cell">${escapeHtml(d.khangCu)}</td>
+                    <td class="boloc-support-cell">${escapeHtml(d.hoTro)}</td>
                 `;
                 // Make ticker cell clickable to change chart
                 const tickerTd = tr.querySelector('.ticker-cell');
@@ -6392,7 +7049,7 @@
                     name: 'V.I.P',
                     subtitle: 'Cao cấp',
                     price: 'CS hợp tác - không thu phí',
-                    cta: 'Đăng ký V.I.P',
+                    cta: 'Liên kết V.I.P',
                     status: 'Đang mở',
                     features: 'Đặc quyền PRO; Kết nối Chuyên gia; Phân tích Chuyên gia',
                     popupTitle: 'Đặc quyền V.I.P FinTop DATA',
@@ -6403,10 +7060,10 @@
                     name: 'DIAMOND',
                     subtitle: 'Kim cương',
                     price: 'CS hợp tác - không thu phí',
-                    cta: 'Đăng ký Diamond',
+                    cta: 'Liên kết Diamond',
                     status: 'Tư vấn riêng',
                     features: 'Đặc quyền V.I.P; Đặc quyền PRO; Cố vấn 1-1 Chuyên gia',
-                    popupTitle: 'Gói hỗ trợ VIP PRO đặc biệt',
+                    popupTitle: 'Liên kết tài khoản Diamond',
                     popupContent: 'Dành cho khách hàng cần cố vấn chiến lược danh mục, quản trị rủi ro và đồng hành chuyên sâu.'
                 }
             };
@@ -6477,7 +7134,7 @@
                 vip: {
                     title: 'Liên kết tài khoản chứng khoán (ID FinTop)',
                     copy: 'Gói V.I.P dành cho khách hàng muốn kết nối chuyên gia và sử dụng quyền lợi nâng cao thông qua tài khoản chứng khoán liên kết với FinTop.',
-                    actionLabel: 'Đăng ký V.I.P',
+                    actionLabel: 'Liên kết V.I.P',
                     action: "openPricingModal('vip')",
                     approval: true,
                     approvalNote: 'FinTop sẽ thông báo khi tài khoản V.I.P được xác nhận.',
@@ -6496,8 +7153,13 @@
                 diamond: {
                     title: 'Liên kết tài khoản Diamond (NAV từ 1 tỷ VND)',
                     copy: 'Gói Diamond dành cho khách hàng có NAV từ 1 tỷ VND và cần đồng hành chuyên sâu về chiến lược danh mục, báo cáo định kỳ và cố vấn 1-1.',
-                    actionLabel: 'Đăng ký Diamond',
+                    actionLabel: 'Yêu cầu phê duyệt',
                     action: "openPricingModal('diamond')",
+                    actionButtons: [
+                        { label: 'Mở TK VPS', action: "submitDiamond('open')", variant: 'primary' },
+                        { label: 'Mở TK TCBS', action: "submitDiamond('open')", variant: 'ghost' },
+                        { label: 'Yêu cầu phê duyệt', action: "openPricingModal('diamond')", variant: 'primary' }
+                    ],
                     approval: true,
                     approvalNote: 'FinTop sẽ liên hệ để xác nhận thông tin và kích hoạt dịch vụ Diamond.',
                     steps: [
@@ -6533,13 +7195,20 @@
                 `;
             }).join('');
 
+            const actionMarkup = Array.isArray(flow.actionButtons) && flow.actionButtons.length
+                ? `<div class="membership-flow-actions">${flow.actionButtons.map((button) => {
+                    const buttonClass = button.variant === 'ghost' ? 'function-btn-ghost' : 'function-btn';
+                    return `<button class="${buttonClass}" type="button" onclick="${button.action}">${escapeHtml(button.label)}</button>`;
+                }).join('')}</div>`
+                : `<div class="membership-flow-actions"><button class="function-btn" type="button" onclick="${flow.action}">${escapeHtml(flow.actionLabel)}</button></div>`;
+
             panel.innerHTML = `
                 <div class="membership-flow-head">
                     <div>
                         <div class="membership-flow-title">${escapeHtml(flow.title)}</div>
                         <div class="membership-flow-copy">${escapeHtml(flow.copy)}</div>
                     </div>
-                    <button class="function-btn" type="button" onclick="${flow.action}">${escapeHtml(flow.actionLabel)}</button>
+                    ${actionMarkup}
                 </div>
                 <div class="membership-step-grid">${stepsMarkup}</div>
                 <div class="membership-user-summary">
@@ -6764,6 +7433,41 @@
             return subtitle.startsWith('(') ? subtitle : `(${subtitle})`;
         }
 
+        function membershipTierName(plan) {
+            const id = String(plan.id || '').toLowerCase();
+            if (id === 'standard' || id === 'free') return 'Hội viên Tiêu chuẩn';
+            if (id.includes('diamond')) return 'Hội viên Diamond';
+            if (id.includes('vip')) return 'Hội viên V.I.P';
+            if (id.includes('pro')) return 'Hội viên PRO';
+            return `Hội viên ${planDisplayName(plan) || 'FinTop'}`;
+        }
+
+        function membershipIconType(planId) {
+            const id = String(planId || '').toLowerCase();
+            if (id.includes('diamond')) return 'diamond';
+            if (id.includes('vip')) return 'vip';
+            if (id.includes('pro')) return 'pro';
+            return 'standard';
+        }
+
+        function membershipIconMarkup(planId) {
+            const type = membershipIconType(planId);
+            const icons = {
+                standard: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="5.5"></circle><path d="M16 16l4 4"></path><path d="M8.5 10h5"></path><path d="M8.5 12.5h3.5"></path></svg>',
+                pro: '<svg viewBox="0 0 24 24"><path d="M4 5.5h16l-6.2 7.1v4.9L10.2 19v-6.4L4 5.5z"></path><path d="M8 5.5h8"></path></svg>',
+                vip: '<svg viewBox="0 0 24 24"><path d="M4.5 17.5h15l-1 3h-13l-1-3z"></path><path d="M5.5 16.5 7 7l5 5 5-5 1.5 9.5"></path><path d="M12 12V4"></path><path d="M10 4h4"></path></svg>',
+                diamond: '<svg viewBox="0 0 24 24"><path d="M6.5 4h11L22 10l-10 10L2 10l4.5-6z"></path><path d="M2 10h20"></path><path d="M8.5 4 12 20 15.5 4"></path></svg>'
+            };
+            return `<span class="membership-icon-shell membership-icon-${type}" aria-hidden="true"><span class="membership-tier-icon">${icons[type]}</span></span>`;
+        }
+
+        function membershipBadgeForPlan(planId) {
+            const id = String(planId || '').toLowerCase();
+            if (id.includes('pro')) return 'Phổ biến nhất';
+            if (id.includes('vip')) return 'Khuyến nghị';
+            return '';
+        }
+
         function membershipActionForPlan(planId) {
             const id = String(planId || '').toLowerCase();
             if (id === 'standard' || id === 'free') return 'free';
@@ -6786,25 +7490,45 @@
             openPricingModal(planId);
         }
 
+        function renderMembershipCard(plan) {
+            const planId = String(plan.id || 'standard').trim() || 'standard';
+            const cardClassId = planId.toLowerCase().replace(/[^a-z0-9_-]/g, '') || 'standard';
+            const features = splitList(plan.features);
+            const action = membershipActionForPlan(planId);
+            const subtitle = planSubtitleDisplay(plan);
+            const badge = membershipBadgeForPlan(planId);
+
+            return `
+                <div class="pricing-card liquid-glass-card card-${escapeHtml(cardClassId)}" data-membership-action="${escapeHtml(action)}" onclick="selectMembershipAction('${escapeHtml(action)}', this)">
+                    <div class="membership-card-top">
+                        <span class="membership-card-label">ĐẶC QUYỀN HỘI VIÊN</span>
+                        <span class="membership-expand" aria-hidden="true">▾</span>
+                    </div>
+                    <div class="membership-card-main">
+                        ${membershipIconMarkup(planId)}
+                        <div>
+                            <h3 class="membership-tier-name">${escapeHtml(membershipTierName(plan))}</h3>
+                            <div class="pricing-title">${escapeHtml(planDisplayName(plan))}</div>
+                            <div class="pricing-subtitle">${escapeHtml(subtitle)}</div>
+                            ${badge ? `<span class="membership-badge">${escapeHtml(badge)}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="membership-benefit-panel">
+                        <ul class="pricing-features">
+                            ${features.map((feature) => `<li><span class="check-icon">✦</span> ${escapeHtml(feature)}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <button class="btn-tier" type="button" data-plan-id="${escapeHtml(planId)}" data-membership-action="${escapeHtml(action)}" onclick="handlePricingCardAction(this, event)">${escapeHtml(plan.cta || 'Đăng ký')}</button>
+                </div>
+            `;
+        }
+
         function renderMemberships() {
             MEMBERSHIP_DATA = normalizeMembershipPlans(MEMBERSHIP_DATA);
             if (MEMBERSHIP_DATA.length === 0) return;
             const pricingGrids = document.querySelectorAll('#pricing .pricing-grid, #panelMembershipPricingGrid');
             pricingGrids.forEach((pricingGrid) => {
-                pricingGrid.innerHTML = MEMBERSHIP_DATA.map((plan) => {
-                    const features = splitList(plan.features);
-                    const action = membershipActionForPlan(plan.id);
-                    return `
-                        <div class="pricing-card liquid-glass-card card-${escapeHtml(plan.id)}" data-membership-action="${escapeHtml(action)}" onclick="selectMembershipAction('${escapeHtml(action)}', this)">
-                            <div class="pricing-title">${escapeHtml(planDisplayName(plan))}</div>
-                            <div class="pricing-subtitle">${escapeHtml(planSubtitleDisplay(plan))}</div>
-                            <ul class="pricing-features">
-                                ${features.map((feature) => `<li><span class="check-icon">✦</span> ${escapeHtml(feature)}</li>`).join('')}
-                            </ul>
-                            <button class="btn-tier" type="button" data-plan-id="${escapeHtml(plan.id)}" data-membership-action="${escapeHtml(action)}" onclick="handlePricingCardAction(this, event)">${escapeHtml(plan.cta || 'Đăng ký')}</button>
-                        </div>
-                    `;
-                }).join('');
+                pricingGrid.innerHTML = MEMBERSHIP_DATA.map(renderMembershipCard).join('');
             });
 
             const membershipGrid = document.querySelector('#panel-hoivien .function-grid');
@@ -6828,7 +7552,7 @@
                 const title = modal.querySelector('.modal-hero-title');
                 const subtitle = modal.querySelector('.modal-hero-subtitle');
                 const features = modal.querySelector('.modal-features-list');
-                if (title) title.textContent = plan.name;
+                if (title) title.textContent = membershipTierName(plan);
                 if (subtitle) subtitle.textContent = plan.subtitle ? `(${plan.subtitle})` : '';
                 if (features) {
                     features.innerHTML = splitList(plan.features)
@@ -6862,14 +7586,15 @@
                 san: row.exchange || row.san || '',
                 nganh: row.sector || row.nganh || '',
                 canBo: row.officer || row.canBo || 'FinTop DATA',
-                time: row.synced_at ? new Date(row.synced_at).toLocaleString('vi-VN') : (row.time || ''),
+                time: row.synced_at ? formatStockDisplayTime(new Date(row.synced_at).toLocaleString('vi-VN')) : formatStockDisplayTime(row.time || ''),
                 desc: row.model_desc || row.desc || '',
                 status: row.model_status || row.status || 'neutral',
                 statusText: row.model_status_text || row.statusText || 'TRUNG LẬP',
-                trend: row.trend || '',
-                vungKiemDinh: row.validation_zone || row.vungKiemDinh || '',
-                khangCu: row.resistance_zone || row.khangCu || '',
-                hoTro: row.support_zone || row.hoTro || '',
+                modelResult: row.model_result_text || row.modelResult || row.resultText || row.model_status_text || row.statusText || 'TRUNG LẬP',
+                trend: row.trend || row.strength || row.strength_text || row.rsi_mfi || '',
+                vungKiemDinh: row.validation_zone || row.vungKiemDinh || row.test_zone || '',
+                khangCu: row.resistance_zone || row.khangCu || row.resistance || '',
+                hoTro: row.support_zone || row.hoTro || row.support || '',
                 price: row.price,
                 change_pct: row.change_pct,
                 updated_at: row.updated_at
@@ -6881,7 +7606,7 @@
                 acc[row.ticker] = {
                     san: row.exchange || row.san || '',
                     nganh: row.sector || row.nganh || '',
-                    time: row.synced_at ? new Date(row.synced_at).toLocaleString('vi-VN') : (row.time || ''),
+                    time: row.synced_at ? formatStockDisplayTime(new Date(row.synced_at).toLocaleString('vi-VN')) : formatStockDisplayTime(row.time || ''),
                     desc: row.model_desc || row.desc || '',
                     status: row.model_status || row.status || 'neutral',
                     statusText: row.model_status_text || row.statusText || 'TRUNG LẬP',
@@ -7528,9 +8253,9 @@
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
-                        📦
+                        <span class="membership-icon-shell membership-icon-standard" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="5.5"></circle><path d="M16 16l4 4"></path><path d="M8.5 10h5"></path><path d="M8.5 12.5h3.5"></path></svg></span></span>
                     </div>
-                    <div class="modal-hero-title">STANDARD</div>
+                    <div class="modal-hero-title">Hội viên Tiêu chuẩn</div>
                     <div class="modal-hero-subtitle">(Tiêu chuẩn)</div>
                 </div>
                 <div class="modal-hero-right">
@@ -7543,7 +8268,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <h4 class="text-center mb-4" style="color:#7dd3fc;">Đăng ký tài khoản FinTop DATA miễn phí!</h4>
+                <h4 class="text-center mb-4" style="color:var(--modal-accent);">Đăng ký tài khoản FinTop DATA miễn phí!</h4>
                 <div class="modal-steps-container">
                     <div class="modal-step-box">
                         <div class="step-label">Bước 1</div>
@@ -7568,9 +8293,9 @@
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
-                        ⭐
+                        <span class="membership-icon-shell membership-icon-pro" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5h16l-6.2 7.1v4.9L10.2 19v-6.4L4 5.5z"></path><path d="M8 5.5h8"></path></svg></span></span>
                     </div>
-                    <div class="modal-hero-title">PROFESSIONAL</div>
+                    <div class="modal-hero-title">Hội viên PRO</div>
                     <div class="modal-hero-subtitle">(Chuyên nghiệp)</div>
                 </div>
                 <div class="modal-hero-right">
@@ -7582,7 +8307,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <h4 class="text-center mb-2" style="color:#c4b5fd; font-size: 1.1rem;">Đăng ký Hội viên PRO FinTop DATA</h4>
+                <h4 class="text-center mb-2" style="color:var(--modal-accent); font-size: 1.1rem;">Đăng ký Hội viên PRO FinTop DATA</h4>
                 <div class="modal-steps-container mt-4 pro-steps-2col">
                     <div class="modal-step-box" style="text-align: left;">
                         <div class="step-label" style="text-align: center;">Bước 1: Chọn gói Hội viên và thanh toán</div>
@@ -7591,15 +8316,15 @@
                         <div class="pro-packages-grid">
                             <div class="pro-package-card active" data-package="PRO1" data-months="3">
                                 <div class="pro-pkg-title">PRO1 (3 tháng)</div>
-                                <div class="pro-pkg-price">2.000.000 VND</div>
+                                <div class="pro-pkg-price">2.500.000 VND</div>
                             </div>
                             <div class="pro-package-card" data-package="PRO2" data-months="6">
                                 <div class="pro-pkg-title">PRO2 (6 tháng)</div>
-                                <div class="pro-pkg-price">3.500.000 VND</div>
+                                <div class="pro-pkg-price">4.500.000 VND</div>
                             </div>
                             <div class="pro-package-card" data-package="PRO3" data-months="12">
                                 <div class="pro-pkg-title">PRO3 (12 tháng)</div>
-                                <div class="pro-pkg-price">6.000.000 VND</div>
+                                <div class="pro-pkg-price">8.000.000 VND</div>
                             </div>
                         </div>
 
@@ -7610,7 +8335,7 @@
                             </div>
                             <div class="payment-info-row">
                                 <div class="payment-label">Số tài khoản:</div>
-                                <div class="payment-value" style="color:#c4b5fd;">86 286 243 8886</div>
+                                <div class="payment-value modal-accent-text">86 286 243 8886</div>
                             </div>
                             <div class="payment-info-row">
                                 <div class="payment-label">Chủ tài khoản:</div>
@@ -7619,8 +8344,8 @@
                             <div class="payment-info-row mt-3">
                                 <div class="payment-label">Nội dung:</div>
                                 <div class="payment-value" id="pro-payment-note">
-                                    [HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI PRO1 - 3 THÁNG]<br>
-                                    <span style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A 0862348886 PRO1 3 THÁNG</span>
+                                    <div>[HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI PRO1 - 3 THÁNG]</div>
+                                    <div style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A_0862348886_PRO1 - 3 THÁNG</div>
                                 </div>
                             </div>
                         </div>
@@ -7660,7 +8385,7 @@
                             </div>
                         </div>
 
-                        <button class="btn-modal-action primary" type="button" id="btnProSubmit" onclick="submitProApproval()">Gửi yêu cầu phê duyệt</button>
+                        <button class="btn-modal-action primary" type="button" id="btnProSubmit" onclick="submitProApproval()">Yêu cầu phê duyệt</button>
                     </div>
                 </div>
             </div>
@@ -7675,9 +8400,9 @@
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
-                        🥇
+                        <span class="membership-icon-shell membership-icon-vip" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M4.5 17.5h15l-1 3h-13l-1-3z"></path><path d="M5.5 16.5 7 7l5 5 5-5 1.5 9.5"></path><path d="M12 12V4"></path><path d="M10 4h4"></path></svg></span></span>
                     </div>
-                    <div class="modal-hero-title">V.I.P</div>
+                    <div class="modal-hero-title">Hội viên V.I.P</div>
                     <div class="modal-hero-subtitle">(Cao cấp)</div>
                 </div>
                 <div class="modal-hero-right">
@@ -7685,7 +8410,7 @@
                         <li>Full đặc quyền PRO</li>
                         <li class="highlight">Kết nối Chuyên gia</li>
                         <li class="highlight">Phân tích Chuyên gia</li>
-                        <li class="highlight">Liên kết tài khoản chứng khoán (ID FinTop/FinTop Team)</li>
+                        <li class="highlight">Liên kết tài khoản chứng khoán (ID FinTop)</li>
                     </ul>
                 </div>
             </div>
@@ -7694,9 +8419,10 @@
                     <div class="modal-step-box">
                         <div class="step-label">Bước 1: Mở tài khoản (Chưa có TK)</div>
                         <div class="step-desc" style="text-align: left; line-height: 1.8;">
-                            + Mở TKCK VPS nhập FinTop ID: <strong style="color:#6ee7b7;">BOJE</strong><br>
-                            + Mở TKCK TCBS nhập FinTop ID: <strong style="color:#6ee7b7;">105CN48886</strong><br>
-                            + Mở TKCK ID "Chuyên gia FinTop Team" tại CTCK.
+                            <ul style="margin:0; padding-left: 1.2rem;">
+                                <li>Mở TKCK VPS - FinTop ID: <strong class="modal-accent-text">BOJE</strong></li>
+                                <li>Mở TKCK TCBS - ID: <strong class="modal-accent-text">105CN48886</strong></li>
+                            </ul>
                         </div>
                         <button class="btn-modal-action primary mb-2" onclick="submitVIP('open')">MỞ TK VPS</button>
                         <button class="btn-modal-action" onclick="submitVIP('open')">MỞ TK TCBS</button>
@@ -7726,9 +8452,9 @@
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
-                        💎
+                        <span class="membership-icon-shell membership-icon-diamond" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M6.5 4h11L22 10l-10 10L2 10l4.5-6z"></path><path d="M2 10h20"></path><path d="M8.5 4 12 20 15.5 4"></path></svg></span></span>
                     </div>
-                    <div class="modal-hero-title">DIAMOND</div>
+                    <div class="modal-hero-title">Hội viên Diamond</div>
                     <div class="modal-hero-subtitle">(Kim cương)</div>
                 </div>
                 <div class="modal-hero-right">
@@ -7740,145 +8466,294 @@
                 </div>
             </div>
             <div class="modal-body">
-                <div class="payment-info-box" style="text-align: center; border-color: rgba(252, 211, 77, 0.3);">
-                    <p style="color: #fff; line-height: 1.6; margin-bottom: 20px;">
-                        Gói hỗ trợ <strong style="color: #fcd34d;">VIP PRO</strong> đặc biệt dành riêng cho khách hàng
-                        đối tác FinTop. Hội viên Kim Cương với NAV đầu tư từ 1 tỷ VND, cố vấn chiến lược 1-1 cùng Chuyên
-                        gia FinTop, tư vấn danh mục cổ phiếu, nắm bắt cơ hội đầu tư, quản trị rủi ro.
+                <div class="payment-info-box" style="margin-bottom: 1rem;">
+                    <p style="color: #fff; line-height: 1.6; margin: 0;">
+                        Gói Diamond dành cho hội viên liên kết tài khoản có NAV từ 1 tỷ VND, bao gồm full đặc quyền PRO, full đặc quyền V.I.P và cố vấn 1-1 cùng Chuyên gia.
                     </p>
-                    <button class="btn-modal-action primary" style="width: 200px;"
-                        onclick="alert('Đang chuyển hướng tới kênh Hỗ trợ/Liên hệ FinTop...')">LIÊN HỆ NGAY</button>
+                </div>
+                <div class="modal-steps-container">
+                    <div class="modal-step-box">
+                        <div class="step-label">Bước 1: Mở tài khoản (nếu chưa có)</div>
+                        <div class="step-desc" style="text-align: left; line-height: 1.8;">
+                            <ul style="margin:0; padding-left: 1.2rem;">
+                                <li>Mở TKCK VPS - FinTop ID: <strong class="modal-accent-text">BOJE</strong></li>
+                                <li>Mở TKCK TCBS - ID: <strong class="modal-accent-text">105CN48886</strong></li>
+                            </ul>
+                        </div>
+                        <button class="btn-modal-action primary mb-2" onclick="submitDiamond('open')">MỞ TK VPS</button>
+                        <button class="btn-modal-action" onclick="submitDiamond('open')">MỞ TK TCBS</button>
+                    </div>
+                    <div class="modal-step-box">
+                        <div class="step-label">Bước 2: Liên kết tài khoản Diamond</div>
+                        <div class="step-desc" style="text-align: left;">
+                            <p class="mb-2 text-muted-sm">Vui lòng điền thông tin bên dưới để yêu cầu phê duyệt:</p>
+                            <input type="text" id="diamondStockAccount" placeholder="Số TK chứng khoán..."
+                                style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 10px;">
+                            <input type="text" id="diamondStockCompany" placeholder="Công ty chứng khoán..."
+                                style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 10px;">
+                            <input type="text" id="diamondNav" placeholder="NAV dự kiến (từ 1 tỷ VND)..."
+                                style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 15px;">
+                        </div>
+                        <button class="btn-modal-action primary" onclick="submitDiamond('link')">YÊU CẦU PHÊ DUYỆT</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- ============================================ -->
-    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ (SPLIT SCREEN)   -->
+    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ                   -->
     <!-- ============================================ -->
     <div class="auth-modal-overlay" id="authModalOverlay">
-        <div class="auth-modal-container">
-            <button class="btn-close-auth" onclick="closeAuthModal()">✕</button>
+        <div class="auth-modal-container" role="dialog" aria-modal="true" aria-labelledby="authDialogTitle">
+            <button class="btn-close-auth" type="button" onclick="closeAuthModal()" aria-label="Đóng">×</button>
 
-            <!-- Left Side (Hero Image) -->
             <div class="auth-modal-left">
-                <img src="assets/images/AI.jpg" alt="FinTop AI Background" class="auth-hero-bg">
+                <img src="assets/images/AI.jpg" alt="FinTop DATA" class="auth-hero-bg">
                 <div class="auth-hero-content">
-                    <h2>Mở Khóa<br>Tiềm Năng Đầu Tư</h2>
+                    <span class="auth-brand-mark">Dữ liệu FinTop DATA</span>
+                    <h2>Tài khoản truy cập</h2>
                 </div>
             </div>
 
-            <!-- Right Side (Forms) -->
             <div class="auth-modal-right">
-                <div class="auth-logo-header">
-                    <!-- Replace with an actual logo image if desired, or keep text -->
-                    <span style="font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: 1px;">FinTop
-                        DATA</span>
-                </div>
-
                 <div class="auth-form-container">
-                    <div class="auth-forms-wrapper">
+                    <div class="auth-logo-header" aria-hidden="true">
+                        <span>FinTop DATA</span>
+                    </div>
 
+                    <div class="auth-forms-wrapper">
                         <!-- FORM ĐĂNG NHẬP -->
                         <form class="auth-form active" id="authFormLogin" data-auth-form="login" onsubmit="submitAuth(event, 'login')">
-                            <h3 class="auth-title">Đăng nhập</h3>
-
-                            <div class="auth-input-group">
-                                <label class="auth-label">Email hoặc Tên đăng nhập</label>
-                                <input type="text" class="auth-input" id="loginEmail" data-auth-email="login" placeholder="Nhập email của bạn" required disabled>
+                            <div class="auth-heading">
+                                <p class="auth-eyebrow">Tài khoản</p>
+                                <h3 class="auth-title" id="authDialogTitle">Đăng nhập</h3>
                             </div>
 
                             <div class="auth-input-group">
-                                <label class="auth-label">Mật khẩu</label>
-                                <input type="password" class="auth-input" id="loginPassword" data-auth-password="login" placeholder="Nhập mật khẩu"
-                                    required disabled>
-                                <button type="button" class="password-toggle" data-target="loginPassword" disabled>👁️</button>
+                                <label class="auth-label" for="loginEmail">Số điện thoại hoặc Email</label>
+                                <input type="text" class="auth-input" id="loginEmail" data-auth-email="login" placeholder="email@fintop.vn" autocomplete="username" required disabled>
+                            </div>
+
+                            <div class="auth-input-group">
+                                <label class="auth-label" for="loginPassword">Mật khẩu</label>
+                                <input type="password" class="auth-input" id="loginPassword" data-auth-password="login" placeholder="Nhập mật khẩu" autocomplete="current-password" required disabled>
+                                <button type="button" class="password-toggle" data-target="loginPassword" aria-label="Hiện hoặc ẩn mật khẩu" disabled>○</button>
                             </div>
 
                             <div class="auth-options">
                                 <label class="auth-checkbox-label">
-                                    <input type="checkbox" checked disabled> Ghi nhớ đăng nhập
+                                    <input type="checkbox" checked disabled>
+                                    <span>Ghi nhớ đăng nhập</span>
                                 </label>
-                                <a href="javascript:void(0)" class="auth-link"
-                                    onclick="switchAuthView('forgot')">Quên mật khẩu?</a>
+                                <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('forgot')">Quên mật khẩu?</a>
                             </div>
 
                             <button type="submit" class="auth-btn-submit" data-auth-submit="login" disabled>Đăng nhập</button>
 
                             <div class="auth-footer">
-                                Chưa có tài khoản? <a href="javascript:void(0)" class="auth-link"
-                                    onclick="switchAuthView('register')">Đăng ký ngay</a>
+                                Chưa có tài khoản? <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('register')">Đăng ký ngay</a>
                             </div>
                         </form>
 
                         <!-- FORM ĐĂNG KÝ -->
-                        <form class="auth-form" id="authFormRegister" data-auth-form="register" onsubmit="submitAuth(event, 'register')">
-                            <h3 class="auth-title">Tạo tài khoản mới</h3>
+                        <form class="auth-form" id="authFormRegister" data-auth-form="register" onsubmit="submitAuth(event, 'register')" novalidate>
+                            <div class="register-form-shell" data-register-flow>
+                                <div class="auth-heading">
+                                    <p class="auth-eyebrow">Tạo tài khoản truy cập</p>
+                                    <h3 class="auth-title">Đăng ký FinTop DATA</h3>
+                                </div>
 
-                            <div class="auth-input-group">
-                                <label class="auth-label">Họ và tên</label>
-                                <input type="text" class="auth-input" id="registerFullName" data-auth-name="register" placeholder="Nhập họ và tên" required disabled>
+                                <div class="register-stepper" data-register-stepper aria-label="Tiến trình đăng ký">
+                                    <div class="register-progress-track" aria-hidden="true">
+                                        <span class="register-progress-fill" data-register-progress></span>
+                                    </div>
+                                    <button type="button" class="register-step is-active" data-register-step-trigger="0">
+                                        <span class="register-step-index">1</span>
+                                        <span class="register-step-label">Cơ bản</span>
+                                    </button>
+                                    <button type="button" class="register-step" data-register-step-trigger="1">
+                                        <span class="register-step-index">2</span>
+                                        <span class="register-step-label">Tài khoản</span>
+                                    </button>
+                                    <button type="button" class="register-step" data-register-step-trigger="2">
+                                        <span class="register-step-index">3</span>
+                                        <span class="register-step-label">Xác thực</span>
+                                    </button>
+                                </div>
+
+                                <div class="register-step-panels" data-register-panels>
+                                    <section class="register-step-panel is-active" data-register-panel="0" aria-label="Thông tin cơ bản">
+                                        <div class="auth-grid two-cols">
+                                            <div class="auth-input-group">
+                                                <label class="auth-label" for="registerFullName">Họ và tên <span>*</span></label>
+                                                <input type="text" class="auth-input" id="registerFullName" data-auth-name="register" autocomplete="name" required disabled>
+                                                <p class="auth-field-error" data-error-for="registerFullName"></p>
+                                            </div>
+                                            <div class="auth-input-group">
+                                                <label class="auth-label" for="registerPhone">Số điện thoại / Zalo <span>*</span></label>
+                                                <input type="tel" class="auth-input" id="registerPhone" inputmode="tel" autocomplete="tel" required disabled>
+                                                <p class="auth-field-error" data-error-for="registerPhone"></p>
+                                            </div>
+                                        </div>
+                                        <div class="auth-input-group">
+                                            <label class="auth-label" for="registerEmail">Email <span>*</span></label>
+                                            <input type="email" class="auth-input" id="registerEmail" data-auth-email="register" autocomplete="email" required disabled>
+                                            <p class="auth-field-error" data-error-for="registerEmail"></p>
+                                        </div>
+                                        <div class="auth-grid two-cols">
+                                            <div class="auth-input-group">
+                                                <label class="auth-label" for="registerRefId">ID người giới thiệu</label>
+                                                <input type="text" class="auth-input" id="registerRefId" autocomplete="off" disabled>
+                                                <p class="auth-field-error" data-error-for="registerRefId"></p>
+                                            </div>
+                                            <div class="auth-input-group">
+                                                <label class="auth-label" for="registerRefName">Tên người giới thiệu</label>
+                                                <input type="text" class="auth-input" id="registerRefName" autocomplete="off" disabled>
+                                                <p class="auth-field-error" data-error-for="registerRefName"></p>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section class="register-step-panel" data-register-panel="1" aria-label="Thông tin tài khoản">
+                                        <div class="auth-grid two-cols">
+                                            <div class="auth-input-group">
+                                                <label class="auth-label" for="registerBirthday">Sinh nhật <span>*</span></label>
+                                                <input type="date" class="auth-input" id="registerBirthday" required disabled>
+                                                <p class="auth-field-error" data-error-for="registerBirthday"></p>
+                                            </div>
+                                            <div class="auth-input-group">
+                                                <label class="auth-label" for="registerCity">Tỉnh/Thành phố hiện tại <span>*</span></label>
+                                                <input type="text" class="auth-input" id="registerCity" list="registerCityList" required disabled>
+                                                <datalist id="registerCityList">
+                                                    <option value="Hà Nội"></option>
+                                                    <option value="TP. Hồ Chí Minh"></option>
+                                                    <option value="Đà Nẵng"></option>
+                                                    <option value="Hải Phòng"></option>
+                                                    <option value="Cần Thơ"></option>
+                                                </datalist>
+                                                <p class="auth-field-error" data-error-for="registerCity"></p>
+                                            </div>
+                                        </div>
+
+                                        <fieldset class="auth-choice-group" data-required-group="investmentDuration">
+                                            <legend>Thời gian đầu tư <span>*</span></legend>
+                                            <label><input type="radio" name="investmentDuration" value="0-3 tháng" disabled><span>0-3 tháng</span></label>
+                                            <label><input type="radio" name="investmentDuration" value="3-6 tháng" disabled><span>3-6 tháng</span></label>
+                                            <label><input type="radio" name="investmentDuration" value="6-12 tháng" disabled><span>6-12 tháng</span></label>
+                                            <label><input type="radio" name="investmentDuration" value="Trên 1 năm" disabled><span>Trên 1 năm</span></label>
+                                            <p class="auth-field-error" data-error-for="investmentDuration"></p>
+                                        </fieldset>
+
+                                        <fieldset class="auth-choice-group" data-required-group="riskAppetite">
+                                            <legend>Khẩu vị đầu tư <span>*</span></legend>
+                                            <label><input type="radio" name="riskAppetite" value="Lướt sóng ngắn hạn" disabled><span>Lướt sóng ngắn hạn</span></label>
+                                            <label><input type="radio" name="riskAppetite" value="Trung và dài hạn" disabled><span>Trung và dài hạn</span></label>
+                                            <label><input type="radio" name="riskAppetite" value="Linh hoạt kết hợp" disabled><span>Linh hoạt kết hợp</span></label>
+                                            <p class="auth-field-error" data-error-for="riskAppetite"></p>
+                                        </fieldset>
+
+                                        <fieldset class="auth-choice-group" data-required-group="brokerageCompany">
+                                            <legend>Công ty chứng khoán <span>*</span></legend>
+                                            <label><input type="radio" name="brokerageCompany" value="none" disabled><span>Chưa TKCK</span></label>
+                                            <label><input type="radio" name="brokerageCompany" value="VPS" disabled><span>VPS</span></label>
+                                            <label><input type="radio" name="brokerageCompany" value="SSI" disabled><span>SSI</span></label>
+                                            <label><input type="radio" name="brokerageCompany" value="VND" disabled><span>VND</span></label>
+                                            <label><input type="radio" name="brokerageCompany" value="Công ty khác" disabled><span>Công ty khác</span></label>
+                                            <p class="auth-field-error" data-error-for="brokerageCompany"></p>
+                                        </fieldset>
+
+                                        <div class="auth-input-group auth-conditional-field" id="stockAccountGroup" hidden>
+                                            <label class="auth-label" for="registerStockAccount">Số tài khoản chứng khoán</label>
+                                            <input type="text" class="auth-input" id="registerStockAccount" autocomplete="off" disabled>
+                                            <p class="auth-field-error" data-error-for="registerStockAccount"></p>
+                                        </div>
+                                    </section>
+
+                                    <section class="register-step-panel" data-register-panel="2" aria-label="Xác thực thông tin">
+                                        <div class="auth-grid two-cols">
+                                            <div class="auth-input-group">
+                                                <label class="auth-label" for="registerPassword">Đặt mật khẩu <span>*</span></label>
+                                                <input type="password" class="auth-input" id="registerPassword" data-auth-password="register" autocomplete="new-password" required disabled>
+                                                <button type="button" class="password-toggle" data-target="registerPassword" aria-label="Hiện hoặc ẩn mật khẩu" disabled>○</button>
+                                                <div class="password-strength" data-password-strength>
+                                                    <span class="password-strength-track"><span data-password-strength-bar></span></span>
+                                                    <span class="password-strength-label" data-password-strength-label>Độ mạnh mật khẩu</span>
+                                                </div>
+                                                <p class="auth-field-error" data-error-for="registerPassword"></p>
+                                            </div>
+                                            <div class="auth-input-group">
+                                                <label class="auth-label" for="registerPasswordConfirm">Nhập lại mật khẩu <span>*</span></label>
+                                                <input type="password" class="auth-input" id="registerPasswordConfirm" autocomplete="new-password" required disabled>
+                                                <button type="button" class="password-toggle" data-target="registerPasswordConfirm" aria-label="Hiện hoặc ẩn mật khẩu" disabled>○</button>
+                                                <p class="auth-field-error" data-error-for="registerPasswordConfirm"></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="auth-input-group">
+                                            <label class="auth-label" for="registerOtpCode">Mã xác thực OTP <span>*</span></label>
+                                            <div class="auth-input-with-action">
+                                                <input type="text" class="auth-input auth-otp-input" id="registerOtpCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required disabled>
+                                                <button type="button" class="auth-inline-btn" id="registerSendOtpBtn" data-register-send-otp disabled>Gửi mã</button>
+                                            </div>
+                                            <p class="auth-field-error" data-error-for="registerOtpCode"></p>
+                                        </div>
+
+                                        <div class="auth-status-note" id="registerOtpStatus" data-register-otp-status hidden></div>
+                                    </section>
+                                </div>
+
+                                <div class="register-actions">
+                                    <button type="button" class="auth-btn-secondary" data-register-prev disabled>Quay lại</button>
+                                    <button type="button" class="auth-btn-submit" data-register-next>Tiếp tục</button>
+                                    <button type="submit" class="auth-btn-submit" data-auth-submit="register" data-register-submit hidden disabled>Hoàn tất</button>
+                                </div>
+
+                                <div class="auth-footer">
+                                    Đã có tài khoản? <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">Đăng nhập</a>
+                                </div>
                             </div>
 
-                            <div class="auth-input-group">
-                                <label class="auth-label">Email</label>
-                                <input type="email" class="auth-input" id="registerEmail" data-auth-email="register" placeholder="Nhập email của bạn" required disabled>
-                            </div>
-
-                            <div class="auth-input-group">
-                                <label class="auth-label">Mật khẩu</label>
-                                <input type="password" class="auth-input" id="registerPassword" data-auth-password="register"
-                                    placeholder="Tạo mật khẩu" required disabled>
-                                <button type="button" class="password-toggle"
-                                    data-target="registerPassword" disabled>👁️</button>
-                            </div>
-
-                            <button type="submit" class="auth-btn-submit" data-auth-submit="register" disabled>Đăng ký</button>
-
-                            <div class="auth-footer">
-                                Đã có tài khoản? <a href="javascript:void(0)" class="auth-link"
-                                    onclick="switchAuthView('login')">Đăng nhập</a>
+                            <div class="register-success" data-register-success hidden>
+                                <span class="register-success-icon">✓</span>
+                                <p class="auth-eyebrow">Hoàn tất</p>
+                                <h3 class="auth-title">Đăng ký thành công</h3>
+                                <p class="register-success-copy">Tài khoản FinTop DATA của bạn đã sẵn sàng.</p>
+                                <button type="button" class="auth-btn-submit" onclick="switchAuthView('login')">Đăng nhập ngay</button>
                             </div>
                         </form>
 
                         <!-- FORM XÁC THỰC EMAIL (OTP) -->
                         <form class="auth-form" id="authFormVerify" data-auth-form="verify" onsubmit="submitAuth(event, 'verify')">
-                            <h3 class="auth-title">Xác thực Email</h3>
-                            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px; line-height: 1.5;">
-                                Mã xác thực 6 số đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư, kể cả mục Spam.
-                            </p>
+                            <div class="auth-heading">
+                                <p class="auth-eyebrow">Xác thực</p>
+                                <h3 class="auth-title">Xác thực Email</h3>
+                            </div>
 
                             <input type="hidden" id="verifyEmailAddress" value="">
 
                             <div class="auth-input-group">
-                                <label class="auth-label">Mã OTP</label>
-                                <input type="text" class="auth-input" id="verifyOtpCode" placeholder="Nhập mã 6 số"
-                                    maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code"
-                                    style="text-align: center; font-size: 1.4rem; letter-spacing: 8px; font-weight: 700;">
+                                <label class="auth-label" for="verifyOtpCode">Mã OTP</label>
+                                <input type="text" class="auth-input auth-otp-input" id="verifyOtpCode" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code">
                             </div>
 
                             <button type="submit" class="auth-btn-submit">Xác thực</button>
 
-                            <div style="text-align: center; margin-top: 12px;">
-                                <button type="button" id="resendOtpBtn" class="auth-link"
-                                    style="background: none; border: none; cursor: pointer; color: #a78bfa; font-size: 0.85rem;"
-                                    onclick="submitAuth(event, 'resend')">Gửi lại mã OTP</button>
-                            </div>
-
-                            <div class="auth-footer">
+                            <div class="auth-footer compact">
+                                <button type="button" id="resendOtpBtn" class="auth-link auth-text-button" onclick="submitAuth(event, 'resend')">Gửi lại mã OTP</button>
                                 <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">Quay lại đăng nhập</a>
                             </div>
                         </form>
 
                         <!-- FORM QUÊN MẬT KHẨU -->
                         <form class="auth-form" id="authFormForgot" data-auth-form="forgot" onsubmit="submitAuth(event, 'forgot')">
-                            <h3 class="auth-title">Quên mật khẩu</h3>
-                            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px; line-height: 1.5;">
-                                Nhập email đăng ký của bạn để nhận liên kết đặt lại mật khẩu.
-                            </p>
+                            <div class="auth-heading">
+                                <p class="auth-eyebrow">Khôi phục</p>
+                                <h3 class="auth-title">Quên mật khẩu</h3>
+                            </div>
 
                             <div class="auth-input-group">
-                                <label class="auth-label">Email</label>
-                                <input type="email" class="auth-input" id="forgotEmail" placeholder="Nhập email của bạn" required disabled>
+                                <label class="auth-label" for="forgotEmail">Email</label>
+                                <input type="email" class="auth-input" id="forgotEmail" placeholder="email@fintop.vn" autocomplete="email" required disabled>
                             </div>
 
                             <button type="submit" class="auth-btn-submit" data-auth-submit="forgot" disabled>Yêu cầu</button>
@@ -7887,7 +8762,6 @@
                                 <a href="javascript:void(0)" class="auth-link" onclick="switchAuthView('login')">Quay lại đăng nhập</a>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>

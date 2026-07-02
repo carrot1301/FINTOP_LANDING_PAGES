@@ -119,6 +119,16 @@
             box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
             filter: brightness(1.1);
         }
+
+        .data-table thead tr {
+            background: #2C2068 !important;
+            border-bottom: 1px solid rgba(233, 213, 255, 0.28) !important;
+        }
+
+        .data-table thead th {
+            color: #ffffff !important;
+            font-weight: 900 !important;
+        }
         
         .page-footer {
             background: #07070D;
@@ -162,12 +172,7 @@
         </div>
     </header>
 
-    <main class="main-container" style="flex-direction: column; align-items: stretch; justify-content: flex-start; max-width: 1200px; margin: 0 auto; width: 100%; padding-top: 100px;">
-        <div style="margin-bottom: 2rem;">
-            <h1 style="font-size: 2.2rem; font-weight: 900; background: linear-gradient(135deg, #c084fc, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem;">Bộ Lọc Cổ Phiếu</h1>
-            <p style="color: #94a3b8; font-size: 0.95rem;">Hệ thống lọc thông minh theo mô hình AI định lượng FinTop DATA</p>
-        </div>
-
+    <main class="main-container" style="flex-direction: column; align-items: stretch; justify-content: flex-start; max-width: 1200px; margin: 0 auto; width: 100%; padding-top: 92px;">
         <!-- Filter Toolbar -->
         <div class="filter-toolbar" style="display: flex; gap: 12px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center;">
             <input type="text" id="stockFilterSearch" placeholder="Tìm mã cổ phiếu..." style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #fff; width: 220px; outline: none; font-size: 0.95rem; transition: border-color 0.2s;">
@@ -191,6 +196,9 @@
         </div>
 
         <div class="data-table-wrapper" style="background: rgba(15, 15, 25, 0.6); border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px; overflow-x: auto; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div style="min-width: 1120px; padding: 14px 18px; background: linear-gradient(135deg, #C000FF 0%, #A100F2 48%, #8200D6 100%); color: #fff; text-align: center; font-size: clamp(1rem, 2vw, 1.55rem); font-weight: 900; line-height: 1.25;">
+                [FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ
+            </div>
             <table class="data-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; color: #cbd5e1;">
                 <thead>
                     <tr style="background: rgba(168, 85, 247, 0.08); border-bottom: 1px solid rgba(168, 85, 247, 0.15);">
@@ -200,11 +208,11 @@
                         <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Ngành HĐKD</th>
                         <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Cập nhật</th>
                         <th style="padding: 14px 16px; color: #c084fc; font-weight: 700; max-width: 250px;">Mô tả Model</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Hành động</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Xu hướng</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Vùng giá TC</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Kháng cự</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Hỗ trợ</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Trạng thái Model</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Sức mạnh xu hướng<br>RSI/MFI</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Vùng kiểm định<br>kỹ thuật</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Vùng kháng cự<br>kỹ thuật</th>
+                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Vùng hỗ trợ<br>kỹ thuật</th>
                     </tr>
                 </thead>
                 <tbody id="bolocBody">
@@ -279,30 +287,47 @@
 
             function getActionBadgeMarkup(statusText, status) {
                 const norm = (statusText || status || '').toUpperCase();
-                let bg = 'rgba(148, 163, 184, 0.15)';
-                let fg = '#94A3B8';
+                let bg = 'rgba(148, 163, 184, 0.14)';
+                let fg = '#E2E8F0';
+                let border = 'rgba(226, 232, 240, 0.22)';
+                let shadow = 'none';
                 
                 if (norm === 'RẤT TÍCH CỰC' || norm === 'VERY-POSITIVE' || norm === 'VERY-POS') {
-                    bg = 'rgba(236, 72, 153, 0.2)';
-                    fg = '#EC4899';
+                    bg = 'rgba(168, 85, 247, 0.2)';
+                    fg = '#E9D5FF';
+                    border = 'rgba(216, 180, 254, 0.58)';
+                    shadow = 'none';
                 } else if (norm === 'TÍCH CỰC' || norm === 'POS' || norm === 'POSITIVE') {
-                    bg = 'rgba(16, 185, 129, 0.2)';
-                    fg = '#10B981';
+                    bg = 'rgba(16, 185, 129, 0.18)';
+                    fg = '#A7F3D0';
+                    border = 'rgba(52, 211, 153, 0.55)';
+                    shadow = 'none';
                 } else if (norm === 'KHẢ QUAN' || norm === 'OK') {
-                    bg = 'rgba(132, 204, 22, 0.2)';
-                    fg = '#84CC16';
+                    bg = 'rgba(245, 158, 11, 0.16)';
+                    fg = '#FDE68A';
+                    border = 'rgba(251, 191, 36, 0.52)';
+                    shadow = 'none';
                 } else if (norm === 'TRUNG LẬP' || norm === 'NEUTRAL') {
                     bg = 'rgba(59, 130, 246, 0.2)';
-                    fg = '#3B82F6';
+                    fg = '#BFDBFE';
+                    border = 'rgba(96, 165, 250, 0.42)';
                 } else if (norm === 'KO TÍCH CỰC') {
-                    bg = 'rgba(245, 158, 11, 0.2)';
-                    fg = '#F59E0B';
+                    bg = 'rgba(249, 115, 22, 0.16)';
+                    fg = '#FDBA74';
+                    border = 'rgba(251, 146, 60, 0.45)';
+                    shadow = 'none';
                 } else if (norm === 'TIÊU CỰC' || norm === 'NEG' || norm === 'NEGATIVE') {
-                    bg = 'rgba(239, 68, 68, 0.2)';
-                    fg = '#EF4444';
+                    bg = 'rgba(239, 68, 68, 0.16)';
+                    fg = '#FCA5A5';
+                    border = 'rgba(248, 113, 113, 0.45)';
+                    shadow = 'none';
                 }
                 
-                return `<span class="badge" style="background:${bg}; color:${fg}; border:1px solid ${fg}33; font-weight:700; padding:4px 8px; border-radius:6px; font-size:0.75rem;">${statusText || 'TRUNG LẬP'}</span>`;
+                return `<span class="badge" style="display:inline-flex; justify-content:center; min-width:112px; background:${bg}; color:${fg}; border:1px solid ${border}; box-shadow:${shadow}; font-weight:800; padding:6px 12px; border-radius:999px; font-size:0.75rem;">${statusText || 'TRUNG LẬP'}</span>`;
+            }
+
+            function getTrendTextStyle(trend) {
+                return 'color: #C084FC;';
             }
 
             // 4. Render Table
@@ -315,25 +340,25 @@
 
                 data.forEach((row, i) => {
                     const tr = document.createElement('tr');
-                    tr.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
-                    tr.style.transition = 'background 0.2s';
-                    tr.addEventListener('mouseover', () => { tr.style.background = 'rgba(168, 85, 247, 0.03)'; });
-                    tr.addEventListener('mouseout', () => { tr.style.background = ''; });
+                    tr.style.borderBottom = '1px solid rgba(15, 23, 42, 0.95)';
                     
                     const actionBadge = getActionBadgeMarkup(row.statusText, row.status);
+                    const trendTextStyle = getTrendTextStyle(row.trend);
+                    const rowBg = 'rgba(7, 25, 52, 0.96)';
+                    const baseCellStyle = `padding: 12px 16px; background: ${rowBg};`;
 
                     tr.innerHTML = `
-                        <td style="padding: 12px 16px;">${i + 1}</td>
-                        <td style="padding: 12px 16px; color: #fff; font-weight: 700; letter-spacing: 0.5px;">${row.ticker}</td>
-                        <td style="padding: 12px 16px;">${row.san}</td>
-                        <td style="padding: 12px 16px;">${row.nganh}</td>
-                        <td style="padding: 12px 16px; font-size: 0.8rem; color: #64748b;">${row.time}</td>
-                        <td style="padding: 12px 16px; max-width: 250px; line-height: 1.4; color: #cbd5e1;">${row.desc}</td>
-                        <td style="padding: 12px 16px; text-align: center;">${actionBadge}</td>
-                        <td style="padding: 12px 16px; text-align: center; color: #fbbf24; font-weight: 600;">${row.trend || '—'}</td>
-                        <td style="padding: 12px 16px; color: #38bdf8; font-weight: 600;">${row.vungKiemDinh}</td>
-                        <td style="padding: 12px 16px; color: #f87171; font-weight: 600;">${row.khangCu}</td>
-                        <td style="padding: 12px 16px; color: #34d399; font-weight: 600;">${row.hoTro}</td>
+                        <td style="${baseCellStyle}">${i + 1}</td>
+                        <td style="${baseCellStyle} color: #fff; font-weight: 700; letter-spacing: 0.5px;">${row.ticker}</td>
+                        <td style="${baseCellStyle}">${row.san}</td>
+                        <td style="${baseCellStyle}">${row.nganh}</td>
+                        <td style="${baseCellStyle} font-size: 0.8rem; color: #94a3b8;">${row.time}</td>
+                        <td style="${baseCellStyle} max-width: 250px; line-height: 1.4; color: #cbd5e1;">${row.desc}</td>
+                        <td style="${baseCellStyle} text-align: center;">${actionBadge}</td>
+                        <td style="${baseCellStyle} text-align: center; ${trendTextStyle} font-weight: 900; text-transform: uppercase;">${row.trend || '—'}</td>
+                        <td style="${baseCellStyle} color: #E2E8F0; font-weight: 700;">${row.vungKiemDinh}</td>
+                        <td style="padding: 12px 16px; background: linear-gradient(135deg, rgba(45, 33, 82, 0.95), rgba(16, 22, 39, 0.93)); color: #C084FC; font-weight: 900;">${row.khangCu}</td>
+                        <td style="${baseCellStyle} color: #FBBF24; font-weight: 900;">${row.hoTro}</td>
                     `;
                     tbody.appendChild(tr);
                 });

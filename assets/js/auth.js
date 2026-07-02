@@ -103,14 +103,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (inputField) {
                 if (inputField.type === 'password') {
                     inputField.type = 'text';
-                    this.textContent = '🙈'; // Change icon to hide
+                    this.textContent = '●';
                 } else {
                     inputField.type = 'password';
-                    this.textContent = '👁️'; // Change icon to show
+                    this.textContent = '○';
                 }
             }
         });
     });
+
+    if (window.RegisterStepper) {
+        window.RegisterStepper.init();
+    }
 
     updateAdminAccessLink();
 
@@ -181,6 +185,7 @@ async function updateAdminAccessLink() {
  */
 function openAuthModal(view = 'login') {
     const authOverlay = document.getElementById('authModalOverlay');
+    const wasOpen = authOverlay?.classList.contains('active');
     
     // Close user dropdown if open
     const userDropdownContainer = document.getElementById('userDropdownContainer');
@@ -191,6 +196,10 @@ function openAuthModal(view = 'login') {
     if (authOverlay) {
         // Switch to requested view first
         switchAuthView(view, false);
+
+        if (view === 'register' && !wasOpen && window.RegisterStepper) {
+            window.RegisterStepper.reset();
+        }
         
         // Clear any previous error messages
         if (window.FintopInfra?.AuthFormUI) {
@@ -206,6 +215,10 @@ function openAuthModal(view = 'login') {
         // Show modal
         authOverlay.classList.add('active');
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+        if (window.RegisterStepper) {
+            window.RegisterStepper.render();
+        }
     }
 }
 
@@ -219,6 +232,9 @@ function closeAuthModal() {
         document.body.style.overflow = ''; // Restore background scrolling
         // Disable inputs when modal is closed
         toggleAuthInputs(false);
+        if (window.RegisterStepper) {
+            window.RegisterStepper.stopCountdown();
+        }
     }
 }
 
@@ -280,6 +296,14 @@ function switchAuthView(view, animate = true) {
             loginForm.classList.add('active');
         }
     }
+
+    if (view === 'register' && window.RegisterStepper) {
+        if (window.RegisterStepper.isShowingSuccess()) {
+            window.RegisterStepper.reset();
+        } else {
+            window.RegisterStepper.render();
+        }
+    }
 }
 
 /**
@@ -294,6 +318,11 @@ function switchAuthView(view, animate = true) {
 function submitAuth(event, type) {
     event.preventDefault();
     console.log('[Auth] ▶ submitAuth called with type:', type);
+
+    if (type === 'register' && window.RegisterStepper) {
+        window.RegisterStepper.handleSubmit(event);
+        return;
+    }
 
     // Check if the submit button is stuck disabled from a previous attempt
     const form = event.target;
@@ -356,6 +385,507 @@ function submitAuth(event, type) {
         }
     }
 }
+
+const RegisterStepper = {
+    initialized: false,
+    currentStep: 0,
+    countdownTimer: null,
+    countdownRemaining: 0,
+    otpSent: false,
+    registrationStarted: false,
+    els: {},
+
+    init() {
+        if (this.initialized) return;
+
+        const form = document.getElementById('authFormRegister');
+        if (!form) return;
+
+        this.els = {
+            form,
+            flow: form.querySelector('[data-register-flow]'),
+            success: form.querySelector('[data-register-success]'),
+            panels: Array.from(form.querySelectorAll('[data-register-panel]')),
+            steps: Array.from(form.querySelectorAll('[data-register-step-trigger]')),
+            progress: form.querySelector('[data-register-progress]'),
+            prevBtn: form.querySelector('[data-register-prev]'),
+            nextBtn: form.querySelector('[data-register-next]'),
+            submitBtn: form.querySelector('[data-register-submit]'),
+            sendOtpBtn: form.querySelector('[data-register-send-otp]'),
+            otpStatus: form.querySelector('[data-register-otp-status]'),
+            stockAccountGroup: document.getElementById('stockAccountGroup'),
+            stockAccountInput: document.getElementById('registerStockAccount'),
+            passwordInput: document.getElementById('registerPassword'),
+            confirmInput: document.getElementById('registerPasswordConfirm'),
+            otpInput: document.getElementById('registerOtpCode'),
+            strength: form.querySelector('[data-password-strength]'),
+            strengthBar: form.querySelector('[data-password-strength-bar]'),
+            strengthLabel: form.querySelector('[data-password-strength-label]'),
+        };
+
+        this.els.nextBtn?.addEventListener('click', () => this.next());
+        this.els.prevBtn?.addEventListener('click', () => this.prev());
+        this.els.sendOtpBtn?.addEventListener('click', () => this.sendOtp());
+
+        this.els.steps.forEach((stepBtn) => {
+            stepBtn.addEventListener('click', () => {
+                const targetStep = Number(stepBtn.dataset.registerStepTrigger);
+                this.goTo(targetStep);
+            });
+        });
+
+        this.els.form.querySelectorAll('input[name="brokerageCompany"]').forEach((input) => {
+            input.addEventListener('change', () => {
+                this.updateStockAccountVisibility();
+                this.invalidateOtp();
+            });
+        });
+
+        this.els.form.querySelectorAll('input[type="radio"]').forEach((input) => {
+            input.addEventListener('change', () => {
+                this.clearFieldError(input.name);
+            });
+        });
+
+        this.els.form.querySelectorAll('input').forEach((input) => {
+            input.addEventListener('input', () => {
+                this.clearFieldError(input.id || input.name);
+
+                if (input === this.els.passwordInput) {
+                    this.updatePasswordStrength(input.value);
+                }
+
+                if ([
+                    'registerFullName',
+                    'registerEmail',
+                    'registerPassword',
+                    'registerPasswordConfirm',
+                ].includes(input.id)) {
+                    this.invalidateOtp();
+                }
+            });
+        });
+
+        this.initialized = true;
+        this.render();
+    },
+
+    reset() {
+        if (!this.initialized) this.init();
+        if (!this.els.form) return;
+
+        this.stopCountdown();
+        this.currentStep = 0;
+        this.otpSent = false;
+        this.registrationStarted = false;
+
+        this.els.form.reset();
+        this.clearErrors();
+        this.setStatus('');
+        this.updatePasswordStrength('');
+
+        if (this.els.flow) this.els.flow.hidden = false;
+        if (this.els.success) this.els.success.hidden = true;
+
+        this.render();
+    },
+
+    isShowingSuccess() {
+        return Boolean(this.els.success && !this.els.success.hidden);
+    },
+
+    render() {
+        if (!this.initialized) this.init();
+        if (!this.els.form) return;
+
+        const modalOpen = Boolean(document.getElementById('authModalOverlay')?.classList.contains('active'));
+
+        this.els.panels.forEach((panel, index) => {
+            panel.classList.toggle('is-active', index === this.currentStep);
+        });
+
+        this.els.steps.forEach((step, index) => {
+            const marker = step.querySelector('.register-step-index');
+            step.classList.toggle('is-active', index === this.currentStep);
+            step.classList.toggle('is-complete', index < this.currentStep);
+            if (marker) marker.textContent = index < this.currentStep ? '✓' : String(index + 1);
+        });
+
+        if (this.els.progress) {
+            const progress = this.currentStep <= 0 ? 0 : (this.currentStep / 2) * 100;
+            this.els.progress.style.width = `${progress}%`;
+        }
+
+        if (this.els.prevBtn) {
+            this.els.prevBtn.disabled = !modalOpen || this.currentStep === 0;
+        }
+
+        if (this.els.nextBtn) {
+            this.els.nextBtn.hidden = this.currentStep === 2;
+            this.els.nextBtn.disabled = !modalOpen;
+        }
+
+        if (this.els.submitBtn) {
+            this.els.submitBtn.hidden = this.currentStep !== 2;
+            this.els.submitBtn.disabled = !modalOpen;
+        }
+
+        if (this.els.sendOtpBtn && this.countdownRemaining <= 0) {
+            this.els.sendOtpBtn.disabled = !modalOpen;
+            this.els.sendOtpBtn.textContent = this.otpSent || this.registrationStarted ? 'Gửi lại mã' : 'Gửi mã';
+        }
+
+        this.updateStockAccountVisibility();
+    },
+
+    prev() {
+        this.setStep(this.currentStep - 1);
+    },
+
+    next() {
+        if (!this.validateStep(this.currentStep)) return;
+        this.setStep(this.currentStep + 1);
+    },
+
+    goTo(targetStep) {
+        if (Number.isNaN(targetStep) || targetStep < 0 || targetStep > 2) return;
+
+        if (targetStep <= this.currentStep) {
+            this.setStep(targetStep);
+            return;
+        }
+
+        for (let step = this.currentStep; step < targetStep; step++) {
+            if (!this.validateStep(step)) return;
+        }
+
+        this.setStep(targetStep);
+    },
+
+    setStep(step) {
+        this.currentStep = Math.max(0, Math.min(2, step));
+        this.render();
+    },
+
+    handleSubmit(event) {
+        event.preventDefault();
+
+        if (this.currentStep < 2) {
+            this.next();
+            return;
+        }
+
+        const firstInvalidStep = this.getFirstInvalidStep();
+        if (firstInvalidStep !== -1) {
+            this.setStep(firstInvalidStep);
+            this.validateStep(firstInvalidStep);
+            return;
+        }
+
+        this.completeRegistration();
+    },
+
+    getFirstInvalidStep() {
+        for (let step = 0; step <= 2; step++) {
+            if (!this.validateStep(step, { silent: true })) return step;
+        }
+        this.clearErrors();
+        return -1;
+    },
+
+    validateStep(step, options = {}) {
+        const { silent = false, requireOtp = true } = options;
+        const panel = this.els.panels?.[step] || this.els.form;
+        const errors = [];
+
+        if (!silent) this.clearErrors(panel);
+
+        const addError = (field, message) => {
+            errors.push({ field, message });
+            if (!silent) this.setFieldError(field, message);
+        };
+
+        if (step === 0) {
+            const fullName = this.value('registerFullName');
+            const phone = this.value('registerPhone');
+            const digits = phone.replace(/\D/g, '');
+            const email = this.value('registerEmail');
+
+            if (!fullName) addError('registerFullName', 'Vui lòng nhập họ và tên.');
+            if (!phone) addError('registerPhone', 'Vui lòng nhập số điện thoại/Zalo.');
+            if (phone && (digits.length < 9 || digits.length > 11)) {
+                addError('registerPhone', 'Số điện thoại chưa đúng định dạng.');
+            }
+            if (!email) addError('registerEmail', 'Vui lòng nhập email.');
+            if (email && !this.isValidEmail(email)) {
+                addError('registerEmail', 'Email chưa đúng định dạng.');
+            }
+        }
+
+        if (step === 1) {
+            if (!this.value('registerBirthday')) addError('registerBirthday', 'Vui lòng chọn sinh nhật.');
+            if (!this.value('registerCity')) addError('registerCity', 'Vui lòng nhập tỉnh/thành phố.');
+            if (!this.checkedValue('investmentDuration')) addError('investmentDuration', 'Vui lòng chọn thời gian đầu tư.');
+            if (!this.checkedValue('riskAppetite')) addError('riskAppetite', 'Vui lòng chọn khẩu vị đầu tư.');
+            if (!this.checkedValue('brokerageCompany')) addError('brokerageCompany', 'Vui lòng chọn công ty chứng khoán.');
+        }
+
+        if (step === 2) {
+            const password = this.value('registerPassword', false);
+            const confirm = this.value('registerPasswordConfirm', false);
+            const otp = this.value('registerOtpCode');
+
+            if (!password) addError('registerPassword', 'Vui lòng đặt mật khẩu.');
+            if (password && password.length < 6) addError('registerPassword', 'Mật khẩu phải có ít nhất 6 ký tự.');
+            if (!confirm) addError('registerPasswordConfirm', 'Vui lòng nhập lại mật khẩu.');
+            if (confirm && password !== confirm) addError('registerPasswordConfirm', 'Mật khẩu nhập lại chưa khớp.');
+
+            if (requireOtp) {
+                if (!this.otpSent) addError('registerOtpCode', 'Vui lòng bấm Gửi mã trước khi hoàn tất.');
+                if (!otp) addError('registerOtpCode', 'Vui lòng nhập mã OTP.');
+                if (otp && !/^\d{6}$/.test(otp)) addError('registerOtpCode', 'Mã OTP gồm 6 chữ số.');
+            }
+        }
+
+        if (!silent && errors.length > 0) {
+            this.focusField(errors[0].field);
+        }
+
+        return errors.length === 0;
+    },
+
+    async sendOtp() {
+        const firstInvalidStep = this.getFirstInvalidStepBeforeOtp();
+        if (firstInvalidStep !== -1) {
+            this.setStep(firstInvalidStep);
+            this.validateStep(firstInvalidStep, { requireOtp: false });
+            return;
+        }
+
+        const sendBtn = this.els.sendOtpBtn;
+        this.setButtonLoading(sendBtn, true, 'Đang gửi...');
+        this.setStatus('');
+
+        const email = this.value('registerEmail');
+        window.setTimeout(() => {
+            this.otpSent = true;
+            this.registrationStarted = true;
+            this.startCountdown(60);
+            this.setStatus(`Mã xác thực đã được gửi đến ${email}.`);
+        }, 240);
+    },
+
+    async completeRegistration() {
+        const submitBtn = this.els.submitBtn;
+        this.setButtonLoading(submitBtn, true, 'Đang hoàn tất...');
+        this.setStatus('');
+
+        if (!this.registrationStarted) {
+            this.setFieldError('registerOtpCode', 'Vui lòng bấm Gửi mã trước khi hoàn tất.');
+            this.focusField('registerOtpCode');
+            this.setButtonLoading(submitBtn, false, 'Hoàn tất');
+            return;
+        }
+
+        window.setTimeout(() => {
+            this.showSuccess();
+        }, 240);
+    },
+
+    getFirstInvalidStepBeforeOtp() {
+        for (let step = 0; step <= 2; step++) {
+            const valid = this.validateStep(step, {
+                silent: true,
+                requireOtp: step === 2 ? false : true,
+            });
+            if (!valid) return step;
+        }
+        this.clearErrors();
+        return -1;
+    },
+
+    showSuccess() {
+        this.stopCountdown();
+        this.clearErrors();
+        this.setStatus('');
+        this.setButtonLoading(this.els.submitBtn, false, 'Hoàn tất');
+
+        if (this.els.flow) this.els.flow.hidden = true;
+        if (this.els.success) this.els.success.hidden = false;
+    },
+
+    startCountdown(seconds) {
+        this.stopCountdown();
+        this.countdownRemaining = seconds;
+        this.updateCountdownButton();
+
+        this.countdownTimer = window.setInterval(() => {
+            this.countdownRemaining -= 1;
+            this.updateCountdownButton();
+
+            if (this.countdownRemaining <= 0) {
+                this.stopCountdown();
+                this.render();
+            }
+        }, 1000);
+    },
+
+    stopCountdown() {
+        if (this.countdownTimer) {
+            window.clearInterval(this.countdownTimer);
+            this.countdownTimer = null;
+        }
+        this.countdownRemaining = 0;
+    },
+
+    updateCountdownButton() {
+        if (!this.els.sendOtpBtn) return;
+
+        if (this.countdownRemaining > 0) {
+            this.els.sendOtpBtn.disabled = true;
+            this.els.sendOtpBtn.textContent = `Gửi lại (${this.countdownRemaining}s)`;
+        } else {
+            this.els.sendOtpBtn.disabled = !document.getElementById('authModalOverlay')?.classList.contains('active');
+            this.els.sendOtpBtn.textContent = 'Gửi lại mã';
+        }
+    },
+
+    invalidateOtp() {
+        if (!this.otpSent && !this.registrationStarted) return;
+
+        this.stopCountdown();
+        this.otpSent = false;
+        this.registrationStarted = false;
+
+        if (this.els.otpInput) this.els.otpInput.value = '';
+        this.setStatus('');
+        this.render();
+    },
+
+    updateStockAccountVisibility() {
+        const company = this.checkedValue('brokerageCompany');
+        const shouldShow = Boolean(company && company !== 'none');
+        const modalOpen = Boolean(document.getElementById('authModalOverlay')?.classList.contains('active'));
+
+        if (this.els.stockAccountGroup) this.els.stockAccountGroup.hidden = !shouldShow;
+        if (this.els.stockAccountInput) {
+            this.els.stockAccountInput.disabled = !shouldShow || !modalOpen;
+            if (!shouldShow) this.els.stockAccountInput.value = '';
+        }
+    },
+
+    updatePasswordStrength(password) {
+        if (!this.els.strength || !this.els.strengthBar || !this.els.strengthLabel) return;
+
+        const score = this.passwordScore(password);
+        const map = [
+            { width: '0%', label: 'Độ mạnh mật khẩu', strength: '' },
+            { width: '34%', label: 'Mật khẩu yếu', strength: 'weak' },
+            { width: '67%', label: 'Mật khẩu trung bình', strength: 'medium' },
+            { width: '100%', label: 'Mật khẩu mạnh', strength: 'strong' },
+        ];
+        const state = map[score] || map[0];
+
+        this.els.strength.dataset.strength = state.strength;
+        this.els.strengthBar.style.width = state.width;
+        this.els.strengthLabel.textContent = state.label;
+    },
+
+    passwordScore(password) {
+        if (!password) return 0;
+
+        let score = password.length >= 6 ? 1 : 0;
+        if (password.length >= 10) score += 1;
+        if (/[A-Z]/.test(password) && /[a-z]/.test(password)) score += 1;
+        if (/\d/.test(password) && /[^A-Za-z0-9]/.test(password)) score += 1;
+
+        return Math.min(3, score);
+    },
+
+    value(id, shouldTrim = true) {
+        const input = document.getElementById(id);
+        const value = input ? input.value : '';
+        return shouldTrim ? value.trim() : value;
+    },
+
+    checkedValue(name) {
+        return this.els.form?.querySelector(`input[name="${name}"]:checked`)?.value || '';
+    },
+
+    isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    },
+
+    clearErrors(scope = this.els.form) {
+        if (!scope) return;
+
+        scope.querySelectorAll('.auth-field-error').forEach((error) => {
+            error.textContent = '';
+            error.classList.remove('is-visible');
+        });
+        scope.querySelectorAll('[aria-invalid="true"]').forEach((field) => {
+            field.removeAttribute('aria-invalid');
+        });
+    },
+
+    clearFieldError(field) {
+        if (!field || !this.els.form) return;
+        const error = this.els.form.querySelector(`[data-error-for="${field}"]`);
+        if (error) {
+            error.textContent = '';
+            error.classList.remove('is-visible');
+        }
+
+        const input = document.getElementById(field) || this.els.form.querySelector(`[name="${field}"]`);
+        if (input) input.removeAttribute('aria-invalid');
+
+        const group = this.els.form?.querySelector(`[data-required-group="${field}"]`);
+        if (group) group.removeAttribute('aria-invalid');
+    },
+
+    setFieldError(field, message) {
+        const error = this.els.form?.querySelector(`[data-error-for="${field}"]`);
+        if (error) {
+            error.textContent = message;
+            error.classList.add('is-visible');
+        }
+
+        const input = document.getElementById(field);
+        const group = this.els.form?.querySelector(`[data-required-group="${field}"]`);
+        if (input) input.setAttribute('aria-invalid', 'true');
+        if (group) group.setAttribute('aria-invalid', 'true');
+    },
+
+    focusField(field) {
+        const input = document.getElementById(field)
+            || this.els.form?.querySelector(`[name="${field}"]`);
+        if (input && typeof input.focus === 'function') input.focus();
+    },
+
+    setStatus(message, type = 'info') {
+        if (!this.els.otpStatus) return;
+
+        this.els.otpStatus.hidden = !message;
+        this.els.otpStatus.textContent = message || '';
+        this.els.otpStatus.dataset.status = type;
+    },
+
+    setButtonLoading(button, loading, text) {
+        if (!button) return;
+
+        if (loading) {
+            button.dataset.originalText = button.textContent;
+            button.textContent = text || 'Đang xử lý...';
+            button.disabled = true;
+            return;
+        }
+
+        button.disabled = false;
+        button.textContent = text || button.dataset.originalText || button.textContent;
+    },
+};
+
+window.RegisterStepper = RegisterStepper;
 
 /**
  * Toggle all inputs inside the authentication modal (except close buttons) to prevent browser autofill when hidden.
