@@ -24,9 +24,9 @@
 const MODULES = [
   { id: 'overview', label: 'Trang Chủ', icon: '🏠', section: 'Chính', permission: null },
   { id: 'billing', label: 'Phê duyệt', icon: '💵', section: 'Chính', permission: null },
-  { id: 'copilot', label: 'AI Copilot', icon: '🧠', section: 'Chính', permission: null, hidden: true },
+  { id: 'copilot', label: 'AI Copilot', icon: '🧠', section: 'Chính', permission: null },
   { id: 'signals', label: 'Tín Hiệu V.I.P', icon: '📊', section: 'Dữ liệu', permission: 'UPDATE_SIGNAL', hidden: true },
-  { id: 'copy-trade', label: 'Copy Trade', icon: '🔄', section: 'Dữ liệu', permission: 'UPDATE_SIGNAL', hidden: true },
+  { id: 'copy-trade', label: 'Copy Trade', icon: '🔄', section: 'Dữ liệu', permission: 'UPDATE_SIGNAL' },
   { id: 'market', label: 'Dữ liệu', icon: '🪙', section: 'Dữ liệu', permission: null },
   { id: 'market-intelligence', label: 'Market Intelligence', icon: '📈', section: 'Dữ liệu', permission: null, hidden: true },
   { id: 'research-center', label: 'Research Center', icon: '📝', section: 'Dữ liệu', permission: null, hidden: true },
@@ -40,9 +40,9 @@ const MODULES = [
   // Hidden modules (preserved for code stability, E2E checks and URL routing)
   { id: 'notifications', label: 'Thông báo', icon: '🔔', section: 'Hệ thống', permission: null, hidden: true },
   { id: 'portfolios', label: 'Danh mục cũ', icon: '💼', section: 'Hệ thống', permission: null, hidden: true },
-  { id: 'audit', label: 'Nhật ký', icon: '📋', section: 'Hệ thống', permission: 'VIEW_AUDIT_LOGS', hidden: true },
-  { id: 'system', label: 'Hệ thống', icon: '⚙️', section: 'Hệ thống', permission: null, hidden: true },
-  { id: 'ai-ops', label: 'AI Ops / QA', icon: '🤖', section: 'Hệ thống', permission: null, hidden: true },
+  { id: 'audit', label: 'Nhật ký', icon: '📋', section: 'Hệ thống', permission: 'VIEW_AUDIT_LOGS' },
+  { id: 'system', label: 'Hệ thống', icon: '⚙️', section: 'Hệ thống', permission: null },
+  { id: 'ai-ops', label: 'AI Ops / QA', icon: '🤖', section: 'Hệ thống', permission: null },
 ];
 
 let currentModule = null;
