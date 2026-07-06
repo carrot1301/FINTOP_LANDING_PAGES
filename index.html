@@ -7044,8 +7044,6 @@
             tbody.innerHTML = '';
             populateBolocFilterOptions();
 
-            const rows = getFilteredBolocData();
-
             if (!hasBolocAccess()) {
                 populateBolocFilterOptions();
                 renderBolocLockedPreview();
