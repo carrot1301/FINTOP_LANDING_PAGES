@@ -128,6 +128,71 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     checkHash();
     window.addEventListener('hashchange', checkHash);
+
+    // ── Referral link handling ──────────────────────────────────
+    // Supports: ?ref=CODE  or  /dangky/CODE  (with server rewrite)
+    // When a referral code is detected, open register modal and pre-fill referral fields.
+    (async function handleReferralFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let refCode = urlParams.get('ref') || urlParams.get('referral') || '';
+
+        // Also support path-based: /dangky/CODE (if nginx rewrites to /?ref=CODE, this is handled above.
+        // But also detect from pathname directly for local dev or direct access)
+        if (!refCode) {
+            const pathMatch = window.location.pathname.match(/\/dangky\/([A-Za-z0-9]+)/i);
+            if (pathMatch) {
+                refCode = pathMatch[1];
+            }
+        }
+
+        if (!refCode) return;
+
+        // Open registration modal
+        openAuthModal('register');
+
+        // Wait a small tick for the modal DOM to be fully ready
+        await new Promise(r => setTimeout(r, 200));
+
+        const refIdInput = document.getElementById('registerRefId');
+        const refNameInput = document.getElementById('registerRefName');
+
+        if (!refIdInput) return;
+
+        // Pre-fill the referral ID
+        refIdInput.value = refCode;
+
+        // Lookup the referrer's name via API
+        try {
+            const code = encodeURIComponent(refCode);
+            let fullName = '';
+
+            if (window.FintopInfra && window.FintopInfra.ApiClient) {
+                const res = await window.FintopInfra.ApiClient.get(`/auth/referral-lookup/${code}`);
+                if (res && res.data && res.data.fullName) {
+                    fullName = res.data.fullName;
+                }
+            } else {
+                const baseUrl = window.FintopInfra?.FintopEnv?.API_BASE_URL || 'http://localhost:3000';
+                const res = await fetch(`${baseUrl}/auth/referral-lookup/${code}`);
+                if (res.ok) {
+                    const body = await res.json();
+                    const data = body.data || body;
+                    if (data && data.fullName) {
+                        fullName = data.fullName;
+                    }
+                }
+            }
+
+            if (refNameInput) {
+                refNameInput.value = fullName || 'Không tìm thấy người giới thiệu';
+            }
+        } catch (err) {
+            console.error('Error looking up referral from URL:', err);
+            if (refNameInput) {
+                refNameInput.value = 'Không tìm thấy người giới thiệu';
+            }
+        }
+    })();
 });
 
 function showAdminAccessLink(isVisible) {
@@ -466,6 +531,52 @@ const RegisterStepper = {
             });
         });
 
+        const refIdInput = document.getElementById('registerRefId');
+        const refNameInput = document.getElementById('registerRefName');
+        if (refIdInput && refNameInput) {
+            let lookupTimeout = null;
+            refIdInput.addEventListener('input', () => {
+                const val = refIdInput.value.trim();
+                refNameInput.value = ''; // Clear previous immediately
+                
+                if (lookupTimeout) clearTimeout(lookupTimeout);
+                
+                if (!val) return;
+                
+                lookupTimeout = setTimeout(async () => {
+                    try {
+                        const code = encodeURIComponent(val);
+                        if (window.FintopInfra && window.FintopInfra.ApiClient) {
+                            try {
+                                const res = await window.FintopInfra.ApiClient.get(`/auth/referral-lookup/${code}`);
+                                if (res && res.data && res.data.fullName) {
+                                    refNameInput.value = res.data.fullName;
+                                } else {
+                                    refNameInput.value = 'Không tìm thấy người giới thiệu';
+                                }
+                            } catch (e) {
+                                refNameInput.value = 'Không tìm thấy người giới thiệu';
+                            }
+                        } else {
+                            const baseUrl = window.FintopInfra?.FintopEnv?.API_BASE_URL || 'http://localhost:3000';
+                            const res = await fetch(`${baseUrl}/auth/referral-lookup/${code}`);
+                            if (res.ok) {
+                                const body = await res.json();
+                                const data = body.data || body;
+                                if (data && data.fullName) {
+                                    refNameInput.value = data.fullName;
+                                }
+                            } else {
+                                refNameInput.value = 'Không tìm thấy người giới thiệu';
+                            }
+                        }
+                    } catch (err) {
+                        console.error('Error looking up referral ID:', err);
+                    }
+                }, 500);
+            });
+        }
+
         this.initialized = true;
         this.render();
     },
@@ -633,18 +744,11 @@ const RegisterStepper = {
         if (step === 2) {
             const password = this.value('registerPassword', false);
             const confirm = this.value('registerPasswordConfirm', false);
-            const otp = this.value('registerOtpCode');
 
             if (!password) addError('registerPassword', 'Vui lòng đặt mật khẩu.');
             if (password && password.length < 6) addError('registerPassword', 'Mật khẩu phải có ít nhất 6 ký tự.');
             if (!confirm) addError('registerPasswordConfirm', 'Vui lòng nhập lại mật khẩu.');
             if (confirm && password !== confirm) addError('registerPasswordConfirm', 'Mật khẩu nhập lại chưa khớp.');
-
-            if (requireOtp) {
-                if (!this.otpSent) addError('registerOtpCode', 'Vui lòng bấm Gửi mã trước khi hoàn tất.');
-                if (!otp) addError('registerOtpCode', 'Vui lòng nhập mã OTP.');
-                if (otp && !/^\d{6}$/.test(otp)) addError('registerOtpCode', 'Mã OTP gồm 6 chữ số.');
-            }
         }
 
         if (!silent && errors.length > 0) {
@@ -655,37 +759,13 @@ const RegisterStepper = {
     },
 
     async sendOtp() {
-        const firstInvalidStep = this.getFirstInvalidStepBeforeOtp();
-        if (firstInvalidStep !== -1) {
-            this.setStep(firstInvalidStep);
-            this.validateStep(firstInvalidStep, { requireOtp: false });
-            return;
-        }
-
-        const sendBtn = this.els.sendOtpBtn;
-        this.setButtonLoading(sendBtn, true, 'Đang gửi...');
-        this.setStatus('');
-
-        const email = this.value('registerEmail');
-        window.setTimeout(() => {
-            this.otpSent = true;
-            this.registrationStarted = true;
-            this.startCountdown(60);
-            this.setStatus(`Mã xác thực đã được gửi đến ${email}.`);
-        }, 240);
+        // Obsolete but kept to prevent reference errors
     },
 
     async completeRegistration() {
         const submitBtn = this.els.submitBtn;
         this.setButtonLoading(submitBtn, true, 'Đang hoàn tất...');
         this.setStatus('');
-
-        if (!this.registrationStarted) {
-            this.setFieldError('registerOtpCode', 'Vui lòng bấm Gửi mã trước khi hoàn tất.');
-            this.focusField('registerOtpCode');
-            this.setButtonLoading(submitBtn, false, 'Hoàn tất');
-            return;
-        }
 
         // Call real API through AuthUI if available
         if (window.FintopInfra && window.FintopInfra.AuthUI) {

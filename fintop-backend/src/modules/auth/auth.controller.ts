@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, UseGuards, Get, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, Req, UseGuards, Get, Patch, Param, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -107,14 +107,27 @@ export class AuthController {
     await this.authService.logoutAll(user.id, ipAddress, userAgent);
   }
 
+  @Get('referral-lookup/:code')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Lookup referrer name by code/ID' })
+  async lookupReferrer(@Param('code') code: string) {
+    return this.authService.lookupReferrer(code);
+  }
+
   @Get('me')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get current user profile' })
   async getMe(@CurrentUser() user: any) {
-    // CurrentUser decorator already attaches user object from DB (since we used JwtStrategy to fetch it)
-    // We should mask the passwordHash and return safe fields.
-    const { passwordHash, ...safeUser } = user;
-    return safeUser;
+    return this.authService.getUserProfile(user.id);
+  }
+
+  @Patch('profile')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Update current user profile' })
+  async updateProfile(@CurrentUser() user: any, @Body() dto: any) {
+    return this.authService.updateProfile(user.id, dto);
   }
 }

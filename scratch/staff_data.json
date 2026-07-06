@@ -1,0 +1,353 @@
+[
+  {
+    "fullName": "FinTop_Admin",
+    "staffCode": "BOJE",
+    "phone": "0386358007",
+    "email": "fintop.ba@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2024-03-17",
+    "role": "CEO"
+  },
+  {
+    "fullName": "Nguyễn Công Luật",
+    "staffCode": "F000",
+    "phone": "0386358006",
+    "email": "FinTop.BAShare@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2001-09-21",
+    "role": "CEO"
+  },
+  {
+    "fullName": "Trần Thị Thanh Thảo",
+    "staffCode": "BOCR",
+    "phone": "0983582655",
+    "email": "tthanhthao250604.fam@gmail.com",
+    "address": "Tx. Hoàng Mai",
+    "dob": "2004-06-25",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Đào Thị Ngọc Anh",
+    "staffCode": "F861",
+    "phone": "0396727519",
+    "email": "withna0610@gmail.com",
+    "address": "Hà Đông - Hà Nội",
+    "dob": "2003-10-06",
+    "role": "Trợ lý CEO"
+  },
+  {
+    "fullName": "Trần Khánh Linh",
+    "staffCode": "8043",
+    "phone": "0971764531",
+    "email": "khanhlinhtran10150@gmail.com",
+    "address": "Hà Nội",
+    "dob": "1999-01-10",
+    "role": "Trợ lý CEO"
+  },
+  {
+    "fullName": "Nguyễn Minh Hạnh",
+    "staffCode": "5654",
+    "phone": "0934650459",
+    "email": "hanhnm91@gmail.com",
+    "address": "Hà Nội",
+    "dob": "1991-11-14",
+    "role": "Editor Pro + Sale"
+  },
+  {
+    "fullName": "Nguyễn Như Quỳnh",
+    "staffCode": "BJFS",
+    "phone": "0362928667",
+    "email": "nhuquynhnguyen16102002@gmail.com",
+    "address": "Thanh Hóa",
+    "dob": "2002-10-16",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Nguyễn Duy An",
+    "staffCode": "BEW5",
+    "phone": "0965990173",
+    "email": "nguyenduyan179202@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2002-09-17",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Hoàng Thị Dịu",
+    "staffCode": "BM35",
+    "phone": "0796090848",
+    "email": "diuhoang517@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2005-09-27",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Vũ Hoàng Duy",
+    "staffCode": "BLHG",
+    "phone": "0325414140",
+    "email": "duyhoangvu2692004@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2004-09-26",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Lê Đình Đức",
+    "staffCode": "BJYE",
+    "phone": "0869870233",
+    "email": "leducvh02@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2002-10-09",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Nguyễn Thuận Khang",
+    "staffCode": "BJ2S",
+    "phone": "0356479959",
+    "email": "khangthuan07@gmail.com",
+    "address": "Hồ Chí Minh",
+    "dob": "2003-06-29",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Nguyễn Đình Hải",
+    "staffCode": "6061",
+    "phone": "0357731889",
+    "email": "hailedylan889@gmail.com",
+    "address": "Hà Nội",
+    "dob": "1995-02-07",
+    "role": "Sale Admin"
+  },
+  {
+    "fullName": "Phan Nữ Đan Nhi",
+    "staffCode": "BNSZ",
+    "phone": "0845205955",
+    "email": "dannhihht@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2003-02-28",
+    "role": "Sale"
+  },
+  {
+    "fullName": "nguyễn bách đạt",
+    "staffCode": "F003",
+    "phone": "0336646836",
+    "email": "nguyendat28112004@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2004-11-28",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Trần Quốc Việt",
+    "staffCode": "BPJ4",
+    "phone": "0869391861",
+    "email": "viettb234@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2003-10-13",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Nguyễn Thành Phúc",
+    "staffCode": "BF14",
+    "phone": "0369879176",
+    "email": "thanhphucubqn@gmail.com",
+    "address": "Tòa S3 Vinhomes Skylake Phạm Hùng, Nam Từ Liêm",
+    "dob": "2000-09-12",
+    "role": "Editor Pro + Sale Admin"
+  },
+  {
+    "fullName": "Hoài Thu Nguyễn",
+    "staffCode": "5016",
+    "phone": "0972227823",
+    "email": "thugie79.93@gmail.com",
+    "address": "Tầng 18 tòa VTC Online, 18 Tam Trinh, Hà Nội, Việt Nam.",
+    "dob": "1993-09-07",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Đoàn Phương Hạnh",
+    "staffCode": "BRRU",
+    "phone": "0347268359",
+    "email": "doanphuonghanhmthh@gmail.com",
+    "address": "157 Chùa Láng, Đống Đa, Hà Nội",
+    "dob": "2004-06-01",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Nguyễn Lê Phương Mai",
+    "staffCode": "BSPD",
+    "phone": "0971120304",
+    "email": "phuongwmai281103@gmail.com",
+    "address": "No. 18, adjacent row 20C, Van Phu urban area",
+    "dob": "2003-11-28",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Nguyễn Thị Ngọc",
+    "staffCode": "BRN4",
+    "phone": "0979342651",
+    "email": "ngoc.nt0899@gmail.com",
+    "address": "Ngõ 12 Tôn Thất Tùng, Kim Liên, Hà Nội",
+    "dob": "1999-08-12",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Nguyễn Mai Thy",
+    "staffCode": "BSQW",
+    "phone": "0943030604",
+    "email": "nguyenmaithy04@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2004-06-03",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Ngô Sơn Tùng",
+    "staffCode": "Số điện thoại",
+    "phone": "0392061651",
+    "email": "nstung234@gmail.com",
+    "address": "51/8 Bùi Ngọc Dương, Bạch Mai, Hà Nội",
+    "dob": "2004-03-20",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Nguyễn Thị Thùy Giang",
+    "staffCode": "BN32",
+    "phone": "0921446885",
+    "email": "giangthuy2711@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2004-11-27",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Vũ Thành Long",
+    "staffCode": "BSPB",
+    "phone": "0977735502",
+    "email": "long2004ptit@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2004-02-22",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Hồ Phú Thịnh",
+    "staffCode": "BTJJ",
+    "phone": "0898413118",
+    "email": "hothinh338@gmail.com",
+    "address": "Thành Phố Hồ Chí Minh",
+    "dob": "2004-08-13",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Dang Nhu Ngoc",
+    "staffCode": "BSVA",
+    "phone": "0981101355",
+    "email": "olianbill2508@gmail.com",
+    "address": "Hà nội",
+    "dob": "1999-10-23",
+    "role": ""
+  },
+  {
+    "fullName": "Nguyễn Thị Phương Anh",
+    "staffCode": "BSVA",
+    "phone": "0963802731",
+    "email": "phuonganh03ntt@gmail.com",
+    "address": "Ninh Bình",
+    "dob": "2003-10-11",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Lê Yến Nhi",
+    "staffCode": "BT4O",
+    "phone": "0977563620",
+    "email": "le217112@gmail.com",
+    "address": "Quận Dương Kinh",
+    "dob": "2005-10-09",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Nguyên Minh Dương",
+    "staffCode": "BTLT",
+    "phone": "0707653497",
+    "email": "dmnguyen12977@gmail.com",
+    "address": "35 Lê Văn Lương, Thanh Xuân, Hà Nội, Việt Nam",
+    "dob": "1997-07-12",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Nguyễn Thị Liễu",
+    "staffCode": "BTRN",
+    "phone": "0368266435",
+    "email": "ntlieuxd2005@gmail.com",
+    "address": "Thôn Trường Xuân, xã Xuân Dương, huyện Thanh Oai, thành phố Hà Nội",
+    "dob": "2005-10-14",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Nguyễn Trường Giang",
+    "staffCode": "BTK7",
+    "phone": "0704741767",
+    "email": "giangjojo2004@gmail.com",
+    "address": "68/6 Lê Văn Linh phường xóm chiếu TP Hồ Chí Minh",
+    "dob": "2004-11-26",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Lê Hà Trang",
+    "staffCode": "BSZD",
+    "phone": "0337057530",
+    "email": "lehatrang21102004@gmail.com",
+    "address": "Hà Nội",
+    "dob": "2004-10-21",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Trần Thị Phương Loan",
+    "staffCode": "BTRW",
+    "phone": "0358035448",
+    "email": "loanttp203@gmail.com",
+    "address": "Hồ Chí Minh",
+    "dob": "2004-03-20",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Phạm Thị Ngọc Thu",
+    "staffCode": "5777",
+    "phone": "0832888836",
+    "email": "thungocph@gmail.com",
+    "address": "Hà Nội",
+    "dob": "1999-06-26",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Trung Thành Nguyễn",
+    "staffCode": "BW4O",
+    "phone": "0835955799",
+    "email": "nguyentrungthanh05012005@gmail.com",
+    "address": "Phường Từ Liêm",
+    "dob": "2005-01-05",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Trần Tuấn Nam",
+    "staffCode": "F101",
+    "phone": "0915985799",
+    "email": "tnam19884@gmail.com",
+    "address": "Tân Hạnh, Đông Sơn, TP Thanh Hóa",
+    "dob": "2003-08-30",
+    "role": "Sale"
+  },
+  {
+    "fullName": "Nguyễn Văn Tuấn",
+    "staffCode": "8043",
+    "phone": "0865863045",
+    "email": "tuannv7105@gmail.com",
+    "address": "Quốc Oai, Hà Nội",
+    "dob": "2005-10-07",
+    "role": "CEO"
+  },
+  {
+    "fullName": "Đoàn Nguyên Trí",
+    "staffCode": "BWF6",
+    "phone": "0886871437",
+    "email": "doantri12343@gmail.com",
+    "address": "Hồ Chí Minh",
+    "dob": "2004-01-13",
+    "role": "Trợ lý CEO"
+  }
+]

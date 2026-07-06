@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, ForbiddenException, Logger, ConflictException, BadRequestException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ForbiddenException, Logger, ConflictException, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../common/database/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuditService } from '../../common/audit/audit.service';
@@ -603,6 +603,174 @@ export class AuthService {
 
   private generateOTP(): string {
     return String(randomInt(100000, 999999));
+  }
+
+  async updateProfile(userId: number, dto: any) {
+    const allowedFields = [
+      'fullName',
+      'dob',
+      'phone',
+      'address',
+      'investmentDuration',
+      'investmentStyle',
+      'stockCompany',
+      'stockAccount',
+      'company',
+      'position',
+    ];
+
+    const updateData: any = {};
+    for (const key of allowedFields) {
+      if (dto[key] !== undefined) {
+        if (key === 'dob' && dto[key]) {
+          updateData[key] = new Date(dto[key]);
+        } else {
+          updateData[key] = dto[key];
+        }
+      }
+    }
+
+    if (dto.password) {
+      updateData.passwordHash = await HashUtil.hash(dto.password);
+    }
+
+    const updatedUser = await this.prisma.user.update({
+      where: { id: userId },
+      data: updateData,
+    });
+
+    const { passwordHash, ...safeUser } = updatedUser;
+    return safeUser;
+  }
+
+  async getUserProfile(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        userRoles: {
+          include: {
+            role: {
+              include: {
+                permissions: {
+                  include: {
+                    permission: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        subscriptions: {
+          where: {
+            status: 'ACTIVE',
+            endDate: { gt: new Date() },
+          },
+          include: {
+            plan: true,
+          },
+          orderBy: {
+            endDate: 'desc',
+          },
+          take: 1,
+        },
+        team: true,
+        department: true,
+      },
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    // Flatten roles and permissions (mirrors jwt.strategy.ts)
+    const roles = user.userRoles.map((ur) => ur.role.code);
+    const permissions = new Set<string>();
+    for (const ur of user.userRoles) {
+      for (const rp of ur.role.permissions) {
+        permissions.add(`${rp.permission.module}:${rp.permission.action}`);
+      }
+    }
+
+    const TIER_HIERARCHY_VALUES = { STANDARD: 1, SILVER: 2, GOLD: 3, DIAMOND: 4 };
+    const ROLE_TIER_MAPPING = {
+      SUPER_ADMIN: 'DIAMOND', CEO: 'DIAMOND', ASSISTANT_CEO: 'DIAMOND',
+      ADMIN: 'DIAMOND', EDITOR_ADMIN: 'DIAMOND', SALE_ADMIN: 'DIAMOND',
+      EXPERT: 'GOLD', EDITOR_PRO: 'GOLD', EDITOR: 'SILVER', SALE: 'SILVER',
+      CLIENT_VIP: 'GOLD',
+    };
+
+    let maxUserTier = user.tierLevel;
+    let maxUserLevel = TIER_HIERARCHY_VALUES[maxUserTier] || 1;
+    for (const role of roles) {
+      const mappedTier = ROLE_TIER_MAPPING[role];
+      if (mappedTier) {
+        const mappedLevel = TIER_HIERARCHY_VALUES[mappedTier] || 1;
+        if (mappedLevel > maxUserLevel) {
+          maxUserLevel = mappedLevel;
+          maxUserTier = mappedTier as any;
+        }
+      }
+    }
+
+    const { passwordHash, userRoles, subscriptions, ...safeUser } = user;
+    return {
+      ...safeUser,
+      tierLevel: maxUserTier,
+      roles,
+      permissions: Array.from(permissions),
+    };
+  }
+
+  async lookupReferrer(code: string) {
+    if (!code) {
+      throw new BadRequestException('ID người giới thiệu không được để trống');
+    }
+
+    // 1. Search for a user whose team code matches
+    let user = await this.prisma.user.findFirst({
+      where: {
+        team: {
+          code: {
+            equals: code,
+            mode: 'insensitive'
+          }
+        },
+        deletedAt: null
+      },
+      select: { fullName: true }
+    });
+
+    // 2. If not found, search for a user whose department code matches
+    if (!user) {
+      user = await this.prisma.user.findFirst({
+        where: {
+          department: {
+            code: {
+              equals: code,
+              mode: 'insensitive'
+            }
+          },
+          deletedAt: null
+        },
+        select: { fullName: true }
+      });
+    }
+
+    // 3. If not found and code is numeric, search by user ID
+    if (!user) {
+      const numericId = parseInt(code, 10);
+      if (!isNaN(numericId)) {
+        user = await this.prisma.user.findUnique({
+          where: { id: numericId },
+          select: { fullName: true }
+        });
+      }
+    }
+
+    if (!user) {
+      throw new NotFoundException('Không tìm thấy người giới thiệu');
+    }
+
+    return { fullName: user.fullName };
   }
 
   private async logAuditFailedLogin(email: string, ipAddress: string, userAgent: string, userId?: number) {

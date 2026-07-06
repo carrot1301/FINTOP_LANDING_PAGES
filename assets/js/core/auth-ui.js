@@ -142,6 +142,9 @@ const NavbarAuth = {
           </div>
         </div>
         ${dynamicLinksHTML}
+        <a href="javascript:void(0)" class="user-dropdown-item" id="fintopProfileBtn" onclick="if (typeof openPanel === 'function') { openPanel('panel-profile', this); } else { alert('Thông tin cá nhân'); }">
+          👤 Thông tin cá nhân
+        </a>
         <a href="javascript:void(0)" class="user-dropdown-item" id="fintopLogoutBtn">
           🚪 Đăng xuất
         </a>

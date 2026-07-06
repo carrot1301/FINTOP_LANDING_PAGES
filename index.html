@@ -5864,6 +5864,295 @@
         </div>
     </div>
 
+    <!-- ============================================ -->
+    <!-- PANEL: PROFILE (THÔNG TIN CÁ NHÂN)           -->
+    <!-- ============================================ -->
+    <style>
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        @media (max-width: 1024px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        .profile-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+        }
+        .profile-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+        .profile-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .profile-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .profile-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .profile-group.full-width {
+            grid-column: span 2;
+        }
+        @media (max-width: 768px) {
+            .profile-group.full-width {
+                grid-column: span 1;
+            }
+        }
+        .profile-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        .profile-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            width: 100%;
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+        .profile-input:focus {
+            border-color: #c084fc;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 8px rgba(192, 132, 252, 0.3);
+        }
+        .profile-input:disabled {
+            background: rgba(0, 0, 0, 0.2);
+            color: #64748b;
+            border-color: rgba(255, 255, 255, 0.03);
+            cursor: not-allowed;
+        }
+        .profile-right-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            text-align: center;
+            padding: 30px 20px;
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        .profile-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid #c084fc;
+            background: #1e1b4b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            box-shadow: 0 0 16px rgba(192, 132, 252, 0.4);
+        }
+        .profile-btn-primary {
+            background: linear-gradient(135deg, #a78bfa 0%, #c084fc 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .profile-btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .profile-btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .profile-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+    </style>
+
+    <div class="submenu-panel" id="panel-profile">
+        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
+        <div class="panel-header">
+            <h2 class="gradient-text" style="font-size: clamp(1.8rem, 3vw, 2.5rem);">Thông Tin Cá Nhân</h2>
+            <p>Quản lý và cập nhật thông tin tài khoản FinTop DATA của bạn.</p>
+        </div>
+        <div class="function-shell">
+            <div class="profile-layout">
+                <!-- Cột trái: Form thông tin -->
+                <div class="profile-card">
+                    <div class="profile-card-header">
+                        <h3 style="font-size: 1.1rem; font-weight: 600; color: #fff; margin: 0;">📋 Chi tiết tài khoản</h3>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="profile-btn-secondary" id="btnUserProfEdit">✏️ Chỉnh sửa</button>
+                            <button class="profile-btn-primary" id="btnUserProfSave" style="display: none;">💾 Lưu thay đổi</button>
+                            <button class="profile-btn-secondary" id="btnUserProfCancel" style="display: none;">Hủy</button>
+                        </div>
+                    </div>
+                    
+                    <form id="formUserProfile" onsubmit="event.preventDefault();">
+                        <h4 style="font-size: 0.85rem; text-transform: uppercase; color: #a78bfa; margin-top: 1.5rem; margin-bottom: 1rem; font-weight: 600; letter-spacing: 0.05em;">Thông tin cơ bản</h4>
+                        <div class="profile-form-grid">
+                            <div class="profile-group">
+                                <label class="profile-label">Họ và tên</label>
+                                <input type="text" class="profile-input" id="uprof-fullname" disabled required>
+                            </div>
+                            <div class="profile-group">
+                                <label class="profile-label">Địa chỉ Email</label>
+                                <input type="email" class="profile-input" id="uprof-email" disabled>
+                            </div>
+                            <div class="profile-group">
+                                <label class="profile-label">Ngày sinh</label>
+                                <input type="date" class="profile-input" id="uprof-dob" disabled required>
+                            </div>
+                            <div class="profile-group">
+                                <label class="profile-label">Số điện thoại</label>
+                                <input type="text" class="profile-input" id="uprof-phone" disabled required>
+                            </div>
+                        </div>
+
+                        <h4 style="font-size: 0.85rem; text-transform: uppercase; color: #a78bfa; margin-top: 1.5rem; margin-bottom: 1rem; font-weight: 600; letter-spacing: 0.05em;">Thông tin liên lạc & Công việc</h4>
+                        <div class="profile-form-grid">
+                            <div class="profile-group full-width">
+                                <label class="profile-label">Địa chỉ hiện tại</label>
+                                <input type="text" class="profile-input" id="uprof-address" disabled required>
+                            </div>
+                            <div class="profile-group">
+                                <label class="profile-label">Công ty</label>
+                                <input type="text" class="profile-input" id="uprof-company" disabled>
+                            </div>
+                            <div class="profile-group">
+                                <label class="profile-label">Chức vụ</label>
+                                <input type="text" class="profile-input" id="uprof-position" disabled>
+                            </div>
+                            <div class="profile-group">
+                                <label class="profile-label">Gia nhập ngày</label>
+                                <input type="date" class="profile-input" id="uprof-joindate" disabled>
+                            </div>
+                        </div>
+
+                        <h4 style="font-size: 0.85rem; text-transform: uppercase; color: #a78bfa; margin-top: 1.5rem; margin-bottom: 1rem; font-weight: 600; letter-spacing: 0.05em;">Khảo sát đầu tư</h4>
+                        <div class="profile-form-grid">
+                            <div class="profile-group">
+                                <label class="profile-label">Thời gian đầu tư</label>
+                                <select class="profile-input" id="uprof-duration" disabled required style="appearance: auto;">
+                                    <option value="0 - 3 tháng">0 - 3 tháng</option>
+                                    <option value="3 - 6 tháng">3 - 6 tháng</option>
+                                    <option value="6 - 12 tháng">6 - 12 tháng</option>
+                                    <option value="Trên 1 năm">Trên 1 năm</option>
+                                </select>
+                            </div>
+                            <div class="profile-group">
+                                <label class="profile-label">Khẩu vị đầu tư</label>
+                                <select class="profile-input" id="uprof-style" disabled required style="appearance: auto;">
+                                    <option value="Lướt sóng ngắn hạn">Lướt sóng ngắn hạn</option>
+                                    <option value="Trung và dài hạn">Trung và dài hạn</option>
+                                    <option value="Linh hoạt kết hợp">Linh hoạt kết hợp</option>
+                                </select>
+                            </div>
+                            <div class="profile-group">
+                                <label class="profile-label">Công ty chứng khoán</label>
+                                <select class="profile-input" id="uprof-broker" disabled required style="appearance: auto;">
+                                    <option value="Chưa TKCK">Chưa TKCK</option>
+                                    <option value="VPS">VPS</option>
+                                    <option value="SSI">SSI</option>
+                                    <option value="VND">VND</option>
+                                    <option value="Công ty khác">Công ty khác</option>
+                                </select>
+                            </div>
+                            <div class="profile-group">
+                                <label class="profile-label">Số tài khoản chứng khoán (nếu có)</label>
+                                <input type="text" class="profile-input" id="uprof-stockaccount" disabled>
+                            </div>
+                        </div>
+
+                        <h4 style="font-size: 0.85rem; text-transform: uppercase; color: #a78bfa; margin-top: 1.5rem; margin-bottom: 1rem; font-weight: 600; letter-spacing: 0.05em;">Thông tin người giới thiệu</h4>
+                        <div class="profile-form-grid">
+                            <div class="profile-group">
+                                <label class="profile-label">ID người giới thiệu</label>
+                                <input type="text" class="profile-input" id="uprof-refid" disabled>
+                            </div>
+                            <div class="profile-group">
+                                <label class="profile-label">Tên người giới thiệu</label>
+                                <input type="text" class="profile-input" id="uprof-refname" disabled>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Cột phải: Thẻ tóm tắt -->
+                <div class="profile-right-card">
+                    <div class="profile-avatar" id="uprof-avatar-display">US</div>
+                    <h3 style="font-size: 1.4rem; font-weight: 700; color: #fff; margin: 5px 0 0 0;" id="uprof-name-display">User Name</h3>
+                    
+                    <div style="margin: 5px 0 15px 0;">
+                        <span id="uprof-tier-badge" style="font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 4px; color: #c084fc; background: rgba(192,132,252,0.15); border: 1px solid rgba(192,132,252,0.3); letter-spacing: 0.5px;">⭐️ STANDARD</span>
+                    </div>
+
+                    <div style="font-size: 0.85rem; color: #94a3b8; text-align: left; width: 100%; padding: 0 10px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 15px;">
+                        <div>ID hội viên: <strong style="color: #fff;" id="uprof-userid-display"></strong></div>
+                        <div>Ngày đăng ký: <strong style="color: #fff;" id="uprof-regdate-display"></strong></div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 15px;">
+                        <button class="profile-btn-primary" style="width: 100%;" id="btnUserProfChangePass">🔑 Đổi mật khẩu</button>
+                        <button class="profile-btn-secondary" style="width: 100%;" onclick="openPanel('panel-hoivien', this)">⚡ Nâng cấp tài khoản</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password Change modal -->
+        <div id="uprof-change-pass-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); z-index: 10000; align-items: center; justify-content: center;">
+            <div class="profile-card" style="width: 100%; max-width: 400px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+                <div class="profile-card-header" style="margin-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 12px;">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; color: #fff; margin: 0;">🔑 Đổi mật khẩu cá nhân</h3>
+                    <button class="panel-close-btn" style="position: static; font-size: 1.2rem; background: none; border: none; color: #94a3b8; cursor: pointer;" onclick="document.getElementById('uprof-change-pass-modal-overlay').style.display='none'">✕</button>
+                </div>
+                <div class="profile-group" style="margin-bottom: 20px;">
+                    <label class="profile-label" style="margin-bottom: 8px;">Nhập mật khẩu mới (tối thiểu 6 ký tự)</label>
+                    <input type="password" class="profile-input" id="uprof-new-pass-input" placeholder="Mật khẩu mới...">
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button class="profile-btn-secondary" onclick="document.getElementById('uprof-change-pass-modal-overlay').style.display='none'">Hủy</button>
+                    <button class="profile-btn-primary" id="btnUserProfSavePass">Lưu mật khẩu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- VÙNG TRANG CHỦ ĐƯỢC BỌC ĐỂ ẨN HIỆN SPA -->
     <div id="homepageContent">
         <!-- VÙNG CUỘN HIỆU ỨNG ĐIỆN ẢNH -->
@@ -7839,6 +8128,166 @@
             }
         }
 
+        let isProfileHydrating = false;
+        async function hydrateProfile() {
+            if (isProfileHydrating) return;
+            isProfileHydrating = true;
+            
+            try {
+                if (!window.FintopInfra || !window.FintopInfra.AuthManager) {
+                    console.warn('[Profile Hydrate] FintopInfra not loaded yet.');
+                    isProfileHydrating = false;
+                    return;
+                }
+                
+                const Auth = window.FintopInfra.AuthManager;
+                const Api = window.FintopInfra.ApiClient;
+                
+                if (!Auth.isAuthenticated) {
+                    alert('Vui lòng đăng nhập để xem thông tin cá nhân.');
+                    closeAllPanels();
+                    isProfileHydrating = false;
+                    return;
+                }
+                
+                // Fetch latest profile
+                const u = await Auth.loadUserProfile();
+                
+                // Form Fields
+                document.getElementById('uprof-fullname').value = u.fullName || '';
+                document.getElementById('uprof-email').value = u.email || '';
+                document.getElementById('uprof-dob').value = u.dob ? new Date(u.dob).toISOString().split('T')[0] : '';
+                document.getElementById('uprof-phone').value = u.phone || '';
+                document.getElementById('uprof-address').value = u.address || '';
+                document.getElementById('uprof-company').value = u.company || '';
+                document.getElementById('uprof-position').value = u.position || '';
+                document.getElementById('uprof-joindate').value = u.joinDate ? new Date(u.joinDate).toISOString().split('T')[0] : '';
+                document.getElementById('uprof-duration').value = u.investmentDuration || '0 - 3 tháng';
+                document.getElementById('uprof-style').value = u.investmentStyle || 'Lướt sóng ngắn hạn';
+                document.getElementById('uprof-broker').value = u.stockCompany || 'Chưa TKCK';
+                document.getElementById('uprof-stockaccount').value = u.stockAccount || '';
+                document.getElementById('uprof-refid').value = u.referralId || '';
+                document.getElementById('uprof-refname').value = u.referralName || '';
+                
+                // Right Card Summary
+                const initials = u.fullName ? u.fullName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() : 'US';
+                document.getElementById('uprof-avatar-display').textContent = initials;
+                document.getElementById('uprof-name-display').textContent = u.fullName || 'User';
+                document.getElementById('uprof-userid-display').textContent = u.id || '';
+                
+
+                
+                const regDateFormatted = u.createdAt ? new Date(u.createdAt).toLocaleDateString('vi-VN') : '';
+                document.getElementById('uprof-regdate-display').textContent = regDateFormatted;
+                
+                // Tier Badge
+                const tierMap = {
+                    'STANDARD': '⭐️ STANDARD',
+                    'SILVER': '🥈 SILVER',
+                    'GOLD': '👑 GOLD',
+                    'DIAMOND': '💎 DIAMOND'
+                };
+                const tierBadge = document.getElementById('uprof-tier-badge');
+                if (tierBadge) {
+                    tierBadge.textContent = tierMap[u.tierLevel] || '⭐️ STANDARD';
+                }
+                
+                // Setup Edit/Save/Cancel Toggle logic
+                const editBtn = document.getElementById('btnUserProfEdit');
+                const saveBtn = document.getElementById('btnUserProfSave');
+                const cancelBtn = document.getElementById('btnUserProfCancel');
+                const inputsToEdit = document.querySelectorAll('#uprof-fullname, #uprof-dob, #uprof-phone, #uprof-address, #uprof-company, #uprof-position, #uprof-duration, #uprof-style, #uprof-broker, #uprof-stockaccount');
+                
+                // Reset form state to disabled
+                inputsToEdit.forEach(input => input.disabled = true);
+                editBtn.style.display = 'inline-block';
+                saveBtn.style.display = 'none';
+                cancelBtn.style.display = 'none';
+                
+                // Edit Click
+                editBtn.onclick = () => {
+                    inputsToEdit.forEach(input => input.disabled = false);
+                    editBtn.style.display = 'none';
+                    saveBtn.style.display = 'inline-block';
+                    cancelBtn.style.display = 'inline-block';
+                };
+                
+                // Cancel Click
+                cancelBtn.onclick = () => {
+                    hydrateProfile();
+                };
+                
+                // Save Click
+                saveBtn.onclick = async () => {
+                    const payload = {
+                        fullName: document.getElementById('uprof-fullname').value,
+                        dob: document.getElementById('uprof-dob').value,
+                        phone: document.getElementById('uprof-phone').value,
+                        address: document.getElementById('uprof-address').value,
+                        company: document.getElementById('uprof-company').value,
+                        position: document.getElementById('uprof-position').value,
+                        investmentDuration: document.getElementById('uprof-duration').value,
+                        investmentStyle: document.getElementById('uprof-style').value,
+                        stockCompany: document.getElementById('uprof-broker').value,
+                        stockAccount: document.getElementById('uprof-stockaccount').value
+                    };
+                    
+                    saveBtn.disabled = true;
+                    saveBtn.textContent = 'Đang lưu...';
+                    
+                    try {
+                        await Api.patch('/auth/profile', payload);
+                        alert('Cập nhật thông tin cá nhân thành công!');
+                        isProfileHydrating = false;
+                        await hydrateProfile();
+                    } catch (err) {
+                        alert(err.message || 'Lỗi khi cập nhật thông tin.');
+                    } finally {
+                        saveBtn.disabled = false;
+                        saveBtn.textContent = '💾 Lưu thay đổi';
+                    }
+                };
+                
+                // Password Change Modal logic
+                const changePassBtn = document.getElementById('btnUserProfChangePass');
+                const savePassBtn = document.getElementById('btnUserProfSavePass');
+                const overlay = document.getElementById('uprof-change-pass-modal-overlay');
+                const newPassInput = document.getElementById('uprof-new-pass-input');
+                
+                changePassBtn.onclick = () => {
+                    newPassInput.value = '';
+                    overlay.style.display = 'flex';
+                };
+                
+                savePassBtn.onclick = async () => {
+                    const password = newPassInput.value;
+                    if (!password || password.trim().length < 6) {
+                        alert('Mật khẩu phải có ít nhất 6 ký tự.');
+                        return;
+                    }
+                    
+                    savePassBtn.disabled = true;
+                    savePassBtn.textContent = 'Đang lưu...';
+                    
+                    try {
+                        await Api.patch('/auth/profile', { password });
+                        alert('Đổi mật khẩu thành công!');
+                        overlay.style.display = 'none';
+                    } catch (err) {
+                        alert(err.message || 'Lỗi khi đổi mật khẩu.');
+                    } finally {
+                        savePassBtn.disabled = false;
+                        savePassBtn.textContent = 'Lưu mật khẩu';
+                    }
+                };
+                
+            } catch (err) {
+                console.error('[Profile Hydrate] Error:', err);
+            } finally {
+                isProfileHydrating = false;
+            }
+        }
+
         function triggerPanelHydration(panelId) {
             if (panelId === 'panel-tracuu' || panelId === 'panel-boloc') {
                 hydrateStockPrices();
@@ -7851,6 +8300,9 @@
             }
             if (panelId === 'panel-tinhieu') {
                 hydrateSignals();
+            }
+            if (panelId === 'panel-profile') {
+                hydrateProfile();
             }
         }
 
@@ -8689,7 +9141,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="auth-input-group">
+                                        <div class="auth-input-group" style="display: none;">
                                             <label class="auth-label" for="registerOtpCode">Mã xác thực OTP <span>*</span></label>
                                             <div class="auth-input-with-action">
                                                 <input type="text" class="auth-input auth-otp-input" id="registerOtpCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required disabled>
@@ -8698,7 +9150,7 @@
                                             <p class="auth-field-error" data-error-for="registerOtpCode"></p>
                                         </div>
 
-                                        <div class="auth-status-note" id="registerOtpStatus" data-register-otp-status hidden></div>
+                                        <div class="auth-status-note" id="registerOtpStatus" data-register-otp-status hidden style="display: none;"></div>
                                     </section>
                                 </div>
 

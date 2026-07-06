@@ -703,6 +703,12 @@ async function showStaffDetail(userId) {
     const assignedCodes = (u.roles || []).map(r => r.code);
     const unassignedRoles = (allRoles || []).filter(r => !assignedCodes.includes(r.code));
 
+    const investDuration = u.investmentDuration || '';
+    const investStyle = u.investmentStyle || '';
+    const birthDate = formatBirthDate(u.dob || u.birthDate || u.dateOfBirth || u.birthday);
+    const joinDateFormatted = u.joinDate ? new Date(u.joinDate).toLocaleDateString('vi-VN') : '—';
+    const staffId = u.team?.code || u.department?.code || '—';
+
     staffDetailEl.innerHTML = `
       <div class="admin-modal-overlay" id="staff-detail-overlay">
         <div class="admin-modal" style="max-width:700px; max-height:90vh; overflow-y:auto;">
@@ -713,6 +719,10 @@ async function showStaffDetail(userId) {
           <div class="admin-modal-body">
             <div class="admin-detail-grid">
               <div class="admin-detail-field">
+                <div class="admin-detail-label">Họ và tên</div>
+                <div class="admin-detail-value"><strong>${esc(u.fullName)}</strong></div>
+              </div>
+              <div class="admin-detail-field">
                 <div class="admin-detail-label">Email</div>
                 <div class="admin-detail-value">${esc(u.email)}</div>
               </div>
@@ -721,12 +731,60 @@ async function showStaffDetail(userId) {
                 <div class="admin-detail-value">${esc(u.phone) || '—'}</div>
               </div>
               <div class="admin-detail-field">
+                <div class="admin-detail-label">Ngày sinh</div>
+                <div class="admin-detail-value">${birthDate}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Địa chỉ</div>
+                <div class="admin-detail-value">${esc(u.address) || '—'}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">ID nhân sự</div>
+                <div class="admin-detail-value"><strong style="color:#ffb200;">${esc(staffId)}</strong></div>
+              </div>
+              <div class="admin-detail-field">
                 <div class="admin-detail-label">Phòng ban</div>
                 <div class="admin-detail-value">${esc(u.department?.name) || '—'}</div>
               </div>
               <div class="admin-detail-field">
+                <div class="admin-detail-label">Nhóm / Team</div>
+                <div class="admin-detail-value">${esc(u.team?.name) || '—'}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Công ty</div>
+                <div class="admin-detail-value">${esc(u.company) || '—'}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Chức vụ</div>
+                <div class="admin-detail-value">${esc(u.position) || '—'}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Gia nhập ngày</div>
+                <div class="admin-detail-value">${joinDateFormatted}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Thời gian đầu tư</div>
+                <div class="admin-detail-value">${esc(investDuration) || '—'}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Khẩu vị đầu tư</div>
+                <div class="admin-detail-value">${esc(investStyle) || '—'}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Công ty chứng khoán</div>
+                <div class="admin-detail-value">${esc(u.stockCompany) || '—'}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Số TK CK</div>
+                <div class="admin-detail-value">${esc(u.stockAccount) || '—'}</div>
+              </div>
+              <div class="admin-detail-field">
                 <div class="admin-detail-label">Trạng thái</div>
                 <div class="admin-detail-value">${statusBadge(u.status)}</div>
+              </div>
+              <div class="admin-detail-field">
+                <div class="admin-detail-label">Ngày tạo</div>
+                <div class="admin-detail-value">${formatDate(u.createdAt)}</div>
               </div>
               <div class="admin-detail-field" style="grid-column: span 2;">
                 <div class="admin-detail-label">Vai trò hiện tại</div>
@@ -738,10 +796,6 @@ async function showStaffDetail(userId) {
                     </div>
                   `).join('') || '—'}
                 </div>
-              </div>
-              <div class="admin-detail-field">
-                <div class="admin-detail-label">Ngày tạo</div>
-                <div class="admin-detail-value">${formatDate(u.createdAt)}</div>
               </div>
             </div>
 

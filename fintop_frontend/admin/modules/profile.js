@@ -24,15 +24,13 @@ export default {
       const joinDate = u.joinDate ? new Date(u.joinDate).toISOString().split('T')[0] : '';
       const phone = u.phone || '';
       const address = u.address || '';
-      const company = u.company || 'FinTop DATA';
-      const position = u.position || 'Nhân viên';
-      const staffId = u.team?.code || u.department?.code || u.id;
+      const company = u.company || '';
+      const position = u.position || '';
+      const staffCode = u.team?.code || u.department?.code || '';
 
       // Bulletproof avatar fallback to prevent broken images
       let avatarUrl = u.avatarUrl || u.avatar || '';
-      if (!avatarUrl || avatarUrl.includes('avatar_default.png')) {
-        avatarUrl = 'https://fintopdata.vn/file-image/avatar/avatar_default.png';
-      }
+      const hasAvatar = !!avatarUrl && !avatarUrl.includes('avatar_default.png');
 
       container.innerHTML = `
         <!-- Embedded Local Styles to match screenshot exactly -->
@@ -166,6 +164,83 @@ export default {
             color: #f43f5e;
             font-weight: 600;
           }
+          /* Premium Referral Styles */
+          .ref-link-card {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 18px;
+            margin: 20px 24px 0 24px;
+            text-align: left;
+            box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.03);
+          }
+          .ref-link-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+          }
+          .ref-link-input-group {
+            display: flex;
+            background: #0d1222;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            overflow: hidden;
+            align-items: center;
+            padding: 2px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+          }
+          .ref-link-input-group:focus-within {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+          }
+          .ref-link-value {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #60a5fa;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 8px 10px;
+            outline: none;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+            word-break: break-all;
+            line-height: 1.4;
+          }
+          .ref-link-value:hover {
+            color: #93c5fd;
+            text-decoration: underline;
+          }
+          .ref-link-btn {
+            background: #1e293b;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            padding: 8px 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            margin: 2px;
+            align-self: center;
+          }
+          .ref-link-btn:hover {
+            background: #334155;
+          }
+          .ref-link-btn:active {
+            transform: scale(0.97);
+          }
           .btn-blue {
             background: #2563eb;
             color: #fff;
@@ -265,11 +340,11 @@ export default {
                 </div>
                 <div class="profile-form-group third-width">
                   <label class="profile-label">Công ty</label>
-                  <input disabled class="profile-input" type="text" value="${esc(company)}" />
+                  <input disabled class="profile-input" type="text" id="prof-company" value="${esc(company)}" />
                 </div>
                 <div class="profile-form-group third-width">
                   <label class="profile-label">Chức vụ</label>
-                  <input disabled class="profile-input" type="text" value="${esc(position)}" />
+                  <input disabled class="profile-input" type="text" id="prof-position" value="${esc(position)}" />
                 </div>
                 <div class="profile-form-group third-width">
                   <label class="profile-label">Gia nhập ngày</label>
@@ -294,11 +369,30 @@ export default {
             <div class="profile-right-card">
               <div class="profile-bg-header"></div>
               <div class="profile-avatar-container">
-                <img src="${esc(avatarUrl)}" class="profile-avatar" id="img-profile-avatar-display" alt="Avatar">
+                <img src="${esc(avatarUrl)}" class="profile-avatar" id="img-profile-avatar-display" alt="Avatar" style="display: ${hasAvatar ? 'block' : 'none'};" onerror="this.style.display='none'; document.getElementById('profile-avatar-fallback').style.display='flex';">
+                <div id="profile-avatar-fallback" style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%); display: ${hasAvatar ? 'none' : 'flex'}; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 700; color: #fff; border: 4px solid #1d2440; margin: 0 auto; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                  ${u.fullName ? u.fullName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() : 'US'}
+                </div>
               </div>
               <div class="profile-name" id="text-profile-name-display">${esc(u.fullName)}</div>
-              <div class="profile-meta-text">ID nhân sự: <span class="profile-highlight-red">${esc(staffId)}</span></div>
-              <div class="profile-meta-text">Link giới thiệu: <span class="profile-highlight-red">https://fintopdata.vn/dangky/${esc(staffId)}</span></div>
+              <div class="profile-meta-text">ID hội viên: <span class="profile-highlight-red">#${esc(u.id)}</span></div>
+              ${staffCode ? `
+                <div class="profile-meta-text">ID nhân sự: <span style="color: #ffb200; font-weight: 700;">${esc(staffCode)}</span></div>
+                
+                <div class="ref-link-card">
+                  <div class="ref-link-title">
+                    <span>Link giới thiệu</span>
+                  </div>
+                  <div class="ref-link-input-group">
+                    <a href="${window.location.origin}/?ref=${esc(staffCode)}" target="_blank" class="ref-link-value" title="Mở link đăng ký" id="prof-reflink-anchor">
+                      https://fintopdata.vn/dangky/${esc(staffCode)}
+                    </a>
+                    <button class="ref-link-btn" id="btn-copy-reflink" title="Copy link giới thiệu">
+                      <span>📋 Copy</span>
+                    </button>
+                  </div>
+                </div>
+              ` : ''}
             </div>
           </div>
         </div>
@@ -313,7 +407,7 @@ export default {
       const saveBtn = container.querySelector('#btn-profile-save');
       const cancelBtn = container.querySelector('#btn-profile-cancel');
       const uploaderArea = container.querySelector('#prof-avatar-uploader-area');
-      const editableInputs = container.querySelectorAll('#prof-fullname, #prof-dob, #prof-phone, #prof-address');
+      const editableInputs = container.querySelectorAll('#prof-fullname, #prof-dob, #prof-phone, #prof-address, #prof-company, #prof-position');
       const imgAvatarDisplay = container.querySelector('#img-profile-avatar-display');
       const nameDisplay = container.querySelector('#text-profile-name-display');
 
@@ -341,7 +435,12 @@ export default {
         container.querySelector('#prof-dob').value = birthDate;
         container.querySelector('#prof-phone').value = phone;
         container.querySelector('#prof-address').value = address;
+        container.querySelector('#prof-company').value = company;
+        container.querySelector('#prof-position').value = position;
         imgAvatarDisplay.src = avatarUrl;
+        imgAvatarDisplay.style.display = hasAvatar ? 'block' : 'none';
+        const fallbackEl = container.querySelector('#profile-avatar-fallback');
+        if (fallbackEl) fallbackEl.style.display = hasAvatar ? 'none' : 'flex';
         currentAvatarUrl = u.avatarUrl || u.avatar || '';
       });
 
@@ -374,6 +473,9 @@ export default {
           const result = await response.json();
           currentAvatarUrl = result.url;
           imgAvatarDisplay.src = result.url;
+          imgAvatarDisplay.style.display = 'block';
+          const fallbackEl = container.querySelector('#profile-avatar-fallback');
+          if (fallbackEl) fallbackEl.style.display = 'none';
           showToast('Tải ảnh lên thành công!');
         } catch (err) {
           showToast(err.message || 'Lỗi tải ảnh lên', 'error');
@@ -387,6 +489,8 @@ export default {
           birthDate: container.querySelector('#prof-dob').value,
           phone: container.querySelector('#prof-phone').value,
           address: container.querySelector('#prof-address').value,
+          company: container.querySelector('#prof-company').value,
+          position: container.querySelector('#prof-position').value,
           avatarUrl: currentAvatarUrl,
         };
 
@@ -421,6 +525,28 @@ export default {
       container.querySelector('#btn-profile-change-pass').addEventListener('click', () => {
         showChangePasswordModal(u.id, u.fullName);
       });
+
+      // Copy Referral Link Event Listener
+      const copyRefBtn = container.querySelector('#btn-copy-reflink');
+      if (copyRefBtn && staffCode) {
+        copyRefBtn.addEventListener('click', () => {
+          const cleanRefLink = `https://fintopdata.vn/dangky/${staffCode}`;
+          navigator.clipboard.writeText(cleanRefLink).then(() => {
+            copyRefBtn.textContent = '✅ Đã copy!';
+            setTimeout(() => { copyRefBtn.textContent = '📋 Copy'; }, 2000);
+          }).catch(() => {
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = cleanRefLink;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            copyRefBtn.textContent = '✅ Đã copy!';
+            setTimeout(() => { copyRefBtn.textContent = '📋 Copy'; }, 2000);
+          });
+        });
+      }
 
     } catch (err) {
       container.innerHTML = `<div class="admin-empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Lỗi tải thông tin</div><div class="empty-desc">${esc(err.message)}</div></div>`;
