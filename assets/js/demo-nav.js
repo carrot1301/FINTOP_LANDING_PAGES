@@ -15,6 +15,8 @@ function toggleDropdownPin(dropdownId) {
     }
 }
 
+window.toggleDropdownPin = toggleDropdownPin;
+
 document.addEventListener('click', (event) => {
     if (event.target.closest('.nav-item.dropdown')) return;
     document.querySelectorAll('.dropdown-content.pinned').forEach((content) => {

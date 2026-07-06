@@ -47,6 +47,15 @@ const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://localhost:${PORT}`);
   let pathname = parsedUrl.pathname;
 
+  if (pathname === '/data/stock-filter-data.js') {
+    res.writeHead(403, {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+    });
+    res.end('Protected stock filter data must be served through an authenticated API.');
+    return;
+  }
+
   if (pathname === '/hoi-vien' || pathname === '/hoi-vien/' || pathname === '/hoi-vien/index.html') {
     res.writeHead(302, {
       'Location': '/index.html#panel-hoivien',
