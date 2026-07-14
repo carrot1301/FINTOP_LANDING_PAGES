@@ -36,6 +36,18 @@ export default {
         approvedIds = JSON.parse(sessionStorage.getItem('fintop_approved_invoices') || '[]');
       } catch (e) {}
 
+      // Calculate total income from paid/approved invoices
+      let totalRevenue = 0;
+      let paidCount = 0;
+      allInvoices.forEach(inv => {
+        if (deletedIds.includes(inv.id)) return;
+        const isPaid = inv.status === 'PAID' || approvedIds.includes(inv.id);
+        if (isPaid) {
+          totalRevenue += Number(inv.amount || 0);
+          paidCount++;
+        }
+      });
+
       const pendingInvoices = allInvoices.filter(inv => {
         if (deletedIds.includes(inv.id) || approvedIds.includes(inv.id)) return false;
         return inv.status === 'DRAFT' || inv.status === 'OPEN' || inv.status === 'PENDING';
@@ -80,10 +92,11 @@ export default {
           )}
           ${kpiCard(
             '💳', 
-            d.invoices?.total, 
-            'Đơn hàng & Doanh thu', 
-            `✅ ${d.invoices?.paid || 0} Đã phê duyệt`, 
-            'rgba(16, 185, 129, 0.12)'
+            totalRevenue, 
+            'Doanh thu thực tế', 
+            `✅ Đã thanh toán: ${paidCount} / ${allInvoices.filter(inv => !deletedIds.includes(inv.id)).length} HĐ`, 
+            'rgba(16, 185, 129, 0.12)',
+            true // isCurrency
           )}
           ${kpiCard(
             '📝', 
@@ -239,8 +252,15 @@ export default {
   destroy() {},
 };
 
-function kpiCard(icon, value, label, sub, glowColor) {
-  const displayVal = value != null ? formatNumber(value) : '0';
+function kpiCard(icon, value, label, sub, glowColor, isCurrency = false) {
+  let displayVal = '0';
+  if (value != null) {
+    if (typeof value === 'number') {
+      displayVal = formatNumber(value) + (isCurrency ? ' đ' : '');
+    } else {
+      displayVal = String(value);
+    }
+  }
   return `
     <div class="admin-kpi-card" style="border-color: ${glowColor};">
       <div class="admin-kpi-icon">${icon}</div>
