@@ -29,25 +29,28 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       // Prisma Known Errors (e.g., P2002 Unique constraint failed)
       status = HttpStatus.CONFLICT;
       code = `PRISMA_${exception.code}`;
-      message = this.normalizePrismaError(exception);
+      const isStaging = request.headers.host?.includes('staging') || request.hostname?.includes('staging');
+      message = this.normalizePrismaError(exception, isStaging);
     } else if (exception instanceof Prisma.PrismaClientValidationError) {
       status = HttpStatus.BAD_REQUEST;
       code = 'PRISMA_VALIDATION_ERROR';
-      message = 'Database query validation error';
+      const isStaging = request.headers.host?.includes('staging') || request.hostname?.includes('staging');
+      message = (process.env.NODE_ENV !== 'production' || isStaging) ? `[Prisma Validation Error]: ${exception.message}` : 'Database query validation error';
     } else if (exception instanceof Error) {
       message = exception.message;
     }
 
     // Secure Production Error Formatting
     const isProduction = process.env.NODE_ENV === 'production';
+    const isStaging = request.headers.host?.includes('staging') || request.hostname?.includes('staging');
     const errorResponse = {
       statusCode: status,
       code,
       timestamp: new Date().toISOString(),
       path: request.url,
       correlationId,
-      message: status === HttpStatus.INTERNAL_SERVER_ERROR && isProduction ? 'Internal server error' : message,
-      ...(isProduction ? {} : { stack: exception instanceof Error ? exception.stack : undefined }),
+      message: status === HttpStatus.INTERNAL_SERVER_ERROR && isProduction && !isStaging ? 'Internal server error' : message,
+      ...(isProduction && !isStaging ? {} : { stack: exception instanceof Error ? exception.stack : undefined }),
     };
 
     // Logging error
@@ -60,8 +63,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     response.status(status).json(errorResponse);
   }
 
-  private normalizePrismaError(error: Prisma.PrismaClientKnownRequestError): string {
-    if (process.env.NODE_ENV !== 'production') {
+  private normalizePrismaError(error: Prisma.PrismaClientKnownRequestError, isStaging = false): string {
+    if (process.env.NODE_ENV !== 'production' || isStaging) {
       return `[Prisma Error ${error.code}]: ${error.message}`;
     }
     switch (error.code) {
