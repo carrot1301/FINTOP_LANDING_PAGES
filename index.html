@@ -7297,7 +7297,7 @@
                     <button class="popup-btn-secondary" onclick="closeBolocTierPopup()">Đóng</button>
                 </div>
             `;
-            overlay.hidden = false;
+            overlay.style.setProperty('display', 'flex', 'important');
         }
 
         function showBolocUpgradePopup() {
@@ -7313,12 +7313,12 @@
                     <button class="popup-btn-secondary" onclick="closeBolocTierPopup()">Đóng</button>
                 </div>
             `;
-            overlay.hidden = false;
+            overlay.style.setProperty('display', 'flex', 'important');
         }
 
         function closeBolocTierPopup() {
             const overlay = document.getElementById('bolocTierPopupOverlay');
-            if (overlay) overlay.hidden = true;
+            if (overlay) overlay.style.setProperty('display', 'none', 'important');
         }
         window.closeBolocTierPopup = closeBolocTierPopup;
 
@@ -9603,7 +9603,7 @@
             </div>
         </div>
         <!-- Tier Access Popup Modal (bộ lọc) -->
-        <div class="boloc-tier-popup-overlay" id="bolocTierPopupOverlay" hidden>
+        <div class="boloc-tier-popup-overlay" id="bolocTierPopupOverlay" style="display: none !important;">
             <div class="boloc-tier-popup-card" id="bolocTierPopupCard">
                 <!-- Content injected dynamically by JS -->
             </div>
