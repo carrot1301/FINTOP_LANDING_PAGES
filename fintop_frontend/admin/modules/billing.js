@@ -369,6 +369,7 @@ function showPlanModal(plan = null, contentEl) {
 
   // Clear and clone confirm button to avoid listener duplication
   const oldSaveBtn = document.getElementById('plan-modal-save-btn');
+  oldSaveBtn.disabled = false; // Reset disabled state before cloning (prevents inheriting disabled=true from previous save)
   const newSaveBtn = oldSaveBtn.cloneNode(true);
   oldSaveBtn.parentNode.replaceChild(newSaveBtn, oldSaveBtn);
 

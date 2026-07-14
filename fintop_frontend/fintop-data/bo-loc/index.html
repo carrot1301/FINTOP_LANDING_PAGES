@@ -344,23 +344,23 @@
         </div>
 
         <div class="data-table-wrapper" style="background: rgba(15, 15, 25, 0.6); border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px; overflow-x: auto; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <div style="min-width: 1120px; padding: 14px 18px; background: linear-gradient(135deg, #C000FF 0%, #A100F2 48%, #8200D6 100%); color: #fff; text-align: center; font-size: clamp(1rem, 2vw, 1.55rem); font-weight: 900; line-height: 1.25;">
+            <div style="min-width: 950px; padding: 14px 18px; background: linear-gradient(135deg, #C000FF 0%, #A100F2 48%, #8200D6 100%); color: #fff; text-align: center; font-size: clamp(1rem, 2vw, 1.55rem); font-weight: 900; line-height: 1.25;">
                 [FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ
             </div>
-            <table class="data-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; color: #cbd5e1;">
+            <table class="data-table" style="width: 100%; min-width: 950px; table-layout: fixed; border-collapse: collapse; text-align: center; font-size: 0.78rem; color: #cbd5e1;">
                 <thead>
                     <tr style="background: rgba(168, 85, 247, 0.08); border-bottom: 1px solid rgba(168, 85, 247, 0.15);">
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">STT</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Mã CP</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Sàn</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Ngành HĐKD</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Cập nhật</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700; max-width: 250px;">Mô tả Model</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Trạng thái Model</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Sức mạnh xu hướng<br>RSI/MFI</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Vùng kiểm định<br>kỹ thuật</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Vùng kháng cự<br>kỹ thuật</th>
-                        <th style="padding: 14px 16px; color: #c084fc; font-weight: 700;">Vùng hỗ trợ<br>kỹ thuật</th>
+                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 35px;">STT</th>
+                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 65px;">Mã CP</th>
+                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 50px;">Sàn</th>
+                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">Ngành HĐKD</th>
+                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 80px;">Cập nhật</th>
+                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 200px;">Mô tả Model</th>
+                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">Trạng thái Model</th>
+                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">Sức mạnh xu hướng<br>RSI/MFI</th>
+                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 90px;">Vùng kiểm định<br>kỹ thuật</th>
+                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">Vùng kháng cự<br>kỹ thuật</th>
+                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">Vùng hỗ trợ<br>kỹ thuật</th>
                     </tr>
                 </thead>
                 <tbody id="bolocBody">
@@ -401,11 +401,19 @@
     </div>
 
     <style>
-        /* ── Tier Popup Overlay ── */
+        @keyframes bolocFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes bolocScaleIn {
+            from { transform: scale(0.94); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
         .tier-popup-overlay {
             position: fixed; inset: 0; z-index: 9998;
             display: flex; align-items: center; justify-content: center;
             background: rgba(0,0,0,0.72); backdrop-filter: blur(6px);
+            animation: bolocFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .tier-popup-overlay[hidden] { display: none; }
         .tier-popup-card {
@@ -416,6 +424,7 @@
             box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 40px rgba(168, 85, 247, 0.08);
             padding: 2.5rem 2rem 2rem;
             text-align: center;
+            animation: bolocScaleIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         .tier-popup-card .popup-icon { font-size: 3rem; margin-bottom: 1rem; }
         .tier-popup-card h2 {
@@ -622,7 +631,7 @@
 
                     const actionBadge = getActionBadgeMarkup(row.statusText, row.status);
                     const rowBg = 'rgba(7, 25, 52, 0.96)';
-                    const baseCellStyle = `padding: 12px 16px; background: ${rowBg};`;
+                    const baseCellStyle = `padding: 8px 4px; background: ${rowBg}; font-size: 0.78rem; text-align: center; word-wrap: break-word; overflow-wrap: break-word;`;
 
                     // Ticker cell — masked for non-PRO
                     let tickerCell;
@@ -655,12 +664,12 @@
                         ${tickerCell}
                         <td style="${baseCellStyle}">${canSeeDetails ? row.san : '—'}</td>
                         ${nganhCell}
-                        <td style="${baseCellStyle} font-size: 0.8rem; color: #94a3b8;">${row.time}</td>
-                        <td style="${baseCellStyle} max-width: 250px; line-height: 1.4; color: #cbd5e1;">${row.desc}</td>
-                        <td style="${baseCellStyle} text-align: center;">${actionBadge}</td>
-                        <td style="${baseCellStyle} text-align: center; color: #C084FC; font-weight: 900; text-transform: uppercase;">${row.trend || '—'}</td>
+                        <td style="${baseCellStyle} color: #94a3b8;">${row.time}</td>
+                        <td style="${baseCellStyle} line-height: 1.4; color: #cbd5e1; text-align: left;">${row.desc}</td>
+                        <td style="${baseCellStyle}">${actionBadge}</td>
+                        <td style="${baseCellStyle} color: #C084FC; font-weight: 900; text-transform: uppercase;">${row.trend || '—'}</td>
                         <td style="${baseCellStyle} color: #E2E8F0; font-weight: 700;">${row.vungKiemDinh}</td>
-                        <td style="padding: 12px 16px; background: linear-gradient(135deg, rgba(45, 33, 82, 0.95), rgba(16, 22, 39, 0.93)); color: #C084FC; font-weight: 900;">${row.khangCu}</td>
+                        <td style="padding: 8px 4px; background: linear-gradient(135deg, rgba(45, 33, 82, 0.95), rgba(16, 22, 39, 0.93)); color: #C084FC; font-weight: 900; font-size: 0.78rem; text-align: center; word-wrap: break-word; overflow-wrap: break-word;">${row.khangCu}</td>
                         <td style="${baseCellStyle} color: #FBBF24; font-weight: 900;">${row.hoTro}</td>
                     `;
                     tbody.appendChild(tr);

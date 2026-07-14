@@ -55,6 +55,15 @@ export class NotificationService {
     return notification;
   }
 
+  async sendSessionUpdate(userId: number) {
+    try {
+      this.notificationGateway.server.to(`user:${userId}:notifications`).emit('session_updated', { userId });
+      this.logger.log(`Emitted session_updated for user #${userId}`);
+    } catch (err: any) {
+      this.logger.warn(`Could not emit session update via websocket: ${err.message}`);
+    }
+  }
+
   async getUnreadCount(userId: number) {
     return this.prisma.notification.count({
       where: { userId, status: NOTIFICATION_STATUS.UNREAD }

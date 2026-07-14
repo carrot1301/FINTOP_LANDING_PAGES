@@ -37,6 +37,7 @@
     <!-- Tệp JavaScript Tùy Chỉnh -->
     <script src="assets/js/scroll-animation.js" defer></script>
     <script src="assets/js/counter.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js" defer></script>
     <script src="assets/js/modals.js" defer></script>
     <script src="assets/js/auth.js" defer></script>
     <!-- Phase-2B-1: Frontend Infrastructure (ES Module) -->
@@ -412,7 +413,7 @@
         }
 
         #bolocTable {
-            min-width: 1540px;
+            min-width: 1180px;
         }
 
         .dark-table thead {
@@ -582,10 +583,19 @@
         }
 
         /* ── Tier Popup Overlay (Bộ lọc) ── */
+        @keyframes bolocFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes bolocScaleIn {
+            from { transform: scale(0.94); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
         .boloc-tier-popup-overlay {
             position: fixed; inset: 0; z-index: 9998;
             display: flex; align-items: center; justify-content: center;
             background: rgba(0,0,0,0.72); backdrop-filter: blur(6px);
+            animation: bolocFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .boloc-tier-popup-overlay[hidden] { display: none; }
         .boloc-tier-popup-card {
@@ -596,6 +606,7 @@
             box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 40px rgba(168, 85, 247, 0.08);
             padding: 2.5rem 2rem 2rem;
             text-align: center;
+            animation: bolocScaleIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         .boloc-tier-popup-card .popup-icon { font-size: 3rem; margin-bottom: 1rem; }
         .boloc-tier-popup-card h2 {
@@ -645,7 +656,7 @@
         }
 
         .boloc-table-title {
-            min-width: 1540px;
+            min-width: 950px;
             padding: 16px 18px;
             background: var(--boloc-title-bg);
             color: var(--boloc-title-text);
@@ -658,7 +669,9 @@
         }
 
         #bolocTable {
-            min-width: 1540px;
+            min-width: 950px;
+            table-layout: fixed;
+            width: 100%;
             background: var(--boloc-row-bg);
             color: var(--boloc-row-text);
             border-collapse: collapse;
@@ -677,6 +690,8 @@
             letter-spacing: 0;
             text-transform: none;
             vertical-align: middle;
+            padding: 8px 4px;
+            font-size: 0.72rem;
         }
 
         #bolocTable th:nth-child(8) {
@@ -695,6 +710,19 @@
             background: var(--boloc-header-bg);
         }
 
+        /* Set clean column widths to fit 100% on standard desktop screens */
+        #bolocTable th:nth-child(1) { width: 35px; } /* STT */
+        #bolocTable th:nth-child(2) { width: 65px; } /* Mã CP */
+        #bolocTable th:nth-child(3) { width: 50px; } /* Sàn */
+        #bolocTable th:nth-child(4) { width: 110px; } /* Ngành HĐKD */
+        #bolocTable th:nth-child(5) { width: 80px; } /* Update time */
+        #bolocTable th:nth-child(6) { width: 200px; } /* Mô tả Mô hình kỹ thuật */
+        #bolocTable th:nth-child(7) { width: 110px; } /* Trạng thái Model */
+        #bolocTable th:nth-child(8) { width: 110px; } /* Sức mạnh xu hướng */
+        #bolocTable th:nth-child(9) { width: 90px; } /* Vùng kiểm định */
+        #bolocTable th:nth-child(10) { width: 85px; } /* Vùng kháng cự */
+        #bolocTable th:nth-child(11) { width: 85px; } /* Vùng hỗ trợ */
+
         #bolocTable td {
             background: var(--boloc-row-bg);
             color: var(--boloc-row-text);
@@ -703,6 +731,10 @@
             font-weight: 600;
             vertical-align: middle;
             transition: filter 0.2s ease;
+            padding: 8px 4px;
+            font-size: 0.78rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         #bolocTable tbody tr:hover td {
@@ -716,9 +748,11 @@
 
         #bolocTable .desc-cell {
             color: #CBD5E1;
-            max-width: 300px;
+            max-width: 240px;
             text-align: left;
             font-weight: 600;
+            white-space: normal;
+            word-break: break-word;
         }
 
         #bolocTable .time-cell,
@@ -6189,24 +6223,24 @@
                             <div class="profile-group">
                                 <label class="profile-label">Thời gian đầu tư</label>
                                 <select class="profile-input" id="uprof-duration" disabled required style="appearance: auto;">
-                                    <option value="0 - 3 tháng">0 - 3 tháng</option>
-                                    <option value="3 - 6 tháng">3 - 6 tháng</option>
-                                    <option value="6 - 12 tháng">6 - 12 tháng</option>
-                                    <option value="Trên 1 năm">Trên 1 năm</option>
+                                    <option value="0_3">0 - 3 tháng</option>
+                                    <option value="3_6">3 - 6 tháng</option>
+                                    <option value="6_12">6 - 12 tháng</option>
+                                    <option value="12_">Trên 1 năm</option>
                                 </select>
                             </div>
                             <div class="profile-group">
                                 <label class="profile-label">Khẩu vị đầu tư</label>
                                 <select class="profile-input" id="uprof-style" disabled required style="appearance: auto;">
-                                    <option value="Lướt sóng ngắn hạn">Lướt sóng ngắn hạn</option>
-                                    <option value="Trung và dài hạn">Trung và dài hạn</option>
-                                    <option value="Linh hoạt kết hợp">Linh hoạt kết hợp</option>
+                                    <option value="short_term">Lướt sóng ngắn hạn</option>
+                                    <option value="medium_long">Trung và dài hạn</option>
+                                    <option value="flexible">Linh hoạt kết hợp</option>
                                 </select>
                             </div>
                             <div class="profile-group">
                                 <label class="profile-label">Công ty chứng khoán</label>
                                 <select class="profile-input" id="uprof-broker" disabled required style="appearance: auto;">
-                                    <option value="Chưa TKCK">Chưa TKCK</option>
+                                    <option value="none">Chưa TKCK</option>
                                     <option value="VPS">VPS</option>
                                     <option value="SSI">SSI</option>
                                     <option value="VND">VND</option>
@@ -7292,8 +7326,8 @@
                 <h2>Đăng nhập để xem chi tiết</h2>
                 <p>Mã cổ phiếu và nhóm ngành chỉ hiển thị cho tài khoản đã đăng nhập.<br>Vui lòng đăng nhập hoặc đăng ký tài khoản để tiếp tục.</p>
                 <div class="popup-actions">
-                    <button class="popup-btn-primary" onclick="openBolocLogin('login')">Đăng nhập</button>
-                    <button class="popup-btn-secondary" onclick="openBolocLogin('register')">Đăng ký</button>
+                    <button class="popup-btn-primary" onclick="openBolocLogin('login'); closeBolocTierPopup();">Đăng nhập</button>
+                    <button class="popup-btn-secondary" onclick="openBolocLogin('register'); closeBolocTierPopup();">Đăng ký</button>
                     <button class="popup-btn-secondary" onclick="closeBolocTierPopup()">Đóng</button>
                 </div>
             `;
@@ -8443,9 +8477,81 @@
             }
         }
 
+        /**
+         * Cập nhật giá gói PRO trong modal thanh toán dựa trên dữ liệu backend
+         * Đồng bộ giá, data-price attributes, và hiển thị cho user
+         */
+        function updateProModalPricing() {
+            const plans = window._FINTOP_BACKEND_PLANS;
+            if (!Array.isArray(plans) || plans.length === 0) return;
+
+            // Tìm các gói PRO (SILVER tier) từ backend plans
+            const proPlans = plans.filter(p => {
+                const tier = String(p.tierLevel || '').toUpperCase();
+                const name = String(p.name || '').toUpperCase();
+                return tier === 'SILVER' || name.includes('PRO');
+            });
+
+            if (proPlans.length === 0) return;
+
+            // Sắp xếp theo giá tăng dần → PRO1 (rẻ nhất), PRO2, PRO3 (đắt nhất)
+            proPlans.sort((a, b) => Number(a.price) - Number(b.price));
+
+            const proCards = document.querySelectorAll('.pro-package-card');
+            proCards.forEach((card, idx) => {
+                const plan = proPlans[idx];
+                if (!plan) return;
+
+                // Cập nhật data-price attribute (cho modals.js đọc)
+                card.setAttribute('data-price', String(plan.price));
+
+                // Cập nhật data-months từ durationDays
+                const months = Math.round((plan.durationDays || 90) / 30);
+                card.setAttribute('data-months', String(months));
+
+                // Cập nhật tên gói hiển thị
+                const titleEl = card.querySelector('.pro-pkg-title');
+                if (titleEl) {
+                    titleEl.textContent = `${plan.name} (${months} tháng)`;
+                }
+
+                // Cập nhật giá hiển thị
+                const priceEl = card.querySelector('.pro-pkg-price');
+                if (priceEl) {
+                    priceEl.textContent = Number(plan.price).toLocaleString('vi-VN') + ' VND';
+                }
+            });
+
+            // Cập nhật lại nội dung thanh toán mẫu và QR nếu đang hiển thị
+            if (typeof updateTransferNote === 'function') {
+                updateTransferNote();
+            }
+
+            console.log('[Dynamic Pricing] PRO modal cards updated from backend:', proPlans.map(p => `${p.name}=${p.price}`));
+        }
+
         async function hydrateMemberships() {
             if (isMembershipHydrated) return;
+            const Infra = window.FintopInfra;
+            if (Infra) {
+                try {
+                    const API = () => Infra.ApiClient;
+                    const EP = () => Infra.FintopEnv.API_ENDPOINTS;
+                    const res = await API().get(EP().SUBSCRIPTION_PLANS);
+                    const plans = res.data || res || [];
+                    if (Array.isArray(plans) && plans.length > 0) {
+                        MEMBERSHIP_DATA = normalizeMembershipPlans(plans);
+                        // Store plans globally so modals.js can read dynamic prices
+                        window._FINTOP_BACKEND_PLANS = plans;
+                        console.log('[Backend Hydrate] Membership plans loaded from backend:', plans.length);
+                    }
+                } catch (err) {
+                    console.warn('[Backend Hydrate] Failed to load membership plans:', err.message);
+                }
+            }
             renderMemberships();
+            // Update PRO modal cards with dynamic pricing from backend
+            updateProModalPricing();
             isMembershipHydrated = true;
         }
 
@@ -8556,9 +8662,35 @@
                 document.getElementById('uprof-company').value = u.company || '';
                 document.getElementById('uprof-position').value = u.position || '';
                 document.getElementById('uprof-joindate').value = u.joinDate ? new Date(u.joinDate).toISOString().split('T')[0] : '';
-                document.getElementById('uprof-duration').value = u.investmentDuration || '0 - 3 tháng';
-                document.getElementById('uprof-style').value = u.investmentStyle || 'Lướt sóng ngắn hạn';
-                document.getElementById('uprof-broker').value = u.stockCompany || 'Chưa TKCK';
+                const getStandardDuration = (val) => {
+                    const clean = String(val || '').replace(/\s+/g, '').replace(/-/g, '_').toLowerCase();
+                    if (clean.includes('0_3') || clean.includes('03')) return '0_3';
+                    if (clean.includes('3_6') || clean.includes('36')) return '3_6';
+                    if (clean.includes('6_12') || clean.includes('612')) return '6_12';
+                    if (clean.includes('12') || clean.includes('1năm') || clean.includes('1nam') || clean.includes('trên1')) return '12_';
+                    return '0_3';
+                };
+
+                const getStandardStyle = (val) => {
+                    const clean = String(val || '').toLowerCase();
+                    if (clean.includes('short') || clean.includes('lướt') || clean.includes('luot')) return 'short_term';
+                    if (clean.includes('long') || clean.includes('trung') || clean.includes('dài') || clean.includes('dai')) return 'medium_long';
+                    if (clean.includes('flex') || clean.includes('linh') || clean.includes('kết') || clean.includes('ket')) return 'flexible';
+                    return 'short_term';
+                };
+
+                const getStandardBroker = (val) => {
+                    const clean = String(val || '').toUpperCase();
+                    if (clean.includes('VPS')) return 'VPS';
+                    if (clean.includes('SSI')) return 'SSI';
+                    if (clean.includes('VND')) return 'VND';
+                    if (clean.includes('NONE') || clean.includes('CHƯA') || clean.includes('CHUA') || !val) return 'none';
+                    return 'Công ty khác';
+                };
+
+                document.getElementById('uprof-duration').value = getStandardDuration(u.investmentDuration);
+                document.getElementById('uprof-style').value = getStandardStyle(u.investmentStyle);
+                document.getElementById('uprof-broker').value = getStandardBroker(u.stockCompany);
                 document.getElementById('uprof-stockaccount').value = u.stockAccount || '';
                 document.getElementById('uprof-refid').value = u.referralId || '';
                 document.getElementById('uprof-refname').value = u.referralName || '';
@@ -8716,6 +8848,9 @@
 
             // Only hydrate stock prices on load (lightweight & required for main search)
             await hydrateStockPrices();
+
+            // Also hydrate membership plans early so PRO modal pricing is dynamic from page load
+            hydrateMemberships().catch(err => console.warn('[Backend Hydrate] Membership hydrate failed:', err));
 
             // Register auth change hook to re-hydrate
             Infra.AppState.off('auth:changed', handleAuthChangeForHydrate);
@@ -9175,24 +9310,34 @@
                         </div>
 
                         <div class="payment-info-box">
-                            <div class="payment-info-row">
-                                <div class="payment-label">Ngân hàng:</div>
-                                <div class="payment-value">MBBank - Ngân hàng TMCP Quân đội</div>
-                            </div>
-                            <div class="payment-info-row">
-                                <div class="payment-label">Số tài khoản:</div>
-                                <div class="payment-value modal-accent-text">86 286 243 8886</div>
-                            </div>
-                            <div class="payment-info-row">
-                                <div class="payment-label">Chủ tài khoản:</div>
-                                <div class="payment-value">CÔNG TY TNHH ĐẦU TƯ VÀ PHÁT TRIỂN FINTOP</div>
-                            </div>
-                            <div class="payment-info-row mt-3">
-                                <div class="payment-label">Nội dung:</div>
-                                <div class="payment-value" id="pro-payment-note">
-                                    <div>[HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI PRO1 - 3 THÁNG]</div>
-                                    <div style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A_0862348886_PRO1 - 3 THÁNG</div>
+                            <div class="payment-info-details">
+                                <div class="payment-info-row">
+                                    <div class="payment-label">Ngân hàng:</div>
+                                    <div class="payment-value">MBBank - Ngân hàng TMCP Quân đội</div>
                                 </div>
+                                <div class="payment-info-row">
+                                    <div class="payment-label">Số tài khoản:</div>
+                                    <div class="payment-value modal-accent-text">86 286 234 8886</div>
+                                </div>
+                                <div class="payment-info-row">
+                                    <div class="payment-label">Chủ tài khoản:</div>
+                                    <div class="payment-value">CÔNG TY TNHH ĐẦU TƯ VÀ PHÁT TRIỂN FINTOP</div>
+                                </div>
+                                <div class="payment-info-row" style="margin-top: 10px;">
+                                    <div class="payment-label">Số tiền:</div>
+                                    <div class="payment-value" id="pro-amount-display" style="color: #f59e0b; font-weight: 900; font-size: 1.1rem;">2.500.000 VND</div>
+                                </div>
+                                <div class="payment-info-row" style="margin-top: 6px;">
+                                    <div class="payment-label">Nội dung:</div>
+                                    <div class="payment-value" id="pro-payment-note">
+                                        <div>[HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI PRO1 - 3 THÁNG]</div>
+                                        <div style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A_0862348886_PRO1 - 3 THÁNG</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="payment-qr-container" style="text-align: center; display: flex; flex-direction: column; align-items: center; margin-top: 16px; padding-top: 14px; border-top: 1px dashed rgba(255,255,255,0.12);">
+                                <img id="pro-vietqr-img" src="" alt="VietQR" style="width: 220px; height: auto; border-radius: 10px; border: 3px solid #fff; background: #fff; box-shadow: 0 4px 16px rgba(0,0,0,0.3);" />
+                                <span style="font-size: 0.7rem; color: #94a3b8; margin-top: 10px; font-weight: 600; line-height: 1.4;">Quét mã QR để tự động điền đầy đủ thông tin chuyển khoản<br><span style="color: #10b981;">(Hệ thống tự động điền Số tiền & Nội dung của bạn)</span></span>
                             </div>
                         </div>
                     </div>

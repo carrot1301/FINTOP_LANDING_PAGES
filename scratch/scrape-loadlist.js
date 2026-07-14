@@ -5,6 +5,7 @@
 const https = require('https');
 const { URL } = require('url');
 const fs = require('fs');
+const path = require('path');
 const querystring = require('querystring');
 
 const BASE_URL = 'https://fintopdata.vn';
@@ -95,7 +96,8 @@ async function login() {
 
 function parseStaff(html) {
   const records = [];
-  const trMatches = html.match(/<tr[^>]*>([\s\S]*?)<\/tr>/gi);
+  const collapsed = html.replace(/\s+/g, ' ');
+  const trMatches = collapsed.match(/<tr[^>]*>([\s\S]*?)<\/tr>/gi);
   if (!trMatches) return records;
 
   for (const trHtml of trMatches) {
@@ -119,13 +121,13 @@ function parseStaff(html) {
       return m ? m[1].trim() : '';
     };
 
-    record.fullName = get(/Tên\s*:\s*([^:\n]+)/i);
-    record.staffCode = get(/ID nhân sự\s*:\s*([^:\n]+)/i);
-    record.phone = get(/Số điện thoại\s*:\s*([^:\n]+)/i) || get(/Số điện thoai\s*:\s*([^:\n]+)/i);
-    record.email = get(/Địa chỉ Email\s*:\s*([^:\n]+)/i) || get(/Email\s*:\s*([^:\n]+)/i);
-    record.address = get(/Địa chỉ\s*:\s*([^:\n]+)/i);
-    record.dob = get(/Ngày sinh\s*:\s*([^:\n]+)/i);
-    record.role = get(/Quyền truy cập\s*:\s*([^:\n]+)/i);
+    record.fullName = get(/Tên[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.staffCode = get(/ID nhân sự[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.phone = get(/Số điện thoại[ \t]*:[ \t]*([^\r\n]*)/i) || get(/Số điện thoai[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.email = get(/Địa chỉ Email[ \t]*:[ \t]*([^\r\n]*)/i) || get(/Email[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.address = get(/Địa chỉ[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.dob = get(/Ngày sinh[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.role = get(/Quyền truy cập[ \t]*:[ \t]*([^\r\n]*)/i);
 
     if (record.email || record.fullName) {
       records.push(record);
@@ -137,7 +139,8 @@ function parseStaff(html) {
 
 function parseClients(html) {
   const records = [];
-  const trMatches = html.match(/<tr[^>]*>([\s\S]*?)<\/tr>/gi);
+  const collapsed = html.replace(/\s+/g, ' ');
+  const trMatches = collapsed.match(/<tr[^>]*>([\s\S]*?)<\/tr>/gi);
   if (!trMatches) return records;
 
   for (const trHtml of trMatches) {
@@ -161,18 +164,29 @@ function parseClients(html) {
       return m ? m[1].trim() : '';
     };
 
-    record.fullName = get(/Tên khách hàng\s*:\s*([^:\n]+)/i) || get(/Tên\s*:\s*([^:\n]+)/i);
-    record.phone = get(/Số điện thoại\s*:\s*([^:\n]+)/i) || get(/Số điện thoai\s*:\s*([^:\n]+)/i);
-    record.email = get(/Địa chỉ Email\s*:\s*([^:\n]+)/i) || get(/Email\s*:\s*([^:\n]+)/i);
-    record.address = get(/Địa chỉ\s*:\s*([^:\n]+)/i);
-    record.dob = get(/Ngày sinh\s*:\s*([^<\n]+)/i);
-    record.joinDate = get(/Ngày gia nhập\s*:\s*([^:\n]+)/i);
-    record.investmentDuration = get(/Thời gian đầu tư\s*:\s*([^:\n]+)/i);
-    record.investmentStyle = get(/Khẩu vị đầu tư\s*:\s*([^:\n]+)/i);
-    record.stockCompany = get(/Công ty chứng khoán\s*:\s*([^:\n]+)/i);
-    record.stockAccount = get(/Số TKCK VPS \(nếu có\)\s*:\s*([^:\n]*)/i) || get(/Số TKCK\s*:\s*([^:\n]*)/i);
-    record.tierLevel = get(/Loại tài khoản\s*:\s*([^:\n]+)/i);
-    record.role = get(/Quyền truy cập\s*:\s*([^:\n]+)/i);
+    record.fullName = get(/Tên khách hàng[ \t]*:[ \t]*([^\r\n]*)/i) || get(/Tên[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.phone = get(/Số điện thoại[ \t]*:[ \t]*([^\r\n]*)/i) || get(/Số điện thoai[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.email = get(/Địa chỉ Email[ \t]*:[ \t]*([^\r\n]*)/i) || get(/Email[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.address = get(/Địa chỉ[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.dob = get(/Ngày sinh[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.joinDate = get(/Ngày gia nhập[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.investmentDuration = get(/Thời gian đầu tư[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.investmentStyle = get(/Khẩu vị đầu tư[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.stockCompany = get(/Công ty chứng khoán[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.stockAccount = get(/Số TKCK VPS \(nếu có\)[ \t]*:[ \t]*([^\r\n]*)/i) || get(/Số TKCK[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.tierLevel = get(/Loại tài khoản[ \t]*:[ \t]*([^\r\n]*)/i);
+    record.role = get(/Quyền truy cập[ \t]*:[ \t]*([^\r\n]*)/i);
+
+    const tdMatches = trHtml.match(/<td[^>]*>([\s\S]*?)<\/td>/gi);
+    let manager = '';
+    if (tdMatches && tdMatches.length >= 4) {
+      manager = tdMatches[3]
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/[ \t]+/g, ' ')
+        .trim();
+    }
+    record.manager = manager || '-';
 
     if (record.email || record.fullName) {
       records.push(record);
@@ -193,17 +207,17 @@ async function main() {
     // Fetch staff loadList
     console.log('Fetching staff loadList...');
     const staffRes = await httpsRequest(`${STAFF_LOADLIST_URL}?limit=100&offset=1&role=&search=`);
-    fs.writeFileSync('staff_loadlist.html', staffRes.body);
+    fs.writeFileSync(path.join(__dirname, 'staff_loadlist.html'), staffRes.body);
     const staff = parseStaff(staffRes.body);
-    fs.writeFileSync('staff_data.json', JSON.stringify(staff, null, 2));
+    fs.writeFileSync(path.join(__dirname, 'staff_data.json'), JSON.stringify(staff, null, 2));
     console.log(`Parsed ${staff.length} staff records.`);
 
     // Fetch client loadList
     console.log('Fetching client loadList...');
     const clientRes = await httpsRequest(`${CLIENT_LOADLIST_URL}?limit=100&offset=1`);
-    fs.writeFileSync('client_loadlist.html', clientRes.body);
+    fs.writeFileSync(path.join(__dirname, 'client_loadlist.html'), clientRes.body);
     const clients = parseClients(clientRes.body);
-    fs.writeFileSync('client_data.json', JSON.stringify(clients, null, 2));
+    fs.writeFileSync(path.join(__dirname, 'client_data.json'), JSON.stringify(clients, null, 2));
     console.log(`Parsed ${clients.length} client records.`);
 
   } catch (e) {

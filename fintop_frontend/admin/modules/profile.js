@@ -26,7 +26,7 @@ export default {
       const address = u.address || '';
       const company = u.company || '';
       const position = u.position || '';
-      const staffCode = u.team?.code || u.department?.code || '';
+      const staffCode = u.staffCode || String(u.id);
 
       // Bulletproof avatar fallback to prevent broken images
       let avatarUrl = u.avatarUrl || u.avatar || '';

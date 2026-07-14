@@ -55,6 +55,43 @@ export class AuthService {
     const passwordHash = await HashUtil.hash(dto.password);
 
     const newUser = await this.prisma.$transaction(async (tx) => {
+      let brokerId: number | null = null;
+      if (dto.referralId) {
+        const refCode = dto.referralId.trim();
+        // 1. Search by staffCode
+        let broker = await tx.user.findFirst({
+          where: { staffCode: { equals: refCode, mode: 'insensitive' }, deletedAt: null },
+          select: { id: true }
+        });
+        // 2. Search by team code
+        if (!broker) {
+          broker = await tx.user.findFirst({
+            where: { team: { code: { equals: refCode, mode: 'insensitive' } }, deletedAt: null },
+            select: { id: true }
+          });
+        }
+        // 3. Search by department code
+        if (!broker) {
+          broker = await tx.user.findFirst({
+            where: { department: { code: { equals: refCode, mode: 'insensitive' } }, deletedAt: null },
+            select: { id: true }
+          });
+        }
+        // 4. Search by numeric ID
+        if (!broker) {
+          const numericId = parseInt(refCode, 10);
+          if (!isNaN(numericId)) {
+            broker = await tx.user.findUnique({
+              where: { id: numericId },
+              select: { id: true }
+            });
+          }
+        }
+        if (broker) {
+          brokerId = broker.id;
+        }
+      }
+
       const user = await tx.user.create({
         data: {
           email: dto.email,
@@ -69,6 +106,7 @@ export class AuthService {
           stockAccount: dto.stockAccount || null,
           referralId: dto.referralId || null,
           referralName: dto.referralName || null,
+          brokerId: brokerId,
           status: RECORD_STATUS.ACTIVE,
           emailVerifiedAt: null, // Requires email verification
         },
@@ -726,19 +764,33 @@ export class AuthService {
       throw new BadRequestException('ID người giới thiệu không được để trống');
     }
 
-    // 1. Search for a user whose team code matches
+    // 0. Search for a user whose staffCode matches (the individual personnel ID)
     let user = await this.prisma.user.findFirst({
       where: {
-        team: {
-          code: {
-            equals: code,
-            mode: 'insensitive'
-          }
+        staffCode: {
+          equals: code,
+          mode: 'insensitive'
         },
         deletedAt: null
       },
       select: { fullName: true }
     });
+
+    // 1. Search for a user whose team code matches (legacy fallback)
+    if (!user) {
+      user = await this.prisma.user.findFirst({
+        where: {
+          team: {
+            code: {
+              equals: code,
+              mode: 'insensitive'
+            }
+          },
+          deletedAt: null
+        },
+        select: { fullName: true }
+      });
+    }
 
     // 2. If not found, search for a user whose department code matches
     if (!user) {

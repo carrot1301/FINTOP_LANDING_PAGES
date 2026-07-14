@@ -132,12 +132,12 @@ function renderStaffTable(container) {
       const birthDate = formatBirthDate(u.dob || u.birthDate || u.dateOfBirth || u.birthday);
       const isActive = (u.status || '').toUpperCase() === 'ACTIVE';
       const roleText = getPrimaryRoleLabel(u.roles);
-      const staffId = u.team?.code || u.department?.code || '—';
+      const staffId = u.staffCode || String(u.id);
 
       const broker = u.broker || u.manager || u.assignedBroker;
       let brokerText = '—';
       if (broker) {
-        const brokerCode = broker.team?.code || broker.department?.code || '';
+        const brokerCode = broker.staffCode || String(broker.id);
         brokerText = brokerCode ? `${brokerCode} - ${broker.fullName || broker.name || broker}` : (broker.fullName || broker.name || broker);
       }
 
@@ -233,7 +233,7 @@ async function showStaffEditModal(userId) {
 
     const birthDate = u.dob ? new Date(u.dob).toISOString().split('T')[0] : '';
     const joinDate = u.joinDate ? new Date(u.joinDate).toISOString().split('T')[0] : '';
-    const staffCode = u.team?.code || u.department?.code || '';
+    const staffCode = u.staffCode || String(u.id);
     const userRoles = (u.roles || []).map(r => r.code);
     const phone = u.phone || '';
     const address = u.address || '';
@@ -247,7 +247,7 @@ async function showStaffEditModal(userId) {
     const managerOptions = staffList
       .filter(s => s.id !== u.id) // Cannot be own manager
       .map(s => {
-        const code = s.team?.code || s.department?.code || '';
+        const code = s.staffCode || String(s.id);
         const label = code ? `${s.fullName} - ${code}` : s.fullName;
         return `<option value="${s.id}" ${u.brokerId === s.id ? 'selected' : ''}>${esc(label)}</option>`;
       })
@@ -707,7 +707,7 @@ async function showStaffDetail(userId) {
     const investStyle = u.investmentStyle || '';
     const birthDate = formatBirthDate(u.dob || u.birthDate || u.dateOfBirth || u.birthday);
     const joinDateFormatted = u.joinDate ? new Date(u.joinDate).toLocaleDateString('vi-VN') : '—';
-    const staffId = u.team?.code || u.department?.code || '—';
+    const staffId = u.staffCode || String(u.id);
 
     staffDetailEl.innerHTML = `
       <div class="admin-modal-overlay" id="staff-detail-overlay">

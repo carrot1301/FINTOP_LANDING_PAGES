@@ -144,7 +144,7 @@ export default {
         let brokerDisplay = '-';
         if (broker) {
           const bName = broker.fullName || broker.name || (typeof broker === 'string' ? broker : '');
-          const bCode = broker.team?.code || '';
+          const bCode = broker.staffCode || broker.team?.code || '';
           if (bCode && bName) {
             brokerDisplay = `${bCode} - ${bName}`;
           } else if (bName) {
@@ -219,6 +219,8 @@ export default {
                 <div>Ngày gia nhập : ${joinDate}</div>
                 <div>Thời gian đầu tư: ${esc(investDuration)}</div>
                 <div>Khẩu vị đầu tư : ${esc(investStyle)}</div>
+                <div>Công ty chứng khoán : ${esc(stockCompany || '—')}</div>
+                <div>Số TKCK VPS (nếu có) : ${esc(stockAccount || '—')}</div>
                 <div>ID người giới thiệu : ${esc(refId)}</div>
                 <div>Tên người giới thiệu : ${esc(refName)}</div>
                 <div>Loại tài khoản :  ${tierHtml} </div>
@@ -313,6 +315,40 @@ async function showEditModal(userId) {
 
     const birthDate = u.dob ? new Date(u.dob).toISOString().split('T')[0] : '';
 
+    const getStandardDuration = (val) => {
+      const clean = String(val || '').replace(/\s+/g, '').replace(/-/g, '_').toLowerCase();
+      if (clean.includes('0_3') || clean.includes('03')) return '0_3';
+      if (clean.includes('3_6') || clean.includes('36')) return '3_6';
+      if (clean.includes('6_12') || clean.includes('612')) return '6_12';
+      if (clean.includes('12') || clean.includes('1năm') || clean.includes('1nam') || clean.includes('trên1')) return '12_';
+      return '';
+    };
+
+    const getStandardStyle = (val) => {
+      const clean = String(val || '').toLowerCase();
+      if (clean.includes('short') || clean.includes('lướt') || clean.includes('luot')) return 'short_term';
+      if (clean.includes('long') || clean.includes('trung') || clean.includes('dài') || clean.includes('dai')) return 'medium_long';
+      if (clean.includes('flex') || clean.includes('linh') || clean.includes('kết') || clean.includes('ket')) return 'flexible';
+      return '';
+    };
+
+    const getStandardBroker = (val) => {
+      const clean = String(val || '').toUpperCase();
+      if (clean.includes('VPS')) return 'VPS';
+      if (clean.includes('SSI')) return 'SSI';
+      if (clean.includes('VND')) return 'VND';
+      if (clean.includes('HSC')) return 'HSC';
+      if (clean.includes('MBS')) return 'MBS';
+      if (clean.includes('FPTS')) return 'FPTS';
+      if (clean.includes('TCBS')) return 'TCBS';
+      if (clean.includes('NONE') || clean.includes('CHƯA') || clean.includes('CHUA') || !val) return 'none';
+      return 'Công ty khác';
+    };
+
+    const durationVal = getStandardDuration(u.investmentDuration || u.investment_duration);
+    const styleVal = getStandardStyle(u.investmentStyle || u.investment_style);
+    const brokerVal = getStandardBroker(u.stockCompany);
+
     editModalEl.innerHTML = `
       <div class="admin-modal-overlay" id="edit-modal-overlay">
         <div class="admin-modal" style="max-width:600px;">
@@ -346,33 +382,34 @@ async function showEditModal(userId) {
                 <label>Thời gian đầu tư</label>
                 <select class="admin-select" id="edit-invest-duration">
                   <option value="">-- Chọn --</option>
-                  <option value="0_3" ${(u.investmentDuration || u.investment_duration) === '0_3' ? 'selected' : ''}>0 - 3 tháng</option>
-                  <option value="3_6" ${(u.investmentDuration || u.investment_duration) === '3_6' ? 'selected' : ''}>3 - 6 tháng</option>
-                  <option value="6_12" ${(u.investmentDuration || u.investment_duration) === '6_12' ? 'selected' : ''}>6 - 12 tháng</option>
-                  <option value="12_" ${(u.investmentDuration || u.investment_duration) === '12_' ? 'selected' : ''}>Trên 12 tháng</option>
+                  <option value="0_3" ${durationVal === '0_3' ? 'selected' : ''}>0 - 3 tháng</option>
+                  <option value="3_6" ${durationVal === '3_6' ? 'selected' : ''}>3 - 6 tháng</option>
+                  <option value="6_12" ${durationVal === '6_12' ? 'selected' : ''}>6 - 12 tháng</option>
+                  <option value="12_" ${durationVal === '12_' ? 'selected' : ''}>Trên 12 tháng</option>
                 </select>
               </div>
               <div class="admin-form-group">
                 <label>Khẩu vị đầu tư</label>
                 <select class="admin-select" id="edit-invest-style">
                   <option value="">-- Chọn --</option>
-                  <option value="short_term" ${(u.investmentStyle || u.investment_style) === 'short_term' ? 'selected' : ''}>Lướt sóng ngắn hạn</option>
-                  <option value="medium_long" ${(u.investmentStyle || u.investment_style) === 'medium_long' ? 'selected' : ''}>Trung và dài hạn</option>
-                  <option value="flexible" ${(u.investmentStyle || u.investment_style) === 'flexible' ? 'selected' : ''}>Linh hoạt kết hợp</option>
+                  <option value="short_term" ${styleVal === 'short_term' ? 'selected' : ''}>Lướt sóng ngắn hạn</option>
+                  <option value="medium_long" ${styleVal === 'medium_long' ? 'selected' : ''}>Trung và dài hạn</option>
+                  <option value="flexible" ${styleVal === 'flexible' ? 'selected' : ''}>Linh hoạt kết hợp</option>
                 </select>
               </div>
               <div class="admin-form-group">
                 <label>Công ty chứng khoán</label>
                 <select class="admin-select" id="edit-stock-company">
                   <option value="">-- Chọn --</option>
-                  <option value="VPS" ${(u.stockCompany || '').toUpperCase() === 'VPS' ? 'selected' : ''}>VPS</option>
-                  <option value="SSI" ${(u.stockCompany || '').toUpperCase() === 'SSI' ? 'selected' : ''}>SSI</option>
-                  <option value="VND" ${['VND','VNDS'].includes((u.stockCompany || '').toUpperCase()) ? 'selected' : ''}>VND</option>
-                  <option value="HSC" ${(u.stockCompany || '').toUpperCase() === 'HSC' ? 'selected' : ''}>HSC</option>
-                  <option value="MBS" ${(u.stockCompany || '').toUpperCase() === 'MBS' ? 'selected' : ''}>MBS</option>
-                  <option value="FPTS" ${(u.stockCompany || '').toUpperCase() === 'FPTS' ? 'selected' : ''}>FPTS</option>
-                  <option value="TCBS" ${(u.stockCompany || '').toUpperCase() === 'TCBS' ? 'selected' : ''}>TCBS</option>
-                  <option value="Công ty khác" ${['KHÁC','OTHER','CÔNG TY KHÁC'].includes((u.stockCompany || '').toUpperCase()) ? 'selected' : ''}>Công ty khác</option>
+                  <option value="none" ${brokerVal === 'none' ? 'selected' : ''}>Chưa TKCK</option>
+                  <option value="VPS" ${brokerVal === 'VPS' ? 'selected' : ''}>VPS</option>
+                  <option value="SSI" ${brokerVal === 'SSI' ? 'selected' : ''}>SSI</option>
+                  <option value="VND" ${brokerVal === 'VND' ? 'selected' : ''}>VND</option>
+                  <option value="HSC" ${brokerVal === 'HSC' ? 'selected' : ''}>HSC</option>
+                  <option value="MBS" ${brokerVal === 'MBS' ? 'selected' : ''}>MBS</option>
+                  <option value="FPTS" ${brokerVal === 'FPTS' ? 'selected' : ''}>FPTS</option>
+                  <option value="TCBS" ${brokerVal === 'TCBS' ? 'selected' : ''}>TCBS</option>
+                  <option value="Công ty khác" ${brokerVal === 'Công ty khác' ? 'selected' : ''}>Công ty khác</option>
                 </select>
               </div>
               <div class="admin-form-group">
@@ -495,8 +532,8 @@ function showUpgradeModal(userId, userName, currentTier) {
 
     e.target.disabled = true;
     try {
-      // Try to update tier via status endpoint (backend may handle tier change here)
-      await API().patch(EP().ADMIN_USER_STATUS(uid), { tierLevel: newTier, broker });
+      // Update tier and broker via user details endpoint
+      await API().patch(EP().ADMIN_USER_DETAIL(uid), { tierLevel: newTier, broker });
       showToast(`Đã nâng cấp thành công lên gói ${getTierLabel(newTier)}!`);
       closeModal();
       if (table) table.refresh();

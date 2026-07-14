@@ -533,7 +533,7 @@
             grid.innerHTML = pageArticles.map(art => {
                 const pubDate = art.publishedAt ? new Date(art.publishedAt) : new Date();
                 const dateStr = pubDate.toLocaleDateString('vi-VN');
-                const readTime = Math.max(3, Math.ceil((art.content?.length || 500) / 1000)) + ' phút đọc';
+                const viewsCount = (art.views !== undefined ? art.views : 0) + ' lượt xem';
                 const lockClass = art.locked ? 'is-locked' : '';
                 
                 // Extract first image from content or use default
@@ -564,7 +564,7 @@
                             </a>
                             <div class="article-meta">
                                 <span><i class="fa-regular fa-calendar"></i> ${dateStr}</span>
-                                <span><i class="fa-regular fa-clock"></i> ${readTime}</span>
+                                <span><i class="fa-regular fa-eye"></i> ${viewsCount}</span>
                             </div>
                             <p class="card-excerpt">${art.excerpt || 'Không có mô tả ngắn cho bài viết này.'}</p>
                             <a class="card-btn-link" href="../../chuyen-gia/index.html?slug=${art.slug}">
@@ -582,7 +582,7 @@
             const container = document.getElementById('featuredSection');
             const pubDate = art.publishedAt ? new Date(art.publishedAt) : new Date();
             const dateStr = pubDate.toLocaleDateString('vi-VN');
-            const readTime = Math.max(3, Math.ceil((art.content?.length || 500) / 1000)) + ' phút đọc';
+            const viewsCount = (art.views !== undefined ? art.views : 0) + ' lượt xem';
             
             let imgUrl = '../../assets/images/fintop_terminal_mockup.png';
             if (art.content) {
@@ -616,7 +616,7 @@
                         <p class="featured-excerpt">${art.excerpt || 'Không có mô tả ngắn cho bài viết này.'}</p>
                         <div class="article-meta">
                             <span><i class="fa-regular fa-calendar"></i> ${dateStr}</span>
-                            <span><i class="fa-regular fa-clock"></i> ${readTime}</span>
+                            <span><i class="fa-regular fa-eye"></i> ${viewsCount}</span>
                         </div>
                         <div style="display: flex;">
                             <a class="btn-tv-blue" style="text-decoration: none;" href="../../chuyen-gia/index.html?slug=${art.slug}">Đọc bài viết</a>

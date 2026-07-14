@@ -137,9 +137,9 @@ async function runImport() {
           // Update existing user info and align email to the production one if matched by name
           await client.query(
             `UPDATE users 
-             SET email = $1, "fullName" = $2, phone = $3, dob = $4, address = $5, "teamId" = $6, "updatedAt" = NOW() 
-             WHERE id = $7`,
-            [email, s.fullName, s.phone || null, dob, s.address || null, teamId || dbUser.teamId, dbUser.id]
+             SET email = $1, "fullName" = $2, phone = $3, dob = $4, address = $5, "teamId" = $6, "staffCode" = $7, "updatedAt" = NOW() 
+             WHERE id = $8`,
+            [email, s.fullName, s.phone || null, dob, s.address || null, teamId || dbUser.teamId, s.staffCode || null, dbUser.id]
           );
 
           // Update user role
@@ -163,10 +163,10 @@ async function runImport() {
         } else {
           // Create new staff
           const newUser = await client.query(
-            `INSERT INTO users (email, "passwordHash", "fullName", phone, dob, address, "teamId", status, "tierLevel", "createdAt", "updatedAt", "emailVerifiedAt")
-             VALUES ($1, $2, $3, $4, $5, $6, $7, 'ACTIVE', 'STANDARD', NOW(), NOW(), NOW())
+            `INSERT INTO users (email, "passwordHash", "fullName", phone, dob, address, "teamId", "staffCode", status, "tierLevel", "createdAt", "updatedAt", "emailVerifiedAt")
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'ACTIVE', 'STANDARD', NOW(), NOW(), NOW())
              RETURNING id`,
-            [email, defaultPasswordHash, s.fullName, s.phone || null, dob, s.address || null, teamId]
+            [email, defaultPasswordHash, s.fullName, s.phone || null, dob, s.address || null, teamId, s.staffCode || null]
           );
           
           const newUserId = newUser.rows[0].id;
@@ -222,18 +222,42 @@ async function runImport() {
         const joinDate = parseDate(c.joinDate);
         const tier = mapTierLevel(c.tierLevel);
 
+        // Resolve brokerId from manager code
+        let brokerId = null;
+        if (c.manager && c.manager !== '-') {
+          const managerCodeMatch = c.manager.match(/^([A-Z0-9]+)\s*-/i);
+          if (managerCodeMatch) {
+            const managerCode = managerCodeMatch[1];
+            // Find staff user with this staffCode
+            const brokerRes = await client.query('SELECT id FROM users WHERE "staffCode" = $1', [managerCode]);
+            if (brokerRes.rows.length > 0) {
+              brokerId = brokerRes.rows[0].id;
+            } else {
+              // Fallback: check teams code
+              const brokerResTeam = await client.query(
+                `SELECT u.id FROM users u 
+                 JOIN teams t ON u."teamId" = t.id 
+                 WHERE t.code = $1`, [managerCode]
+              );
+              if (brokerResTeam.rows.length > 0) {
+                brokerId = brokerResTeam.rows[0].id;
+              }
+            }
+          }
+        }
+
         if (dbUser) {
           // Update client specific fields
           await client.query(
             `UPDATE users 
              SET email = $1, "fullName" = $2, phone = $3, dob = $4, address = $5, "joinDate" = $6,
                  "investmentDuration" = $7, "investmentStyle" = $8, "stockCompany" = $9, "stockAccount" = $10,
-                 "tierLevel" = $11, "updatedAt" = NOW()
-             WHERE id = $12`,
+                 "tierLevel" = $11, "brokerId" = $12, "updatedAt" = NOW()
+             WHERE id = $13`,
             [
               email, c.fullName, c.phone || null, dob, c.address || null, joinDate,
               c.investmentDuration || null, c.investmentStyle || null, c.stockCompany || null, c.stockAccount || null,
-              tier, dbUser.id
+              tier, brokerId, dbUser.id
             ]
           );
 
@@ -246,18 +270,18 @@ async function runImport() {
             [dbUser.id, roleId]
           );
 
-          console.log(`  ✅ Updated client: ${c.fullName} (${email}) - DB ID: ${dbUser.id}`);
+          console.log(`  ✅ Updated client: ${c.fullName} (${email}) - DB ID: ${dbUser.id} - Broker ID: ${brokerId || 'None'}`);
         } else {
           // Create new client
           const newUser = await client.query(
             `INSERT INTO users (email, "passwordHash", "fullName", phone, dob, address, "joinDate",
-             "investmentDuration", "investmentStyle", "stockCompany", "stockAccount", status, "tierLevel", "createdAt", "updatedAt", "emailVerifiedAt")
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, 'ACTIVE', $12, NOW(), NOW(), NOW())
+             "investmentDuration", "investmentStyle", "stockCompany", "stockAccount", "brokerId", status, "tierLevel", "createdAt", "updatedAt", "emailVerifiedAt")
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 'ACTIVE', $13, NOW(), NOW(), NOW())
              RETURNING id`,
             [
               email, defaultPasswordHash, c.fullName, c.phone || null, dob, c.address || null, joinDate,
               c.investmentDuration || null, c.investmentStyle || null, c.stockCompany || null, c.stockAccount || null,
-              tier
+              brokerId, tier
             ]
           );
 
@@ -268,7 +292,7 @@ async function runImport() {
             [newUserId, roleId]
           );
 
-          console.log(`  🆕 Created client: ${c.fullName} (${email}) - DB ID: ${newUserId}`);
+          console.log(`  🆕 Created client: ${c.fullName} (${email}) - DB ID: ${newUserId} - Broker ID: ${brokerId || 'None'}`);
         }
         clientCount++;
       }

@@ -5,13 +5,14 @@
     "email": "phamtranphucan1002@gmail.com",
     "address": "Thành phố Thủ Đức, Thành phố Hồ Chí Minh",
     "dob": "2000-08-17",
-    "joinDate": "2026-05-12 10",
+    "joinDate": "2026-05-12 10:56:32",
     "investmentDuration": "6 - 12 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Võ Ngọc Quyền",
@@ -19,13 +20,14 @@
     "email": "vnquyen88@gmail.com",
     "address": "Hcm",
     "dob": "1988-08-15",
-    "joinDate": "2026-04-23 14",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2026-04-23 14:38:33",
+    "investmentDuration": "",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "vps",
     "stockAccount": "473599",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Nguyễn Thị Thu Phương",
@@ -33,13 +35,14 @@
     "email": "thuphuong21.rec@gmail.com",
     "address": "Thành phố Chí Linh, Hải Phòng",
     "dob": "2005-02-21",
-    "joinDate": "2026-03-23 21",
+    "joinDate": "2026-03-23 21:31:37",
     "investmentDuration": "6 - 12 tháng",
     "investmentStyle": "Trung và dài hạn",
     "stockCompany": "ssi",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Quynh Trang Tran",
@@ -47,13 +50,14 @@
     "email": "quynhtrangtran3623@gmail.com",
     "address": "42/180/211 Khuong Trung street, Khuong Dinh ward, Hanoi",
     "dob": "2003-06-30",
-    "joinDate": "2026-03-02 10",
+    "joinDate": "2026-03-02 10:32:41",
     "investmentDuration": "6 - 12 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "474133",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Lê đình trường",
@@ -61,13 +65,14 @@
     "email": "truongld.sacoland@gmail.com",
     "address": "Thanh hoá",
     "dob": "1991-01-19",
-    "joinDate": "2026-02-04 21",
+    "joinDate": "2026-02-04 21:59:26",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "ssi",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Phương Phạm Khánh",
@@ -75,13 +80,14 @@
     "email": "phamkhanhphuong0203@gmail.com",
     "address": "Hà Nội",
     "dob": "2005-03-02",
-    "joinDate": "2026-01-31 01",
+    "joinDate": "2026-01-31 01:30:37",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Phan Tuấn Minh",
@@ -89,13 +95,14 @@
     "email": "tuanminh310820@gmail.com",
     "address": "Hà Nội",
     "dob": "2000-08-31",
-    "joinDate": "2026-01-30 15",
+    "joinDate": "2026-01-30 15:19:14",
     "investmentDuration": "6 - 12 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "H05961",
     "tierLevel": "VIP2",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "BF14 - Nguyễn Thành Phúc"
   },
   {
     "fullName": "Trần Hùng Long",
@@ -103,13 +110,14 @@
     "email": "baongocqb55@gmail.com",
     "address": "quảng trị",
     "dob": "1990-03-09",
-    "joinDate": "2026-01-28 11",
+    "joinDate": "2026-01-28 11:06:02",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "khac",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "DUONG THANH DAT NGUYEN",
@@ -117,13 +125,14 @@
     "email": "duongthanhdatn@gmail.com",
     "address": "THU DUC",
     "dob": "2004-02-24",
-    "joinDate": "2026-01-19 10",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2026-01-19 10:54:26",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "khac",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Lê Thị Thanh Dung",
@@ -131,13 +140,14 @@
     "email": "ltdung.cn4@gmail.com",
     "address": "hà nội",
     "dob": "1978-07-11",
-    "joinDate": "2026-01-12 10",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2026-01-12 10:59:26",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "543600",
     "tierLevel": "VIP2",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "5016 - Hoài Thu Nguyễn"
   },
   {
     "fullName": "Hoàng Chí Long",
@@ -145,13 +155,14 @@
     "email": "chilong0126@gmail.com",
     "address": "Hà Nội",
     "dob": "2006-06-03",
-    "joinDate": "2026-01-09 01",
+    "joinDate": "2026-01-09 01:33:30",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "TKCK",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Chu Mai Phương",
@@ -159,13 +170,14 @@
     "email": "chuphuongg032@gmail.com",
     "address": "Hà Nội",
     "dob": "2004-03-02",
-    "joinDate": "2026-01-07 14",
+    "joinDate": "2026-01-07 14:06:25",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "T75278",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "BOJE - FinTop_Admin"
   },
   {
     "fullName": "Trần Quang Huy",
@@ -173,13 +185,14 @@
     "email": "wanghuy2712@gmail.com",
     "address": "hưng yên",
     "dob": "2005-12-09",
-    "joinDate": "2025-12-25 15",
+    "joinDate": "2025-12-25 15:53:31",
     "investmentDuration": "3 - 6 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Phạm Tăng Thảo Nguyên",
@@ -187,13 +200,14 @@
     "email": "phamtangthaonguyen@gmail.com",
     "address": "Đại Lộc",
     "dob": "2003-01-01",
-    "joinDate": "2025-12-17 13",
+    "joinDate": "2025-12-17 13:44:07",
     "investmentDuration": "3 - 6 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "ssi",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Đoàn thị phương anh",
@@ -201,13 +215,14 @@
     "email": "anhdtp.tec@gmail.com",
     "address": "Hà Nội",
     "dob": "1999-07-30",
-    "joinDate": "2025-12-11 21",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-12-11 21:17:50",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vnd",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "HỒ VĂN LĨNH",
@@ -215,13 +230,14 @@
     "email": "hovanlinh@yahoo.com",
     "address": "Tp. Đà Nẵng",
     "dob": "1971-08-01",
-    "joinDate": "2025-11-28 15",
+    "joinDate": "2025-11-28 15:36:32",
     "investmentDuration": "6 - 12 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "403446",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "5016 - Hoài Thu Nguyễn"
   },
   {
     "fullName": "Đặng Thị Ngọc Hương",
@@ -229,13 +245,14 @@
     "email": "huongdn2008@gmail.com",
     "address": "Hà Nội",
     "dob": "1977-12-11",
-    "joinDate": "2025-11-27 14",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-11-27 14:11:14",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "283048",
     "tierLevel": "KIM_CUONG",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "8043 - Trần Khánh Linh"
   },
   {
     "fullName": "Đỗ Minh Hưng",
@@ -243,13 +260,14 @@
     "email": "dhung8039@gmail.com",
     "address": "254/33/61 Bến Vân Đồn p2 q4",
     "dob": "2004-01-22",
-    "joinDate": "2025-11-26 20",
+    "joinDate": "2025-11-26 20:02:11",
     "investmentDuration": "3 - 6 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "TKCK",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Bùi Hương Giang",
@@ -257,13 +275,14 @@
     "email": "peinopie@gmail.com",
     "address": "Hà Nội",
     "dob": "2005-10-11",
-    "joinDate": "2025-11-06 11",
+    "joinDate": "2025-11-06 11:11:25",
     "investmentDuration": "3 - 6 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "S07852",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Phạm Công Tuấn",
@@ -271,13 +290,14 @@
     "email": "phamcongtuan1106@gmail.com",
     "address": "Ha Long, Quang Ninh",
     "dob": "2006-11-11",
-    "joinDate": "2025-10-24 23",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-10-24 23:34:07",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "khac",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Vũ Hà Phương",
@@ -285,13 +305,14 @@
     "email": "vuhaphuong692@gmail.com",
     "address": "Ninh Bình",
     "dob": "2006-04-27",
-    "joinDate": "2025-10-23 14",
+    "joinDate": "2025-10-23 14:17:42",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vnd",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Nguyễn Ngọc Phương Anh",
@@ -299,13 +320,14 @@
     "email": "phuonganh2559@gmail.com",
     "address": "Hồ Chí Minh",
     "dob": "1999-05-26",
-    "joinDate": "2025-10-23 13",
+    "joinDate": "2025-10-23 13:12:59",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "S14895",
     "tierLevel": "VIP2",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "8043 - Trần Khánh Linh"
   },
   {
     "fullName": "Nguyễn Toàn Nam",
@@ -313,13 +335,14 @@
     "email": "nguyentoannam942003@gmail.com",
     "address": "Phường Phước Long B, Thủ Đức, TP. Hồ Chí Minh",
     "dob": "2003-05-24",
-    "joinDate": "2025-10-22 19",
+    "joinDate": "2025-10-22 19:13:03",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "TKCK",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Lương Thế Vinh",
@@ -327,13 +350,14 @@
     "email": "luongthevinh129bk@gmail.com",
     "address": "Thái Hà Đống Đa Hà Nội",
     "dob": "1983-09-12",
-    "joinDate": "2025-10-22 11",
+    "joinDate": "2025-10-22 11:48:51",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "026CS53895",
     "tierLevel": "VIP2",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Nguyen Duc Vinh",
@@ -341,13 +365,14 @@
     "email": "v11bbpp@gmail.com",
     "address": "Hà Nội",
     "dob": "1974-12-10",
-    "joinDate": "2025-10-12 22",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-10-12 22:24:28",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "v688",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Vũ Hoàng Anh",
@@ -355,13 +380,14 @@
     "email": "anhvh.qn@gmail.com",
     "address": "Quảng Ninh",
     "dob": "1993-05-06",
-    "joinDate": "2025-10-08 10",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-10-08 10:38:22",
+    "investmentDuration": "",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "vps",
     "stockAccount": "712616",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "nguyen van nam",
@@ -369,13 +395,14 @@
     "email": "namnghiahiep900@gmail.com",
     "address": "tp huế",
     "dob": "0990-01-01",
-    "joinDate": "2025-09-25 09",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-09-25 09:48:40",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vnd",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Trần Điệp",
@@ -383,13 +410,14 @@
     "email": "tranthidiep2310@gmail.com",
     "address": "Hồ Chí Minh",
     "dob": "1991-11-20",
-    "joinDate": "2025-09-23 14",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-09-23 14:16:07",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vnd",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Dương Thị Huyền",
@@ -397,13 +425,14 @@
     "email": "huyentd03@gmail.com",
     "address": "Phương Liệt, Hà Nội",
     "dob": "2003-08-23",
-    "joinDate": "2025-09-23 14",
+    "joinDate": "2025-09-23 14:03:22",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "VIP2",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "BSPE - Dương Thị Huyền"
   },
   {
     "fullName": "Trần Quang Huy",
@@ -411,13 +440,14 @@
     "email": "huytqbn@gmail.com",
     "address": "Bắc Ninh",
     "dob": "1978-01-17",
-    "joinDate": "2025-08-13 07",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-08-13 07:42:55",
+    "investmentDuration": "",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "ssi",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Phạm Cương",
@@ -425,13 +455,14 @@
     "email": "phamcuongthm@yahoo.com",
     "address": "Hồ Chí Minh city",
     "dob": "1965-11-26",
-    "joinDate": "2025-08-12 09",
+    "joinDate": "2025-08-12 09:16:46",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "khac",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Hồ Sỹ Băng hồ",
@@ -439,13 +470,14 @@
     "email": "bang.hs1978@gmail.com",
     "address": "BN4-LK3, KP 7, phường Thống Nhất, thành phố Biên Hòa, tỉnh Đồng Nai.",
     "dob": "0078-07-12",
-    "joinDate": "2025-08-07 16",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-08-07 16:25:04",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "N04489",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Lê Dư Diệp Đan",
@@ -453,13 +485,14 @@
     "email": "diepdanle0108@gmail.com",
     "address": "Hà Nội",
     "dob": "2005-08-01",
-    "joinDate": "2025-08-07 15",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-08-07 15:59:50",
+    "investmentDuration": "",
     "investmentStyle": "Trung và dài hạn",
     "stockCompany": "vps",
     "stockAccount": "DAN108",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Lê Hoàng Minh",
@@ -467,13 +500,14 @@
     "email": "hoangminh01122019@gmail.com",
     "address": "67C Quán Thánh, phường Quán Thánh, quận Ba Đình",
     "dob": "2004-12-01",
-    "joinDate": "2025-08-05 15",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-08-05 15:38:28",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Duc Huy",
@@ -481,13 +515,14 @@
     "email": "sweet.huy110@gmail.com",
     "address": "Tp. Hồ Chí Minh",
     "dob": "1980-01-01",
-    "joinDate": "2025-08-04 23",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-08-04 23:51:19",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vnd",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Nguyễn Hồng Phương",
@@ -495,13 +530,14 @@
     "email": "hpnguyen1996@gmail.com",
     "address": "19 ngõ 3 Trần Khát Chân, phường Thanh Lương",
     "dob": "1996-01-31",
-    "joinDate": "2025-07-30 08",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-07-30 08:18:30",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "345940",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "BOJE - FinTop_Admin"
   },
   {
     "fullName": "Trần Minh Vương",
@@ -509,13 +545,14 @@
     "email": "minhvuong040194@gmail.com",
     "address": "Hưng Yên",
     "dob": "1993-11-18",
-    "joinDate": "2025-07-15 21",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-07-15 21:45:09",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "863118",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "trần thành đạt",
@@ -523,13 +560,14 @@
     "email": "yahoo2k4@gmail.com",
     "address": "Hà Nội",
     "dob": "2004-01-01",
-    "joinDate": "2025-07-14 10",
+    "joinDate": "2025-07-14 10:35:16",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "TKCK",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "22121",
@@ -537,13 +575,14 @@
     "email": "namanhdapchai@gmail.com",
     "address": "hn",
     "dob": "1995-06-10",
-    "joinDate": "2025-07-10 00",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-07-10 00:17:03",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "khac",
     "stockAccount": "namanh123",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Ngô Chí Công",
@@ -551,13 +590,14 @@
     "email": "congnc2@bidv.com.vn",
     "address": "Tiền Giang",
     "dob": "0987-08-01",
-    "joinDate": "2025-06-26 15",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-06-26 15:18:31",
+    "investmentDuration": "",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "vps",
     "stockAccount": "263635",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "nguyễn thành an",
@@ -565,13 +605,14 @@
     "email": "nguyenthanhan6102004@gmail.com",
     "address": "hà tĩnh",
     "dob": "2004-06-10",
-    "joinDate": "2025-06-19 10",
+    "joinDate": "2025-06-19 10:21:39",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "vps",
     "stockAccount": "S76296",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "BOJE - FinTop_Admin"
   },
   {
     "fullName": "Hoàng Vũ",
@@ -579,13 +620,14 @@
     "email": "hoangvu0108mr@gmail.com",
     "address": "Hà Nội",
     "dob": "2006-08-01",
-    "joinDate": "2025-06-14 02",
+    "joinDate": "2025-06-14 02:22:53",
     "investmentDuration": "6 - 12 tháng",
     "investmentStyle": "Trung và dài hạn",
     "stockCompany": "vps",
     "stockAccount": "898874",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "luatnc",
@@ -593,13 +635,14 @@
     "email": "nguyencongluat092001@gmail.com",
     "address": "Phường Thượng Thanh",
     "dob": "2025-06-13",
-    "joinDate": "2025-06-13 11",
+    "joinDate": "2025-06-13 11:20:20",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "TKCK",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "minhchien87",
@@ -607,13 +650,14 @@
     "email": "minhchienhn33@gmail.com",
     "address": "Hà Nội",
     "dob": "1987-11-04",
-    "joinDate": "2025-06-12 21",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-06-12 21:18:56",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Phạm Thanh Tú",
@@ -621,13 +665,14 @@
     "email": "ptu186204@gmail.com",
     "address": "cum 4 Hong Ha Dan Phuong Ha Noi",
     "dob": "2004-06-18",
-    "joinDate": "2025-06-11 10",
+    "joinDate": "2025-06-11 10:00:35",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "vps",
     "stockAccount": "S08204",
     "tierLevel": "VIP2",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "8043 - Trần Khánh Linh"
   },
   {
     "fullName": "ANH TUAN",
@@ -635,13 +680,14 @@
     "email": "xolano8558@gmail.com",
     "address": "hà tĩnh",
     "dob": "1993-02-01",
-    "joinDate": "2025-06-10 10",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-06-10 10:38:45",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "N15715",
     "tierLevel": "VIP2",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "8043 - Trần Khánh Linh"
   },
   {
     "fullName": "Minh Nguyen Thanh",
@@ -649,13 +695,14 @@
     "email": "ntminh0922@gmail.com",
     "address": "Ho Chi Minh",
     "dob": "1976-09-22",
-    "joinDate": "2025-06-06 10",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-06-06 10:23:33",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Le ha tam duong",
@@ -663,13 +710,14 @@
     "email": "lehatamduong@gmail.com",
     "address": "Tp Hồ Chí Minh",
     "dob": "1981-12-09",
-    "joinDate": "2025-06-05 05",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-06-05 05:52:38",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Lương Đặng Bích Tuyền",
@@ -677,13 +725,14 @@
     "email": "luongtuyen.271298@gmail.com",
     "address": "Số 10, Nguyễn Huệ, Bến Nghé, Quận 1",
     "dob": "1998-12-27",
-    "joinDate": "2025-06-02 09",
+    "joinDate": "2025-06-02 09:08:05",
     "investmentDuration": "3 - 6 tháng",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "khac",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Mai Thị Hoa",
@@ -691,13 +740,14 @@
     "email": "maihoa.x9290@gmail.com",
     "address": "Long Biên, Hà Nội",
     "dob": "1992-11-04",
-    "joinDate": "2025-05-22 08",
+    "joinDate": "2025-05-22 08:23:34",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "TKCK",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "4. Lê Thị Thùy Trang",
@@ -705,13 +755,14 @@
     "email": "thuytrangle171024@gmail.com",
     "address": "17/141/1194 Đường Láng, Láng Thượng, Đống Đa, Hà Nội",
     "dob": "2004-10-17",
-    "joinDate": "2025-05-20 15",
+    "joinDate": "2025-05-20 15:56:16",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "S69406",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "6061 - Nguyễn Đình Hải"
   },
   {
     "fullName": "Nguyễn Trọng Tài",
@@ -719,13 +770,14 @@
     "email": "ttaikt505@gmail.com",
     "address": "Hà Nội",
     "dob": "2025-07-01",
-    "joinDate": "2025-05-12 16",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-05-12 16:50:42",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "ssi",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Lucky",
@@ -733,13 +785,14 @@
     "email": "sanhhen@gmail.com",
     "address": "Hồ Chí Minh",
     "dob": "1972-08-31",
-    "joinDate": "2025-05-08 21",
+    "joinDate": "2025-05-08 21:09:41",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "khac",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Mr Tran",
@@ -747,13 +800,14 @@
     "email": "theloihau@gmail.com",
     "address": "Nguyen Van Troi",
     "dob": "1987-10-12",
-    "joinDate": "2025-04-11 06",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-04-11 06:43:51",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Trịnh Thúy Hiền",
@@ -761,13 +815,14 @@
     "email": "trinhthuyhien0202@gmail.com",
     "address": "Đống Đa, Hà Nội",
     "dob": "2005-02-02",
-    "joinDate": "2025-04-10 21",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-04-10 21:13:32",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "VIP1",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Lê Thị Thắm",
@@ -775,13 +830,14 @@
     "email": "letham742002@gmail.com",
     "address": "Hà Nội",
     "dob": "2002-07-04",
-    "joinDate": "2025-03-27 08",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-03-27 08:07:17",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "ssi",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "VIP2",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "trần xuân thu",
@@ -789,13 +845,14 @@
     "email": "xuanthu189@gmail.com",
     "address": "số 68 ngõ 12 đào tấn",
     "dob": "1984-09-18",
-    "joinDate": "2025-03-19 07",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-03-19 07:32:38",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "200537",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Phạm Quang Huy",
@@ -803,13 +860,14 @@
     "email": "vuongtrangshiho@gmail.com",
     "address": "Hà Nội",
     "dob": "2003-10-10",
-    "joinDate": "2025-03-03 22",
+    "joinDate": "2025-03-03 22:03:15",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "TKCK",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Hoang Nguyen Huu",
@@ -817,13 +875,14 @@
     "email": "nguyenhuuhoang022021@gmail.com",
     "address": "Thái Nguyên",
     "dob": "1988-01-18",
-    "joinDate": "2025-03-03 21",
+    "joinDate": "2025-03-03 21:53:30",
     "investmentDuration": "3 - 6 tháng",
     "investmentStyle": "Trung và dài hạn",
     "stockCompany": "TKCK",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Ngo Thanh",
@@ -831,13 +890,14 @@
     "email": "ngolamthanh101@gmail.com",
     "address": "Nghe An",
     "dob": "1988-01-10",
-    "joinDate": "2025-02-23 15",
+    "joinDate": "2025-02-23 15:32:07",
     "investmentDuration": "6 - 12 tháng",
     "investmentStyle": "Trung và dài hạn",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Nguyễn Hoàng Nhật Minh",
@@ -845,13 +905,14 @@
     "email": "minhorigin2003@gmail.com",
     "address": "Hà Nội",
     "dob": "2003-09-18",
-    "joinDate": "2025-02-19 10",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-02-19 10:32:28",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "Q08951",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "6061 - Nguyễn Đình Hải"
   },
   {
     "fullName": "lê thuỳ dung",
@@ -859,13 +920,14 @@
     "email": "thuydungcpg@gmail.com",
     "address": "HÀ NỘI",
     "dob": "1994-05-18",
-    "joinDate": "2025-02-13 08",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-02-13 08:18:12",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "khac",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Ngô Mai Hiên",
@@ -873,13 +935,14 @@
     "email": "ngomaihien813hn@gmail.com",
     "address": "112 Ngọc Khánh",
     "dob": "2003-10-08",
-    "joinDate": "2025-01-06 20",
+    "joinDate": "2025-01-06 20:52:51",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "Q24674",
     "tierLevel": "VIP2",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Bùi Mỹ Anh",
@@ -887,13 +950,14 @@
     "email": "myanhbui.vac@gmail.com",
     "address": "Chùa Láng, Đống Đa, HN",
     "dob": "2004-08-25",
-    "joinDate": "2025-01-02 15",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2025-01-02 15:42:46",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Trần Trọng Hải",
@@ -901,13 +965,14 @@
     "email": "haitrongtran1@gmail.com",
     "address": "HCMC",
     "dob": "1968-03-25",
-    "joinDate": "2025-01-01 19",
+    "joinDate": "2025-01-01 19:55:36",
     "investmentDuration": "0 - 3 tháng",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "khac",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Hà Thị Ái Phương",
@@ -915,13 +980,14 @@
     "email": "aiphuong88@gmail.com",
     "address": "Hải phòng",
     "dob": "2024-12-07",
-    "joinDate": "2024-12-30 14",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2024-12-30 14:46:53",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "220986",
     "tierLevel": "VIP1",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "6061 - Nguyễn Đình Hải"
   },
   {
     "fullName": "Nguyễn Tuấn Long",
@@ -929,13 +995,14 @@
     "email": "tuanlong95.nuce@gmail.com",
     "address": "Thanh Hoá",
     "dob": "1995-04-13",
-    "joinDate": "2024-12-30 14",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2024-12-30 14:31:36",
+    "investmentDuration": "",
     "investmentStyle": "Trung và dài hạn",
     "stockCompany": "vps",
     "stockAccount": "N37897",
     "tierLevel": "VIP2",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "6061 - Nguyễn Đình Hải"
   },
   {
     "fullName": "Mai Tiến Dũng",
@@ -943,13 +1010,14 @@
     "email": "maitiendung210899@gmail.com",
     "address": "Đồng Hới, Quảng Bình",
     "dob": "1999-08-21",
-    "joinDate": "2024-12-27 14",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2024-12-27 14:12:16",
+    "investmentDuration": "",
     "investmentStyle": "Trung và dài hạn",
     "stockCompany": "vps",
     "stockAccount": "536415",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "8043 - Trần Khánh Linh"
   },
   {
     "fullName": "Nguyễn Hà Anh",
@@ -957,13 +1025,14 @@
     "email": "haanh.n2211@gmail.com",
     "address": "107 ấp Nhơn Thọ 2, xã Nhơn Ái, huyện Phong Điền, tp. Cần Thơ",
     "dob": "1993-02-14",
-    "joinDate": "2024-12-23 22",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2024-12-23 22:22:25",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "235801",
     "tierLevel": "VIP2",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "6061 - Nguyễn Đình Hải"
   },
   {
     "fullName": "Cao Tuan",
@@ -971,13 +1040,14 @@
     "email": "tuancao.investor@gmail.com",
     "address": "Hà Nội",
     "dob": "1992-08-17",
-    "joinDate": "2024-12-20 14",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2024-12-20 14:38:58",
+    "investmentDuration": "",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "khac",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Trần Đức Huy",
@@ -985,13 +1055,14 @@
     "email": "linhdemons2006@gmail.com",
     "address": "Park 3 Khu Đô Thị Times CIty",
     "dob": "2006-06-10",
-    "joinDate": "2024-12-11 12",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2024-12-11 12:12:38",
+    "investmentDuration": "",
     "investmentStyle": "Lướt sóng ngắn hạn",
     "stockCompany": "vps",
     "stockAccount": "539888",
     "tierLevel": "VIP1",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "-"
   },
   {
     "fullName": "Trần Thiện Tú",
@@ -999,13 +1070,14 @@
     "email": "thientu8d@gmail.com",
     "address": "Thu Duc city, Bung Ong Thoan street",
     "dob": "2001-02-02",
-    "joinDate": "2024-11-28 16",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2024-11-28 16:25:16",
+    "investmentDuration": "",
     "investmentStyle": "Trung và dài hạn",
     "stockCompany": "vps",
-    "stockAccount": "Loại tài khoản",
+    "stockAccount": "",
     "tierLevel": "Thường",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "BPJ4 - Trần Quốc Việt"
   },
   {
     "fullName": "Nguyễn Thị Thanh Ca",
@@ -1013,12 +1085,13 @@
     "email": "thanhcaht38@gmail.com",
     "address": "Thành phố Hà Nội",
     "dob": "2000-03-23",
-    "joinDate": "2024-11-28 14",
-    "investmentDuration": "Khẩu vị đầu tư",
+    "joinDate": "2024-11-28 14:36:35",
+    "investmentDuration": "",
     "investmentStyle": "Linh hoạt kết hợp",
     "stockCompany": "vps",
     "stockAccount": "A80100",
     "tierLevel": "VIP1",
-    "role": "Khách hàng"
+    "role": "Khách hàng",
+    "manager": "8043 - Trần Khánh Linh"
   }
 ]

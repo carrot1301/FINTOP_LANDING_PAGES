@@ -11,6 +11,8 @@ import {
   BLOG_STATUS,
   INVOICE_STATUS,
   Prisma,
+  SUBSCRIPTION_TIER,
+  ROLE_CODE,
 } from '@prisma/client';
 import { CreatePlanDto, UpdatePlanDto } from './dto/plan.dto';
 
@@ -180,6 +182,7 @@ export class AdminService {
           position: true,
           joinDate: true,
           sortOrder: true,
+          staffCode: true,
           broker: {
             select: {
               id: true,
@@ -441,6 +444,82 @@ export class AdminService {
     if (dto.referralName !== undefined) data.referralName = dto.referralName;
     if (dto.legacyTier !== undefined) data.legacyTier = dto.legacyTier;
 
+    // Handle tierLevel updates and client role synchronization
+    if (dto.tierLevel !== undefined) {
+      const tierUpper = dto.tierLevel.toUpperCase();
+      if (['STANDARD', 'SILVER', 'GOLD', 'DIAMOND'].includes(tierUpper)) {
+        data.tierLevel = tierUpper as SUBSCRIPTION_TIER;
+
+        // Auto synchronize roles for CLIENT/CLIENT_VIP to match the tier
+        // First, check if the user is a client (does not have staff roles)
+        const userRoles = await this.prisma.userRole.findMany({
+          where: { userId },
+          include: { role: true },
+        });
+        const currentRoleCodes = userRoles.map(ur => ur.role.code);
+        const hasStaffRole = currentRoleCodes.some(code => 
+          ['SUPER_ADMIN', 'CEO', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'].includes(code)
+        );
+
+        if (!hasStaffRole) {
+          // It's a client user. Let's sync their role!
+          const isVipTier = tierUpper === 'GOLD' || tierUpper === 'DIAMOND';
+          const targetRoleCode = isVipTier ? 'CLIENT_VIP' : 'CLIENT';
+          const roleToRemoveCode = isVipTier ? 'CLIENT' : 'CLIENT_VIP';
+
+          if (!currentRoleCodes.includes(targetRoleCode)) {
+            // Find target role
+            const targetRole = await this.prisma.role.findFirst({
+              where: { code: targetRoleCode as any, deletedAt: null },
+            });
+            if (targetRole) {
+              // Delete old client role
+              await this.prisma.userRole.deleteMany({
+                where: {
+                  userId,
+                  role: { code: roleToRemoveCode as any },
+                },
+              });
+              // Create new client role
+              await this.prisma.userRole.create({
+                data: {
+                  userId,
+                  roleId: targetRole.id,
+                  assignedById: adminId,
+                },
+              });
+            }
+          }
+        }
+      }
+    }
+
+    // Handle broker search and resolution if provided as string
+    if (dto.broker !== undefined) {
+      if (!dto.broker || dto.broker.trim() === '') {
+        data.brokerId = null;
+      } else {
+        const brokerStr = dto.broker.trim();
+        const possibleId = parseInt(brokerStr, 10);
+        if (!isNaN(possibleId)) {
+          data.brokerId = possibleId;
+        } else {
+          const foundBroker = await this.prisma.user.findFirst({
+            where: {
+              OR: [
+                { fullName: { contains: brokerStr, mode: 'insensitive' } },
+                { email: { contains: brokerStr, mode: 'insensitive' } }
+              ],
+              deletedAt: null
+            }
+          });
+          if (foundBroker) {
+            data.brokerId = foundBroker.id;
+          }
+        }
+      }
+    }
+
     // New fields
     if (dto.company !== undefined) data.company = dto.company;
     if (dto.position !== undefined) data.position = dto.position;
@@ -456,8 +535,9 @@ export class AdminService {
       data.brokerId = dto.brokerId ? parseInt(dto.brokerId, 10) : null;
     }
 
-    // Staff code (ID nhân sự) mapping to team or department
+    // Staff code (ID nhân sự) - save directly on user AND map to team/department
     if (dto.staffCode !== undefined) {
+      data.staffCode = dto.staffCode ? dto.staffCode.trim() : null;
       if (!dto.staffCode || dto.staffCode.trim() === '') {
         data.teamId = null;
       } else {
@@ -528,6 +608,7 @@ export class AdminService {
         position: true,
         joinDate: true,
         sortOrder: true,
+        staffCode: true,
         avatarUrl: true,
         brokerId: true,
       }
@@ -560,6 +641,9 @@ export class AdminService {
     });
 
     await this.clearUserPermissionsCache(userId);
+    if (dto.tierLevel !== undefined) {
+      await this.notificationService.sendSessionUpdate(userId);
+    }
     return updated;
   }
 

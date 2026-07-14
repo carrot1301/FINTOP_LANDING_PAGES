@@ -272,10 +272,6 @@ class AppStateStore extends EventEmitter {
     this.emit(this.EVENTS.AUTH_LOGOUT);
   }
 
-  /**
-   * Update user profile.
-   * @param {Object} userProfile
-   */
   setUser(userProfile) {
     this.setState('user', {
       id: userProfile.id,
@@ -287,6 +283,7 @@ class AppStateStore extends EventEmitter {
       status: userProfile.status,
       avatarUrl: userProfile.avatarUrl || null,
     }, this.EVENTS.USER_LOADED);
+    this.emit(this.EVENTS.AUTH_CHANGED, this.getState('auth'));
   }
 
   /**

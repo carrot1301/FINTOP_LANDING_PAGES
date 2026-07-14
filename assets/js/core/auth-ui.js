@@ -766,13 +766,44 @@ const AuthUI = {
     AuthFormUI.setLoading('authFormRegister', true);
 
     try {
+      // Standardize values before sending to backend to maintain 100% sync
+      const getStandardDuration = (val) => {
+        const clean = String(val || '').replace(/\s+/g, '').replace(/-/g, '_').toLowerCase();
+        if (clean.includes('0_3') || clean.includes('03')) return '0_3';
+        if (clean.includes('3_6') || clean.includes('36')) return '3_6';
+        if (clean.includes('6_12') || clean.includes('612')) return '6_12';
+        if (clean.includes('12') || clean.includes('1năm') || clean.includes('1nam') || clean.includes('trên1')) return '12_';
+        return '0_3';
+      };
+
+      const getStandardStyle = (val) => {
+        const clean = String(val || '').toLowerCase();
+        if (clean.includes('short') || clean.includes('lướt') || clean.includes('luot')) return 'short_term';
+        if (clean.includes('long') || clean.includes('trung') || clean.includes('dài') || clean.includes('dai')) return 'medium_long';
+        if (clean.includes('flex') || clean.includes('linh') || clean.includes('kết') || clean.includes('ket')) return 'flexible';
+        return 'short_term';
+      };
+
+      const getStandardBroker = (val) => {
+        const clean = String(val || '').toUpperCase();
+        if (clean.includes('VPS')) return 'VPS';
+        if (clean.includes('SSI')) return 'SSI';
+        if (clean.includes('VND')) return 'VND';
+        if (clean.includes('NONE') || clean.includes('CHƯA') || clean.includes('CHUA') || !val) return 'none';
+        return 'Công ty khác';
+      };
+
       const payload = { email, password, fullName };
       if (phone) payload.phone = phone;
       if (dob) payload.dob = dob;
       if (address) payload.address = address;
-      if (investmentDuration) payload.investmentDuration = investmentDuration;
-      if (investmentStyle) payload.investmentStyle = investmentStyle;
-      if (stockCompany && stockCompany !== 'none') payload.stockCompany = stockCompany;
+      if (investmentDuration) payload.investmentDuration = getStandardDuration(investmentDuration);
+      if (investmentStyle) payload.investmentStyle = getStandardStyle(investmentStyle);
+      
+      const stdBroker = getStandardBroker(stockCompany);
+      if (stdBroker && stdBroker !== 'none') payload.stockCompany = stdBroker;
+      else payload.stockCompany = null;
+
       if (stockAccount) payload.stockAccount = stockAccount;
       if (referralId) payload.referralId = referralId;
       if (referralName) payload.referralName = referralName;

@@ -465,11 +465,22 @@ class SocketManagerSingleton {
       onUnreadCount?.(data);
     });
 
+    const unsubSession = socket.on('session_updated', async (data) => {
+      if (DEBUG) console.log('[SocketManager] 🔄 Session updated from server, refreshing profile...');
+      try {
+        await window.FintopInfra?.AuthManager?.loadUserProfile();
+        if (DEBUG) console.log('[SocketManager] Profile refreshed successfully.');
+      } catch (err) {
+        console.error('[SocketManager] Failed to refresh profile:', err);
+      }
+    });
+
     if (DEBUG) console.log('[SocketManager] Subscribed to notifications');
 
     return () => {
       unsubNotif();
       unsubCount();
+      unsubSession();
     };
   }
 

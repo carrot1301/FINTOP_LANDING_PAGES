@@ -62,8 +62,17 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
   private normalizePrismaError(error: Prisma.PrismaClientKnownRequestError): string {
     switch (error.code) {
-      case 'P2002':
-        return 'Unique constraint violation. Record with this unique field already exists.';
+      case 'P2002': {
+        const target = error.meta?.target;
+        const targetStr = Array.isArray(target) ? target.join(', ') : String(target || '');
+        if (targetStr.includes('phone')) {
+          return 'Số điện thoại này đã được sử dụng bởi một tài khoản khác.';
+        }
+        if (targetStr.includes('email')) {
+          return 'Địa chỉ email này đã được sử dụng bởi một tài khoản khác.';
+        }
+        return 'Bản ghi với trường dữ liệu duy nhất này đã tồn tại trên hệ thống.';
+      }
       case 'P2025':
         return 'Record not found for operation.';
       case 'P2003':

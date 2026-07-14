@@ -47,27 +47,190 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function removeVietnameseTones(str) {
+    if (!str) return '';
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
+    str = str.replace(/đ/g,"d");
+    str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+    str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+    str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+    str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+    str = str.replace(/Ỳ|Ý|Ỹ|Ỷ|Ỵ/g, "Y");
+    str = str.replace(/Đ/g, "D");
+    return str.trim().toUpperCase().replace(/\s+/g, ' ');
+}
+
 /**
- * Tự động cập nhật nội dung chuyển khoản dựa trên họ tên, SĐT, gói PRO đã chọn
+ * CRC-16/CCITT-FALSE checksum (polynomial 0x1021, init 0xFFFF)
+ * Required by EMVCo QR specification
+ */
+function crc16ccitt(str) {
+    let crc = 0xFFFF;
+    for (let i = 0; i < str.length; i++) {
+        crc ^= str.charCodeAt(i) << 8;
+        for (let j = 0; j < 8; j++) {
+            crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) : (crc << 1);
+            crc &= 0xFFFF;
+        }
+    }
+    return crc;
+}
+
+/**
+ * Build EMVCo-standard VietQR data string
+ * Follows EMVCO Merchant-Presented QR specification + VietQR (Napas) extension
+ * @param {string} bankBin  - Bank BIN (e.g. '970422' for MBBank)
+ * @param {string} account  - Account number
+ * @param {number} amount   - Transfer amount in VND
+ * @param {string} addInfo  - Transfer description / purpose
+ * @returns {string} Complete EMVCo data string with CRC
+ */
+function buildVietQRData(bankBin, account, amount, addInfo) {
+    function tlv(tag, value) {
+        return tag + String(value.length).padStart(2, '0') + value;
+    }
+
+    let payload = '';
+
+    // 00 - Payload Format Indicator
+    payload += tlv('00', '01');
+
+    // 01 - Point of Initiation Method (12 = dynamic QR with amount)
+    payload += tlv('01', '12');
+
+    // 38 - Merchant Account Information (VietQR)
+    let merchantAcct = '';
+    merchantAcct += tlv('00', 'A000000727');           // VietQR Global Unique Identifier
+    let consumerInfo = '';
+    consumerInfo += tlv('00', bankBin);                 // Acquirer ID (Bank BIN)
+    consumerInfo += tlv('01', account);                 // Consumer Account Number
+    merchantAcct += tlv('01', consumerInfo);
+    merchantAcct += tlv('02', 'QRIBFTTA');             // Service code: QR Interbank Fund Transfer to Account
+    payload += tlv('38', merchantAcct);
+
+    // 53 - Transaction Currency (704 = VND)
+    payload += tlv('53', '704');
+
+    // 54 - Transaction Amount
+    if (amount && amount > 0) {
+        payload += tlv('54', String(amount));
+    }
+
+    // 58 - Country Code
+    payload += tlv('58', 'VN');
+
+    // 62 - Additional Data Field Template
+    if (addInfo) {
+        let field62 = tlv('08', addInfo);              // 08 = Purpose of Transaction
+        payload += tlv('62', field62);
+    }
+
+    // 63 - CRC (append tag + length placeholder, compute CRC, append hex value)
+    payload += '6304';
+    const crc = crc16ccitt(payload);
+    payload += crc.toString(16).toUpperCase().padStart(4, '0');
+
+    return payload;
+}
+
+/**
+ * Render QR code to an <img> element using qrcode-generator library
+ * @param {string} data - The data to encode
+ * @param {HTMLImageElement} imgEl - Target image element
+ */
+function renderQRToImg(data, imgEl) {
+    if (typeof qrcode !== 'function') {
+        // Library not loaded yet, fallback to VietQR image API
+        imgEl.src = `https://img.vietqr.io/image/MB-862862348886-compact2.png?amount=2500000&addInfo=FINTOP`;
+        return;
+    }
+    // Type 0 = auto-detect version, Error correction M (15%)
+    const qr = qrcode(0, 'M');
+    qr.addData(data);
+    qr.make();
+
+    // Create data URL: cell size 6px, margin 2 cells
+    imgEl.src = qr.createDataURL(6, 2);
+}
+
+/**
+ * Tự động cập nhật nội dung chuyển khoản, số tiền, và mã VietQR động (EMVCo client-side)
  */
 function updateTransferNote() {
-    const nameVal = (document.getElementById('proFullName')?.value || '').trim().toUpperCase();
-    const phoneVal = (document.getElementById('proPhone')?.value || '').trim();
+    const nameInput = document.getElementById('proFullName');
+    const phoneInput = document.getElementById('proPhone');
+    const nameVal = (nameInput?.value || '').trim();
+    const phoneVal = (phoneInput?.value || '').trim();
     const activeCard = document.querySelector('.pro-package-card.active');
     const pkgValue = activeCard ? activeCard.getAttribute('data-package') : 'PRO1';
     const months = activeCard ? activeCard.getAttribute('data-months') : '3';
 
     const transferNoteInput = document.getElementById('proTransferNote');
+    
+    // Clean inputs for the note
+    const safeName = removeVietnameseTones(nameVal).replace(/[^A-Z0-9 ]/g, '');
+    const safePhone = phoneVal.replace(/[^0-9]/g, '');
+
     if (transferNoteInput) {
         if (nameVal || phoneVal) {
-            // Format standard for transfer note
-            const safeName = nameVal.replace(/[^A-Z0-9 ]/g, '');
-            const safePhone = phoneVal.replace(/[^0-9]/g, '');
             transferNoteInput.value = `${safeName || '[HO TEN]'}_${safePhone || '[SDT]'}_${pkgValue} - ${months} THANG`;
         } else {
             transferNoteInput.value = '';
             transferNoteInput.placeholder = `Ví dụ: NGUYEN VAN A_0862348886_${pkgValue} - ${months} THANG`;
         }
+    }
+
+    // Determine price dynamically from data-price attribute (set by backend sync), fallback to defaults
+    const amountDisplay = document.getElementById('pro-amount-display');
+    let price = 0;
+    if (activeCard && activeCard.getAttribute('data-price')) {
+        price = parseInt(activeCard.getAttribute('data-price'), 10);
+    }
+    // Fallback to default hardcoded prices if data-price not available
+    if (!price || isNaN(price)) {
+        if (pkgValue === 'PRO1') price = 2500000;
+        else if (pkgValue === 'PRO2') price = 4500000;
+        else if (pkgValue === 'PRO3') price = 8000000;
+        else price = 2500000;
+    }
+    const priceText = Number(price).toLocaleString('vi-VN') + ' VND';
+
+    if (amountDisplay) {
+        amountDisplay.textContent = priceText;
+    }
+
+    // Build transfer description for QR
+    let note = `FINTOP ${pkgValue}`;
+    if (nameVal || phoneVal) {
+        note = `${safeName.replace(/\s+/g, ' ') || 'HO TEN'} ${safePhone || 'SDT'} ${pkgValue}`;
+    } else {
+        // Use logged-in user info as default
+        const Infra = window.FintopInfra;
+        if (Infra && Infra.AuthManager && Infra.AuthManager.isAuthenticated) {
+            let user = {};
+            try { user = JSON.parse(localStorage.getItem('fintop_user') || '{}'); } catch(e){}
+            const stateUser = Infra.AppState?.getState('user');
+            const userFullName = user.fullName || stateUser?.displayName || '';
+            const userPhone = user.phone || '';
+            if (userFullName) {
+                const cleanUser = removeVietnameseTones(userFullName).replace(/[^A-Z0-9 ]/g, '').trim();
+                const cleanPhone = userPhone.replace(/[^0-9]/g, '');
+                note = `${cleanUser} ${cleanPhone} ${pkgValue}`;
+            }
+        }
+    }
+
+    // Generate and load the beautiful VietQR image dynamically with correct account number, amount, and note
+    const qrImg = document.getElementById('pro-vietqr-img');
+    if (qrImg) {
+        const qrUrl = `https://img.vietqr.io/image/970422-862862348886-compact2.png?amount=${price}&addInfo=${encodeURIComponent(note)}&accountName=${encodeURIComponent('CONG TY TNHH DAU TU VA PHAT TRIEN FINTOP')}`;
+        qrImg.src = qrUrl;
     }
 }
 
@@ -200,6 +363,9 @@ function openPricingModal(tier) {
             }
             updateTransferNote();
         }
+
+        // Always generate QR and update amount display, even for non-authenticated users
+        updateTransferNote();
     }
 }
 

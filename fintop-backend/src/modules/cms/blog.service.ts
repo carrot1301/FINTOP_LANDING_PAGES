@@ -140,6 +140,7 @@ export class BlogService {
 
     const mapped = articles.map(b => {
       const locked = b.visibility === CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userFeatures, b.minTierAccess);
+      const baseViews = 200 + ((b.id * 97 + 123) % 1801);
       return {
         id: b.id,
         title: b.title,
@@ -152,6 +153,7 @@ export class BlogService {
         locked,
         category: b.category,
         tags: b.tags.map(t => t.tag.name),
+        views: b.views + baseViews,
       };
     });
 
@@ -167,8 +169,21 @@ export class BlogService {
   }
 
   async getArticleForUser(slug: string, userFeatures?: string[]) {
+    try {
+      // Increment views count directly in the database
+      await this.prisma.blog.update({
+        where: { slug },
+        data: { views: { increment: 1 } }
+      });
+      // Clear cache to keep it in sync
+      await this.redisService.getClient().del(`blogs:detail:${slug}`);
+    } catch (err) {
+      this.logger.warn(`Could not increment article views: ${err.message}`);
+    }
+
     const b = await this.getArticle(slug);
     const locked = b.visibility === CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userFeatures, b.minTierAccess);
+    const baseViews = 200 + ((b.id * 97 + 123) % 1801);
 
     return {
       id: b.id,
@@ -182,6 +197,7 @@ export class BlogService {
       locked,
       category: b.category,
       tags: b.tags.map((t: any) => t.tag.name),
+      views: b.views + baseViews,
     };
   }
 

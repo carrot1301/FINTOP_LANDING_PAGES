@@ -468,8 +468,9 @@
                     </div>
 
                     <!-- Red Publication Date Bar -->
-                    <div class="article-date-bar">
-                        Ngày xuất bản: <span id="art-date">...</span>
+                    <div class="article-date-bar" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 3rem; flex-wrap: wrap; gap: 10px;">
+                        <span><i class="fa-regular fa-eye"></i> Lượt xem: <span id="art-views">0</span></span>
+                        <span>Ngày xuất bản: <span id="art-date">...</span></span>
                     </div>
 
                     <!-- Watermarked content area -->
@@ -646,7 +647,7 @@
 
                 var viewsEl = document.getElementById('art-views');
                 if (viewsEl) {
-                    var viewCount = article.views || Math.floor(((article.id || 1) * 31 + 150) % 800) + 120;
+                    var viewCount = article.views !== undefined ? article.views : 0;
                     viewsEl.textContent = viewCount;
                 }
 
