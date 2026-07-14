@@ -654,6 +654,15 @@ const AuthUI = {
       emailInput.value = '';
       passwordInput.value = '';
 
+      // Check if redirect is needed
+      try {
+        const redirectUrl = sessionStorage.getItem('fintop_login_redirect');
+        if (redirectUrl) {
+          sessionStorage.removeItem('fintop_login_redirect');
+          window.location.href = redirectUrl;
+        }
+      } catch (e) {}
+
     } catch (err) {
       console.error('[AuthUI] ❌ Login failed:', err);
       // Translate backend error to Vietnamese message

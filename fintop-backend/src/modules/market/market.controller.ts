@@ -20,8 +20,6 @@ export class MarketController {
   }
 
   @Get('stocks')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all active stocks with basic metadata and quotes' })
   async getStocks() {
     return this.marketService.listActiveStocks();

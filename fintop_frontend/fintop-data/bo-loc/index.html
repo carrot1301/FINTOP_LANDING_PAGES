@@ -399,6 +399,20 @@
         </div>
     </div>
 
+    <!-- Alert Popup Modal -->
+    <div class="guide-overlay" id="bolocAlertOverlay" hidden>
+        <div class="guide-card" style="border-color: rgba(168, 85, 247, 0.45);">
+            <h2 id="bolocAlertTitle" style="color: #c084fc; font-size: 1.25rem;">THÔNG BÁO HỘI VIÊN</h2>
+            <div class="guide-section" id="bolocAlertMsg" style="text-align: center; margin-top: 1rem; margin-bottom: 2rem; font-size: 0.95rem;">
+                <!-- Dynamically populated -->
+            </div>
+            <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                <button class="guide-agree-btn" id="bolocAlertActionBtn" type="button">Xác nhận</button>
+                <button class="guide-agree-btn" id="bolocAlertCloseBtn" type="button" style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; box-shadow: none; border: 1px solid rgba(255,255,255,0.15);">Đóng</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="page-footer" style="margin-top: 3rem;">
         <p>&copy; 2026 FinTop DATA. Bảo lưu mọi quyền.</p>
     </footer>
@@ -419,52 +433,29 @@
             const tableWrapper = document.querySelector('.data-table-wrapper');
             const lockOverlay = document.getElementById('stockFilterLockOverlay');
 
-            function hasStockFilterAccess() {
+             function hasFullAccess() {
+                if (!window.FintopInfra?.AuthManager?.isAuthenticated) return false;
+                const user = window.FintopInfra?.AppState?.get('auth', 'user') || window.FintopInfra?.AppState?.getState('user') || {};
+                const tier = (user.tierLevel || 'STANDARD').toUpperCase();
+                return tier === 'SILVER' || tier === 'GOLD' || tier === 'DIAMOND';
+            }
+
+            function hasLoggedIn() {
                 return Boolean(window.FintopInfra?.AuthManager?.isAuthenticated);
             }
 
-            function openStockFilterLogin() {
-                window.location.href = '../../index.html#panel-boloc';
-            }
-
             function setLockedState(isLocked) {
-                toolbar?.classList.toggle('is-locked', isLocked);
-                tableWrapper?.classList.toggle('is-locked', isLocked);
-                if (lockOverlay) lockOverlay.hidden = !isLocked;
+                // Keep toolbar and wrapper unlocked, but clear simulated overlays
+                toolbar?.classList.remove('is-locked');
+                tableWrapper?.classList.remove('is-locked');
+                if (lockOverlay) lockOverlay.hidden = true;
                 [searchInput, filterSan, filterAct].forEach((control) => {
-                    if (control) control.disabled = isLocked;
+                    if (control) control.disabled = false;
                 });
             }
 
-            function renderLockedPreview() {
-                filterData = [];
-                setLockedState(true);
-                tbody.innerHTML = Array.from({ length: 8 }, (_, i) => `
-                    <tr>
-                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96);">${i + 1}</td>
-                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96); color: #fff; font-weight: 700;">•••</td>
-                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96);">••••</td>
-                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96);">Nhóm ngành hội viên</td>
-                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96); color: #94a3b8;">--:-- --/--</td>
-                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96);">Dữ liệu Model được khóa cho tài khoản đã đăng nhập.</td>
-                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96); text-align:center;">ĐĂNG NHẬP</td>
-                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96); text-align:center; color:#C084FC; font-weight:900;">••••••</td>
-                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96);">•• - ••</td>
-                        <td style="padding: 12px 16px; background: linear-gradient(135deg, rgba(45, 33, 82, 0.95), rgba(16, 22, 39, 0.93)); color: #C084FC; font-weight: 900;">•• - ••</td>
-                        <td style="padding: 12px 16px; background: rgba(7, 25, 52, 0.96); color: #FBBF24; font-weight: 900;">•• - ••</td>
-                    </tr>
-                `).join('');
-            }
-
-            window.openStockFilterLogin = openStockFilterLogin;
-
             // 3. Load data
             async function loadData() {
-                if (!hasStockFilterAccess()) {
-                    renderLockedPreview();
-                    return;
-                }
-
                 setLockedState(false);
 
                 // If window.FintopInfra is ready, load from backend API first
@@ -562,6 +553,8 @@
                     return;
                 }
 
+                const fullAccess = hasFullAccess();
+
                 data.forEach((row, i) => {
                     const tr = document.createElement('tr');
                     tr.style.borderBottom = '1px solid rgba(15, 23, 42, 0.95)';
@@ -571,11 +564,19 @@
                     const rowBg = 'rgba(7, 25, 52, 0.96)';
                     const baseCellStyle = `padding: 12px 16px; background: ${rowBg};`;
 
+                    // Mask columns if no fullAccess
+                    const displayTicker = fullAccess
+                        ? row.ticker
+                        : `••• <span style="cursor:pointer; margin-left:6px; color:#c084fc;" class="eye-reveal-btn" title="Click để xem">👁️</span>`;
+                    const displayNganh = fullAccess
+                        ? row.nganh
+                        : `••••• <span style="cursor:pointer; margin-left:6px; color:#c084fc;" class="eye-reveal-btn" title="Click để xem">👁️</span>`;
+
                     tr.innerHTML = `
                         <td style="${baseCellStyle}">${i + 1}</td>
-                        <td style="${baseCellStyle} color: #fff; font-weight: 700; letter-spacing: 0.5px;">${row.ticker}</td>
+                        <td style="${baseCellStyle} color: #fff; font-weight: 700; letter-spacing: 0.5px;">${displayTicker}</td>
                         <td style="${baseCellStyle}">${row.san}</td>
-                        <td style="${baseCellStyle}">${row.nganh}</td>
+                        <td style="${baseCellStyle}">${displayNganh}</td>
                         <td style="${baseCellStyle} font-size: 0.8rem; color: #94a3b8;">${row.time}</td>
                         <td style="${baseCellStyle} max-width: 250px; line-height: 1.4; color: #cbd5e1;">${row.desc}</td>
                         <td style="${baseCellStyle} text-align: center;">${actionBadge}</td>
@@ -588,13 +589,54 @@
                 });
             }
 
-            // 5. Filter & Search handlers
-            function applyFilters() {
-                if (!hasStockFilterAccess()) {
-                    renderLockedPreview();
-                    return;
+            // Show popup notification when user clicks the eye icon
+            function showRestrictionPopup() {
+                const alertOverlay = document.getElementById('bolocAlertOverlay');
+                const alertTitle = document.getElementById('bolocAlertTitle');
+                const alertMsg = document.getElementById('bolocAlertMsg');
+                const actionBtn = document.getElementById('bolocAlertActionBtn');
+                const closeBtn = document.getElementById('bolocAlertCloseBtn');
+
+                if (!alertOverlay || !alertMsg || !actionBtn || !closeBtn) return;
+
+                const loggedIn = hasLoggedIn();
+                if (loggedIn) {
+                    alertTitle.textContent = "NÂNG CẤP HỘI VIÊN";
+                    alertMsg.innerHTML = "Tính năng này chỉ cung cấp cho các tài khoản <strong>PRO trở lên</strong>.<br>Vui lòng nâng cấp gói dịch vụ để xem dữ liệu chi tiết.";
+                    actionBtn.textContent = "NÂNG CẤP NGAY";
+                    actionBtn.onclick = () => {
+                        window.location.href = '../../index.html#panel-hoivien';
+                    };
+                } else {
+                    alertTitle.textContent = "YÊU CẦU ĐĂNG NHẬP";
+                    alertMsg.innerHTML = "Vui lòng đăng nhập để xem thông tin chi tiết.";
+                    actionBtn.textContent = "ĐĂNG NHẬP NGAY";
+                    actionBtn.onclick = () => {
+                        try {
+                            sessionStorage.setItem('fintop_login_redirect', window.location.href);
+                        } catch (e) {}
+                        window.location.href = '../../index.html#login';
+                    };
                 }
 
+                closeBtn.onclick = () => {
+                    alertOverlay.hidden = true;
+                };
+
+                alertOverlay.hidden = false;
+            }
+
+            // Event delegation on tbody to detect eye reveal button clicks
+            tbody.addEventListener('click', (e) => {
+                const eyeBtn = e.target.closest('.eye-reveal-btn');
+                if (eyeBtn) {
+                    e.preventDefault();
+                    showRestrictionPopup();
+                }
+            });
+
+            // 5. Filter & Search handlers
+            function applyFilters() {
                 const q = (searchInput.value || '').trim().toUpperCase();
                 const san = filterSan.value;
                 const act = filterAct.value;
@@ -632,11 +674,8 @@
                     const events = window.FintopInfra.AppState?.EVENTS;
                     if (events) {
                         window.FintopInfra.AppState.on(events.AUTH_LOGIN, loadData);
-                        window.FintopInfra.AppState.on(events.AUTH_LOGOUT, renderLockedPreview);
-                        window.FintopInfra.AppState.on(events.AUTH_CHANGED, () => {
-                            if (hasStockFilterAccess()) loadData();
-                            else renderLockedPreview();
-                        });
+                        window.FintopInfra.AppState.on(events.AUTH_LOGOUT, loadData);
+                        window.FintopInfra.AppState.on(events.AUTH_CHANGED, loadData);
                     }
                     loadData();
                 } else {
@@ -661,14 +700,14 @@
                 guideAgreeBtn.addEventListener('click', () => {
                     hideGuidePopup();
                     // If logged in, mark as accepted so it won't show again
-                    if (hasStockFilterAccess()) {
+                    if (hasLoggedIn()) {
                         try { localStorage.setItem(GUIDE_STORAGE_KEY, 'true'); } catch(e) {}
                     }
                 });
             }
 
             function shouldShowGuide() {
-                if (!hasStockFilterAccess()) {
+                if (!hasLoggedIn()) {
                     // Not logged in → always show
                     return true;
                 }
@@ -681,7 +720,7 @@
             }
 
             // Load initial data
-            renderLockedPreview();
+            loadData();
             checkInfra();
 
             // Show guide popup after a short delay
