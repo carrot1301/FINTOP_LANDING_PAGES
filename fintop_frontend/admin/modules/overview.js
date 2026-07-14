@@ -294,16 +294,16 @@ function loadChartJs() {
 }
 
 function renderCharts(allInvoices, deletedIds, approvedIds) {
-  // Aggregate revenue trend (Last 7 Days)
-  const last7Days = [];
+  // Aggregate revenue trend (Last 30 Days to capture historical data)
+  const last30Days = [];
   const revenueData = [];
-  for (let i = 6; i >= 0; i--) {
+  for (let i = 29; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
     const day = String(d.getDate()).padStart(2, '0');
     const month = String(d.getMonth() + 1).padStart(2, '0');
     const dateLabel = `${day}/${month}`;
-    last7Days.push(dateLabel);
+    last30Days.push(dateLabel);
     
     let daySum = 0;
     allInvoices.forEach(inv => {
@@ -338,13 +338,18 @@ function renderCharts(allInvoices, deletedIds, approvedIds) {
     }
   });
 
+  const totalPaid = silverCount + goldCount + diamondCount;
+  const silverPercent = totalPaid > 0 ? Math.round((silverCount / totalPaid) * 100) : 0;
+  const goldPercent = totalPaid > 0 ? Math.round((goldCount / totalPaid) * 100) : 0;
+  const diamondPercent = totalPaid > 0 ? Math.round((diamondCount / totalPaid) * 100) : 0;
+
   // Render line chart
   const ctxLine = document.getElementById('revenueTrendChart')?.getContext('2d');
   if (ctxLine) {
     new window.Chart(ctxLine, {
       type: 'line',
       data: {
-        labels: last7Days,
+        labels: last30Days,
         datasets: [{
           label: 'Doanh thu (đ)',
           data: revenueData,
@@ -375,13 +380,13 @@ function renderCharts(allInvoices, deletedIds, approvedIds) {
         scales: {
           x: {
             grid: { display: false },
-            ticks: { color: '#94a3b8', font: { size: 10 } }
+            ticks: { color: '#94a3b8', font: { size: 9 }, autoSkip: true, maxRotation: 0 }
           },
           y: {
             grid: { color: 'rgba(255, 255, 255, 0.04)' },
             ticks: {
               color: '#94a3b8',
-              font: { size: 10 },
+              font: { size: 9 },
               callback: function(value) {
                 if (value >= 1000000) return (value / 1000000) + 'M';
                 if (value >= 1000) return (value / 1000) + 'K';
@@ -390,7 +395,30 @@ function renderCharts(allInvoices, deletedIds, approvedIds) {
             }
           }
         }
-      }
+      },
+      plugins: [{
+        id: 'valueLabels',
+        afterDatasetsDraw(chart) {
+          const { ctx } = chart;
+          ctx.save();
+          ctx.font = 'bold 9px sans-serif';
+          ctx.fillStyle = '#a855f7';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          chart.data.datasets.forEach((dataset, i) => {
+            const meta = chart.getDatasetMeta(i);
+            meta.data.forEach((point, index) => {
+              const val = dataset.data[index];
+              if (val > 0) {
+                const pos = point.tooltipPosition();
+                const text = val >= 1000000 ? (val / 1000000).toFixed(1) + 'M' : (val / 1000).toFixed(0) + 'K';
+                ctx.fillText(text, pos.x, pos.y - 6);
+              }
+            });
+          });
+          ctx.restore();
+        }
+      }]
     });
   }
 
@@ -400,7 +428,11 @@ function renderCharts(allInvoices, deletedIds, approvedIds) {
     new window.Chart(ctxDoughnut, {
       type: 'doughnut',
       data: {
-        labels: ['PRO (Silver)', 'V.I.P (Gold)', 'DIAMOND'],
+        labels: [
+          `PRO (Silver): ${silverCount} HĐ (${silverPercent}%)`,
+          `V.I.P (Gold): ${goldCount} HĐ (${goldPercent}%)`,
+          `DIAMOND: ${diamondCount} HĐ (${diamondPercent}%)`
+        ],
         datasets: [{
           data: [silverCount, goldCount, diamondCount],
           backgroundColor: ['#94a3b8', '#F59E0B', '#3b82f6'],
@@ -418,7 +450,26 @@ function renderCharts(allInvoices, deletedIds, approvedIds) {
           }
         },
         cutout: '65%'
-      }
+      },
+      plugins: [{
+        id: 'centerText',
+        beforeDraw(chart) {
+          const { ctx, chartArea } = chart;
+          if (!chartArea) return;
+          ctx.save();
+          ctx.font = "bold 12px sans-serif";
+          ctx.textBaseline = "middle";
+          ctx.textAlign = "center";
+          ctx.fillStyle = "#ffffff";
+          const centerX = (chartArea.left + chartArea.right) / 2;
+          const centerY = (chartArea.top + chartArea.bottom) / 2;
+          ctx.fillText(`${totalPaid} đã duyệt`, centerX, centerY - 6);
+          ctx.font = "9px sans-serif";
+          ctx.fillStyle = "#94a3b8";
+          ctx.fillText("Tổng hóa đơn", centerX, centerY + 8);
+          ctx.restore();
+        }
+      }]
     });
   }
 }
