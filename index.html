@@ -7282,10 +7282,19 @@
             return '#C084FC';
         }
 
+        function hasFullAccess() {
+            if (!window.FintopInfra?.AuthManager?.isAuthenticated) return false;
+            const user = window.FintopInfra?.AppState?.get('auth', 'user') || window.FintopInfra?.AppState?.getState('user') || {};
+            const tier = (user.tierLevel || 'STANDARD').toUpperCase();
+            return tier === 'SILVER' || tier === 'GOLD' || tier === 'DIAMOND';
+        }
+
+        function hasLoggedIn() {
+            return Boolean(window.FintopInfra?.AuthManager?.isAuthenticated);
+        }
+
         function hasBolocAccess() {
-            const Infra = window.FintopInfra;
-            if (!Infra) return false;
-            return Boolean(Infra.AuthManager?.isAuthenticated || Infra.RbacEvaluator?.isAuthenticated?.());
+            return true;
         }
 
         function openBolocLogin(view = 'login') {
@@ -7305,35 +7314,17 @@
             const strengthSelect = document.getElementById('bolocStrengthFilter');
             const resetBtn = panel?.querySelector('.boloc-filter-reset');
 
-            panel?.classList.toggle('boloc-locked', isLocked);
-            wrapper?.classList.toggle('is-locked', isLocked);
-            filterBar?.classList.toggle('is-locked', isLocked);
-            if (overlay) overlay.hidden = !isLocked;
+            panel?.classList.remove('boloc-locked');
+            wrapper?.classList.remove('is-locked');
+            filterBar?.classList.remove('is-locked');
+            if (overlay) overlay.hidden = true;
             [statusSelect, strengthSelect, resetBtn].forEach((control) => {
-                if (control) control.disabled = isLocked;
+                if (control) control.disabled = false;
             });
         }
 
         function renderBolocLockedPreview() {
-            const tbody = document.getElementById('bolocBody');
-            if (!tbody) return;
-            setBolocLockedState(true);
-            const previewRows = Array.from({ length: 8 }, (_, i) => `
-                <tr class="animate-in" style="animation-delay: ${i * 0.04}s;">
-                    <td>${i + 1}</td>
-                    <td class="ticker-cell">•••</td>
-                    <td>••••</td>
-                    <td>Nhóm ngành hội viên</td>
-                    <td class="time-cell">--:-- --/--</td>
-                    <td class="desc-cell">Dữ liệu Model được khóa cho tài khoản đã đăng nhập.</td>
-                    <td class="boloc-status-cell"><span class="boloc-status-badge">ĐĂNG NHẬP</span></td>
-                    <td class="boloc-strength-cell">••••••</td>
-                    <td class="price-cell">•• - ••</td>
-                    <td class="price-cell">•• - ••</td>
-                    <td class="boloc-support-cell">•• - ••</td>
-                </tr>
-            `).join('');
-            tbody.innerHTML = previewRows;
+            // Deprecated, table is never locked at row-level anymore
         }
 
         function getFilteredBolocData() {
@@ -7447,14 +7438,9 @@
         // =====================
         function renderBolocTable() {
             const tbody = document.getElementById('bolocBody');
+            if (!tbody) return;
             tbody.innerHTML = '';
             populateBolocFilterOptions();
-
-            if (!hasBolocAccess()) {
-                populateBolocFilterOptions();
-                renderBolocLockedPreview();
-                return;
-            }
 
             setBolocLockedState(false);
             populateBolocFilterOptions();
@@ -7483,6 +7469,8 @@
                 return;
             }
 
+            const fullAccess = hasFullAccess();
+
             rows.forEach((d, i) => {
                 const tr = document.createElement('tr');
                 tr.className = 'animate-in';
@@ -7491,11 +7479,20 @@
                 const strengthText = getBolocStrengthText(d);
                 const statusColors = getBolocStatusColors(statusText);
                 const strengthTextColor = getBolocStrengthTextColor(strengthText);
+
+                // Mask ticker and industry if no fullAccess
+                const displayTicker = fullAccess
+                    ? d.ticker
+                    : `••• <span style="cursor:pointer; margin-left:6px; color:#c084fc;" class="eye-reveal-btn" title="Click để xem">👁️</span>`;
+                const displayNganh = fullAccess
+                    ? d.nganh
+                    : `••••• <span style="cursor:pointer; margin-left:6px; color:#c084fc;" class="eye-reveal-btn" title="Click để xem">👁️</span>`;
+
                 tr.innerHTML = `
                     <td>${i + 1}</td>
-                    <td class="ticker-cell">${escapeHtml(d.ticker)}</td>
+                    <td class="ticker-cell">${displayTicker}</td>
                     <td>${escapeHtml(d.san)}</td>
-                    <td>${escapeHtml(d.nganh)}</td>
+                    <td>${displayNganh}</td>
                     <td class="time-cell">${escapeHtml(formatStockDisplayTime(d.time))}</td>
                     <td class="desc-cell">${escapeHtml(d.desc)}</td>
                     <td class="boloc-status-cell">
@@ -7506,9 +7503,9 @@
                     <td class="price-cell">${escapeHtml(d.khangCu)}</td>
                     <td class="boloc-support-cell">${escapeHtml(d.hoTro)}</td>
                 `;
-                // Make ticker cell clickable to change chart
+                // Make ticker cell clickable to change chart (only if fullAccess)
                 const tickerTd = tr.querySelector('.ticker-cell');
-                if (tickerTd) {
+                if (tickerTd && fullAccess) {
                     tickerTd.classList.add('ticker-clickable');
                     tickerTd.title = `Nhấn để xem biểu đồ ${d.ticker}`;
                     tickerTd.addEventListener('click', () => loadChart(d.ticker, 'boloc'));
@@ -7516,6 +7513,60 @@
                 tbody.appendChild(tr);
             });
         }
+
+        // Show popup notification when user clicks the eye icon on the homepage
+        function showRestrictionPopup() {
+            const alertOverlay = document.getElementById('bolocAlertOverlay');
+            const alertTitle = document.getElementById('bolocAlertTitle');
+            const alertMsg = document.getElementById('bolocAlertMsg');
+            const actionBtn = document.getElementById('bolocAlertActionBtn');
+            const closeBtn = document.getElementById('bolocAlertCloseBtn');
+
+            if (!alertOverlay || !alertMsg || !actionBtn || !closeBtn) return;
+
+            const loggedIn = hasLoggedIn();
+            if (loggedIn) {
+                alertTitle.textContent = "NÂNG CẤP HỘI VIÊN";
+                alertMsg.innerHTML = "Tính năng này chỉ cung cấp cho các tài khoản <strong>PRO trở lên</strong>.<br>Vui lòng nâng cấp gói dịch vụ để xem dữ liệu chi tiết.";
+                actionBtn.textContent = "NÂNG CẤP NGAY";
+                actionBtn.onclick = () => {
+                    alertOverlay.hidden = true;
+                    if (typeof openPanel === 'function') {
+                        openPanel('panel-hoivien');
+                        const targetEl = document.getElementById('panel-hoivien');
+                        if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                };
+            } else {
+                alertTitle.textContent = "YÊU CẦU ĐĂNG NHẬP";
+                alertMsg.innerHTML = "Vui lòng đăng nhập để xem thông tin chi tiết.";
+                actionBtn.textContent = "ĐĂNG NHẬP NGAY";
+                actionBtn.onclick = () => {
+                    alertOverlay.hidden = true;
+                    openBolocLogin('login');
+                };
+            }
+
+            closeBtn.onclick = () => {
+                alertOverlay.hidden = true;
+            };
+
+            alertOverlay.hidden = false;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tbody = document.getElementById('bolocBody');
+            if (tbody) {
+                tbody.addEventListener('click', (e) => {
+                    const eyeBtn = e.target.closest('.eye-reveal-btn');
+                    if (eyeBtn) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showRestrictionPopup();
+                    }
+                });
+            }
+        });
 
         // =====================
         // TÍN HIỆU CHUYÊN GIA
@@ -8312,12 +8363,6 @@
             if (isStockHydrated) return;
             const Infra = window.FintopInfra;
             if (!Infra) return;
-            if (!Infra.AuthManager?.isAuthenticated) {
-                if (document.getElementById('panel-boloc')?.classList.contains('active') || bolocRendered) {
-                    renderBolocTable();
-                }
-                return;
-            }
             const API = () => Infra.ApiClient;
             const EP = () => Infra.FintopEnv.API_ENDPOINTS;
             try {
@@ -8326,7 +8371,9 @@
                 if (Array.isArray(list) && list.length > 0) {
                     BOLOC_DATA = mapStockPricesToFilter(list);
                     STOCK_DB = mapStockPricesToSearch(list);
-                    if (bolocRendered) renderBolocTable();
+                    if (bolocRendered || document.getElementById('panel-boloc')?.classList.contains('active')) {
+                        renderBolocTable();
+                    }
                     isStockHydrated = true;
                     console.log('[Backend Hydrate] Stock filter data loaded from backend:', list.length);
                 }
@@ -9592,8 +9639,21 @@
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
 
+    <!-- Alert Popup Modal -->
+    <div id="bolocAlertOverlay" hidden style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(4, 4, 8, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 9999;">
+        <div style="background: rgba(10, 10, 18, 0.95); border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 16px; padding: 32px; max-width: 580px; width: 90%; box-shadow: 0 24px 60px rgba(0,0,0,0.8), 0 0 40px rgba(168,85,247,0.1); text-align: left;">
+            <h2 id="bolocAlertTitle" style="font-size: 1.25rem; font-weight: 900; color: #c084fc; margin-bottom: 20px; letter-spacing: 0.05em; text-align: center; text-shadow: 0 0 15px rgba(168, 85, 247, 0.5);">THÔNG BÁO HỘI VIÊN</h2>
+            <div id="bolocAlertMsg" style="font-size: 0.95rem; line-height: 1.65; color: #cbd5e1; margin-top: 1rem; margin-bottom: 2rem; text-align: center;">
+                <!-- Dynamically populated -->
+            </div>
+            <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                <button id="bolocAlertActionBtn" type="button" style="padding: 10px 24px; border-radius: 8px; border: none; background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; font-weight: 800; font-size: 0.9rem; cursor: pointer; box-shadow: 0 8px 24px rgba(168,85,247,0.25); transition: all 0.2s ease;">Xác nhận</button>
+                <button id="bolocAlertCloseBtn" type="button" style="padding: 10px 24px; border-radius: 8px; background: rgba(255, 255, 255, 0.08); color: #cbd5e1; box-shadow: none; border: 1px solid rgba(255,255,255,0.15); font-weight: 800; font-size: 0.9rem; cursor: pointer;">Đóng</button>
+            </div>
+        </div>
+    </div>
 
 </body>
 
