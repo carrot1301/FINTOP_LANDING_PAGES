@@ -8334,12 +8334,6 @@
             if (isStockHydrated) return;
             const Infra = window.FintopInfra;
             if (!Infra) return;
-            if (!Infra.AuthManager?.isAuthenticated) {
-                if (document.getElementById('panel-boloc')?.classList.contains('active') || bolocRendered) {
-                    renderBolocTable();
-                }
-                return;
-            }
             const API = () => Infra.ApiClient;
             const EP = () => Infra.FintopEnv.API_ENDPOINTS;
             try {
@@ -8361,7 +8355,7 @@
                         renderBolocTable();
                     }
                     isStockHydrated = true;
-                    console.log('[Local Hydrate] Stock filter data loaded from authenticated local sync:', synced.length);
+                    console.log('[Local Hydrate] Stock filter data loaded from local sync:', synced.length);
                 } else if (bolocRendered || document.getElementById('panel-boloc')?.classList.contains('active')) {
                     renderBolocTable();
                 }
@@ -8376,9 +8370,6 @@
             }
 
             const events = Infra.AppState.EVENTS;
-            if (!Infra.AuthManager?.isAuthenticated && !localStorage.getItem('fintop_access_token')) {
-                clearSyncedBolocData();
-            }
             Infra.AppState.on(events.AUTH_LOGIN, () => {
                 isStockHydrated = false;
                 hydrateStockPrices();
@@ -8387,15 +8378,16 @@
                 }
             });
             Infra.AppState.on(events.AUTH_LOGOUT, () => {
-                BOLOC_DATA = [];
                 bolocFilters = { status: '', strength: '' };
                 isStockHydrated = false;
-                clearSyncedBolocData();
+                hydrateStockPrices();
                 if (bolocRendered || document.getElementById('panel-boloc')?.classList.contains('active')) {
                     renderBolocTable();
                 }
             });
             Infra.AppState.on(events.AUTH_CHANGED, () => {
+                isStockHydrated = false;
+                hydrateStockPrices();
                 if (bolocRendered || document.getElementById('panel-boloc')?.classList.contains('active')) {
                     renderBolocTable();
                 }
