@@ -316,13 +316,43 @@ async function submitProApproval() {
     }
 
     try {
+        // Upload payment receipt image to server
+        const formData = new FormData();
+        formData.append('upload', receiptFile);
+
+        const uploadRes = await fetch(`${Infra.FintopEnv.API_BASE_URL}/blogs/upload`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('fintop_access_token')}`
+            },
+            body: formData
+        });
+
+        if (!uploadRes.ok) {
+            throw new Error('Không thể tải ảnh thanh toán lên máy chủ.');
+        }
+
+        const uploadData = await uploadRes.json();
+        const uploadUrl = uploadData.data?.url || uploadData.url;
+
+        if (!uploadUrl) {
+            throw new Error('Ảnh thanh toán tải lên không có URL phản hồi.');
+        }
+
+        // Save payment proof URL to user profile
+        await Infra.ApiClient.patch('/auth/profile', {
+            paymentProofUrl: uploadUrl
+        });
+
         // Lấy danh sách các gói dịch vụ từ backend
         const plansRes = await Infra.ApiClient.get(Infra.FintopEnv.API_ENDPOINTS.SUBSCRIPTION_PLANS);
         const plans = plansRes.data || plansRes || [];
-        const targetPlan = plans.find(p => p.tierLevel === 'SILVER');
+        
+        // Tìm gói chính xác theo lựa chọn (PRO1, PRO2, PRO3)
+        const targetPlan = plans.find(p => p.name === selectedPkg || p.name.includes(selectedPkg)) || plans.find(p => p.tierLevel === 'SILVER');
         
         if (!targetPlan) {
-            throw new Error("Không tìm thấy cấu hình gói PRO (SILVER) trên hệ thống.");
+            throw new Error("Không tìm thấy cấu hình gói PRO trên hệ thống.");
         }
 
         // Tạo hóa đơn mới cho gói PRO

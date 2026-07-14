@@ -4406,6 +4406,22 @@
         </ul>
         <div class="tv-right">
             <span class="icon-link">🌐 VI</span>
+            <!-- Notification Bell Icon (separate from user dropdown) -->
+            <div class="notif-bell-container" id="notifBellContainer" style="display: none;">
+                <button class="notif-bell-btn" id="notifBellBtn" type="button" aria-label="Thông báo">
+                    <svg class="notif-bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span class="notif-bell-badge" id="notifBellBadge"></span>
+                </button>
+                <div class="notif-bell-dropdown" id="notifBellDropdown">
+                    <div class="notif-bell-dropdown-header">
+                        <span>🔔 Thông báo</span>
+                        <span class="fintop-notif-unread-indicator" style="font-size: 0.7rem; background: #ef4444; color: white; padding: 1px 6px; border-radius: 99px; display: none;"></span>
+                    </div>
+                    <div class="fintop-notifications-list" style="display: flex; flex-direction: column; gap: 2px;">
+                        <div style="font-size: 0.8rem; color: #64748b; text-align: center; padding: 24px 0;">Không có thông báo mới</div>
+                    </div>
+                </div>
+            </div>
             <div class="user-dropdown-container" id="userDropdownContainer">
                 <span class="icon-link" style="cursor: pointer;">👤</span>
                 <div class="user-dropdown-menu">
@@ -4435,7 +4451,10 @@
             <input type="text" class="stock-search-input" id="stockSearchInput"
                 placeholder="Nhập mã CP (VD: FPT, VNM...)" maxlength="10" autocomplete="off">
             <button class="stock-search-btn" onclick="addStockTicker()">⚡ Tra cứu</button>
-            <span class="stock-search-hint">Nhấn Enter hoặc nút Tra cứu • Tối đa 10 mã</span>
+            <span class="stock-search-hint" id="stockSearchHint">Nhấn Enter hoặc nút Tra cứu • Tối đa 10 mã</span>
+            <span id="stockSearchError" style="color: #f87171; font-size: 0.82rem; font-weight: 600; display: none; align-items: center; gap: 4px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 6px 12px; border-radius: 8px;">
+                ⚠️ Dữ liệu cổ phiếu này đang được cập nhật
+            </span>
         </div>
         <div
             style="max-width: 1300px; margin: 0 auto 1rem; padding: 1rem 1.25rem; border-radius: 12px; background: rgba(168, 85, 247, 0.07); border: 1px solid rgba(168, 85, 247, 0.22); color: #cbd5e1; font-size: 0.86rem; line-height: 1.7;">
@@ -4538,6 +4557,26 @@
     <div class="submenu-panel" id="panel-boloc">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
 
+        <!-- Guide Popup Modal (inside panel for correct stacking context) -->
+        <div class="guide-overlay" id="guideOverlay" style="display: none;">
+            <div class="guide-card">
+                <h2>HƯỚNG DẪN SỬ DỤNG BỘ LỌC</h2>
+                <div class="guide-section">
+                    Bảng tổng hợp danh mục cổ phiếu theo <strong>Trạng thái</strong> và <strong>Kết quả thuật toán của Mô hình (Model)</strong> theo phương pháp phân tích định lượng được trích xuất hoàn toàn tự động và tổng hợp theo các nhóm ngành. Đây là công cụ <strong>lọc</strong> và <strong>phân loại dữ liệu</strong> khách quan, hỗ trợ người dùng có thêm góc nhìn tổng quan về thị trường.
+                </div>
+                <div class="guide-section">
+                    Thuật toán Mô hình (Model) sử dụng AI phân tích và các <strong>Indicators</strong> (MA, Bollinger Band - Kênh xu hướng, RSI, Nến, ...) trên các khung thời gian để hiển thị các <strong>Trạng thái Mô hình (Model)</strong>.
+                </div>
+                <hr class="guide-divider">
+                <div class="guide-disclaimer-title">MIỄN TRỪ TRÁCH NHIỆM !</div>
+                <div class="guide-disclaimer">
+                    Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư.<br>
+                    Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.
+                </div>
+                <button class="guide-agree-btn" id="guideAgreeBtn" type="button">TÔI ĐỒNG Ý</button>
+            </div>
+        </div>
+
         <!-- HƯỚNG DẪN SỬ DỤNG -->
         <div
             style="max-width: 1300px; margin: 0 auto 1.5rem; padding: 1.5rem 2rem; border-radius: 14px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(99, 102, 241, 0.04)); border: 1px solid rgba(168, 85, 247, 0.25); border-left: 3px solid #a855f7;">
@@ -4601,10 +4640,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="boloc-disclaimer">
-            <strong>MIỄN TRỪ TRÁCH NHIỆM!</strong>
-            Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.
         </div>
         <div class="boloc-disclaimer">
             <strong>MIỄN TRỪ TRÁCH NHIỆM!</strong>
@@ -6904,9 +6939,22 @@
             }
 
             // Auto-render Bộ lọc table on first open
-            if (panelId === 'panel-boloc' && !bolocRendered) {
-                renderBolocTable();
-                bolocRendered = true;
+            if (panelId === 'panel-boloc') {
+                if (!bolocRendered) {
+                    renderBolocTable();
+                    bolocRendered = true;
+                }
+                
+                // Show Guide Popup if needed
+                setTimeout(() => {
+                    if (typeof shouldShowGuide === 'function' && shouldShowGuide()) {
+                        const guideEl = document.getElementById('guideOverlay');
+                        if (guideEl) {
+                            guideEl.removeAttribute('hidden');
+                            guideEl.style.cssText = 'display:flex !important; opacity:1;';
+                        }
+                    }
+                }, 400);
             }
 
             // Auto-render Tín hiệu on first open
@@ -6919,6 +6967,41 @@
                 setTimeout(() => document.getElementById('stockSearchInput').focus(), 300);
             }
         }
+
+        // ── Guide Popup Modal Logic ──
+        const GUIDE_STORAGE_KEY = 'fintop_boloc_guide_accepted';
+        
+        function shouldShowGuide() {
+            if (!hasBolocAccess()) {
+                // Not logged in → always show
+                return true;
+            }
+            // Logged in → show only if not accepted
+            try {
+                return localStorage.getItem(GUIDE_STORAGE_KEY) !== 'true';
+            } catch (e) {
+                return true;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const guideAgreeBtn = document.getElementById('guideAgreeBtn');
+            if (guideAgreeBtn) {
+                guideAgreeBtn.addEventListener('click', () => {
+                    const guideOverlay = document.getElementById('guideOverlay');
+                    if (guideOverlay) {
+                        guideOverlay.setAttribute('hidden', '');
+                        guideOverlay.style.display = 'none';
+                    }
+                    // If logged in, mark as accepted
+                    if (hasBolocAccess()) {
+                        try {
+                            localStorage.setItem(GUIDE_STORAGE_KEY, 'true');
+                        } catch (e) {}
+                    }
+                });
+            }
+        });
 
         // Close all panels
         function closeAllPanels() {
@@ -7066,12 +7149,22 @@
         // STOCK SEARCH LOGIC
         // =====================
 
-        // Enter key on search input
+        // Enter key and input listeners on search input
+        let stockErrorTimeout = null;
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('stockSearchInput');
             if (input) {
                 input.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') addStockTicker();
+                });
+                input.addEventListener('input', () => {
+                    // Hide error message when user starts typing again
+                    const errorEl = document.getElementById('stockSearchError');
+                    const hintEl = document.getElementById('stockSearchHint');
+                    if (errorEl && errorEl.style.display !== 'none') {
+                        errorEl.style.display = 'none';
+                        if (hintEl) hintEl.style.display = 'inline';
+                    }
                 });
             }
         });
@@ -7082,12 +7175,32 @@
 
             if (!ticker) return;
 
+            const errorEl = document.getElementById('stockSearchError');
+            const hintEl = document.getElementById('stockSearchHint');
+
             // Check if ticker exists in DB
             if (!STOCK_DB[ticker]) {
+                // Show tiny warning beside search bar
+                if (errorEl) {
+                    errorEl.style.display = 'inline-flex';
+                    if (hintEl) hintEl.style.display = 'none';
+                    
+                    if (stockErrorTimeout) clearTimeout(stockErrorTimeout);
+                    stockErrorTimeout = setTimeout(() => {
+                        errorEl.style.display = 'none';
+                        if (hintEl) hintEl.style.display = 'inline';
+                    }, 3000);
+                }
+
                 // Shake animation for invalid ticker
                 input.style.borderColor = '#f87171';
                 input.style.boxShadow = '0 0 15px rgba(248, 113, 113, 0.3)';
                 input.classList.add('shake');
+                
+                setTimeout(() => {
+                    input.classList.remove('shake');
+                }, 500);
+
                 setTimeout(() => {
                     input.style.borderColor = 'rgba(168, 85, 247, 0.3)';
                     input.style.boxShadow = 'none';
@@ -7095,6 +7208,10 @@
                 input.value = '';
                 return;
             }
+
+            // Hide error if successful search
+            if (errorEl) errorEl.style.display = 'none';
+            if (hintEl) hintEl.style.display = 'inline';
 
             // Check if already in list
             const existingIdx = searchedTickers.indexOf(ticker);
@@ -9476,7 +9593,7 @@
                 </div>
             </div>
         </div>
-    </div>
+
 
 </body>
 

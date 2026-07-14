@@ -617,6 +617,7 @@ export class AuthService {
       'stockAccount',
       'company',
       'position',
+      'paymentProofUrl',
     ];
 
     const updateData: any = {};

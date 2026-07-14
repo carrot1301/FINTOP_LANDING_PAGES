@@ -520,14 +520,14 @@ function injectStyles() {
       background-color: rgba(255,255,255,0.1);
     }
     
-    /* CMS Preview Overlay Styles matching the screenshot */
+    /* CMS Preview Overlay Styles matching the user page */
     .cms-preview-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: #1e2540; /* Dark navy */
+      background-color: #07070D; /* Match user background */
       z-index: 10000;
       display: flex;
       flex-direction: column;
@@ -539,18 +539,19 @@ function injectStyles() {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 24px 32px 10px 32px;
-      background-color: #1e2540;
+      padding: 16px 32px;
+      background-color: #0d0d15;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
     .cms-preview-title {
-      font-size: 24px;
+      font-size: 18px;
       font-weight: 700;
       color: #fff;
       margin: 0;
     }
     .cms-preview-close-btn {
-      background-color: #ffffff;
-      color: #000000;
+      background-color: #7c3aed;
+      color: #ffffff;
       border: none;
       font-weight: bold;
       font-size: 14px;
@@ -564,71 +565,191 @@ function injectStyles() {
       transition: background-color 0.2s;
     }
     .cms-preview-close-btn:hover {
-      background-color: #f3f4f6;
+      background-color: #6d28d9;
     }
     .cms-preview-body {
       flex: 1;
       overflow-y: auto;
-      padding: 10px 32px 32px 32px;
-      background-color: #1e2540;
+      padding: 32px 16px;
+      background-color: #07070D;
     }
-    .cms-preview-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      max-width: 1000px;
+    .cms-preview-card {
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
       margin: 0 auto;
+      max-width: 960px;
+      color: #1e293b;
+      overflow: hidden;
+      padding: 0;
     }
-    .cms-preview-row-half {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
+    .cms-preview-header-banner {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url("../assets/images/bgctys.jpg");
+      background-size: cover;
+      background-position: center 30%;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      position: relative;
+      gap: 2rem;
     }
-    .cms-preview-label {
-      font-size: 16px;
-      font-weight: 500;
-      color: #a0aec0;
-      margin-bottom: 10px;
-    }
-    .cms-preview-input {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 8px;
-      border: none;
-      background-color: #eaecef; /* Light background matching screenshot */
-      color: #2d3748 !important; /* Dark text matching screenshot */
-      font-size: 15px;
-      font-weight: 500;
-      outline: none;
-      box-sizing: border-box;
-      cursor: default;
-    }
-    .cms-preview-textarea {
-      width: 100%;
-      height: 200px;
-      padding: 14px 16px;
-      border-radius: 8px;
-      border: none;
-      background-color: #eaecef; /* Light background matching screenshot */
-      color: #2d3748 !important; /* Dark text matching screenshot */
-      font-size: 14px;
-      font-family: monospace;
-      line-height: 1.5;
-      resize: vertical;
-      outline: none;
-      box-sizing: border-box;
-      cursor: default;
-      overflow-y: auto;
-    }
-    .cms-preview-image-container {
-      margin-top: 5px;
-    }
-    .cms-preview-img-tag {
-      max-width: 300px;
-      max-height: 200px;
+    .cms-preview-banner-logo-box {
+      background: #700e13;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
       border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .cms-preview-banner-logo-box img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .cms-preview-banner-title {
+      color: #ffffff;
+      font-size: 1.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1.35;
+      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.8);
+      flex-grow: 1;
+      text-align: center;
+      margin: 0;
+      padding-right: 120px;
+    }
+    @media (max-width: 768px) {
+      .cms-preview-banner-title {
+        padding-right: 0;
+      }
+      .cms-preview-header-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 1.5rem;
+      }
+    }
+    .cms-preview-date-bar {
+      background: #700e13;
+      color: #ffffff;
+      padding: 10px 3rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-align: right;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      letter-spacing: 0.5px;
+    }
+    .cms-preview-body-wrapper {
+      padding: 2.5rem 3rem;
+      position: relative;
+      background-color: #ffffff;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Ctext x='50%25' y='50%25' fill='rgba(0, 0, 0, 0.025)' font-size='30' font-family='Arial, sans-serif' font-weight='bold' text-anchor='middle' transform='rotate(-32, 140, 140)'%3EFINTOP%3C/text%3E%3C/svg%3E");
+      background-repeat: repeat;
+      min-height: 400px;
+    }
+    .cms-preview-article-content {
+      font-size: 16px;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.8;
+      color: #000000;
+      text-align: justify;
+    }
+    .cms-preview-article-content p,
+    .cms-preview-article-content blockquote {
+      margin-bottom: 1.5rem;
+      color: #000000;
+    }
+    .cms-preview-article-content ul, 
+    .cms-preview-article-content ol {
+      padding-left: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .cms-preview-article-content li {
+      margin-bottom: 0.6rem;
+      color: #000000;
+    }
+    .cms-preview-article-content a {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    .cms-preview-article-content a:hover {
+      color: #700e13;
+    }
+    .cms-preview-article-content img {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+      display: block;
+      margin: 2rem auto;
+      border-radius: 4px;
+    }
+    .cms-preview-article-content iframe {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+      min-height: 450px;
+      display: block;
+      margin: 2rem auto;
+      border: none;
+    }
+    .cms-preview-article-content h1 {
+      font-size: 1.6rem;
+      color: #000000;
+      font-weight: bold;
+      margin-top: 2.2rem;
+      margin-bottom: 1.1rem;
+    }
+    .cms-preview-article-content h2 {
+      font-size: 1.4rem;
+      color: #000000;
+      font-weight: bold;
+      margin-top: 1.8rem;
+      margin-bottom: 0.9rem;
+    }
+    .cms-preview-article-content h3 {
+      font-size: 1.2rem;
+      color: #000000;
+      font-weight: bold;
+      margin-top: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+    .cms-preview-article-content h4,
+    .cms-preview-article-content h5,
+    .cms-preview-article-content h6 {
+      font-size: 1.1rem;
+      color: #000000;
+      font-weight: bold;
+      margin-top: 1.4rem;
+      margin-bottom: 0.8rem;
+    }
+    .cms-preview-article-content table {
+      width: 100% !important;
+      border-collapse: collapse;
+      margin: 2.5rem 0;
+      background: #ffffff;
+      border: 1px solid #dddddd;
+    }
+    .cms-preview-article-content th, .cms-preview-article-content td {
+      border: 1px solid #dddddd;
+      padding: 12px 15px;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+    .cms-preview-article-content th {
+      background-color: #f2f2f2;
+      color: #333333;
+      font-weight: bold;
+    }
+    .cms-preview-article-content td {
+      color: #264451;
+    }
+    .cms-preview-article-content tr:nth-child(even) {
+      background-color: #f9f9f9;
     }
   `;
   document.head.appendChild(style);
@@ -939,65 +1060,44 @@ function renderPagination(meta, paginationEl, contentEl, mainContainer) {
 function renderPreviewOverlay(container, blog) {
   document.body.style.overflow = 'hidden';
   
-  const dateStr = formatDateStr(blog.publishedAt || blog.createdAt);
-  const catName = blog.category?.name || 'Chưa phân loại';
-  const statusStr = blog.status === 'PUBLISHED' ? 'Hoạt động' : 'Bản nháp';
-  const authorName = blog.author?.fullName || 'Nguyễn Thành Phúc';
-  
-  const imgUrl = extractFirstImage(blog.content);
-  const showImg = imgUrl && !imgUrl.includes('placeholder.png');
+  const pubDate = blog.publishedAt ? new Date(blog.publishedAt) : new Date(blog.createdAt);
+  const dd = String(pubDate.getDate()).padStart(2, '0');
+  const mm = String(pubDate.getMonth() + 1).padStart(2, '0');
+  const yyyy = pubDate.getFullYear();
+  const dateStr = `${dd}/${mm}/${yyyy}`;
+
+  // Clean the featured image from content to prevent duplicating it if it was embedded at the top
+  let displayContent = blog.content || '';
+  const featuredImgRegex = /<img[^>]+(?:class=["']cms-featured-image["']|style=["'][^"']*display:\s*none[^"']*["'])[^>]*>/gi;
+  displayContent = displayContent.replace(featuredImgRegex, '');
 
   const overlay = document.createElement('div');
   overlay.className = 'cms-preview-overlay';
   overlay.innerHTML = `
     <div class="cms-preview-header">
-      <h2 class="cms-preview-title">Thông tin chi tiết bài viết</h2>
-      <button type="button" class="cms-preview-close-btn" id="cms-preview-close-x">x</button>
+      <h2 class="cms-preview-title">Xem trước bài viết (Giao diện người dùng)</h2>
+      <button type="button" class="cms-preview-close-btn" id="cms-preview-close-x">Đóng</button>
     </div>
     
     <div class="cms-preview-body">
-      <div class="cms-preview-grid">
-        <!-- Row 1 -->
-        <div class="cms-preview-row-half">
-          <div class="cms-form-group">
-            <label class="cms-preview-label">Người tạo</label>
-            <input type="text" class="cms-preview-input" value="${esc(authorName)}" disabled>
+      <div class="cms-preview-card">
+        <!-- Full Width Header Banner -->
+        <div class="cms-preview-header-banner">
+          <div class="cms-preview-banner-logo-box">
+            <img src="../assets/images/LogoFinTop_notbg.jpg" alt="FinTop Logo" onerror="this.src='../../assets/images/LogoFinTop_notbg.jpg'">
           </div>
-          <div class="cms-form-group">
-            <label class="cms-preview-label">Ngày tạo bài viết</label>
-            <input type="text" class="cms-preview-input" value="${dateStr}" disabled>
-          </div>
+          <h1 class="cms-preview-banner-title">${esc(blog.title)}</h1>
         </div>
-        
-        <!-- Row 2 -->
-        <div class="cms-preview-row-half">
-          <div class="cms-form-group">
-            <label class="cms-preview-label">Thể loại</label>
-            <input type="text" class="cms-preview-input" value="${esc(catName)}" disabled>
-          </div>
-          <div class="cms-form-group">
-            <label class="cms-preview-label">Trạng thái</label>
-            <input type="text" class="cms-preview-input" value="${esc(statusStr)}" disabled>
-          </div>
+
+        <!-- Red Publication Date Bar -->
+        <div class="cms-preview-date-bar">
+          Ngày xuất bản: <span>${dateStr}</span>
         </div>
-        
-        <!-- Row 3 -->
-        <div class="cms-form-group">
-          <label class="cms-preview-label">Tên bài viết</label>
-          <input type="text" class="cms-preview-input" value="${esc(blog.title)}" disabled>
-        </div>
-        
-        <!-- Row 4 -->
-        <div class="cms-form-group">
-          <label class="cms-preview-label">Nội dung</label>
-          <textarea class="cms-preview-textarea" disabled>${esc(blog.content)}</textarea>
-        </div>
-        
-        <!-- Row 5 -->
-        <div class="cms-form-group">
-          <label class="cms-preview-label">Ảnh bài viết</label>
-          <div class="cms-preview-image-container">
-            ${showImg ? `<img src="${imgUrl}" class="cms-preview-img-tag" alt="Ảnh bài viết">` : ``}
+
+        <!-- Watermarked Content Wrapper -->
+        <div class="cms-preview-body-wrapper">
+          <div class="cms-preview-article-content">
+            ${displayContent || 'Nội dung bài viết trống.'}
           </div>
         </div>
       </div>
@@ -1164,8 +1264,33 @@ function renderCreateForm(container, blogToEdit = null) {
     }
   }
 
-  const currentTier = blogToEdit ? (blogToEdit.visibility === 'PUBLIC' ? 'STANDARD' : (blogToEdit.minTierAccess || 'STANDARD')) : 'STANDARD';
+  const currentTier = blogToEdit ? (blogToEdit.minTierAccess || 'STANDARD') : 'STANDARD';
   const isPublished = blogToEdit ? blogToEdit.status === 'PUBLISHED' : true;
+
+  // Only keep the 4 categories corresponding to the 4 research pages
+  const ALLOWED_SLUGS = ['thi-truong', 'pro-research', 'doanh-nghiep', 'ncpt-nganh'];
+  const displayedCategories = AVAILABLE_CATEGORIES.filter(c => ALLOWED_SLUGS.includes(c.slug));
+
+  // If editing an existing article with a category outside the 4 allowed, keep/append it so it is pre-selected and preserved
+  if (isEdit && blogToEdit) {
+    const currentCatId = blogToEdit.categoryId || blogToEdit.category?.id;
+    const currentCatSlug = blogToEdit.category?.slug;
+    
+    const isIncluded = displayedCategories.some(c => 
+      (currentCatId && c.id === currentCatId) || 
+      (currentCatSlug && c.slug === currentCatSlug)
+    );
+    
+    if (!isIncluded) {
+      const originalCat = AVAILABLE_CATEGORIES.find(c => 
+        (currentCatId && c.id === currentCatId) || 
+        (currentCatSlug && c.slug === currentCatSlug)
+      );
+      if (originalCat) {
+        displayedCategories.push(originalCat);
+      }
+    }
+  }
 
   container.innerHTML = `
     <div class="cms-edit-overlay">
@@ -1195,7 +1320,12 @@ function renderCreateForm(container, blogToEdit = null) {
               <label class="cms-edit-label">Thể loại <span class="cms-required">*</span></label>
               <select id="blog-category" class="cms-edit-select" required>
                 <option value="">-- Chọn thể loại --</option>
-                ${AVAILABLE_CATEGORIES.map(c => `<option value="${c.id}" ${(blogToEdit?.category?.id === c.id || blogToEdit?.categoryId === c.id) ? 'selected' : ''}>${esc(c.name)}</option>`).join('')}
+                ${displayedCategories.map(c => {
+                  const isSelected = (blogToEdit?.categoryId === c.id) || 
+                                     (blogToEdit?.category?.id === c.id) || 
+                                     (blogToEdit?.category?.slug === c.slug);
+                  return `<option value="${c.id}" ${isSelected ? 'selected' : ''}>${esc(c.name)}</option>`;
+                }).join('')}
               </select>
             </div>
             

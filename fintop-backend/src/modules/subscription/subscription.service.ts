@@ -88,6 +88,7 @@ export class SubscriptionService {
     const expiredSubscriptions = await this.prisma.userSubscription.findMany({
       where: {
         status: SUBSCRIPTION_STATUS.ACTIVE,
+        isPermanent: false,
         endDate: { lte: now },
       },
       select: { id: true, userId: true },

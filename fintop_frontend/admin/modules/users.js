@@ -51,11 +51,11 @@ const INVESTMENT_STYLE_LABELS = {
 };
 
 const TIER_LABELS = {
-  standard: 'Thường',
-  silver:   'Bạc',
-  gold:     'Vàng',
-  diamond:  'Kim Cương',
-  vip:      'VIP',
+  standard: 'Standard',
+  silver:   'PRO',
+  gold:     'V.I.P',
+  diamond:  'DIAMOND',
+  vip:      'V.I.P',
 };
 
 const ROLE_DISPLAY = {
@@ -168,6 +168,42 @@ export default {
         const refId = u.referralId || '';
         const refName = u.referralName || '';
 
+        const tier = (u.tierLevel || 'standard').toLowerCase();
+        const isPro = tier === 'silver' || tier === 'gold';
+        const isVipDiamond = tier === 'vip' || tier === 'diamond';
+
+        // Approval info details based on tier Level
+        let approvalInfoHtml = '';
+        if (isPro) {
+          const sub = u.activeSubscription;
+          const planName = sub?.plan?.name || (tier === 'silver' ? 'Silver' : 'Gold');
+          const isUnlimited = sub?.isPermanent || (sub?.endDate && new Date(sub.endDate).getFullYear() >= 2099);
+          const expiryText = isUnlimited ? 'Mặc định (Vĩnh viễn)' : (sub?.endDate ? formatDate(sub.endDate) : 'Chưa kích hoạt');
+          
+          let proofHtml = '—';
+          if (u.paymentProofUrl) {
+            proofHtml = `<a href="${esc(u.paymentProofUrl)}" target="_blank" style="color:var(--purple-glow);text-decoration:underline;font-weight:600;">Xem ảnh thanh toán 👁️</a>`;
+          }
+
+          approvalInfoHtml = `
+            <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed rgba(255,255,255,0.08); color: #f59e0b; font-size: 0.78rem;">
+              <strong>Thông tin phê duyệt (Gói PRO):</strong>
+              <div>• Gói đăng ký: <span class="admin-badge tier-${tier}">${esc(planName)}</span></div>
+              <div>• Ảnh thanh toán: ${proofHtml}</div>
+              <div>• Thời hạn: ${expiryText}</div>
+            </div>
+          `;
+        } else if (isVipDiamond) {
+          approvalInfoHtml = `
+            <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed rgba(255,255,255,0.08); color: #10b981; font-size: 0.78rem;">
+              <strong>Thông tin phê duyệt (VIP/Diamond):</strong>
+              <div>• Công ty chứng khoán: <strong>${esc(stockCompany || '—')}</strong></div>
+              <div>• Số TKCK: <strong>${esc(stockAccount || '—')}</strong></div>
+              <div>• Thời hạn: Mặc định (Vĩnh viễn)</div>
+            </div>
+          `;
+        }
+
         return `
           <tr data-uid="${u.id}">
             <td style="width:5%;vertical-align:middle;text-align:center;">
@@ -183,12 +219,11 @@ export default {
                 <div>Ngày gia nhập : ${joinDate}</div>
                 <div>Thời gian đầu tư: ${esc(investDuration)}</div>
                 <div>Khẩu vị đầu tư : ${esc(investStyle)}</div>
-                <div>Công ty chứng khoán  : ${esc(stockCompany)}</div>
-                <div>Số TKCK (nếu có) : ${esc(stockAccount)}</div>
                 <div>ID người giới thiệu : ${esc(refId)}</div>
                 <div>Tên người giới thiệu : ${esc(refName)}</div>
                 <div>Loại tài khoản :  ${tierHtml} </div>
                 <div>Quyền truy cập : ${roleLabel}</div>
+                ${approvalInfoHtml}
               </div>
             </td>
             <td style="width:15%;vertical-align:middle;text-align:center;">
@@ -425,10 +460,10 @@ function showUpgradeModal(userId, userName, currentTier) {
           <div class="admin-form-group">
             <label>Nâng cấp lên gói</label>
             <select class="admin-select" id="upgrade-tier">
-              <option value="standard" ${currentTier === 'standard' ? 'selected' : ''}>Thường (Standard)</option>
-              <option value="silver" ${currentTier === 'silver' ? 'selected' : ''}>Bạc (Silver)</option>
-              <option value="gold" ${currentTier === 'gold' ? 'selected' : ''}>Vàng (Gold)</option>
-              <option value="diamond" ${currentTier === 'diamond' ? 'selected' : ''}>Kim Cương (Diamond)</option>
+              <option value="standard" ${currentTier === 'standard' ? 'selected' : ''}>Standard</option>
+              <option value="silver" ${currentTier === 'silver' ? 'selected' : ''}>PRO</option>
+              <option value="gold" ${currentTier === 'gold' ? 'selected' : ''}>V.I.P</option>
+              <option value="diamond" ${currentTier === 'diamond' ? 'selected' : ''}>DIAMOND</option>
             </select>
           </div>
           <div class="admin-form-group">

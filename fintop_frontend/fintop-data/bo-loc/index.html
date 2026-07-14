@@ -207,6 +207,88 @@
         @media (max-width: 768px) {
             .tv-nav { display: none; }
         }
+
+        /* ── Guide Popup Modal ── */
+        .guide-overlay {
+            position: fixed; inset: 0; z-index: 9999;
+            display: none;
+            align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.72);
+            backdrop-filter: blur(6px);
+            opacity: 1;
+        }
+        .guide-overlay[hidden] { display: none; }
+
+        .guide-card {
+            width: min(560px, calc(100vw - 32px));
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 16px;
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            background: rgba(12, 12, 22, 0.96);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 40px rgba(168, 85, 247, 0.08);
+            padding: 2.5rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .guide-card h2 {
+            color: #22c55e;
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+        .guide-card .guide-section {
+            text-align: left;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+            font-size: 0.92rem;
+        }
+        .guide-card .guide-section strong {
+            color: #fff;
+        }
+        .guide-card .guide-divider {
+            border: none;
+            border-top: 1px solid rgba(168, 85, 247, 0.2);
+            margin: 1.5rem 0;
+        }
+        .guide-card .guide-disclaimer-title {
+            color: #ef4444;
+            font-size: 1.05rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        .guide-card .guide-disclaimer {
+            text-align: center;
+            font-size: 0.92rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+        .guide-agree-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 48px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.25s;
+            box-shadow: 0 4px 18px rgba(34, 197, 94, 0.3);
+        }
+        .guide-agree-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(34, 197, 94, 0.45);
+            filter: brightness(1.1);
+        }
     </style>
 </head>
 <body>
@@ -296,6 +378,26 @@
             </div>
         </div>
     </main>
+
+    <!-- Guide Popup Modal -->
+    <div class="guide-overlay" id="guideOverlay" hidden>
+        <div class="guide-card">
+            <h2>HƯỚNG DẪN SỬ DỤNG BỘ LỌC</h2>
+            <div class="guide-section">
+                Bảng tổng hợp danh mục cổ phiếu theo <strong>Trạng thái</strong> và <strong>Kết quả thuật toán của Mô hình (Model)</strong> theo phương pháp phân tích định lượng được trích xuất hoàn toàn tự động và tổng hợp theo các nhóm ngành. Đây là công cụ <strong>lọc</strong> và <strong>phân loại dữ liệu</strong> khách quan, hỗ trợ người dùng có thêm góc nhìn tổng quan về thị trường.
+            </div>
+            <div class="guide-section">
+                Thuật toán Mô hình (Model) sử dụng AI phân tích và các <strong>Indicators</strong> (MA, Bollinger Band - Kênh xu hướng, RSI, Nến, ...) trên các khung thời gian để hiển thị các <strong>Trạng thái Mô hình (Model)</strong>.
+            </div>
+            <hr class="guide-divider">
+            <div class="guide-disclaimer-title">MIỄN TRỪ TRÁCH NHIỆM !</div>
+            <div class="guide-disclaimer">
+                Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư.<br>
+                Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.
+            </div>
+            <button class="guide-agree-btn" id="guideAgreeBtn" type="button">TÔI ĐỒNG Ý</button>
+        </div>
+    </div>
 
     <footer class="page-footer" style="margin-top: 3rem;">
         <p>&copy; 2026 FinTop DATA. Bảo lưu mọi quyền.</p>
@@ -542,9 +644,50 @@
                 }
             }
 
+            // ── Guide Popup Logic ──
+            const GUIDE_STORAGE_KEY = 'fintop_boloc_guide_accepted';
+            const guideOverlay = document.getElementById('guideOverlay');
+            const guideAgreeBtn = document.getElementById('guideAgreeBtn');
+
+            function showGuidePopup() {
+                if (guideOverlay) guideOverlay.hidden = false;
+            }
+
+            function hideGuidePopup() {
+                if (guideOverlay) guideOverlay.hidden = true;
+            }
+
+            if (guideAgreeBtn) {
+                guideAgreeBtn.addEventListener('click', () => {
+                    hideGuidePopup();
+                    // If logged in, mark as accepted so it won't show again
+                    if (hasStockFilterAccess()) {
+                        try { localStorage.setItem(GUIDE_STORAGE_KEY, 'true'); } catch(e) {}
+                    }
+                });
+            }
+
+            function shouldShowGuide() {
+                if (!hasStockFilterAccess()) {
+                    // Not logged in → always show
+                    return true;
+                }
+                // Logged in → show only if not previously accepted
+                try {
+                    return localStorage.getItem(GUIDE_STORAGE_KEY) !== 'true';
+                } catch(e) {
+                    return true;
+                }
+            }
+
             // Load initial data
             renderLockedPreview();
             checkInfra();
+
+            // Show guide popup after a short delay
+            setTimeout(() => {
+                if (shouldShowGuide()) showGuidePopup();
+            }, 300);
         })();
     </script>
 </body>

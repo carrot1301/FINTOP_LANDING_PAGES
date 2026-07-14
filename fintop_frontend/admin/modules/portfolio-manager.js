@@ -349,9 +349,9 @@ function renderCreateTab(contentEl) {
             <label class="admin-label" style="display:block;margin-bottom:0.25rem;">Yêu cầu gói VIP</label>
             <select id="port-tier" class="admin-select" style="width:100%;" required>
               <option value="STANDARD">Standard</option>
-              <option value="SILVER">Bạc (Silver)</option>
-              <option value="GOLD" selected>Vàng (Gold)</option>
-              <option value="DIAMOND">Kim Cương (Diamond)</option>
+              <option value="SILVER">PRO</option>
+              <option value="GOLD" selected>V.I.P</option>
+              <option value="DIAMOND">Diamond</option>
             </select>
           </div>
           <div>

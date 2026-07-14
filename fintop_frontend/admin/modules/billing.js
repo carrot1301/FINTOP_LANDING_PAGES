@@ -8,6 +8,7 @@ const API = () => window.FintopInfra.ApiClient;
 const EP = () => window.FintopInfra.FintopEnv.API_ENDPOINTS;
 
 let activeTab = 'invoices'; // Default tab
+let subTab = 'pending'; // Sub-tab for approvals
 let subscriptionPlans = [];
 let allInvoices = [];
 let filteredInvoices = [];
@@ -54,12 +55,11 @@ function getInvoiceTier(amount) {
   const plan = subscriptionPlans.find(p => Number(p.price) === Number(amount));
   if (plan) return plan.tierLevel;
   
-  // Fallbacks based on standard pricing
+  // Fallbacks based on current pricing
   const amt = Number(amount);
   if (amt <= 0) return 'STANDARD';
-  if (amt < 2000000) return 'STANDARD';
-  if (amt < 5000000) return 'SILVER';
-  if (amt < 10000000) return 'GOLD';
+  if (amt <= 8000000) return 'SILVER';
+  if (amt <= 10000000) return 'GOLD';
   return 'DIAMOND';
 }
 
@@ -101,9 +101,9 @@ export default {
       <div id="invoice-detail-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5, 5, 10, 0.85); backdrop-filter:blur(8px); z-index:10000; align-items:center; justify-content:center; padding:1rem;">
         <div style="background:var(--bg-card); border:1px solid var(--purple-border); border-radius:12px; max-width:480px; width:100%; padding:1.5rem; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.6);">
           <button id="modal-close-btn" style="position:absolute; top:1rem; right:1.5rem; background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer;">✕</button>
-          <h3 style="font-size:1.15rem; margin-bottom:1.25rem; color:#fff; display:flex; align-items:center; gap:0.5rem;">📄 Chi tiết Hóa đơn <span id="modal-invoice-id" style="font-weight:400; color:var(--text-muted);"></span></h3>
+          <h3 style="font-size:1.15rem; margin-bottom:1.25rem; color:#fff; display:flex; align-items:center; gap:0.5rem;">📄 Chi tiết Phê duyệt <span id="modal-invoice-id" style="font-weight:400; color:var(--text-muted);"></span></h3>
           
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem; font-size:0.85rem; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.03); padding:1rem; border-radius:8px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.25rem; font-size:0.85rem; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.03); padding:1rem; border-radius:8px;">
             <div>
               <div style="color:var(--text-muted); font-size:0.72rem; text-transform:uppercase; margin-bottom:0.15rem; font-weight:600;">Khách hàng</div>
               <div id="modal-user-name" style="font-weight:700; color:#fff;"></div>
@@ -128,15 +128,42 @@ export default {
               <div style="color:var(--text-muted); font-size:0.72rem; text-transform:uppercase; margin-bottom:0.15rem; font-weight:600;">Hạn thanh toán</div>
               <div id="modal-due-date" style="color:#e2e8f0;"></div>
             </div>
+            <div style="grid-column: span 2;" id="modal-payment-proof-container">
+              <div style="color:var(--text-muted); font-size:0.72rem; text-transform:uppercase; margin-bottom:0.15rem; font-weight:600;">Ảnh thanh toán</div>
+              <div id="modal-payment-proof-body">—</div>
+            </div>
+            <div style="grid-column: span 2;" id="modal-stock-info-container">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                <div>
+                  <div style="color:var(--text-muted); font-size:0.72rem; text-transform:uppercase; margin-bottom:0.15rem; font-weight:600;">Công ty chứng khoán</div>
+                  <div id="modal-stock-company" style="color:#fff; font-weight:600;">—</div>
+                </div>
+                <div>
+                  <div style="color:var(--text-muted); font-size:0.72rem; text-transform:uppercase; margin-bottom:0.15rem; font-weight:600;">Số TKCK</div>
+                  <div id="modal-stock-account" style="color:#fff; font-weight:600;">—</div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div style="text-align:center; padding:0.75rem; background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.2); border-radius:6px; margin-bottom:1.5rem; color:#FBBF24; font-size:0.88rem; font-weight:600;">
-            ❓ Bạn chắc chắn duyệt hóa đơn?
+          <!-- Expiry Duration Settings -->
+          <div style="margin-bottom:1.5rem; border-top:1px dashed rgba(255,255,255,0.08); padding-top:1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+              <span style="color:#fff; font-size:0.85rem; font-weight:600;">Thời hạn: Mặc định (Vĩnh viễn)</span>
+              <label class="toggle-switch" style="cursor:pointer;">
+                <input type="checkbox" id="modal-duration-toggle" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div id="modal-datepicker-container" style="display:none;">
+              <label style="color:var(--text-muted); font-size:0.72rem; display:block; margin-bottom:0.25rem; font-weight:600;">Chọn Ngày Kết Thúc Gói</label>
+              <input type="date" id="modal-end-date" class="admin-input" style="width:100%; height:38px; background:rgba(30,30,45,0.8); border:1px solid rgba(255,255,255,0.1); color:#fff; border-radius:6px; padding:0 0.5rem;" />
+            </div>
           </div>
 
           <div style="display:flex; justify-content:flex-end; gap:0.75rem;">
             <button id="modal-cancel-btn" class="admin-btn admin-btn-secondary" style="height:38px;">Hủy bỏ</button>
-            <button id="modal-confirm-approve-btn" class="admin-btn" style="background:var(--success); color:#fff; height:38px; font-weight:700;">Duyệt để hoàn tất</button>
+            <button id="modal-confirm-approve-btn" class="admin-btn" style="background:var(--success); color:#fff; height:38px; font-weight:700;">Xác nhận duyệt</button>
           </div>
         </div>
       </div>
@@ -427,6 +454,13 @@ function tierIcon(tier) {
 // ─────────────────────────────────────────────────────────────
 async function renderInvoices(contentEl) {
   contentEl.innerHTML = `
+    <!-- Sub-tabs bar -->
+    <div class="admin-tabs" style="margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <button class="admin-btn btn-sub-tab ${subTab === 'pending' ? 'admin-btn-primary' : 'admin-btn-secondary'}" data-subtab="pending" style="font-size: 0.82rem; height: 36px; padding: 0 1rem; font-weight: 600;">⏳ Chưa phê duyệt</button>
+      <button class="admin-btn btn-sub-tab ${subTab === 'approved_limited' ? 'admin-btn-primary' : 'admin-btn-secondary'}" data-subtab="approved_limited" style="font-size: 0.82rem; height: 36px; padding: 0 1rem; font-weight: 600;">📅 Đã phê duyệt (Có thời hạn)</button>
+      <button class="admin-btn btn-sub-tab ${subTab === 'approved_permanent' ? 'admin-btn-primary' : 'admin-btn-secondary'}" data-subtab="approved_permanent" style="font-size: 0.82rem; height: 36px; padding: 0 1rem; font-weight: 600;">♾️ Đã phê duyệt (Mặc định)</button>
+    </div>
+
     <!-- Filters Toolbar (Matches Screenshot Layout) -->
     <div class="billing-filter-bar" style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; background: rgba(255,255,255,0.01); padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
       
@@ -465,6 +499,15 @@ async function renderInvoices(contentEl) {
       <div class="admin-loading"><div class="admin-spinner"></div> Đang tải dữ liệu...</div>
     </div>
   `;
+
+  // Bind sub-tabs click events
+  contentEl.querySelectorAll('.btn-sub-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      subTab = btn.dataset.subtab;
+      currentPage = 1;
+      renderInvoices(contentEl);
+    });
+  });
 
   // Bind filter controls events
   contentEl.querySelector('#btn-delete-selected')?.addEventListener('click', () => {
@@ -550,13 +593,27 @@ function applyFilters() {
       inv.status = 'VOID';
     }
 
-    // 3. Package filter
+    // 3. Sub-tab filter
+    const isPaid = inv.status === 'PAID';
+    if (subTab === 'pending') {
+      if (isPaid) return false;
+    } else if (subTab === 'approved_limited') {
+      if (!isPaid) return false;
+      const isUnlimited = inv.subscription?.isPermanent || (inv.subscription?.endDate && new Date(inv.subscription.endDate).getFullYear() >= 2099);
+      if (isUnlimited) return false;
+    } else if (subTab === 'approved_permanent') {
+      if (!isPaid) return false;
+      const isUnlimited = inv.subscription?.isPermanent || (inv.subscription?.endDate && new Date(inv.subscription.endDate).getFullYear() >= 2099);
+      if (!isUnlimited) return false;
+    }
+
+    // 4. Package filter
     if (selectedPackage) {
       const tier = getInvoiceTier(inv.amount);
       if (tier !== selectedPackage) return false;
     }
 
-    // 4. Date filters
+    // 5. Date filters
     if (startDateStr) {
       const start = new Date(startDateStr);
       const created = new Date(inv.createdAt);
@@ -568,7 +625,7 @@ function applyFilters() {
       if (created > end) return false;
     }
 
-    // 5. Keyword search filter
+    // 6. Keyword search filter
     if (searchText) {
       const matchId = String(inv.id).toLowerCase().includes(searchText);
       const matchName = String(inv.user?.fullName || '').toLowerCase().includes(searchText);
@@ -581,6 +638,19 @@ function applyFilters() {
 
     return true;
   });
+
+  // Sort logic based on subTab
+  if (subTab === 'approved_limited') {
+    // TK có thời hạn, sắp xếp TK đến hạn gần nhất (endDate ascending)
+    filteredInvoices.sort((a, b) => {
+      const dateA = a.subscription?.endDate ? new Date(a.subscription.endDate) : new Date(8640000000000000);
+      const dateB = b.subscription?.endDate ? new Date(b.subscription.endDate) : new Date(8640000000000000);
+      return dateA - dateB;
+    });
+  } else {
+    // Default sorting (newest first)
+    filteredInvoices.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  }
 }
 
 function renderInvoiceTable(container) {
@@ -650,7 +720,16 @@ function renderInvoiceTable(container) {
                 </div>
               `;
             } else {
-              approvalHtml = statusBadge(inv.status);
+              const sub = inv.subscription;
+              const isUnlimited = sub?.isPermanent || (sub?.endDate && new Date(sub.endDate).getFullYear() >= 2099);
+              const expiryText = isUnlimited ? 'Mặc định (Vĩnh viễn)' : (sub?.endDate ? formatDate(sub.endDate) : '—');
+              approvalHtml = `
+                <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
+                  <div>${statusBadge(inv.status)}</div>
+                  <div style="font-size:0.72rem; color:var(--text-muted);">Hạn: ${expiryText}</div>
+                  <button class="admin-btn admin-btn-sm btn-open-approve-modal" data-id="${inv.id}" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:1px solid rgba(245,158,11,0.22); padding:2px 6px; border-radius:4px; font-size:0.68rem; cursor:pointer; margin-top:2px; font-weight:600;">⚙️ Sửa thời hạn</button>
+                </div>
+              `;
             }
 
             return `
@@ -749,6 +828,75 @@ function renderInvoiceTable(container) {
       document.getElementById('modal-created-at').textContent = formatDate(inv.createdAt);
       document.getElementById('modal-due-date').textContent = formatDate(inv.dueDate);
 
+      // Payment Proof render
+      const proofBody = document.getElementById('modal-payment-proof-body');
+      if (inv.user?.paymentProofUrl) {
+        const fullUrl = inv.user.paymentProofUrl;
+        
+        proofBody.innerHTML = `
+          <div style="margin-top: 8px;">
+            <a href="${esc(fullUrl)}" target="_blank" title="Click để xem ảnh kích thước đầy đủ">
+              <img src="${esc(fullUrl)}" alt="Payment proof" style="max-width: 100%; max-height: 200px; object-fit: contain; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35); cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)'; this.style.borderColor='var(--purple-glow)';" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(255, 255, 255, 0.15)';">
+            </a>
+          </div>
+        `;
+      } else {
+        proofBody.textContent = 'Chưa có ảnh thanh toán';
+      }
+
+      // Stock Info details (VIP / Diamond only)
+      const tier = getInvoiceTier(inv.amount);
+      const isVipDiamond = tier === 'VIP' || tier === 'DIAMOND';
+      const stockContainer = document.getElementById('modal-stock-info-container');
+      if (isVipDiamond) {
+        stockContainer.style.display = 'block';
+        document.getElementById('modal-stock-company').textContent = inv.user?.stockCompany || '—';
+        document.getElementById('modal-stock-account').textContent = inv.user?.stockAccount || '—';
+      } else {
+        stockContainer.style.display = 'none';
+      }
+
+      // Expiry duration selectors
+      const toggle = document.getElementById('modal-duration-toggle');
+      const datepickerContainer = document.getElementById('modal-datepicker-container');
+      const endDateInput = document.getElementById('modal-end-date');
+
+      // Set default expiration date picker value
+      const defaultEnd = new Date();
+      defaultEnd.setDate(defaultEnd.getDate() + (plan.durationDays || 30));
+      endDateInput.value = defaultEnd.toISOString().split('T')[0];
+
+      // Expiry visibility sync
+      const syncDatePickerVisibility = (isChecked) => {
+        if (isChecked) {
+          datepickerContainer.style.display = 'none';
+        } else {
+          datepickerContainer.style.display = 'block';
+        }
+      };
+
+      // Set initial duration toggle/picker state
+      if (inv.status === 'PAID' && inv.subscription) {
+        const sub = inv.subscription;
+        const isUnlimited = sub.isPermanent || (sub.endDate && new Date(sub.endDate).getFullYear() >= 2099);
+        toggle.checked = isUnlimited;
+        if (!isUnlimited && sub.endDate) {
+          endDateInput.value = new Date(sub.endDate).toISOString().split('T')[0];
+        }
+      } else {
+        // Unapproved default states
+        toggle.checked = isVipDiamond;
+      }
+      syncDatePickerVisibility(toggle.checked);
+
+      // Re-create toggle slider callback
+      const oldToggle = toggle;
+      const newToggle = oldToggle.cloneNode(true);
+      oldToggle.parentNode.replaceChild(newToggle, oldToggle);
+      newToggle.addEventListener('change', () => {
+        syncDatePickerVisibility(newToggle.checked);
+      });
+
       // Re-create confirm button to clear old event listeners safely
       const oldConfirmBtn = document.getElementById('modal-confirm-approve-btn');
       const newConfirmBtn = oldConfirmBtn.cloneNode(true);
@@ -758,36 +906,25 @@ function renderInvoiceTable(container) {
       newConfirmBtn.addEventListener('click', async () => {
         newConfirmBtn.disabled = true;
         try {
-          const payload = {
-            provider: 'MANUAL',
-            providerId: `manual_sim_tx_${Date.now()}`,
-            invoiceId: String(inv.id),
-            amount: amount,
-            idempotencyKey: `idem_key_${Date.now()}_${inv.id}`,
-            planId: plan.id,
-            timestamp: Date.now()
-          };
+          const isPermanent = newToggle.checked;
+          const endDate = isPermanent ? undefined : endDateInput.value;
 
-          const signature = await computeSignature(payload);
-          
-          await API().post('/billing/webhook', payload, {
-            headers: {
-              'x-webhook-signature': signature
-            }
+          await API().post(`/admin/billing/invoices/${inv.id}/approve`, {
+            isPermanent,
+            endDate
           });
 
-          // Save approved locally to keep list refreshed before DB updates
+          // Save approved locally to keep list refreshed
           approvedInvoiceIds.push(inv.id);
           saveStorage();
 
-          showToast('Phê duyệt thanh toán hóa đơn thành công!', 'success');
+          showToast('Duyệt thời hạn và kích hoạt gói thành công!', 'success');
 
-          // Sync profile if current logged-in user is the invoice owner (immediate client upgrades)
+          // Sync profile if current logged-in user is the invoice owner
           const currentUser = window.FintopInfra?.AppState?.getState('user') || {};
           if (inv.user?.email && currentUser.email && inv.user.email.toLowerCase() === currentUser.email.toLowerCase()) {
             try {
               await window.FintopInfra.AuthManager.loadUserProfile();
-              showToast('Đã nâng cấp quyền hạn tài khoản thành công!', 'success');
             } catch (profileErr) {
               console.error('Failed to reload user profile:', profileErr);
             }

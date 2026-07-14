@@ -225,7 +225,7 @@ export function statusBadge(status) {
 
 export function tierBadge(tier) {
   const t = (tier || '').toLowerCase();
-  const labels = { standard: 'Standard', silver: 'Bạc', gold: 'Vàng', diamond: 'Kim Cương' };
+  const labels = { standard: 'Standard', silver: 'PRO', gold: 'V.I.P', diamond: 'DIAMOND' };
   return badge(labels[t] || tier, `tier-${t}`);
 }
 

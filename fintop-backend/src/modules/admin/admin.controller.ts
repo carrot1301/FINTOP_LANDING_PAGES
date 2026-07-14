@@ -323,6 +323,19 @@ export class AdminController {
     return this.adminService.getInvoices(p, l);
   }
 
+  @Post('billing/invoices/:id/approve')
+  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @ApiOperation({ summary: 'Approve invoice and activate subscription manually' })
+  @ApiBody({ schema: { properties: { isPermanent: { type: 'boolean' }, endDate: { type: 'string' } } } })
+  async approveInvoice(
+    @Param('id') id: string,
+    @CurrentUser() admin: any,
+    @Body('isPermanent') isPermanent?: boolean,
+    @Body('endDate') endDate?: string,
+  ) {
+    return this.adminService.approveInvoice(BigInt(id), !!isPermanent, endDate, admin.id);
+  }
+
   // ─────────────────────────────────────────────────────
   // MARKET DATA
   // ─────────────────────────────────────────────────────

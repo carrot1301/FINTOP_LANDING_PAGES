@@ -6,8 +6,8 @@
  * Features matching legacy web:
  *   - Full analysis table: STT, Mã CP, Sàn, Ngành HĐKD,
  *     Cán bộ, Update time, Mô tả Model, Trạng thái Model,
- *     Kết quả Model, Sức mạnh xu hướng, vùng kỹ thuật, Thứ tự
- *   - Toolbar: Thêm/Xóa CP, Lọc Kết quả Model, Lọc nhóm ngành, Tìm kiếm mã CP
+ *     Sức mạnh xu hướng, vùng kỹ thuật, Thứ tự
+ *   - Toolbar: Thêm/Xóa CP, Lọc Trạng thái Model, Lọc nhóm ngành, Tìm kiếm mã CP
  *   - Toggle biểu đồ (Fireant iframe)
  *   - Inline edit (double click to edit cell)
  *   - Edit button per row
@@ -349,6 +349,36 @@ function getFilteredData() {
 function renderAll() {
   if (!container) return;
 
+  if (!document.getElementById('market-drag-styles')) {
+    const dragStyle = document.createElement('style');
+    dragStyle.id = 'market-drag-styles';
+    dragStyle.textContent = `
+      .df-row-dragging {
+        opacity: 0.45;
+        background: rgba(124, 58, 237, 0.15) !important;
+        outline: 2px dashed #7c3aed !important;
+      }
+      .df-drag-handle {
+        cursor: move;
+        cursor: -webkit-grabbing;
+        font-size: 1.1rem;
+        color: #7c3aed;
+        padding: 0 4px;
+        user-select: none;
+      }
+      /* Hide spinner arrows for number inputs in the table */
+      .df-table input[type=number]::-webkit-outer-spin-button,
+      .df-table input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      .df-table input[type=number] {
+        -moz-appearance: textfield;
+      }
+    `;
+    document.head.appendChild(dragStyle);
+  }
+
   const filtered = getFilteredData();
 
   container.innerHTML = `
@@ -389,7 +419,7 @@ function renderAll() {
       <!-- Action Filter (Multi-select dropdown) -->
       <div class="df-filter-group" style="position:relative;">
         <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-toggle-action-filter" style="min-width:130px;">
-          Lọc Kết quả Model ${selectedActions.size > 0 ? `<span style="color:#f59e0b">(${selectedActions.size})</span>` : ''}
+          Lọc Trạng thái Model ${selectedActions.size > 0 ? `<span style="color:#f59e0b">(${selectedActions.size})</span>` : ''}
         </button>
         <div id="action-filter-dropdown" class="df-filter-dropdown" style="display:${actionDropdownVisible ? 'block' : 'none'};position:absolute;top:100%;left:0;z-index:1010;width:180px;border:1px solid #5e72e4;background:var(--bg-card);border-radius:0 0 6px 6px;padding:4px 0;max-height:250px;overflow-y:auto;">
           ${ACTION_FILTERS.map(af => `
@@ -430,20 +460,18 @@ function renderAll() {
         <thead>
           <tr style="position:sticky;top:0;z-index:5;">
             <th style="width:2%;text-align:center;"><input type="checkbox" id="chk-all-stocks" /></th>
-            <th style="width:2%;text-align:center;">STT</th>
+            <th style="width:6%;text-align:center;">STT</th>
             <th style="width:4%;text-align:center;">Mã CP</th>
             <th style="width:3%;text-align:center;">Sàn</th>
             <th style="width:7.5%;text-align:center;">Ngành HĐKD</th>
             <th style="width:5.5%;text-align:center;">Kiểm soát DL</th>
             <th style="width:5.5%;text-align:center;">Update time</th>
             <th style="width:14%;text-align:center;">Mô tả Mô hình kỹ thuật (Model)</th>
-            <th style="width:6.5%;text-align:center;">Trạng thái Model</th>
-            <th style="width:6.5%;text-align:center;">Kết quả Model</th>
+            <th style="width:10%;text-align:center;">Trạng thái Model</th>
             <th style="width:7.5%;text-align:center;">Sức mạnh xu hướng<br/>Dòng tiền - RSI/MFI</th>
             <th style="width:13%;text-align:center;">Vùng kiểm định<br/>kỹ thuật</th>
             <th style="width:13%;text-align:center;">Vùng kháng cự<br/>kỹ thuật</th>
             <th style="width:13%;text-align:center;">Vùng hỗ trợ<br/>kỹ thuật</th>
-            <th style="width:2%;text-align:center;">Thứ tự</th>
             <th style="width:1.5%;text-align:center;">
               <span id="btn-add-row" style="cursor:pointer;color:var(--purple-glow);" title="Thêm dòng">➕</span>
             </th>
@@ -451,7 +479,7 @@ function renderAll() {
         </thead>
         <tbody id="df-table-body">
           ${filtered.length === 0 ? `
-            <tr><td colspan="16" style="text-align:center;padding:2rem;color:var(--text-muted);">Không có dữ liệu phù hợp.</td></tr>
+            <tr><td colspan="14" style="text-align:center;padding:2rem;color:var(--text-muted);">Không có dữ liệu phù hợp.</td></tr>
           ` : filtered.map((s, idx) => renderStockRow(s, idx)).join('')}
         </tbody>
       </table>
@@ -468,10 +496,13 @@ function renderAll() {
 
 function renderStockRow(s, idx) {
   return `
-    <tr data-stock-id="${s.id}">
+    <tr data-stock-id="${s.id}" draggable="false">
       <td style="text-align:center;vertical-align:middle;"><input type="checkbox" class="chk-stock-item" value="${s.id}" /></td>
       <td style="text-align:center;vertical-align:middle;">
-        <input type="number" class="df-direct-input df-premium-input" data-field="order" data-sid="${s.id}" value="${s.order}" style="width:30px;" />
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span class="df-drag-handle" style="cursor:move;color:#7c3aed;font-size:1.1rem;user-select:none;padding:0 2px;" title="Kéo thả để sắp xếp">☰</span>
+          <input type="number" class="df-direct-input df-premium-input" data-field="order" data-sid="${s.id}" value="${s.order}" style="width:35px;text-align:center;padding:4px 2px;" />
+        </div>
       </td>
       <td style="text-align:center;vertical-align:middle;">
         <input type="text" class="df-direct-input df-premium-input" data-field="code_cp" data-sid="${s.id}" value="${esc(s.code_cp)}" style="width:50px;color:var(--purple-glow);font-weight:600;text-transform:uppercase;" />
@@ -509,9 +540,6 @@ function renderStockRow(s, idx) {
         </select>
       </td>
       <td style="text-align:center;vertical-align:middle;">
-        ${actBadge(s.act || 'TRUNG LẬP')}
-      </td>
-      <td style="text-align:center;vertical-align:middle;">
         <select class="df-direct-input df-premium-select" data-field="rsi_mfi" data-sid="${s.id}" style="width:95px;">
           ${(() => {
             const opts = [...TREND_STRENGTH_OPTIONS];
@@ -532,14 +560,74 @@ function renderStockRow(s, idx) {
         <input type="text" class="df-direct-input df-premium-input" data-field="support_range" data-sid="${s.id}" value="${esc(s.support_range || '')}" />
       </td>
       <td style="text-align:center;vertical-align:middle;">
-        <span class="df-order-btn" data-dir="down" data-sid="${s.id}" style="cursor:pointer;margin-right:4px;" title="Xuống">⬇️</span>
-        <span class="df-order-btn" data-dir="up" data-sid="${s.id}" style="cursor:pointer;" title="Lên">⬆️</span>
-      </td>
-      <td style="text-align:center;vertical-align:middle;">
         <span class="df-edit-row-btn" data-sid="${s.id}" style="cursor:pointer;color:#f59e0b;" title="Sửa dòng">✏️</span>
       </td>
     </tr>
   `;
+}
+
+let dragRowEl = null;
+
+function handleDragStart(e) {
+  if (this.getAttribute('draggable') !== 'true') {
+    e.preventDefault();
+    return;
+  }
+  dragRowEl = this;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', this.dataset.stockId);
+  this.classList.add('df-row-dragging');
+}
+
+function handleDragOver(e) {
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+  e.dataTransfer.dropEffect = 'move';
+  
+  if (dragRowEl && dragRowEl !== this) {
+    const rect = this.getBoundingClientRect();
+    const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+    this.parentNode.insertBefore(dragRowEl, next ? this.nextSibling : this);
+  }
+  return false;
+}
+
+function handleDragEnd(e) {
+  this.classList.remove('df-row-dragging');
+  
+  // Reorder stockData array based on DOM order
+  const rows = Array.from(container.querySelectorAll('#df-table-body tr'));
+  const newOrderIds = rows.map(r => r.dataset.stockId).filter(Boolean);
+  
+  const newStockData = [];
+  newOrderIds.forEach((id) => {
+    const stock = stockData.find(s => String(s.id) === String(id));
+    if (stock) {
+      newStockData.push(stock);
+    }
+  });
+  
+  stockData = newStockData;
+  reorderStocks();
+  
+  syncNewOrderToBackend();
+}
+
+async function syncNewOrderToBackend() {
+  try {
+    const payload = {
+      stocks: stockData.map(s => ({
+        id: s.id,
+        order: s.order
+      }))
+    };
+    await API().post('/market/stocks/bulk', payload);
+    renderAll();
+  } catch (err) {
+    console.error('Error saving reordered stocks:', err);
+    showToast('Lỗi đồng bộ thứ tự kéo thả lên backend!', 'error');
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -548,6 +636,27 @@ function renderStockRow(s, idx) {
 
 function bindEvents() {
   if (!container) return;
+
+  // Drag & Drop Row Reordering
+  const dragRows = container.querySelectorAll('#df-table-body tr');
+  dragRows.forEach(row => {
+    const handle = row.querySelector('.df-drag-handle');
+    if (handle) {
+      handle.addEventListener('mousedown', () => {
+        row.setAttribute('draggable', 'true');
+      });
+      handle.addEventListener('mouseup', () => {
+        row.setAttribute('draggable', 'false');
+      });
+    }
+
+    row.addEventListener('dragstart', handleDragStart);
+    row.addEventListener('dragover', handleDragOver);
+    row.addEventListener('dragend', function(e) {
+      row.setAttribute('draggable', 'false');
+      handleDragEnd.call(this, e);
+    });
+  });
 
   // Toggle chart
   container.querySelector('#toggle-chart')?.addEventListener('change', (e) => {
@@ -843,7 +952,7 @@ function showAddStockModal() {
             <input type="text" class="admin-input" id="add-trend" placeholder="Nhập nhận định..." />
           </div>
           <div class="admin-form-group">
-            <label>Kết quả Model</label>
+            <label>Trạng thái Model</label>
             <select class="admin-select" id="add-act">
               <option value="RẤT TÍCH CỰC">RẤT TÍCH CỰC</option>
               <option value="TÍCH CỰC">TÍCH CỰC</option>
@@ -1003,7 +1112,7 @@ function showEditStockModal(sid) {
             <textarea class="admin-input" id="es-trend" rows="3" style="resize:vertical;">${esc(stock.identify_trend || '')}</textarea>
           </div>
           <div class="admin-form-group">
-            <label>Kết quả Model</label>
+            <label>Trạng thái Model</label>
             <select class="admin-select" id="es-act">
               <option value="RẤT TÍCH CỰC" ${stock.act === 'RẤT TÍCH CỰC' ? 'selected' : ''}>RẤT TÍCH CỰC</option>
               <option value="TÍCH CỰC" ${stock.act === 'TÍCH CỰC' ? 'selected' : ''}>TÍCH CỰC</option>

@@ -14,13 +14,15 @@ export class SubscriptionController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get current subscription details for user' })
   async getSubscription(@CurrentUser() user: any) {
-    // Fetches the active subscription from DB
-    return {
-      userId: user.id,
-      tierLevel: user.tierLevel,
-      status: 'ACTIVE',
-      // In reality, this calls subscriptionService.getActiveSubscription(user.id)
-    };
+    const activeSub = await this.subscriptionService.getActiveSubscription(user.id);
+    if (!activeSub) {
+      return {
+        userId: user.id,
+        tierLevel: 'STANDARD',
+        status: 'INACTIVE',
+      };
+    }
+    return activeSub;
   }
 
   @Get('plans')

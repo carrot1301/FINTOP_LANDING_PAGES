@@ -214,10 +214,10 @@ const EnumMapper = {
    */
   subscriptionTier(tier) {
     const map = {
-      STANDARD: { label: 'Tiêu Chuẩn', icon: '⭐', color: '#64748b' },
-      SILVER:   { label: 'Bạc',         icon: '🥈', color: '#94a3b8' },
-      GOLD:     { label: 'Vàng',        icon: '🥇', color: '#fbbf24' },
-      DIAMOND:  { label: 'Kim Cương',   icon: '💎', color: '#a78bfa' },
+      STANDARD: { label: 'Standard', icon: '⭐', color: '#64748b' },
+      SILVER:   { label: 'Pro',       icon: '🥈', color: '#94a3b8' },
+      GOLD:     { label: 'V.I.P',     icon: '🥇', color: '#fbbf24' },
+      DIAMOND:  { label: 'Diamond',   icon: '💎', color: '#a78bfa' },
     };
     return map[tier] || { label: tier, icon: '', color: '#64748b' };
   },

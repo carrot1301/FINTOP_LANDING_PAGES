@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
 import { PrismaService } from '../../common/database/prisma.service';
 import { AuditService } from '../../common/audit/audit.service';
 import { NotificationService } from '../notification/notification.service';
@@ -9,6 +9,7 @@ import {
   AUDIT_SOURCE,
   SIGNAL_STATUS,
   BLOG_STATUS,
+  INVOICE_STATUS,
   Prisma,
 } from '@prisma/client';
 import { CreatePlanDto, UpdatePlanDto } from './dto/plan.dto';
@@ -164,6 +165,7 @@ export class AdminService {
           dob: true,
           address: true,
           avatarUrl: true,
+          paymentProofUrl: true,
           tierLevel: true,
           status: true,
           createdAt: true,
@@ -205,6 +207,12 @@ export class AdminService {
               role: { select: { code: true, name: true } },
             },
           },
+          subscriptions: {
+            where: { status: 'ACTIVE' },
+            include: { plan: true },
+            orderBy: { createdAt: 'desc' },
+            take: 1,
+          },
         },
         orderBy: { createdAt: 'desc' },
         skip,
@@ -216,6 +224,8 @@ export class AdminService {
       ...u,
       roles: u.userRoles.map(ur => ur.role),
       userRoles: undefined,
+      activeSubscription: u.subscriptions?.[0] || null,
+      subscriptions: undefined,
     }));
 
     return {
@@ -739,7 +749,7 @@ export class AdminService {
         where,
         include: {
           author: { select: { fullName: true, email: true } },
-          category: { select: { name: true, slug: true } },
+          category: { select: { id: true, name: true, slug: true } },
         },
         orderBy: { createdAt: 'desc' },
         skip,
@@ -760,6 +770,7 @@ export class AdminService {
       createdAt: b.createdAt,
       author: b.author ? { fullName: b.author.fullName, email: b.author.email } : null,
       category: b.category,
+      categoryId: b.categoryId,
     }));
 
     return {
@@ -1034,7 +1045,31 @@ export class AdminService {
       this.prisma.invoice.findMany({
         where,
         include: {
-          user: { select: { fullName: true, email: true } },
+          user: {
+            select: {
+              fullName: true,
+              email: true,
+              phone: true,
+              stockAccount: true,
+              stockCompany: true,
+              paymentProofUrl: true,
+            },
+          },
+          subscription: {
+            select: {
+              id: true,
+              status: true,
+              startDate: true,
+              endDate: true,
+              isPermanent: true,
+              plan: {
+                select: {
+                  name: true,
+                  tierLevel: true,
+                },
+              },
+            },
+          },
           transactions: {
             select: { id: true, provider: true, status: true, amount: true, createdAt: true },
             take: 3,
@@ -1054,7 +1089,25 @@ export class AdminService {
       status: inv.status,
       dueDate: inv.dueDate,
       createdAt: inv.createdAt,
-      user: inv.user ? { fullName: inv.user.fullName, email: inv.user.email } : null,
+      user: inv.user ? {
+        fullName: inv.user.fullName,
+        email: inv.user.email,
+        phone: inv.user.phone,
+        stockAccount: inv.user.stockAccount,
+        stockCompany: inv.user.stockCompany,
+        paymentProofUrl: inv.user.paymentProofUrl,
+      } : null,
+      subscription: inv.subscription ? {
+        id: inv.subscription.id.toString(),
+        status: inv.subscription.status,
+        startDate: inv.subscription.startDate,
+        endDate: inv.subscription.endDate,
+        isPermanent: inv.subscription.isPermanent,
+        plan: inv.subscription.plan ? {
+          name: inv.subscription.plan.name,
+          tierLevel: inv.subscription.plan.tierLevel,
+        } : null,
+      } : null,
       transactions: inv.transactions.map(t => ({
         id: t.id.toString(),
         provider: t.provider,
@@ -1068,6 +1121,134 @@ export class AdminService {
       data: mapped,
       meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
     };
+  }
+
+  async approveInvoice(invoiceId: bigint, isPermanent: boolean, endDateStr?: string, adminId?: number) {
+    const invoice = await this.prisma.invoice.findUnique({
+      where: { id: invoiceId, deletedAt: null },
+      include: { user: true },
+    });
+
+    if (!invoice) {
+      throw new NotFoundException('Invoice not found');
+    }
+
+    // Find subscription plan matching invoice amount (or fallback)
+    const plan = await this.prisma.subscriptionPlan.findFirst({
+      where: { price: invoice.amount, status: 'ACTIVE', deletedAt: null },
+    }) || await this.prisma.subscriptionPlan.findFirst({
+      where: { status: 'ACTIVE', deletedAt: null },
+    });
+
+    if (!plan) {
+      throw new NotFoundException('No active subscription plan found');
+    }
+
+    const startDate = new Date();
+    let endDate = new Date();
+    if (isPermanent) {
+      endDate = new Date('2099-12-31T23:59:59.999Z');
+    } else if (endDateStr) {
+      endDate = new Date(endDateStr);
+    } else {
+      endDate.setDate(endDate.getDate() + plan.durationDays);
+    }
+
+    if (invoice.status === INVOICE_STATUS.PAID && invoice.subscriptionId) {
+      await this.prisma.userSubscription.update({
+        where: { id: invoice.subscriptionId },
+        data: {
+          startDate,
+          endDate,
+          isPermanent,
+        }
+      });
+      await this.prisma.user.update({
+        where: { id: invoice.userId },
+        data: { tierLevel: plan.tierLevel },
+      });
+      await this.prisma.auditLog.create({
+        data: {
+          userId: adminId || invoice.userId,
+          source: 'USER',
+          action: 'INVOICE_SUBSCRIPTION_UPDATED',
+          tableName: 'invoices',
+          recordId: invoiceId.toString(),
+          newValues: { planId: plan.id, isPermanent, endDate: endDate.toISOString() },
+        }
+      });
+      return { success: true };
+    }
+
+    if (invoice.status === INVOICE_STATUS.PAID) {
+      throw new ConflictException('Invoice already paid');
+    }
+
+    await this.prisma.$transaction(async (tx) => {
+      // 1. Create transaction record
+      await tx.transaction.create({
+        data: {
+          invoiceId,
+          provider: 'MANUAL',
+          providerId: `manual_admin_${adminId || 0}_${Date.now()}`,
+          amount: invoice.amount,
+          currency: invoice.currency,
+          status: 'SUCCESS',
+        }
+      });
+
+      // 2. Create UserSubscription
+      const subscription = await tx.userSubscription.create({
+        data: {
+          userId: invoice.userId,
+          planId: plan.id,
+          status: 'ACTIVE',
+          startDate,
+          endDate,
+          isPermanent,
+        }
+      });
+
+      // 3. Mark invoice as PAID
+      await tx.invoice.update({
+        where: { id: invoiceId },
+        data: {
+          status: INVOICE_STATUS.PAID,
+          subscriptionId: subscription.id,
+        }
+      });
+
+      // 4. Update user's tierLevel
+      await tx.user.update({
+        where: { id: invoice.userId },
+        data: { tierLevel: plan.tierLevel },
+      });
+
+      // 5. Audit Log
+      await tx.auditLog.create({
+        data: {
+          userId: adminId || invoice.userId,
+          source: 'USER',
+          action: 'INVOICE_APPROVED_MANUALLY',
+          tableName: 'invoices',
+          recordId: invoiceId.toString(),
+          newValues: { planId: plan.id, isPermanent, endDate: endDate.toISOString() },
+        }
+      });
+    });
+
+    // Send notification
+    try {
+      await this.notificationService.createNotification(
+        invoice.userId,
+        'Nâng cấp tài khoản',
+        `Tài khoản của bạn đã được quản trị viên duyệt nâng cấp lên gói ${plan.name} (${isPermanent ? 'Vô thời hạn' : 'Có thời hạn'}).`
+      );
+    } catch (err: any) {
+      this.logger.warn(`Failed to send approval notification to user ${invoice.userId}: ${err.message}`);
+    }
+
+    return { success: true };
   }
 
   // ─────────────────────────────────────────────────────

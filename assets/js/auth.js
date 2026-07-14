@@ -64,6 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Toggle active class
             userDropdownContainer.classList.toggle('active');
+            // Close bell dropdown if open
+            const bellContainer = document.getElementById('notifBellContainer');
+            if (bellContainer) bellContainer.classList.remove('active');
             e.stopPropagation(); // Prevent document click from firing immediately
         });
     }

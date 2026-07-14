@@ -136,9 +136,9 @@ function showCreateSignalForm() {
         <div class="admin-form-group">
           <label class="admin-form-label">Gói tối thiểu <span style="color:#F87171;">*</span></label>
           <select class="admin-select" id="signal-tier" style="width: 100%;">
-            <option value="GOLD">Vàng (GOLD)</option>
-            <option value="DIAMOND">Kim Cương (DIAMOND)</option>
-            <option value="SILVER">Bạc (SILVER)</option>
+            <option value="GOLD">V.I.P</option>
+            <option value="DIAMOND">Diamond</option>
+            <option value="SILVER">PRO</option>
             <option value="STANDARD">Standard</option>
           </select>
         </div>

@@ -51,6 +51,7 @@ const NavbarAuth = {
   renderAuthenticated(user) {
     const dropdownContainer = document.getElementById('userDropdownContainer');
     const startButton = document.getElementById('fintopStartBtn');
+    const bellContainer = document.getElementById('notifBellContainer');
 
     if (!dropdownContainer) return;
 
@@ -110,6 +111,7 @@ const NavbarAuth = {
     }
 
     // Replace dropdown contents: avatar, name/tier block, dynamic links, and logout/help
+    // NOTE: Notifications are NO LONGER inside this dropdown — they are in the bell icon
     dropdownContainer.innerHTML = `
       <div class="fintop-user-avatar" style="
         width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
@@ -130,15 +132,6 @@ const NavbarAuth = {
               border-radius: 4px; color: ${tierInfo.textColor};
               background: ${tierInfo.badgeBg}; letter-spacing: 0.5px;
             ">${tierInfo.icon} ${tierInfo.label}</span>
-          </div>
-        </div>
-        <div class="fintop-notifications-panel" style="padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); max-height: 220px; overflow-y: auto; width: 260px;">
-          <div style="font-size: 0.8rem; font-weight: 700; color: #a78bfa; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <span>🔔 THÔNG BÁO MỚI</span>
-            <span class="fintop-notif-unread-indicator" style="font-size: 0.7rem; background: #ef4444; color: white; padding: 1px 6px; border-radius: 99px; display: none;"></span>
-          </div>
-          <div class="fintop-notifications-list" style="display: flex; flex-direction: column; gap: 8px;">
-            <div style="font-size: 0.75rem; color: #64748b; text-align: center; padding: 10px 0;">Không có thông báo mới</div>
           </div>
         </div>
         ${dynamicLinksHTML}
@@ -164,8 +157,8 @@ const NavbarAuth = {
     // Hide "Bắt đầu" button when authenticated
     if (startButton) startButton.style.display = 'none';
 
-    // Add notification badge if not exists
-    this._addNotificationBadge(dropdownContainer);
+    // Show the notification bell icon
+    if (bellContainer) bellContainer.style.display = 'inline-flex';
 
     // Clear anti-flicker style overrides
     this._removeAntiFlicker();
@@ -177,6 +170,7 @@ const NavbarAuth = {
   renderGuest() {
     const dropdownContainer = document.getElementById('userDropdownContainer');
     const startButton = document.getElementById('fintopStartBtn');
+    const bellContainer = document.getElementById('notifBellContainer');
 
     if (!dropdownContainer) return;
 
@@ -196,6 +190,12 @@ const NavbarAuth = {
 
     // Show "Bắt đầu" button when guest
     if (startButton) startButton.style.display = '';
+
+    // Hide the notification bell icon when guest
+    if (bellContainer) {
+      bellContainer.style.display = 'none';
+      bellContainer.classList.remove('active');
+    }
 
     // Clear anti-flicker style overrides
     this._removeAntiFlicker();
@@ -230,13 +230,13 @@ const NavbarAuth = {
         badgeBg: 'rgba(100, 116, 139, 0.2)',
       },
       SILVER: {
-        label: 'SILVER', icon: '🥈', textColor: '#cbd5e1',
+        label: 'PRO', icon: '🥈', textColor: '#cbd5e1',
         gradient: 'linear-gradient(135deg, #64748b, #94a3b8)',
         borderColor: 'rgba(148, 163, 184, 0.5)', glowColor: 'rgba(148, 163, 184, 0.2)',
         badgeBg: 'rgba(148, 163, 184, 0.2)',
       },
       GOLD: {
-        label: 'GOLD', icon: '🥇', textColor: '#fbbf24',
+        label: 'V.I.P', icon: '🥇', textColor: '#fbbf24',
         gradient: 'linear-gradient(135deg, #b45309, #f59e0b)',
         borderColor: 'rgba(251, 191, 36, 0.5)', glowColor: 'rgba(251, 191, 36, 0.3)',
         badgeBg: 'rgba(251, 191, 36, 0.15)',
@@ -251,23 +251,6 @@ const NavbarAuth = {
     return map[tier] || map.STANDARD;
   },
 
-  _addNotificationBadge(container) {
-    // Add a notification badge dot near the avatar
-    const badge = document.createElement('span');
-    badge.setAttribute('data-notification-badge', '');
-    badge.id = 'fintopNavNotifBadge';
-    badge.style.cssText = `
-      position: absolute; top: -2px; right: -2px; min-width: 16px; height: 16px;
-      background: #ef4444; color: white; font-size: 0.65rem; font-weight: 700;
-      border-radius: 8px; display: none; align-items: center; justify-content: center;
-      padding: 0 4px; border: 1.5px solid #1e1b4b;
-    `;
-    const avatarEl = container.querySelector('.fintop-user-avatar');
-    if (avatarEl) {
-      avatarEl.style.position = 'relative';
-      avatarEl.appendChild(badge);
-    }
-  },
 };
 
 // ─────────────────────────────────────────────────────────────
@@ -430,7 +413,7 @@ const AuthUI = {
     });
 
     // Delegated click listener for notifications read
-    document.addEventListener('click', async (e) => {
+    const handleNotificationClick = async (e) => {
       const notifItem = e.target.closest('.fintop-notif-item');
       if (notifItem) {
         e.preventDefault();
@@ -444,6 +427,56 @@ const AuthUI = {
         const dot = notifItem.querySelector('.notif-dot');
         if (dot) dot.remove();
 
+        // Extrapolate values to show in detail modal
+        const titleEl = notifItem.querySelector('.notif-title');
+        const contentEl = notifItem.querySelector('.notif-content');
+        const timeEl = notifItem.querySelector('.notif-time');
+        
+        const titleText = titleEl ? titleEl.textContent.trim().replace(/[\n\r]+/g, ' ') : 'Thông báo';
+        const contentText = contentEl ? contentEl.innerHTML.trim() : '';
+        const timeText = timeEl ? timeEl.textContent.trim() : '';
+
+        // Close bell dropdown when opening detail modal
+        const bellContainer = document.getElementById('notifBellContainer');
+        if (bellContainer) bellContainer.classList.remove('active');
+
+        // Check if it is a membership upgrade notification
+        const isUpgrade = titleText.includes('Nâng cấp tài khoản');
+        
+        if (isUpgrade) {
+          // Open the modal immediately with a loading state, then fetch subscription details
+          this.showNotificationDetailModal({ 
+            title: titleText, 
+            content: contentText, 
+            time: timeText, 
+            isLoadingUpgrade: true 
+          });
+          
+          try {
+            const subResponse = await ApiClient.get('/users/subscription');
+            const subData = subResponse.data || subResponse || {};
+            
+            // Format subscription details
+            this.showNotificationDetailModal({ 
+              title: titleText, 
+              content: contentText, 
+              time: timeText, 
+              subscription: subData 
+            });
+          } catch (err) {
+            if (FintopEnv.DEBUG) console.error('[AuthUI] Failed to load subscription details:', err);
+            // Fallback: show standard modal
+            this.showNotificationDetailModal({ 
+              title: titleText, 
+              content: contentText, 
+              time: timeText 
+            });
+          }
+        } else {
+          // Open normal modal
+          this.showNotificationDetailModal({ title: titleText, content: contentText, time: timeText });
+        }
+
         try {
           await ApiClient.patch(`/users/notifications/${id}/read`);
           
@@ -456,6 +489,35 @@ const AuthUI = {
         } catch (err) {
           if (FintopEnv.DEBUG) console.error('[AuthUI] Failed to mark notification as read:', err);
         }
+      }
+    };
+
+    document.addEventListener('click', handleNotificationClick);
+    
+    // Bind to bell dropdown as well
+    const bellDropdownEl = document.getElementById('notifBellDropdown');
+    if (bellDropdownEl) {
+      bellDropdownEl.addEventListener('click', handleNotificationClick);
+    }
+
+    // Bell icon toggle handler
+    const bellBtn = document.getElementById('notifBellBtn');
+    const bellContainerEl = document.getElementById('notifBellContainer');
+    if (bellBtn && bellContainerEl) {
+      bellBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        bellContainerEl.classList.toggle('active');
+        // Close user dropdown if open
+        const userDropdown = document.getElementById('userDropdownContainer');
+        if (userDropdown) userDropdown.classList.remove('active');
+      });
+    }
+
+    // Close bell dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      const bellContainer = document.getElementById('notifBellContainer');
+      if (bellContainer && !bellContainer.contains(e.target)) {
+        bellContainer.classList.remove('active');
       }
     });
 
@@ -955,12 +1017,16 @@ const AuthUI = {
   },
 
   async loadNotifications() {
-    const listContainer = document.querySelector('.fintop-notifications-list');
+    // Target the notification list inside the bell dropdown
+    const bellDropdown = document.getElementById('notifBellDropdown');
+    const listContainer = bellDropdown ? bellDropdown.querySelector('.fintop-notifications-list') : document.querySelector('.fintop-notifications-list');
+    if (FintopEnv.DEBUG) console.log('[AuthUI] loadNotifications called. listContainer:', !!listContainer);
     if (!listContainer) return;
 
     try {
-      const response = await ApiClient.get('/users/notifications?limit=5');
+      const response = await ApiClient.get('/users/notifications?limit=10');
       const notifications = response?.data?.data || response?.data || [];
+      if (FintopEnv.DEBUG) console.log('[AuthUI] Loaded notifications:', notifications.length);
       this.renderNotificationsList(notifications);
 
       // Sync unread badge count from notifications
@@ -981,11 +1047,12 @@ const AuthUI = {
   },
 
   renderNotificationsList(notifications) {
-    const listContainer = document.querySelector('.fintop-notifications-list');
+    const bellDropdown = document.getElementById('notifBellDropdown');
+    const listContainer = bellDropdown ? bellDropdown.querySelector('.fintop-notifications-list') : document.querySelector('.fintop-notifications-list');
     if (!listContainer) return;
 
-    if (notifications.length === 0) {
-      listContainer.innerHTML = `<div style="font-size: 0.75rem; color: #64748b; text-align: center; padding: 10px 0;">Không có thông báo mới</div>`;
+    if (!Array.isArray(notifications) || notifications.length === 0) {
+      listContainer.innerHTML = `<div style="font-size: 0.8rem; color: #64748b; text-align: center; padding: 24px 0;">Không có thông báo mới</div>`;
       return;
     }
 
@@ -1003,16 +1070,17 @@ const AuthUI = {
     return `
       <div class="fintop-notif-item" data-id="${notif.id}" style="padding: 8px 10px; border-radius: 6px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.78rem; color: #cbd5e1; cursor: pointer; transition: all 0.2s ease; ${glowStyle}">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 4px;">
-          <div style="font-weight: 600;">${notif.title || 'Thông báo'} ${dotIndicator}</div>
-          <div style="font-size: 0.65rem; color: #64748b; white-space: nowrap;">${timeText}</div>
+          <div class="notif-title" style="font-weight: 600;">${notif.title || 'Thông báo'} ${dotIndicator}</div>
+          <div class="notif-time" style="font-size: 0.65rem; color: #64748b; white-space: nowrap;">${timeText}</div>
         </div>
-        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px; line-height: 1.4;">${notif.content || notif.message || ''}</div>
+        <div class="notif-content" style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px; line-height: 1.4;">${notif.content || notif.message || ''}</div>
       </div>
     `;
   },
 
   _handleIncomingNotification(notification) {
-    const listContainer = document.querySelector('.fintop-notifications-list');
+    const bellDropdown = document.getElementById('notifBellDropdown');
+    const listContainer = bellDropdown ? bellDropdown.querySelector('.fintop-notifications-list') : document.querySelector('.fintop-notifications-list');
     if (!listContainer) return;
 
     if (listContainer.innerHTML.includes('Không có thông báo mới')) {
@@ -1039,11 +1107,193 @@ const AuthUI = {
   },
 
   _updateNotificationBadge(count) {
+    // Update bell icon badge
+    const bellBadge = document.getElementById('notifBellBadge');
+    if (bellBadge) {
+      bellBadge.textContent = count > 0 ? (count > 99 ? '99+' : String(count)) : '';
+      bellBadge.style.display = count > 0 ? 'flex' : 'none';
+    }
+
+    // Also update any legacy badges
     const badges = document.querySelectorAll('[data-notification-badge]');
     badges.forEach(badge => {
       badge.textContent = count > 0 ? (count > 99 ? '99+' : String(count)) : '';
       badge.style.display = count > 0 ? 'flex' : 'none';
     });
+
+    // Update inner unread indicator in bell dropdown header
+    const innerBadge = document.querySelector('.fintop-notif-unread-indicator');
+    if (innerBadge) {
+      innerBadge.textContent = count > 0 ? String(count) : '';
+      innerBadge.style.display = count > 0 ? 'inline-block' : 'none';
+    }
+  },
+
+  showNotificationDetailModal({ title, content, time, isLoadingUpgrade, subscription }) {
+    let modalOverlay = document.getElementById('fintopNotifDetailModal');
+    if (!modalOverlay) {
+      modalOverlay = document.createElement('div');
+      modalOverlay.id = 'fintopNotifDetailModal';
+      modalOverlay.className = 'notif-modal-overlay';
+      document.body.appendChild(modalOverlay);
+
+      modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+          this.closeNotificationDetailModal();
+        }
+      });
+    }
+
+    let detailHTML = `<div style="margin-top: 10px;">${content}</div>`;
+
+    if (isLoadingUpgrade) {
+      detailHTML = `
+        <div style="margin-top: 10px;">${content}</div>
+        <div style="margin-top: 20px; padding: 15px; border-radius: 8px; border: 1px dashed rgba(168,85,247,0.3); background: rgba(168,85,247,0.02); text-align: center; color: #a855f7;">
+          <span style="display: inline-block; animation: fintop-spin 1s infinite linear; margin-right: 8px;">⏳</span> Đang tải chi tiết gói nâng cấp...
+        </div>
+      `;
+    } else if (subscription) {
+      const tier = (subscription.plan?.tierLevel || subscription.tierLevel || 'STANDARD').toUpperCase();
+      let rawPlanName = subscription.plan?.name || tier;
+      let planName = rawPlanName.toUpperCase().trim();
+      
+      // Unify plan names exactly to standard, pro 1 2 3, V.I.P and diamond
+      if (planName === 'SILVER') {
+        planName = 'PRO';
+      } else if (planName === 'GOLD' || planName === 'VIP') {
+        planName = 'V.I.P';
+      } else if (planName.startsWith('PRO')) {
+        const match = planName.match(/^PRO\s*(\d+)$/i);
+        if (match) {
+          planName = `PRO ${match[1]}`;
+        } else {
+          planName = 'PRO';
+        }
+      } else if (planName.startsWith('VIP')) {
+        const match = planName.match(/^VIP\s*(\d+)$/i);
+        if (match) {
+          planName = `V.I.P ${match[1]}`;
+        } else {
+          planName = 'V.I.P';
+        }
+      } else if (planName === 'STANDARD') {
+        planName = 'STANDARD';
+      } else if (planName === 'DIAMOND') {
+        planName = 'DIAMOND';
+      } else {
+        planName = rawPlanName
+          .replace(/silver/gi, 'PRO')
+          .replace(/gold/gi, 'V.I.P')
+          .replace(/vip/gi, 'V.I.P');
+      }
+      
+      let durationText = 'Không xác định';
+      if (subscription.endDate) {
+        const d = new Date(subscription.endDate);
+        if (!isNaN(d.getTime())) {
+          const day = String(d.getDate()).padStart(2, '0');
+          const month = String(d.getMonth() + 1).padStart(2, '0');
+          const year = d.getFullYear();
+          durationText = `${day}/${month}/${year}`;
+        }
+      } else {
+        durationText = 'Vĩnh viễn (Vô thời hạn)';
+      }
+
+      if (content.includes('Vô thời hạn') || content.includes('vô thời hạn')) {
+        durationText = 'Vĩnh viễn (Vô thời hạn)';
+      }
+
+      let privilegesHTML = '';
+      if (tier === 'SILVER') {
+        privilegesHTML = `
+          <div style="display: flex; gap: 8px; margin-bottom: 6px;">🟢 <span style="color:#e2e8f0;">Xem đặc quyền PRO Data</span></div>
+          <div style="display: flex; gap: 8px;">🟢 <span style="color:#e2e8f0;">Xem tín hiệu CG (Expert Signals)</span></div>
+        `;
+      } else if (tier === 'GOLD') {
+        privilegesHTML = `
+          <div style="display: flex; gap: 8px; margin-bottom: 6px;">🟢 <span style="color:#e2e8f0;">Xem đặc quyền PRO Data</span></div>
+          <div style="display: flex; gap: 8px; margin-bottom: 6px;">🟢 <span style="color:#e2e8f0;">Xem tín hiệu CG (Expert Signals)</span></div>
+          <div style="display: flex; gap: 8px;">🟢 <span style="color:#e2e8f0;">Sử dụng Bộ lọc cổ phiếu VIP</span></div>
+        `;
+      } else if (tier === 'DIAMOND') {
+        privilegesHTML = `
+          <div style="display: flex; gap: 8px; margin-bottom: 6px;">🟢 <span style="color:#e2e8f0;">Xem đặc quyền PRO Data</span></div>
+          <div style="display: flex; gap: 8px; margin-bottom: 6px;">🟢 <span style="color:#e2e8f0;">Xem tín hiệu CG (Expert Signals)</span></div>
+          <div style="display: flex; gap: 8px; margin-bottom: 6px;">🟢 <span style="color:#e2e8f0;">Sử dụng Bộ lọc cổ phiếu VIP</span></div>
+          <div style="display: flex; gap: 8px;">🟢 <span style="color:#a78bfa; font-weight:700;">Nhận hỗ trợ Cố vấn 1-1 Diamond</span></div>
+        `;
+      } else {
+        privilegesHTML = `<div style="color: #64748b; font-style: italic;">Quyền lợi mặc định cho tài khoản Standard.</div>`;
+      }
+
+      const badgeColor = tier === 'DIAMOND' ? '#a78bfa' : (tier === 'GOLD' ? '#fbbf24' : '#cbd5e1');
+
+      detailHTML = `
+        <div style="margin-bottom: 18px; color: #cbd5e1; font-size: 0.95rem; line-height: 1.5; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px;">
+          ${content}
+        </div>
+        <div style="background: rgba(168, 85, 247, 0.04); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.06); padding-bottom: 8px;">
+            <span style="color: #94a3b8; font-weight: 500;">Gói dịch vụ:</span>
+            <span style="color: ${badgeColor}; font-weight: 800; letter-spacing: 0.5px;">⭐ ${planName}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.06); padding-bottom: 8px;">
+            <span style="color: #94a3b8; font-weight: 500;">Hạn sử dụng:</span>
+            <span style="color: #fff; font-weight: 700;">${durationText}</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
+            <span style="color: #94a3b8; font-weight: 500; margin-bottom: 4px;">Quyền lợi được mở khóa:</span>
+            <div style="font-size: 0.8rem; line-height: 1.5; display: flex; flex-direction: column; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.02);">
+              ${privilegesHTML}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    modalOverlay.innerHTML = `
+      <div class="notif-modal-card">
+        <div class="notif-modal-header">
+          <div class="notif-modal-title">🔔 ${title}</div>
+          <button class="notif-modal-close-btn" type="button">&times;</button>
+        </div>
+        <div class="notif-modal-body">
+          <div class="notif-modal-time">⏱️ ${time}</div>
+          ${detailHTML}
+        </div>
+        <div class="notif-modal-footer">
+          <button class="notif-modal-btn" type="button">Đóng</button>
+        </div>
+      </div>
+    `;
+
+    const closeBtn = modalOverlay.querySelector('.notif-modal-close-btn');
+    const footerBtn = modalOverlay.querySelector('.notif-modal-btn');
+    [closeBtn, footerBtn].forEach(btn => {
+      if (btn) {
+        btn.addEventListener('click', () => this.closeNotificationDetailModal());
+      }
+    });
+
+    modalOverlay.style.display = 'flex';
+    setTimeout(() => {
+      modalOverlay.classList.add('active');
+    }, 10);
+
+    document.body.style.overflow = 'hidden';
+  },
+
+  closeNotificationDetailModal() {
+    const modalOverlay = document.getElementById('fintopNotifDetailModal');
+    if (modalOverlay) {
+      modalOverlay.classList.remove('active');
+      setTimeout(() => {
+        modalOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 300);
+    }
   },
 
   // ─────────────────────────────────────────────────────
@@ -1072,6 +1322,105 @@ const AuthUI = {
       }
       .fintop-hidden { display: none !important; }
       .fintop-locked { opacity: 0.5; pointer-events: none; }
+      
+      @keyframes fintop-spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      
+      /* Notification Detail Modal styling */
+      .notif-modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 10002;
+        background: rgba(7, 7, 13, 0.75);
+        backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        padding: 20px;
+      }
+      .notif-modal-overlay.active {
+        opacity: 1;
+      }
+      .notif-modal-card {
+        background: rgba(15, 15, 25, 0.95);
+        border: 1px solid rgba(168, 85, 247, 0.35);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 30px rgba(168, 85, 247, 0.1);
+        border-radius: 16px;
+        width: 100%;
+        max-width: 500px;
+        transform: scale(0.9);
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .notif-modal-overlay.active .notif-modal-card {
+        transform: scale(1);
+      }
+      .notif-modal-header {
+        padding: 20px 24px 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .notif-modal-title {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: #ffffff;
+        line-height: 1.4;
+      }
+      .notif-modal-close-btn {
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        font-size: 1.65rem;
+        cursor: pointer;
+        transition: color 0.2s;
+        padding: 0 0 0 12px;
+        line-height: 1;
+      }
+      .notif-modal-close-btn:hover {
+        color: #ffffff;
+      }
+      .notif-modal-body {
+        padding: 20px 24px 24px;
+        color: #cbd5e1;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        max-height: 350px;
+        overflow-y: auto;
+      }
+      .notif-modal-time {
+        font-size: 0.75rem;
+        color: #64748b;
+        margin-bottom: 12px;
+      }
+      .notif-modal-footer {
+        padding: 12px 24px 20px;
+        display: flex;
+        justify-content: flex-end;
+        border-top: 1px solid rgba(255,255,255,0.04);
+      }
+      .notif-modal-btn {
+        background: linear-gradient(135deg, #7c3aed, #a855f7);
+        color: white;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .notif-modal-btn:hover {
+        filter: brightness(1.1);
+        transform: translateY(-1px);
+      }
     `;
     document.head.appendChild(style);
   },

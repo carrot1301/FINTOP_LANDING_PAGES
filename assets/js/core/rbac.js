@@ -340,7 +340,7 @@ class RbacEvaluatorSingleton {
   showUpgradePrompt(container, requiredTier) {
     if (!container) return;
 
-    const tierNames = { SILVER: 'Bạc', GOLD: 'Vàng', DIAMOND: 'Kim Cương' };
+    const tierNames = { SILVER: 'PRO', GOLD: 'V.I.P', DIAMOND: 'DIAMOND' };
     const tierName = tierNames[requiredTier] || requiredTier;
 
     container.innerHTML = `
