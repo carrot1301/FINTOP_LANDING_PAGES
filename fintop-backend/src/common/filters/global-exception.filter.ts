@@ -64,9 +64,6 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   }
 
   private normalizePrismaError(error: Prisma.PrismaClientKnownRequestError, isStaging = false): string {
-    if (process.env.NODE_ENV !== 'production' || isStaging) {
-      return `[Prisma Error ${error.code}]: ${error.message}`;
-    }
     switch (error.code) {
       case 'P2002': {
         const target = error.meta?.target;
@@ -80,10 +77,13 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         return 'Bản ghi với trường dữ liệu duy nhất này đã tồn tại trên hệ thống.';
       }
       case 'P2025':
-        return 'Record not found for operation.';
+        return 'Bản ghi không tồn tại hoặc thao tác không hợp lệ.';
       case 'P2003':
-        return 'Foreign key constraint violation.';
+        return 'Lỗi liên kết dữ liệu (Foreign key constraint).';
       default:
+        if (process.env.NODE_ENV !== 'production' || isStaging) {
+          return `[Prisma Error ${error.code}]: ${error.message}`;
+        }
         return 'Database error occurred during request processing.';
     }
   }
