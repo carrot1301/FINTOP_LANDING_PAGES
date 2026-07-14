@@ -369,15 +369,16 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="stock-filter-lock-overlay" id="stockFilterLockOverlay" hidden>
-                <div class="stock-filter-lock-card">
-                    <h2>Đăng nhập để xem Bộ lọc cổ phiếu</h2>
-                    <p>Dữ liệu Model, xu hướng dòng tiền và các vùng kỹ thuật chỉ hiển thị sau khi tài khoản được xác thực.</p>
-                    <button class="stock-filter-lock-btn" type="button" onclick="openStockFilterLogin()">Đăng nhập</button>
-                </div>
-            </div>
+            <!-- Removed old lock overlay — access popups are now inline per-cell -->
         </div>
     </main>
+
+    <!-- Tier Access Popup Modal (shared by both guest + standard) -->
+    <div class="tier-popup-overlay" id="tierPopupOverlay" hidden>
+        <div class="tier-popup-card" id="tierPopupCard">
+            <!-- Content injected dynamically by JS -->
+        </div>
+    </div>
 
     <!-- Guide Popup Modal -->
     <div class="guide-overlay" id="guideOverlay" hidden>
@@ -399,19 +400,70 @@
         </div>
     </div>
 
-    <!-- Alert Popup Modal -->
-    <div class="guide-overlay" id="bolocAlertOverlay" hidden>
-        <div class="guide-card" style="border-color: rgba(168, 85, 247, 0.45);">
-            <h2 id="bolocAlertTitle" style="color: #c084fc; font-size: 1.25rem;">THÔNG BÁO HỘI VIÊN</h2>
-            <div class="guide-section" id="bolocAlertMsg" style="text-align: center; margin-top: 1rem; margin-bottom: 2rem; font-size: 0.95rem;">
-                <!-- Dynamically populated -->
-            </div>
-            <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-                <button class="guide-agree-btn" id="bolocAlertActionBtn" type="button">Xác nhận</button>
-                <button class="guide-agree-btn" id="bolocAlertCloseBtn" type="button" style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; box-shadow: none; border: 1px solid rgba(255,255,255,0.15);">Đóng</button>
-            </div>
-        </div>
-    </div>
+    <style>
+        /* ── Tier Popup Overlay ── */
+        .tier-popup-overlay {
+            position: fixed; inset: 0; z-index: 9998;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.72); backdrop-filter: blur(6px);
+        }
+        .tier-popup-overlay[hidden] { display: none; }
+        .tier-popup-card {
+            width: min(460px, calc(100vw - 32px));
+            border-radius: 16px;
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            background: rgba(12, 12, 22, 0.96);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 40px rgba(168, 85, 247, 0.08);
+            padding: 2.5rem 2rem 2rem;
+            text-align: center;
+        }
+        .tier-popup-card .popup-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .tier-popup-card h2 {
+            color: #fff; font-size: 1.2rem; font-weight: 800; margin-bottom: 0.75rem;
+        }
+        .tier-popup-card p {
+            color: #94a3b8; font-size: 0.92rem; line-height: 1.65; margin-bottom: 1.5rem;
+        }
+        .tier-popup-card .popup-actions {
+            display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+        }
+        .tier-popup-card .popup-btn-primary {
+            border: 0; border-radius: 10px; padding: 12px 28px; color: #fff;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            font-weight: 800; font-size: 0.95rem; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+            transition: all 0.25s;
+        }
+        .tier-popup-card .popup-btn-primary:hover {
+            transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+        }
+        .tier-popup-card .popup-btn-secondary {
+            border: 1px solid rgba(148,163,184,0.3); border-radius: 10px; padding: 12px 28px;
+            color: #94a3b8; background: transparent; font-weight: 700; font-size: 0.95rem;
+            cursor: pointer; transition: all 0.25s;
+        }
+        .tier-popup-card .popup-btn-secondary:hover {
+            border-color: rgba(148,163,184,0.6); color: #fff;
+        }
+        /* ── Eye reveal button in table cells ── */
+        .reveal-eye-btn {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: none; border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 6px; padding: 3px 8px; cursor: pointer;
+            color: #a78bfa; font-size: 0.78rem; font-weight: 600;
+            transition: all 0.2s;
+        }
+        .reveal-eye-btn:hover {
+            background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.5);
+            color: #c4b5fd;
+        }
+        .masked-cell {
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .masked-text {
+            color: #475569; font-weight: 700; letter-spacing: 2px; user-select: none;
+        }
+    </style>
 
     <footer class="page-footer" style="margin-top: 3rem;">
         <p>&copy; 2026 FinTop DATA. Bảo lưu mọi quyền.</p>
@@ -424,41 +476,82 @@
         (function() {
             let filterData = [];
 
-            // 1. Get elements
+            // ── DOM Elements ──
             const tbody = document.getElementById('bolocBody');
             const searchInput = document.getElementById('stockFilterSearch');
             const filterSan = document.getElementById('filterSan');
             const filterAct = document.getElementById('filterAct');
-            const toolbar = document.querySelector('.filter-toolbar');
-            const tableWrapper = document.querySelector('.data-table-wrapper');
-            const lockOverlay = document.getElementById('stockFilterLockOverlay');
+            const tierPopupOverlay = document.getElementById('tierPopupOverlay');
+            const tierPopupCard = document.getElementById('tierPopupCard');
 
-             function hasFullAccess() {
-                if (!window.FintopInfra?.AuthManager?.isAuthenticated) return false;
-                const user = window.FintopInfra?.AppState?.get('auth', 'user') || window.FintopInfra?.AppState?.getState('user') || {};
-                const tier = (user.tierLevel || 'STANDARD').toUpperCase();
-                return tier === 'SILVER' || tier === 'GOLD' || tier === 'DIAMOND';
-            }
+            // ── Tier helpers ──
+            const PRO_TIERS = ['SILVER', 'GOLD', 'DIAMOND'];
 
-            function hasLoggedIn() {
+            function isLoggedIn() {
                 return Boolean(window.FintopInfra?.AuthManager?.isAuthenticated);
             }
 
-            function setLockedState(isLocked) {
-                // Keep toolbar and wrapper unlocked, but clear simulated overlays
-                toolbar?.classList.remove('is-locked');
-                tableWrapper?.classList.remove('is-locked');
-                if (lockOverlay) lockOverlay.hidden = true;
-                [searchInput, filterSan, filterAct].forEach((control) => {
-                    if (control) control.disabled = false;
+            function getUserTier() {
+                if (!isLoggedIn()) return null; // guest
+                return window.FintopInfra?.AuthManager?.tierLevel || 'STANDARD';
+            }
+
+            function hasProAccess() {
+                const tier = getUserTier();
+                return tier && PRO_TIERS.includes(tier.toUpperCase());
+            }
+
+            // ── Popup logic ──
+            function showGuestLoginPopup() {
+                tierPopupCard.innerHTML = `
+                    <div class="popup-icon">🔒</div>
+                    <h2>Đăng nhập để xem chi tiết</h2>
+                    <p>Mã cổ phiếu và nhóm ngành chỉ hiển thị cho tài khoản đã đăng nhập.<br>Vui lòng đăng nhập hoặc đăng ký tài khoản để tiếp tục.</p>
+                    <div class="popup-actions">
+                        <button class="popup-btn-primary" onclick="window.location.href='../../index.html#login&redirect=' + encodeURIComponent(window.location.href)">Đăng nhập</button>
+                        <button class="popup-btn-secondary" onclick="window.location.href='../../index.html#panel-hoivien'">Đăng ký</button>
+                        <button class="popup-btn-secondary" onclick="closeTierPopup()">Đóng</button>
+                    </div>
+                `;
+                tierPopupOverlay.hidden = false;
+            }
+
+            function showUpgradePopup() {
+                tierPopupCard.innerHTML = `
+                    <div class="popup-icon">⭐</div>
+                    <h2>Nâng cấp gói PRO để xem chi tiết</h2>
+                    <p>Chức năng <strong>Bộ Lọc Cổ Phiếu</strong> chi tiết (Mã CP, Nhóm ngành) được cung cấp cho các tài khoản <strong>PRO trở lên</strong> (PRO, V.I.P, DIAMOND).<br><br>Hãy nâng cấp gói dịch vụ để xem dữ liệu chi tiết và trải nghiệm đầy đủ công cụ phân tích.</p>
+                    <div class="popup-actions">
+                        <button class="popup-btn-primary" onclick="window.location.href='../../index.html#panel-hoivien'">Nâng cấp gói dịch vụ</button>
+                        <button class="popup-btn-secondary" onclick="closeTierPopup()">Đóng</button>
+                    </div>
+                `;
+                tierPopupOverlay.hidden = false;
+            }
+
+            function closeTierPopup() {
+                tierPopupOverlay.hidden = true;
+            }
+            window.closeTierPopup = closeTierPopup;
+
+            function handleEyeClick() {
+                if (!isLoggedIn()) {
+                    showGuestLoginPopup();
+                } else {
+                    showUpgradePopup();
+                }
+            }
+            window.handleEyeClick = handleEyeClick;
+
+            // Close popup on overlay click (outside card)
+            if (tierPopupOverlay) {
+                tierPopupOverlay.addEventListener('click', (e) => {
+                    if (e.target === tierPopupOverlay) closeTierPopup();
                 });
             }
 
-            // 3. Load data
+            // ── Data loading ──
             async function loadData() {
-                setLockedState(false);
-
-                // If window.FintopInfra is ready, load from backend API first
                 if (window.FintopInfra) {
                     try {
                         const res = await window.FintopInfra.ApiClient.get('/market/stocks');
@@ -485,67 +578,35 @@
                         console.error('Backend stock fetch failed:', err);
                     }
                 }
-
-                // Show empty/error state when offline or no data
                 filterData = [];
                 renderTable(filterData);
             }
 
-            function getBadgeClass(status) {
-                if (status === 'very-positive' || status === 'very-pos') return 'badge very-pos';
-                if (status === 'positive' || status === 'pos') return 'badge pos';
-                if (status === 'ok') return 'badge ok';
-                if (status === 'neutral') return 'badge neutral';
-                if (status === 'negative' || status === 'neg') return 'badge neg';
-                return 'badge neutral';
-            }
-
+            // ── Badge helpers ──
             function getActionBadgeMarkup(statusText, status) {
                 const norm = (statusText || status || '').toUpperCase();
                 let bg = 'rgba(148, 163, 184, 0.14)';
                 let fg = '#E2E8F0';
                 let border = 'rgba(226, 232, 240, 0.22)';
-                let shadow = 'none';
-                
+
                 if (norm === 'RẤT TÍCH CỰC' || norm === 'VERY-POSITIVE' || norm === 'VERY-POS') {
-                    bg = 'rgba(168, 85, 247, 0.2)';
-                    fg = '#E9D5FF';
-                    border = 'rgba(216, 180, 254, 0.58)';
-                    shadow = 'none';
+                    bg = 'rgba(168, 85, 247, 0.2)'; fg = '#E9D5FF'; border = 'rgba(216, 180, 254, 0.58)';
                 } else if (norm === 'TÍCH CỰC' || norm === 'POS' || norm === 'POSITIVE') {
-                    bg = 'rgba(16, 185, 129, 0.18)';
-                    fg = '#A7F3D0';
-                    border = 'rgba(52, 211, 153, 0.55)';
-                    shadow = 'none';
+                    bg = 'rgba(16, 185, 129, 0.18)'; fg = '#A7F3D0'; border = 'rgba(52, 211, 153, 0.55)';
                 } else if (norm === 'KHẢ QUAN' || norm === 'OK') {
-                    bg = 'rgba(245, 158, 11, 0.16)';
-                    fg = '#FDE68A';
-                    border = 'rgba(251, 191, 36, 0.52)';
-                    shadow = 'none';
+                    bg = 'rgba(245, 158, 11, 0.16)'; fg = '#FDE68A'; border = 'rgba(251, 191, 36, 0.52)';
                 } else if (norm === 'TRUNG LẬP' || norm === 'NEUTRAL') {
-                    bg = 'rgba(59, 130, 246, 0.2)';
-                    fg = '#BFDBFE';
-                    border = 'rgba(96, 165, 250, 0.42)';
+                    bg = 'rgba(59, 130, 246, 0.2)'; fg = '#BFDBFE'; border = 'rgba(96, 165, 250, 0.42)';
                 } else if (norm === 'KO TÍCH CỰC') {
-                    bg = 'rgba(249, 115, 22, 0.16)';
-                    fg = '#FDBA74';
-                    border = 'rgba(251, 146, 60, 0.45)';
-                    shadow = 'none';
+                    bg = 'rgba(249, 115, 22, 0.16)'; fg = '#FDBA74'; border = 'rgba(251, 146, 60, 0.45)';
                 } else if (norm === 'TIÊU CỰC' || norm === 'NEG' || norm === 'NEGATIVE') {
-                    bg = 'rgba(239, 68, 68, 0.16)';
-                    fg = '#FCA5A5';
-                    border = 'rgba(248, 113, 113, 0.45)';
-                    shadow = 'none';
+                    bg = 'rgba(239, 68, 68, 0.16)'; fg = '#FCA5A5'; border = 'rgba(248, 113, 113, 0.45)';
                 }
-                
-                return `<span class="badge" style="display:inline-flex; justify-content:center; min-width:112px; background:${bg}; color:${fg}; border:1px solid ${border}; box-shadow:${shadow}; font-weight:800; padding:6px 12px; border-radius:999px; font-size:0.75rem;">${statusText || 'TRUNG LẬP'}</span>`;
+
+                return `<span class="badge" style="display:inline-flex; justify-content:center; min-width:112px; background:${bg}; color:${fg}; border:1px solid ${border}; font-weight:800; padding:6px 12px; border-radius:999px; font-size:0.75rem;">${statusText || 'TRUNG LẬP'}</span>`;
             }
 
-            function getTrendTextStyle(trend) {
-                return 'color: #C084FC;';
-            }
-
-            // 4. Render Table
+            // ── Render table ──
             function renderTable(data) {
                 tbody.innerHTML = '';
                 if (!data || data.length === 0) {
@@ -553,34 +614,51 @@
                     return;
                 }
 
-                const fullAccess = hasFullAccess();
+                const canSeeDetails = hasProAccess();
 
                 data.forEach((row, i) => {
                     const tr = document.createElement('tr');
                     tr.style.borderBottom = '1px solid rgba(15, 23, 42, 0.95)';
-                    
+
                     const actionBadge = getActionBadgeMarkup(row.statusText, row.status);
-                    const trendTextStyle = getTrendTextStyle(row.trend);
                     const rowBg = 'rgba(7, 25, 52, 0.96)';
                     const baseCellStyle = `padding: 12px 16px; background: ${rowBg};`;
 
-                    // Mask columns if no fullAccess
-                    const displayTicker = fullAccess
-                        ? row.ticker
-                        : `••• <span style="cursor:pointer; margin-left:6px; color:#c084fc;" class="eye-reveal-btn" title="Click để xem">👁️</span>`;
-                    const displayNganh = fullAccess
-                        ? row.nganh
-                        : `••••• <span style="cursor:pointer; margin-left:6px; color:#c084fc;" class="eye-reveal-btn" title="Click để xem">👁️</span>`;
+                    // Ticker cell — masked for non-PRO
+                    let tickerCell;
+                    if (canSeeDetails) {
+                        tickerCell = `<td style="${baseCellStyle} color: #fff; font-weight: 700; letter-spacing: 0.5px;">${row.ticker}</td>`;
+                    } else {
+                        tickerCell = `<td style="${baseCellStyle}">
+                            <span class="masked-cell">
+                                <span class="masked-text">•••</span>
+                                <button class="reveal-eye-btn" onclick="handleEyeClick()" title="Xem mã cổ phiếu">👁 Xem</button>
+                            </span>
+                        </td>`;
+                    }
+
+                    // Industry cell — masked for non-PRO
+                    let nganhCell;
+                    if (canSeeDetails) {
+                        nganhCell = `<td style="${baseCellStyle}">${row.nganh}</td>`;
+                    } else {
+                        nganhCell = `<td style="${baseCellStyle}">
+                            <span class="masked-cell">
+                                <span class="masked-text">••••••</span>
+                                <button class="reveal-eye-btn" onclick="handleEyeClick()" title="Xem nhóm ngành">👁 Xem</button>
+                            </span>
+                        </td>`;
+                    }
 
                     tr.innerHTML = `
                         <td style="${baseCellStyle}">${i + 1}</td>
-                        <td style="${baseCellStyle} color: #fff; font-weight: 700; letter-spacing: 0.5px;">${displayTicker}</td>
-                        <td style="${baseCellStyle}">${row.san}</td>
-                        <td style="${baseCellStyle}">${displayNganh}</td>
+                        ${tickerCell}
+                        <td style="${baseCellStyle}">${canSeeDetails ? row.san : '—'}</td>
+                        ${nganhCell}
                         <td style="${baseCellStyle} font-size: 0.8rem; color: #94a3b8;">${row.time}</td>
                         <td style="${baseCellStyle} max-width: 250px; line-height: 1.4; color: #cbd5e1;">${row.desc}</td>
                         <td style="${baseCellStyle} text-align: center;">${actionBadge}</td>
-                        <td style="${baseCellStyle} text-align: center; ${trendTextStyle} font-weight: 900; text-transform: uppercase;">${row.trend || '—'}</td>
+                        <td style="${baseCellStyle} text-align: center; color: #C084FC; font-weight: 900; text-transform: uppercase;">${row.trend || '—'}</td>
                         <td style="${baseCellStyle} color: #E2E8F0; font-weight: 700;">${row.vungKiemDinh}</td>
                         <td style="padding: 12px 16px; background: linear-gradient(135deg, rgba(45, 33, 82, 0.95), rgba(16, 22, 39, 0.93)); color: #C084FC; font-weight: 900;">${row.khangCu}</td>
                         <td style="${baseCellStyle} color: #FBBF24; font-weight: 900;">${row.hoTro}</td>
@@ -589,60 +667,13 @@
                 });
             }
 
-            // Show popup notification when user clicks the eye icon
-            function showRestrictionPopup() {
-                const alertOverlay = document.getElementById('bolocAlertOverlay');
-                const alertTitle = document.getElementById('bolocAlertTitle');
-                const alertMsg = document.getElementById('bolocAlertMsg');
-                const actionBtn = document.getElementById('bolocAlertActionBtn');
-                const closeBtn = document.getElementById('bolocAlertCloseBtn');
-
-                if (!alertOverlay || !alertMsg || !actionBtn || !closeBtn) return;
-
-                const loggedIn = hasLoggedIn();
-                if (loggedIn) {
-                    alertTitle.textContent = "NÂNG CẤP HỘI VIÊN";
-                    alertMsg.innerHTML = "Tính năng này chỉ cung cấp cho các tài khoản <strong>PRO trở lên</strong>.<br>Vui lòng nâng cấp gói dịch vụ để xem dữ liệu chi tiết.";
-                    actionBtn.textContent = "NÂNG CẤP NGAY";
-                    actionBtn.onclick = () => {
-                        window.location.href = '../../index.html#panel-hoivien';
-                    };
-                } else {
-                    alertTitle.textContent = "YÊU CẦU ĐĂNG NHẬP";
-                    alertMsg.innerHTML = "Vui lòng đăng nhập để xem thông tin chi tiết.";
-                    actionBtn.textContent = "ĐĂNG NHẬP NGAY";
-                    actionBtn.onclick = () => {
-                        try {
-                            sessionStorage.setItem('fintop_login_redirect', window.location.href);
-                        } catch (e) {}
-                        window.location.href = '../../index.html#login';
-                    };
-                }
-
-                closeBtn.onclick = () => {
-                    alertOverlay.hidden = true;
-                };
-
-                alertOverlay.hidden = false;
-            }
-
-            // Event delegation on tbody to detect eye reveal button clicks
-            tbody.addEventListener('click', (e) => {
-                const eyeBtn = e.target.closest('.eye-reveal-btn');
-                if (eyeBtn) {
-                    e.preventDefault();
-                    showRestrictionPopup();
-                }
-            });
-
-            // 5. Filter & Search handlers
+            // ── Filter & Search ──
             function applyFilters() {
                 const q = (searchInput.value || '').trim().toUpperCase();
                 const san = filterSan.value;
                 const act = filterAct.value;
 
                 let filtered = [...filterData];
-
                 if (q) {
                     filtered = filtered.filter(s => s.ticker.includes(q) || s.nganh.toUpperCase().includes(q));
                 }
@@ -652,7 +683,6 @@
                 if (act) {
                     filtered = filtered.filter(s => (s.statusText || '').toUpperCase() === act.toUpperCase());
                 }
-
                 renderTable(filtered);
             }
 
@@ -668,7 +698,7 @@
                 searchInput.addEventListener('blur', () => { searchInput.style.borderColor = 'rgba(168, 85, 247, 0.25)'; });
             }
 
-            // Bootstrap loading
+            // ── Bootstrap ──
             function checkInfra() {
                 if (window.FintopInfra) {
                     const events = window.FintopInfra.AppState?.EVENTS;
@@ -691,7 +721,6 @@
             function showGuidePopup() {
                 if (guideOverlay) guideOverlay.hidden = false;
             }
-
             function hideGuidePopup() {
                 if (guideOverlay) guideOverlay.hidden = true;
             }
@@ -699,19 +728,11 @@
             if (guideAgreeBtn) {
                 guideAgreeBtn.addEventListener('click', () => {
                     hideGuidePopup();
-                    // If logged in, mark as accepted so it won't show again
-                    if (hasLoggedIn()) {
-                        try { localStorage.setItem(GUIDE_STORAGE_KEY, 'true'); } catch(e) {}
-                    }
+                    try { localStorage.setItem(GUIDE_STORAGE_KEY, 'true'); } catch(e) {}
                 });
             }
 
             function shouldShowGuide() {
-                if (!hasLoggedIn()) {
-                    // Not logged in → always show
-                    return true;
-                }
-                // Logged in → show only if not previously accepted
                 try {
                     return localStorage.getItem(GUIDE_STORAGE_KEY) !== 'true';
                 } catch(e) {
@@ -719,7 +740,7 @@
                 }
             }
 
-            // Load initial data
+            // Load data immediately (API is now public)
             loadData();
             checkInfra();
 
