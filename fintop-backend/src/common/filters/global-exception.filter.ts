@@ -61,6 +61,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   }
 
   private normalizePrismaError(error: Prisma.PrismaClientKnownRequestError): string {
+    if (process.env.NODE_ENV !== 'production') {
+      return `[Prisma Error ${error.code}]: ${error.message}`;
+    }
     switch (error.code) {
       case 'P2002': {
         const target = error.meta?.target;
