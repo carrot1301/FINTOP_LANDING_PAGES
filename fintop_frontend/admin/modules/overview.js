@@ -1,5 +1,5 @@
 /**
- * overview.js — Admin Dashboard Overview Module (Upgraded Premium Edition)
+ * overview.js — Admin Dashboard Overview Module (Upgraded Premium Edition with Charts)
  */
 import { esc, formatNumber, formatDate, statusBadge, tierBadge, showToast } from '../admin-shell.js';
 
@@ -12,10 +12,13 @@ export default {
   icon: '📊',
 
   async render(container) {
-    container.innerHTML = '<div class="admin-loading"><div class="admin-spinner"></div> Đang tải và cấu hình Dashboard...</div>';
+    container.innerHTML = '<div class="admin-loading"><div class="admin-spinner"></div> Đang tải dữ liệu và cấu hình biểu đồ...</div>';
 
     try {
-      // 1. Fetch all dashboard data concurrently
+      // 1. Load Chart.js dynamically from CDN first
+      await loadChartJs();
+
+      // 2. Fetch all dashboard data concurrently
       const [overviewRes, invoicesRes, usersRes, auditRes] = await Promise.all([
         API().get(EP().ADMIN_OVERVIEW),
         API().get(EP().ADMIN_BILLING_INVOICES + '?limit=1000'),
@@ -107,6 +110,26 @@ export default {
           )}
         </div>
 
+        <!-- Visual Charts Section (Bento grid style) -->
+        <div class="dashboard-two-col-layout">
+          <div class="dashboard-feed-card" style="min-height: 320px;">
+            <div class="dashboard-feed-header">
+              <div class="dashboard-feed-title">📈 Xu hướng doanh thu (7 ngày qua)</div>
+            </div>
+            <div style="position: relative; flex: 1; width: 100%;">
+              <canvas id="revenueTrendChart" style="max-height: 250px; width: 100%;"></canvas>
+            </div>
+          </div>
+          <div class="dashboard-feed-card" style="min-height: 320px;">
+            <div class="dashboard-feed-header">
+              <div class="dashboard-feed-title">🍩 Tỷ lệ gói hội viên đã mua</div>
+            </div>
+            <div style="position: relative; flex: 1; display: flex; align-items: center; justify-content: center; width: 100%;">
+              <canvas id="tierDistributionChart" style="max-height: 220px; max-width: 220px;"></canvas>
+            </div>
+          </div>
+        </div>
+
         <!-- Two Column Action Center -->
         <div class="dashboard-two-col-layout">
           
@@ -161,7 +184,7 @@ export default {
                     <div style="display:flex; flex-direction:column; gap:2px;">
                       <div style="font-weight:700; color:#fff; font-size:0.82rem;">${esc(u.fullName || '—')}</div>
                       <div style="font-size:0.72rem; color:var(--text-muted);">${esc(u.email)}</div>
-                      <div style="font-size:0.68rem; color:var(--text-muted); margin-top:2px;">ĐT: ${esc(u.phone || '—')} · Kênh: ${formatDate(u.createdAt)}</div>
+                      <div style="font-size:0.68rem; color:var(--text-muted); margin-top:2px;">ĐT: ${esc(u.phone || '—')} · Tham gia: ${formatDate(u.createdAt)}</div>
                     </div>
                     <div>
                       ${tierBadge(u.tierLevel || 'STANDARD')}
@@ -238,6 +261,10 @@ export default {
           </div>
         </div>
       `;
+
+      // 3. Render charts
+      renderCharts(allInvoices, deletedIds, approvedIds);
+
     } catch (err) {
       container.innerHTML = `
         <div class="admin-empty-state">
@@ -251,6 +278,150 @@ export default {
 
   destroy() {},
 };
+
+function loadChartJs() {
+  return new Promise((resolve, reject) => {
+    if (window.Chart) {
+      resolve();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+    script.onload = () => resolve();
+    script.onerror = (err) => reject(err);
+    document.head.appendChild(script);
+  });
+}
+
+function renderCharts(allInvoices, deletedIds, approvedIds) {
+  // Aggregate revenue trend (Last 7 Days)
+  const last7Days = [];
+  const revenueData = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const dateLabel = `${day}/${month}`;
+    last7Days.push(dateLabel);
+    
+    let daySum = 0;
+    allInvoices.forEach(inv => {
+      if (deletedIds.includes(inv.id)) return;
+      const isPaid = inv.status === 'PAID' || approvedIds.includes(inv.id);
+      if (isPaid) {
+        const invDate = new Date(inv.createdAt);
+        const invDay = String(invDate.getDate()).padStart(2, '0');
+        const invMonth = String(invDate.getMonth() + 1).padStart(2, '0');
+        const invDateLabel = `${invDay}/${invMonth}`;
+        if (invDateLabel === dateLabel) {
+          daySum += Number(inv.amount || 0);
+        }
+      }
+    });
+    revenueData.push(daySum);
+  }
+
+  // Aggregate user packages distribution
+  let silverCount = 0;
+  let goldCount = 0;
+  let diamondCount = 0;
+
+  allInvoices.forEach(inv => {
+    if (deletedIds.includes(inv.id)) return;
+    const isPaid = inv.status === 'PAID' || approvedIds.includes(inv.id);
+    if (isPaid) {
+      const tier = getInvoiceTier(inv.amount);
+      if (tier === 'SILVER') silverCount++;
+      else if (tier === 'GOLD') goldCount++;
+      else if (tier === 'DIAMOND') diamondCount++;
+    }
+  });
+
+  // Render line chart
+  const ctxLine = document.getElementById('revenueTrendChart')?.getContext('2d');
+  if (ctxLine) {
+    new window.Chart(ctxLine, {
+      type: 'line',
+      data: {
+        labels: last7Days,
+        datasets: [{
+          label: 'Doanh thu (đ)',
+          data: revenueData,
+          borderColor: '#7c3aed',
+          backgroundColor: 'rgba(124, 58, 237, 0.08)',
+          borderWidth: 2.5,
+          fill: true,
+          tension: 0.35,
+          pointBackgroundColor: '#a855f7',
+          pointBorderColor: '#fff',
+          pointHoverRadius: 6,
+          pointRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `Doanh thu: ${context.parsed.y.toLocaleString('vi-VN')} đ`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: '#94a3b8', font: { size: 10 } }
+          },
+          y: {
+            grid: { color: 'rgba(255, 255, 255, 0.04)' },
+            ticks: {
+              color: '#94a3b8',
+              font: { size: 10 },
+              callback: function(value) {
+                if (value >= 1000000) return (value / 1000000) + 'M';
+                if (value >= 1000) return (value / 1000) + 'K';
+                return value;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Render doughnut chart
+  const ctxDoughnut = document.getElementById('tierDistributionChart')?.getContext('2d');
+  if (ctxDoughnut) {
+    new window.Chart(ctxDoughnut, {
+      type: 'doughnut',
+      data: {
+        labels: ['PRO (Silver)', 'V.I.P (Gold)', 'DIAMOND'],
+        datasets: [{
+          data: [silverCount, goldCount, diamondCount],
+          backgroundColor: ['#94a3b8', '#F59E0B', '#3b82f6'],
+          borderColor: '#151521',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: '#94a3b8', boxWidth: 10, font: { size: 10 }, padding: 12 }
+          }
+        },
+        cutout: '65%'
+      }
+    });
+  }
+}
 
 function kpiCard(icon, value, label, sub, glowColor, isCurrency = false) {
   let displayVal = '0';
