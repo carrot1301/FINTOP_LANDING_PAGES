@@ -581,89 +581,67 @@
             color: rgba(226, 232, 240, 0.58);
         }
 
-        .boloc-access-overlay {
-            position: absolute;
-            inset: 62px 0 0;
-            z-index: 8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 48px 24px;
-            background:
-                radial-gradient(circle at center, rgba(168, 85, 247, 0.22), rgba(7, 7, 13, 0.72) 42%, rgba(7, 7, 13, 0.9)),
-                linear-gradient(180deg, rgba(7, 7, 13, 0.25), rgba(7, 7, 13, 0.86));
-            backdrop-filter: blur(2px);
+        /* ── Tier Popup Overlay (Bộ lọc) ── */
+        .boloc-tier-popup-overlay {
+            position: fixed; inset: 0; z-index: 9998;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.72); backdrop-filter: blur(6px);
         }
-
-        .boloc-access-overlay[hidden] {
-            display: none;
-        }
-
-        .boloc-access-card {
-            width: min(440px, calc(100vw - 32px));
-            border-radius: 8px;
-            border: 1px solid rgba(216, 180, 254, 0.42);
-            background: rgba(10, 10, 18, 0.92);
-            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.48);
-            padding: 24px;
+        .boloc-tier-popup-overlay[hidden] { display: none; }
+        .boloc-tier-popup-card {
+            width: min(460px, calc(100vw - 32px));
+            border-radius: 16px;
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            background: rgba(12, 12, 22, 0.96);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 40px rgba(168, 85, 247, 0.08);
+            padding: 2.5rem 2rem 2rem;
             text-align: center;
         }
-
-        .boloc-access-eyebrow {
-            color: #fbbf24;
-            font-size: 0.76rem;
-            font-weight: 900;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-bottom: 8px;
+        .boloc-tier-popup-card .popup-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .boloc-tier-popup-card h2 {
+            color: #fff; font-size: 1.2rem; font-weight: 800; margin-bottom: 0.75rem;
         }
-
-        .boloc-access-title {
-            color: #fff;
-            font-size: 1.25rem;
-            font-weight: 900;
-            line-height: 1.35;
-            margin-bottom: 10px;
+        .boloc-tier-popup-card p {
+            color: #94a3b8; font-size: 0.92rem; line-height: 1.65; margin-bottom: 1.5rem;
         }
-
-        .boloc-access-desc {
-            color: #cbd5e1;
-            font-size: 0.9rem;
-            line-height: 1.65;
-            margin-bottom: 18px;
+        .boloc-tier-popup-card .popup-actions {
+            display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
         }
-
-        .boloc-access-actions {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .boloc-login-btn,
-        .boloc-register-btn {
-            border: 0;
-            border-radius: 8px;
-            padding: 11px 16px;
-            color: #fff;
-            font-weight: 800;
-            cursor: pointer;
-            transition: transform 0.2s ease, filter 0.2s ease;
-        }
-
-        .boloc-login-btn {
+        .boloc-tier-popup-card .popup-btn-primary {
+            border: 0; border-radius: 10px; padding: 12px 28px; color: #fff;
             background: linear-gradient(135deg, #7c3aed, #a855f7);
+            font-weight: 800; font-size: 0.95rem; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+            transition: all 0.25s;
         }
-
-        .boloc-register-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+        .boloc-tier-popup-card .popup-btn-primary:hover {
+            transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
         }
-
-        .boloc-login-btn:hover,
-        .boloc-register-btn:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.08);
+        .boloc-tier-popup-card .popup-btn-secondary {
+            border: 1px solid rgba(148,163,184,0.3); border-radius: 10px; padding: 12px 28px;
+            color: #94a3b8; background: transparent; font-weight: 700; font-size: 0.95rem;
+            cursor: pointer; transition: all 0.25s;
+        }
+        .boloc-tier-popup-card .popup-btn-secondary:hover {
+            border-color: rgba(148,163,184,0.6); color: #fff;
+        }
+        /* ── Eye reveal button in table cells ── */
+        .boloc-reveal-eye-btn {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: none; border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 6px; padding: 3px 8px; cursor: pointer;
+            color: #a78bfa; font-size: 0.78rem; font-weight: 600;
+            transition: all 0.2s;
+        }
+        .boloc-reveal-eye-btn:hover {
+            background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.5);
+            color: #c4b5fd;
+        }
+        .boloc-masked-cell {
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .boloc-masked-text {
+            color: #475569; font-weight: 700; letter-spacing: 2px; user-select: none;
         }
 
         .boloc-table-title {
@@ -4627,18 +4605,13 @@
                 <tbody id="bolocBody">
                 </tbody>
             </table>
-            <div class="boloc-access-overlay" id="bolocAccessOverlay" hidden>
-                <div class="boloc-access-card">
-                    <div class="boloc-access-eyebrow">Khu vực hội viên</div>
-                    <div class="boloc-access-title">Đăng nhập để xem Bộ lọc cổ phiếu</div>
-                    <div class="boloc-access-desc">
-                        Bảng trạng thái Model, sức mạnh xu hướng và vùng kỹ thuật chỉ hiển thị sau khi tài khoản được xác thực.
-                    </div>
-                    <div class="boloc-access-actions">
-                        <button class="boloc-login-btn" type="button" onclick="openBolocLogin('login')">Đăng nhập</button>
-                        <button class="boloc-register-btn" type="button" onclick="openBolocLogin('register')">Đăng ký</button>
-                    </div>
-                </div>
+            <!-- Removed old lock overlay — tier popups are now triggered per-cell -->
+        </div>
+
+        <!-- Tier Access Popup Modal (bộ lọc) -->
+        <div class="boloc-tier-popup-overlay" id="bolocTierPopupOverlay" hidden>
+            <div class="boloc-tier-popup-card" id="bolocTierPopupCard">
+                <!-- Content injected dynamically by JS -->
             </div>
         </div>
         <div class="boloc-disclaimer">
@@ -7282,19 +7255,28 @@
             return '#C084FC';
         }
 
-        function hasFullAccess() {
-            if (!window.FintopInfra?.AuthManager?.isAuthenticated) return false;
-            const user = window.FintopInfra?.AppState?.get('auth', 'user') || window.FintopInfra?.AppState?.getState('user') || {};
-            const tier = (user.tierLevel || 'STANDARD').toUpperCase();
-            return tier === 'SILVER' || tier === 'GOLD' || tier === 'DIAMOND';
+        // ── Tier helpers for Bộ Lọc ──
+        const BOLOC_PRO_TIERS = ['SILVER', 'GOLD', 'DIAMOND'];
+
+        function isBolocLoggedIn() {
+            const Infra = window.FintopInfra;
+            if (!Infra) return false;
+            return Boolean(Infra.AuthManager?.isAuthenticated);
         }
 
-        function hasLoggedIn() {
-            return Boolean(window.FintopInfra?.AuthManager?.isAuthenticated);
+        function getBolocUserTier() {
+            if (!isBolocLoggedIn()) return null; // guest
+            return window.FintopInfra?.AuthManager?.tierLevel || 'STANDARD';
         }
 
+        function hasBolocProAccess() {
+            const tier = getBolocUserTier();
+            return tier && BOLOC_PRO_TIERS.includes(tier.toUpperCase());
+        }
+
+        // Keep old name for filter logic compatibility
         function hasBolocAccess() {
-            return true;
+            return true; // Data is now accessible to everyone — masking is handled in render
         }
 
         function openBolocLogin(view = 'login') {
@@ -7305,26 +7287,71 @@
             window.location.href = 'index.html#panel-boloc';
         }
 
-        function setBolocLockedState(isLocked) {
-            const panel = document.getElementById('panel-boloc');
-            const wrapper = panel?.querySelector('.dark-table-wrapper');
-            const filterBar = panel?.querySelector('.boloc-filter-bar');
-            const overlay = document.getElementById('bolocAccessOverlay');
-            const statusSelect = document.getElementById('bolocStatusFilter');
-            const strengthSelect = document.getElementById('bolocStrengthFilter');
-            const resetBtn = panel?.querySelector('.boloc-filter-reset');
+        // ── Tier Popup logic ──
+        function showBolocGuestPopup() {
+            const card = document.getElementById('bolocTierPopupCard');
+            const overlay = document.getElementById('bolocTierPopupOverlay');
+            if (!card || !overlay) return;
+            card.innerHTML = `
+                <div class="popup-icon">🔒</div>
+                <h2>Đăng nhập để xem chi tiết</h2>
+                <p>Mã cổ phiếu và nhóm ngành chỉ hiển thị cho tài khoản đã đăng nhập.<br>Vui lòng đăng nhập hoặc đăng ký tài khoản để tiếp tục.</p>
+                <div class="popup-actions">
+                    <button class="popup-btn-primary" onclick="openBolocLogin('login')">Đăng nhập</button>
+                    <button class="popup-btn-secondary" onclick="openBolocLogin('register')">Đăng ký</button>
+                    <button class="popup-btn-secondary" onclick="closeBolocTierPopup()">Đóng</button>
+                </div>
+            `;
+            overlay.hidden = false;
+        }
 
-            panel?.classList.remove('boloc-locked');
-            wrapper?.classList.remove('is-locked');
-            filterBar?.classList.remove('is-locked');
+        function showBolocUpgradePopup() {
+            const card = document.getElementById('bolocTierPopupCard');
+            const overlay = document.getElementById('bolocTierPopupOverlay');
+            if (!card || !overlay) return;
+            card.innerHTML = `
+                <div class="popup-icon">⭐</div>
+                <h2>Nâng cấp gói PRO để xem chi tiết</h2>
+                <p>Chức năng <strong>Bộ Lọc Cổ Phiếu</strong> chi tiết (Mã CP, Nhóm ngành) được cung cấp cho các tài khoản <strong>PRO trở lên</strong> (PRO, V.I.P, DIAMOND).<br><br>Hãy nâng cấp gói dịch vụ để xem dữ liệu chi tiết và trải nghiệm đầy đủ công cụ phân tích.</p>
+                <div class="popup-actions">
+                    <button class="popup-btn-primary" onclick="window.location.hash='panel-hoivien'; closeBolocTierPopup();">Nâng cấp gói dịch vụ</button>
+                    <button class="popup-btn-secondary" onclick="closeBolocTierPopup()">Đóng</button>
+                </div>
+            `;
+            overlay.hidden = false;
+        }
+
+        function closeBolocTierPopup() {
+            const overlay = document.getElementById('bolocTierPopupOverlay');
             if (overlay) overlay.hidden = true;
-            [statusSelect, strengthSelect, resetBtn].forEach((control) => {
-                if (control) control.disabled = false;
-            });
+        }
+        window.closeBolocTierPopup = closeBolocTierPopup;
+
+        function handleBolocEyeClick() {
+            if (!isBolocLoggedIn()) {
+                showBolocGuestPopup();
+            } else {
+                showBolocUpgradePopup();
+            }
+        }
+        window.handleBolocEyeClick = handleBolocEyeClick;
+
+        // Close popup on overlay click
+        (function() {
+            const overlay = document.getElementById('bolocTierPopupOverlay');
+            if (overlay) {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) closeBolocTierPopup();
+                });
+            }
+        })();
+
+        function setBolocLockedState(isLocked) {
+            // No longer used — data always shows, masking is per-cell
         }
 
         function renderBolocLockedPreview() {
-            // Deprecated, table is never locked at row-level anymore
+            // No longer used — replaced by three-tier rendering in renderBolocTable
         }
 
         function getFilteredBolocData() {
@@ -7341,14 +7368,6 @@
             const statusSelect = document.getElementById('bolocStatusFilter');
             const strengthSelect = document.getElementById('bolocStrengthFilter');
             if (!statusSelect || !strengthSelect) return;
-
-            if (!hasBolocAccess()) {
-                statusSelect.innerHTML = '<option value="">Đăng nhập để lọc Trạng thái Model</option>';
-                strengthSelect.innerHTML = '<option value="">Đăng nhập để lọc Sức mạnh xu hướng</option>';
-                statusSelect.disabled = true;
-                strengthSelect.disabled = true;
-                return;
-            }
 
             const statuses = [...new Set(BOLOC_DATA.map(getBolocStatusText).filter(Boolean))];
             const strengths = [...new Set(BOLOC_DATA.map(getBolocStrengthText).filter(Boolean))];
@@ -7438,11 +7457,7 @@
         // =====================
         function renderBolocTable() {
             const tbody = document.getElementById('bolocBody');
-            if (!tbody) return;
             tbody.innerHTML = '';
-            populateBolocFilterOptions();
-
-            setBolocLockedState(false);
             populateBolocFilterOptions();
 
             const rows = getFilteredBolocData();
@@ -7469,7 +7484,7 @@
                 return;
             }
 
-            const fullAccess = hasFullAccess();
+            const canSeeDetails = hasBolocProAccess();
 
             rows.forEach((d, i) => {
                 const tr = document.createElement('tr');
@@ -7480,19 +7495,27 @@
                 const statusColors = getBolocStatusColors(statusText);
                 const strengthTextColor = getBolocStrengthTextColor(strengthText);
 
-                // Mask ticker and industry if no fullAccess
-                const displayTicker = fullAccess
-                    ? d.ticker
-                    : `••• <span style="cursor:pointer; margin-left:6px; color:#c084fc;" class="eye-reveal-btn" title="Click để xem">👁️</span>`;
-                const displayNganh = fullAccess
-                    ? d.nganh
-                    : `••••• <span style="cursor:pointer; margin-left:6px; color:#c084fc;" class="eye-reveal-btn" title="Click để xem">👁️</span>`;
+                // Ticker cell — masked for non-PRO
+                let tickerCell;
+                if (canSeeDetails) {
+                    tickerCell = `<td class="ticker-cell">${escapeHtml(d.ticker)}</td>`;
+                } else {
+                    tickerCell = `<td class="ticker-cell"><span class="boloc-masked-cell"><span class="boloc-masked-text">•••</span><button class="boloc-reveal-eye-btn" onclick="handleBolocEyeClick()" title="Xem mã cổ phiếu">👁 Xem</button></span></td>`;
+                }
+
+                // Industry cell — masked for non-PRO
+                let nganhCell;
+                if (canSeeDetails) {
+                    nganhCell = `<td>${escapeHtml(d.nganh)}</td>`;
+                } else {
+                    nganhCell = `<td><span class="boloc-masked-cell"><span class="boloc-masked-text">••••••</span><button class="boloc-reveal-eye-btn" onclick="handleBolocEyeClick()" title="Xem nhóm ngành">👁 Xem</button></span></td>`;
+                }
 
                 tr.innerHTML = `
                     <td>${i + 1}</td>
-                    <td class="ticker-cell">${displayTicker}</td>
-                    <td>${escapeHtml(d.san)}</td>
-                    <td>${displayNganh}</td>
+                    ${tickerCell}
+                    <td>${canSeeDetails ? escapeHtml(d.san) : '—'}</td>
+                    ${nganhCell}
                     <td class="time-cell">${escapeHtml(formatStockDisplayTime(d.time))}</td>
                     <td class="desc-cell">${escapeHtml(d.desc)}</td>
                     <td class="boloc-status-cell">
@@ -7503,70 +7526,18 @@
                     <td class="price-cell">${escapeHtml(d.khangCu)}</td>
                     <td class="boloc-support-cell">${escapeHtml(d.hoTro)}</td>
                 `;
-                // Make ticker cell clickable to change chart (only if fullAccess)
-                const tickerTd = tr.querySelector('.ticker-cell');
-                if (tickerTd && fullAccess) {
-                    tickerTd.classList.add('ticker-clickable');
-                    tickerTd.title = `Nhấn để xem biểu đồ ${d.ticker}`;
-                    tickerTd.addEventListener('click', () => loadChart(d.ticker, 'boloc'));
+                // Make ticker cell clickable to change chart (only for PRO)
+                if (canSeeDetails) {
+                    const tickerTd = tr.querySelector('.ticker-cell');
+                    if (tickerTd) {
+                        tickerTd.classList.add('ticker-clickable');
+                        tickerTd.title = `Nhấn để xem biểu đồ ${d.ticker}`;
+                        tickerTd.addEventListener('click', () => loadChart(d.ticker, 'boloc'));
+                    }
                 }
                 tbody.appendChild(tr);
             });
         }
-
-        // Show popup notification when user clicks the eye icon on the homepage
-        function showRestrictionPopup() {
-            const alertOverlay = document.getElementById('bolocAlertOverlay');
-            const alertTitle = document.getElementById('bolocAlertTitle');
-            const alertMsg = document.getElementById('bolocAlertMsg');
-            const actionBtn = document.getElementById('bolocAlertActionBtn');
-            const closeBtn = document.getElementById('bolocAlertCloseBtn');
-
-            if (!alertOverlay || !alertMsg || !actionBtn || !closeBtn) return;
-
-            const loggedIn = hasLoggedIn();
-            if (loggedIn) {
-                alertTitle.textContent = "NÂNG CẤP HỘI VIÊN";
-                alertMsg.innerHTML = "Tính năng này chỉ cung cấp cho các tài khoản <strong>PRO trở lên</strong>.<br>Vui lòng nâng cấp gói dịch vụ để xem dữ liệu chi tiết.";
-                actionBtn.textContent = "NÂNG CẤP NGAY";
-                actionBtn.onclick = () => {
-                    alertOverlay.hidden = true;
-                    if (typeof openPanel === 'function') {
-                        openPanel('panel-hoivien');
-                        const targetEl = document.getElementById('panel-hoivien');
-                        if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                };
-            } else {
-                alertTitle.textContent = "YÊU CẦU ĐĂNG NHẬP";
-                alertMsg.innerHTML = "Vui lòng đăng nhập để xem thông tin chi tiết.";
-                actionBtn.textContent = "ĐĂNG NHẬP NGAY";
-                actionBtn.onclick = () => {
-                    alertOverlay.hidden = true;
-                    openBolocLogin('login');
-                };
-            }
-
-            closeBtn.onclick = () => {
-                alertOverlay.hidden = true;
-            };
-
-            alertOverlay.hidden = false;
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const tbody = document.getElementById('bolocBody');
-            if (tbody) {
-                tbody.addEventListener('click', (e) => {
-                    const eyeBtn = e.target.closest('.eye-reveal-btn');
-                    if (eyeBtn) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        showRestrictionPopup();
-                    }
-                });
-            }
-        });
 
         // =====================
         // TÍN HIỆU CHUYÊN GIA
@@ -8363,6 +8334,12 @@
             if (isStockHydrated) return;
             const Infra = window.FintopInfra;
             if (!Infra) return;
+            if (!Infra.AuthManager?.isAuthenticated) {
+                if (document.getElementById('panel-boloc')?.classList.contains('active') || bolocRendered) {
+                    renderBolocTable();
+                }
+                return;
+            }
             const API = () => Infra.ApiClient;
             const EP = () => Infra.FintopEnv.API_ENDPOINTS;
             try {
@@ -8371,9 +8348,7 @@
                 if (Array.isArray(list) && list.length > 0) {
                     BOLOC_DATA = mapStockPricesToFilter(list);
                     STOCK_DB = mapStockPricesToSearch(list);
-                    if (bolocRendered || document.getElementById('panel-boloc')?.classList.contains('active')) {
-                        renderBolocTable();
-                    }
+                    if (bolocRendered) renderBolocTable();
                     isStockHydrated = true;
                     console.log('[Backend Hydrate] Stock filter data loaded from backend:', list.length);
                 }
@@ -9639,21 +9614,8 @@
                     </div>
                 </div>
             </div>
-    </div>
-
-    <!-- Alert Popup Modal -->
-    <div id="bolocAlertOverlay" hidden style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(4, 4, 8, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 9999;">
-        <div style="background: rgba(10, 10, 18, 0.95); border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 16px; padding: 32px; max-width: 580px; width: 90%; box-shadow: 0 24px 60px rgba(0,0,0,0.8), 0 0 40px rgba(168,85,247,0.1); text-align: left;">
-            <h2 id="bolocAlertTitle" style="font-size: 1.25rem; font-weight: 900; color: #c084fc; margin-bottom: 20px; letter-spacing: 0.05em; text-align: center; text-shadow: 0 0 15px rgba(168, 85, 247, 0.5);">THÔNG BÁO HỘI VIÊN</h2>
-            <div id="bolocAlertMsg" style="font-size: 0.95rem; line-height: 1.65; color: #cbd5e1; margin-top: 1rem; margin-bottom: 2rem; text-align: center;">
-                <!-- Dynamically populated -->
-            </div>
-            <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-                <button id="bolocAlertActionBtn" type="button" style="padding: 10px 24px; border-radius: 8px; border: none; background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; font-weight: 800; font-size: 0.9rem; cursor: pointer; box-shadow: 0 8px 24px rgba(168,85,247,0.25); transition: all 0.2s ease;">Xác nhận</button>
-                <button id="bolocAlertCloseBtn" type="button" style="padding: 10px 24px; border-radius: 8px; background: rgba(255, 255, 255, 0.08); color: #cbd5e1; box-shadow: none; border: 1px solid rgba(255,255,255,0.15); font-weight: 800; font-size: 0.9rem; cursor: pointer;">Đóng</button>
-            </div>
         </div>
-    </div>
+
 
 </body>
 
