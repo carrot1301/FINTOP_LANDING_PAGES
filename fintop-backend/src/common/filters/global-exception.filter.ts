@@ -68,10 +68,11 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       case 'P2002': {
         const target = error.meta?.target;
         const targetStr = Array.isArray(target) ? target.join(', ') : String(target || '');
-        if (targetStr.includes('phone')) {
+        const messageStr = error.message || '';
+        if (targetStr.includes('phone') || messageStr.includes('phone')) {
           return 'Số điện thoại này đã được sử dụng bởi một tài khoản khác.';
         }
-        if (targetStr.includes('email')) {
+        if (targetStr.includes('email') || messageStr.includes('email')) {
           return 'Địa chỉ email này đã được sử dụng bởi một tài khoản khác.';
         }
         return 'Bản ghi với trường dữ liệu duy nhất này đã tồn tại trên hệ thống.';
