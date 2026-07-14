@@ -7495,7 +7495,7 @@
                 if (canSeeDetails) {
                     tickerCell = `<td class="ticker-cell">${escapeHtml(d.ticker)}</td>`;
                 } else {
-                    tickerCell = `<td class="ticker-cell"><span class="boloc-masked-cell"><span class="boloc-masked-text">•••</span><button class="boloc-reveal-eye-btn" onclick="handleBolocEyeClick()" title="Xem mã cổ phiếu">👁 Xem</button></span></td>`;
+                    tickerCell = `<td class="ticker-cell"><span class="boloc-masked-cell"><span class="boloc-masked-text">•••</span><button class="boloc-reveal-eye-btn" title="Xem mã cổ phiếu">👁 Xem</button></span></td>`;
                 }
 
                 // Industry cell — masked for non-PRO
@@ -7503,7 +7503,7 @@
                 if (canSeeDetails) {
                     nganhCell = `<td>${escapeHtml(d.nganh)}</td>`;
                 } else {
-                    nganhCell = `<td><span class="boloc-masked-cell"><span class="boloc-masked-text">••••••</span><button class="boloc-reveal-eye-btn" onclick="handleBolocEyeClick()" title="Xem nhóm ngành">👁 Xem</button></span></td>`;
+                    nganhCell = `<td><span class="boloc-masked-cell"><span class="boloc-masked-text">••••••</span><button class="boloc-reveal-eye-btn" title="Xem nhóm ngành">👁 Xem</button></span></td>`;
                 }
 
                 tr.innerHTML = `
@@ -7521,6 +7521,16 @@
                     <td class="price-cell">${escapeHtml(d.khangCu)}</td>
                     <td class="boloc-support-cell">${escapeHtml(d.hoTro)}</td>
                 `;
+
+                // Bind reveal action to eye buttons dynamically
+                tr.querySelectorAll('.boloc-reveal-eye-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleBolocEyeClick();
+                    });
+                });
+
                 // Make ticker cell clickable to change chart (only for PRO)
                 if (canSeeDetails) {
                     const tickerTd = tr.querySelector('.ticker-cell');
