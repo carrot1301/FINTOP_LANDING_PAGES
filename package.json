@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "node static_server.js"
+  },
   "dependencies": {
     "@nestjs/websockets": "^11.1.21",
     "bullmq": "^5.76.9",

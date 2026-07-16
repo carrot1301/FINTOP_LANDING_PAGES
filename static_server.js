@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-let PORT = 8080;
+let PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080;
 const PROJECT_ROOT = __dirname;
 const FRONTEND_ROOT = path.join(PROJECT_ROOT, 'fintop_frontend');
 
@@ -159,7 +159,7 @@ function startServer(p) {
 
 server.on('error', (err) => {
   if (err.code === 'EACCES' || err.code === 'EADDRINUSE') {
-    if (PORT === 8080) {
+    if (PORT === 8080 && !process.env.PORT) {
       console.warn(`[FinTop Static Server] Port 8080 is reserved or in use. Falling back to port 8081...`);
       PORT = 8081;
       startServer(PORT);
