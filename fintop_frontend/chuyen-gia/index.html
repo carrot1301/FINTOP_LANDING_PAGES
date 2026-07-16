@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../assets/css/variables.css">
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/demo-pages.css">
     <link rel="stylesheet" href="../assets/css/modals.css">
     <link rel="stylesheet" href="../assets/css/auth.css">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -415,7 +416,52 @@
         <div class="tv-left">
             <a href="../index.html"><img src="../assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo"></a>
         </div>
-        <ul class="tv-nav" id="navMenu"></ul>
+        <ul class="tv-nav">
+            <li class="nav-item"><a href="../index.html">Trang chủ</a></li>
+            <li class="nav-item"><a href="../index.html#panel-hoivien">Hội viên</a></li>
+            <li class="nav-item dropdown" id="dropdown-fintop-data">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../index.html#panel-tracuu">📊 Tra cứu cổ phiếu</a>
+                    <a href="../index.html#panel-boloc">🔍 Bộ lọc cổ phiếu <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../fintop-ai/index.html">🤖 FinTop AI</a>
+                    <a href="../index.html#panel-tinhieu">📡 Copy Trade Chuyên gia</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-stock-data">
+                <a href="../stock-data/index.html">Dữ liệu <span style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../stock-data/index.html#quant">Quant Data</a>
+                    <a href="../stock-data/index.html#pro-data">PRO Data <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../stock-data/index.html#sector">Dữ liệu ngành</a>
+                    <a href="../stock-data/index.html#reports">Báo cáo</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-phan-tich">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../nghien-cuu/thi-truong/index.html">Nghiên cứu thị trường</a>
+                    <a href="../nghien-cuu/chuyen-sau/index.html">Nghiên cứu chuyên sâu <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../nghien-cuu/doanh-nghiep/index.html">Nghiên cứu Doanh nghiệp</a>
+                    <a href="../nghien-cuu/nhom-nganh/index.html">Nghiên cứu nhóm Ngành</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="dropdown-huongdan">
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span
+                        style="font-size: 0.7em;">▼</span></a>
+                <div class="dropdown-content">
+                    <a href="../index.html#panel-guide-trading">📖 Giao dịch & Đầu tư</a>
+                    <a href="../index.html#panel-guide-ta">📈 Phân tích kỹ thuật (TA)</a>
+                    <a href="../index.html#panel-guide-fa">📊 Phân tích cơ bản (FA)</a>
+                    <a href="../index.html#panel-guide-library">📚 Tủ sách đầu tư</a>
+                </div>
+            </li>
+        </ul>
         <div class="tv-right">
             <span style="color:#94A3B8;font-size:0.9rem;cursor:pointer;">VI</span>
             <!-- User Menu Area -->
@@ -512,23 +558,10 @@
     <!-- Bootstrap Infrastructure -->
     <script src="../assets/js/modals.js" defer></script>
     <script src="../assets/js/auth.js" defer></script>
+    <script src="../assets/js/demo-nav.js"></script>
     <script type="module" src="../assets/js/core/index.js"></script>
     <script>
     (function(){
-        // Render Navbar
-        var navItems = [
-            {text:'Trang chủ', href:'../index.html'},
-            {text:'Hội viên', href:'../index.html#panel-hoivien'},
-            {text:'Tín hiệu CG', href:'../fintop-data/tin-hieu/index.html'},
-            {text:'Danh mục CG', href:'../fintop-data/danh-muc/index.html'},
-            {text:'FinTop AI', href:'../fintop-ai/index.html'},
-            {text:'Hướng dẫn', href:'../index.html#panel-guide-trading'}
-        ];
-        var html = navItems.map(function(n){
-            return '<li><a href="'+n.href+'">'+n.text+'</a></li>';
-        }).join('');
-        document.getElementById('navMenu').innerHTML = html;
-
         function getRelativeTimeString(date) {
             var now = new Date();
             var diffMs = now - date;
