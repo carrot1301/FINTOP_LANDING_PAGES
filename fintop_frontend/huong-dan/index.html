@@ -2,6 +2,17 @@
 <html lang="vi">
 
 <head>
+    <script>
+        (function() {
+            var hash = window.location.hash;
+            var targetHash = '#panel-guide-library';
+            if (hash === '#trading') targetHash = '#panel-guide-trading';
+            else if (hash === '#ta') targetHash = '#panel-guide-ta';
+            else if (hash === '#fa') targetHash = '#panel-guide-fa';
+            else if (hash === '#library') targetHash = '#panel-guide-library';
+            window.location.replace('../index.html' + targetHash);
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hướng dẫn | FinTop DATA</title>
@@ -64,10 +75,10 @@
                 <a href="javascript:void(0)" class="active-page" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="../huong-dan/index.html#trading">📖 Giao dịch & Đầu tư</a>
-                    <a href="../huong-dan/index.html#ta">📈 Phân tích kỹ thuật (TA)</a>
-                    <a href="../huong-dan/index.html#fa">📊 Phân tích cơ bản (FA)</a>
-                    <a href="../huong-dan/index.html#library">📚 Tủ sách đầu tư</a>
+                    <a href="../index.html#panel-guide-trading">📖 Giao dịch & Đầu tư</a>
+                    <a href="../index.html#panel-guide-ta">📈 Phân tích kỹ thuật (TA)</a>
+                    <a href="../index.html#panel-guide-fa">📊 Phân tích cơ bản (FA)</a>
+                    <a href="../index.html#panel-guide-library">📚 Tủ sách đầu tư</a>
                 </div>
             </li>
         </ul>
@@ -77,7 +88,7 @@
                 <span class="icon-link" style="cursor: pointer;">👤</span>
                 <div class="user-dropdown-menu">
                     <a href="../index.html#login" class="user-dropdown-item login-btn">👤 Đăng nhập</a>
-                    <a href="../huong-dan/index.html" class="user-dropdown-item">Trung tâm Trợ giúp</a>
+                    <a href="../index.html#panel-guide-trading" class="user-dropdown-item">Trung tâm Trợ giúp</a>
                     <a href="../index.html" class="user-dropdown-item">Có gì mới</a>
                 </div>
             </div>
