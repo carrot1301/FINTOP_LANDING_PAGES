@@ -1,0 +1,42 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/hoi-vien",
+      "destination": "/index.html#panel-hoivien",
+      "permanent": false
+    },
+    {
+      "source": "/hoi-vien/",
+      "destination": "/index.html#panel-hoivien",
+      "permanent": false
+    },
+    {
+      "source": "/hoi-vien/index.html",
+      "destination": "/index.html#panel-hoivien",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/assets/:path*",
+      "destination": "/assets/:path*"
+    },
+    {
+      "source": "/data/:path*",
+      "destination": "/data/:path*"
+    },
+    {
+      "source": "/index.html",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/chuyen-gia/:slug",
+      "destination": "/fintop_frontend/chuyen-gia/index.html"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/fintop_frontend/:path*"
+    }
+  ]
+}
