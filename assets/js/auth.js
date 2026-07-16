@@ -253,7 +253,6 @@ async function updateAdminAccessLink() {
  */
 function openAuthModal(view = 'login') {
     const authOverlay = document.getElementById('authModalOverlay');
-    const wasOpen = authOverlay?.classList.contains('active');
     
     // Close user dropdown if open
     const userDropdownContainer = document.getElementById('userDropdownContainer');
@@ -262,6 +261,7 @@ function openAuthModal(view = 'login') {
     }
     
     if (authOverlay) {
+        const wasOpen = authOverlay.classList.contains('active');
         // Switch to requested view first
         switchAuthView(view, false);
 
@@ -287,6 +287,9 @@ function openAuthModal(view = 'login') {
         if (window.RegisterStepper) {
             window.RegisterStepper.render();
         }
+    } else {
+        // Fallback for pages that don't have the auth modal HTML markup: redirect to root index.html with hash
+        window.location.href = '/index.html#' + (view === 'register' ? 'register' : 'login');
     }
 }
 
