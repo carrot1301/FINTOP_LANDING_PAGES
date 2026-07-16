@@ -1216,6 +1216,7 @@
             font-size: 0.78rem;
             font-weight: 900;
             cursor: pointer;
+            text-decoration: none;
             transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
@@ -5840,8 +5841,8 @@
     <div class="submenu-panel" id="panel-guide-library">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Tủ Sách Đầu Tư</h2>
-            <p>Cẩm nang đầu tư demo được chuyển từ website cũ, trình bày lại theo phong cách FinTop DATA.</p>
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Cẩm Nang Đầu Tư</h2>
+            <p>Tổng hợp 73 tài liệu, bài viết và video từ các chuyên gia, tác giả kinh điển trong lĩnh vực đầu tư chứng khoán.</p>
         </div>
         <div class="function-shell">
             <section class="function-hero">
@@ -5857,13 +5858,13 @@
                     <span class="function-kicker">Trạng thái thư viện</span>
                     <div class="function-metric-list">
                         <div class="function-metric-row"><span>Tủ sách</span>
-                            <div class="function-bar"><span style="--value: 86%;"></span></div><strong>14</strong>
+                            <div class="function-bar"><span style="--value: 100%;"></span></div><strong>33</strong>
                         </div>
-                        <div class="function-metric-row"><span>Chủ đề</span>
-                            <div class="function-bar"><span style="--value: 72%;"></span></div><strong>10</strong>
+                        <div class="function-metric-row"><span>Bài học TA</span>
+                            <div class="function-bar"><span style="--value: 80%;"></span></div><strong>19</strong>
                         </div>
-                        <div class="function-metric-row"><span>Cập nhật</span>
-                            <div class="function-bar"><span style="--value: 64%;"></span></div><strong>Demo</strong>
+                        <div class="function-metric-row"><span>FA + CK</span>
+                            <div class="function-bar"><span style="--value: 50%;"></span></div><strong>15</strong>
                         </div>
                     </div>
                 </aside>
@@ -5871,7 +5872,7 @@
 
             <div class="library-layout">
                 <div class="function-table-card">
-                    <table class="function-table library-table">
+                    <table class="function-table library-table" id="libraryTable">
                         <thead>
                             <tr>
                                 <th>STT</th>
@@ -5879,136 +5880,147 @@
                                 <th>Link</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="stt-cell">1</td>
-                                <td class="content-cell">Nhà đầu tư thành công - William O'Neil</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Nhà đầu tư thành công - William ONeil')">Chi
-                                        tiết</button></td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">2</td>
-                                <td class="content-cell">Chết vì chứng khoán - Jesse Livermore</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Chết vì chứng khoán - Jesse Livermore')">Chi
-                                        tiết</button></td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">3</td>
-                                <td class="content-cell">Nhà đầu tư thông minh - Benjamin Graham</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Nhà đầu tư thông minh - Benjamin Graham')">Chi
-                                        tiết</button></td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">4</td>
-                                <td class="content-cell">Quy tắc số 1 - Phil Town</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Quy tắc số 1 - Phil Town')">Chi tiết</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">5</td>
-                                <td class="content-cell">Cổ phiếu thường, Lợi nhuận phi thường</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Cổ phiếu thường, Lợi nhuận phi thường')">Chi
-                                        tiết</button></td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">6</td>
-                                <td class="content-cell">Phương pháp đầu tư của Warren Buffett</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Phương pháp đầu tư của Warren Buffett')">Chi
-                                        tiết</button></td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">7</td>
-                                <td class="content-cell">Bí quyết đầu tư của tỷ phú Warren Buffett</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Bí quyết đầu tư của tỷ phú Warren Buffett')">Chi
-                                        tiết</button></td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">8</td>
-                                <td class="content-cell">Báo cáo tài chính dưới góc nhìn Warren Buffett</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Báo cáo tài chính dưới góc nhìn Warren Buffett')">Chi
-                                        tiết</button></td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">9</td>
-                                <td class="content-cell">Phong cách đầu tư Warren Buffett</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Phong cách đầu tư Warren Buffett')">Chi
-                                        tiết</button></td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">10</td>
-                                <td class="content-cell">Ngay cả Warren Buffett cũng không hoàn hảo</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Ngay cả Warren Buffett cũng không hoàn hảo')">Chi
-                                        tiết</button></td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">11</td>
-                                <td class="content-cell">Sách lược đầu tư của Warren Buffett</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Sách lược đầu tư của Warren Buffett')">Chi
-                                        tiết</button></td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">12</td>
-                                <td class="content-cell">Đạo của Warren Buffett</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Đạo của Warren Buffett')">Chi tiết</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">13</td>
-                                <td class="content-cell">Lý thuyết hộp Darvas - Nicolas Darvas</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Lý thuyết hộp Darvas - Nicolas Darvas')">Chi
-                                        tiết</button></td>
-                            </tr>
-                            <tr>
-                                <td class="stt-cell">14</td>
-                                <td class="content-cell">Một Las Vegas khác - Nicolas Darvas</td>
-                                <td><button class="library-detail-link"
-                                        onclick="alert('Mở tài liệu demo: Một Las Vegas khác - Nicolas Darvas')">Chi
-                                        tiết</button></td>
-                            </tr>
+                        <tbody id="libraryTableBody">
+                            <!-- Populated by JS -->
                         </tbody>
                     </table>
                 </div>
 
                 <aside class="function-card">
                     <span class="function-kicker">Danh mục cẩm nang</span>
-                    <div class="library-category-list">
-                        <a class="library-category-item active" href="javascript:void(0)"><span
-                                class="library-category-icon">▣</span>Tủ sách đầu tư</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span
-                                class="library-category-icon">▣</span>Kiến thức phân tích kỹ thuật (TA)</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span
-                                class="library-category-icon">▣</span>Kiến thức phân tích cơ bản (FA)</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span
-                                class="library-category-icon">▣</span>Kiến thức chứng khoán, TTCK</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span
-                                class="library-category-icon">◉</span>Chỉ số hàng hóa</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span
-                                class="library-category-icon">⌁</span>Chứng khoán thế giới</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span
-                                class="library-category-icon">◎</span>Coins</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span
-                                class="library-category-icon">¥</span>Forex</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span
-                                class="library-category-icon">▤</span>Tin kinh tế</a>
-                        <a class="library-category-item" href="javascript:void(0)"><span
-                                class="library-category-icon">◒</span>Tin thế giới</a>
+                    <div class="library-category-list" id="libraryCategoryList">
+                        <a class="library-category-item active" href="javascript:void(0)" onclick="switchLibraryCategory('TU_SACH_DAU_TU', this)"><span
+                                class="library-category-icon">📚</span>Tủ sách đầu tư <small style="opacity:.5">(33)</small></a>
+                        <a class="library-category-item" href="javascript:void(0)" onclick="switchLibraryCategory('KT_TA', this)"><span
+                                class="library-category-icon">📊</span>Kiến thức phân tích kỹ thuật (TA) <small style="opacity:.5">(19)</small></a>
+                        <a class="library-category-item" href="javascript:void(0)" onclick="switchLibraryCategory('KT_FA', this)"><span
+                                class="library-category-icon">📈</span>Kiến thức phân tích cơ bản (FA) <small style="opacity:.5">(4)</small></a>
+                        <a class="library-category-item" href="javascript:void(0)" onclick="switchLibraryCategory('KT_TTCK', this)"><span
+                                class="library-category-icon">🏛️</span>Kiến thức chứng khoán, TTCK <small style="opacity:.5">(11)</small></a>
+                        <hr style="border-color: rgba(255,255,255,0.08); margin: 8px 0;">
+                        <a class="library-category-item" href="https://vn.investing.com/indices/global-indices?commodities=on&r_id=" target="_blank"><span
+                                class="library-category-icon">🌍</span>Chỉ số hàng hóa ↗</a>
+                        <a class="library-category-item" href="https://vn.investing.com/indices/major-indices" target="_blank"><span
+                                class="library-category-icon">📈</span>Chứng khoán thế giới ↗</a>
+                        <a class="library-category-item" href="https://vn.investing.com/crypto/" target="_blank"><span
+                                class="library-category-icon">💰</span>Coins ↗</a>
+                        <a class="library-category-item" href="https://vn.investing.com/currencies/" target="_blank"><span
+                                class="library-category-icon">💱</span>Forex ↗</a>
+                        <a class="library-category-item" href="https://vn.investing.com/news/economy" target="_blank"><span
+                                class="library-category-icon">💵</span>Tin kinh tế ↗</a>
+                        <a class="library-category-item" href="https://vn.investing.com/news/world-news" target="_blank"><span
+                                class="library-category-icon">🌏</span>Tin thế giới ↗</a>
                     </div>
                 </aside>
             </div>
         </div>
+        <script>
+        (function(){
+            var libraryData = {
+                TU_SACH_DAU_TU: [
+                    ['Nhà đầu tư thành công - Wiliam ONeil','https://drive.google.com/open?id=1pnbZmsYUncrvDR-T0mFTsmuIBtQz6xMO'],
+                    ['Chết vì chứng khoán - Jesse Livermore','https://drive.google.com/file/d/16iaN3HsRli_0DQ_DlxM33Pg71PzTlQI0/view?usp=sharing'],
+                    ['Nhà đầu tư thông minh - Benjamin Graham','https://drive.google.com/file/d/16iaN3HsRli_0DQ_DlxM33Pg71PzTlQI0/view?usp=sharing'],
+                    ['Quy tắc số 1 - Phil Town','https://drive.google.com/open?id=163rYqU10ePFvDPAKf96l7sbOwzIaUYPr'],
+                    ['Cổ phiếu thường, Lợi nhuận phi thường','https://drive.google.com/open?id=1nsE2F1Km290vB0JUjL3rAiOMolvVPerf'],
+                    ['Phương pháp đầu tư của Warren Buffett','https://drive.google.com/open?id=1OrBu0mf7NFTtvGY8FSSykmnkjfW_HP62'],
+                    ['Bí quyết đầu tư của tỷ phủ Warren Buffett','https://drive.google.com/open?id=1ft9qOXv9Sz8ZxzWr_l-2gU-y4CNCgmfx'],
+                    ['Báo cáo tài chính dưới góc nhìn Warren Buffett','https://drive.google.com/open?id=1GXwADBj20LzSBd5B3iT-UxIW61SZ35Qy'],
+                    ['Phong cách đầu tư Warren Buffet','https://drive.google.com/open?id=11S5Vkf_xdSzIy94IZCEszPRhroUpcWj_'],
+                    ['Ngay cả Warren Buffett cũng không hoàn hảo','https://drive.google.com/open?id=1twzdNMhIDEAdbmZPfPG8cQE9mvfvGsjw'],
+                    ['Sách lược đầu tư của Warren Buffett','https://drive.google.com/open?id=1U7kPfxiXOshBe57anu6LMRKmFCIbFTdP'],
+                    ['Đạo của Warren Buffett','https://drive.google.com/open?id=1yJZv8GruQe30FZfD5SaXYsX6mLnGtQsb'],
+                    ['Lý thuyết hộp Darvas - Nicolas Darvas','https://drive.google.com/open?id=1GeWw9eEMOAWSndBl-Z_q_OjSLTN7_Q8u'],
+                    ['Một Las Vegas khác - Nicolas Darvas','https://drive.google.com/open?id=1Yu9qTOtnQDUuqITBtVbbK5qvAF94LzS5'],
+                    ['24 Bài học sống còn trong đầu tư chứng khoán','https://drive.google.com/open?id=1pX6pAcqNYORNM8J69dNk9gnU1LAIpa8A'],
+                    ['Tâm lý thị trường chứng khoán - George Selden','https://drive.google.com/open?id=1grQ6tmLoeevzSDfqTo5e9uQ7W_bNAl28'],
+                    ['Cách mua chứng khoán','https://drive.google.com/open?id=11CUMSItcm66OGCNsLvxcZ8hnWeerbV8o'],
+                    ['Chiến lược đầu tư chứng khoán - David Brown','https://drive.google.com/open?id=1DNOPtjeXlho0Q0bmnYHXAW5l_1lQnp3i'],
+                    ['Công thức vận may trong đầu tư chứng khoán','https://drive.google.com/open?id=11x_-ahQLA0RpEG8TU25QPa5X42oT_Utf'],
+                    ['Công thức kỳ diệu chinh phục thị trường Chứng khoán','https://drive.google.com/open?id=1dIE0_GAWSUJC-6hi1j_96SmtVEv03ira'],
+                    ['Bí quyết tay trắng thành triệu phú','https://drive.google.com/open?id=1wJiO1qvqJD0-dMQdEx2Uuo33o8-XFJoK'],
+                    ['Hồi ức của một thiên tài đầu tư - Edwin Lefevre','https://drive.google.com/open?id=1KXIKO_X5MtfAnHJinIE3clP2BIge7bF1'],
+                    ['Kiếm tiền bằng đầu tư chứng khoán','https://drive.google.com/open?id=1rXP7HH6-ob-1Ig9RvkM2ZyEBTTKxK7cp'],
+                    ['Làm giàu qua chứng khoán','https://drive.google.com/open?id=11BGWsQwmjA2ZrYhlHOECG1kfV9XFPZcd'],
+                    ['Trở thành thiên tài chứng khoán - Joel Greenblatt','https://drive.google.com/open?id=12WZ_pCzNSKnJzhD-P0uDD3t2j60QbV5J'],
+                    ['Những công cụ thiết yếu trong PTKT thị trường tài chính','https://drive.google.com/open?id=1JnKTpD9G-eSGmmxQsYmu5LONwzl2mrb1'],
+                    ['Phân tích kỹ thuật - John Murphy','https://drive.google.com/open?id=1MfiMZTk9FChnmq_8WOQ7mDXDbrcpab0p'],
+                    ['Đồ thị hình nến Nhật Bản - Phần I','https://drive.google.com/open?id=1XgwPJteH5Ipkfa021A8N11zR7Ns3TPbI'],
+                    ['Đồ thị hình nến Nhật Bản - Phần II','https://drive.google.com/open?id=1CjHVpV0nY7osxAmnRjluF0DRP9_KIv3H'],
+                    ['Bước đi ngẫu nhiên trên phố Wall','https://drive.google.com/open?id=1h5Xb9sKJPr7ikDH3q75Giyy5EZgprHZ4'],
+                    ['Cuộc nổi dậy ở phố Wall','https://drive.google.com/open?id=12BCuTFdVN5wt7HAoCEABJgxXth9niwNW'],
+                    ['Trên đỉnh phố Wall Peter Lynch','https://drive.google.com/open?id=1tPjCxA3x9mfWLg4g4tQgTgHQVPbyBC_Q'],
+                    ['Trò bịp trên phố Wall','https://drive.google.com/open?id=1mS86PfhqOtAD-A2Y8GF-k8r_EpbOoR1H']
+                ],
+                KT_TA: [
+                    ['TA1: Hướng dẫn đọc đồ thị nến Candelstick','https://www.youtube.com/watch?v=kSTFPbaopgc&list=LLt0u'],
+                    ['TA2: 10 mẫu nến cơ bản sử dụng trong dự đoán giá tăng giảm','https://www.youtube.com/watch?v=j_WM8iYm50w'],
+                    ['TA3: 11 mô hình nến đảo chiều P1','https://www.youtube.com/watch?v=zsasLAmvJMI'],
+                    ['TA4: 11 mô hình nến đảo chiều P2','https://www.youtube.com/watch?v=EEHw8qQx3H4'],
+                    ['TA5: Hướng dẫn sử dụng BB (BollingerBand) trong PTKT','https://www.youtube.com/watch?v=9vRZKA_-A5I'],
+                    ['TA6: Hướng dẫn sử dụng MA trong phân tích kỹ thuật (PTKT)','https://www.youtube.com/watch?v=xRWoicbS0vI&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=11'],
+                    ['TA7: Sử dụng đường trung bình EMA làm mức hỗ trợ và kháng cự','https://www.youtube.com/watch?v=FrvIetAUZaY&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=13'],
+                    ['TA8: Hướng dẫn sử dụng RSI trong xu hướng giá','https://www.youtube.com/watch?v=DV09GlX9100&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=6'],
+                    ['TA9: Phương pháp DCA trung bình giá','https://www.youtube.com/watch?v=Z2Uw0HpHYaQ&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=28'],
+                    ['TA10: Hướng dẫn sử dụng MACD','https://www.youtube.com/watch?v=YrOkTkgi1Zo&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=14'],
+                    ['TA11: Hướng dẫn sử dụng Finbonaci','https://www.youtube.com/watch?v=WB3XirugOXc&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=17'],
+                    ['TA12: Hướng dẫn sử dụng Mây Ichimoku','https://www.youtube.com/watch?v=C6icpoSDaL8&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=19'],
+                    ['TA13: Lý thuyết Supply Demand | Cách vẽ kháng cự hỗ trợ và Trendline','https://www.youtube.com/watch?v=Bd7z5BCCICs&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=7'],
+                    ['TA14: Mô hình giá Vai - Đầu - Vai thuận và ngược','https://www.youtube.com/watch?v=tuflpQHeTLk&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=16'],
+                    ['TA16: Mô hình giá 3 đỉnh 3 đáy và 2 đỉnh 2 đáy','https://www.youtube.com/watch?v=P3cWP9zg0Ww&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=10'],
+                    ['TA16: Điểm Break-out là gì? Phân biệt điểm phá ngưỡng thật giả?','https://www.youtube.com/watch?v=vQwS1mixc6A&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=18'],
+                    ['TA nâng cao P1 | Phân tích đa khung thời gian 1.1 | Trader phải biết','https://www.youtube.com/watch?v=BnC7mjhvmNU&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=21'],
+                    ['TA nâng cao P2 | Phân tích đa khung thời gian 1.2 | Thực hành Trade','https://www.youtube.com/watch?v=la9_TymCvj0&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=15'],
+                    ['TA nâng cao P3 | Elliott nâng cao | Đặc điểm và chiến thuật trade','https://www.youtube.com/watch?v=z2Gjv8OerK0&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=5']
+                ],
+                KT_FA: [
+                    ['Tìm hiểu cơ hội đầu tư khi đọc Báo cáo tài chính','https://chienthangthitruong.com/tim-kiem-co-hoi-dau-tu-khi-doc-bao-cao-tai-chinh/'],
+                    ['Chiến lược đầu tư nắm giữ cổ phiếu tốt','https://chienthangthitruong.com/chien-luoc-dau-tu-nam-giu-co-phieu-tot/'],
+                    ['Phương pháp chiết khấu dòng tiền','https://chienthangthitruong.com/phuong-phap-chiet-khau-dong-tien/'],
+                    ['Phương pháp phân tích dòng tiền đơn giản','https://chienthangthitruong.com/phuong-phap-phan-tich-dong-tien-don-gian/']
+                ],
+                KT_TTCK: [
+                    ['Mở tài khoản chứng khoán VPS','https://openaccount.vps.com.vn/?MKTID=U395'],
+                    ['Hướng dẫn đọc bảng giá chứng khoán','https://youtu.be/TaiZS8-i6L0'],
+                    ['CafeF - Báo thông tin điện tử tổng hợp','https://cafef.vn/'],
+                    ['Hướng dẫn sử dụng FireAnt Web Platform','https://youtu.be/Cbd8sHTYhj8?si=TMURi4zCoJwsp9hq'],
+                    ['Hướng dẫn cài đặt và cập nhật dữ liệu Amibroker','https://chienthangthitruong.com/huong-dan-cai-dat-va-cap-nhat-du-lieu-cho-amibroker/'],
+                    ['Thị trường chứng khoán phái sinh là gì?','https://chienthangthitruong.com/thi-truong-chung-khoan-phai-sinh-la-gi/'],
+                    ['Chứng khoán phái sinh hấp dẫn ở điểm gì?','https://chienthangthitruong.com/chung-khoan-phai-sinh-hap-dan-o-diem-gi/'],
+                    ['Các câu hỏi thường gặp trên Thị trường CK Phái sinh','https://chienthangthitruong.com/thi-truong-phai-sinh-cac-cau-hoi-thuong-gap/'],
+                    ['Thao túng trên thị trường chứng khoán phái sinh','https://chienthangthitruong.com/thao-tung-tren-thi-truong-chung-khoan-phai-sinh/'],
+                    ['Chứng quyền là gì? Hướng dẫn đầu tư chứng quyền hiệu quả','https://youtu.be/lxOnP1zzfRQ'],
+                    ['Ký quỹ (Margin) là gì? Khi nào nên sử dụng giao dịch ký quỹ?','https://thuvienchungkhoan.vn/ky-quy-la-gi-khi-nao-nen-su-dung-giao-dich-ky-quy/']
+                ]
+            };
+
+            function renderLibrary(key) {
+                var tbody = document.getElementById('libraryTableBody');
+                if (!tbody) return;
+                var items = libraryData[key] || [];
+                var html = '';
+                for (var i = 0; i < items.length; i++) {
+                    html += '<tr><td class="stt-cell">' + (i + 1) + '</td>'
+                          + '<td class="content-cell">' + items[i][0] + '</td>'
+                          + '<td><a class="library-detail-link" href="' + items[i][1] + '" target="_blank" rel="noopener">Chi tiết</a></td></tr>';
+                }
+                tbody.innerHTML = html;
+            }
+
+            window.switchLibraryCategory = function(key, el) {
+                var list = document.getElementById('libraryCategoryList');
+                if (list) {
+                    var links = list.querySelectorAll('.library-category-item');
+                    for (var i = 0; i < links.length; i++) links[i].classList.remove('active');
+                }
+                if (el) el.classList.add('active');
+                renderLibrary(key);
+            };
+
+            // Auto-render default category on load
+            renderLibrary('TU_SACH_DAU_TU');
+        })();
+        </script>
     </div>
 
     <!-- ============================================ -->
