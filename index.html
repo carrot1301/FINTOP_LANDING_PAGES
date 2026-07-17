@@ -3241,7 +3241,7 @@
         }
 
         #panel-hoivien .pricing-card {
-            min-height: 505px;
+            min-height: 360px;
             cursor: pointer;
         }
 
@@ -3322,9 +3322,9 @@
             padding: 2rem;
             display: flex;
             flex-direction: column;
-            gap: 1.8rem;
+            gap: 1.15rem;
             height: 100%;
-            min-height: 505px;
+            min-height: 360px;
             cursor: pointer;
             transform: none;
             z-index: 1;
@@ -3669,7 +3669,7 @@
         .team-circle-container {
             position: relative;
             width: 720px;
-            height: 720px;
+            height: 640px;
             margin: 4rem auto 0;
         }
 
@@ -3752,31 +3752,31 @@
             filter: brightness(1.1);
         }
 
-        /* Position each member on the circle: 4 members at the corners */
+        /* Position each member on the circle: diamond layout */
         /* nth-child offset by 2 (orbit-ring=1, center-glow=2) */
         /* Circle radius ~290px, center = (360, 360) */
         .team-member:nth-child(3) {
-            /* Top-left */
-            top: 155px;
-            left: 135px;
+            /* Top */
+            top: 105px;
+            left: 360px;
         }
 
         .team-member:nth-child(4) {
-            /* Bottom-left */
-            top: 555px;
+            /* Left */
+            top: 320px;
             left: 135px;
         }
 
         .team-member:nth-child(5) {
-            /* Top-right */
-            top: 155px;
+            /* Right */
+            top: 320px;
             left: 585px;
         }
 
         .team-member:nth-child(6) {
-            /* Bottom-right */
-            top: 555px;
-            left: 585px;
+            /* Bottom */
+            top: 535px;
+            left: 360px;
         }
 
         /* Connector lines from center to members */
