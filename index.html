@@ -523,13 +523,19 @@
         }
 
         #panel-boloc {
-            --boloc-title-bg: linear-gradient(135deg, #C000FF 0%, #A100F2 48%, #8200D6 100%);
+            --boloc-title-bg: linear-gradient(135deg, #7C3AED 0%, #A855F7 45%, #0891B2 100%);
             --boloc-title-text: #F8FAFC;
-            --boloc-header-bg: #2C2068;
-            --boloc-header-text: #FFFFFF;
-            --boloc-row-bg: rgba(7, 25, 52, 0.96);
-            --boloc-row-text: #E2E8F0;
-            --boloc-strength-bg: #FDE0C7;
+            --boloc-header-bg: linear-gradient(180deg, rgba(54, 43, 118, 0.98), rgba(38, 31, 82, 0.98));
+            --boloc-header-text: #F8FAFC;
+            --boloc-row-bg: rgba(8, 22, 48, 0.96);
+            --boloc-row-alt-bg: rgba(11, 28, 58, 0.96);
+            --boloc-row-hover-bg: rgba(17, 39, 75, 0.98);
+            --boloc-row-text: #DCE7F7;
+            --boloc-border: rgba(148, 163, 184, 0.18);
+            --boloc-border-strong: rgba(168, 85, 247, 0.34);
+            --boloc-cyan: #67E8F9;
+            --boloc-purple: #C084FC;
+            --boloc-gold: #FBBF24;
             padding-top: 28px;
         }
 
@@ -538,14 +544,15 @@
         }
 
         #panel-boloc .boloc-filter-select {
-            background: rgba(15, 15, 25, 0.82);
-            border-color: rgba(168, 85, 247, 0.3);
+            background: rgba(11, 18, 36, 0.9);
+            border-color: rgba(103, 232, 249, 0.24);
             color: #e2e8f0;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
         }
 
         #panel-boloc .boloc-filter-reset {
-            background: rgba(168, 85, 247, 0.12);
-            border-color: rgba(168, 85, 247, 0.32);
+            background: rgba(168, 85, 247, 0.14);
+            border-color: rgba(192, 132, 252, 0.36);
             color: #e9d5ff;
             font-weight: 700;
         }
@@ -554,10 +561,14 @@
             max-width: 1540px;
             position: relative;
             border-radius: 14px;
-            border: 1px solid rgba(168, 85, 247, 0.24);
-            background: rgba(15, 15, 25, 0.68);
+            border: 1px solid var(--boloc-border-strong);
+            background:
+                radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.16), transparent 42%),
+                rgba(7, 10, 22, 0.84);
             backdrop-filter: blur(12px);
-            box-shadow: 0 18px 48px rgba(0, 0, 0, 0.42);
+            box-shadow:
+                0 18px 48px rgba(0, 0, 0, 0.42),
+                0 0 30px rgba(168, 85, 247, 0.12);
         }
 
         #panel-boloc .boloc-filter-bar.is-locked {
@@ -658,7 +669,9 @@
             font-weight: 900;
             line-height: 1.25;
             text-transform: none;
-            border-bottom: 1px solid rgba(233, 213, 255, 0.28);
+            border-bottom: 1px solid rgba(103, 232, 249, 0.28);
+            letter-spacing: 0.01em;
+            text-shadow: 0 0 18px rgba(255, 255, 255, 0.28);
         }
 
         #bolocTable {
@@ -677,7 +690,7 @@
         #bolocTable th {
             background: var(--boloc-header-bg);
             color: var(--boloc-header-text);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(216, 180, 254, 0.18);
             text-align: center;
             font-weight: 900;
             letter-spacing: 0;
@@ -719,28 +732,33 @@
         #bolocTable td {
             background: var(--boloc-row-bg);
             color: var(--boloc-row-text);
-            border: 1px solid rgba(148, 163, 184, 0.16);
+            border: 1px solid var(--boloc-border);
             text-align: center;
             font-weight: 600;
             vertical-align: middle;
-            transition: filter 0.2s ease;
+            transition: background 0.2s ease, color 0.2s ease, filter 0.2s ease;
             padding: 8px 4px;
             font-size: 0.78rem;
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
 
+        #bolocTable tbody tr:nth-child(even) td {
+            background: var(--boloc-row-alt-bg);
+        }
+
         #bolocTable tbody tr:hover td {
-            filter: brightness(1.06);
+            background: var(--boloc-row-hover-bg);
+            filter: brightness(1.05);
         }
 
         #bolocTable .ticker-cell {
-            color: #FFFFFF;
+            color: var(--boloc-cyan);
             font-weight: 900;
         }
 
         #bolocTable .desc-cell {
-            color: #CBD5E1;
+            color: #C9D7EA;
             max-width: 240px;
             text-align: left;
             font-weight: 600;
@@ -750,8 +768,8 @@
 
         #bolocTable .time-cell,
         #bolocTable .price-cell {
-            color: #E2E8F0;
-            font-weight: 600;
+            color: #EAF2FF;
+            font-weight: 700;
             white-space: nowrap;
         }
 
@@ -774,38 +792,37 @@
             font-size: 0.78rem;
             line-height: 1.2;
             letter-spacing: 0;
+            box-shadow: var(--status-shadow, none);
         }
 
         #bolocTable .boloc-strength-cell {
-            background: var(--boloc-row-bg);
-            color: #C084FC;
+            color: var(--strength-text, var(--boloc-purple));
             font-weight: 900;
             text-transform: uppercase;
             white-space: nowrap;
         }
 
         #bolocTable td:nth-child(9) {
-            background: var(--boloc-row-bg);
-            color: #E2E8F0;
+            color: #D7E7FF;
+            font-weight: 800;
         }
 
         #bolocTable td:nth-child(10) {
-            background: linear-gradient(135deg, rgba(45, 33, 82, 0.95), rgba(16, 22, 39, 0.93));
-            color: #C084FC;
+            background: linear-gradient(135deg, rgba(54, 36, 94, 0.68), rgba(13, 28, 56, 0.82));
+            color: var(--boloc-purple);
             font-weight: 900;
         }
 
         #bolocTable .boloc-support-cell {
-            background: var(--boloc-row-bg);
-            color: #FBBF24;
+            color: var(--boloc-gold);
             font-weight: 900;
             white-space: nowrap;
         }
 
         #bolocTable .table-filter-btn {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.42);
-            color: #fff;
+            background: rgba(103, 232, 249, 0.1);
+            border-color: rgba(103, 232, 249, 0.34);
+            color: #E0F2FE;
         }
 
         .boloc-disclaimer {
@@ -3201,10 +3218,9 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
-            max-width: 1300px;
-            margin: 4rem auto 0;
+            max-width: 1160px;
+            margin: 3.75rem auto 0;
             text-align: left;
-            align-items: stretch;
             align-items: stretch;
         }
 
@@ -3220,12 +3236,12 @@
         }
 
         .panel-pricing-grid {
-            max-width: 1120px;
+            max-width: 1160px;
             margin: 2.75rem auto 0;
         }
 
         #panel-hoivien .pricing-card {
-            min-height: 355px;
+            min-height: 505px;
             cursor: pointer;
         }
 
@@ -3276,60 +3292,62 @@
 
         /* Membership cards */
         :root {
-            --membership-card-bg: linear-gradient(160deg, #1A1F36 0%, #241522 100%);
+            --membership-card-bg: linear-gradient(180deg, rgba(18, 20, 34, 0.92) 0%, rgba(10, 10, 18, 0.96) 100%);
             --membership-card-bg-inner-panel: #12172B;
             --membership-text-primary: #FFFFFF;
-            --membership-text-secondary: #B7BCD6;
-            --membership-accent-standard: #4DA3FF;
-            --membership-accent-pro: #9B6BFF;
-            --membership-accent-vip: #F2C94C;
-            --membership-accent-diamond: #7FE6E0;
+            --membership-text-secondary: #9CA3B8;
+            --membership-accent-standard: #38BDF8;
+            --membership-accent-pro: #A855F7;
+            --membership-accent-vip: #10B981;
+            --membership-accent-diamond: #F59E0B;
         }
 
         .liquid-glass-card {
             --tier-accent: var(--membership-accent-standard);
-            --tier-soft: rgba(77, 163, 255, 0.16);
-            --tier-border: rgba(77, 163, 255, 0.42);
-            --tier-gradient: linear-gradient(135deg, #4DA3FF, #1677FF);
-            --tier-button-color: #FFFFFF;
+            --tier-soft: rgba(56, 189, 248, 0.14);
+            --tier-border: rgba(56, 189, 248, 0.42);
+            --tier-gradient: linear-gradient(135deg, #38BDF8, #0284C7);
+            --tier-button-bg: transparent;
+            --tier-button-border: rgba(56, 189, 248, 0.45);
+            --tier-button-color: #67E8F9;
+            --tier-button-shadow: 0 0 0 rgba(56, 189, 248, 0);
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             opacity: 1 !important;
             background: var(--membership-card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--tier-border);
             border-radius: 8px;
-            padding: 1.2rem;
+            padding: 2rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.8rem;
             height: 100%;
-            min-height: 390px;
+            min-height: 505px;
             cursor: pointer;
             transform: none;
             z-index: 1;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 18px 46px rgba(0, 0, 0, 0.32);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 18px 46px rgba(0, 0, 0, 0.32),
+                0 0 28px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
         }
 
         .liquid-glass-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--tier-gradient);
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 0%, var(--tier-soft) 0%, rgba(255, 255, 255, 0) 48%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
+            pointer-events: none;
         }
 
         .liquid-glass-card::after {
             content: '';
-            position: absolute;
-            inset: 4px 0 auto 0;
-            height: 72px;
-            background: linear-gradient(180deg, var(--tier-soft), rgba(255, 255, 255, 0));
-            pointer-events: none;
+            display: none;
         }
 
         .liquid-glass-card>* {
@@ -3341,40 +3359,62 @@
         .pricing-card.active,
         .pricing-card:focus-within {
             border-color: var(--tier-border);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 22px 58px rgba(0, 0, 0, 0.42), 0 0 26px var(--tier-soft);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.12),
+                0 22px 58px rgba(0, 0, 0, 0.42),
+                0 0 30px var(--tier-soft);
             transform: translateY(-6px) !important;
         }
 
         .liquid-glass-card.card-standard {
             --tier-accent: var(--membership-accent-standard);
-            --tier-soft: rgba(77, 163, 255, 0.16);
-            --tier-border: rgba(77, 163, 255, 0.45);
-            --tier-gradient: linear-gradient(135deg, #4DA3FF, #1677FF);
-            --tier-button-color: #FFFFFF;
+            --tier-soft: rgba(56, 189, 248, 0.14);
+            --tier-border: rgba(56, 189, 248, 0.42);
+            --tier-gradient: linear-gradient(135deg, #38BDF8, #0284C7);
+            --tier-button-bg: transparent;
+            --tier-button-border: rgba(56, 189, 248, 0.45);
+            --tier-button-color: #67E8F9;
+            --tier-button-shadow: none;
         }
 
         .liquid-glass-card.card-pro {
             --tier-accent: var(--membership-accent-pro);
-            --tier-soft: rgba(155, 107, 255, 0.18);
-            --tier-border: rgba(155, 107, 255, 0.48);
-            --tier-gradient: linear-gradient(135deg, #9B6BFF, #6D3BDF);
+            --tier-soft: rgba(168, 85, 247, 0.2);
+            --tier-border: rgba(168, 85, 247, 0.48);
+            --tier-gradient: linear-gradient(135deg, #C084FC, #7C3AED);
+            --tier-button-bg: var(--tier-gradient);
+            --tier-button-border: rgba(192, 132, 252, 0.7);
             --tier-button-color: #FFFFFF;
+            --tier-button-shadow: 0 12px 28px rgba(168, 85, 247, 0.38);
         }
 
         .liquid-glass-card.card-vip {
             --tier-accent: var(--membership-accent-vip);
-            --tier-soft: rgba(242, 201, 76, 0.18);
-            --tier-border: rgba(242, 201, 76, 0.5);
-            --tier-gradient: linear-gradient(135deg, #F2C94C, #C89518);
-            --tier-button-color: #16110A;
+            --tier-soft: rgba(16, 185, 129, 0.18);
+            --tier-border: rgba(16, 185, 129, 0.42);
+            --tier-gradient: linear-gradient(135deg, #34D399, #059669);
+            --tier-button-bg: transparent;
+            --tier-button-border: rgba(16, 185, 129, 0.48);
+            --tier-button-color: #6EE7B7;
+            --tier-button-shadow: none;
         }
 
         .liquid-glass-card.card-diamond {
             --tier-accent: var(--membership-accent-diamond);
-            --tier-soft: rgba(127, 230, 224, 0.18);
-            --tier-border: rgba(127, 230, 224, 0.5);
-            --tier-gradient: linear-gradient(135deg, #7FE6E0, #25B9C0);
-            --tier-button-color: #062321;
+            --tier-soft: rgba(245, 158, 11, 0.2);
+            --tier-border: rgba(245, 158, 11, 0.42);
+            --tier-gradient: linear-gradient(135deg, #FBBF24, #F97316);
+            --tier-button-bg: var(--tier-gradient);
+            --tier-button-border: rgba(251, 191, 36, 0.72);
+            --tier-button-color: #17110A;
+            --tier-button-shadow: 0 12px 28px rgba(245, 158, 11, 0.34);
+        }
+
+        .membership-plan-head {
+            display: grid;
+            gap: 0.7rem;
+            text-align: center;
+            justify-items: center;
         }
 
         .membership-card-top {
@@ -3483,21 +3523,22 @@
 
         .pricing-title {
             color: var(--tier-accent);
-            font-size: 0.82rem;
-            font-weight: 800;
+            font-size: 1.45rem;
+            font-weight: 900;
             line-height: 1.2;
-            letter-spacing: 0.08em;
+            letter-spacing: 0;
             text-transform: uppercase;
             text-align: center;
             margin: 0;
+            text-shadow: 0 0 18px var(--tier-soft);
         }
 
         .pricing-subtitle {
-            color: var(--membership-text-secondary);
-            font-size: 0.84rem;
+            color: #F8FAFC;
+            font-size: 0.95rem;
             line-height: 1.35;
             text-align: center;
-            margin: 0.2rem 0 0;
+            margin: 0;
         }
 
         .membership-badge {
@@ -3518,31 +3559,33 @@
         .membership-benefit-panel {
             flex: 1 1 auto;
             display: flex;
-            justify-content: center;
-            padding: 1rem;
-            border-radius: 8px;
-            background: var(--membership-card-bg-inner-panel);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 0;
+            border-radius: 0;
+            background: transparent;
+            border: 0;
         }
 
         .pricing-features {
             color: var(--membership-text-secondary);
-            line-height: 1.35;
+            line-height: 1.55;
             margin: 0;
             padding-left: 0;
             list-style: none;
             display: grid;
-            justify-content: center;
+            gap: 0.78rem;
+            justify-content: stretch;
             width: 100%;
-            max-width: 240px;
+            max-width: none;
         }
 
         .pricing-features li {
             display: flex;
             align-items: flex-start;
-            gap: 0.55rem;
-            margin-bottom: 0.72rem;
-            font-size: 0.94rem;
+            gap: 0.7rem;
+            margin-bottom: 0;
+            font-size: 0.98rem;
             text-align: left;
         }
 
@@ -3560,18 +3603,20 @@
 
         .btn-tier {
             width: 100%;
+            max-width: 200px;
             min-height: 46px;
-            margin: 0;
+            align-self: center;
+            margin: auto 0 0;
             padding: 12px 18px;
-            border: 0;
+            border: 1px solid var(--tier-button-border);
             border-radius: 8px;
-            background: var(--tier-gradient);
+            background: var(--tier-button-bg);
             color: var(--tier-button-color);
             font-weight: 800;
             font-size: 0.94rem;
             line-height: 1.2;
             cursor: pointer;
-            box-shadow: 0 10px 24px var(--tier-soft);
+            box-shadow: var(--tier-button-shadow);
             transition: transform 0.25s ease, filter 0.25s ease, box-shadow 0.25s ease;
         }
 
@@ -3596,11 +3641,11 @@
         @media (max-width: 768px) {
             .liquid-glass-card {
                 min-height: auto;
-                padding: 1rem;
+                padding: 1.5rem;
             }
 
-            .membership-card-main {
-                gap: 0.8rem;
+            #panel-hoivien .pricing-card {
+                min-height: auto;
             }
 
             .membership-icon-shell {
@@ -3707,37 +3752,31 @@
             filter: brightness(1.1);
         }
 
-        /* Position each member on the circle: 5 members, CEO at top */
+        /* Position each member on the circle: 4 members at the corners */
         /* nth-child offset by 2 (orbit-ring=1, center-glow=2) */
         /* Circle radius ~290px, center = (360, 360) */
         .team-member:nth-child(3) {
-            /* CEO - Top center */
-            top: 70px;
-            left: 360px;
+            /* Top-left */
+            top: 155px;
+            left: 135px;
         }
 
         .team-member:nth-child(4) {
-            /* Left-upper */
-            top: 195px;
-            left: 84px;
+            /* Bottom-left */
+            top: 555px;
+            left: 135px;
         }
 
         .team-member:nth-child(5) {
-            /* Right-upper */
-            top: 195px;
-            left: 636px;
+            /* Top-right */
+            top: 155px;
+            left: 585px;
         }
 
         .team-member:nth-child(6) {
-            /* Left-lower */
-            top: 520px;
-            left: 150px;
-        }
-
-        .team-member:nth-child(7) {
-            /* Right-lower */
-            top: 520px;
-            left: 570px;
+            /* Bottom-right */
+            top: 555px;
+            left: 585px;
         }
 
         /* Connector lines from center to members */
@@ -6440,17 +6479,9 @@
 
         <div class="pricing-grid">
             <div class="pricing-card liquid-glass-card card-standard" data-membership-action="free" onclick="selectMembershipAction('free', this)">
-                <div class="membership-card-top">
-                    <span class="membership-card-label">ĐẶC QUYỀN HỘI VIÊN</span>
-                    <span class="membership-expand" aria-hidden="true">▾</span>
-                </div>
-                <div class="membership-card-main">
-                    <span class="membership-icon-shell membership-icon-standard" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="5.5"></circle><path d="M16 16l4 4"></path><path d="M8.5 10h5"></path><path d="M8.5 12.5h3.5"></path></svg></span></span>
-                    <div>
-                        <h3 class="membership-tier-name">Hội viên Tiêu chuẩn</h3>
-                        <div class="pricing-title">STANDARD</div>
-                        <div class="pricing-subtitle">(Tiêu chuẩn)</div>
-                    </div>
+                <div class="membership-plan-head">
+                    <div class="pricing-title">STANDARD</div>
+                    <div class="pricing-subtitle">(Tiêu chuẩn)</div>
                 </div>
                 <div class="membership-benefit-panel">
                     <ul class="pricing-features">
@@ -6463,18 +6494,9 @@
             </div>
 
             <div class="pricing-card liquid-glass-card card-pro" data-membership-action="pro" onclick="selectMembershipAction('pro', this)">
-                <div class="membership-card-top">
-                    <span class="membership-card-label">ĐẶC QUYỀN HỘI VIÊN</span>
-                    <span class="membership-expand" aria-hidden="true">▾</span>
-                </div>
-                <div class="membership-card-main">
-                    <span class="membership-icon-shell membership-icon-pro" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5h16l-6.2 7.1v4.9L10.2 19v-6.4L4 5.5z"></path><path d="M8 5.5h8"></path></svg></span></span>
-                    <div>
-                        <h3 class="membership-tier-name">Hội viên PRO</h3>
-                        <div class="pricing-title">PRO</div>
-                        <div class="pricing-subtitle">(Chuyên nghiệp)</div>
-                        <span class="membership-badge">Phổ biến nhất</span>
-                    </div>
+                <div class="membership-plan-head">
+                    <div class="pricing-title">PRO</div>
+                    <div class="pricing-subtitle">(Chuyên nghiệp)</div>
                 </div>
                 <div class="membership-benefit-panel">
                     <ul class="pricing-features">
@@ -6487,18 +6509,9 @@
             </div>
 
             <div class="pricing-card liquid-glass-card card-vip" data-membership-action="vip" onclick="selectMembershipAction('vip', this)">
-                <div class="membership-card-top">
-                    <span class="membership-card-label">ĐẶC QUYỀN HỘI VIÊN</span>
-                    <span class="membership-expand" aria-hidden="true">▾</span>
-                </div>
-                <div class="membership-card-main">
-                    <span class="membership-icon-shell membership-icon-vip" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M4.5 17.5h15l-1 3h-13l-1-3z"></path><path d="M5.5 16.5 7 7l5 5 5-5 1.5 9.5"></path><path d="M12 12V4"></path><path d="M10 4h4"></path></svg></span></span>
-                    <div>
-                        <h3 class="membership-tier-name">Hội viên V.I.P</h3>
-                        <div class="pricing-title">V.I.P</div>
-                        <div class="pricing-subtitle">(Cao cấp)</div>
-                        <span class="membership-badge">Khuyến nghị</span>
-                    </div>
+                <div class="membership-plan-head">
+                    <div class="pricing-title">V.I.P</div>
+                    <div class="pricing-subtitle">(Cao cấp)</div>
                 </div>
                 <div class="membership-benefit-panel">
                     <ul class="pricing-features">
@@ -6511,17 +6524,9 @@
             </div>
 
             <div class="pricing-card liquid-glass-card card-diamond" data-membership-action="diamond" onclick="selectMembershipAction('diamond', this)">
-                <div class="membership-card-top">
-                    <span class="membership-card-label">ĐẶC QUYỀN HỘI VIÊN</span>
-                    <span class="membership-expand" aria-hidden="true">▾</span>
-                </div>
-                <div class="membership-card-main">
-                    <span class="membership-icon-shell membership-icon-diamond" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M6.5 4h11L22 10l-10 10L2 10l4.5-6z"></path><path d="M2 10h20"></path><path d="M8.5 4 12 20 15.5 4"></path></svg></span></span>
-                    <div>
-                        <h3 class="membership-tier-name">Hội viên Diamond</h3>
-                        <div class="pricing-title">DIAMOND</div>
-                        <div class="pricing-subtitle">(Kim cương)</div>
-                    </div>
+                <div class="membership-plan-head">
+                    <div class="pricing-title">DIAMOND</div>
+                    <div class="pricing-subtitle">(Kim cương)</div>
                 </div>
                 <div class="membership-benefit-panel">
                     <ul class="pricing-features">
@@ -6549,7 +6554,7 @@
             <div class="team-orbit-ring"></div>
             <div class="team-center-glow"></div>
 
-            <!-- 1. CEO - Đỉnh vòng tròn -->
+            <!-- 1. Trái trên -->
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-gold">
                     <img src="assets/images/anh_Hai.png" alt="Nguyễn Đình Hải" class="team-avatar">
@@ -6559,7 +6564,7 @@
                 <p class="team-desc">Nghiên cứu thị trường &amp; <span class="team-nowrap">Quản trị chiến lược</span></p>
             </div>
 
-            <!-- 2. Trái trên -->
+            <!-- 2. Trái dưới -->
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-green">
                     <img src="assets/images/anh_Phuc.jpeg" alt="Nguyễn Thành Phúc" class="team-avatar"
@@ -6580,17 +6585,7 @@
                 <p class="team-desc"><span class="team-nowrap">Doanh nghiệp</span> &amp; Ngành kinh tế</p>
             </div>
 
-            <!-- 4. Trái dưới -->
-            <div class="team-member">
-                <div class="team-avatar-wrapper avatar-pink">
-                    <img src="assets/images/chi_Hanh.png" alt="Nguyễn Minh Hạnh" class="team-avatar">
-                </div>
-                <h3 class="team-name">Nguyễn Minh Hạnh (Ms)</h3>
-                <p class="team-role">Chuyên gia NC&amp;PT Vĩ mô - Ngành</p>
-                <p class="team-desc">Thạc sĩ Kinh tế chiến lược<br><span class="team-nowrap">(FSU JENA, Đức)</span></p>
-            </div>
-
-            <!-- 5. Phải dưới -->
+            <!-- 4. Phải dưới -->
             <div class="team-member">
                 <div class="team-avatar-wrapper avatar-purple">
                     <img src="assets/images/anh_Dung.png" alt="Mai Tiến Dũng" class="team-avatar">
@@ -6827,38 +6822,38 @@
 
         const BOLOC_STATUS_COLORS = {
             'RẤT TÍCH CỰC': {
-                bg: 'rgba(168, 85, 247, 0.2)',
-                text: '#E9D5FF',
-                border: 'rgba(216, 180, 254, 0.58)',
-                shadow: 'none'
+                bg: 'rgba(20, 184, 166, 0.18)',
+                text: '#99F6E4',
+                border: 'rgba(45, 212, 191, 0.56)',
+                shadow: '0 0 14px rgba(20, 184, 166, 0.18)'
             },
             'TÍCH CỰC': {
                 bg: 'rgba(16, 185, 129, 0.18)',
-                text: '#A7F3D0',
+                text: '#86EFAC',
                 border: 'rgba(52, 211, 153, 0.55)',
-                shadow: 'none'
+                shadow: '0 0 14px rgba(16, 185, 129, 0.16)'
             },
             'KHẢ QUAN': {
-                bg: 'rgba(245, 158, 11, 0.16)',
-                text: '#FDE68A',
-                border: 'rgba(251, 191, 36, 0.52)',
-                shadow: 'none'
+                bg: 'rgba(245, 158, 11, 0.14)',
+                text: '#FCD34D',
+                border: 'rgba(251, 191, 36, 0.5)',
+                shadow: '0 0 12px rgba(245, 158, 11, 0.14)'
             },
             'TRUNG LẬP': {
-                bg: 'rgba(100, 116, 139, 0.18)',
-                text: '#E2E8F0',
-                border: 'rgba(148, 163, 184, 0.36)',
+                bg: 'rgba(148, 163, 184, 0.12)',
+                text: '#CBD5E1',
+                border: 'rgba(148, 163, 184, 0.34)',
                 shadow: 'none'
             },
             'KO TÍCH CỰC': {
-                bg: 'rgba(249, 115, 22, 0.16)',
-                text: '#FDBA74',
+                bg: 'rgba(249, 115, 22, 0.14)',
+                text: '#FED7AA',
                 border: 'rgba(251, 146, 60, 0.45)',
                 shadow: 'none'
             },
             'TIÊU CỰC': {
-                bg: 'rgba(239, 68, 68, 0.16)',
-                text: '#FCA5A5',
+                bg: 'rgba(244, 63, 94, 0.14)',
+                text: '#FDA4AF',
                 border: 'rgba(248, 113, 113, 0.45)',
                 shadow: 'none'
             }
@@ -7285,7 +7280,13 @@
         }
 
         function getBolocStrengthTextColor(strengthText) {
-            return '#C084FC';
+            const label = normalizeBolocLabel(strengthText);
+            if (label.includes('UP')) return '#67E8F9';
+            if (label.includes('SIDE')) return '#C084FC';
+            if (label.includes('DOWN')) return '#FDA4AF';
+            if (label.includes('TĂNG')) return '#67E8F9';
+            if (label.includes('GIẢM')) return '#FDA4AF';
+            return '#D8B4FE';
         }
 
         // ── Tier helpers for Bộ Lọc ──
@@ -7755,7 +7756,8 @@
                     ...base,
                     price: formatMembershipPrice(row.price, base.price),
                     status: rowStatus || base.status,
-                    features: rowFeatures || base.features,
+                    features: base.features,
+                    backendFeatures: rowFeatures || '',
                     popupTitle: row.popup_title || row.popupTitle || base.popupTitle,
                     popupContent: description || base.popupContent,
                     backendId: row.id || row.backendId || null
@@ -8141,6 +8143,41 @@
             return '';
         }
 
+        function membershipCardContent(plan) {
+            const id = String(plan.id || '').toLowerCase();
+            const content = {
+                standard: {
+                    title: 'STANDARD',
+                    subtitle: '(Tiêu chuẩn)',
+                    features: 'Tra cứu cổ phiếu; Phân tích cơ bản; Tool & Dữ liệu cơ bản',
+                    cta: 'Đăng ký miễn phí'
+                },
+                pro: {
+                    title: 'PRO',
+                    subtitle: '(Chuyên nghiệp)',
+                    features: 'Bộ lọc cổ phiếu; Pro Research; Pro Data',
+                    cta: 'Đăng ký PRO'
+                },
+                vip: {
+                    title: 'V.I.P',
+                    subtitle: '(Cao cấp)',
+                    features: 'Đặc quyền PRO; Kết nối Chuyên gia; Phân tích Chuyên gia',
+                    cta: 'Liên kết V.I.P'
+                },
+                diamond: {
+                    title: 'DIAMOND',
+                    subtitle: '(Kim cương)',
+                    features: 'Đặc quyền V.I.P; Đặc quyền PRO; Cố vấn 1-1 Chuyên gia',
+                    cta: 'Liên kết Diamond'
+                }
+            };
+
+            if (id.includes('diamond')) return content.diamond;
+            if (id.includes('vip')) return content.vip;
+            if (id.includes('pro')) return content.pro;
+            return content.standard;
+        }
+
         function membershipActionForPlan(planId) {
             const id = String(planId || '').toLowerCase();
             if (id === 'standard' || id === 'free') return 'free';
@@ -8166,32 +8203,22 @@
         function renderMembershipCard(plan) {
             const planId = String(plan.id || 'standard').trim() || 'standard';
             const cardClassId = planId.toLowerCase().replace(/[^a-z0-9_-]/g, '') || 'standard';
-            const features = splitList(plan.features);
             const action = membershipActionForPlan(planId);
-            const subtitle = planSubtitleDisplay(plan);
-            const badge = membershipBadgeForPlan(planId);
+            const content = membershipCardContent(plan);
+            const features = splitList(content.features);
 
             return `
                 <div class="pricing-card liquid-glass-card card-${escapeHtml(cardClassId)}" data-membership-action="${escapeHtml(action)}" onclick="selectMembershipAction('${escapeHtml(action)}', this)">
-                    <div class="membership-card-top">
-                        <span class="membership-card-label">ĐẶC QUYỀN HỘI VIÊN</span>
-                        <span class="membership-expand" aria-hidden="true">▾</span>
-                    </div>
-                    <div class="membership-card-main">
-                        ${membershipIconMarkup(planId)}
-                        <div>
-                            <h3 class="membership-tier-name">${escapeHtml(membershipTierName(plan))}</h3>
-                            <div class="pricing-title">${escapeHtml(planDisplayName(plan))}</div>
-                            <div class="pricing-subtitle">${escapeHtml(subtitle)}</div>
-                            ${badge ? `<span class="membership-badge">${escapeHtml(badge)}</span>` : ''}
-                        </div>
+                    <div class="membership-plan-head">
+                        <div class="pricing-title">${escapeHtml(content.title)}</div>
+                        <div class="pricing-subtitle">${escapeHtml(content.subtitle)}</div>
                     </div>
                     <div class="membership-benefit-panel">
                         <ul class="pricing-features">
                             ${features.map((feature) => `<li><span class="check-icon">✦</span> ${escapeHtml(feature)}</li>`).join('')}
                         </ul>
                     </div>
-                    <button class="btn-tier" type="button" data-plan-id="${escapeHtml(planId)}" data-membership-action="${escapeHtml(action)}" onclick="handlePricingCardAction(this, event)">${escapeHtml(plan.cta || 'Đăng ký')}</button>
+                    <button class="btn-tier" type="button" data-plan-id="${escapeHtml(planId)}" data-membership-action="${escapeHtml(action)}" onclick="handlePricingCardAction(this, event)">${escapeHtml(content.cta)}</button>
                 </div>
             `;
         }
@@ -9247,7 +9274,6 @@
                     <ul class="modal-features-list">
                         <li>Tra cứu cổ phiếu</li>
                         <li>Phân tích cơ bản</li>
-                        <li>FinTop AI phân tích</li>
                         <li>Tool & Dữ liệu cơ bản</li>
                     </ul>
                 </div>
@@ -9285,9 +9311,9 @@
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li class="highlight">Bộ lọc cổ phiếu chuyên nghiệp</li>
-                        <li class="highlight">Nghiên cứu & Phân tích chuyên sâu</li>
-                        <li class="highlight">Tool & Dữ liệu nâng cao</li>
+                        <li class="highlight">Bộ lọc cổ phiếu</li>
+                        <li class="highlight">Pro Research</li>
+                        <li class="highlight">Pro Data</li>
                     </ul>
                 </div>
             </div>
@@ -9402,10 +9428,9 @@
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li>Full đặc quyền PRO</li>
+                        <li>Đặc quyền PRO</li>
                         <li class="highlight">Kết nối Chuyên gia</li>
                         <li class="highlight">Phân tích Chuyên gia</li>
-                        <li class="highlight">Liên kết tài khoản chứng khoán (ID FinTop)</li>
                     </ul>
                 </div>
             </div>
@@ -9454,8 +9479,8 @@
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li>Full đặc quyền PRO</li>
-                        <li>Full đặc quyền V.I.P</li>
+                        <li>Đặc quyền V.I.P</li>
+                        <li>Đặc quyền PRO</li>
                         <li class="highlight">Cố vấn 1-1 Chuyên gia</li>
                     </ul>
                 </div>
@@ -9463,7 +9488,7 @@
             <div class="modal-body">
                 <div class="payment-info-box" style="margin-bottom: 1rem;">
                     <p style="color: #fff; line-height: 1.6; margin: 0;">
-                        Gói Diamond dành cho hội viên liên kết tài khoản có NAV từ 1 tỷ VND, bao gồm full đặc quyền PRO, full đặc quyền V.I.P và cố vấn 1-1 cùng Chuyên gia.
+                        Gói Diamond dành cho hội viên cần đặc quyền V.I.P, đặc quyền PRO và cố vấn 1-1 cùng Chuyên gia.
                     </p>
                 </div>
                 <div class="modal-steps-container">
