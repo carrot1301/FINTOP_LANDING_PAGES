@@ -3513,6 +3513,72 @@
             height: 34px;
         }
 
+        /* === PRICING CARD TIER ICONS === */
+        .pricing-card-icon {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 0.5rem;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .pricing-card-icon svg {
+            width: 28px;
+            height: 28px;
+            display: block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 0 6px currentColor);
+        }
+
+        .card-standard .pricing-card-icon {
+            color: #94A3B8;
+            background: rgba(148, 163, 184, 0.08);
+        }
+
+        .card-pro .pricing-card-icon {
+            color: #A78BFA;
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .card-vip .pricing-card-icon {
+            color: #38BDF8;
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .card-diamond .pricing-card-icon {
+            color: #FBBF24;
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .pricing-card-icon {
+                width: 44px;
+                height: 44px;
+            }
+            .pricing-card-icon svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
         .membership-tier-name {
             color: var(--membership-text-primary);
             font-size: 1.08rem;
@@ -6480,6 +6546,7 @@
         <div class="pricing-grid">
             <div class="pricing-card liquid-glass-card card-standard" data-membership-action="free" onclick="selectMembershipAction('free', this)">
                 <div class="membership-plan-head">
+                    <div class="pricing-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6 6.5h1M17 6.5h1M6 17.5h1M17 17.5h1"/></svg></div>
                     <div class="pricing-title">STANDARD</div>
                     <div class="pricing-subtitle">(Tiêu chuẩn)</div>
                 </div>
@@ -6495,6 +6562,7 @@
 
             <div class="pricing-card liquid-glass-card card-pro" data-membership-action="pro" onclick="selectMembershipAction('pro', this)">
                 <div class="membership-plan-head">
+                    <div class="pricing-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20v-7l4-3 4 5 4-8 3 4"/><circle cx="5" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="15" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1" fill="currentColor" stroke="none"/></svg></div>
                     <div class="pricing-title">PRO</div>
                     <div class="pricing-subtitle">(Chuyên nghiệp)</div>
                 </div>
@@ -6510,6 +6578,7 @@
 
             <div class="pricing-card liquid-glass-card card-vip" data-membership-action="vip" onclick="selectMembershipAction('vip', this)">
                 <div class="membership-plan-head">
+                    <div class="pricing-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 18l4-7 3.5 4L15 7l6 11H3z"/><path d="M12 3v1.5"/><path d="M8 4.5l1 1"/><path d="M16 4.5l-1 1"/><circle cx="12" cy="3" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="4.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="16" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg></div>
                     <div class="pricing-title">V.I.P</div>
                     <div class="pricing-subtitle">(Cao cấp)</div>
                 </div>
@@ -6525,6 +6594,7 @@
 
             <div class="pricing-card liquid-glass-card card-diamond" data-membership-action="diamond" onclick="selectMembershipAction('diamond', this)">
                 <div class="membership-plan-head">
+                    <div class="pricing-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4h12l4 6-10 11L2 10l4-6z"/><path d="M2 10h20"/><path d="M12 21L8.5 10 6 4"/><path d="M12 21l3.5-11L18 4"/><path d="M12 4v6"/></svg></div>
                     <div class="pricing-title">DIAMOND</div>
                     <div class="pricing-subtitle">(Kim cương)</div>
                 </div>
@@ -8128,10 +8198,10 @@
         function membershipIconMarkup(planId) {
             const type = membershipIconType(planId);
             const icons = {
-                standard: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="5.5"></circle><path d="M16 16l4 4"></path><path d="M8.5 10h5"></path><path d="M8.5 12.5h3.5"></path></svg>',
-                pro: '<svg viewBox="0 0 24 24"><path d="M4 5.5h16l-6.2 7.1v4.9L10.2 19v-6.4L4 5.5z"></path><path d="M8 5.5h8"></path></svg>',
-                vip: '<svg viewBox="0 0 24 24"><path d="M4.5 17.5h15l-1 3h-13l-1-3z"></path><path d="M5.5 16.5 7 7l5 5 5-5 1.5 9.5"></path><path d="M12 12V4"></path><path d="M10 4h4"></path></svg>',
-                diamond: '<svg viewBox="0 0 24 24"><path d="M6.5 4h11L22 10l-10 10L2 10l4.5-6z"></path><path d="M2 10h20"></path><path d="M8.5 4 12 20 15.5 4"></path></svg>'
+                standard: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6 6.5h1M17 6.5h1M6 17.5h1M17 17.5h1"/></svg>',
+                pro: '<svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20v-7l4-3 4 5 4-8 3 4"/><circle cx="5" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="15" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1" fill="currentColor" stroke="none"/></svg>',
+                vip: '<svg viewBox="0 0 24 24"><path d="M3 18l4-7 3.5 4L15 7l6 11H3z"/><path d="M12 3v1.5"/><path d="M8 4.5l1 1"/><path d="M16 4.5l-1 1"/><circle cx="12" cy="3" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="4.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="16" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg>',
+                diamond: '<svg viewBox="0 0 24 24"><path d="M6 4h12l4 6-10 11L2 10l4-6z"/><path d="M2 10h20"/><path d="M12 21L8.5 10 6 4"/><path d="M12 21l3.5-11L18 4"/><path d="M12 4v6"/></svg>'
             };
             return `<span class="membership-icon-shell membership-icon-${type}" aria-hidden="true"><span class="membership-tier-icon">${icons[type]}</span></span>`;
         }
@@ -8141,6 +8211,17 @@
             if (id.includes('pro')) return 'Phổ biến nhất';
             if (id.includes('vip')) return 'Khuyến nghị';
             return '';
+        }
+
+        function membershipPricingCardIcon(planId) {
+            const type = membershipIconType(planId);
+            const icons = {
+                standard: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6 6.5h1M17 6.5h1M6 17.5h1M17 17.5h1"/></svg>',
+                pro: '<svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20v-7l4-3 4 5 4-8 3 4"/><circle cx="5" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="15" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1" fill="currentColor" stroke="none"/></svg>',
+                vip: '<svg viewBox="0 0 24 24"><path d="M3 18l4-7 3.5 4L15 7l6 11H3z"/><path d="M12 3v1.5"/><path d="M8 4.5l1 1"/><path d="M16 4.5l-1 1"/><circle cx="12" cy="3" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="4.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="16" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg>',
+                diamond: '<svg viewBox="0 0 24 24"><path d="M6 4h12l4 6-10 11L2 10l4-6z"/><path d="M2 10h20"/><path d="M12 21L8.5 10 6 4"/><path d="M12 21l3.5-11L18 4"/><path d="M12 4v6"/></svg>'
+            };
+            return icons[type] || icons.standard;
         }
 
         function membershipCardContent(plan) {
@@ -8207,9 +8288,11 @@
             const content = membershipCardContent(plan);
             const features = splitList(content.features);
 
+            const cardIcon = membershipPricingCardIcon(planId);
             return `
                 <div class="pricing-card liquid-glass-card card-${escapeHtml(cardClassId)}" data-membership-action="${escapeHtml(action)}" onclick="selectMembershipAction('${escapeHtml(action)}', this)">
                     <div class="membership-plan-head">
+                        <div class="pricing-card-icon" aria-hidden="true">${cardIcon}</div>
                         <div class="pricing-title">${escapeHtml(content.title)}</div>
                         <div class="pricing-subtitle">${escapeHtml(content.subtitle)}</div>
                     </div>
@@ -9265,7 +9348,7 @@
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
-                        <span class="membership-icon-shell membership-icon-standard" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="5.5"></circle><path d="M16 16l4 4"></path><path d="M8.5 10h5"></path><path d="M8.5 12.5h3.5"></path></svg></span></span>
+                        <span class="membership-icon-shell membership-icon-standard" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6 6.5h1M17 6.5h1M6 17.5h1M17 17.5h1"/></svg></span></span>
                     </div>
                     <div class="modal-hero-title">Hội viên Tiêu chuẩn</div>
                     <div class="modal-hero-subtitle">(Tiêu chuẩn)</div>
@@ -9304,7 +9387,7 @@
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
-                        <span class="membership-icon-shell membership-icon-pro" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5h16l-6.2 7.1v4.9L10.2 19v-6.4L4 5.5z"></path><path d="M8 5.5h8"></path></svg></span></span>
+                        <span class="membership-icon-shell membership-icon-pro" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20v-7l4-3 4 5 4-8 3 4"/><circle cx="5" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="15" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1" fill="currentColor" stroke="none"/></svg></span></span>
                     </div>
                     <div class="modal-hero-title">Hội viên PRO</div>
                     <div class="modal-hero-subtitle">(Chuyên nghiệp)</div>
@@ -9421,7 +9504,7 @@
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
-                        <span class="membership-icon-shell membership-icon-vip" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M4.5 17.5h15l-1 3h-13l-1-3z"></path><path d="M5.5 16.5 7 7l5 5 5-5 1.5 9.5"></path><path d="M12 12V4"></path><path d="M10 4h4"></path></svg></span></span>
+                        <span class="membership-icon-shell membership-icon-vip" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M3 18l4-7 3.5 4L15 7l6 11H3z"/><path d="M12 3v1.5"/><path d="M8 4.5l1 1"/><path d="M16 4.5l-1 1"/><circle cx="12" cy="3" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="4.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="16" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg></span></span>
                     </div>
                     <div class="modal-hero-title">Hội viên V.I.P</div>
                     <div class="modal-hero-subtitle">(Cao cấp)</div>
@@ -9472,7 +9555,7 @@
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
-                        <span class="membership-icon-shell membership-icon-diamond" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M6.5 4h11L22 10l-10 10L2 10l4.5-6z"></path><path d="M2 10h20"></path><path d="M8.5 4 12 20 15.5 4"></path></svg></span></span>
+                        <span class="membership-icon-shell membership-icon-diamond" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M6 4h12l4 6-10 11L2 10l4-6z"/><path d="M2 10h20"/><path d="M12 21L8.5 10 6 4"/><path d="M12 21l3.5-11L18 4"/><path d="M12 4v6"/></svg></span></span>
                     </div>
                     <div class="modal-hero-title">Hội viên Diamond</div>
                     <div class="modal-hero-subtitle">(Kim cương)</div>
