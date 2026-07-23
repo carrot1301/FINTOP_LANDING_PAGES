@@ -1,3 +1,132 @@
+const membershipCheckoutState = {
+    awaitingProAuthentication: false,
+    pendingProPackage: null,
+    authListenerBound: false,
+};
+
+function isMembershipAuthenticated() {
+    return Boolean(window.FintopInfra?.AuthManager?.isAuthenticated);
+}
+
+function setActiveProPackage(card) {
+    if (!card) return;
+
+    document.querySelectorAll('.pro-package-card').forEach((item) => {
+        const isActive = item === card;
+        item.classList.toggle('active', isActive);
+        item.setAttribute('aria-pressed', String(isActive));
+    });
+
+    const packageName = card.getAttribute('data-package') || 'PRO1';
+    const months = card.getAttribute('data-months') || '3';
+    const noteElement = document.getElementById('pro-payment-note');
+    if (noteElement) {
+        noteElement.innerHTML = `<div>[HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI ${packageName} - ${months} THÁNG]</div>
+            <div style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A_0862348886_${packageName} - ${months} THÁNG</div>`;
+    }
+
+    updateTransferNote();
+}
+
+function setProCheckoutVisibility(visible, hintText) {
+    const modal = document.getElementById('modal-pro');
+    const paymentSection = document.getElementById('proPaymentSection');
+    const checkoutSection = document.getElementById('proCheckoutSection');
+    const hint = document.getElementById('proCheckoutHint');
+
+    if (modal) modal.classList.toggle('checkout-ready', visible);
+    if (paymentSection) paymentSection.hidden = !visible;
+    if (checkoutSection) checkoutSection.hidden = !visible;
+    if (hint) {
+        hint.textContent = hintText || 'Chọn gói phù hợp để tiếp tục đăng nhập và nhận thông tin chuyển khoản.';
+        hint.classList.toggle('is-ready', visible);
+    }
+
+    if (visible) {
+        updateTransferNote();
+        window.setTimeout(() => modal?.scrollTo({ top: 0, behavior: 'smooth' }), 80);
+    }
+}
+
+function resetProCheckout() {
+    membershipCheckoutState.awaitingProAuthentication = false;
+    membershipCheckoutState.pendingProPackage = null;
+    document.querySelectorAll('.pro-package-card').forEach((card) => {
+        card.classList.remove('active');
+        card.setAttribute('aria-pressed', 'false');
+    });
+    setProCheckoutVisibility(false);
+}
+
+function selectProPackage(card) {
+    if (!card) return;
+
+    setActiveProPackage(card);
+    const packageName = card.getAttribute('data-package') || 'PRO1';
+
+    if (!isMembershipAuthenticated()) {
+        membershipCheckoutState.awaitingProAuthentication = true;
+        membershipCheckoutState.pendingProPackage = packageName;
+        setProCheckoutVisibility(false, `Bạn đã chọn ${packageName}. Đăng nhập để xem thông tin chuyển khoản và gửi yêu cầu phê duyệt.`);
+        if (typeof openAuthModal === 'function') openAuthModal('login');
+        return;
+    }
+
+    membershipCheckoutState.awaitingProAuthentication = false;
+    membershipCheckoutState.pendingProPackage = null;
+    setProCheckoutVisibility(true, `Đã chọn ${packageName}. Hoàn tất chuyển khoản và tải ảnh xác nhận để gửi phê duyệt.`);
+}
+
+function resumeProCheckoutAfterAuthentication() {
+    if (!membershipCheckoutState.awaitingProAuthentication || !isMembershipAuthenticated()) return;
+
+    const packageName = membershipCheckoutState.pendingProPackage;
+    const selectedCard = packageName
+        ? document.querySelector(`.pro-package-card[data-package="${packageName}"]`)
+        : document.querySelector('.pro-package-card.active');
+
+    membershipCheckoutState.awaitingProAuthentication = false;
+    membershipCheckoutState.pendingProPackage = null;
+
+    if (selectedCard) setActiveProPackage(selectedCard);
+
+    const proModal = document.getElementById('modal-pro');
+    if (!proModal?.classList.contains('active')) {
+        openPricingModal('pro');
+    }
+
+    const activePackage = selectedCard?.getAttribute('data-package') || 'PRO1';
+    setProCheckoutVisibility(true, `Đã chọn ${activePackage}. Hoàn tất chuyển khoản và tải ảnh xác nhận để gửi phê duyệt.`);
+}
+
+function bindMembershipAuthListener(attempt = 0) {
+    if (membershipCheckoutState.authListenerBound) return;
+
+    const appState = window.FintopInfra?.AppState;
+    const authLoginEvent = appState?.EVENTS?.AUTH_LOGIN;
+    if (appState?.on && authLoginEvent) {
+        appState.on(authLoginEvent, resumeProCheckoutAfterAuthentication);
+        membershipCheckoutState.authListenerBound = true;
+        return;
+    }
+
+    if (attempt < 80) {
+        window.setTimeout(() => bindMembershipAuthListener(attempt + 1), 100);
+    }
+}
+
+function requestVIPLinkAuthentication() {
+    if (isMembershipAuthenticated()) return true;
+    if (typeof openAuthModal === 'function') openAuthModal('login');
+    return false;
+}
+
+function requestDiamondLinkAuthentication() {
+    if (isMembershipAuthenticated()) return true;
+    if (typeof openAuthModal === 'function') openAuthModal('login');
+    return false;
+}
+
 // Khởi tạo các event listeners khi tài liệu được tải xong
 document.addEventListener('DOMContentLoaded', () => {
     // Đóng modal khi click ra ngoài (vào lớp overlay mờ)
@@ -13,26 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Gắn sự kiện chọn gói PRO (PRO1, PRO2, PRO3)
     const proCards = document.querySelectorAll('.pro-package-card');
     proCards.forEach(card => {
-        card.addEventListener('click', function () {
-            // Xóa active cũ
-            proCards.forEach(c => c.classList.remove('active'));
-            // Thêm active mới
-            this.classList.add('active');
-            
-            // Lấy data và cập nhật thông tin thanh toán
-            const pkgValue = this.getAttribute('data-package'); // Vd: PRO1, PRO2, PRO3
-            const months = this.getAttribute('data-months');
-            
-            // Cập nhật nội dung chuyển khoản mẫu
-            const noteElement = document.getElementById('pro-payment-note');
-            if (noteElement) {
-                noteElement.innerHTML = `<div>[HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI ${pkgValue} - ${months} THÁNG]</div>
-                <div style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A_0862348886_${pkgValue} - ${months} THÁNG</div>`;
-            }
-
-            // Cập nhật nội dung chuyển khoản tự động ở Bước 2
-            updateTransferNote();
-        });
+        card.addEventListener('click', () => selectProPackage(card));
     });
 
     // Gắn sự kiện tự động cập nhật nội dung chuyển khoản khi nhập họ tên / SĐT
@@ -45,6 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (proPhoneInput) {
         proPhoneInput.addEventListener('input', updateTransferNote);
     }
+
+    bindMembershipAuthListener();
 });
 
 function removeVietnameseTones(str) {
@@ -147,7 +259,7 @@ function buildVietQRData(bankBin, account, amount, addInfo) {
 function renderQRToImg(data, imgEl) {
     if (typeof qrcode !== 'function') {
         // Library not loaded yet, fallback to VietQR image API
-        imgEl.src = `https://img.vietqr.io/image/MB-862862348886-compact2.png?amount=2500000&addInfo=FINTOP`;
+        imgEl.src = `https://img.vietqr.io/image/MB-862862438886-compact2.png?amount=2500000&addInfo=FINTOP`;
         return;
     }
     // Type 0 = auto-detect version, Error correction M (15%)
@@ -196,7 +308,7 @@ function updateTransferNote() {
     if (!price || isNaN(price)) {
         if (pkgValue === 'PRO1') price = 2500000;
         else if (pkgValue === 'PRO2') price = 4500000;
-        else if (pkgValue === 'PRO3') price = 8000000;
+        else if (pkgValue === 'PRO3') price = 6800000;
         else price = 2500000;
     }
     const priceText = Number(price).toLocaleString('vi-VN') + ' VND';
@@ -229,7 +341,7 @@ function updateTransferNote() {
     // Generate and load the beautiful VietQR image dynamically with correct account number, amount, and note
     const qrImg = document.getElementById('pro-vietqr-img');
     if (qrImg) {
-        const qrUrl = `https://img.vietqr.io/image/970422-862862348886-compact2.png?amount=${price}&addInfo=${encodeURIComponent(note)}&accountName=${encodeURIComponent('CONG TY TNHH DAU TU VA PHAT TRIEN FINTOP')}`;
+        const qrUrl = `https://img.vietqr.io/image/970422-862862438886-compact2.png?amount=${price}&addInfo=${encodeURIComponent(note)}&accountName=${encodeURIComponent('CONG TY TNHH DAU TU VA PHAT TRIEN FINTOP')}`;
         qrImg.src = qrUrl;
     }
 }
@@ -331,6 +443,10 @@ function openPricingModal(tier) {
     
     // Tìm modal tương ứng
     const targetModal = document.getElementById(`modal-${resolvedTier}`);
+
+    if (resolvedTier === 'pro') {
+        resetProCheckout();
+    }
     
     if (overlay && targetModal) {
         overlay.classList.add('active');
@@ -375,6 +491,11 @@ function openPricingModal(tier) {
 function closePricingModal() {
     const overlay = document.getElementById('pricing-modals');
     const modals = document.querySelectorAll('.pricing-modal');
+    const proModal = document.getElementById('modal-pro');
+
+    if (proModal?.classList.contains('active')) {
+        resetProCheckout();
+    }
     
     modals.forEach(m => m.classList.remove('active'));
     

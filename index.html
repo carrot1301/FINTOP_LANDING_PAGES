@@ -238,7 +238,7 @@
             z-index: 998;
             background: #07070d; /* Solid dark background to prevent heavy GPU compositing blur */
             overflow: visible;
-            padding: 40px 5% 3rem;
+            padding: calc(40px + var(--pinned-submenu-height, 0px)) 5% 3rem;
             animation: panelSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
@@ -3513,72 +3513,6 @@
             height: 34px;
         }
 
-        /* === PRICING CARD TIER ICONS === */
-        .pricing-card-icon {
-            width: 52px;
-            height: 52px;
-            margin: 0 auto 0.5rem;
-            display: grid;
-            place-items: center;
-            border-radius: 14px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pricing-card-icon::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .pricing-card-icon svg {
-            width: 28px;
-            height: 28px;
-            display: block;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 1.6;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            position: relative;
-            z-index: 1;
-            filter: drop-shadow(0 0 6px currentColor);
-        }
-
-        .card-standard .pricing-card-icon {
-            color: #94A3B8;
-            background: rgba(148, 163, 184, 0.08);
-        }
-
-        .card-pro .pricing-card-icon {
-            color: #A78BFA;
-            background: rgba(124, 58, 237, 0.1);
-        }
-
-        .card-vip .pricing-card-icon {
-            color: #38BDF8;
-            background: rgba(56, 189, 248, 0.1);
-        }
-
-        .card-diamond .pricing-card-icon {
-            color: #FBBF24;
-            background: rgba(245, 158, 11, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            .pricing-card-icon {
-                width: 44px;
-                height: 44px;
-            }
-            .pricing-card-icon svg {
-                width: 24px;
-                height: 24px;
-            }
-        }
-
         .membership-tier-name {
             color: var(--membership-text-primary);
             font-size: 1.08rem;
@@ -5612,8 +5546,6 @@
 
         <div class="function-shell">
             <div class="pricing-grid panel-pricing-grid" id="panelMembershipPricingGrid" aria-label="Gói hội viên FinTop DATA"></div>
-
-            <section class="membership-flow-panel" id="membershipFlowPanel" aria-live="polite"></section>
         </div>
     </div>
 
@@ -6546,9 +6478,8 @@
         <div class="pricing-grid">
             <div class="pricing-card liquid-glass-card card-standard" data-membership-action="free" onclick="selectMembershipAction('free', this)">
                 <div class="membership-plan-head">
-                    <div class="pricing-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6 6.5h1M17 6.5h1M6 17.5h1M17 17.5h1"/></svg></div>
                     <div class="pricing-title">STANDARD</div>
-                    <div class="pricing-subtitle">(Tiêu chuẩn)</div>
+                    <div class="pricing-subtitle">Tiêu chuẩn</div>
                 </div>
                 <div class="membership-benefit-panel">
                     <ul class="pricing-features">
@@ -6562,9 +6493,8 @@
 
             <div class="pricing-card liquid-glass-card card-pro" data-membership-action="pro" onclick="selectMembershipAction('pro', this)">
                 <div class="membership-plan-head">
-                    <div class="pricing-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20v-7l4-3 4 5 4-8 3 4"/><circle cx="5" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="15" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1" fill="currentColor" stroke="none"/></svg></div>
-                    <div class="pricing-title">PRO</div>
-                    <div class="pricing-subtitle">(Chuyên nghiệp)</div>
+                    <div class="pricing-title">PRO ⭐</div>
+                    <div class="pricing-subtitle">Chuyên nghiệp</div>
                 </div>
                 <div class="membership-benefit-panel">
                     <ul class="pricing-features">
@@ -6578,9 +6508,8 @@
 
             <div class="pricing-card liquid-glass-card card-vip" data-membership-action="vip" onclick="selectMembershipAction('vip', this)">
                 <div class="membership-plan-head">
-                    <div class="pricing-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 18l4-7 3.5 4L15 7l6 11H3z"/><path d="M12 3v1.5"/><path d="M8 4.5l1 1"/><path d="M16 4.5l-1 1"/><circle cx="12" cy="3" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="4.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="16" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg></div>
                     <div class="pricing-title">V.I.P</div>
-                    <div class="pricing-subtitle">(Cao cấp)</div>
+                    <div class="pricing-subtitle">Cao cấp</div>
                 </div>
                 <div class="membership-benefit-panel">
                     <ul class="pricing-features">
@@ -6594,9 +6523,8 @@
 
             <div class="pricing-card liquid-glass-card card-diamond" data-membership-action="diamond" onclick="selectMembershipAction('diamond', this)">
                 <div class="membership-plan-head">
-                    <div class="pricing-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4h12l4 6-10 11L2 10l4-6z"/><path d="M2 10h20"/><path d="M12 21L8.5 10 6 4"/><path d="M12 21l3.5-11L18 4"/><path d="M12 4v6"/></svg></div>
-                    <div class="pricing-title">DIAMOND</div>
-                    <div class="pricing-subtitle">(Kim cương)</div>
+                    <div class="pricing-title">DIAMOND 💎</div>
+                    <div class="pricing-subtitle">Kim cương</div>
                 </div>
                 <div class="membership-benefit-panel">
                     <ul class="pricing-features">
@@ -6941,6 +6869,15 @@
             });
 
             dc.classList.toggle('pinned', shouldPin);
+            syncPinnedSubmenuOffset();
+        }
+
+        function syncPinnedSubmenuOffset() {
+            const pinnedSubmenu = document.querySelector('.dropdown-content.pinned');
+            const submenuHeight = pinnedSubmenu
+                ? Math.ceil(pinnedSubmenu.getBoundingClientRect().height)
+                : 0;
+            document.documentElement.style.setProperty('--pinned-submenu-height', `${submenuHeight}px`);
         }
 
         // Open content panel
@@ -6982,9 +6919,6 @@
             const heroVideo = document.getElementById('hero-video');
             if (heroVideo) heroVideo.pause();
 
-            // Reset scroll position to top for the active panel
-            window.scrollTo({ top: 0 });
-
             // Trigger lazy loading of data for the active panel
             if (typeof triggerPanelHydration === 'function') {
                 triggerPanelHydration(panelId);
@@ -7008,6 +6942,10 @@
                 });
                 parentDropdownContent.classList.add('pinned');
             }
+            syncPinnedSubmenuOffset();
+            window.requestAnimationFrame(() => {
+                window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+            });
 
             // Auto-render Bộ lọc table on first open
             if (panelId === 'panel-boloc') {
@@ -7082,6 +7020,7 @@
             });
             document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('pinned'));
             document.querySelectorAll('.dropdown-content a').forEach(a => a.classList.remove('active-submenu'));
+            syncPinnedSubmenuOffset();
 
             // Show homepage content wrapper, restore background video, and refresh GSAP ScrollTrigger
             const homepage = document.getElementById('homepageContent');
@@ -7207,9 +7146,12 @@
                 const anyPanelActive = document.querySelector('.submenu-panel.active');
                 if (!anyPanelActive) {
                     document.querySelectorAll('.dropdown-content.pinned').forEach(d => d.classList.remove('pinned'));
+                    syncPinnedSubmenuOffset();
                 }
             }
         });
+
+        window.addEventListener('resize', syncPinnedSubmenuOffset);
 
         // Escape key to close
         document.addEventListener('keydown', (e) => {
@@ -7838,129 +7780,15 @@
         }
 
         function selectMembershipAction(action, clickedCard) {
-            const flows = {
-                free: {
-                    title: 'Đăng ký tài khoản FinTop DATA miễn phí',
-                    copy: 'Tạo tài khoản miễn phí để lưu danh sách theo dõi, sử dụng các công cụ cơ bản và nhận hỗ trợ khi cần nâng cấp trải nghiệm đầu tư.',
-                    actionLabel: 'Đăng ký miễn phí',
-                    action: "submitStandard('register')",
-                    approval: false,
-                    steps: [
-                        {
-                            label: 'Tạo tài khoản',
-                            body: 'Nhấn đăng ký, điền thông tin cơ bản và xác nhận tài khoản FinTop DATA miễn phí.'
-                        },
-                        {
-                            label: 'Bắt đầu sử dụng',
-                            body: 'Sau khi đăng ký thành công, bạn có thể dùng các tính năng miễn phí và nâng cấp gói khi có nhu cầu.'
-                        }
-                    ],
-                    summary: 'Thông tin đăng ký giúp FinTop hỗ trợ tài khoản và gửi thông báo dịch vụ phù hợp.'
-                },
-                pro: {
-                    title: 'Đăng ký gói PRO FinTop DATA',
-                    copy: 'Gói PRO dành cho khách hàng muốn mở khóa bộ lọc cổ phiếu chuyên nghiệp, dữ liệu PRO và báo cáo nghiên cứu chuyên sâu. Bạn chỉ cần đăng nhập, chọn gói phù hợp và hoàn tất thanh toán theo hướng dẫn.',
-                    actionLabel: 'Đăng ký PRO',
-                    action: "openPricingModal('pro')",
-                    approval: true,
-                    approvalNote: 'FinTop sẽ thông báo ngay khi quyền PRO được kích hoạt.',
-                    steps: [
-                        {
-                            label: 'Đăng nhập tài khoản',
-                            body: 'Nếu chưa đăng nhập, bạn sẽ được yêu cầu đăng nhập hoặc tạo tài khoản FinTop DATA trước khi đăng ký PRO.'
-                        },
-                        {
-                            label: 'Chọn gói & thanh toán',
-                            body: 'Chọn gói PRO phù hợp, xác nhận thông tin và hoàn tất thanh toán để FinTop xử lý kích hoạt.'
-                        }
-                    ],
-                    summary: 'Sau khi thanh toán được xác nhận, FinTop sẽ kích hoạt quyền PRO cho tài khoản của bạn.'
-                },
-                vip: {
-                    title: 'Liên kết tài khoản chứng khoán (ID FinTop)',
-                    copy: 'Gói V.I.P dành cho khách hàng muốn kết nối chuyên gia và sử dụng quyền lợi nâng cao thông qua tài khoản chứng khoán liên kết với FinTop.',
-                    actionLabel: 'Liên kết V.I.P',
-                    action: "openPricingModal('vip')",
-                    approval: true,
-                    approvalNote: 'FinTop sẽ thông báo khi tài khoản V.I.P được xác nhận.',
-                    steps: [
-                        {
-                            label: 'Mở hoặc chọn tài khoản chứng khoán',
-                            list: ['Mở tài khoản VPS theo FinTop ID BOJE nếu bạn chưa có tài khoản phù hợp.', 'Hoặc mở tài khoản TCBS theo ID 105CN48886.']
-                        },
-                        {
-                            label: 'Gửi thông tin liên kết',
-                            list: ['Nhập số tài khoản chứng khoán cần liên kết.', 'Chọn công ty chứng khoán tương ứng.', 'Gửi thông tin để FinTop kiểm tra và xác nhận.']
-                        }
-                    ],
-                    summary: 'Sau khi thông tin được xác nhận, tài khoản của bạn sẽ được mở quyền lợi V.I.P tương ứng.'
-                },
-                diamond: {
-                    title: 'Liên kết tài khoản Diamond (NAV từ 1 tỷ VND)',
-                    copy: 'Gói Diamond dành cho khách hàng có NAV từ 1 tỷ VND và cần đồng hành chuyên sâu về chiến lược danh mục, báo cáo định kỳ và cố vấn 1-1.',
-                    actionLabel: 'Yêu cầu phê duyệt',
-                    action: "openPricingModal('diamond')",
-                    actionButtons: [
-                        { label: 'Mở TK VPS', action: "submitDiamond('open')", variant: 'primary' },
-                        { label: 'Mở TK TCBS', action: "submitDiamond('open')", variant: 'ghost' },
-                        { label: 'Yêu cầu phê duyệt', action: "openPricingModal('diamond')", variant: 'primary' }
-                    ],
-                    approval: true,
-                    approvalNote: 'FinTop sẽ liên hệ để xác nhận thông tin và kích hoạt dịch vụ Diamond.',
-                    steps: [
-                        {
-                            label: 'Chuẩn bị tài khoản chứng khoán',
-                            list: ['Mở tài khoản VPS theo FinTop ID BOJE nếu bạn chưa có tài khoản phù hợp.', 'Hoặc mở tài khoản TCBS theo ID 105CN48886.']
-                        },
-                        {
-                            label: 'Gửi thông tin Diamond',
-                            list: ['Nhập số tài khoản chứng khoán cần liên kết.', 'Cung cấp công ty chứng khoán và thông tin NAV.', 'Gửi thông tin để đội ngũ FinTop xác nhận.']
-                        }
-                    ],
-                    summary: 'Sau khi xác nhận đủ điều kiện, FinTop sẽ mở quyền Diamond và sắp xếp kênh hỗ trợ riêng cho bạn.'
-                }
-            };
-            const flow = flows[action] || flows.free;
-            const panel = document.getElementById('membershipFlowPanel');
-            if (!panel) return;
+            const tier = action === 'free' ? 'standard' : action;
 
-            document.querySelectorAll('.membership-action-card, .pricing-card[data-membership-action]').forEach((card) => {
-                card.classList.toggle('active', card === clickedCard || (!clickedCard && card.dataset.membershipAction === action));
+            document.querySelectorAll('.pricing-card[data-membership-action]').forEach((card) => {
+                card.classList.toggle('active', card === clickedCard);
             });
 
-            const stepsMarkup = flow.steps.map((step) => {
-                const body = step.list
-                    ? `<ul>${step.list.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
-                    : `<p>${escapeHtml(step.body || '')}</p>`;
-                return `
-                    <article class="membership-step">
-                        <strong>${escapeHtml(step.label)}</strong>
-                        ${body}
-                    </article>
-                `;
-            }).join('');
-
-            const actionMarkup = Array.isArray(flow.actionButtons) && flow.actionButtons.length
-                ? `<div class="membership-flow-actions">${flow.actionButtons.map((button) => {
-                    const buttonClass = button.variant === 'ghost' ? 'function-btn-ghost' : 'function-btn';
-                    return `<button class="${buttonClass}" type="button" onclick="${button.action}">${escapeHtml(button.label)}</button>`;
-                }).join('')}</div>`
-                : `<div class="membership-flow-actions"><button class="function-btn" type="button" onclick="${flow.action}">${escapeHtml(flow.actionLabel)}</button></div>`;
-
-            panel.innerHTML = `
-                <div class="membership-flow-head">
-                    <div>
-                        <div class="membership-flow-title">${escapeHtml(flow.title)}</div>
-                        <div class="membership-flow-copy">${escapeHtml(flow.copy)}</div>
-                    </div>
-                    ${actionMarkup}
-                </div>
-                <div class="membership-step-grid">${stepsMarkup}</div>
-                <div class="membership-user-summary">
-                    ${escapeHtml(flow.summary)}
-                    ${flow.approval ? `<div class="membership-approval-note" style="margin-top: 8px;">${escapeHtml(flow.approvalNote || 'FinTop sẽ thông báo khi gói được kích hoạt.')}</div>` : ''}
-                </div>
-            `;
+            if (typeof openPricingModal === 'function') {
+                openPricingModal(tier);
+            }
         }
 
         window.selectMembershipAction = selectMembershipAction;
@@ -8213,41 +8041,30 @@
             return '';
         }
 
-        function membershipPricingCardIcon(planId) {
-            const type = membershipIconType(planId);
-            const icons = {
-                standard: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6 6.5h1M17 6.5h1M6 17.5h1M17 17.5h1"/></svg>',
-                pro: '<svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20v-7l4-3 4 5 4-8 3 4"/><circle cx="5" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="15" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1" fill="currentColor" stroke="none"/></svg>',
-                vip: '<svg viewBox="0 0 24 24"><path d="M3 18l4-7 3.5 4L15 7l6 11H3z"/><path d="M12 3v1.5"/><path d="M8 4.5l1 1"/><path d="M16 4.5l-1 1"/><circle cx="12" cy="3" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="4.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="16" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg>',
-                diamond: '<svg viewBox="0 0 24 24"><path d="M6 4h12l4 6-10 11L2 10l4-6z"/><path d="M2 10h20"/><path d="M12 21L8.5 10 6 4"/><path d="M12 21l3.5-11L18 4"/><path d="M12 4v6"/></svg>'
-            };
-            return icons[type] || icons.standard;
-        }
-
         function membershipCardContent(plan) {
             const id = String(plan.id || '').toLowerCase();
             const content = {
                 standard: {
                     title: 'STANDARD',
-                    subtitle: '(Tiêu chuẩn)',
+                    subtitle: 'Tiêu chuẩn',
                     features: 'Tra cứu cổ phiếu; Phân tích cơ bản; Tool & Dữ liệu cơ bản',
                     cta: 'Đăng ký miễn phí'
                 },
                 pro: {
-                    title: 'PRO',
-                    subtitle: '(Chuyên nghiệp)',
+                    title: 'PRO ⭐',
+                    subtitle: 'Chuyên nghiệp',
                     features: 'Bộ lọc cổ phiếu; Pro Research; Pro Data',
                     cta: 'Đăng ký PRO'
                 },
                 vip: {
                     title: 'V.I.P',
-                    subtitle: '(Cao cấp)',
+                    subtitle: 'Cao cấp',
                     features: 'Đặc quyền PRO; Kết nối Chuyên gia; Phân tích Chuyên gia',
                     cta: 'Liên kết V.I.P'
                 },
                 diamond: {
-                    title: 'DIAMOND',
-                    subtitle: '(Kim cương)',
+                    title: 'DIAMOND 💎',
+                    subtitle: 'Kim cương',
                     features: 'Đặc quyền V.I.P; Đặc quyền PRO; Cố vấn 1-1 Chuyên gia',
                     cta: 'Liên kết Diamond'
                 }
@@ -8272,13 +8089,7 @@
             if (event) event.stopPropagation();
             const card = button.closest('.pricing-card');
             const action = button.dataset.membershipAction || 'free';
-            const planId = button.dataset.planId || 'standard';
             selectMembershipAction(action, card);
-            if (action === 'free' || planId === 'standard') {
-                submitStandard('register');
-                return;
-            }
-            openPricingModal(planId);
         }
 
         function renderMembershipCard(plan) {
@@ -8288,11 +8099,9 @@
             const content = membershipCardContent(plan);
             const features = splitList(content.features);
 
-            const cardIcon = membershipPricingCardIcon(planId);
             return `
                 <div class="pricing-card liquid-glass-card card-${escapeHtml(cardClassId)}" data-membership-action="${escapeHtml(action)}" onclick="selectMembershipAction('${escapeHtml(action)}', this)">
                     <div class="membership-plan-head">
-                        <div class="pricing-card-icon" aria-hidden="true">${cardIcon}</div>
                         <div class="pricing-title">${escapeHtml(content.title)}</div>
                         <div class="pricing-subtitle">${escapeHtml(content.subtitle)}</div>
                     </div>
@@ -8327,7 +8136,40 @@
                 `).join('');
             }
 
-            selectMembershipAction('free');
+            const modalFeatureOverrides = {
+                standard: [
+                    'Tra cứu trạng thái cổ phiếu',
+                    'Dữ liệu phân tích định lượng',
+                    'FinTop AI & Công cụ phân tích',
+                    'Tools & Dữ liệu cơ bản'
+                ],
+                pro: [
+                    'Bộ lọc cổ phiếu chuyên nghiệp',
+                    'Dữ liệu phân tích nâng cao',
+                    'Nghiên cứu & Thông tin chuyên sâu',
+                    'Tools Pro & Dữ liệu nâng cao'
+                ],
+                vip: [
+                    'Full ưu đãi Đặc quyền PRO (miễn phí)',
+                    'Kết nối Chuyên gia Công ty Chứng khoán',
+                    '+ Chuyên viên Phân tích đầu tư;',
+                    '+ Chuyên viên Tư vấn đầu tư;',
+                    'Phân tích định lượng & Dữ liệu nâng cao',
+                    'Thông tin chuyên sâu & Dữ liệu nghiên cứu'
+                ],
+                diamond: [
+                    'Full Đặc quyền PRO (miễn phí)',
+                    'Full Đặc quyền V.I.P (miễn phí)',
+                    'Chuyên gia Cao cấp Công ty Chứng khoán',
+                    '+ Giám đốc Tư vấn đầu tư & Quản lý danh mục;',
+                    '+ Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)',
+                    '*Thông tin khách hàng',
+                    '*Thông tin phê duyệt'
+                ]
+            };
+            const modalSubtitleOverrides = {
+                vip: '(Ưu tiên)'
+            };
 
             MEMBERSHIP_DATA.forEach((plan) => {
                 const modal = document.getElementById(`modal-${plan.id}`);
@@ -8336,9 +8178,13 @@
                 const subtitle = modal.querySelector('.modal-hero-subtitle');
                 const features = modal.querySelector('.modal-features-list');
                 if (title) title.textContent = membershipTierName(plan);
-                if (subtitle) subtitle.textContent = plan.subtitle ? `(${plan.subtitle})` : '';
+                if (subtitle) {
+                    subtitle.textContent = modalSubtitleOverrides[plan.id]
+                        || (plan.subtitle ? `(${plan.subtitle})` : '');
+                }
                 if (features) {
-                    features.innerHTML = splitList(plan.features)
+                    const modalFeatures = modalFeatureOverrides[plan.id] || splitList(plan.features);
+                    features.innerHTML = modalFeatures
                         .map((feature, index) => `<li class="${index === 0 ? 'highlight' : ''}">${escapeHtml(feature)}</li>`)
                         .join('');
                 }
@@ -8989,7 +8835,6 @@
             applyLandingContent();
             renderResearchPanels();
             renderMemberships();
-            selectMembershipAction('free');
             hydrateFromSupabase().catch((error) => {
                 console.warn('Supabase hydrate skipped:', error);
             });
@@ -9355,9 +9200,10 @@
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li>Tra cứu cổ phiếu</li>
-                        <li>Phân tích cơ bản</li>
-                        <li>Tool & Dữ liệu cơ bản</li>
+                        <li>Tra cứu trạng thái cổ phiếu</li>
+                        <li>Dữ liệu phân tích định lượng</li>
+                        <li>FinTop AI & Công cụ phân tích</li>
+                        <li>Tools & Dữ liệu cơ bản</li>
                     </ul>
                 </div>
             </div>
@@ -9394,9 +9240,10 @@
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li class="highlight">Bộ lọc cổ phiếu</li>
-                        <li class="highlight">Pro Research</li>
-                        <li class="highlight">Pro Data</li>
+                        <li class="highlight">Bộ lọc cổ phiếu chuyên nghiệp</li>
+                        <li>Dữ liệu phân tích nâng cao</li>
+                        <li>Nghiên cứu & Thông tin chuyên sâu</li>
+                        <li>Tools Pro & Dữ liệu nâng cao</li>
                     </ul>
                 </div>
             </div>
@@ -9404,33 +9251,35 @@
                 <h4 class="text-center mb-2" style="color:var(--modal-accent); font-size: 1.1rem;">Đăng ký Hội viên PRO FinTop DATA</h4>
                 <div class="modal-steps-container mt-4 pro-steps-2col">
                     <div class="modal-step-box" style="text-align: left;">
-                        <div class="step-label" style="text-align: center;">Bước 1: Chọn gói Hội viên và thanh toán</div>
+                        <div class="step-label" style="text-align: center;">Bước 1: Chọn gói Hội viên và thanh toán.</div>
                         <div class="text-muted-sm text-center mb-3">Hội viên chọn 1 trong các gói PRO1, PRO2, PRO3 đăng ký tương ứng. Giá đã bao gồm VAT 10%.</div>
 
                         <div class="pro-packages-grid">
-                            <div class="pro-package-card active" data-package="PRO1" data-months="3">
+                            <button class="pro-package-card" type="button" data-package="PRO1" data-months="3" data-price="2500000" aria-pressed="false">
                                 <div class="pro-pkg-title">PRO1 (3 tháng)</div>
                                 <div class="pro-pkg-price">2.500.000 VND</div>
-                            </div>
-                            <div class="pro-package-card" data-package="PRO2" data-months="6">
+                            </button>
+                            <button class="pro-package-card" type="button" data-package="PRO2" data-months="6" data-price="4500000" aria-pressed="false">
                                 <div class="pro-pkg-title">PRO2 (6 tháng)</div>
                                 <div class="pro-pkg-price">4.500.000 VND</div>
-                            </div>
-                            <div class="pro-package-card" data-package="PRO3" data-months="12">
+                            </button>
+                            <button class="pro-package-card" type="button" data-package="PRO3" data-months="12" data-price="6800000" aria-pressed="false">
                                 <div class="pro-pkg-title">PRO3 (12 tháng)</div>
-                                <div class="pro-pkg-price">8.000.000 VND</div>
-                            </div>
+                                <div class="pro-pkg-price">6.800.000 VND</div>
+                            </button>
                         </div>
 
-                        <div class="payment-info-box">
+                        <p class="pro-checkout-hint" id="proCheckoutHint">Chọn gói phù hợp để tiếp tục đăng nhập và nhận thông tin chuyển khoản.</p>
+
+                        <div class="payment-info-box" id="proPaymentSection" hidden>
                             <div class="payment-info-details">
                                 <div class="payment-info-row">
                                     <div class="payment-label">Ngân hàng:</div>
-                                    <div class="payment-value">MBBank - Ngân hàng TMCP Quân đội</div>
+                                    <div class="payment-value">MBBank (Ngân hàng TMCP Quân đội)</div>
                                 </div>
                                 <div class="payment-info-row">
                                     <div class="payment-label">Số tài khoản:</div>
-                                    <div class="payment-value modal-accent-text">86 286 234 8886</div>
+                                    <div class="payment-value modal-accent-text">86 286 243 8886</div>
                                 </div>
                                 <div class="payment-info-row">
                                     <div class="payment-label">Chủ tài khoản:</div>
@@ -9455,9 +9304,9 @@
                         </div>
                     </div>
 
-                    <div class="modal-step-box" style="text-align: left;">
-                        <div class="step-label" style="text-align: center;">Bước 2: Xác nhận thanh toán & Yêu cầu phê duyệt</div>
-                        <div class="text-muted-sm text-center mb-3">Sau khi chuyển khoản, điền thông tin bên dưới để FinTop xác nhận và kích hoạt tài khoản PRO.</div>
+                    <div class="modal-step-box" id="proCheckoutSection" hidden style="text-align: left;">
+                        <div class="step-label" style="text-align: center;">Bước 2: Tải ảnh thanh toán và yêu cầu phê duyệt.</div>
+                        <div class="text-muted-sm text-center mb-3">Chụp màn hình thanh toán thành công và tải ảnh lên theo hướng dẫn.</div>
 
                         <div class="pro-payment-form">
                             <div class="payment-form-group">
@@ -9507,20 +9356,24 @@
                         <span class="membership-icon-shell membership-icon-vip" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M3 18l4-7 3.5 4L15 7l6 11H3z"/><path d="M12 3v1.5"/><path d="M8 4.5l1 1"/><path d="M16 4.5l-1 1"/><circle cx="12" cy="3" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="4.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="16" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg></span></span>
                     </div>
                     <div class="modal-hero-title">Hội viên V.I.P</div>
-                    <div class="modal-hero-subtitle">(Cao cấp)</div>
+                    <div class="modal-hero-subtitle">(Ưu tiên)</div>
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li>Đặc quyền PRO</li>
-                        <li class="highlight">Kết nối Chuyên gia</li>
-                        <li class="highlight">Phân tích Chuyên gia</li>
+                        <li>Full ưu đãi Đặc quyền PRO (miễn phí)</li>
+                        <li>Kết nối Chuyên gia Công ty Chứng khoán</li>
+                        <li>+ Chuyên viên Phân tích đầu tư;</li>
+                        <li>+ Chuyên viên Tư vấn đầu tư;</li>
+                        <li>Phân tích định lượng & Dữ liệu nâng cao</li>
+                        <li>Thông tin chuyên sâu & Dữ liệu nghiên cứu</li>
                     </ul>
                 </div>
             </div>
             <div class="modal-body">
+                <p class="vip-free-notice">Đặc quyền V.I.P MIỄN PHÍ (100%) cho khách hàng mở tài khoản và giao dịch đầu tư tại Công ty Chứng khoán Đối tác.</p>
                 <div class="modal-steps-container">
                     <div class="modal-step-box">
-                        <div class="step-label">Bước 1: Mở tài khoản (Chưa có TK)</div>
+                        <div class="step-label">Bước 1: Mở tài khoản chứng khoán (Chưa có tài khoản)</div>
                         <div class="step-desc" style="text-align: left; line-height: 1.8;">
                             <ul style="margin:0; padding-left: 1.2rem;">
                                 <li>Mở TKCK VPS - FinTop ID: <strong class="modal-accent-text">BOJE</strong></li>
@@ -9531,16 +9384,16 @@
                         <button class="btn-modal-action" onclick="submitVIP('open')">MỞ TK TCBS</button>
                     </div>
                     <div class="modal-step-box">
-                        <div class="step-label">Bước 2: Liên kết TK (Đã có TK)</div>
+                        <div class="step-label">Bước 2: Liên kết tài khoản chứng khoán (Đã có tài khoản)</div>
                         <div class="step-desc" style="text-align: left;">
                             <p class="mb-2 text-muted-sm">Vui lòng điền thông tin bên dưới để yêu cầu phê duyệt liên
                                 kết:</p>
-                            <input type="text" id="vipStockAccount" placeholder="Số TK chứng khoán..."
+                            <input type="text" id="vipStockAccount" placeholder="Số TK chứng khoán..." onfocus="requestVIPLinkAuthentication()"
                                 style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 10px;">
-                            <input type="text" id="vipStockCompany" placeholder="Công ty chứng khoán..."
+                            <input type="text" id="vipStockCompany" placeholder="Công ty chứng khoán..." onfocus="requestVIPLinkAuthentication()"
                                 style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 15px;">
                         </div>
-                        <button class="btn-modal-action primary" onclick="submitVIP('link')">YÊU CẦU LIÊN KẾT</button>
+                        <button class="btn-modal-action primary" onclick="submitVIP('link')">YÊU CẦU PHÊ DUYỆT</button>
                     </div>
                 </div>
             </div>
@@ -9562,21 +9415,21 @@
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li>Đặc quyền V.I.P</li>
-                        <li>Đặc quyền PRO</li>
-                        <li class="highlight">Cố vấn 1-1 Chuyên gia</li>
+                        <li>Full Đặc quyền PRO (miễn phí)</li>
+                        <li>Full Đặc quyền V.I.P (miễn phí)</li>
+                        <li>Chuyên gia Cao cấp Công ty Chứng khoán</li>
+                        <li>+ Giám đốc Tư vấn đầu tư & Quản lý danh mục;</li>
+                        <li>+ Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)</li>
+                        <li>*Thông tin khách hàng</li>
+                        <li>*Thông tin phê duyệt</li>
                     </ul>
                 </div>
             </div>
             <div class="modal-body">
-                <div class="payment-info-box" style="margin-bottom: 1rem;">
-                    <p style="color: #fff; line-height: 1.6; margin: 0;">
-                        Gói Diamond dành cho hội viên cần đặc quyền V.I.P, đặc quyền PRO và cố vấn 1-1 cùng Chuyên gia.
-                    </p>
-                </div>
+                <p class="vip-free-notice">Đặc quyền Diamond MIỄN PHÍ (100%) cho khách hàng mở tài khoản và giao dịch tại Công ty Chứng khoán Đối tác có NAV đầu tư từ 1 tỷ VNĐ.</p>
                 <div class="modal-steps-container">
                     <div class="modal-step-box">
-                        <div class="step-label">Bước 1: Mở tài khoản (nếu chưa có)</div>
+                        <div class="step-label">Bước 1: Mở tài khoản chứng khoán (Chưa có tài khoản)</div>
                         <div class="step-desc" style="text-align: left; line-height: 1.8;">
                             <ul style="margin:0; padding-left: 1.2rem;">
                                 <li>Mở TKCK VPS - FinTop ID: <strong class="modal-accent-text">BOJE</strong></li>
@@ -9587,14 +9440,14 @@
                         <button class="btn-modal-action" onclick="submitDiamond('open')">MỞ TK TCBS</button>
                     </div>
                     <div class="modal-step-box">
-                        <div class="step-label">Bước 2: Liên kết tài khoản Diamond</div>
+                        <div class="step-label">Bước 2: Liên kết tài khoản chứng khoán (Đã có tài khoản)</div>
                         <div class="step-desc" style="text-align: left;">
                             <p class="mb-2 text-muted-sm">Vui lòng điền thông tin bên dưới để yêu cầu phê duyệt:</p>
-                            <input type="text" id="diamondStockAccount" placeholder="Số TK chứng khoán..."
+                            <input type="text" id="diamondStockAccount" placeholder="Số TK chứng khoán..." onfocus="requestDiamondLinkAuthentication()"
                                 style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 10px;">
-                            <input type="text" id="diamondStockCompany" placeholder="Công ty chứng khoán..."
+                            <input type="text" id="diamondStockCompany" placeholder="Công ty chứng khoán..." onfocus="requestDiamondLinkAuthentication()"
                                 style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 10px;">
-                            <input type="text" id="diamondNav" placeholder="NAV dự kiến (từ 1 tỷ VND)..."
+                            <input type="text" id="diamondNav" placeholder="NAV dự kiến (từ 1 tỷ VND)..." onfocus="requestDiamondLinkAuthentication()"
                                 style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 15px;">
                         </div>
                         <button class="btn-modal-action primary" onclick="submitDiamond('link')">YÊU CẦU PHÊ DUYỆT</button>

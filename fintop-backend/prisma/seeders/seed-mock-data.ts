@@ -472,7 +472,7 @@ async function main() {
       description: 'Gói PRO 12 tháng - Bộ lọc chuyên nghiệp, PRO Data & Research',
       features: 'Bộ lọc cổ phiếu chuyên nghiệp;Nghiên cứu & phân tích chuyên sâu;Tool & dữ liệu nâng cao;PRO Data và PRO Analysis',
       tierLevel: SUBSCRIPTION_TIER.SILVER,
-      price: 8000000,
+      price: 6800000,
       durationDays: 365,
     },
     {
