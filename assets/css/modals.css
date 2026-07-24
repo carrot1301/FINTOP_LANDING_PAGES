@@ -225,6 +225,14 @@
     font-weight: 600;
 }
 
+.modal-features-list li.detail {
+    font-size: 0.86rem;
+}
+
+.modal-features-list li.detail::before {
+    content: '✓';
+}
+
 /* === BODY SECTION === */
 .modal-body {
     padding: 30px 40px;
@@ -544,12 +552,11 @@
 }
 
 .vip-free-notice {
-    margin: 0 0 20px;
-    padding: 12px 14px;
-    border: 1px solid var(--modal-border);
-    border-radius: 8px;
-    background: var(--modal-soft);
-    color: var(--modal-accent);
+    margin: 0;
+    padding: 14px 40px 0;
+    border: 0;
+    background: transparent;
+    color: #FFFFFF;
     font-size: 0.88rem;
     font-weight: 600;
     line-height: 1.55;
@@ -596,6 +603,10 @@
     .modal-hero {
         flex-direction: column;
         padding: 20px;
+    }
+
+    .vip-free-notice {
+        padding: 14px 20px 0;
     }
 
     .modal-hero-left {

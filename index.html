@@ -3533,6 +3533,19 @@
             text-shadow: 0 0 18px var(--tier-soft);
         }
 
+        .pricing-title-with-icon {
+            position: relative;
+        }
+
+        .pricing-title-icon {
+            position: absolute;
+            left: calc(100% + 0.45rem);
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.72em;
+            line-height: 1;
+        }
+
         .pricing-subtitle {
             color: #F8FAFC;
             font-size: 0.95rem;
@@ -6523,7 +6536,7 @@
 
             <div class="pricing-card liquid-glass-card card-diamond" data-membership-action="diamond" onclick="selectMembershipAction('diamond', this)">
                 <div class="membership-plan-head">
-                    <div class="pricing-title">DIAMOND 💎</div>
+                    <div class="pricing-title pricing-title-with-icon">DIAMOND<span class="pricing-title-icon" aria-hidden="true">💎</span></div>
                     <div class="pricing-subtitle">Kim cương</div>
                 </div>
                 <div class="membership-benefit-panel">
@@ -8008,11 +8021,11 @@
 
         function membershipTierName(plan) {
             const id = String(plan.id || '').toLowerCase();
-            if (id === 'standard' || id === 'free') return 'Hội viên Tiêu chuẩn';
-            if (id.includes('diamond')) return 'Hội viên Diamond';
-            if (id.includes('vip')) return 'Hội viên V.I.P';
-            if (id.includes('pro')) return 'Hội viên PRO';
-            return `Hội viên ${planDisplayName(plan) || 'FinTop'}`;
+            if (id === 'standard' || id === 'free') return 'STANDARD';
+            if (id.includes('diamond')) return 'DIAMOND';
+            if (id.includes('vip')) return 'V.I.P';
+            if (id.includes('pro')) return 'PROFESSIONAL';
+            return planDisplayName(plan) || 'FinTop';
         }
 
         function membershipIconType(planId) {
@@ -8063,7 +8076,8 @@
                     cta: 'Liên kết V.I.P'
                 },
                 diamond: {
-                    title: 'DIAMOND 💎',
+                    title: 'DIAMOND',
+                    titleIcon: '💎',
                     subtitle: 'Kim cương',
                     features: 'Đặc quyền V.I.P; Đặc quyền PRO; Cố vấn 1-1 Chuyên gia',
                     cta: 'Liên kết Diamond'
@@ -8098,11 +8112,14 @@
             const action = membershipActionForPlan(planId);
             const content = membershipCardContent(plan);
             const features = splitList(content.features);
+            const titleIcon = content.titleIcon
+                ? `<span class="pricing-title-icon" aria-hidden="true">${escapeHtml(content.titleIcon)}</span>`
+                : '';
 
             return `
                 <div class="pricing-card liquid-glass-card card-${escapeHtml(cardClassId)}" data-membership-action="${escapeHtml(action)}" onclick="selectMembershipAction('${escapeHtml(action)}', this)">
                     <div class="membership-plan-head">
-                        <div class="pricing-title">${escapeHtml(content.title)}</div>
+                        <div class="pricing-title${titleIcon ? ' pricing-title-with-icon' : ''}">${escapeHtml(content.title)}${titleIcon}</div>
                         <div class="pricing-subtitle">${escapeHtml(content.subtitle)}</div>
                     </div>
                     <div class="membership-benefit-panel">
@@ -8152,8 +8169,8 @@
                 vip: [
                     'Full ưu đãi Đặc quyền PRO (miễn phí)',
                     'Kết nối Chuyên gia Công ty Chứng khoán',
-                    '+ Chuyên viên Phân tích đầu tư;',
-                    '+ Chuyên viên Tư vấn đầu tư;',
+                    'Chuyên viên Phân tích đầu tư',
+                    'Chuyên viên Tư vấn đầu tư',
                     'Phân tích định lượng & Dữ liệu nâng cao',
                     'Thông tin chuyên sâu & Dữ liệu nghiên cứu'
                 ],
@@ -8161,11 +8178,15 @@
                     'Full Đặc quyền PRO (miễn phí)',
                     'Full Đặc quyền V.I.P (miễn phí)',
                     'Chuyên gia Cao cấp Công ty Chứng khoán',
-                    '+ Giám đốc Tư vấn đầu tư & Quản lý danh mục;',
-                    '+ Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)',
-                    '*Thông tin khách hàng',
-                    '*Thông tin phê duyệt'
+                    'Giám đốc Tư vấn đầu tư & Quản lý danh mục',
+                    'Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)',
+                    'Thông tin khách hàng',
+                    'Thông tin phê duyệt'
                 ]
+            };
+            const modalHighlightCounts = {
+                vip: 2,
+                diamond: 3
             };
             const modalSubtitleOverrides = {
                 vip: '(Ưu tiên)'
@@ -8185,7 +8206,13 @@
                 if (features) {
                     const modalFeatures = modalFeatureOverrides[plan.id] || splitList(plan.features);
                     features.innerHTML = modalFeatures
-                        .map((feature, index) => `<li class="${index === 0 ? 'highlight' : ''}">${escapeHtml(feature)}</li>`)
+                        .map((feature, index) => {
+                            const classes = [];
+                            const highlightCount = modalHighlightCounts[plan.id] ?? 1;
+                            if (index < highlightCount) classes.push('highlight');
+                            if (plan.id === 'diamond' && index >= 5) classes.push('detail');
+                            return `<li class="${classes.join(' ')}">${escapeHtml(feature)}</li>`;
+                        })
                         .join('');
                 }
             });
@@ -9195,7 +9222,7 @@
                     <div class="modal-icon-wrapper">
                         <span class="membership-icon-shell membership-icon-standard" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6 6.5h1M17 6.5h1M6 17.5h1M17 17.5h1"/></svg></span></span>
                     </div>
-                    <div class="modal-hero-title">Hội viên Tiêu chuẩn</div>
+                    <div class="modal-hero-title">STANDARD</div>
                     <div class="modal-hero-subtitle">(Tiêu chuẩn)</div>
                 </div>
                 <div class="modal-hero-right">
@@ -9235,7 +9262,7 @@
                     <div class="modal-icon-wrapper">
                         <span class="membership-icon-shell membership-icon-pro" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20v-7l4-3 4 5 4-8 3 4"/><circle cx="5" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="15" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1" fill="currentColor" stroke="none"/></svg></span></span>
                     </div>
-                    <div class="modal-hero-title">Hội viên PRO</div>
+                    <div class="modal-hero-title">PROFESSIONAL</div>
                     <div class="modal-hero-subtitle">(Chuyên nghiệp)</div>
                 </div>
                 <div class="modal-hero-right">
@@ -9350,27 +9377,27 @@
                 <h3>ĐẶC QUYỀN HỘI VIÊN</h3>
                 <button class="btn-close-modal" onclick="closePricingModal()">×</button>
             </div>
+            <p class="vip-free-notice">Đặc quyền V.I.P MIỄN PHÍ (100%) cho khách hàng mở tài khoản và giao dịch đầu tư tại Công ty Chứng khoán Đối tác.</p>
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
                         <span class="membership-icon-shell membership-icon-vip" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M3 18l4-7 3.5 4L15 7l6 11H3z"/><path d="M12 3v1.5"/><path d="M8 4.5l1 1"/><path d="M16 4.5l-1 1"/><circle cx="12" cy="3" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="4.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="16" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg></span></span>
                     </div>
-                    <div class="modal-hero-title">Hội viên V.I.P</div>
+                    <div class="modal-hero-title">V.I.P</div>
                     <div class="modal-hero-subtitle">(Ưu tiên)</div>
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li>Full ưu đãi Đặc quyền PRO (miễn phí)</li>
-                        <li>Kết nối Chuyên gia Công ty Chứng khoán</li>
-                        <li>+ Chuyên viên Phân tích đầu tư;</li>
-                        <li>+ Chuyên viên Tư vấn đầu tư;</li>
+                        <li class="highlight">Full ưu đãi Đặc quyền PRO (miễn phí)</li>
+                        <li class="highlight">Kết nối Chuyên gia Công ty Chứng khoán</li>
+                        <li>Chuyên viên Phân tích đầu tư</li>
+                        <li>Chuyên viên Tư vấn đầu tư</li>
                         <li>Phân tích định lượng & Dữ liệu nâng cao</li>
                         <li>Thông tin chuyên sâu & Dữ liệu nghiên cứu</li>
                     </ul>
                 </div>
             </div>
             <div class="modal-body">
-                <p class="vip-free-notice">Đặc quyền V.I.P MIỄN PHÍ (100%) cho khách hàng mở tài khoản và giao dịch đầu tư tại Công ty Chứng khoán Đối tác.</p>
                 <div class="modal-steps-container">
                     <div class="modal-step-box">
                         <div class="step-label">Bước 1: Mở tài khoản chứng khoán (Chưa có tài khoản)</div>
@@ -9405,28 +9432,28 @@
                 <h3>ĐẶC QUYỀN HỘI VIÊN</h3>
                 <button class="btn-close-modal" onclick="closePricingModal()">×</button>
             </div>
+            <p class="vip-free-notice">Đặc quyền Diamond MIỄN PHÍ (100%) cho khách hàng mở tài khoản và giao dịch tại Công ty Chứng khoán Đối tác có NAV đầu tư từ 1 tỷ VNĐ.</p>
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
                         <span class="membership-icon-shell membership-icon-diamond" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M6 4h12l4 6-10 11L2 10l4-6z"/><path d="M2 10h20"/><path d="M12 21L8.5 10 6 4"/><path d="M12 21l3.5-11L18 4"/><path d="M12 4v6"/></svg></span></span>
                     </div>
-                    <div class="modal-hero-title">Hội viên Diamond</div>
+                    <div class="modal-hero-title">DIAMOND</div>
                     <div class="modal-hero-subtitle">(Kim cương)</div>
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li>Full Đặc quyền PRO (miễn phí)</li>
-                        <li>Full Đặc quyền V.I.P (miễn phí)</li>
-                        <li>Chuyên gia Cao cấp Công ty Chứng khoán</li>
-                        <li>+ Giám đốc Tư vấn đầu tư & Quản lý danh mục;</li>
-                        <li>+ Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)</li>
-                        <li>*Thông tin khách hàng</li>
-                        <li>*Thông tin phê duyệt</li>
+                        <li class="highlight">Full Đặc quyền PRO (miễn phí)</li>
+                        <li class="highlight">Full Đặc quyền V.I.P (miễn phí)</li>
+                        <li class="highlight">Chuyên gia Cao cấp Công ty Chứng khoán</li>
+                        <li>Giám đốc Tư vấn đầu tư & Quản lý danh mục</li>
+                        <li>Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)</li>
+                        <li class="detail">Thông tin khách hàng</li>
+                        <li class="detail">Thông tin phê duyệt</li>
                     </ul>
                 </div>
             </div>
             <div class="modal-body">
-                <p class="vip-free-notice">Đặc quyền Diamond MIỄN PHÍ (100%) cho khách hàng mở tài khoản và giao dịch tại Công ty Chứng khoán Đối tác có NAV đầu tư từ 1 tỷ VNĐ.</p>
                 <div class="modal-steps-container">
                     <div class="modal-step-box">
                         <div class="step-label">Bước 1: Mở tài khoản chứng khoán (Chưa có tài khoản)</div>
