@@ -8210,6 +8210,7 @@
                             const classes = [];
                             const highlightCount = modalHighlightCounts[plan.id] ?? 1;
                             if (index < highlightCount) classes.push('highlight');
+                            if (plan.id === 'vip' && (index === 2 || index === 3)) classes.push('subitem');
                             if (plan.id === 'diamond' && index >= 5) classes.push('detail');
                             return `<li class="${classes.join(' ')}">${escapeHtml(feature)}</li>`;
                         })
@@ -9390,8 +9391,8 @@
                     <ul class="modal-features-list">
                         <li class="highlight">Full ưu đãi Đặc quyền PRO (miễn phí)</li>
                         <li class="highlight">Kết nối Chuyên gia Công ty Chứng khoán</li>
-                        <li>Chuyên viên Phân tích đầu tư</li>
-                        <li>Chuyên viên Tư vấn đầu tư</li>
+                        <li class="subitem">Chuyên viên Phân tích đầu tư</li>
+                        <li class="subitem">Chuyên viên Tư vấn đầu tư</li>
                         <li>Phân tích định lượng & Dữ liệu nâng cao</li>
                         <li>Thông tin chuyên sâu & Dữ liệu nghiên cứu</li>
                     </ul>
@@ -9454,6 +9455,7 @@
                 </div>
             </div>
             <div class="modal-body">
+                <h4 class="text-center mb-4" style="color:var(--modal-accent); font-size:1rem;">Liên kết tài khoản Diamond<br>(NAV từ 1 tỷ VND)</h4>
                 <div class="modal-steps-container">
                     <div class="modal-step-box">
                         <div class="step-label">Bước 1: Mở tài khoản chứng khoán (Chưa có tài khoản)</div>

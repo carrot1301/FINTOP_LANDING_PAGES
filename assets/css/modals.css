@@ -225,12 +225,18 @@
     font-weight: 600;
 }
 
-.modal-features-list li.detail {
+.modal-features-list li.detail,
+.modal-features-list li.subitem {
     font-size: 0.86rem;
 }
 
-.modal-features-list li.detail::before {
+.modal-features-list li.detail::before,
+.modal-features-list li.subitem::before {
     content: '✓';
+}
+
+.modal-features-list li.subitem {
+    margin-left: 24px;
 }
 
 /* === BODY SECTION === */
