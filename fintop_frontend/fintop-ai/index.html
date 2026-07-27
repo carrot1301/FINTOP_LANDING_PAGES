@@ -869,7 +869,9 @@
 
                 // Login trigger click
                 document.getElementById('lock-login-btn')?.addEventListener('click', () => {
-                    if (Infra && Infra.AuthUI && typeof Infra.AuthUI.openModal === 'function') {
+                    if (typeof requestAuthChoice === 'function') {
+                        requestAuthChoice('login');
+                    } else if (Infra && Infra.AuthUI && typeof Infra.AuthUI.openModal === 'function') {
                         Infra.AuthUI.openModal('login');
                     } else if (typeof openAuthModal === 'function') {
                         openAuthModal('login');

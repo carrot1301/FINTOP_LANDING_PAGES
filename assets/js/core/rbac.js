@@ -395,6 +395,8 @@ class RbacEvaluatorSingleton {
     document.getElementById('fintop-login-cta')?.addEventListener('click', () => {
       if (onLoginClick) {
         onLoginClick();
+      } else if (typeof requestAuthChoice === 'function') {
+        requestAuthChoice('login');
       } else if (typeof openAuthModal === 'function') {
         openAuthModal('login');
       }

@@ -510,16 +510,23 @@
                 return tier && PRO_TIERS.includes(tier.toUpperCase());
             }
 
+            window.continueBolocAuth = function(view) {
+                const authView = view === 'register' ? 'register' : 'login';
+                sessionStorage.setItem('fintop_auth_choice_confirmed', authView);
+                sessionStorage.setItem('fintop_login_redirect', window.location.href);
+                window.location.href = `../../index.html#${authView}`;
+            };
+
             // ── Popup logic ──
             function showGuestLoginPopup() {
                 tierPopupCard.innerHTML = `
                     <div class="popup-icon">🔒</div>
-                    <h2>Đăng nhập để xem chi tiết</h2>
+                    <h2>Bạn muốn đăng nhập hoặc đăng ký để tiếp tục?</h2>
                     <p>Mã cổ phiếu và nhóm ngành chỉ hiển thị cho tài khoản đã đăng nhập.<br>Vui lòng đăng nhập hoặc đăng ký tài khoản để tiếp tục.</p>
                     <div class="popup-actions">
-                        <button class="popup-btn-primary" onclick="window.location.href='../../index.html#login&redirect=' + encodeURIComponent(window.location.href)">Đăng nhập</button>
-                        <button class="popup-btn-secondary" onclick="window.location.href='../../index.html#panel-hoivien'">Đăng ký</button>
-                        <button class="popup-btn-secondary" onclick="closeTierPopup()">Đóng</button>
+                        <button class="popup-btn-primary" onclick="continueBolocAuth('login')">Đăng nhập</button>
+                        <button class="popup-btn-secondary" onclick="continueBolocAuth('register')">Đăng ký</button>
+                        <button class="popup-btn-secondary" onclick="closeTierPopup()">Quay lại</button>
                     </div>
                 `;
                 tierPopupOverlay.hidden = false;

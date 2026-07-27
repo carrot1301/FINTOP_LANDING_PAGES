@@ -40,7 +40,7 @@ window.FINTOP_MEMBERSHIP_DATA = [
         cta: 'Liên kết Diamond',
         status: 'Tư vấn riêng',
         features: 'Đặc quyền V.I.P; Đặc quyền PRO; Cố vấn 1-1 Chuyên gia',
-        popupTitle: 'Liên kết tài khoản Diamond',
+        popupTitle: 'Đặc quyền Diamond FinTop DATA',
         popupContent: 'Dành cho khách hàng cần cố vấn chiến lược danh mục, quản trị rủi ro và đồng hành chuyên sâu.'
     }
 ];

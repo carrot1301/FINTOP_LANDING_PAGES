@@ -178,7 +178,7 @@ const NavbarAuth = {
       <span class="icon-link" style="cursor: pointer;">👤</span>
       <div class="user-dropdown-menu">
         <a href="javascript:void(0)" class="user-dropdown-item login-btn"
-           onclick="openAuthModal('login')">👤 Đăng nhập</a>
+           onclick="typeof requestAuthChoice === 'function' ? requestAuthChoice('login') : openAuthModal('login')">👤 Đăng nhập</a>
         <a href="javascript:void(0)" class="user-dropdown-item"
            onclick="alert('Mở Trung tâm trợ giúp')">Trung tâm Trợ giúp</a>
         <a href="javascript:void(0)" class="user-dropdown-item"

@@ -8,6 +8,16 @@ function isMembershipAuthenticated() {
     return Boolean(window.FintopInfra?.AuthManager?.isAuthenticated);
 }
 
+function requestMembershipAuthentication(preferredView = 'login') {
+    if (typeof requestAuthChoice === 'function') {
+        requestAuthChoice(preferredView);
+        return;
+    }
+    if (typeof openAuthModal === 'function') {
+        openAuthModal(preferredView);
+    }
+}
+
 function setActiveProPackage(card) {
     if (!card) return;
 
@@ -68,7 +78,7 @@ function selectProPackage(card) {
         membershipCheckoutState.awaitingProAuthentication = true;
         membershipCheckoutState.pendingProPackage = packageName;
         setProCheckoutVisibility(false, `Bạn đã chọn ${packageName}. Đăng nhập để xem thông tin chuyển khoản và gửi yêu cầu phê duyệt.`);
-        if (typeof openAuthModal === 'function') openAuthModal('login');
+        requestMembershipAuthentication('login');
         return;
     }
 
@@ -117,13 +127,13 @@ function bindMembershipAuthListener(attempt = 0) {
 
 function requestVIPLinkAuthentication() {
     if (isMembershipAuthenticated()) return true;
-    if (typeof openAuthModal === 'function') openAuthModal('login');
+    requestMembershipAuthentication('login');
     return false;
 }
 
 function requestDiamondLinkAuthentication() {
     if (isMembershipAuthenticated()) return true;
-    if (typeof openAuthModal === 'function') openAuthModal('login');
+    requestMembershipAuthentication('login');
     return false;
 }
 
@@ -513,11 +523,7 @@ function closePricingModal() {
  * @param {string} [action] - Hành động 'login' hoặc 'register'
  */
 function submitStandard(action) {
-    if (typeof openAuthModal === 'function') {
-        openAuthModal(action || 'register');
-    } else {
-        alert("Đang chuyển hướng tới trang Đăng ký tài khoản...");
-    }
+    requestMembershipAuthentication(action || 'register');
 }
 
 /**
@@ -532,10 +538,7 @@ async function submitProApproval() {
     }
 
     if (!Infra.AuthManager.isAuthenticated) {
-        alert("Vui lòng đăng nhập để gửi yêu cầu phê duyệt.");
-        if (typeof openAuthModal === 'function') {
-            openAuthModal('login');
-        }
+        requestMembershipAuthentication('login');
         return;
     }
 
@@ -693,10 +696,7 @@ async function submitVIP(type) {
     }
 
     if (!Infra.AuthManager.isAuthenticated) {
-        alert("Vui lòng đăng nhập để gửi yêu cầu liên kết tài khoản.");
-        if (typeof openAuthModal === 'function') {
-            openAuthModal('login');
-        }
+        requestMembershipAuthentication('login');
         return;
     }
 
@@ -766,19 +766,15 @@ async function submitDiamond(type) {
     }
 
     if (!Infra.AuthManager.isAuthenticated) {
-        alert("Vui lòng đăng nhập để gửi yêu cầu liên kết tài khoản Diamond.");
-        if (typeof openAuthModal === 'function') {
-            openAuthModal('login');
-        }
+        requestMembershipAuthentication('login');
         return;
     }
 
     const accountVal = (document.getElementById('diamondStockAccount')?.value || '').trim();
     const companyVal = (document.getElementById('diamondStockCompany')?.value || '').trim();
-    const navVal = (document.getElementById('diamondNav')?.value || '').trim();
 
-    if (!accountVal || !companyVal || !navVal) {
-        alert("Vui lòng điền đầy đủ Số tài khoản chứng khoán, Công ty chứng khoán và NAV dự kiến.");
+    if (!accountVal || !companyVal) {
+        alert("Vui lòng điền đầy đủ Số tài khoản chứng khoán và Công ty chứng khoán.");
         return;
     }
 
@@ -808,10 +804,8 @@ async function submitDiamond(type) {
 
         const accountInput = document.getElementById('diamondStockAccount');
         const companyInput = document.getElementById('diamondStockCompany');
-        const navInput = document.getElementById('diamondNav');
         if (accountInput) accountInput.value = '';
         if (companyInput) companyInput.value = '';
-        if (navInput) navInput.value = '';
     } catch (err) {
         console.error('[Billing] Failed to create Diamond linking invoice:', err);
         alert(`Yêu cầu liên kết Diamond thất bại: ${err.message || 'Không thể tạo yêu cầu phê duyệt.'}`);

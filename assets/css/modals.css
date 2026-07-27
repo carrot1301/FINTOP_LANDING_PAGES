@@ -129,12 +129,19 @@
     display: flex;
     flex-direction: row;
     padding: 26px 40px;
+    margin: 22px 28px 0;
     gap: 32px;
     align-items: center;
     justify-content: space-between;
     text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    background: linear-gradient(180deg, var(--modal-soft), rgba(255, 255, 255, 0));
+    border: 1px solid var(--modal-border);
+    border-radius: 12px;
+    background:
+        radial-gradient(circle at 18% 0%, var(--modal-soft), transparent 48%),
+        linear-gradient(160deg, rgba(18, 23, 43, 0.96), rgba(9, 12, 25, 0.92));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 14px 34px rgba(0, 0, 0, 0.22);
 }
 
 .modal-hero-left {
@@ -170,6 +177,26 @@
     background: transparent;
     border: 0;
     box-shadow: none;
+}
+
+.diamond-gem-emoji {
+    display: inline-grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 2.35rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.46));
+}
+
+.membership-icon-diamond .membership-tier-icon {
+    display: grid;
+    place-items: center;
+    line-height: 1;
+}
+
+.membership-icon-diamond .diamond-gem-emoji {
+    transform: translate(-8px, -8px);
 }
 
 .modal-hero-title {
@@ -226,17 +253,26 @@
 }
 
 .modal-features-list li.detail,
-.modal-features-list li.subitem {
+.modal-features-list li.subitem,
+.modal-features-list li.diamond-expert {
     font-size: 0.86rem;
 }
 
 .modal-features-list li.detail::before,
-.modal-features-list li.subitem::before {
+.modal-features-list li.subitem::before,
+.modal-features-list li.diamond-expert::before {
     content: '✓';
 }
 
-.modal-features-list li.subitem {
+.modal-features-list li.subitem,
+.modal-features-list li.diamond-expert {
     margin-left: 24px;
+}
+
+.modal-features-list li.diamond-expert {
+    padding-left: 22px;
+    color: #d8dee9;
+    line-height: 1.45;
 }
 
 /* === BODY SECTION === */
@@ -252,13 +288,14 @@
 
 .modal-step-box {
     background: var(--modal-inner-panel);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--modal-border);
     border-radius: 8px;
     padding: 24px;
     text-align: center;
     display: flex;
     flex-direction: column;
     height: 100%;
+    box-shadow: inset 0 0 24px var(--modal-soft);
 }
 
 .step-label {
@@ -542,11 +579,11 @@
 }
 
 .theme-vip {
-    --modal-accent: #F2C94C;
-    --modal-soft: rgba(242, 201, 76, 0.18);
-    --modal-border: rgba(242, 201, 76, 0.5);
-    --modal-btn-gradient: linear-gradient(135deg, #F2C94C, #C89518);
-    --modal-btn-color: #16110A;
+    --modal-accent: #10B981;
+    --modal-soft: rgba(16, 185, 129, 0.18);
+    --modal-border: rgba(16, 185, 129, 0.5);
+    --modal-btn-gradient: linear-gradient(135deg, #34D399, #059669);
+    --modal-btn-color: #04140E;
 }
 
 .theme-diamond {
@@ -558,20 +595,55 @@
 }
 
 .vip-free-notice {
-    margin: 0;
-    padding: 14px 40px 0;
-    border: 0;
-    background: transparent;
+    margin: 0 0 22px;
+    padding: 15px 20px;
+    border: 1px solid var(--modal-border);
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--modal-soft), rgba(18, 23, 43, 0.76));
     color: #FFFFFF;
     font-size: 0.88rem;
     font-weight: 400;
     line-height: 1.55;
     text-align: center;
+    box-shadow: inset 0 0 20px var(--modal-soft);
 }
 
 .vip-free-notice strong {
     color: var(--modal-accent);
     font-weight: 800;
+}
+
+.membership-notice-line {
+    display: block;
+}
+
+.membership-modal-nowrap {
+    white-space: nowrap;
+}
+
+.step-label-context {
+    display: block;
+    margin-top: 2px;
+    white-space: nowrap;
+}
+
+.broker-account-list {
+    display: grid;
+    gap: 3px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.broker-account-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 4px;
+}
+
+.broker-account-list strong {
+    white-space: nowrap;
 }
 
 .modal-features-list li.highlight,
@@ -611,13 +683,27 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+    .modal-header {
+        padding: 14px 48px;
+    }
+
+    .modal-header h3 {
+        font-size: 0.98rem;
+        white-space: nowrap;
+    }
+
+    .btn-close-modal {
+        right: 12px;
+    }
+
     .modal-hero {
         flex-direction: column;
         padding: 20px;
+        margin: 16px 16px 0;
     }
 
     .vip-free-notice {
-        padding: 14px 20px 0;
+        padding: 14px 16px;
     }
 
     .modal-hero-left {
@@ -644,6 +730,10 @@
 
     .theme-pro.checkout-ready .pro-steps-2col {
         grid-template-columns: 1fr;
+    }
+
+    .modal-body {
+        padding: 24px 16px;
     }
 
     .payment-info-row {

@@ -95,6 +95,21 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleAuthInputs(false);
     }
 
+    const authGateOverlay = document.getElementById('authGateOverlay');
+    if (authGateOverlay) {
+        authGateOverlay.addEventListener('click', (e) => {
+            if (e.target === authGateOverlay) {
+                closeAuthChoice();
+            }
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && authGateOverlay?.classList.contains('active')) {
+            closeAuthChoice();
+        }
+    });
+
     // 3. Password visibility toggle
     const toggleBtns = document.querySelectorAll('.password-toggle');
     toggleBtns.forEach(btn => {
@@ -123,11 +138,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Check if URL hash is #login or #register and open the modal
     const checkHash = () => {
-        if (window.location.hash === '#login') {
-            openAuthModal('login');
-        } else if (window.location.hash === '#register') {
-            openAuthModal('register');
+        const hashView = window.location.hash === '#login'
+            ? 'login'
+            : (window.location.hash === '#register' ? 'register' : '');
+        if (!hashView) return;
+
+        const confirmedView = sessionStorage.getItem('fintop_auth_choice_confirmed');
+        if (confirmedView === hashView) {
+            sessionStorage.removeItem('fintop_auth_choice_confirmed');
+            openAuthModal(hashView);
+            return;
         }
+
+        requestAuthChoice(hashView);
     };
     checkHash();
     window.addEventListener('hashchange', checkHash);
@@ -151,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!refCode) return;
 
         // Open registration modal
-        openAuthModal('register');
+        requestAuthChoice('register');
 
         // Wait a small tick for the modal DOM to be fully ready
         await new Promise(r => setTimeout(r, 200));
@@ -247,6 +270,63 @@ async function updateAdminAccessLink() {
     }
 }
 
+function syncAuthBodyScrollLock() {
+    const hasOpenOverlay = Boolean(document.querySelector(
+        '#pricing-modals.active, #authGateOverlay.active, #authModalOverlay.active'
+    ));
+    document.body.style.overflow = hasOpenOverlay ? 'hidden' : '';
+}
+
+/**
+ * Ask the visitor whether they want to log in, register, or return.
+ * Authentication forms are only opened after an explicit choice.
+ * @param {string} preferredView - 'login' or 'register'
+ */
+function requestAuthChoice(preferredView = 'login') {
+    const normalizedView = preferredView === 'register' ? 'register' : 'login';
+    const gateOverlay = document.getElementById('authGateOverlay');
+
+    // Pages without the gate markup keep the existing auth behavior.
+    if (!gateOverlay) {
+        openAuthModal(normalizedView);
+        return;
+    }
+
+    const authOverlay = document.getElementById('authModalOverlay');
+    if (authOverlay?.classList.contains('active')) {
+        switchAuthView(normalizedView);
+        return;
+    }
+
+    const userDropdownContainer = document.getElementById('userDropdownContainer');
+    if (userDropdownContainer) userDropdownContainer.classList.remove('active');
+
+    gateOverlay.dataset.preferredView = normalizedView;
+    gateOverlay.setAttribute('aria-hidden', 'false');
+    gateOverlay.classList.add('active');
+    syncAuthBodyScrollLock();
+
+    window.setTimeout(() => {
+        const preferredButton = gateOverlay.querySelector(`[data-auth-choice="${normalizedView}"]`);
+        preferredButton?.focus();
+    }, 40);
+}
+
+function closeAuthChoice() {
+    const gateOverlay = document.getElementById('authGateOverlay');
+    if (!gateOverlay) return;
+
+    gateOverlay.classList.remove('active');
+    gateOverlay.setAttribute('aria-hidden', 'true');
+    syncAuthBodyScrollLock();
+}
+
+function continueAuthChoice(view) {
+    const normalizedView = view === 'register' ? 'register' : 'login';
+    closeAuthChoice();
+    openAuthModal(normalizedView);
+}
+
 /**
  * Open the authentication modal
  * @param {string} view - 'login' or 'register'
@@ -300,7 +380,7 @@ function closeAuthModal() {
     const authOverlay = document.getElementById('authModalOverlay');
     if (authOverlay) {
         authOverlay.classList.remove('active');
-        document.body.style.overflow = ''; // Restore background scrolling
+        syncAuthBodyScrollLock();
         // Disable inputs when modal is closed
         toggleAuthInputs(false);
         if (window.RegisterStepper) {

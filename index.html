@@ -4483,7 +4483,7 @@
                 <span class="icon-link" style="cursor: pointer;">👤</span>
                 <div class="user-dropdown-menu">
                     <a href="javascript:void(0)" class="user-dropdown-item login-btn"
-                        onclick="openAuthModal('login')">👤 Đăng nhập</a>
+                        onclick="requestAuthChoice('login')">👤 Đăng nhập</a>
                     <a href="admin/index.html" class="user-dropdown-item" id="adminAccessLink">🔐 Trang quản trị</a>
                     <a href="javascript:void(0)" class="user-dropdown-item"
                         onclick="alert('Mở Trung tâm trợ giúp')">Trung tâm Trợ giúp</a>
@@ -4491,7 +4491,7 @@
                         onclick="alert('Tính năng mới sắp ra mắt!')">Có gì mới</a>
                 </div>
             </div>
-            <button class="btn-tv-blue" id="fintopStartBtn" data-hide-when-auth onclick="openAuthModal('login')">Bắt đầu</button>
+            <button class="btn-tv-blue" id="fintopStartBtn" data-hide-when-auth onclick="requestAuthChoice('login')">Bắt đầu</button>
         </div>
     </header>
 
@@ -4763,55 +4763,8 @@
     <!-- ============================================ -->
     <!-- PANEL: TÍN HIỆU TỪ CHUYÊN GIA              -->
     <!-- ============================================ -->
-    <div class="submenu-panel" id="panel-tinhieu">
+    <div class="submenu-panel copy-trade-empty-panel" id="panel-tinhieu" aria-label="Copy Trade Chuyên gia">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
-        <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">📡 Copy Trade Chuyên gia</h2>
-            <p>Copy Trade Chuyên gia — Cập nhật liên tục theo phiên giao dịch
-            </p>
-        </div>
-
-        <!-- THỰC HIỆN BỞI CHUYÊN GIA VPS -->
-        <div
-            style="max-width: 1300px; margin: 0 auto 1.5rem; padding: 1.5rem 2rem; border-radius: 14px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(99, 102, 241, 0.04)); border: 1px solid rgba(168, 85, 247, 0.25); border-left: 3px solid #a855f7;">
-            <h4
-                style="color: #c084fc; font-size: 0.9rem; font-weight: 800; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.06em;">
-                <span style="font-size: 1.2rem;">✨</span> Thực Hiện Bởi Chuyên Gia VPS
-            </h4>
-            <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.8; margin-bottom: 0.8rem;">
-                <span style="color: #c084fc;">✦</span> Dành cho Khách hàng VPS, mở TK và giao dịch chứng khoán tại VPS
-                (<strong style="color: #22c55e;">MIỄN PHÍ</strong>)!<br>
-                <span style="color: #c084fc;">✦</span> Chuyên mục hợp tác cùng <strong style="color: #c084fc;">Chuyên
-                    gia VPS</strong> trên nền tảng Công nghệ &amp; Dữ liệu <strong style="color: #c084fc;">FinTop
-                    DATA</strong> và Đối tác chiến lược <strong style="color: #c084fc;">VPS Partner</strong> - FINTOP ID
-                BOJE (HĐ No. ......)
-            </p>
-            <p style="color: #94A3B8; font-size: 0.84rem; line-height: 1.7; font-style: italic;">
-                → Mô hình (Model) của Chuyên gia sử dụng các Indicators (MA, Bollinger Band - Kênh xu hướng, RSI, Nến,
-                ...) trên khung thời gian lớn để xác lập xu hướng <strong style="color: #c084fc;">"DÀI HẠN"</strong> và
-                các Indicators trên khung thời gian nhỏ để nhận diện xu hướng và các biến động <strong
-                    style="color: #f87171;">"NGẮN HẠN"</strong>.
-            </p>
-        </div>
-
-        <!-- SECTION: TÍN HIỆU CHUYÊN GIA -->
-        <div style="max-width: 1300px; margin: 0 auto 1rem;">
-            <div
-                style="font-size: 1.1rem; font-weight: 800; color: #c084fc; margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(168,85,247,0.2); display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.05em;">
-                <span style="font-size: 1.3rem;">📡</span> Copy Trade Chuyên gia
-                <span
-                    style="background: rgba(168,85,247,0.15); color: #c084fc; font-size: 0.7rem; padding: 3px 10px; border-radius: 999px; font-weight: 700; margin-left: auto;"
-                    id="signalCountBadge">0 tín hiệu</span>
-            </div>
-        </div>
-        <div id="signalContainer"
-            style="max-width: 1300px; margin: 0 auto 2rem; display: flex; flex-direction: column; gap: 1rem;"></div>
-
-        <!-- MIỄN TRỪ TRÁCH NHIỆM -->
-        <div class="disclaimer-msg">
-            <h4><span style="font-size: 1.1rem;">⚠️</span> Miễn Trừ Trách Nhiệm !</h4>
-            <p>Tín hiệu chỉ mang tính chất tham khảo, <strong>không khuyến nghị đầu tư</strong>. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.</p>
-        </div>
     </div>
 
     <!-- ============================================ -->
@@ -6764,7 +6717,6 @@
     </div>
 
     <script src="data/stock-search-data.js"></script>
-    <script src="data/signals-data.js"></script>
     <script src="data/research-data.js"></script>
     <script src="data/memberships-data.js"></script>
     <script src="data/landing-content-data.js"></script>
@@ -7054,7 +7006,7 @@
                 const link = document.querySelector('a[data-panel="panel-boloc"]');
                 openPanel('panel-boloc', link);
             } else {
-                openAuthModal('login');
+                requestAuthChoice('login');
             }
         }
 
@@ -7339,8 +7291,8 @@
         }
 
         function openBolocLogin(view = 'login') {
-            if (typeof openAuthModal === 'function') {
-                openAuthModal(view);
+            if (typeof requestAuthChoice === 'function') {
+                requestAuthChoice(view);
                 return;
             }
             window.location.href = 'index.html#panel-boloc';
@@ -7353,12 +7305,12 @@
             if (!card || !overlay) return;
             card.innerHTML = `
                 <div class="popup-icon">🔒</div>
-                <h2>Đăng nhập để xem chi tiết</h2>
+                <h2>Bạn muốn đăng nhập hoặc đăng ký để tiếp tục?</h2>
                 <p>Mã cổ phiếu và nhóm ngành chỉ hiển thị cho tài khoản đã đăng nhập.<br>Vui lòng đăng nhập hoặc đăng ký tài khoản để tiếp tục.</p>
                 <div class="popup-actions">
-                    <button class="popup-btn-primary" onclick="openBolocLogin('login'); closeBolocTierPopup();">Đăng nhập</button>
-                    <button class="popup-btn-secondary" onclick="openBolocLogin('register'); closeBolocTierPopup();">Đăng ký</button>
-                    <button class="popup-btn-secondary" onclick="closeBolocTierPopup()">Đóng</button>
+                    <button class="popup-btn-primary" onclick="closeBolocTierPopup(); continueAuthChoice('login');">Đăng nhập</button>
+                    <button class="popup-btn-secondary" onclick="closeBolocTierPopup(); continueAuthChoice('register');">Đăng ký</button>
+                    <button class="popup-btn-secondary" onclick="closeBolocTierPopup()">Quay lại</button>
                 </div>
             `;
             overlay.style.setProperty('display', 'flex', 'important');
@@ -7652,23 +7604,7 @@
         }
 
         function renderSignals() {
-            if (signalsRendered) return;
-
-            // Render tất cả tín hiệu vào container duy nhất
-            document.getElementById('signalContainer').innerHTML = SIGNAL_DATA.map(buildSignalCard).join('');
-
-            // Cập nhật badge số lượng
-            const badge = document.getElementById('signalCountBadge');
-            if (badge) badge.textContent = `${SIGNAL_DATA.length} tín hiệu`;
-
-            // Add VPS Footer
-            const panel = document.getElementById('panel-tinhieu');
-            panel.querySelectorAll('.vps-team-footer').forEach((item) => item.remove());
-            const footer = document.createElement('div');
-            footer.className = 'vps-team-footer';
-            footer.innerHTML = '✨ <span>Thực hiện bởi Đội ngũ Chuyên gia VPS</span>';
-            panel.appendChild(footer);
-
+            // Khu vực Copy Trade được chủ động để trống cho đến khi có nội dung chính thức.
             signalsRendered = true;
         }
 
@@ -7762,7 +7698,7 @@
                     cta: 'Liên kết Diamond',
                     status: 'Tư vấn riêng',
                     features: 'Đặc quyền V.I.P; Đặc quyền PRO; Cố vấn 1-1 Chuyên gia',
-                    popupTitle: 'Liên kết tài khoản Diamond',
+                    popupTitle: 'Đặc quyền Diamond FinTop DATA',
                     popupContent: 'Dành cho khách hàng cần cố vấn chiến lược danh mục, quản trị rủi ro và đồng hành chuyên sâu.'
                 }
             };
@@ -8042,7 +7978,7 @@
                 standard: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6 6.5h1M17 6.5h1M6 17.5h1M17 17.5h1"/></svg>',
                 pro: '<svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20v-7l4-3 4 5 4-8 3 4"/><circle cx="5" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="15" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1" fill="currentColor" stroke="none"/></svg>',
                 vip: '<svg viewBox="0 0 24 24"><path d="M3 18l4-7 3.5 4L15 7l6 11H3z"/><path d="M12 3v1.5"/><path d="M8 4.5l1 1"/><path d="M16 4.5l-1 1"/><circle cx="12" cy="3" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="4.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="16" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg>',
-                diamond: '<svg viewBox="0 0 24 24"><path d="M6 4h12l4 6-10 11L2 10l4-6z"/><path d="M2 10h20"/><path d="M12 21L8.5 10 6 4"/><path d="M12 21l3.5-11L18 4"/><path d="M12 4v6"/></svg>'
+                diamond: '<span class="diamond-gem-emoji">💎</span>'
             };
             return `<span class="membership-icon-shell membership-icon-${type}" aria-hidden="true"><span class="membership-tier-icon">${icons[type]}</span></span>`;
         }
@@ -8169,19 +8105,17 @@
                 vip: [
                     'Full ưu đãi Đặc quyền PRO (miễn phí)',
                     'Kết nối Chuyên gia Công ty Chứng khoán',
-                    'Chuyên viên Phân tích đầu tư',
-                    'Chuyên viên Tư vấn đầu tư',
+                    'Thông tin chuyên sâu & Dữ liệu nghiên cứu',
                     'Phân tích định lượng & Dữ liệu nâng cao',
-                    'Thông tin chuyên sâu & Dữ liệu nghiên cứu'
+                    'Chuyên viên Phân tích đầu tư',
+                    'Chuyên viên Tư vấn đầu tư'
                 ],
                 diamond: [
                     'Full Đặc quyền PRO (miễn phí)',
                     'Full Đặc quyền V.I.P (miễn phí)',
                     'Chuyên gia Cao cấp Công ty Chứng khoán',
                     'Giám đốc Tư vấn đầu tư & Quản lý danh mục',
-                    'Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)',
-                    'Thông tin khách hàng',
-                    'Thông tin phê duyệt'
+                    'Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)'
                 ]
             };
             const modalHighlightCounts = {
@@ -8210,8 +8144,8 @@
                             const classes = [];
                             const highlightCount = modalHighlightCounts[plan.id] ?? 1;
                             if (index < highlightCount) classes.push('highlight');
-                            if (plan.id === 'vip' && (index === 2 || index === 3)) classes.push('subitem');
-                            if (plan.id === 'diamond' && index >= 5) classes.push('detail');
+                            if (plan.id === 'vip' && (index === 4 || index === 5)) classes.push('subitem');
+                            if (plan.id === 'diamond' && (index === 3 || index === 4)) classes.push('diamond-expert');
                             return `<li class="${classes.join(' ')}">${escapeHtml(feature)}</li>`;
                         })
                         .join('');
@@ -8285,7 +8219,7 @@
                 canLoadStockData
                     ? client.from('stock_prices').select('*').order('ticker', { ascending: true })
                     : Promise.resolve({ data: [] }),
-                client.from('signals').select('*').order('created_at', { ascending: false }),
+                Promise.resolve({ data: [] }),
                 client.from('research').select('*').order('publish_time', { ascending: false }),
                 client.from('memberships').select('*').order('sort_order', { ascending: true }),
                 client.from('landing_content').select('*').order('section', { ascending: true })
@@ -8811,9 +8745,6 @@
             }
             if (panelId === 'panel-hoivien') {
                 hydrateMemberships();
-            }
-            if (panelId === 'panel-tinhieu') {
-                hydrateSignals();
             }
             if (panelId === 'panel-profile') {
                 hydrateProfile();
@@ -9378,7 +9309,6 @@
                 <h3>ĐẶC QUYỀN HỘI VIÊN</h3>
                 <button class="btn-close-modal" onclick="closePricingModal()">×</button>
             </div>
-            <p class="vip-free-notice"><strong>Đặc quyền V.I.P MIỄN PHÍ (100%)</strong> cho khách hàng mở tài khoản và giao dịch đầu tư<br>tại Công ty Chứng khoán Đối tác.</p>
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
@@ -9391,28 +9321,38 @@
                     <ul class="modal-features-list">
                         <li class="highlight">Full ưu đãi Đặc quyền PRO (miễn phí)</li>
                         <li class="highlight">Kết nối Chuyên gia Công ty Chứng khoán</li>
+                        <li>Thông tin chuyên sâu & Dữ liệu nghiên cứu</li>
+                        <li>Phân tích định lượng & Dữ liệu nâng cao</li>
                         <li class="subitem">Chuyên viên Phân tích đầu tư</li>
                         <li class="subitem">Chuyên viên Tư vấn đầu tư</li>
-                        <li>Phân tích định lượng & Dữ liệu nâng cao</li>
-                        <li>Thông tin chuyên sâu & Dữ liệu nghiên cứu</li>
                     </ul>
                 </div>
             </div>
             <div class="modal-body">
+                <p class="vip-free-notice">
+                    <span class="membership-notice-line"><strong>Đặc quyền V.I.P MIỄN PHÍ (100%)</strong> cho khách hàng mở tài khoản và giao dịch đầu tư</span>
+                    <span class="membership-notice-line">tại <span class="membership-modal-nowrap">Công ty Chứng khoán Đối tác</span>.</span>
+                </p>
                 <div class="modal-steps-container">
                     <div class="modal-step-box">
-                        <div class="step-label">Bước 1: Mở tài khoản chứng khoán (Chưa có tài khoản)</div>
+                        <div class="step-label">
+                            <span>Bước 1: Mở tài khoản <span class="membership-modal-nowrap">chứng khoán</span></span>
+                            <span class="step-label-context">(Chưa có tài khoản)</span>
+                        </div>
                         <div class="step-desc" style="text-align: left; line-height: 1.8;">
-                            <ul style="margin:0; padding-left: 1.2rem;">
-                                <li>Mở TKCK VPS - FinTop ID: <strong class="modal-accent-text">BOJE</strong></li>
-                                <li>Mở TKCK TCBS - ID: <strong class="modal-accent-text">105CN48886</strong></li>
+                            <ul class="broker-account-list">
+                                <li><span>Mở TKCK VPS - FinTop ID:</span><strong class="modal-accent-text">BOJE</strong></li>
+                                <li><span>Mở TKCK TCBS - ID:</span><strong class="modal-accent-text">105CN48886</strong></li>
                             </ul>
                         </div>
                         <button class="btn-modal-action primary mb-2" onclick="submitVIP('open')">MỞ TK VPS</button>
                         <button class="btn-modal-action" onclick="submitVIP('open')">MỞ TK TCBS</button>
                     </div>
                     <div class="modal-step-box">
-                        <div class="step-label">Bước 2: Liên kết tài khoản chứng khoán (Đã có tài khoản)</div>
+                        <div class="step-label">
+                            <span>Bước 2: Liên kết tài khoản <span class="membership-modal-nowrap">chứng khoán</span></span>
+                            <span class="step-label-context">(Đã có tài khoản)</span>
+                        </div>
                         <div class="step-desc" style="text-align: left;">
                             <p class="mb-2 text-muted-sm">Vui lòng điền thông tin bên dưới để yêu cầu phê duyệt liên
                                 kết:</p>
@@ -9433,11 +9373,10 @@
                 <h3>ĐẶC QUYỀN HỘI VIÊN</h3>
                 <button class="btn-close-modal" onclick="closePricingModal()">×</button>
             </div>
-            <p class="vip-free-notice"><strong>Đặc quyền Diamond MIỄN PHÍ (100%)</strong> cho khách hàng mở tài khoản và giao dịch đầu tư<br>tại Công ty Chứng khoán Đối tác có <strong>NAV từ 1 tỷ VNĐ</strong>.</p>
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
-                        <span class="membership-icon-shell membership-icon-diamond" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M6 4h12l4 6-10 11L2 10l4-6z"/><path d="M2 10h20"/><path d="M12 21L8.5 10 6 4"/><path d="M12 21l3.5-11L18 4"/><path d="M12 4v6"/></svg></span></span>
+                        <span class="membership-icon-shell membership-icon-diamond" aria-hidden="true"><span class="membership-tier-icon"><span class="diamond-gem-emoji">💎</span></span></span>
                     </div>
                     <div class="modal-hero-title">DIAMOND</div>
                     <div class="modal-hero-subtitle">(Kim cương)</div>
@@ -9447,36 +9386,41 @@
                         <li class="highlight">Full Đặc quyền PRO (miễn phí)</li>
                         <li class="highlight">Full Đặc quyền V.I.P (miễn phí)</li>
                         <li class="highlight">Chuyên gia Cao cấp Công ty Chứng khoán</li>
-                        <li>Giám đốc Tư vấn đầu tư & Quản lý danh mục</li>
-                        <li>Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)</li>
-                        <li class="detail">Thông tin khách hàng</li>
-                        <li class="detail">Thông tin phê duyệt</li>
+                        <li class="diamond-expert">Giám đốc Tư vấn đầu tư & Quản lý danh mục</li>
+                        <li class="diamond-expert">Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)</li>
                     </ul>
                 </div>
             </div>
             <div class="modal-body">
-                <h4 class="text-center mb-4" style="color:var(--modal-accent); font-size:1rem;">Liên kết tài khoản Diamond<br>(NAV từ 1 tỷ VND)</h4>
+                <p class="vip-free-notice diamond-free-notice">
+                    <span class="membership-notice-line"><strong>Đặc quyền Diamond MIỄN PHÍ (100%)</strong> cho khách hàng mở tài khoản và giao dịch đầu tư</span>
+                    <span class="membership-notice-line">tại <span class="membership-modal-nowrap">Công ty Chứng khoán Đối tác</span> có <strong class="membership-modal-nowrap">NAV từ 1 tỷ VNĐ</strong>.</span>
+                </p>
                 <div class="modal-steps-container">
                     <div class="modal-step-box">
-                        <div class="step-label">Bước 1: Mở tài khoản chứng khoán (Chưa có tài khoản)</div>
+                        <div class="step-label">
+                            <span>Bước 1: Mở tài khoản <span class="membership-modal-nowrap">chứng khoán</span></span>
+                            <span class="step-label-context">(Chưa có tài khoản)</span>
+                        </div>
                         <div class="step-desc" style="text-align: left; line-height: 1.8;">
-                            <ul style="margin:0; padding-left: 1.2rem;">
-                                <li>Mở TKCK VPS - FinTop ID: <strong class="modal-accent-text">BOJE</strong></li>
-                                <li>Mở TKCK TCBS - ID: <strong class="modal-accent-text">105CN48886</strong></li>
+                            <ul class="broker-account-list">
+                                <li><span>Mở TKCK VPS - FinTop ID:</span><strong class="modal-accent-text">BOJE</strong></li>
+                                <li><span>Mở TKCK TCBS - ID:</span><strong class="modal-accent-text">105CN48886</strong></li>
                             </ul>
                         </div>
                         <button class="btn-modal-action primary mb-2" onclick="submitDiamond('open')">MỞ TK VPS</button>
                         <button class="btn-modal-action" onclick="submitDiamond('open')">MỞ TK TCBS</button>
                     </div>
                     <div class="modal-step-box">
-                        <div class="step-label">Bước 2: Liên kết tài khoản chứng khoán (Đã có tài khoản)</div>
+                        <div class="step-label">
+                            <span>Bước 2: Liên kết tài khoản <span class="membership-modal-nowrap">chứng khoán</span></span>
+                            <span class="step-label-context">(Đã có tài khoản)</span>
+                        </div>
                         <div class="step-desc" style="text-align: left;">
                             <p class="mb-2 text-muted-sm">Vui lòng điền thông tin bên dưới để yêu cầu phê duyệt:</p>
                             <input type="text" id="diamondStockAccount" placeholder="Số TK chứng khoán..." onfocus="requestDiamondLinkAuthentication()"
                                 style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 10px;">
                             <input type="text" id="diamondStockCompany" placeholder="Công ty chứng khoán..." onfocus="requestDiamondLinkAuthentication()"
-                                style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 10px;">
-                            <input type="text" id="diamondNav" placeholder="NAV dự kiến (từ 1 tỷ VND)..." onfocus="requestDiamondLinkAuthentication()"
                                 style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color:#fff; margin-bottom: 15px;">
                         </div>
                         <button class="btn-modal-action primary" onclick="submitDiamond('link')">YÊU CẦU PHÊ DUYỆT</button>
@@ -9485,6 +9429,24 @@
             </div>
         </div>
     </div>
+    <!-- ============================================ -->
+    <!-- POPUP LỰA CHỌN ĐĂNG NHẬP / ĐĂNG KÝ          -->
+    <!-- ============================================ -->
+    <div class="auth-gate-overlay" id="authGateOverlay" aria-hidden="true">
+        <div class="auth-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="authGateTitle" aria-describedby="authGateDescription">
+            <button class="auth-gate-close" type="button" onclick="closeAuthChoice()" aria-label="Quay lại">×</button>
+            <span class="auth-gate-icon" aria-hidden="true">👤</span>
+            <div class="auth-gate-kicker">Tiếp tục với FinTop DATA</div>
+            <h2 id="authGateTitle">Bạn có muốn đăng nhập hoặc đăng ký để tiếp tục?</h2>
+            <p id="authGateDescription">Chọn một phương thức bên dưới. Bạn cũng có thể quay lại màn hình trước mà không thực hiện thay đổi.</p>
+            <div class="auth-gate-actions">
+                <button class="auth-gate-action primary" type="button" data-auth-choice="login" onclick="continueAuthChoice('login')">Đăng nhập</button>
+                <button class="auth-gate-action secondary" type="button" data-auth-choice="register" onclick="continueAuthChoice('register')">Đăng ký</button>
+            </div>
+            <button class="auth-gate-back" type="button" onclick="closeAuthChoice()">← Quay lại</button>
+        </div>
+    </div>
+
     <!-- ============================================ -->
     <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ                   -->
     <!-- ============================================ -->

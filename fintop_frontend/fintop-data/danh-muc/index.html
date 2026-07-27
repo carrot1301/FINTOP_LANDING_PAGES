@@ -251,52 +251,7 @@
         </div>
     </header>
 
-    <main class="main-container">
-        <!-- Part 1: Header -->
-        <div style="margin-bottom: 2rem;">
-            <h1 style="font-size: 2.2rem; font-weight: 900; background: linear-gradient(135deg, #c084fc, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem;">Copy Trade Chuyên Gia</h1>
-            <p style="color: #94a3b8; font-size: 0.95rem;">Sao chép danh mục tự động từ các nhà giao dịch dẫn đầu hiệu quả cao</p>
-        </div>
-
-        <!-- Part 2: Master Traders list -->
-        <div style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
-            <h2 style="font-size: 1.25rem; font-weight: 700; color: #fff;">👥 Đội Ngũ Chuyên Gia Dẫn Lệnh</h2>
-            <span style="font-size: 0.85rem; color: #c084fc; font-weight: 600;">Cập nhật theo thời gian thực</span>
-        </div>
-
-        <div class="expert-grid" id="expertGrid">
-            <!-- Loading indicator -->
-            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #64748b;">Đang tải danh sách chuyên gia...</div>
-        </div>
-
-        <!-- Part 3: Live Copy Order Logs -->
-        <div style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; margin-top: 1rem;">
-            <h2 style="font-size: 1.25rem; font-weight: 700; color: #fff;">🔄 Nhật Ký Khớp Lệnh Sao Chép</h2>
-            <span class="badge-count" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 700;" id="orderCount">0 lệnh</span>
-        </div>
-
-        <div class="order-table-wrapper">
-            <table class="order-table">
-                <thead>
-                    <tr>
-                        <th>Thời gian</th>
-                        <th>Chuyên gia</th>
-                        <th>Mã CP</th>
-                        <th>Hành động</th>
-                        <th>Giá khớp</th>
-                        <th>Khối lượng</th>
-                        <th>Số tài khoản Copy</th>
-                        <th>Trạng thái</th>
-                    </tr>
-                </thead>
-                <tbody id="orderLogsBody">
-                    <tr>
-                        <td colspan="8" style="text-align: center; padding: 2rem; color: #64748b;">Đang tải nhật ký khớp lệnh...</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
+    <main class="main-container" aria-label="Copy Trade Chuyên gia"></main>
 
     <footer class="page-footer">
         <p>&copy; 2026 FinTop DATA. Bảo lưu mọi quyền.</p>
@@ -455,12 +410,12 @@
                 if (window.FintopInfra) {
                     const Infra = window.FintopInfra;
                     if (!Infra.AuthManager.isAuthenticated) {
-                        alert('Vui lòng đăng nhập tài khoản hội viên FinTop để sử dụng tính năng này!');
-                        // Trigger Auth Modal
-                        if (typeof window.openAuthModal === 'function') {
+                        if (typeof window.requestAuthChoice === 'function') {
+                            window.requestAuthChoice('login');
+                        } else if (typeof window.openAuthModal === 'function') {
                             window.openAuthModal();
                         } else {
-                            location.href = '../../index.html#panel-hoivien';
+                            location.href = '../../index.html#login';
                         }
                         return;
                     }
@@ -475,18 +430,7 @@
                 alert(`Đăng ký sao chép lệnh của Chuyên gia ${masterName} thành công! Hệ thống VPS/TCBS của bạn đã được kết nối tự động.`);
             }
 
-            // Init
-            loadBackendData();
-            
-            // Listen for window.FintopInfra boot
-            function checkInfra() {
-                if (window.FintopInfra) {
-                    loadBackendData();
-                } else {
-                    setTimeout(checkInfra, 50);
-                }
-            }
-            checkInfra();
+            // Khu vực Copy Trade được để trống cho đến khi có nội dung chính thức.
         })();
     </script>
 </body>
