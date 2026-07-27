@@ -67,6 +67,35 @@ function resetProCheckout() {
     setProCheckoutVisibility(false);
 }
 
+function prefillProUserInfo() {
+    const Infra = window.FintopInfra;
+    let user = null;
+    try {
+        user = JSON.parse(localStorage.getItem('fintop_user') || '{}');
+    } catch (e) {}
+
+    const stateUser = (Infra?.AppState && typeof Infra.AppState.getState === 'function')
+        ? Infra.AppState.getState('user')
+        : null;
+
+    const currentUser = (user && (user.fullName || user.displayName || user.name || user.phone)) ? user : (stateUser || {});
+
+    const userFullName = currentUser.fullName || currentUser.displayName || currentUser.name || stateUser?.fullName || stateUser?.displayName || '';
+    const userPhone = currentUser.phone || currentUser.phoneNumber || currentUser.tel || stateUser?.phone || stateUser?.phoneNumber || '';
+
+    const fullNameInput = document.getElementById('proFullName');
+    const phoneInput = document.getElementById('proPhone');
+
+    if (fullNameInput && userFullName) {
+        fullNameInput.value = userFullName;
+    }
+    if (phoneInput && userPhone) {
+        phoneInput.value = userPhone;
+    }
+
+    updateTransferNote();
+}
+
 function selectProPackage(card) {
     if (!card) return;
 
@@ -81,28 +110,34 @@ function selectProPackage(card) {
         return;
     }
 
+    prefillProUserInfo();
     membershipCheckoutState.awaitingProAuthentication = false;
     membershipCheckoutState.pendingProPackage = null;
     setProCheckoutVisibility(true, `Đã chọn ${packageName}. Hoàn tất chuyển khoản và tải ảnh xác nhận để gửi phê duyệt.`);
 }
 
 function resumeProCheckoutAfterAuthentication() {
-    if (!membershipCheckoutState.awaitingProAuthentication || !isMembershipAuthenticated()) return;
+    if (!isMembershipAuthenticated()) return;
 
     const packageName = membershipCheckoutState.pendingProPackage;
-    const selectedCard = packageName
-        ? document.querySelector(`.pro-package-card[data-package="${packageName}"]`)
-        : document.querySelector('.pro-package-card.active');
 
     membershipCheckoutState.awaitingProAuthentication = false;
     membershipCheckoutState.pendingProPackage = null;
-
-    if (selectedCard) setActiveProPackage(selectedCard);
 
     const proModal = document.getElementById('modal-pro');
     if (!proModal?.classList.contains('active')) {
         openPricingModal('pro');
     }
+
+    const selectedCard = packageName
+        ? document.querySelector(`.pro-package-card[data-package="${packageName}"]`)
+        : document.querySelector('.pro-package-card.active') || document.querySelector('.pro-package-card');
+
+    if (selectedCard) {
+        setActiveProPackage(selectedCard);
+    }
+
+    prefillProUserInfo();
 
     const activePackage = selectedCard?.getAttribute('data-package') || 'PRO1';
     setProCheckoutVisibility(true, `Đã chọn ${activePackage}. Hoàn tất chuyển khoản và tải ảnh xác nhận để gửi phê duyệt.`);
@@ -471,29 +506,11 @@ function openPricingModal(tier) {
         document.body.style.overflow = 'hidden';
 
         // Pre-fill name and phone for authenticated user
-        const Infra = window.FintopInfra;
-        if (Infra && Infra.AuthManager && Infra.AuthManager.isAuthenticated) {
-            let user = null;
-            try {
-                user = JSON.parse(localStorage.getItem('fintop_user') || '{}');
-            } catch (e) {}
-
-            const stateUser = (Infra.AppState && typeof Infra.AppState.getState === 'function') ? Infra.AppState.getState('user') : null;
-            const userFullName = (user && user.fullName) ? user.fullName : (stateUser ? stateUser.displayName : '');
-
-            const fullNameInput = document.getElementById('proFullName');
-            const phoneInput = document.getElementById('proPhone');
-            if (fullNameInput && !fullNameInput.value) {
-                fullNameInput.value = userFullName || 'Hội viên FinTop';
-            }
-            if (phoneInput && !phoneInput.value) {
-                phoneInput.value = (user && user.phone) ? user.phone : '0862348886'; // default valid VN phone number
-            }
+        if (isMembershipAuthenticated()) {
+            prefillProUserInfo();
+        } else {
             updateTransferNote();
         }
-
-        // Always generate QR and update amount display, even for non-authenticated users
-        updateTransferNote();
     }
 }
 
@@ -547,22 +564,9 @@ async function submitProApproval() {
     // Tự động điền nếu trường thông tin bị trống nhưng user đã đăng nhập
     const fullNameInput = document.getElementById('proFullName');
     const phoneInput = document.getElementById('proPhone');
-    
-    let user = null;
-    try {
-        user = JSON.parse(localStorage.getItem('fintop_user') || '{}');
-    } catch (e) {}
-
-    const stateUser = (Infra.AppState && typeof Infra.AppState.getState === 'function') ? Infra.AppState.getState('user') : null;
-    const userFullName = (user && user.fullName) ? user.fullName : (stateUser ? stateUser.displayName : '');
-    
-    if (fullNameInput && !fullNameInput.value.trim()) {
-        fullNameInput.value = userFullName || 'Hội viên FinTop';
+    if (!fullNameInput?.value.trim() || !phoneInput?.value.trim()) {
+        prefillProUserInfo();
     }
-    if (phoneInput && !phoneInput.value.trim()) {
-        phoneInput.value = (user && user.phone) ? user.phone : '0862348886';
-    }
-    updateTransferNote();
 
     // 2. Validate thông tin thanh toán (họ tên, SĐT)
     const fullName = (document.getElementById('proFullName')?.value || '').trim();
