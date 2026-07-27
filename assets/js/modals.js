@@ -28,11 +28,10 @@ function setActiveProPackage(card) {
     });
 
     const packageName = card.getAttribute('data-package') || 'PRO1';
-    const months = card.getAttribute('data-months') || '3';
     const noteElement = document.getElementById('pro-payment-note');
     if (noteElement) {
-        noteElement.innerHTML = `<div>[HỌ TÊN]_[SỐ ĐIỆN THOẠI]_[GÓI ${packageName} - ${months} THÁNG]</div>
-            <div style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A_0862348886_${packageName} - ${months} THÁNG</div>`;
+        noteElement.innerHTML = `<div>[HỌ TÊN] [SỐ ĐIỆN THOẠI] [GÓI ${packageName}]</div>
+            <div style="color:#64748b; font-size:0.85em;">Ví dụ: NGUYỄN VĂN A 0862348886 ${packageName}</div>`;
     }
 
     updateTransferNote();
@@ -269,7 +268,7 @@ function buildVietQRData(bankBin, account, amount, addInfo) {
 function renderQRToImg(data, imgEl) {
     if (typeof qrcode !== 'function') {
         // Library not loaded yet, fallback to VietQR image API
-        imgEl.src = `https://img.vietqr.io/image/MB-862862438886-compact2.png?amount=2500000&addInfo=FINTOP`;
+        imgEl.src = `https://img.vietqr.io/image/MB-862862348886-compact2.png?amount=2500000&addInfo=FINTOP`;
         return;
     }
     // Type 0 = auto-detect version, Error correction M (15%)
@@ -291,7 +290,6 @@ function updateTransferNote() {
     const phoneVal = (phoneInput?.value || '').trim();
     const activeCard = document.querySelector('.pro-package-card.active');
     const pkgValue = activeCard ? activeCard.getAttribute('data-package') : 'PRO1';
-    const months = activeCard ? activeCard.getAttribute('data-months') : '3';
 
     const transferNoteInput = document.getElementById('proTransferNote');
     
@@ -301,10 +299,12 @@ function updateTransferNote() {
 
     if (transferNoteInput) {
         if (nameVal || phoneVal) {
-            transferNoteInput.value = `${safeName || '[HO TEN]'}_${safePhone || '[SDT]'}_${pkgValue} - ${months} THANG`;
+            const namePart = safeName ? safeName.replace(/\s+/g, ' ').trim() : '[HO TEN]';
+            const phonePart = safePhone || '[SDT]';
+            transferNoteInput.value = `${namePart} ${phonePart} ${pkgValue}`;
         } else {
             transferNoteInput.value = '';
-            transferNoteInput.placeholder = `Ví dụ: NGUYEN VAN A_0862348886_${pkgValue} - ${months} THANG`;
+            transferNoteInput.placeholder = `Ví dụ: NGUYEN VAN A 0862348886 ${pkgValue}`;
         }
     }
 
@@ -330,7 +330,9 @@ function updateTransferNote() {
     // Build transfer description for QR
     let note = `FINTOP ${pkgValue}`;
     if (nameVal || phoneVal) {
-        note = `${safeName.replace(/\s+/g, ' ') || 'HO TEN'} ${safePhone || 'SDT'} ${pkgValue}`;
+        const cleanName = safeName ? safeName.replace(/\s+/g, ' ').trim() : 'HO TEN';
+        const cleanPhone = safePhone || 'SDT';
+        note = `${cleanName} ${cleanPhone} ${pkgValue}`;
     } else {
         // Use logged-in user info as default
         const Infra = window.FintopInfra;
@@ -341,7 +343,7 @@ function updateTransferNote() {
             const userFullName = user.fullName || stateUser?.displayName || '';
             const userPhone = user.phone || '';
             if (userFullName) {
-                const cleanUser = removeVietnameseTones(userFullName).replace(/[^A-Z0-9 ]/g, '').trim();
+                const cleanUser = removeVietnameseTones(userFullName).replace(/[^A-Z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
                 const cleanPhone = userPhone.replace(/[^0-9]/g, '');
                 note = `${cleanUser} ${cleanPhone} ${pkgValue}`;
             }
@@ -351,7 +353,7 @@ function updateTransferNote() {
     // Generate and load the beautiful VietQR image dynamically with correct account number, amount, and note
     const qrImg = document.getElementById('pro-vietqr-img');
     if (qrImg) {
-        const qrUrl = `https://img.vietqr.io/image/970422-862862438886-compact2.png?amount=${price}&addInfo=${encodeURIComponent(note)}&accountName=${encodeURIComponent('CONG TY TNHH DAU TU VA PHAT TRIEN FINTOP')}`;
+        const qrUrl = `https://img.vietqr.io/image/970422-862862348886-compact2.png?amount=${price}&addInfo=${encodeURIComponent(note)}&accountName=${encodeURIComponent('CONG TY TNHH DAU TU VA PHAT TRIEN FINTOP')}`;
         qrImg.src = qrUrl;
     }
 }

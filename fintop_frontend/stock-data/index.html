@@ -9,7 +9,17 @@
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/components.css">
     <link rel="stylesheet" href="../assets/css/demo-pages.css">
-    <link rel="stylesheet" href="../assets/css/auth.css">
+    <script>
+        const hashMap = {
+            'pro-data': 'panel-stock-pro',
+            'sector': 'panel-stock-sector',
+            'reports': 'panel-stock-reports',
+            'quant': 'panel-stock-quant'
+        };
+        const currentHash = window.location.hash.replace('#', '');
+        const targetPanel = hashMap[currentHash] || 'panel-stock-quant';
+        window.location.replace('../index.html#' + targetPanel);
+    </script>
 </head>
 
 <body class="demo-page">

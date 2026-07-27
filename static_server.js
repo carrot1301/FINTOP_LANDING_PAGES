@@ -81,16 +81,25 @@ const server = http.createServer((req, res) => {
     filePath = path.join(FRONTEND_ROOT, pathname);
   }
 
-  // Helper to serve file
-  function serveFile(targetPath) {
+  // Helper to serve file with multi-path resolution
+  function serveFile(targetPath, isFallback = false) {
     fs.stat(targetPath, (err, stats) => {
       if (err) {
-        // File not found fallback for dynamic route subpages (like /chuyen-gia/)
-        // Only fallback if the pathname does not have a file extension (clean URL routing)
+        // Fallback 1: Try checking inside PROJECT_ROOT if failed in FRONTEND_ROOT (or vice versa)
+        if (!isFallback) {
+          const alternatePath = targetPath.startsWith(FRONTEND_ROOT) 
+            ? path.join(PROJECT_ROOT, pathname) 
+            : path.join(FRONTEND_ROOT, pathname);
+          if (alternatePath !== targetPath) {
+            serveFile(alternatePath, true);
+            return;
+          }
+        }
+        // Fallback 2: File not found fallback for dynamic route subpages (like /chuyen-gia/)
         if (pathname.startsWith('/chuyen-gia/') && path.extname(pathname) === '') {
           const fallbackPath = path.join(FRONTEND_ROOT, 'chuyen-gia', 'index.html');
           if (targetPath !== fallbackPath) {
-            serveFile(fallbackPath);
+            serveFile(fallbackPath, true);
             return;
           }
         }
