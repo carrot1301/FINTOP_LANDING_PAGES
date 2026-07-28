@@ -52,18 +52,26 @@ async function fetchPlansIfNeeded() {
 }
 
 function getInvoiceTier(amount, inv = null) {
-  if (inv?.subscription?.plan?.tierLevel) return inv.subscription.plan.tierLevel;
   if (inv?.plan?.tierLevel) return inv.plan.tierLevel;
+  if (inv?.subscription?.plan?.tierLevel) return inv.subscription.plan.tierLevel;
 
-  const plan = subscriptionPlans.find(p => Number(p.price) === Number(amount));
-  if (plan) return plan.tierLevel;
-  
-  // Fallbacks based on current pricing
+  if (inv?.planId) {
+    const matchById = subscriptionPlans.find(p => Number(p.id) === Number(inv.planId));
+    if (matchById) return matchById.tierLevel;
+  }
+
   const amt = Number(amount);
-  if (amt <= 0) return 'GOLD';
-  if (amt <= 8000000) return 'SILVER';
-  if (amt <= 10000000) return 'GOLD';
-  return 'DIAMOND';
+  if (amt > 0) {
+    const plan = subscriptionPlans.find(p => Number(p.price) === amt);
+    if (plan) return plan.tierLevel;
+    if (amt <= 4500000) return 'SILVER';
+    if (amt <= 6800000) return 'SILVER';
+    if (amt <= 10000000) return 'GOLD';
+    return 'DIAMOND';
+  }
+  
+  // 0đ invoices are linking requests (VIP / Diamond)
+  return 'GOLD';
 }
 
 async function computeSignature(payload, secret = 'default-secret-for-dev') {
