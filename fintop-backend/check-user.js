@@ -8,23 +8,29 @@ async function main() {
   const adapter = new PrismaPg(pool);
   const prisma = new PrismaClient({ adapter });
 
-  await prisma.invoice.updateMany({
-    where: { amount: 0, planId: null },
-    data: { planId: 3 }
+  // Delete all test invoices (0đ DRAFT linking requests) to clean up
+  // Keep only real invoices
+  const deleted = await prisma.invoice.deleteMany({
+    where: {
+      amount: 0,
+      status: 'DRAFT',
+    }
   });
+  console.log(`Deleted ${deleted.count} test 0đ DRAFT invoices.`);
 
+  // List remaining invoices
   const invoices = await prisma.invoice.findMany({
     include: {
       user: true,
       plan: true,
-      subscription: { include: { plan: true } }
-    }
+    },
+    orderBy: { id: 'asc' }
   });
-  console.log('Invoices in DB after updateMany:');
+  console.log('\n=== Remaining invoices ===');
   invoices.forEach(inv => {
     console.log(`- ID: ${inv.id}, User: ${inv.user?.fullName} (${inv.userId}), PlanId: ${inv.planId} (${inv.plan?.name} - ${inv.plan?.tierLevel}), Amount: ${inv.amount}, Status: ${inv.status}`);
   });
-  
+
   await prisma.$disconnect();
   await pool.end();
 }
