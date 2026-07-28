@@ -11,8 +11,11 @@
     margin-top: 10px;
     background: #1a1a1a;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    width: 220px;
+    border-radius: 10px;
+    min-width: 260px;
+    max-width: 320px;
+    width: max-content;
+    box-sizing: border-box;
     padding: 8px 0;
     display: none;
     flex-direction: column;
@@ -21,6 +24,7 @@
     opacity: 0;
     transform: translateY(-10px);
     transition: opacity 0.2s ease, transform 0.2s ease;
+    overflow: hidden;
 }
 
 .user-dropdown-container.active .user-dropdown-menu {

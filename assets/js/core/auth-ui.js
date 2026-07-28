@@ -55,8 +55,11 @@ const NavbarAuth = {
 
     if (!dropdownContainer) return;
 
-    const displayName = user?.fullName || user?.displayName || user?.email || 'User';
-    const initials = this._getInitials(displayName);
+    const hasFullName = !!(user?.fullName || user?.displayName);
+    const primaryName = user?.fullName || user?.displayName || user?.email || 'User';
+    const userEmail = user?.email || '';
+    const showSecondaryEmail = hasFullName && userEmail && primaryName !== userEmail;
+    const initials = this._getInitials(primaryName);
     const tierLevel = user?.tierLevel || 'STANDARD';
     const tierInfo = this._getTierInfo(tierLevel);
 
@@ -123,14 +126,15 @@ const NavbarAuth = {
         transition: all 0.3s ease;
       ">${initials}</div>
       <div class="user-dropdown-menu">
-        <div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08);">
-          <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">${displayName}</div>
-          <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 2px;">${user?.email || ''}</div>
+        <div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); overflow: hidden; box-sizing: border-box;">
+          <div style="font-weight: 600; color: #fff; font-size: 0.88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; word-break: break-all;" title="${primaryName}">${primaryName}</div>
+          ${showSecondaryEmail ? `<div style="font-size: 0.75rem; color: #94a3b8; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; word-break: break-all;" title="${userEmail}">${userEmail}</div>` : ''}
           <div style="margin-top: 6px;">
             <span style="
               font-size: 0.7rem; font-weight: 700; padding: 2px 8px;
               border-radius: 4px; color: ${tierInfo.textColor};
               background: ${tierInfo.badgeBg}; letter-spacing: 0.5px;
+              display: inline-block;
             ">${tierInfo.icon} ${tierInfo.label}</span>
           </div>
         </div>

@@ -372,7 +372,7 @@ async function showSignalDetail(signalId) {
         parsedNotes = JSON.parse(rawNotes);
         rawNotes = parsedNotes.notes || '';
       }
-    } catch (e) {}
+    } catch (e) { }
 
     const isSell = s.direction === 'SELL';
     const showTarget = !isSell || s.targetPrice !== s.entryPrice;
@@ -408,7 +408,7 @@ async function showSignalDetail(signalId) {
           </div>
           
           ${parsedNotes ? (
-            s.direction === 'BUY' ? `
+        s.direction === 'BUY' ? `
               <div class="admin-detail-field">
                 <div class="admin-detail-label">Kháng cự</div>
                 <div class="admin-detail-value" style="color:#34D399;font-weight:bold;">${esc(parsedNotes.resistance)}</div>
@@ -431,7 +431,7 @@ async function showSignalDetail(signalId) {
                 <div class="admin-detail-value" style="color:#10B981;font-weight:bold;">${esc(parsedNotes.modelResult)}</div>
               </div>
             `
-          ) : `
+      ) : `
             <div class="admin-detail-field">
               <div class="admin-detail-label">Giá mục tiêu</div>
               <div class="admin-detail-value" style="color:#34D399;font-weight:bold;">${showTarget ? formatNumber(s.targetPrice) : '—'}</div>

@@ -18,8 +18,8 @@ const guideTopics = {
     },
     ta: {
         label: "Phân tích kỹ thuật (TA)",
-        title: "Đọc xu hướng bằng tín hiệu kỹ thuật",
-        intro: "Demo mô phỏng cách FinTop gom MA, RSI, Bollinger Band và mẫu nến thành trạng thái dễ đọc cho nhà đầu tư.",
+        title: "Kiến thức Phân tích kỹ thuật (19 nội dung)",
+        intro: "Danh mục 19 bài học và video hướng dẫn đọc xu hướng, nến Nhật, Bollinger Band, MA, RSI, MACD, Fibonacci, Ichimoku và Elliott.",
         lessons: [
             ["Xu hướng chính", "Nhận biết giá đang nằm trên hoặc dưới các đường trung bình quan trọng."],
             ["Vùng hỗ trợ", "Đánh dấu vùng giá có xác suất xuất hiện lực cầu."],
@@ -28,15 +28,31 @@ const guideTopics = {
         ],
         checklist: ["Ưu tiên cổ phiếu có giá trên MA20 và MA50.", "Không mua đuổi khi RSI đã nóng và giá xa nền tích lũy.", "Kết hợp tín hiệu kỹ thuật với thanh khoản."],
         rows: [
-            ["MWG", "RSI cải thiện", "Chờ thêm thanh khoản"],
-            ["SSI", "Trên MA20", "Tín hiệu tích cực"],
-            ["VHM", "Chạm hỗ trợ", "Theo dõi phản ứng giá"]
+            ["TA1: Hướng dẫn đọc đồ thị nến Candelstick", "https://www.youtube.com/watch?v=kSTFPbaopgc&list=LLt0u"],
+            ["TA2: 10 mẫu nến cơ bản sử dụng trong dự đoán giá tăng giảm", "https://www.youtube.com/watch?v=j_WM8iYm50w"],
+            ["TA3: 11 mô hình nến đảo chiều P1", "https://www.youtube.com/watch?v=zsasLAmvJMI"],
+            ["TA4: 11 mô hình nến đảo chiều P2", "https://www.youtube.com/watch?v=EEHw8qQx3H4"],
+            ["TA5: Hướng dẫn sử dụng BB (BollingerBand) trong PTKT", "https://www.youtube.com/watch?v=9vRZKA_-A5I"],
+            ["TA6: Hướng dẫn sử dụng MA trong phân tích kỹ thuật (PTKT)", "https://www.youtube.com/watch?v=xRWoicbS0vI&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=11"],
+            ["TA7: Sử dụng đường trung bình EMA làm mức hỗ trợ và kháng cự", "https://www.youtube.com/watch?v=FrvIetAUZaY&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=13"],
+            ["TA8: Hướng dẫn sử dụng RSI trong xu hướng giá", "https://www.youtube.com/watch?v=DV09GlX9100&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=6"],
+            ["TA9: Phương pháp DCA trung bình giá", "https://www.youtube.com/watch?v=Z2Uw0HpHYaQ&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=28"],
+            ["TA10: Hướng dẫn sử dụng MACD", "https://www.youtube.com/watch?v=YrOkTkgi1Zo&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=14"],
+            ["TA11: Hướng dẫn sử dụng Finbonaci", "https://www.youtube.com/watch?v=WB3XirugOXc&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=17"],
+            ["TA12: Hướng dẫn sử dụng Mây Ichimoku", "https://www.youtube.com/watch?v=C6icpoSDaL8&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=19"],
+            ["TA13: Lý thuyết Supply Demand | Cách vẽ kháng cự hỗ trợ và Trendline", "https://www.youtube.com/watch?v=Bd7z5BCCICs&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=7"],
+            ["TA14: Mô hình giá Vai - Đầu - Vai thuận và ngược", "https://www.youtube.com/watch?v=tuflpQHeTLk&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=16"],
+            ["TA15: Mô hình giá 3 đỉnh 3 đáy và 2 đỉnh 2 đáy", "https://www.youtube.com/watch?v=P3cWP9zg0Ww&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=10"],
+            ["TA16: Điểm Break-out là gì? Phân biệt điểm phá ngưỡng thật giả?", "https://www.youtube.com/watch?v=vQwS1mixc6A&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=18"],
+            ["TA nâng cao P1 | Phân tích đa khung thời gian 1.1 | Trader phải biết", "https://www.youtube.com/watch?v=BnC7mjhvmNU&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=21"],
+            ["TA nâng cao P2 | Phân tích đa khung thời gian 1.2 | Thực hành Trade", "https://www.youtube.com/watch?v=la9_TymCvj0&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=15"],
+            ["TA nâng cao P3 | Elliott nâng cao | Đặc điểm và chiến thuật trade", "https://www.youtube.com/watch?v=z2Gjv8OerK0&list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&index=5"]
         ]
     },
     fa: {
         label: "Phân tích cơ bản (FA)",
-        title: "Tóm tắt sức khỏe doanh nghiệp",
-        intro: "Bộ demo tập trung vào doanh thu, lợi nhuận, biên lợi nhuận, đòn bẩy và định giá để người dùng có góc nhìn nền tảng.",
+        title: "Kiến thức Phân tích cơ bản (4 nội dung)",
+        intro: "Danh mục 4 bài viết hướng dẫn đọc báo cáo tài chính, chiến lược nắm giữ cổ phiếu và định giá dòng tiền.",
         lessons: [
             ["Tăng trưởng", "So sánh doanh thu và lợi nhuận theo quý, theo năm."],
             ["Biên lợi nhuận", "Đánh giá khả năng giữ lợi nhuận khi chi phí biến động."],
@@ -45,9 +61,10 @@ const guideTopics = {
         ],
         checklist: ["Ưu tiên doanh nghiệp tăng trưởng đều và dòng tiền rõ.", "So sánh định giá với chính lịch sử doanh nghiệp.", "Đọc báo cáo cùng bối cảnh ngành."],
         rows: [
-            ["VNM", "Biên LN ổn định", "Phù hợp danh mục phòng thủ"],
-            ["DGW", "Chu kỳ hồi phục", "Cần theo dõi hàng tồn kho"],
-            ["MSN", "Tái cấu trúc", "Chờ cải thiện biên lợi nhuận"]
+            ["Tìm hiểu cơ hội đầu tư khi đọc Báo cáo tài chính", "https://chienthangthitruong.com/tim-kiem-co-hoi-dau-tu-khi-doc-bao-cao-tai-chinh/"],
+            ["Chiến lược đầu tư nắm giữ cổ phiếu tốt", "https://chienthangthitruong.com/chien-luoc-dau-tu-nam-giu-co-phieu-tot/"],
+            ["Phương pháp chiết khấu dòng tiền", "https://chienthangthitruong.com/phuong-phap-chiet-khau-dong-tien/"],
+            ["Phương pháp phân tích dòng tiền đơn giản", "https://chienthangthitruong.com/phuong-phap-phan-tich-dong-tien-don-gian/"]
         ]
     },
     library: {
@@ -69,21 +86,7 @@ const guideTopics = {
     }
 };
 
-// Initialize handbook topics in localStorage if not present
-if (!localStorage.getItem('fintop_handbook_topics')) {
-    localStorage.setItem('fintop_handbook_topics', JSON.stringify(guideTopics));
-} else {
-    try {
-        const dynamicGuideTopics = JSON.parse(localStorage.getItem('fintop_handbook_topics'));
-        // Clean existing keys and apply dynamic keys
-        Object.keys(guideTopics).forEach(k => delete guideTopics[k]);
-        Object.keys(dynamicGuideTopics).forEach(k => {
-            guideTopics[k] = dynamicGuideTopics[k];
-        });
-    } catch (e) {
-        console.error('Failed to load dynamic guide topics, using default', e);
-    }
-}
+localStorage.setItem('fintop_handbook_topics', JSON.stringify(guideTopics));
 
 
 // Dynamic styling for flashes and stale indications
@@ -408,13 +411,24 @@ function setGuideTopic(topicId) {
     }
 
     if (tableEl) {
-        tableEl.innerHTML = topic.rows.map(r => `
-            <tr>
-                <td>${r[0]}</td>
-                <td><span class="status-badge ${r[1] === 'Nắm giữ' ? 'good' : r[1] === 'Tích lũy' ? 'watch' : 'info'}">${r[1]}</span></td>
-                <td>${r[2]}</td>
-            </tr>
-        `).join("");
+        tableEl.innerHTML = topic.rows.map((r, idx) => {
+            if (r[1] && (r[1].startsWith('http://') || r[1].startsWith('https://'))) {
+                return `
+                    <tr>
+                        <td class="stt-cell">${idx + 1}</td>
+                        <td class="content-cell">${r[0]}</td>
+                        <td><a class="library-detail-link" href="${r[1]}" target="_blank" rel="noopener">Chi tiết</a></td>
+                    </tr>
+                `;
+            }
+            return `
+                <tr>
+                    <td>${r[0]}</td>
+                    <td><span class="status-badge ${r[1] === 'Nắm giữ' ? 'good' : r[1] === 'Tích lũy' ? 'watch' : 'info'}">${r[1]}</span></td>
+                    <td>${r[2] || ''}</td>
+                </tr>
+            `;
+        }).join("");
     }
 
     document.querySelectorAll("[data-guide-topic]").forEach(btn => {

@@ -1,0 +1,1650 @@
+<!-- <style>
+    .unit-edit span {
+        font-size: 19px;
+    }
+</style> -->
+<!-- <div class="container">
+    <div class="row">
+        <div class="col-lg-6 mx-auto " style="display:flex">
+            <div class="input-group box">
+                    <input id="myInput" onkeyup="myFunction()"style="background: #000000;color: #ff9700;" type="text" class="input form-control form-control-lg rounded-pill rounded" placeholder="Từ kiếm theo từ khóa...">
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="table-responsive pmd-card pmd-z-depth pt-2">
+    <table  id="table-data" class="table  table-bordered table-striped table-condensed dataTable no-footer">
+        <thead>
+            <tr>
+                <td align="center"><input type="checkbox" name="chk_all_item_id"
+                        onclick="checkbox_all_item_id(document.forms[0].chk_item_id);"></td>
+                <td align="center"><b>STT</b></td>
+                <td align="center"><b>Thông tin người dùng</b></td>
+                <td align="center"><b>Người quản lý</b></td>
+                <td align="center"><b>Ảnh đại diện</b></td>
+                <!-- <td align="center"><b>Thứ tự</b></td> -->
+                <td align="center"><b>Trạng thái</b></td>
+                <td align="center">#</td>
+            </tr>
+        </thead>
+        <tbody>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="3a0ed9ce-5afd-4005-8326-11a8e4e9105f"></td>
+                    <td class="text-center td_order_3a0ed9ce-5afd-4005-8326-11a8e4e9105f" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('3a0ed9ce-5afd-4005-8326-11a8e4e9105f', 'order')">
+                        <span id="span_order_3a0ed9ce-5afd-4005-8326-11a8e4e9105f" class="span_order_3a0ed9ce-5afd-4005-8326-11a8e4e9105f">1</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: FinTop_Admin</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BOJE</span> </div>
+                           <div>Số điện thoại : 0386358007</div>
+                           <div>Địa chỉ Email : fintop.ba@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2024-03-17</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> CEO </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/2024_11_28_2047000000160165!~!LogoFinTopen.jpg" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','3a0ed9ce-5afd-4005-8326-11a8e4e9105f', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '3a0ed9ce-5afd-4005-8326-11a8e4e9105f', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_3a0ed9ce-5afd-4005-8326-11a8e4e9105f" data-id="3a0ed9ce-5afd-4005-8326-11a8e4e9105f" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('3a0ed9ce-5afd-4005-8326-11a8e4e9105f')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('3a0ed9ce-5afd-4005-8326-11a8e4e9105f')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="7985d0fd-eb7f-4029-81f2-c727dc693111"></td>
+                    <td class="text-center td_order_7985d0fd-eb7f-4029-81f2-c727dc693111" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('7985d0fd-eb7f-4029-81f2-c727dc693111', 'order')">
+                        <span id="span_order_7985d0fd-eb7f-4029-81f2-c727dc693111" class="span_order_7985d0fd-eb7f-4029-81f2-c727dc693111">2</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Công Luật</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">F000</span> </div>
+                           <div>Số điện thoại : 0386358006</div>
+                           <div>Địa chỉ Email : FinTop.BAShare@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2001-09-21</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> CEO </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/2024_11_28_112700000076506!~!test.jfif" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','7985d0fd-eb7f-4029-81f2-c727dc693111', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '7985d0fd-eb7f-4029-81f2-c727dc693111', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_7985d0fd-eb7f-4029-81f2-c727dc693111" data-id="7985d0fd-eb7f-4029-81f2-c727dc693111" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('7985d0fd-eb7f-4029-81f2-c727dc693111')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('7985d0fd-eb7f-4029-81f2-c727dc693111')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="3c48bdff-dc38-4c3e-886c-1405edc26a79"></td>
+                    <td class="text-center td_order_3c48bdff-dc38-4c3e-886c-1405edc26a79" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('3c48bdff-dc38-4c3e-886c-1405edc26a79', 'order')">
+                        <span id="span_order_3c48bdff-dc38-4c3e-886c-1405edc26a79" class="span_order_3c48bdff-dc38-4c3e-886c-1405edc26a79">3</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Trần Thị Thanh Thảo</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BOCR</span> </div>
+                           <div>Số điện thoại : 0983582655</div>
+                           <div>Địa chỉ Email : tthanhthao250604.fam@gmail.com</div>
+                           <div>Địa chỉ : Tx. Hoàng Mai</div>
+                           <div>Ngày sinh : 2004-06-25</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','3c48bdff-dc38-4c3e-886c-1405edc26a79', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '3c48bdff-dc38-4c3e-886c-1405edc26a79', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_3c48bdff-dc38-4c3e-886c-1405edc26a79" data-id="3c48bdff-dc38-4c3e-886c-1405edc26a79" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('3c48bdff-dc38-4c3e-886c-1405edc26a79')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('3c48bdff-dc38-4c3e-886c-1405edc26a79')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="4c1f694c-16df-4ff9-9f39-15dc8685d552"></td>
+                    <td class="text-center td_order_4c1f694c-16df-4ff9-9f39-15dc8685d552" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('4c1f694c-16df-4ff9-9f39-15dc8685d552', 'order')">
+                        <span id="span_order_4c1f694c-16df-4ff9-9f39-15dc8685d552" class="span_order_4c1f694c-16df-4ff9-9f39-15dc8685d552">4</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Đào Thị Ngọc Anh</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">F861</span> </div>
+                           <div>Số điện thoại : 0396727519</div>
+                           <div>Địa chỉ Email : withna0610@gmail.com</div>
+                           <div>Địa chỉ : Hà Đông - Hà Nội</div>
+                           <div>Ngày sinh : 2003-10-06</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Trợ lý CEO </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','4c1f694c-16df-4ff9-9f39-15dc8685d552', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '4c1f694c-16df-4ff9-9f39-15dc8685d552', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_4c1f694c-16df-4ff9-9f39-15dc8685d552" data-id="4c1f694c-16df-4ff9-9f39-15dc8685d552" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('4c1f694c-16df-4ff9-9f39-15dc8685d552')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('4c1f694c-16df-4ff9-9f39-15dc8685d552')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="f53ae2e4-6a42-4c4a-a795-094f22a616c9"></td>
+                    <td class="text-center td_order_f53ae2e4-6a42-4c4a-a795-094f22a616c9" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('f53ae2e4-6a42-4c4a-a795-094f22a616c9', 'order')">
+                        <span id="span_order_f53ae2e4-6a42-4c4a-a795-094f22a616c9" class="span_order_f53ae2e4-6a42-4c4a-a795-094f22a616c9">5</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Trần Khánh Linh</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">8043</span> </div>
+                           <div>Số điện thoại : 0971764531</div>
+                           <div>Địa chỉ Email : khanhlinhtran10150@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 1999-01-10</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Trợ lý CEO </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        8043 - Trần Khánh Linh
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','f53ae2e4-6a42-4c4a-a795-094f22a616c9', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'f53ae2e4-6a42-4c4a-a795-094f22a616c9', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_f53ae2e4-6a42-4c4a-a795-094f22a616c9" data-id="f53ae2e4-6a42-4c4a-a795-094f22a616c9" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('f53ae2e4-6a42-4c4a-a795-094f22a616c9')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('f53ae2e4-6a42-4c4a-a795-094f22a616c9')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="e5798d7d-0c14-4647-8439-5304951a3564"></td>
+                    <td class="text-center td_order_e5798d7d-0c14-4647-8439-5304951a3564" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('e5798d7d-0c14-4647-8439-5304951a3564', 'order')">
+                        <span id="span_order_e5798d7d-0c14-4647-8439-5304951a3564" class="span_order_e5798d7d-0c14-4647-8439-5304951a3564">6</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Minh Hạnh</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">5654</span> </div>
+                           <div>Số điện thoại : 0934650459</div>
+                           <div>Địa chỉ Email : hanhnm91@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 1991-11-14</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Editor Pro + Sale</span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','e5798d7d-0c14-4647-8439-5304951a3564', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'e5798d7d-0c14-4647-8439-5304951a3564', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_e5798d7d-0c14-4647-8439-5304951a3564" data-id="e5798d7d-0c14-4647-8439-5304951a3564" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('e5798d7d-0c14-4647-8439-5304951a3564')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('e5798d7d-0c14-4647-8439-5304951a3564')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="ba24d7ca-6f6e-4e3d-b3ec-8123c2a7a1ab"></td>
+                    <td class="text-center td_order_ba24d7ca-6f6e-4e3d-b3ec-8123c2a7a1ab" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('ba24d7ca-6f6e-4e3d-b3ec-8123c2a7a1ab', 'order')">
+                        <span id="span_order_ba24d7ca-6f6e-4e3d-b3ec-8123c2a7a1ab" class="span_order_ba24d7ca-6f6e-4e3d-b3ec-8123c2a7a1ab">7</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Như Quỳnh</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BJFS</span> </div>
+                           <div>Số điện thoại : 0362928667</div>
+                           <div>Địa chỉ Email : nhuquynhnguyen16102002@gmail.com</div>
+                           <div>Địa chỉ : Thanh Hóa</div>
+                           <div>Ngày sinh : 2002-10-16</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','ba24d7ca-6f6e-4e3d-b3ec-8123c2a7a1ab', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'ba24d7ca-6f6e-4e3d-b3ec-8123c2a7a1ab', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_ba24d7ca-6f6e-4e3d-b3ec-8123c2a7a1ab" data-id="ba24d7ca-6f6e-4e3d-b3ec-8123c2a7a1ab" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('ba24d7ca-6f6e-4e3d-b3ec-8123c2a7a1ab')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('ba24d7ca-6f6e-4e3d-b3ec-8123c2a7a1ab')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="2940264c-d379-4a2c-930e-3255bc3985f4"></td>
+                    <td class="text-center td_order_2940264c-d379-4a2c-930e-3255bc3985f4" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('2940264c-d379-4a2c-930e-3255bc3985f4', 'order')">
+                        <span id="span_order_2940264c-d379-4a2c-930e-3255bc3985f4" class="span_order_2940264c-d379-4a2c-930e-3255bc3985f4">8</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Duy An</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BEW5</span> </div>
+                           <div>Số điện thoại : 0965990173</div>
+                           <div>Địa chỉ Email : nguyenduyan179202@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2002-09-17</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','2940264c-d379-4a2c-930e-3255bc3985f4', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '2940264c-d379-4a2c-930e-3255bc3985f4', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_2940264c-d379-4a2c-930e-3255bc3985f4" data-id="2940264c-d379-4a2c-930e-3255bc3985f4" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('2940264c-d379-4a2c-930e-3255bc3985f4')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('2940264c-d379-4a2c-930e-3255bc3985f4')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="499b4aa7-6ac0-4429-9415-419b985ce9d4"></td>
+                    <td class="text-center td_order_499b4aa7-6ac0-4429-9415-419b985ce9d4" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('499b4aa7-6ac0-4429-9415-419b985ce9d4', 'order')">
+                        <span id="span_order_499b4aa7-6ac0-4429-9415-419b985ce9d4" class="span_order_499b4aa7-6ac0-4429-9415-419b985ce9d4">9</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Hoàng Thị Dịu</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BM35</span> </div>
+                           <div>Số điện thoại : 0796090848</div>
+                           <div>Địa chỉ Email : diuhoang517@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2005-09-27</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        8043 - Trần Khánh Linh
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','499b4aa7-6ac0-4429-9415-419b985ce9d4', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '499b4aa7-6ac0-4429-9415-419b985ce9d4', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_499b4aa7-6ac0-4429-9415-419b985ce9d4" data-id="499b4aa7-6ac0-4429-9415-419b985ce9d4" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('499b4aa7-6ac0-4429-9415-419b985ce9d4')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('499b4aa7-6ac0-4429-9415-419b985ce9d4')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="397573c8-b80f-46b3-95d4-59bb6d4aa2a2"></td>
+                    <td class="text-center td_order_397573c8-b80f-46b3-95d4-59bb6d4aa2a2" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('397573c8-b80f-46b3-95d4-59bb6d4aa2a2', 'order')">
+                        <span id="span_order_397573c8-b80f-46b3-95d4-59bb6d4aa2a2" class="span_order_397573c8-b80f-46b3-95d4-59bb6d4aa2a2">10</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Vũ Hoàng Duy</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BLHG</span> </div>
+                           <div>Số điện thoại : 0325414140</div>
+                           <div>Địa chỉ Email : duyhoangvu2692004@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2004-09-26</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        8043 - Trần Khánh Linh
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','397573c8-b80f-46b3-95d4-59bb6d4aa2a2', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '397573c8-b80f-46b3-95d4-59bb6d4aa2a2', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_397573c8-b80f-46b3-95d4-59bb6d4aa2a2" data-id="397573c8-b80f-46b3-95d4-59bb6d4aa2a2" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('397573c8-b80f-46b3-95d4-59bb6d4aa2a2')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('397573c8-b80f-46b3-95d4-59bb6d4aa2a2')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="4d503720-6466-4a9f-b193-af39648b3ddd"></td>
+                    <td class="text-center td_order_4d503720-6466-4a9f-b193-af39648b3ddd" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('4d503720-6466-4a9f-b193-af39648b3ddd', 'order')">
+                        <span id="span_order_4d503720-6466-4a9f-b193-af39648b3ddd" class="span_order_4d503720-6466-4a9f-b193-af39648b3ddd">11</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Lê Đình Đức</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BJYE</span> </div>
+                           <div>Số điện thoại : 0869870233</div>
+                           <div>Địa chỉ Email : leducvh02@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2002-10-09</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        6061 - Nguyễn Đình Hải
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','4d503720-6466-4a9f-b193-af39648b3ddd', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '4d503720-6466-4a9f-b193-af39648b3ddd', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_4d503720-6466-4a9f-b193-af39648b3ddd" data-id="4d503720-6466-4a9f-b193-af39648b3ddd" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('4d503720-6466-4a9f-b193-af39648b3ddd')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('4d503720-6466-4a9f-b193-af39648b3ddd')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="c8b94602-123b-45a8-9176-b032cc7297fd"></td>
+                    <td class="text-center td_order_c8b94602-123b-45a8-9176-b032cc7297fd" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('c8b94602-123b-45a8-9176-b032cc7297fd', 'order')">
+                        <span id="span_order_c8b94602-123b-45a8-9176-b032cc7297fd" class="span_order_c8b94602-123b-45a8-9176-b032cc7297fd">12</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Thuận Khang</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BJ2S</span> </div>
+                           <div>Số điện thoại : 0356479959</div>
+                           <div>Địa chỉ Email : khangthuan07@gmail.com</div>
+                           <div>Địa chỉ : Hồ Chí Minh</div>
+                           <div>Ngày sinh : 2003-06-29</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        6061 - Nguyễn Đình Hải
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','c8b94602-123b-45a8-9176-b032cc7297fd', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'c8b94602-123b-45a8-9176-b032cc7297fd', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_c8b94602-123b-45a8-9176-b032cc7297fd" data-id="c8b94602-123b-45a8-9176-b032cc7297fd" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('c8b94602-123b-45a8-9176-b032cc7297fd')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('c8b94602-123b-45a8-9176-b032cc7297fd')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="c4cca5ff-076d-40c7-9d44-ca53b3db304d"></td>
+                    <td class="text-center td_order_c4cca5ff-076d-40c7-9d44-ca53b3db304d" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('c4cca5ff-076d-40c7-9d44-ca53b3db304d', 'order')">
+                        <span id="span_order_c4cca5ff-076d-40c7-9d44-ca53b3db304d" class="span_order_c4cca5ff-076d-40c7-9d44-ca53b3db304d">13</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Đình Hải</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">6061</span> </div>
+                           <div>Số điện thoại : 0357731889</div>
+                           <div>Địa chỉ Email : hailedylan889@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 1995-02-07</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale Admin </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','c4cca5ff-076d-40c7-9d44-ca53b3db304d', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'c4cca5ff-076d-40c7-9d44-ca53b3db304d', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_c4cca5ff-076d-40c7-9d44-ca53b3db304d" data-id="c4cca5ff-076d-40c7-9d44-ca53b3db304d" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('c4cca5ff-076d-40c7-9d44-ca53b3db304d')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('c4cca5ff-076d-40c7-9d44-ca53b3db304d')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="30a21b1f-0fec-485b-87fe-b1ecd0bc19d2"></td>
+                    <td class="text-center td_order_30a21b1f-0fec-485b-87fe-b1ecd0bc19d2" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('30a21b1f-0fec-485b-87fe-b1ecd0bc19d2', 'order')">
+                        <span id="span_order_30a21b1f-0fec-485b-87fe-b1ecd0bc19d2" class="span_order_30a21b1f-0fec-485b-87fe-b1ecd0bc19d2">14</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Phan Nữ Đan Nhi</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BNSZ</span> </div>
+                           <div>Số điện thoại : 0845205955</div>
+                           <div>Địa chỉ Email : dannhihht@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2003-02-28</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        6061 - Nguyễn Đình Hải
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','30a21b1f-0fec-485b-87fe-b1ecd0bc19d2', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '30a21b1f-0fec-485b-87fe-b1ecd0bc19d2', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_30a21b1f-0fec-485b-87fe-b1ecd0bc19d2" data-id="30a21b1f-0fec-485b-87fe-b1ecd0bc19d2" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('30a21b1f-0fec-485b-87fe-b1ecd0bc19d2')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('30a21b1f-0fec-485b-87fe-b1ecd0bc19d2')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="b4318c72-1afa-4f79-bece-2e9daa537585"></td>
+                    <td class="text-center td_order_b4318c72-1afa-4f79-bece-2e9daa537585" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('b4318c72-1afa-4f79-bece-2e9daa537585', 'order')">
+                        <span id="span_order_b4318c72-1afa-4f79-bece-2e9daa537585" class="span_order_b4318c72-1afa-4f79-bece-2e9daa537585">15</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: nguyễn bách đạt</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">F003</span> </div>
+                           <div>Số điện thoại : 0336646836</div>
+                           <div>Địa chỉ Email : nguyendat28112004@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2004-11-28</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','b4318c72-1afa-4f79-bece-2e9daa537585', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'b4318c72-1afa-4f79-bece-2e9daa537585', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_b4318c72-1afa-4f79-bece-2e9daa537585" data-id="b4318c72-1afa-4f79-bece-2e9daa537585" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('b4318c72-1afa-4f79-bece-2e9daa537585')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('b4318c72-1afa-4f79-bece-2e9daa537585')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="a59a9d8f-d88a-47fd-b2cc-4695249cfe6f"></td>
+                    <td class="text-center td_order_a59a9d8f-d88a-47fd-b2cc-4695249cfe6f" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('a59a9d8f-d88a-47fd-b2cc-4695249cfe6f', 'order')">
+                        <span id="span_order_a59a9d8f-d88a-47fd-b2cc-4695249cfe6f" class="span_order_a59a9d8f-d88a-47fd-b2cc-4695249cfe6f">16</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Trần Quốc Việt</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BPJ4</span> </div>
+                           <div>Số điện thoại : 0869391861</div>
+                           <div>Địa chỉ Email : viettb234@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2003-10-13</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','a59a9d8f-d88a-47fd-b2cc-4695249cfe6f', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'a59a9d8f-d88a-47fd-b2cc-4695249cfe6f', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_a59a9d8f-d88a-47fd-b2cc-4695249cfe6f" data-id="a59a9d8f-d88a-47fd-b2cc-4695249cfe6f" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('a59a9d8f-d88a-47fd-b2cc-4695249cfe6f')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('a59a9d8f-d88a-47fd-b2cc-4695249cfe6f')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="e5379bd4-8df5-45a7-94e6-63e939ddea84"></td>
+                    <td class="text-center td_order_e5379bd4-8df5-45a7-94e6-63e939ddea84" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('e5379bd4-8df5-45a7-94e6-63e939ddea84', 'order')">
+                        <span id="span_order_e5379bd4-8df5-45a7-94e6-63e939ddea84" class="span_order_e5379bd4-8df5-45a7-94e6-63e939ddea84">17</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Thành Phúc</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BF14</span> </div>
+                           <div>Số điện thoại : 0369879176</div>
+                           <div>Địa chỉ Email : thanhphucubqn@gmail.com</div>
+                           <div>Địa chỉ : Tòa S3 Vinhomes Skylake Phạm Hùng, Nam Từ Liêm</div>
+                           <div>Ngày sinh : 2000-09-12</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Editor Pro + Sale Admin</span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        8043 - Trần Khánh Linh
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/2026_03_24_0923000000277065!~!Halongrace2023.JPG" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','e5379bd4-8df5-45a7-94e6-63e939ddea84', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'e5379bd4-8df5-45a7-94e6-63e939ddea84', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_e5379bd4-8df5-45a7-94e6-63e939ddea84" data-id="e5379bd4-8df5-45a7-94e6-63e939ddea84" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('e5379bd4-8df5-45a7-94e6-63e939ddea84')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('e5379bd4-8df5-45a7-94e6-63e939ddea84')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="589f42d3-6da7-496b-9700-b503a753beb6"></td>
+                    <td class="text-center td_order_589f42d3-6da7-496b-9700-b503a753beb6" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('589f42d3-6da7-496b-9700-b503a753beb6', 'order')">
+                        <span id="span_order_589f42d3-6da7-496b-9700-b503a753beb6" class="span_order_589f42d3-6da7-496b-9700-b503a753beb6">18</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Hoài Thu Nguyễn</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">5016</span> </div>
+                           <div>Số điện thoại : 0972227823</div>
+                           <div>Địa chỉ Email : thugie79.93@gmail.com</div>
+                           <div>Địa chỉ : Tầng 18 tòa VTC Online, 18 Tam Trinh, Hà Nội, Việt Nam.</div>
+                           <div>Ngày sinh : 1993-09-07</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        5016 - Hoài Thu Nguyễn
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','589f42d3-6da7-496b-9700-b503a753beb6', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '589f42d3-6da7-496b-9700-b503a753beb6', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_589f42d3-6da7-496b-9700-b503a753beb6" data-id="589f42d3-6da7-496b-9700-b503a753beb6" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('589f42d3-6da7-496b-9700-b503a753beb6')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('589f42d3-6da7-496b-9700-b503a753beb6')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="820f6528-ab4c-48a7-98de-be2d4fe01db4"></td>
+                    <td class="text-center td_order_820f6528-ab4c-48a7-98de-be2d4fe01db4" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('820f6528-ab4c-48a7-98de-be2d4fe01db4', 'order')">
+                        <span id="span_order_820f6528-ab4c-48a7-98de-be2d4fe01db4" class="span_order_820f6528-ab4c-48a7-98de-be2d4fe01db4">19</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Đoàn Phương Hạnh</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BRRU</span> </div>
+                           <div>Số điện thoại : 0347268359</div>
+                           <div>Địa chỉ Email : doanphuonghanhmthh@gmail.com</div>
+                           <div>Địa chỉ : 157 Chùa Láng, Đống Đa, Hà Nội</div>
+                           <div>Ngày sinh : 2004-06-01</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        8043 - Trần Khánh Linh
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','820f6528-ab4c-48a7-98de-be2d4fe01db4', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '820f6528-ab4c-48a7-98de-be2d4fe01db4', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_820f6528-ab4c-48a7-98de-be2d4fe01db4" data-id="820f6528-ab4c-48a7-98de-be2d4fe01db4" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('820f6528-ab4c-48a7-98de-be2d4fe01db4')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('820f6528-ab4c-48a7-98de-be2d4fe01db4')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="45428848-5b2a-4acf-b842-683a39a8b501"></td>
+                    <td class="text-center td_order_45428848-5b2a-4acf-b842-683a39a8b501" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('45428848-5b2a-4acf-b842-683a39a8b501', 'order')">
+                        <span id="span_order_45428848-5b2a-4acf-b842-683a39a8b501" class="span_order_45428848-5b2a-4acf-b842-683a39a8b501">20</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Lê Phương Mai</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BSPD</span> </div>
+                           <div>Số điện thoại : 0971120304</div>
+                           <div>Địa chỉ Email : phuongwmai281103@gmail.com</div>
+                           <div>Địa chỉ : No. 18, adjacent row 20C, Van Phu urban area</div>
+                           <div>Ngày sinh : 2003-11-28</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        6061 - Nguyễn Đình Hải
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','45428848-5b2a-4acf-b842-683a39a8b501', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '45428848-5b2a-4acf-b842-683a39a8b501', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_45428848-5b2a-4acf-b842-683a39a8b501" data-id="45428848-5b2a-4acf-b842-683a39a8b501" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('45428848-5b2a-4acf-b842-683a39a8b501')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('45428848-5b2a-4acf-b842-683a39a8b501')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="5cb53ed6-a783-48d4-a093-bd3cddd42f25"></td>
+                    <td class="text-center td_order_5cb53ed6-a783-48d4-a093-bd3cddd42f25" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('5cb53ed6-a783-48d4-a093-bd3cddd42f25', 'order')">
+                        <span id="span_order_5cb53ed6-a783-48d4-a093-bd3cddd42f25" class="span_order_5cb53ed6-a783-48d4-a093-bd3cddd42f25">21</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Thị Ngọc</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BRN4</span> </div>
+                           <div>Số điện thoại : 0979342651</div>
+                           <div>Địa chỉ Email : ngoc.nt0899@gmail.com</div>
+                           <div>Địa chỉ : Ngõ 12 Tôn Thất Tùng, Kim Liên, Hà Nội</div>
+                           <div>Ngày sinh : 1999-08-12</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        8043 - Trần Khánh Linh
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','5cb53ed6-a783-48d4-a093-bd3cddd42f25', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '5cb53ed6-a783-48d4-a093-bd3cddd42f25', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_5cb53ed6-a783-48d4-a093-bd3cddd42f25" data-id="5cb53ed6-a783-48d4-a093-bd3cddd42f25" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('5cb53ed6-a783-48d4-a093-bd3cddd42f25')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('5cb53ed6-a783-48d4-a093-bd3cddd42f25')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="5c19d203-46f8-4f77-a836-cf51f5038a87"></td>
+                    <td class="text-center td_order_5c19d203-46f8-4f77-a836-cf51f5038a87" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('5c19d203-46f8-4f77-a836-cf51f5038a87', 'order')">
+                        <span id="span_order_5c19d203-46f8-4f77-a836-cf51f5038a87" class="span_order_5c19d203-46f8-4f77-a836-cf51f5038a87">22</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Mai Thy</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BSQW</span> </div>
+                           <div>Số điện thoại : 0943030604</div>
+                           <div>Địa chỉ Email : nguyenmaithy04@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2004-06-03</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        8043 - Trần Khánh Linh
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','5c19d203-46f8-4f77-a836-cf51f5038a87', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '5c19d203-46f8-4f77-a836-cf51f5038a87', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_5c19d203-46f8-4f77-a836-cf51f5038a87" data-id="5c19d203-46f8-4f77-a836-cf51f5038a87" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('5c19d203-46f8-4f77-a836-cf51f5038a87')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('5c19d203-46f8-4f77-a836-cf51f5038a87')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="2483f71b-15ca-41da-982d-82f2f0c37df6"></td>
+                    <td class="text-center td_order_2483f71b-15ca-41da-982d-82f2f0c37df6" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('2483f71b-15ca-41da-982d-82f2f0c37df6', 'order')">
+                        <span id="span_order_2483f71b-15ca-41da-982d-82f2f0c37df6" class="span_order_2483f71b-15ca-41da-982d-82f2f0c37df6">23</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Ngô Sơn Tùng</div>
+                           <div>ID nhân sự : <span style="color:#ffb200"></span> </div>
+                           <div>Số điện thoại : 0392061651</div>
+                           <div>Địa chỉ Email : nstung234@gmail.com</div>
+                           <div>Địa chỉ : 51/8 Bùi Ngọc Dương, Bạch Mai, Hà Nội</div>
+                           <div>Ngày sinh : 2004-03-20</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        8043 - Trần Khánh Linh
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','2483f71b-15ca-41da-982d-82f2f0c37df6', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '2483f71b-15ca-41da-982d-82f2f0c37df6', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_2483f71b-15ca-41da-982d-82f2f0c37df6" data-id="2483f71b-15ca-41da-982d-82f2f0c37df6" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('2483f71b-15ca-41da-982d-82f2f0c37df6')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('2483f71b-15ca-41da-982d-82f2f0c37df6')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="69d984d1-89fb-450d-ba44-410028477b31"></td>
+                    <td class="text-center td_order_69d984d1-89fb-450d-ba44-410028477b31" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('69d984d1-89fb-450d-ba44-410028477b31', 'order')">
+                        <span id="span_order_69d984d1-89fb-450d-ba44-410028477b31" class="span_order_69d984d1-89fb-450d-ba44-410028477b31">24</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Thị Thùy Giang</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BN32</span> </div>
+                           <div>Số điện thoại : 0921446885</div>
+                           <div>Địa chỉ Email : giangthuy2711@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2004-11-27</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BF14 - Nguyễn Thành Phúc
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','69d984d1-89fb-450d-ba44-410028477b31', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '69d984d1-89fb-450d-ba44-410028477b31', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_69d984d1-89fb-450d-ba44-410028477b31" data-id="69d984d1-89fb-450d-ba44-410028477b31" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('69d984d1-89fb-450d-ba44-410028477b31')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('69d984d1-89fb-450d-ba44-410028477b31')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="e8375a9c-ab7a-49b9-9f9c-f127f6b0673b"></td>
+                    <td class="text-center td_order_e8375a9c-ab7a-49b9-9f9c-f127f6b0673b" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('e8375a9c-ab7a-49b9-9f9c-f127f6b0673b', 'order')">
+                        <span id="span_order_e8375a9c-ab7a-49b9-9f9c-f127f6b0673b" class="span_order_e8375a9c-ab7a-49b9-9f9c-f127f6b0673b">25</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Vũ Thành Long</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BSPB</span> </div>
+                           <div>Số điện thoại : 0977735502</div>
+                           <div>Địa chỉ Email : long2004ptit@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2004-02-22</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        6061 - Nguyễn Đình Hải
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','e8375a9c-ab7a-49b9-9f9c-f127f6b0673b', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'e8375a9c-ab7a-49b9-9f9c-f127f6b0673b', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_e8375a9c-ab7a-49b9-9f9c-f127f6b0673b" data-id="e8375a9c-ab7a-49b9-9f9c-f127f6b0673b" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('e8375a9c-ab7a-49b9-9f9c-f127f6b0673b')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('e8375a9c-ab7a-49b9-9f9c-f127f6b0673b')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="adbcf2ff-928c-4e9d-bbc4-2f8004a92b6f"></td>
+                    <td class="text-center td_order_adbcf2ff-928c-4e9d-bbc4-2f8004a92b6f" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('adbcf2ff-928c-4e9d-bbc4-2f8004a92b6f', 'order')">
+                        <span id="span_order_adbcf2ff-928c-4e9d-bbc4-2f8004a92b6f" class="span_order_adbcf2ff-928c-4e9d-bbc4-2f8004a92b6f">26</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Hồ Phú Thịnh</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BTJJ</span> </div>
+                           <div>Số điện thoại : 0898413118</div>
+                           <div>Địa chỉ Email : hothinh338@gmail.com</div>
+                           <div>Địa chỉ : Thành Phố Hồ Chí Minh</div>
+                           <div>Ngày sinh : 2004-08-13</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        6061 - Nguyễn Đình Hải
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','adbcf2ff-928c-4e9d-bbc4-2f8004a92b6f', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'adbcf2ff-928c-4e9d-bbc4-2f8004a92b6f', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_adbcf2ff-928c-4e9d-bbc4-2f8004a92b6f" data-id="adbcf2ff-928c-4e9d-bbc4-2f8004a92b6f" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('adbcf2ff-928c-4e9d-bbc4-2f8004a92b6f')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('adbcf2ff-928c-4e9d-bbc4-2f8004a92b6f')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="8956d7a7-ec14-405b-85c8-902be698d88f"></td>
+                    <td class="text-center td_order_8956d7a7-ec14-405b-85c8-902be698d88f" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('8956d7a7-ec14-405b-85c8-902be698d88f', 'order')">
+                        <span id="span_order_8956d7a7-ec14-405b-85c8-902be698d88f" class="span_order_8956d7a7-ec14-405b-85c8-902be698d88f">27</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Dang Nhu Ngoc</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BSVA</span> </div>
+                           <div>Số điện thoại : 0981101355</div>
+                           <div>Địa chỉ Email : olianbill2508@gmail.com</div>
+                           <div>Địa chỉ : Hà nội</div>
+                           <div>Ngày sinh : 1999-10-23</div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        8043 - Trần Khánh Linh
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','8956d7a7-ec14-405b-85c8-902be698d88f', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '8956d7a7-ec14-405b-85c8-902be698d88f', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_8956d7a7-ec14-405b-85c8-902be698d88f" data-id="8956d7a7-ec14-405b-85c8-902be698d88f" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('8956d7a7-ec14-405b-85c8-902be698d88f')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('8956d7a7-ec14-405b-85c8-902be698d88f')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="d338ac5a-8d99-4e82-bb3f-eb761b1eeb86"></td>
+                    <td class="text-center td_order_d338ac5a-8d99-4e82-bb3f-eb761b1eeb86" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('d338ac5a-8d99-4e82-bb3f-eb761b1eeb86', 'order')">
+                        <span id="span_order_d338ac5a-8d99-4e82-bb3f-eb761b1eeb86" class="span_order_d338ac5a-8d99-4e82-bb3f-eb761b1eeb86">28</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Thị Phương Anh</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BSVA</span> </div>
+                           <div>Số điện thoại : 0963802731</div>
+                           <div>Địa chỉ Email : phuonganh03ntt@gmail.com</div>
+                           <div>Địa chỉ : Ninh Bình</div>
+                           <div>Ngày sinh : 2003-10-11</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        8043 - Trần Khánh Linh
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','d338ac5a-8d99-4e82-bb3f-eb761b1eeb86', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'd338ac5a-8d99-4e82-bb3f-eb761b1eeb86', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_d338ac5a-8d99-4e82-bb3f-eb761b1eeb86" data-id="d338ac5a-8d99-4e82-bb3f-eb761b1eeb86" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('d338ac5a-8d99-4e82-bb3f-eb761b1eeb86')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('d338ac5a-8d99-4e82-bb3f-eb761b1eeb86')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="193b365a-31ed-4aec-a5e7-319bbc5128e5"></td>
+                    <td class="text-center td_order_193b365a-31ed-4aec-a5e7-319bbc5128e5" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('193b365a-31ed-4aec-a5e7-319bbc5128e5', 'order')">
+                        <span id="span_order_193b365a-31ed-4aec-a5e7-319bbc5128e5" class="span_order_193b365a-31ed-4aec-a5e7-319bbc5128e5">29</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Lê Yến Nhi</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BT4O</span> </div>
+                           <div>Số điện thoại : 0977563620</div>
+                           <div>Địa chỉ Email : le217112@gmail.com</div>
+                           <div>Địa chỉ : Quận Dương Kinh</div>
+                           <div>Ngày sinh : 2005-10-09</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BF14 - Nguyễn Thành Phúc
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','193b365a-31ed-4aec-a5e7-319bbc5128e5', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '193b365a-31ed-4aec-a5e7-319bbc5128e5', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_193b365a-31ed-4aec-a5e7-319bbc5128e5" data-id="193b365a-31ed-4aec-a5e7-319bbc5128e5" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('193b365a-31ed-4aec-a5e7-319bbc5128e5')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('193b365a-31ed-4aec-a5e7-319bbc5128e5')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="47bd373b-11a9-476d-b17c-b9891ecc20a4"></td>
+                    <td class="text-center td_order_47bd373b-11a9-476d-b17c-b9891ecc20a4" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('47bd373b-11a9-476d-b17c-b9891ecc20a4', 'order')">
+                        <span id="span_order_47bd373b-11a9-476d-b17c-b9891ecc20a4" class="span_order_47bd373b-11a9-476d-b17c-b9891ecc20a4">30</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyên Minh Dương</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BTLT</span> </div>
+                           <div>Số điện thoại : 0707653497</div>
+                           <div>Địa chỉ Email : dmnguyen12977@gmail.com</div>
+                           <div>Địa chỉ : 35 Lê Văn Lương, Thanh Xuân, Hà Nội, Việt Nam</div>
+                           <div>Ngày sinh : 1997-07-12</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        6061 - Nguyễn Đình Hải
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','47bd373b-11a9-476d-b17c-b9891ecc20a4', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '47bd373b-11a9-476d-b17c-b9891ecc20a4', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_47bd373b-11a9-476d-b17c-b9891ecc20a4" data-id="47bd373b-11a9-476d-b17c-b9891ecc20a4" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('47bd373b-11a9-476d-b17c-b9891ecc20a4')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('47bd373b-11a9-476d-b17c-b9891ecc20a4')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="19c8b8bf-e868-44ba-86a8-f891c56ec30c"></td>
+                    <td class="text-center td_order_19c8b8bf-e868-44ba-86a8-f891c56ec30c" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('19c8b8bf-e868-44ba-86a8-f891c56ec30c', 'order')">
+                        <span id="span_order_19c8b8bf-e868-44ba-86a8-f891c56ec30c" class="span_order_19c8b8bf-e868-44ba-86a8-f891c56ec30c">31</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Thị Liễu</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BTRN</span> </div>
+                           <div>Số điện thoại : 0368266435</div>
+                           <div>Địa chỉ Email : ntlieuxd2005@gmail.com</div>
+                           <div>Địa chỉ : Thôn Trường Xuân, xã Xuân Dương, huyện Thanh Oai, thành phố Hà Nội</div>
+                           <div>Ngày sinh : 2005-10-14</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BF14 - Nguyễn Thành Phúc
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','19c8b8bf-e868-44ba-86a8-f891c56ec30c', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '19c8b8bf-e868-44ba-86a8-f891c56ec30c', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_19c8b8bf-e868-44ba-86a8-f891c56ec30c" data-id="19c8b8bf-e868-44ba-86a8-f891c56ec30c" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('19c8b8bf-e868-44ba-86a8-f891c56ec30c')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('19c8b8bf-e868-44ba-86a8-f891c56ec30c')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="c7e1e475-4ab6-4035-b0ba-ac95d250f5ab"></td>
+                    <td class="text-center td_order_c7e1e475-4ab6-4035-b0ba-ac95d250f5ab" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('c7e1e475-4ab6-4035-b0ba-ac95d250f5ab', 'order')">
+                        <span id="span_order_c7e1e475-4ab6-4035-b0ba-ac95d250f5ab" class="span_order_c7e1e475-4ab6-4035-b0ba-ac95d250f5ab">32</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Trường Giang</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BTK7</span> </div>
+                           <div>Số điện thoại : 0704741767</div>
+                           <div>Địa chỉ Email : giangjojo2004@gmail.com</div>
+                           <div>Địa chỉ : 68/6 Lê Văn Linh phường xóm chiếu TP Hồ Chí Minh</div>
+                           <div>Ngày sinh : 2004-11-26</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        6061 - Nguyễn Đình Hải
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','c7e1e475-4ab6-4035-b0ba-ac95d250f5ab', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'c7e1e475-4ab6-4035-b0ba-ac95d250f5ab', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_c7e1e475-4ab6-4035-b0ba-ac95d250f5ab" data-id="c7e1e475-4ab6-4035-b0ba-ac95d250f5ab" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('c7e1e475-4ab6-4035-b0ba-ac95d250f5ab')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('c7e1e475-4ab6-4035-b0ba-ac95d250f5ab')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="d69447cb-c759-4994-a699-da755c980df1"></td>
+                    <td class="text-center td_order_d69447cb-c759-4994-a699-da755c980df1" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('d69447cb-c759-4994-a699-da755c980df1', 'order')">
+                        <span id="span_order_d69447cb-c759-4994-a699-da755c980df1" class="span_order_d69447cb-c759-4994-a699-da755c980df1">33</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Lê Hà Trang</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BSZD</span> </div>
+                           <div>Số điện thoại : 0337057530</div>
+                           <div>Địa chỉ Email : lehatrang21102004@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 2004-10-21</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BF14 - Nguyễn Thành Phúc
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','d69447cb-c759-4994-a699-da755c980df1', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'd69447cb-c759-4994-a699-da755c980df1', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_d69447cb-c759-4994-a699-da755c980df1" data-id="d69447cb-c759-4994-a699-da755c980df1" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('d69447cb-c759-4994-a699-da755c980df1')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('d69447cb-c759-4994-a699-da755c980df1')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="016dd9ee-30c6-4951-8468-72a1c718daa9"></td>
+                    <td class="text-center td_order_016dd9ee-30c6-4951-8468-72a1c718daa9" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('016dd9ee-30c6-4951-8468-72a1c718daa9', 'order')">
+                        <span id="span_order_016dd9ee-30c6-4951-8468-72a1c718daa9" class="span_order_016dd9ee-30c6-4951-8468-72a1c718daa9">34</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Trần Thị Phương Loan</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BTRW</span> </div>
+                           <div>Số điện thoại : 0358035448</div>
+                           <div>Địa chỉ Email : loanttp203@gmail.com</div>
+                           <div>Địa chỉ : Hồ Chí Minh</div>
+                           <div>Ngày sinh : 2004-03-20</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BF14 - Nguyễn Thành Phúc
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','016dd9ee-30c6-4951-8468-72a1c718daa9', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '016dd9ee-30c6-4951-8468-72a1c718daa9', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_016dd9ee-30c6-4951-8468-72a1c718daa9" data-id="016dd9ee-30c6-4951-8468-72a1c718daa9" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('016dd9ee-30c6-4951-8468-72a1c718daa9')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('016dd9ee-30c6-4951-8468-72a1c718daa9')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="8c035a15-c824-4895-bf85-86427b6fb16f"></td>
+                    <td class="text-center td_order_8c035a15-c824-4895-bf85-86427b6fb16f" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('8c035a15-c824-4895-bf85-86427b6fb16f', 'order')">
+                        <span id="span_order_8c035a15-c824-4895-bf85-86427b6fb16f" class="span_order_8c035a15-c824-4895-bf85-86427b6fb16f">35</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Phạm Thị Ngọc Thu</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">5777</span> </div>
+                           <div>Số điện thoại : 0832888836</div>
+                           <div>Địa chỉ Email : thungocph@gmail.com</div>
+                           <div>Địa chỉ : Hà Nội</div>
+                           <div>Ngày sinh : 1999-06-26</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','8c035a15-c824-4895-bf85-86427b6fb16f', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '8c035a15-c824-4895-bf85-86427b6fb16f', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_8c035a15-c824-4895-bf85-86427b6fb16f" data-id="8c035a15-c824-4895-bf85-86427b6fb16f" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('8c035a15-c824-4895-bf85-86427b6fb16f')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('8c035a15-c824-4895-bf85-86427b6fb16f')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="61b07abf-1aaf-4b8c-8133-3380fd0343e4"></td>
+                    <td class="text-center td_order_61b07abf-1aaf-4b8c-8133-3380fd0343e4" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('61b07abf-1aaf-4b8c-8133-3380fd0343e4', 'order')">
+                        <span id="span_order_61b07abf-1aaf-4b8c-8133-3380fd0343e4" class="span_order_61b07abf-1aaf-4b8c-8133-3380fd0343e4">36</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Trung Thành Nguyễn</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BW4O</span> </div>
+                           <div>Số điện thoại : 0835955799</div>
+                           <div>Địa chỉ Email : nguyentrungthanh05012005@gmail.com</div>
+                           <div>Địa chỉ : Phường Từ Liêm</div>
+                           <div>Ngày sinh : 2005-01-05</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        8043 - Trần Khánh Linh
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','61b07abf-1aaf-4b8c-8133-3380fd0343e4', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '61b07abf-1aaf-4b8c-8133-3380fd0343e4', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_61b07abf-1aaf-4b8c-8133-3380fd0343e4" data-id="61b07abf-1aaf-4b8c-8133-3380fd0343e4" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('61b07abf-1aaf-4b8c-8133-3380fd0343e4')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('61b07abf-1aaf-4b8c-8133-3380fd0343e4')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="3804dee7-0bdb-4a3f-8865-063d7215bc3d"></td>
+                    <td class="text-center td_order_3804dee7-0bdb-4a3f-8865-063d7215bc3d" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('3804dee7-0bdb-4a3f-8865-063d7215bc3d', 'order')">
+                        <span id="span_order_3804dee7-0bdb-4a3f-8865-063d7215bc3d" class="span_order_3804dee7-0bdb-4a3f-8865-063d7215bc3d">37</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Trần Tuấn Nam</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">F101</span> </div>
+                           <div>Số điện thoại : 0915985799</div>
+                           <div>Địa chỉ Email : tnam19884@gmail.com</div>
+                           <div>Địa chỉ : Tân Hạnh, Đông Sơn, TP Thanh Hóa</div>
+                           <div>Ngày sinh : 2003-08-30</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Sale </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        8043 - Trần Khánh Linh
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','3804dee7-0bdb-4a3f-8865-063d7215bc3d', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '3804dee7-0bdb-4a3f-8865-063d7215bc3d', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_3804dee7-0bdb-4a3f-8865-063d7215bc3d" data-id="3804dee7-0bdb-4a3f-8865-063d7215bc3d" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('3804dee7-0bdb-4a3f-8865-063d7215bc3d')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('3804dee7-0bdb-4a3f-8865-063d7215bc3d')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="7b26a26b-7b65-4ff2-9610-efca96adb70a"></td>
+                    <td class="text-center td_order_7b26a26b-7b65-4ff2-9610-efca96adb70a" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('7b26a26b-7b65-4ff2-9610-efca96adb70a', 'order')">
+                        <span id="span_order_7b26a26b-7b65-4ff2-9610-efca96adb70a" class="span_order_7b26a26b-7b65-4ff2-9610-efca96adb70a">38</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Nguyễn Văn Tuấn</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">8043</span> </div>
+                           <div>Số điện thoại : 0865863045</div>
+                           <div>Địa chỉ Email : tuannv7105@gmail.com</div>
+                           <div>Địa chỉ : Quốc Oai, Hà Nội</div>
+                           <div>Ngày sinh : 2005-10-07</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> CEO </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','7b26a26b-7b65-4ff2-9610-efca96adb70a', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', '7b26a26b-7b65-4ff2-9610-efca96adb70a', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_7b26a26b-7b65-4ff2-9610-efca96adb70a" data-id="7b26a26b-7b65-4ff2-9610-efca96adb70a" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('7b26a26b-7b65-4ff2-9610-efca96adb70a')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('7b26a26b-7b65-4ff2-9610-efca96adb70a')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                                        <tr>
+                    <td style="width:5%;vertical-align: middle;" align="center"><input type="checkbox" name="chk_item_id"
+                            value="a96c7c95-38df-4e03-8b28-cd21af2ca0dd"></td>
+                    <td class="text-center td_order_a96c7c95-38df-4e03-8b28-cd21af2ca0dd" style="vertical-align: middle;" onclick="{select_row(this);}" ondblclick="click2('a96c7c95-38df-4e03-8b28-cd21af2ca0dd', 'order')">
+                        <span id="span_order_a96c7c95-38df-4e03-8b28-cd21af2ca0dd" class="span_order_a96c7c95-38df-4e03-8b28-cd21af2ca0dd">39</span>
+                    </td>
+                    <td style="width:65%;height:150px;padding-left:30px;vertical-align: middle;" onclick="{select_row(this);}">
+                       <div>
+                           <div>Tên: Đoàn Nguyên Trí</div>
+                           <div>ID nhân sự : <span style="color:#ffb200">BWF6</span> </div>
+                           <div>Số điện thoại : 0886871437</div>
+                           <div>Địa chỉ Email : doantri12343@gmail.com</div>
+                           <div>Địa chỉ : Hồ Chí Minh</div>
+                           <div>Ngày sinh : 2004-01-13</div>
+                                                      <div>Quyền truy cập : <span style="color:#ff7c00"> Trợ lý CEO </span></div>
+                                                  </div>
+                        
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <span>
+                                                        BOJE - FinTop_Admin
+                        </span>
+                    </td>
+                    <td style="width:20%;vertical-align: middle;" align="center" onclick="{select_row(this);}">
+                        <img  src="https://fintopdata.vn/file-image/avatar/avatar_default.png" alt="Image" style="height: 150px;width: 150px;object-fit: cover;">
+                    </td>
+                    <!-- <td class="text-center" style="vertical-align: middle;" onclick="{select_row(this);}">
+                        <span class="me-3" style="cursor: pointer;" onclick="JS_User.upNdown('down','a96c7c95-38df-4e03-8b28-cd21af2ca0dd', this)"><i class="fas fa-long-arrow-alt-down"></i></span>
+                        <span style="cursor: pointer;" onclick="JS_User.upNdown('up', 'a96c7c95-38df-4e03-8b28-cd21af2ca0dd', this)"><i class="fas fa-long-arrow-alt-up"></i></span>
+                    </td> -->
+                    <td onclick="{select_row(this);}" align="center" style="vertical-align: middle;">
+                        <label class="custom-control custom-checkbox p-0 m-0 pointer " style="cursor: pointer;">
+                            <input type="checkbox" hidden class="custom-control-input toggle-status" id="status_a96c7c95-38df-4e03-8b28-cd21af2ca0dd" data-id="a96c7c95-38df-4e03-8b28-cd21af2ca0dd" checked>
+                            <span class="custom-control-indicator p-0 m-0" onclick="JS_User.changeStatus('a96c7c95-38df-4e03-8b28-cd21af2ca0dd')"></span>
+                        </label>
+                    </td>
+                    <td style="width:5% ;vertical-align: middle;" align="center">
+                        <span class="btn btn-warning text-cursor mb-0" onclick="JS_User.edit('a96c7c95-38df-4e03-8b28-cd21af2ca0dd')"><i class="fas fa-edit"></i></span>
+                    </td>
+                </tr>
+                    </tbody>
+    </table>
+    <div style="width:100%" class="row">
+    <tfoot>
+        <tr>
+            <td colspan="10">
+                <style>
+    .a {
+        color:red;
+    }
+</style>
+<input type="hidden" name="_currentPage" id="_currentPage" value="1">
+<div class="d-flex">
+    <div class="col-sm-3">
+        <div class="dataTables_info"><span class="page-link">Có 39/ 39 bản ghi</span></div>
+    </div>
+    <div class="col-sm-6">
+        <div class="main_paginate" >
+                        <ul class="pagination pagination-sm" style="margin: 0;white-space: nowrap;text-align: center;display: flex;justify-content: center;">
+                <li class="page-item disabled"><span class="page-link" style="color:black !important"><i class="fas fa-arrow-alt-circle-left fa-2x" style="color: steelblue;"></i></i></span></li>
+                <li class="page-item active"><span class="page-link" style="color:black">1</span></li>
+                <li class="page-item disabled"><span class="page-link" style="color:black"><i class="fas fa-arrow-alt-circle-right fa-2x" style="color: steelblue;"></i></span></li>
+            </ul>
+                    </div>
+    </div>
+    
+    <div class="col-sm-2">
+            <select id="cbo_nuber_record_page" class="col-sm-6 form-control input-sm" name="cbo_nuber_record_page">
+                <option id="15" name="15" value="15">15</option>
+                <option id="30" name="30" value="30">30</option>
+                <option id="50" name="50" value="50">50</option>
+            </select>
+        </div>
+</div>
+            </td>
+        </tr>
+    </tfoot>
+    </div>
+</div>
+
+<script>
+
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table-data");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+</script>

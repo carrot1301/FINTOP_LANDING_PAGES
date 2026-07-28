@@ -206,7 +206,7 @@ function showCreateSignalForm() {
 
     const direction = directionSelect?.value;
     const entryPrice = parseFloat(actionContainer.querySelector('#signal-entry')?.value);
-    
+
     const targetPriceVal = actionContainer.querySelector('#signal-target')?.value.trim();
     const cutLossPriceVal = actionContainer.querySelector('#signal-cutloss')?.value.trim();
 

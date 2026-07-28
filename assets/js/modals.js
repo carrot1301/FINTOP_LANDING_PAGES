@@ -117,6 +117,7 @@ function selectProPackage(card) {
 }
 
 function resumeProCheckoutAfterAuthentication() {
+    if (!membershipCheckoutState.awaitingProAuthentication) return;
     if (!isMembershipAuthenticated()) return;
 
     const packageName = membershipCheckoutState.pendingProPackage;

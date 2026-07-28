@@ -212,22 +212,25 @@
         .guide-overlay {
             position: fixed; inset: 0; z-index: 9999;
             display: none;
-            align-items: center; justify-content: center;
+            align-items: flex-start; justify-content: center;
+            padding-top: max(32px, 4vh);
+            padding-bottom: 24px;
             background: rgba(0,0,0,0.72);
             backdrop-filter: blur(6px);
             opacity: 1;
+            overflow-y: auto;
         }
         .guide-overlay[hidden] { display: none; }
 
         .guide-card {
             width: min(560px, calc(100vw - 32px));
-            max-height: 85vh;
+            max-height: calc(100vh - 80px);
             overflow-y: auto;
             border-radius: 16px;
             border: 1px solid rgba(168, 85, 247, 0.35);
             background: rgba(12, 12, 22, 0.96);
             box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 40px rgba(168, 85, 247, 0.08);
-            padding: 2.5rem 2rem 2rem;
+            padding: 2.2rem 2rem 2rem;
             text-align: center;
         }
 
@@ -735,7 +738,10 @@
             const guideAgreeBtn = document.getElementById('guideAgreeBtn');
 
             function showGuidePopup() {
-                if (guideOverlay) guideOverlay.hidden = false;
+                if (guideOverlay) {
+                    guideOverlay.hidden = false;
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                }
             }
             function hideGuidePopup() {
                 if (guideOverlay) guideOverlay.hidden = true;
@@ -744,11 +750,14 @@
             if (guideAgreeBtn) {
                 guideAgreeBtn.addEventListener('click', () => {
                     hideGuidePopup();
-                    try { localStorage.setItem(GUIDE_STORAGE_KEY, 'true'); } catch(e) {}
+                    if (isLoggedIn()) {
+                        try { localStorage.setItem(GUIDE_STORAGE_KEY, 'true'); } catch(e) {}
+                    }
                 });
             }
 
             function shouldShowGuide() {
+                if (!isLoggedIn()) return true; // Guest -> ALWAYS show
                 try {
                     return localStorage.getItem(GUIDE_STORAGE_KEY) !== 'true';
                 } catch(e) {
