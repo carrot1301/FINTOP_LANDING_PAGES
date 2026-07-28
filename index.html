@@ -3501,6 +3501,17 @@
         .membership-icon-pro .membership-tier-icon {
             width: 30px;
             height: 30px;
+            display: grid;
+            place-items: center;
+            overflow: visible;
+        }
+
+        .membership-icon-pro .pro-star-emoji {
+            display: inline-grid;
+            place-items: center;
+            font-size: 1.55rem;
+            line-height: 1;
+            filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.5));
         }
 
         .membership-icon-vip .membership-tier-icon {
@@ -3534,16 +3545,23 @@
         }
 
         .pricing-title-with-icon {
-            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.42rem;
         }
 
         .pricing-title-icon {
-            position: absolute;
-            left: calc(100% + 0.45rem);
-            top: 50%;
-            transform: translateY(-50%);
+            position: static;
+            display: inline-grid;
+            place-items: center;
+            transform: none;
             font-size: 0.72em;
             line-height: 1;
+        }
+
+        .card-diamond .pricing-title-icon {
+            font-size: 1.18em;
         }
 
         .pricing-subtitle {
@@ -6494,9 +6512,9 @@
                 </div>
                 <div class="membership-benefit-panel">
                     <ul class="pricing-features">
-                        <li><span class="check-icon">✦</span> Đặc quyền V.I.P</li>
                         <li><span class="check-icon">✦</span> Đặc quyền PRO</li>
-                        <li><span class="check-icon">✦</span> Cố vấn 1-1 Chuyên gia</li>
+                        <li><span class="check-icon">✦</span> Đặc quyền V.I.P</li>
+                        <li><span class="check-icon">✦</span> Chuyên gia Cao cấp</li>
                     </ul>
                 </div>
                 <button class="btn-tier" type="button" data-plan-id="diamond" data-membership-action="diamond" onclick="handlePricingCardAction(this, event)">Liên kết Diamond</button>
@@ -7697,9 +7715,9 @@
                     price: 'CS hợp tác - không thu phí',
                     cta: 'Liên kết Diamond',
                     status: 'Tư vấn riêng',
-                    features: 'Đặc quyền V.I.P; Đặc quyền PRO; Cố vấn 1-1 Chuyên gia',
+                    features: 'Đặc quyền PRO; Đặc quyền V.I.P; Chuyên gia Cao cấp',
                     popupTitle: 'Đặc quyền Diamond FinTop DATA',
-                    popupContent: 'Dành cho khách hàng cần cố vấn chiến lược danh mục, quản trị rủi ro và đồng hành chuyên sâu.'
+                    popupContent: 'Dành cho khách hàng cần kết nối Chuyên gia Cao cấp, quản trị rủi ro và đồng hành chuyên sâu.'
                 }
             };
             const normalized = {};
@@ -7976,7 +7994,7 @@
             const type = membershipIconType(planId);
             const icons = {
                 standard: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6 6.5h1M17 6.5h1M6 17.5h1M17 17.5h1"/></svg>',
-                pro: '<svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20v-7l4-3 4 5 4-8 3 4"/><circle cx="5" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="15" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1" fill="currentColor" stroke="none"/></svg>',
+                pro: '<span class="pro-star-emoji">⭐</span>',
                 vip: '<svg viewBox="0 0 24 24"><path d="M3 18l4-7 3.5 4L15 7l6 11H3z"/><path d="M12 3v1.5"/><path d="M8 4.5l1 1"/><path d="M16 4.5l-1 1"/><circle cx="12" cy="3" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="4.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="16" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg>',
                 diamond: '<span class="diamond-gem-emoji">💎</span>'
             };
@@ -8015,7 +8033,7 @@
                     title: 'DIAMOND',
                     titleIcon: '💎',
                     subtitle: 'Kim cương',
-                    features: 'Đặc quyền V.I.P; Đặc quyền PRO; Cố vấn 1-1 Chuyên gia',
+                    features: 'Đặc quyền PRO; Đặc quyền V.I.P; Chuyên gia Cao cấp',
                     cta: 'Liên kết Diamond'
                 }
             };
@@ -8104,9 +8122,9 @@
                 ],
                 vip: [
                     'Full ưu đãi Đặc quyền PRO (miễn phí)',
-                    'Kết nối Chuyên gia Công ty Chứng khoán',
-                    'Thông tin chuyên sâu & Dữ liệu nghiên cứu',
                     'Phân tích định lượng & Dữ liệu nâng cao',
+                    'Thông tin chuyên sâu & Dữ liệu nghiên cứu',
+                    'Kết nối Chuyên gia Công ty Chứng khoán',
                     'Chuyên viên Phân tích đầu tư',
                     'Chuyên viên Tư vấn đầu tư'
                 ],
@@ -8118,9 +8136,11 @@
                     'Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)'
                 ]
             };
-            const modalHighlightCounts = {
-                vip: 2,
-                diamond: 3
+            const modalHighlightIndexes = {
+                standard: [0],
+                pro: [0, 1],
+                vip: [0, 3],
+                diamond: [0, 1, 2]
             };
             const modalSubtitleOverrides = {
                 vip: '(Ưu tiên)'
@@ -8142,11 +8162,18 @@
                     features.innerHTML = modalFeatures
                         .map((feature, index) => {
                             const classes = [];
-                            const highlightCount = modalHighlightCounts[plan.id] ?? 1;
-                            if (index < highlightCount) classes.push('highlight');
+                            const highlighted = (modalHighlightIndexes[plan.id] || []).includes(index);
+                            const calloutTier = highlighted && (plan.id === 'pro' || plan.id === 'diamond')
+                                ? plan.id
+                                : '';
+                            if (highlighted) classes.push('highlight');
+                            if (calloutTier) classes.push(`${calloutTier}-feature-callout`);
                             if (plan.id === 'vip' && (index === 4 || index === 5)) classes.push('subitem');
                             if (plan.id === 'diamond' && (index === 3 || index === 4)) classes.push('diamond-expert');
-                            return `<li class="${classes.join(' ')}">${escapeHtml(feature)}</li>`;
+                            const featureContent = calloutTier
+                                ? `<span class="${calloutTier}-feature-callout-text">${escapeHtml(feature)}</span>`
+                                : escapeHtml(feature);
+                            return `<li class="${classes.join(' ')}">${featureContent}</li>`;
                         })
                         .join('');
                 }
@@ -9192,15 +9219,15 @@
             <div class="modal-hero">
                 <div class="modal-hero-left">
                     <div class="modal-icon-wrapper">
-                        <span class="membership-icon-shell membership-icon-pro" aria-hidden="true"><span class="membership-tier-icon"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20v-7l4-3 4 5 4-8 3 4"/><circle cx="5" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="15" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1" fill="currentColor" stroke="none"/></svg></span></span>
+                        <span class="membership-icon-shell membership-icon-pro" aria-hidden="true"><span class="membership-tier-icon"><span class="pro-star-emoji">⭐</span></span></span>
                     </div>
                     <div class="modal-hero-title">PROFESSIONAL</div>
                     <div class="modal-hero-subtitle">(Chuyên nghiệp)</div>
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li class="highlight">Bộ lọc cổ phiếu chuyên nghiệp</li>
-                        <li>Dữ liệu phân tích nâng cao</li>
+                        <li class="highlight pro-feature-callout"><span class="pro-feature-callout-text">Bộ lọc cổ phiếu chuyên nghiệp</span></li>
+                        <li class="highlight pro-feature-callout"><span class="pro-feature-callout-text">Dữ liệu phân tích nâng cao</span></li>
                         <li>Nghiên cứu & Thông tin chuyên sâu</li>
                         <li>Tools Pro & Dữ liệu nâng cao</li>
                     </ul>
@@ -9320,9 +9347,9 @@
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
                         <li class="highlight">Full ưu đãi Đặc quyền PRO (miễn phí)</li>
-                        <li class="highlight">Kết nối Chuyên gia Công ty Chứng khoán</li>
-                        <li>Thông tin chuyên sâu & Dữ liệu nghiên cứu</li>
                         <li>Phân tích định lượng & Dữ liệu nâng cao</li>
+                        <li>Thông tin chuyên sâu & Dữ liệu nghiên cứu</li>
+                        <li class="highlight">Kết nối Chuyên gia Công ty Chứng khoán</li>
                         <li class="subitem">Chuyên viên Phân tích đầu tư</li>
                         <li class="subitem">Chuyên viên Tư vấn đầu tư</li>
                     </ul>
@@ -9383,9 +9410,9 @@
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li class="highlight">Full Đặc quyền PRO (miễn phí)</li>
-                        <li class="highlight">Full Đặc quyền V.I.P (miễn phí)</li>
-                        <li class="highlight">Chuyên gia Cao cấp Công ty Chứng khoán</li>
+                        <li class="highlight diamond-feature-callout"><span class="diamond-feature-callout-text">Full Đặc quyền PRO (miễn phí)</span></li>
+                        <li class="highlight diamond-feature-callout"><span class="diamond-feature-callout-text">Full Đặc quyền V.I.P (miễn phí)</span></li>
+                        <li class="highlight diamond-feature-callout"><span class="diamond-feature-callout-text">Chuyên gia Cao cấp Công ty Chứng khoán</span></li>
                         <li class="diamond-expert">Giám đốc Tư vấn đầu tư & Quản lý danh mục</li>
                         <li class="diamond-expert">Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)</li>
                     </ul>
@@ -9433,12 +9460,11 @@
     <!-- POPUP LỰA CHỌN ĐĂNG NHẬP / ĐĂNG KÝ          -->
     <!-- ============================================ -->
     <div class="auth-gate-overlay" id="authGateOverlay" aria-hidden="true">
-        <div class="auth-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="authGateTitle" aria-describedby="authGateDescription">
+        <div class="auth-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="authGateTitle">
             <button class="auth-gate-close" type="button" onclick="closeAuthChoice()" aria-label="Quay lại">×</button>
             <span class="auth-gate-icon" aria-hidden="true">👤</span>
             <div class="auth-gate-kicker">Tiếp tục với FinTop DATA</div>
-            <h2 id="authGateTitle">Bạn có muốn đăng nhập hoặc đăng ký để tiếp tục?</h2>
-            <p id="authGateDescription">Chọn một phương thức bên dưới. Bạn cũng có thể quay lại màn hình trước mà không thực hiện thay đổi.</p>
+            <h2 id="authGateTitle">Đăng nhập để tiếp tục</h2>
             <div class="auth-gate-actions">
                 <button class="auth-gate-action primary" type="button" data-auth-choice="login" onclick="continueAuthChoice('login')">Đăng nhập</button>
                 <button class="auth-gate-action secondary" type="button" data-auth-choice="register" onclick="continueAuthChoice('register')">Đăng ký</button>
