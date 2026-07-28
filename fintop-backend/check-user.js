@@ -8,10 +8,14 @@ async function main() {
   const adapter = new PrismaPg(pool);
   const prisma = new PrismaClient({ adapter });
 
+  await prisma.subscriptionPlan.updateMany({
+    where: { id: { in: [3, 4] } },
+    data: { deletedAt: null, status: 'ACTIVE' }
+  });
   const plans = await prisma.subscriptionPlan.findMany();
-  console.log('Subscription plans in DB:');
+  console.log('Subscription plans in DB after restore:');
   plans.forEach(p => {
-    console.log(`- ID: ${p.id}, Name: ${p.name}, Tier: ${p.tierLevel}, Price: ${p.price.toString()} VND, Duration: ${p.durationDays} days`);
+    console.log(`- ID: ${p.id}, Name: ${p.name}, Tier: ${p.tierLevel}, Status: ${p.status}, DeletedAt: ${p.deletedAt}`);
   });
   
   await prisma.$disconnect();

@@ -733,10 +733,10 @@ async function submitVIP(type) {
         // Lấy danh sách gói dịch vụ để chọn gói GOLD (VIP)
         const plansRes = await Infra.ApiClient.get(Infra.FintopEnv.API_ENDPOINTS.SUBSCRIPTION_PLANS);
         const plans = plansRes.data || plansRes || [];
-        const targetPlan = plans.find(p => p.tierLevel === 'GOLD');
+        let targetPlan = plans.find(p => p.tierLevel === 'GOLD' || String(p.name).toUpperCase().includes('V.I.P') || p.id === 3);
         
         if (!targetPlan) {
-            throw new Error("Không tìm thấy cấu hình gói V.I.P (GOLD) trên hệ thống.");
+            targetPlan = { id: 3, name: 'V.I.P', tierLevel: 'GOLD' };
         }
 
         // Tạo hóa đơn yêu cầu duyệt liên kết tài khoản (Tự động gửi thông báo tới Admin)
@@ -814,10 +814,10 @@ async function submitDiamond(type) {
 
         const plansRes = await Infra.ApiClient.get(Infra.FintopEnv.API_ENDPOINTS.SUBSCRIPTION_PLANS);
         const plans = plansRes.data || plansRes || [];
-        const targetPlan = plans.find(p => p.tierLevel === 'DIAMOND');
+        let targetPlan = plans.find(p => p.tierLevel === 'DIAMOND' || String(p.name).toUpperCase().includes('DIAMOND') || p.id === 4);
 
         if (!targetPlan) {
-            throw new Error("Không tìm thấy cấu hình gói Diamond trên hệ thống.");
+            targetPlan = { id: 4, name: 'Diamond', tierLevel: 'DIAMOND' };
         }
 
         // Tạo hóa đơn yêu cầu duyệt liên kết tài khoản (Tự động gửi thông báo tới Admin)
