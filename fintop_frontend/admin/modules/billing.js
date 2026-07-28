@@ -51,13 +51,16 @@ async function fetchPlansIfNeeded() {
   }
 }
 
-function getInvoiceTier(amount) {
+function getInvoiceTier(amount, inv = null) {
+  if (inv?.subscription?.plan?.tierLevel) return inv.subscription.plan.tierLevel;
+  if (inv?.plan?.tierLevel) return inv.plan.tierLevel;
+
   const plan = subscriptionPlans.find(p => Number(p.price) === Number(amount));
   if (plan) return plan.tierLevel;
   
   // Fallbacks based on current pricing
   const amt = Number(amount);
-  if (amt <= 0) return 'STANDARD';
+  if (amt <= 0) return 'GOLD';
   if (amt <= 8000000) return 'SILVER';
   if (amt <= 10000000) return 'GOLD';
   return 'DIAMOND';
@@ -709,8 +712,9 @@ function renderInvoiceTable(container) {
         <tbody>
           ${pageItems.map((inv, idx) => {
             const stt = startIndex + idx + 1;
-            const tier = getInvoiceTier(inv.amount);
+            const tier = getInvoiceTier(inv.amount, inv);
             const isPending = inv.status === 'DRAFT' || inv.status === 'OPEN';
+            const isVipDiamond = tier === 'GOLD' || tier === 'DIAMOND' || tier === 'VIP' || Number(inv.amount) === 0;
             
             let approvalHtml = '';
             if (isPending) {
@@ -740,12 +744,15 @@ function renderInvoiceTable(container) {
                 <td>
                   <div style="font-weight: 700; color: #fff;">${esc(inv.user?.fullName || 'Khách vãng lai')}</div>
                   <div style="font-size: 0.75rem; color: var(--text-muted);">${esc(inv.user?.email || '—')}</div>
+                  ${inv.user?.stockAccount ? `<div style="font-size: 0.72rem; color: #10B981; font-weight: 600; margin-top: 0.2rem;">TKCK: ${esc(inv.user.stockAccount)} (${esc(inv.user.stockCompany || '')})</div>` : ''}
                   <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">Hạn thanh toán: ${formatDate(inv.dueDate)}</div>
                   <div style="font-size: 0.7rem; color: var(--text-muted);">Ngày tạo: ${formatDate(inv.createdAt)}</div>
                 </td>
                 <td>
                   <div style="margin-bottom: 0.25rem;">${tierBadge(tier)}</div>
-                  <div style="font-weight: 700; color: var(--purple-glow); font-size: 0.9rem;">${formatNumber(inv.amount)}đ</div>
+                  ${isVipDiamond 
+                    ? `<div style="font-weight: 700; color: #10B981; font-size: 0.85rem;">Liên kết TKCK (Miễn phí)</div>` 
+                    : `<div style="font-weight: 700; color: var(--purple-glow); font-size: 0.9rem;">${formatNumber(inv.amount)}đ</div>`}
                 </td>
                 <td>${approvalHtml}</td>
                 <td style="text-align: center;">
@@ -820,18 +827,23 @@ function renderInvoiceTable(container) {
         return;
       }
 
+      const tier = getInvoiceTier(inv.amount, inv);
+      const isVipDiamond = tier === 'GOLD' || tier === 'DIAMOND' || tier === 'VIP' || amount === 0;
+
       // Populate details to modal fields
       document.getElementById('modal-invoice-id').textContent = '#' + inv.id;
       document.getElementById('modal-user-name').textContent = inv.user?.fullName || 'Khách vãng lai';
       document.getElementById('modal-user-email').textContent = inv.user?.email || '—';
-      document.getElementById('modal-upgrade-package').innerHTML = tierBadge(getInvoiceTier(inv.amount));
-      document.getElementById('modal-amount').textContent = formatNumber(inv.amount) + 'đ';
+      document.getElementById('modal-upgrade-package').innerHTML = tierBadge(tier);
+      document.getElementById('modal-amount').textContent = isVipDiamond ? 'Miễn phí (0đ - Liên kết TKCK)' : (formatNumber(inv.amount) + 'đ');
       document.getElementById('modal-created-at').textContent = formatDate(inv.createdAt);
       document.getElementById('modal-due-date').textContent = formatDate(inv.dueDate);
 
       // Payment Proof render
       const proofBody = document.getElementById('modal-payment-proof-body');
-      if (inv.user?.paymentProofUrl) {
+      if (isVipDiamond) {
+        proofBody.innerHTML = `<span style="color:#10B981; font-weight:600;">Gói liên kết TKCK đối tác — Không yêu cầu ảnh thanh toán</span>`;
+      } else if (inv.user?.paymentProofUrl) {
         const fullUrl = inv.user.paymentProofUrl;
         
         proofBody.innerHTML = `
@@ -846,10 +858,8 @@ function renderInvoiceTable(container) {
       }
 
       // Stock Info details (VIP / Diamond only)
-      const tier = getInvoiceTier(inv.amount);
-      const isVipDiamond = tier === 'VIP' || tier === 'DIAMOND';
       const stockContainer = document.getElementById('modal-stock-info-container');
-      if (isVipDiamond) {
+      if (isVipDiamond || inv.user?.stockAccount) {
         stockContainer.style.display = 'block';
         document.getElementById('modal-stock-company').textContent = inv.user?.stockCompany || '—';
         document.getElementById('modal-stock-account').textContent = inv.user?.stockAccount || '—';
