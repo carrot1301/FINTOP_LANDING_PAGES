@@ -37,6 +37,49 @@ export class AdminService {
     }
   }
 
+  private async syncClientRoleForTier(userId: number, tierLevel: SUBSCRIPTION_TIER, adminId: number = 1) {
+    try {
+      const userRoles = await this.prisma.userRole.findMany({
+        where: { userId },
+        include: { role: true },
+      });
+      const currentRoleCodes = userRoles.map(ur => ur.role.code);
+      const hasStaffRole = currentRoleCodes.some(code => 
+        ['SUPER_ADMIN', 'CEO', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'].includes(code)
+      );
+
+      if (!hasStaffRole) {
+        const isVipTier = tierLevel === SUBSCRIPTION_TIER.GOLD || tierLevel === SUBSCRIPTION_TIER.DIAMOND;
+        const targetRoleCode = isVipTier ? 'CLIENT_VIP' : 'CLIENT';
+        const roleToRemoveCode = isVipTier ? 'CLIENT' : 'CLIENT_VIP';
+
+        if (!currentRoleCodes.includes(targetRoleCode)) {
+          const targetRole = await this.prisma.role.findFirst({
+            where: { code: targetRoleCode as any, deletedAt: null },
+          });
+          if (targetRole) {
+            await this.prisma.userRole.deleteMany({
+              where: {
+                userId,
+                role: { code: roleToRemoveCode as any },
+              },
+            });
+            await this.prisma.userRole.create({
+              data: {
+                userId,
+                roleId: targetRole.id,
+                assignedById: adminId,
+              },
+            });
+          }
+        }
+      }
+    } catch (err: any) {
+      this.logger.error(`Failed to sync client role for user #${userId}: ${err.message}`);
+    }
+  }
+
+
   // ─────────────────────────────────────────────────────
   // OVERVIEW / KPIs
   // ─────────────────────────────────────────────────────
@@ -1251,6 +1294,9 @@ export class AdminService {
         where: { id: invoice.userId },
         data: { tierLevel: plan.tierLevel },
       });
+      await this.syncClientRoleForTier(invoice.userId, plan.tierLevel, adminId || 1);
+      await this.clearUserPermissionsCache(invoice.userId);
+      await this.notificationService.sendSessionUpdate(invoice.userId);
       await this.prisma.auditLog.create({
         data: {
           userId: adminId || invoice.userId,
@@ -1321,12 +1367,24 @@ export class AdminService {
       });
     });
 
+    // Sync client role, clear cache, and push realtime session update
+    await this.syncClientRoleForTier(invoice.userId, plan.tierLevel, adminId || 1);
+    await this.clearUserPermissionsCache(invoice.userId);
+    await this.notificationService.sendSessionUpdate(invoice.userId);
+
     // Send notification
     try {
+      const tierLabels: Record<string, string> = {
+        GOLD: 'V.I.P',
+        DIAMOND: 'Diamond',
+        SILVER: 'PRO',
+        STANDARD: 'Standard',
+      };
+      const tierName = tierLabels[plan.tierLevel] || plan.tierLevel;
       await this.notificationService.createNotification(
         invoice.userId,
-        'Nâng cấp tài khoản',
-        `Tài khoản của bạn đã được quản trị viên duyệt nâng cấp lên gói ${plan.name} (${isPermanent ? 'Vô thời hạn' : 'Có thời hạn'}).`
+        'Nâng cấp tài khoản thành công',
+        `Tài khoản của bạn đã được quản trị viên duyệt nâng cấp lên cấp độ ${tierName} (${plan.name}). Đã mở khóa đầy đủ đặc quyền tương ứng với gói.`
       );
     } catch (err: any) {
       this.logger.warn(`Failed to send approval notification to user ${invoice.userId}: ${err.message}`);

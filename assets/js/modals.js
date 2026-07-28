@@ -724,6 +724,12 @@ async function submitVIP(type) {
     }
 
     try {
+        // Cập nhật số tài khoản và công ty chứng khoán lên profile người dùng
+        await Infra.ApiClient.patch('/auth/profile', {
+            stockAccount: accountVal,
+            stockCompany: companyVal,
+        });
+
         // Lấy danh sách gói dịch vụ để chọn gói GOLD (VIP)
         const plansRes = await Infra.ApiClient.get(Infra.FintopEnv.API_ENDPOINTS.SUBSCRIPTION_PLANS);
         const plans = plansRes.data || plansRes || [];
@@ -733,14 +739,20 @@ async function submitVIP(type) {
             throw new Error("Không tìm thấy cấu hình gói V.I.P (GOLD) trên hệ thống.");
         }
 
-        // Tạo hóa đơn yêu cầu duyệt liên kết tài khoản
+        // Tạo hóa đơn yêu cầu duyệt liên kết tài khoản (Tự động gửi thông báo tới Admin)
         const invoiceRes = await Infra.ApiClient.post('/billing/invoices', { planId: targetPlan.id });
         const data = invoiceRes.data || invoiceRes;
         const invoiceId = data.invoice?.id || data.id;
 
-        alert(`Đã gửi Yêu cầu liên kết tài khoản thành công!\nHóa đơn yêu cầu duyệt #${invoiceId} đã được khởi tạo.\nFinTop sẽ kiểm tra tài khoản chứng khoán của Anh/Chị và phê duyệt mở khóa đặc quyền V.I.P trong vòng 1-3 ngày làm việc.`);
+        alert(`Đã gửi Yêu cầu liên kết tài khoản thành công!\nYêu cầu phê duyệt #${invoiceId} đã được khởi tạo và chuyển sang cho Admin phê duyệt.\nSau khi Admin phê duyệt, tài khoản của Anh/Chị sẽ được nâng cấp ngay lập tức.`);
         closePricingModal();
         
+        try {
+            if (typeof Infra.AuthManager?.loadUserProfile === 'function') {
+                await Infra.AuthManager.loadUserProfile();
+            }
+        } catch (e) {}
+
         // Reset form
         const accountInput = document.getElementById('vipStockAccount');
         const companyInput = document.getElementById('vipStockCompany');
@@ -794,6 +806,12 @@ async function submitDiamond(type) {
     }
 
     try {
+        // Cập nhật số tài khoản và công ty chứng khoán lên profile người dùng
+        await Infra.ApiClient.patch('/auth/profile', {
+            stockAccount: accountVal,
+            stockCompany: companyVal,
+        });
+
         const plansRes = await Infra.ApiClient.get(Infra.FintopEnv.API_ENDPOINTS.SUBSCRIPTION_PLANS);
         const plans = plansRes.data || plansRes || [];
         const targetPlan = plans.find(p => p.tierLevel === 'DIAMOND');
@@ -802,12 +820,19 @@ async function submitDiamond(type) {
             throw new Error("Không tìm thấy cấu hình gói Diamond trên hệ thống.");
         }
 
+        // Tạo hóa đơn yêu cầu duyệt liên kết tài khoản (Tự động gửi thông báo tới Admin)
         const invoiceRes = await Infra.ApiClient.post('/billing/invoices', { planId: targetPlan.id });
         const data = invoiceRes.data || invoiceRes;
         const invoiceId = data.invoice?.id || data.id;
 
-        alert(`Yêu cầu phê duyệt Diamond thành công!\nThông tin phê duyệt của Anh/Chị sẽ được xử lý trong 1-3 ngày làm việc.\nMã yêu cầu: #${invoiceId}`);
+        alert(`Yêu cầu phê duyệt Diamond thành công!\nYêu cầu #${invoiceId} đã được khởi tạo và chuyển sang cho Admin phê duyệt.\nSau khi Admin phê duyệt, tài khoản của Anh/Chị sẽ được nâng cấp ngay lập tức.`);
         closePricingModal();
+
+        try {
+            if (typeof Infra.AuthManager?.loadUserProfile === 'function') {
+                await Infra.AuthManager.loadUserProfile();
+            }
+        } catch (e) {}
 
         const accountInput = document.getElementById('diamondStockAccount');
         const companyInput = document.getElementById('diamondStockCompany');
