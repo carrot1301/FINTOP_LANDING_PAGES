@@ -24,6 +24,7 @@ export class InvoiceService {
     const invoice = await this.prisma.invoice.create({
       data: {
         userId,
+        planId,
         amount: plan.price,
         currency: plan.currency,
         status: INVOICE_STATUS.DRAFT,

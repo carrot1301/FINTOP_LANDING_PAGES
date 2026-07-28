@@ -486,6 +486,7 @@ model SubscriptionPlan {
   deletedAt DateTime?
 
   subscriptions UserSubscription[]
+  invoices      Invoice[]
 
   @@map("subscription_plans")
 }
@@ -517,6 +518,7 @@ model Invoice {
   id             BigInt         @id @default(autoincrement())
   userId         Int
   subscriptionId BigInt?
+  planId         Int?
   amount         Decimal        @db.Decimal(19, 4)
   currency       String         @default("VND") @db.VarChar(10)
   status         INVOICE_STATUS @default(DRAFT)
@@ -528,6 +530,7 @@ model Invoice {
 
   user         User              @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   subscription UserSubscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  plan         SubscriptionPlan? @relation(fields: [planId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
   transactions Transaction[]
 

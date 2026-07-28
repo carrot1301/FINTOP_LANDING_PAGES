@@ -8,14 +8,29 @@ async function main() {
   const adapter = new PrismaPg(pool);
   const prisma = new PrismaClient({ adapter });
 
-  await prisma.subscriptionPlan.updateMany({
-    where: { id: { in: [3, 4] } },
-    data: { price: 0, deletedAt: null, status: 'ACTIVE' }
+  await prisma.invoice.update({
+    where: { id: 24 },
+    data: { planId: 3, amount: 0 }
   });
-  const plans = await prisma.subscriptionPlan.findMany();
-  console.log('Subscription plans in DB after updating price=0:');
-  plans.forEach(p => {
-    console.log(`- ID: ${p.id}, Name: ${p.name}, Tier: ${p.tierLevel}, Price: ${p.price.toString()} VND, Status: ${p.status}`);
+  await prisma.invoice.update({
+    where: { id: 25 },
+    data: { planId: 3, amount: 0 }
+  });
+  await prisma.invoice.update({
+    where: { id: 26 },
+    data: { planId: 4, amount: 0 }
+  });
+
+  const invoices = await prisma.invoice.findMany({
+    include: {
+      user: true,
+      plan: true,
+      subscription: { include: { plan: true } }
+    }
+  });
+  console.log('Invoices in DB after updating planId:');
+  invoices.forEach(inv => {
+    console.log(`- ID: ${inv.id}, User: ${inv.user?.fullName} (${inv.userId}), PlanId: ${inv.planId} (${inv.plan?.name} - ${inv.plan?.tierLevel}), Amount: ${inv.amount}, Status: ${inv.status}, StockAcc: ${inv.user?.stockAccount}`);
   });
   
   await prisma.$disconnect();

@@ -1182,6 +1182,14 @@ export class AdminService {
               paymentProofUrl: true,
             },
           },
+          plan: {
+            select: {
+              id: true,
+              name: true,
+              tierLevel: true,
+              price: true,
+            },
+          },
           subscription: {
             select: {
               id: true,
@@ -1191,6 +1199,7 @@ export class AdminService {
               isPermanent: true,
               plan: {
                 select: {
+                  id: true,
                   name: true,
                   tierLevel: true,
                 },
@@ -1224,6 +1233,17 @@ export class AdminService {
         stockCompany: inv.user.stockCompany,
         paymentProofUrl: inv.user.paymentProofUrl,
       } : null,
+      plan: inv.plan ? {
+        id: inv.plan.id,
+        name: inv.plan.name,
+        tierLevel: inv.plan.tierLevel,
+        price: inv.plan.price.toNumber(),
+      } : (inv.subscription?.plan ? {
+        id: inv.subscription.plan.id,
+        name: inv.subscription.plan.name,
+        tierLevel: inv.subscription.plan.tierLevel,
+        price: 0,
+      } : null),
       subscription: inv.subscription ? {
         id: inv.subscription.id.toString(),
         status: inv.subscription.status,
@@ -1260,12 +1280,15 @@ export class AdminService {
       throw new NotFoundException('Invoice not found');
     }
 
-    // Find subscription plan matching invoice amount (or fallback)
-    const plan = await this.prisma.subscriptionPlan.findFirst({
-      where: { price: invoice.amount, status: 'ACTIVE', deletedAt: null },
-    }) || await this.prisma.subscriptionPlan.findFirst({
-      where: { status: 'ACTIVE', deletedAt: null },
-    });
+    // Find subscription plan matching invoice planId or amount (or fallback)
+    const plan = (invoice.planId
+      ? await this.prisma.subscriptionPlan.findUnique({ where: { id: invoice.planId } })
+      : null)
+      || await this.prisma.subscriptionPlan.findFirst({
+        where: { price: invoice.amount, status: 'ACTIVE', deletedAt: null },
+      }) || await this.prisma.subscriptionPlan.findFirst({
+        where: { status: 'ACTIVE', deletedAt: null },
+      });
 
     if (!plan) {
       throw new NotFoundException('No active subscription plan found');
