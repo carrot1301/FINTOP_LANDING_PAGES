@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="assets/css/components.css">
     <link rel="stylesheet" href="assets/css/modals.css">
     <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/coming-soon.css">
 
     <!-- GSAP (Thư viện hiệu ứng) qua CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
@@ -4936,11 +4937,73 @@
     <!-- PANEL: TÍN HIỆU TỪ CHUYÊN GIA / COPY TRADE   -->
     <!-- ============================================ -->
     <div class="submenu-panel" id="panel-tinhieu" aria-label="Copy Trade Chuyên gia">
-        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
-        <div class="copy-trade-development" role="status"
-            style="min-height: calc(100vh - 160px); display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; font-size: clamp(1.7rem, 4vw, 3rem); font-weight: 800; letter-spacing: 0.02em;">
-            Đang phát triển
-        </div>
+        <button class="panel-close-btn" type="button" aria-label="Đóng" onclick="closeAllPanels()">✕</button>
+        <section class="coming-soon-shell coming-soon-shell--copy" aria-labelledby="copy-coming-soon-title">
+            <article class="coming-soon-card">
+                <div class="coming-soon-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 18V10"></path>
+                        <path d="M9 18V6"></path>
+                        <path d="M14 18v-5"></path>
+                        <path d="M19 18V3"></path>
+                        <path d="m4 7 5-4 5 4 5-4"></path>
+                    </svg>
+                </div>
+                <div class="coming-soon-badge">
+                    <span class="coming-soon-badge-dot" aria-hidden="true"></span>
+                    Đang hoàn thiện
+                </div>
+                <h1 class="coming-soon-title" id="copy-coming-soon-title">
+                    <span class="coming-soon-title-accent">Copy Trade Chuyên gia</span> sắp ra mắt
+                </h1>
+                <p class="coming-soon-description">
+                    Chúng tôi đang hoàn thiện trải nghiệm theo dõi chiến lược, hiệu suất và rủi ro một cách minh bạch
+                    trước khi chính thức mở quyền truy cập. Cảm ơn bạn đã quan tâm.
+                </p>
+                <div class="coming-soon-highlights" aria-label="Định hướng hoàn thiện Copy Trade">
+                    <span class="coming-soon-highlight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="m5 12 4 4L19 6"></path>
+                        </svg>
+                        Minh bạch thông tin
+                    </span>
+                    <span class="coming-soon-highlight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="m5 12 4 4L19 6"></path>
+                        </svg>
+                        Dễ dàng theo dõi
+                    </span>
+                    <span class="coming-soon-highlight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="m5 12 4 4L19 6"></path>
+                        </svg>
+                        Quản trị rủi ro
+                    </span>
+                </div>
+                <div class="coming-soon-update">
+                    <span class="coming-soon-update-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 8v4l2.5 2.5"></path>
+                            <circle cx="12" cy="12" r="9"></circle>
+                        </svg>
+                    </span>
+                    <span class="coming-soon-update-copy">
+                        <strong>Chúng tôi đang hoàn thiện từng chi tiết</strong>
+                        <span>Thông tin ra mắt sẽ được cập nhật ngay khi sản phẩm sẵn sàng.</span>
+                    </span>
+                </div>
+                <div class="coming-soon-actions">
+                    <button class="coming-soon-action coming-soon-action--primary" type="button"
+                        onclick="openPanel('panel-tracuu')">
+                        Khám phá dữ liệu cổ phiếu
+                    </button>
+                    <button class="coming-soon-action coming-soon-action--secondary" type="button"
+                        onclick="closeAllPanels()">
+                        Về trang chủ
+                    </button>
+                </div>
+            </article>
+        </section>
         <div class="panel-header" style="display: none; text-align: center; margin-bottom: 2rem;">
             <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">📡 Copy Trade & Tín Hiệu Chuyên Gia
             </h2>

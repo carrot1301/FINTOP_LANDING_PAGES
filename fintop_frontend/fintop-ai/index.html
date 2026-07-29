@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../assets/css/modals.css">
     <link rel="stylesheet" href="../assets/css/auth.css">
     <link rel="stylesheet" href="../assets/css/demo-pages.css">
+    <link rel="stylesheet" href="../assets/css/coming-soon.css">
     <script src="../assets/js/demo-nav.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
@@ -656,23 +657,9 @@
         html.light-theme .lock-desc {
             color: #475569;
         }
-        .development-state {
-            min-height: calc(100vh - 160px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #fff;
-            font-size: clamp(1.7rem, 4vw, 3rem);
-            font-weight: 800;
-            letter-spacing: 0.02em;
-        }
         #copilot-lock-screen,
         #copilot-chat-container {
             display: none !important;
-        }
-        html.light-theme .development-state {
-            color: #0f172a;
         }
     </style>
     
@@ -777,7 +764,70 @@
     </header>
 
     <main class="main-container">
-        <div class="development-state" role="status">Đang phát triển</div>
+        <section class="coming-soon-shell coming-soon-shell--ai" aria-labelledby="ai-coming-soon-title">
+            <article class="coming-soon-card">
+                <div class="coming-soon-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="7" width="16" height="12" rx="4"></rect>
+                        <path d="M9 7V5.5A3 3 0 0 1 12 3a3 3 0 0 1 3 2.5V7"></path>
+                        <path d="M8 15h8"></path>
+                        <circle cx="9" cy="12" r="1"></circle>
+                        <circle cx="15" cy="12" r="1"></circle>
+                    </svg>
+                </div>
+                <div class="coming-soon-badge">
+                    <span class="coming-soon-badge-dot" aria-hidden="true"></span>
+                    Đang hoàn thiện
+                </div>
+                <h1 class="coming-soon-title" id="ai-coming-soon-title">
+                    <span class="coming-soon-title-accent">FinTop AI</span> sắp ra mắt
+                </h1>
+                <p class="coming-soon-description">
+                    Chúng tôi đang hoàn thiện trợ lý phân tích để mang đến trải nghiệm ổn định, rõ ràng và hữu ích hơn.
+                    Cảm ơn bạn đã quan tâm và kiên nhẫn chờ đợi.
+                </p>
+                <div class="coming-soon-highlights" aria-label="Định hướng hoàn thiện FinTop AI">
+                    <span class="coming-soon-highlight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="m5 12 4 4L19 6"></path>
+                        </svg>
+                        Phân tích rõ ràng
+                    </span>
+                    <span class="coming-soon-highlight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="m5 12 4 4L19 6"></path>
+                        </svg>
+                        Dữ liệu tin cậy
+                    </span>
+                    <span class="coming-soon-highlight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="m5 12 4 4L19 6"></path>
+                        </svg>
+                        Trải nghiệm ổn định
+                    </span>
+                </div>
+                <div class="coming-soon-update">
+                    <span class="coming-soon-update-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 8v4l2.5 2.5"></path>
+                            <circle cx="12" cy="12" r="9"></circle>
+                        </svg>
+                    </span>
+                    <span class="coming-soon-update-copy">
+                        <strong>Chúng tôi đang hoàn thiện từng chi tiết</strong>
+                        <span>Thông tin ra mắt sẽ được cập nhật ngay khi sản phẩm sẵn sàng.</span>
+                    </span>
+                </div>
+                <div class="coming-soon-actions">
+                    <a class="coming-soon-action coming-soon-action--primary" href="../index.html#panel-boloc">
+                        Khám phá Bộ lọc cổ phiếu
+                    </a>
+                    <a class="coming-soon-action coming-soon-action--secondary" href="../index.html">
+                        Về trang chủ
+                    </a>
+                </div>
+            </article>
+        </section>
         <!-- Guest lock screen -->
         <div class="lock-card-wrapper" id="copilot-lock-screen" style="display: none;">
             <div class="lock-card">
