@@ -656,6 +656,24 @@
         html.light-theme .lock-desc {
             color: #475569;
         }
+        .development-state {
+            min-height: calc(100vh - 160px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            font-size: clamp(1.7rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: 0.02em;
+        }
+        #copilot-lock-screen,
+        #copilot-chat-container {
+            display: none !important;
+        }
+        html.light-theme .development-state {
+            color: #0f172a;
+        }
     </style>
     
     <!-- Access synchronization header script -->
@@ -759,6 +777,7 @@
     </header>
 
     <main class="main-container">
+        <div class="development-state" role="status">Đang phát triển</div>
         <!-- Guest lock screen -->
         <div class="lock-card-wrapper" id="copilot-lock-screen" style="display: none;">
             <div class="lock-card">
