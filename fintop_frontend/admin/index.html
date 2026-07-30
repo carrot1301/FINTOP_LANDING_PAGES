@@ -71,6 +71,10 @@
       <header class="admin-topbar">
         <div id="admin-topbar-title" class="admin-topbar-title">Tổng quan</div>
         <div class="admin-topbar-actions">
+          <div style="display:flex; align-items:center; gap:8px; margin-right:12px;">
+            <span id="admin-rest-status" class="admin-badge status-active" style="background:rgba(16,185,129,0.18); color:#34d399; border:1px solid rgba(52,211,153,0.3); font-size:0.7rem; box-shadow: 0 0 10px rgba(52,211,153,0.25);">🟢 REST Connected</span>
+            <span id="admin-ws-status" class="admin-badge status-active" style="background:rgba(168,85,247,0.18); color:#c084fc; border:1px solid rgba(168,85,247,0.3); font-size:0.7rem; box-shadow: 0 0 10px rgba(168,85,247,0.25);">⚡ WS Stream Active</span>
+          </div>
           <div class="admin-user-dropdown" id="admin-user-dropdown">
             <button class="admin-dropdown-trigger" id="admin-dropdown-trigger">
               <span id="admin-header-username">Admin</span>

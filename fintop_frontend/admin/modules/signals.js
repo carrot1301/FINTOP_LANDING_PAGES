@@ -116,6 +116,17 @@ function showCreateSignalForm() {
           <input type="number" step="any" class="admin-input" id="signal-cutloss" placeholder="VD: 125.0">
         </div>
 
+        <div class="admin-form-group" style="grid-column: 1 / -1; margin-top: -0.25rem; margin-bottom: 0.25rem;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Tính nhanh R/R:</span>
+            <button type="button" class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-rr-tp3" style="color:#34D399; padding: 2px 8px;">+3% TP</button>
+            <button type="button" class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-rr-tp5" style="color:#34D399; padding: 2px 8px;">+5% TP</button>
+            <button type="button" class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-rr-tp10" style="color:#34D399; padding: 2px 8px;">+10% TP</button>
+            <button type="button" class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-rr-sl3" style="color:#F87171; padding: 2px 8px;">-3% SL</button>
+            <button type="button" class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-rr-sl5" style="color:#F87171; padding: 2px 8px;">-5% SL</button>
+          </div>
+        </div>
+
         <div class="admin-form-group">
           <label class="admin-form-label">Gói tối thiểu <span style="color:#F87171;">*</span></label>
           <select class="admin-select" id="signal-tier" style="width: 100%;">
@@ -143,6 +154,23 @@ function showCreateSignalForm() {
   const closeForm = () => { actionContainer.innerHTML = ''; };
   actionContainer.querySelector('#btn-close-form')?.addEventListener('click', closeForm);
   actionContainer.querySelector('#btn-cancel-create')?.addEventListener('click', closeForm);
+
+  // Bind R/R calculation shortcuts
+  const applyCalc = (pct, field) => {
+    const entry = parseFloat(actionContainer.querySelector('#signal-entry')?.value);
+    if (isNaN(entry) || entry <= 0) {
+      showToast('Vui lòng nhập Giá mua/giá vào hợp lệ trước', 'error');
+      return;
+    }
+    const val = (entry * (1 + pct)).toFixed(1);
+    const targetInput = actionContainer.querySelector(field === 'tp' ? '#signal-target' : '#signal-cutloss');
+    if (targetInput) targetInput.value = val;
+  };
+  actionContainer.querySelector('#btn-rr-tp3')?.addEventListener('click', () => applyCalc(0.03, 'tp'));
+  actionContainer.querySelector('#btn-rr-tp5')?.addEventListener('click', () => applyCalc(0.05, 'tp'));
+  actionContainer.querySelector('#btn-rr-tp10')?.addEventListener('click', () => applyCalc(0.10, 'tp'));
+  actionContainer.querySelector('#btn-rr-sl3')?.addEventListener('click', () => applyCalc(-0.03, 'sl'));
+  actionContainer.querySelector('#btn-rr-sl5')?.addEventListener('click', () => applyCalc(-0.05, 'sl'));
 
   // Form elements reference
   const directionSelect = actionContainer.querySelector('#signal-direction');

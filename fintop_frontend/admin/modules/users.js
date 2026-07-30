@@ -121,12 +121,31 @@ export default {
       title: 'Danh sách khách hàng',
       columns: ['STT', 'Thông tin người dùng', 'Người quản lý', 'Trạng thái', 'Nâng cấp'],
       searchable: true,
-      searchPlaceholder: 'Tìm kiếm...',
+      searchPlaceholder: 'Tìm kiếm tên, sđt, email...',
       toolbarExtra: () => `
         <button class="admin-btn admin-btn-danger admin-btn-sm" id="btn-delete-selected" title="Xóa người dùng đã chọn">🗑️ Xóa</button>
       `,
+      filters: {
+        tierLevel: {
+          label: 'Gói hội viên',
+          options: [
+            { value: 'STANDARD', label: 'Standard' },
+            { value: 'SILVER', label: 'PRO (Silver)' },
+            { value: 'GOLD', label: 'V.I.P (Gold)' },
+            { value: 'DIAMOND', label: 'Diamond' },
+          ]
+        },
+        status: {
+          label: 'Trạng thái',
+          options: [
+            { value: 'ACTIVE', label: 'Hoạt động' },
+            { value: 'INACTIVE', label: 'Ngưng' },
+            { value: 'LOCKED', label: 'Khóa' },
+          ]
+        }
+      },
       fetchData: async (page, filters) => {
-        const qs = API().toQuery({ page, limit: 15, search: filters.search, status: filters.status, userType: 'client' });
+        const qs = API().toQuery({ page, limit: 15, search: filters.search, status: filters.status, tierLevel: filters.tierLevel, userType: 'client' });
         const res = await API().get(EP().ADMIN_USERS + qs);
         const data = res.data || [];
         const meta = res.meta || { total: data.length, page: 1, limit: 15, totalPages: 1 };
