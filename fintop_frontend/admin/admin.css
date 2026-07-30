@@ -39,12 +39,32 @@
   min-width: 68px !important;
 }
 
+.admin-sidebar.is-collapsed .admin-sidebar-header {
+  padding: 1rem 0.25rem !important;
+  justify-content: center !important;
+}
+
+.admin-sidebar.is-collapsed .admin-logo-link,
 .admin-sidebar.is-collapsed .admin-sidebar-title,
 .admin-sidebar.is-collapsed .admin-sidebar-subtitle,
 .admin-sidebar.is-collapsed .admin-nav-section,
 .admin-sidebar.is-collapsed .admin-nav-item span:not(.nav-icon),
 .admin-sidebar.is-collapsed .admin-user-info {
   display: none !important;
+}
+
+.admin-sidebar.is-collapsed .admin-sidebar-toggle-btn {
+  margin-left: 0 !important;
+  width: 38px;
+  height: 38px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  background: rgba(124, 58, 237, 0.25) !important;
+  color: #ffffff !important;
+  border-color: var(--purple-core) !important;
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
 }
 
 .admin-sidebar.is-collapsed .admin-nav-item {

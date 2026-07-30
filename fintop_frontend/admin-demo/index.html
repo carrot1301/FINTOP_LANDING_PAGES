@@ -36,12 +36,29 @@
         }
 
         .dashboard-container.is-collapsed .sidebar {
-            padding: 20px 10px;
+            padding: 20px 8px;
         }
 
+        .dashboard-container.is-collapsed .logo-box {
+            justify-content: center !important;
+        }
+
+        .dashboard-container.is-collapsed .logo-box img,
         .dashboard-container.is-collapsed .logo-box h2,
         .dashboard-container.is-collapsed .nav-btn-text {
             display: none !important;
+        }
+
+        .dashboard-container.is-collapsed #sidebarToggleBtn {
+            width: 38px;
+            height: 38px;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            background: rgba(168, 85, 247, 0.25) !important;
+            color: #ffffff !important;
+            border-color: rgba(168, 85, 247, 0.5) !important;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
         }
 
         .dashboard-container.is-collapsed .trace-console {
