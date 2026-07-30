@@ -121,13 +121,28 @@
         }
 
         .data-table thead tr {
-            background: #2C2068 !important;
-            border-bottom: 1px solid rgba(233, 213, 255, 0.28) !important;
+            background: #191524 !important;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.14) !important;
         }
 
         .data-table thead th {
-            color: #ffffff !important;
-            font-weight: 900 !important;
+            color: #cbd5e1 !important;
+            font-weight: 700 !important;
+            text-shadow: none !important;
+            box-shadow: none !important;
+        }
+
+        .boloc-table-title {
+            min-width: 950px;
+            padding: 14px 18px;
+            background: linear-gradient(135deg, #33265A 0%, #251D42 100%);
+            color: #e2e8f0;
+            text-align: center;
+            font-size: clamp(1rem, 2vw, 1.55rem);
+            font-weight: 700;
+            line-height: 1.25;
+            text-shadow: none;
+            box-shadow: none;
         }
 
         .filter-toolbar.is-locked {
@@ -269,25 +284,30 @@
             font-style: italic;
             margin-bottom: 1.5rem;
         }
+        .guide-card .guide-disclaimer strong {
+            color: #fff;
+            font-weight: 800;
+        }
         .guide-agree-btn {
             display: inline-block;
-            background: linear-gradient(135deg, #16a34a, #22c55e);
-            color: #fff;
-            border: none;
+            background: #2b2340;
+            color: #e2e8f0;
+            border: 1px solid rgba(168, 85, 247, 0.38);
             border-radius: 10px;
             padding: 14px 48px;
-            font-weight: 800;
+            font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            letter-spacing: 1px;
+            letter-spacing: 0.02em;
             text-transform: uppercase;
-            transition: all 0.25s;
-            box-shadow: 0 4px 18px rgba(34, 197, 94, 0.3);
+            transition: background 0.2s ease, border-color 0.2s ease;
+            box-shadow: none;
         }
         .guide-agree-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(34, 197, 94, 0.45);
-            filter: brightness(1.1);
+            background: #34294d;
+            border-color: rgba(168, 85, 247, 0.56);
+            box-shadow: none;
+            filter: none;
         }
     </style>
 </head>
@@ -344,7 +364,7 @@
         </div>
 
         <div class="data-table-wrapper" style="background: rgba(15, 15, 25, 0.6); border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px; overflow-x: auto; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <div style="min-width: 950px; padding: 14px 18px; background: linear-gradient(135deg, #C000FF 0%, #A100F2 48%, #8200D6 100%); color: #fff; text-align: center; font-size: clamp(1rem, 2vw, 1.55rem); font-weight: 900; line-height: 1.25;">
+            <div class="boloc-table-title">
                 [FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ
             </div>
             <table class="data-table" style="width: 100%; min-width: 950px; table-layout: fixed; border-collapse: collapse; text-align: center; font-size: 0.78rem; color: #cbd5e1;">
@@ -355,7 +375,7 @@
                         <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 50px;">Sàn</th>
                         <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">Ngành HĐKD</th>
                         <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 80px;">Cập nhật</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 200px;">Mô tả Model</th>
+                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 200px;">Dữ liệu kỹ thuật lịch sử (Model)</th>
                         <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">Trạng thái Model</th>
                         <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">Sức mạnh xu hướng<br>RSI/MFI</th>
                         <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 90px;">Vùng kiểm định<br>kỹ thuật</th>
@@ -393,8 +413,8 @@
             <hr class="guide-divider">
             <div class="guide-disclaimer-title">MIỄN TRỪ TRÁCH NHIỆM !</div>
             <div class="guide-disclaimer">
-                Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư.<br>
-                Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.
+                Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư.
+                <strong>Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.</strong>
             </div>
             <button class="guide-agree-btn" id="guideAgreeBtn" type="button">TÔI ĐỒNG Ý</button>
         </div>
@@ -637,13 +657,13 @@
                     tr.style.borderBottom = '1px solid rgba(15, 23, 42, 0.95)';
 
                     const actionBadge = getActionBadgeMarkup(row.statusText, row.status);
-                    const rowBg = 'rgba(7, 25, 52, 0.96)';
-                    const baseCellStyle = `padding: 8px 4px; background: ${rowBg}; font-size: 0.78rem; text-align: center; word-wrap: break-word; overflow-wrap: break-word;`;
+                    const rowBg = 'rgba(15, 15, 25, 0.96)';
+                    const baseCellStyle = `padding: 8px 4px; background: ${rowBg}; color: #CBD5E1; font-weight: 500; font-size: 0.78rem; text-align: center; word-wrap: break-word; overflow-wrap: break-word;`;
 
                     // Ticker cell — masked for non-PRO
                     let tickerCell;
                     if (canSeeDetails) {
-                        tickerCell = `<td style="${baseCellStyle} color: #fff; font-weight: 700; letter-spacing: 0.5px;">${row.ticker}</td>`;
+                        tickerCell = `<td style="${baseCellStyle} font-weight: 600; letter-spacing: 0.5px;">${row.ticker}</td>`;
                     } else {
                         tickerCell = `<td style="${baseCellStyle}">
                             <span class="masked-cell">
@@ -672,12 +692,12 @@
                         <td style="${baseCellStyle}">${canSeeDetails ? row.san : '—'}</td>
                         ${nganhCell}
                         <td style="${baseCellStyle} color: #94a3b8;">${row.time}</td>
-                        <td style="${baseCellStyle} line-height: 1.4; color: #cbd5e1; text-align: left;">${row.desc}</td>
+                        <td style="${baseCellStyle} line-height: 1.4; text-align: left;">${row.desc}</td>
                         <td style="${baseCellStyle}">${actionBadge}</td>
                         <td style="${baseCellStyle} color: #C084FC; font-weight: 900; text-transform: uppercase;">${row.trend || '—'}</td>
-                        <td style="${baseCellStyle} color: #E2E8F0; font-weight: 700;">${row.vungKiemDinh}</td>
-                        <td style="padding: 8px 4px; background: linear-gradient(135deg, rgba(45, 33, 82, 0.95), rgba(16, 22, 39, 0.93)); color: #C084FC; font-weight: 900; font-size: 0.78rem; text-align: center; word-wrap: break-word; overflow-wrap: break-word;">${row.khangCu}</td>
-                        <td style="${baseCellStyle} color: #FBBF24; font-weight: 900;">${row.hoTro}</td>
+                        <td style="${baseCellStyle}">${row.vungKiemDinh}</td>
+                        <td style="${baseCellStyle}">${row.khangCu}</td>
+                        <td style="${baseCellStyle}">${row.hoTro}</td>
                     `;
                     tbody.appendChild(tr);
                 });

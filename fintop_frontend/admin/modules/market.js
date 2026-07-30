@@ -5,7 +5,7 @@
  *
  * Features matching legacy web:
  *   - Full analysis table: STT, Mã CP, Sàn, Ngành HĐKD,
- *     Cán bộ, Update time, Mô tả Model, Trạng thái Model,
+ *     Cán bộ, Update time, Dữ liệu kỹ thuật lịch sử (Model), Trạng thái Model,
  *     Sức mạnh xu hướng, vùng kỹ thuật, Thứ tự
  *   - Toolbar: Thêm/Xóa CP, Lọc Trạng thái Model, Lọc nhóm ngành, Tìm kiếm mã CP
  *   - Toggle biểu đồ (Fireant iframe)
@@ -466,7 +466,7 @@ function renderAll() {
             <th style="width:7.5%;text-align:center;">Ngành HĐKD</th>
             <th style="width:5.5%;text-align:center;">Kiểm soát DL</th>
             <th style="width:5.5%;text-align:center;">Update time</th>
-            <th style="width:14%;text-align:center;">Mô tả Mô hình kỹ thuật (Model)</th>
+            <th style="width:14%;text-align:center;">Dữ liệu kỹ thuật lịch sử (Model)</th>
             <th style="width:10%;text-align:center;">Trạng thái Model</th>
             <th style="width:7.5%;text-align:center;">Sức mạnh xu hướng<br/>Dòng tiền - RSI/MFI</th>
             <th style="width:13%;text-align:center;">Vùng kiểm định<br/>kỹ thuật</th>
@@ -948,7 +948,7 @@ function showAddStockModal() {
             <input type="text" class="admin-input" id="add-analyst" placeholder="VD: Đình Hải" />
           </div>
           <div class="admin-form-group">
-            <label>Mô tả Mô hình kỹ thuật (Model)</label>
+            <label>Dữ liệu kỹ thuật lịch sử (Model)</label>
             <input type="text" class="admin-input" id="add-trend" placeholder="Nhập nhận định..." />
           </div>
           <div class="admin-form-group">
@@ -1108,7 +1108,7 @@ function showEditStockModal(sid) {
             <input type="text" class="admin-input" id="es-analyst" value="${esc(stock.analyst || '')}" />
           </div>
           <div class="admin-form-group" style="grid-column: span 2;">
-            <label>Mô tả Mô hình kỹ thuật (Model)</label>
+            <label>Dữ liệu kỹ thuật lịch sử (Model)</label>
             <textarea class="admin-input" id="es-trend" rows="3" style="resize:vertical;">${esc(stock.identify_trend || '')}</textarea>
           </div>
           <div class="admin-form-group">

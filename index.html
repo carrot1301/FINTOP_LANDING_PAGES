@@ -524,14 +524,14 @@
         }
 
         #panel-boloc {
-            --boloc-title-bg: linear-gradient(135deg, #7C3AED, #A855F7);
-            --boloc-title-text: #F8FAFC;
-            --boloc-header-bg: rgba(168, 85, 247, 0.12);
-            --boloc-header-text: #F8FAFC;
+            --boloc-title-bg: linear-gradient(135deg, #33265A 0%, #251D42 100%);
+            --boloc-title-text: #E2E8F0;
+            --boloc-header-bg: #191524;
+            --boloc-header-text: #CBD5E1;
             --boloc-row-bg: rgba(15, 15, 25, 0.96);
             --boloc-row-alt-bg: rgba(18, 18, 30, 0.96);
             --boloc-row-hover-bg: rgba(168, 85, 247, 0.08);
-            --boloc-row-text: #E2E8F0;
+            --boloc-row-text: #CBD5E1;
             --boloc-border: rgba(255, 255, 255, 0.06);
             --boloc-border-strong: rgba(168, 85, 247, 0.2);
             --boloc-cyan: #FFFFFF;
@@ -663,12 +663,13 @@
             color: var(--boloc-title-text);
             text-align: center;
             font-size: clamp(1.15rem, 2.2vw, 1.85rem);
-            font-weight: 900;
+            font-weight: 700;
             line-height: 1.25;
             text-transform: none;
             border-bottom: 1px solid rgba(168, 85, 247, 0.22);
             letter-spacing: 0.01em;
             text-shadow: none;
+            box-shadow: none;
         }
 
         #bolocTable {
@@ -688,30 +689,16 @@
             background: var(--boloc-header-bg);
             color: var(--boloc-header-text);
             border: 0;
-            border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.14);
             text-align: center;
-            font-weight: 900;
+            font-weight: 700;
             letter-spacing: 0;
             text-transform: none;
             vertical-align: middle;
             padding: 8px 4px;
             font-size: 0.72rem;
-        }
-
-        #bolocTable th:nth-child(8) {
-            background: var(--boloc-header-bg);
-        }
-
-        #bolocTable th:nth-child(9) {
-            background: var(--boloc-header-bg);
-        }
-
-        #bolocTable th:nth-child(10) {
-            background: var(--boloc-header-bg);
-        }
-
-        #bolocTable th:nth-child(11) {
-            background: var(--boloc-header-bg);
+            text-shadow: none;
+            box-shadow: none;
         }
 
         /* Set clean column widths to fit 100% on standard desktop screens */
@@ -720,7 +707,7 @@
         #bolocTable th:nth-child(3) { width: 50px; } /* Sàn */
         #bolocTable th:nth-child(4) { width: 110px; } /* Ngành HĐKD */
         #bolocTable th:nth-child(5) { width: 80px; } /* Update time */
-        #bolocTable th:nth-child(6) { width: 200px; } /* Mô tả Mô hình kỹ thuật */
+        #bolocTable th:nth-child(6) { width: 200px; } /* Dữ liệu kỹ thuật lịch sử */
         #bolocTable th:nth-child(7) { width: 110px; } /* Trạng thái Model */
         #bolocTable th:nth-child(8) { width: 110px; } /* Sức mạnh xu hướng */
         #bolocTable th:nth-child(9) { width: 90px; } /* Vùng kiểm định */
@@ -733,7 +720,7 @@
             border: 0;
             border-bottom: 1px solid var(--boloc-border);
             text-align: center;
-            font-weight: 600;
+            font-weight: 500;
             vertical-align: middle;
             transition: background 0.2s ease, color 0.2s ease, filter 0.2s ease;
             padding: 8px 4px;
@@ -751,23 +738,23 @@
         }
 
         #bolocTable .ticker-cell {
-            color: var(--boloc-cyan);
-            font-weight: 900;
+            color: var(--boloc-row-text);
+            font-weight: 600;
         }
 
         #bolocTable .desc-cell {
-            color: #E2E8F0;
+            color: var(--boloc-row-text);
             max-width: 240px;
             text-align: left;
-            font-weight: 600;
+            font-weight: 500;
             white-space: normal;
             word-break: break-word;
         }
 
         #bolocTable .time-cell,
         #bolocTable .price-cell {
-            color: #E2E8F0;
-            font-weight: 700;
+            color: var(--boloc-row-text);
+            font-weight: 500;
             white-space: nowrap;
         }
 
@@ -800,19 +787,11 @@
             white-space: nowrap;
         }
 
-        #bolocTable td:nth-child(9) {
-            color: #E2E8F0;
-            font-weight: 800;
-        }
-
-        #bolocTable td:nth-child(10) {
-            color: var(--boloc-purple);
-            font-weight: 900;
-        }
-
+        #bolocTable td:nth-child(9),
+        #bolocTable td:nth-child(10),
         #bolocTable .boloc-support-cell {
-            color: var(--boloc-gold);
-            font-weight: 900;
+            color: var(--boloc-row-text);
+            font-weight: 500;
             white-space: nowrap;
         }
 
@@ -4541,7 +4520,7 @@
                         <th>Sàn</th>
                         <th>Ngành HĐKD</th>
                         <th>Update time</th>
-                        <th>Mô tả Mô hình kỹ thuật (Model)</th>
+                        <th>Dữ liệu kỹ thuật lịch sử (Model)</th>
                         <th>Trạng thái Model</th>
                     </tr>
                 </thead>
@@ -4642,8 +4621,8 @@
                 <hr class="guide-divider">
                 <div class="guide-disclaimer-title">MIỄN TRỪ TRÁCH NHIỆM !</div>
                 <div class="guide-disclaimer">
-                    Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư.<br>
-                    Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.
+                    Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư.
+                    <strong>Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.</strong>
                 </div>
                 <button class="guide-agree-btn" id="guideAgreeBtn" type="button">TÔI ĐỒNG Ý</button>
             </div>
@@ -4688,7 +4667,7 @@
                         <th>Sàn</th>
                         <th>Ngành HĐKD</th>
                         <th>Update time</th>
-                        <th>Mô tả Mô hình kỹ thuật (Model)</th>
+                        <th>Dữ liệu kỹ thuật lịch sử (Model)</th>
                         <th><span class="filterable-heading">Trạng thái Model <button class="table-filter-btn" type="button" title="Lọc Trạng thái Model" onclick="focusBolocFilter('status')">▾</button></span></th>
                         <th><span class="filterable-heading">Sức mạnh xu hướng<br>Dòng tiền - RSI/MFI <button class="table-filter-btn" type="button" title="Lọc Sức mạnh xu hướng" onclick="focusBolocFilter('strength')">▾</button></span></th>
                         <th>Vùng kiểm định<br>kỹ thuật</th>
