@@ -28,6 +28,24 @@
             display: grid;
             grid-template-columns: 280px 1fr;
             min-height: 100vh;
+            transition: grid-template-columns 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dashboard-container.is-collapsed {
+            grid-template-columns: 72px 1fr !important;
+        }
+
+        .dashboard-container.is-collapsed .sidebar {
+            padding: 20px 10px;
+        }
+
+        .dashboard-container.is-collapsed .logo-box h2,
+        .dashboard-container.is-collapsed .nav-btn-text {
+            display: none !important;
+        }
+
+        .dashboard-container.is-collapsed .trace-console {
+            left: 72px !important;
         }
 
         /* Sidebar Glassmorphic container */
@@ -44,6 +62,7 @@
             top: 0;
             height: calc(100vh - 48px);
             z-index: 10;
+            transition: padding 0.3s ease;
         }
 
         .logo-box {
@@ -356,6 +375,27 @@
             box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7);
             display: flex;
             flex-direction: column;
+            transition: height 0.25s cubic-bezier(0.16, 1, 0.3, 1), left 0.3s ease;
+        }
+
+        .trace-console.is-minimized {
+            height: 36px !important;
+        }
+
+        .trace-console.is-minimized .trace-body {
+            display: none !important;
+        }
+
+        .trace-console.is-expanded {
+            height: 420px !important;
+        }
+
+        /* Status LEDs */
+        .status-pill.online {
+            background: rgba(16, 185, 129, 0.2) !important;
+            color: #34d399 !important;
+            border: 1px solid rgba(52, 211, 153, 0.4) !important;
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.3);
         }
 
         .trace-header {
@@ -551,9 +591,12 @@
         
         <!-- SIDEBAR -->
         <aside class="sidebar">
-            <div class="logo-box">
-                <img src="../assets/images/fintop-logo.png" alt="FinTop Logo" onerror="this.style.display='none'">
-                <h2>ADMIN DEMO</h2>
+            <div class="logo-box" style="justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="../assets/images/fintop-logo.png" alt="FinTop Logo" onerror="this.style.display='none'">
+                    <h2>ADMIN DEMO</h2>
+                </div>
+                <button class="trace-btn" id="sidebarToggleBtn" onclick="toggleAdminSidebar()" title="Thu gọn/Mở rộng Sidebar" style="padding: 4px 8px; font-weight: bold;">◀</button>
             </div>
             
             <ul class="nav-list">
@@ -782,6 +825,16 @@
                                 </select>
                             </div>
                         </div>
+
+                        <!-- Quick Risk/Reward Calculation Shortcuts -->
+                        <div style="display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center;">
+                            <span style="font-size: 0.75rem; color: #94a3b8; font-weight: bold;">Tính nhanh R/R:</span>
+                            <button type="button" class="btn-action" style="padding: 4px 10px; font-size: 0.75rem; background: rgba(52,211,153,0.2); color: #34d399;" onclick="applySignalCalc('tp3')">+3% TP</button>
+                            <button type="button" class="btn-action" style="padding: 4px 10px; font-size: 0.75rem; background: rgba(52,211,153,0.2); color: #34d399;" onclick="applySignalCalc('tp5')">+5% TP</button>
+                            <button type="button" class="btn-action" style="padding: 4px 10px; font-size: 0.75rem; background: rgba(52,211,153,0.2); color: #34d399;" onclick="applySignalCalc('tp10')">+10% TP</button>
+                            <button type="button" class="btn-action" style="padding: 4px 10px; font-size: 0.75rem; background: rgba(239,68,68,0.2); color: #f87171;" onclick="applySignalCalc('sl3')">-3% SL</button>
+                            <button type="button" class="btn-action" style="padding: 4px 10px; font-size: 0.75rem; background: rgba(239,68,68,0.2); color: #f87171;" onclick="applySignalCalc('sl5')">-5% SL</button>
+                        </div>
                         <div class="control-group" style="margin-bottom: 16px;">
                             <label for="sigNotes">Nhận định chuyên gia</label>
                             <textarea id="sigNotes" rows="2">[QA] Cổ phiếu tích lũy nền tốt quanh vùng 135. Xung lực MA20 hướng lên.</textarea>
@@ -982,7 +1035,9 @@
             <div class="trace-header">
                 <h4>🖥️ EXECUTION TRACE LOG CONSOLE <span id="traceStatusText" style="font-size: 0.72rem; color: #34d399; font-weight: normal;">(Intercept Active)</span></h4>
                 <div class="trace-actions">
-                    <button class="trace-btn" onclick="clearConsoleLog()">🗑️ Clear logs</button>
+                    <button class="trace-btn" onclick="toggleConsoleSize('minimize')" title="Thu gọn Console">_</button>
+                    <button class="trace-btn" onclick="toggleConsoleSize('expand')" title="Mở rộng Console">▢</button>
+                    <button class="trace-btn" onclick="clearConsoleLog()">🗑️ Clear</button>
                 </div>
             </div>
             
@@ -1003,6 +1058,55 @@
 
     <!-- Console Main Script -->
     <script>
+        // Layout Controls
+        window.toggleAdminSidebar = function() {
+            const container = document.querySelector('.dashboard-container');
+            const btn = document.getElementById('sidebarToggleBtn');
+            if (!container) return;
+            const isCollapsed = container.classList.toggle('is-collapsed');
+            if (btn) btn.textContent = isCollapsed ? '▶' : '◀';
+        };
+
+        window.toggleConsoleSize = function(mode) {
+            const consoleEl = document.querySelector('.trace-console');
+            if (!consoleEl) return;
+            if (mode === 'minimize') {
+                if (consoleEl.classList.contains('is-minimized')) {
+                    consoleEl.classList.remove('is-minimized');
+                } else {
+                    consoleEl.classList.remove('is-expanded');
+                    consoleEl.classList.add('is-minimized');
+                }
+            } else if (mode === 'expand') {
+                if (consoleEl.classList.contains('is-expanded')) {
+                    consoleEl.classList.remove('is-expanded');
+                } else {
+                    consoleEl.classList.remove('is-minimized');
+                    consoleEl.classList.add('is-expanded');
+                }
+            }
+        };
+
+        // Signal Calculator R/R helper
+        window.applySignalCalc = function(type) {
+            const entryEl = document.getElementById('sigEntry');
+            const targetEl = document.getElementById('sigTarget');
+            const slEl = document.getElementById('sigCutLoss');
+            if (!entryEl) return;
+
+            const entry = parseFloat(entryEl.value) || 0;
+            if (entry <= 0) {
+                alert('Vui lòng nhập Giá khuyến nghị hợp lệ trước.');
+                return;
+            }
+
+            if (type === 'tp3' && targetEl) targetEl.value = (entry * 1.03).toFixed(1);
+            if (type === 'tp5' && targetEl) targetEl.value = (entry * 1.05).toFixed(1);
+            if (type === 'tp10' && targetEl) targetEl.value = (entry * 1.10).toFixed(1);
+            if (type === 'sl3' && slEl) slEl.value = (entry * 0.97).toFixed(1);
+            if (type === 'sl5' && slEl) slEl.value = (entry * 0.95).toFixed(1);
+        };
+
         // Store connection streams variables locally
         let marketUnsubConsole = null;
         let signalUnsubConsole = null;
