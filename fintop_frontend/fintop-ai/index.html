@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinTop AI Copilot | FinTop DATA</title>
-    
+
     <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/variables.css">
     <link rel="stylesheet" href="../assets/css/base.css">
@@ -14,10 +15,16 @@
     <link rel="stylesheet" href="../assets/css/demo-pages.css">
     <link rel="stylesheet" href="../assets/css/coming-soon.css">
     <script src="../assets/js/demo-nav.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
             background: #07070D;
@@ -26,17 +33,32 @@
             display: flex;
             flex-direction: column;
         }
+
         .tv-header {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            display: flex; align-items: center; justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             gap: 24px;
-            padding: 0 5%; height: 72px;
-            background: rgba(10,10,15,0.88);
+            padding: 0 5%;
+            height: 72px;
+            background: rgba(10, 10, 15, 0.88);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             border-bottom: 1px solid rgba(168, 85, 247, 0.22);
         }
-        .tv-left { display: flex; align-items: center; gap: 18px; min-width: max-content; }
+
+        .tv-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            min-width: max-content;
+        }
+
         .neon-logo {
             height: 70px;
             width: auto;
@@ -44,15 +66,35 @@
             filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 15px rgba(168, 85, 247, 0.72));
             transition: transform 0.25s ease, filter 0.25s ease;
         }
+
         .neon-logo:hover {
             filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 25px rgba(192, 132, 252, 0.92));
             transform: scale(1.04);
         }
-        .tv-nav { display: flex; gap: 2rem; align-items: center; list-style: none; }
-        .tv-nav a { font-size: 0.9rem; font-weight: 600; color: #fff; opacity: 0.8; transition: opacity 0.2s; text-decoration: none; white-space: nowrap; }
+
+        .tv-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .tv-nav a {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
         .tv-nav a:hover,
-        .tv-nav a.active-page { opacity: 1; text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); }
-        
+        .tv-nav a.active-page {
+            opacity: 1;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
         .main-container {
             flex: 1;
             padding-top: 100px;
@@ -75,10 +117,19 @@
             padding: 2rem 0;
             animation: lockFadeIn 0.5s ease-out;
         }
+
         @keyframes lockFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         .lock-card {
             max-width: 480px;
             width: 100%;
@@ -88,25 +139,29 @@
             padding: 3rem 2rem;
             text-align: center;
             backdrop-filter: blur(12px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 30px rgba(168, 85, 247, 0.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 30px rgba(168, 85, 247, 0.05);
         }
+
         .lock-icon {
             font-size: 3.5rem;
             margin-bottom: 1.5rem;
             filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
         }
+
         .lock-title {
             font-size: 1.8rem;
             font-weight: 800;
             color: #ffffff;
             margin-bottom: 1rem;
         }
+
         .lock-desc {
             font-size: 0.95rem;
             line-height: 1.6;
             color: #94a3b8;
             margin-bottom: 2rem;
         }
+
         .lock-btn {
             display: inline-block;
             width: 100%;
@@ -121,11 +176,13 @@
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
         }
+
         .lock-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
             filter: brightness(1.1);
         }
+
         .lock-home-link {
             display: inline-block;
             margin-top: 1.25rem;
@@ -134,6 +191,7 @@
             text-decoration: none;
             font-weight: 600;
         }
+
         .lock-home-link:hover {
             color: #c084fc;
             text-decoration: underline;
@@ -149,9 +207,17 @@
             height: calc(100vh - 160px);
             animation: copilotFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         @keyframes copilotFadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .copilot-header {
@@ -165,9 +231,10 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255,255,255,0.03);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(16px);
         }
+
         .copilot-eyebrow {
             font-size: 0.68rem;
             font-weight: 700;
@@ -176,6 +243,7 @@
             text-transform: uppercase;
             margin-bottom: 0.3rem;
         }
+
         .copilot-title {
             margin: 0;
             font-size: 1.5rem;
@@ -184,12 +252,14 @@
             color: #F8FAFC;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
+
         .copilot-subtitle {
             margin: 0.3rem 0 0 0;
             font-size: 0.82rem;
             color: #94A3B8;
             line-height: 1.5;
         }
+
         .copilot-btn-ghost {
             background: rgba(124, 58, 237, 0.08);
             border: 1px solid rgba(124, 58, 237, 0.2);
@@ -201,6 +271,7 @@
             font-weight: 600;
             transition: all 0.25s;
         }
+
         .copilot-btn-ghost:hover {
             background: rgba(124, 58, 237, 0.15);
             border-color: rgba(124, 58, 237, 0.4);
@@ -226,10 +297,23 @@
             flex-direction: column;
             gap: 0.75rem;
         }
-        .copilot-messages::-webkit-scrollbar { width: 6px; }
-        .copilot-messages::-webkit-scrollbar-track { background: rgba(255,255,255,0.01); }
-        .copilot-messages::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.2); border-radius: 4px; }
-        .copilot-messages::-webkit-scrollbar-thumb:hover { background: rgba(124, 58, 237, 0.4); }
+
+        .copilot-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .copilot-messages::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .copilot-messages::-webkit-scrollbar-thumb {
+            background: rgba(124, 58, 237, 0.2);
+            border-radius: 4px;
+        }
+
+        .copilot-messages::-webkit-scrollbar-thumb:hover {
+            background: rgba(124, 58, 237, 0.4);
+        }
 
         .copilot-welcome {
             display: flex;
@@ -240,22 +324,33 @@
             padding: 3rem 1rem;
             flex: 1;
         }
+
         .copilot-welcome-icon {
             font-size: 4rem;
             margin-bottom: 1rem;
-            filter: drop-shadow(0 0 20px rgba(124,58,237,0.4));
+            filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.4));
             animation: copilotFloat 3s ease-in-out infinite;
         }
+
         @keyframes copilotFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
         }
+
         .copilot-welcome-title {
             color: #F8FAFC;
             font-size: 1.3rem;
             font-weight: 800;
             margin: 0 0 0.5rem 0;
         }
+
         .copilot-welcome-desc {
             color: #94A3B8;
             font-size: 0.85rem;
@@ -263,6 +358,7 @@
             max-width: 480px;
             margin: 0 0 1.5rem 0;
         }
+
         .copilot-suggestions {
             display: flex;
             flex-wrap: wrap;
@@ -270,6 +366,7 @@
             justify-content: center;
             max-width: 560px;
         }
+
         .copilot-chip {
             background: rgba(124, 58, 237, 0.08);
             border: 1px solid rgba(124, 58, 237, 0.2);
@@ -282,6 +379,7 @@
             transition: all 0.25s;
             white-space: nowrap;
         }
+
         .copilot-chip:hover {
             background: rgba(124, 58, 237, 0.18);
             border-color: rgba(124, 58, 237, 0.45);
@@ -294,25 +392,38 @@
             max-width: 85%;
             animation: copilotMsgIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         @keyframes copilotMsgIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         .copilot-msg-user {
             align-self: flex-end;
         }
+
         .copilot-msg-assistant {
             align-self: flex-start;
         }
+
         .copilot-msg-header {
             display: flex;
             align-items: center;
             gap: 0.4rem;
             margin-bottom: 0.35rem;
         }
+
         .copilot-msg-avatar {
             font-size: 0.9rem;
         }
+
         .copilot-msg-label {
             font-size: 0.72rem;
             font-weight: 700;
@@ -320,11 +431,13 @@
             text-transform: uppercase;
             letter-spacing: 0.04em;
         }
+
         .copilot-msg-time {
             font-size: 0.65rem;
             color: #64748B;
             margin-left: auto;
         }
+
         .copilot-msg-body {
             padding: 0.85rem 1.1rem;
             border-radius: 14px;
@@ -332,11 +445,13 @@
             line-height: 1.65;
             color: #E2E8F0;
         }
+
         .copilot-msg-user .copilot-msg-body {
             background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(99, 42, 204, 0.15) 100%);
             border: 1px solid rgba(124, 58, 237, 0.25);
             border-bottom-right-radius: 4px;
         }
+
         .copilot-msg-assistant .copilot-msg-body {
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -351,12 +466,14 @@
             padding: 0.4rem 0;
             animation: copilotMsgIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         .copilot-tool-prefix {
             font-size: 0.68rem;
             color: #64748B;
             font-weight: 600;
             margin-right: 0.3rem;
         }
+
         .copilot-tool-badge {
             display: inline-flex;
             align-items: center;
@@ -368,16 +485,19 @@
             cursor: default;
             transition: all 0.2s;
         }
+
         .copilot-tool-ok {
             background: rgba(16, 185, 129, 0.08);
             border: 1px solid rgba(16, 185, 129, 0.2);
             color: #10B981;
         }
+
         .copilot-tool-err {
             background: rgba(239, 68, 68, 0.08);
             border: 1px solid rgba(239, 68, 68, 0.2);
             color: #EF4444;
         }
+
         .copilot-tool-status {
             font-weight: 800;
         }
@@ -387,10 +507,12 @@
             align-items: center;
             gap: 0.75rem;
         }
+
         .copilot-dots {
             display: flex;
             gap: 4px;
         }
+
         .copilot-dot {
             width: 8px;
             height: 8px;
@@ -398,12 +520,30 @@
             background: #7C3AED;
             animation: copilotBounce 1.4s ease-in-out infinite;
         }
-        .copilot-dot:nth-child(2) { animation-delay: 0.2s; }
-        .copilot-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes copilotBounce {
-            0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
-            40% { transform: translateY(-6px); opacity: 1; }
+
+        .copilot-dot:nth-child(2) {
+            animation-delay: 0.2s;
         }
+
+        .copilot-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes copilotBounce {
+
+            0%,
+            80%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+
+            40% {
+                transform: translateY(-6px);
+                opacity: 1;
+            }
+        }
+
         .copilot-thinking-text {
             font-size: 0.78rem;
             color: #94A3B8;
@@ -415,11 +555,13 @@
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             background: rgba(10, 15, 30, 0.5);
         }
+
         .copilot-input-wrapper {
             display: flex;
             gap: 0.6rem;
             align-items: center;
         }
+
         .copilot-input {
             flex: 1;
             background: rgba(15, 23, 42, 0.6);
@@ -432,17 +574,21 @@
             transition: border-color 0.25s, box-shadow 0.25s;
             font-family: inherit;
         }
+
         .copilot-input::placeholder {
             color: #64748B;
         }
+
         .copilot-input:focus {
             border-color: rgba(124, 58, 237, 0.45);
             box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
         }
+
         .copilot-input:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
+
         .copilot-send-btn {
             width: 44px;
             height: 44px;
@@ -458,16 +604,19 @@
             transition: all 0.25s;
             flex-shrink: 0;
         }
+
         .copilot-send-btn:hover {
             background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
             transform: scale(1.05);
             box-shadow: 0 4px 16px rgba(124, 58, 237, 0.35);
         }
+
         .copilot-send-btn:disabled {
             opacity: 0.4;
             cursor: not-allowed;
             transform: none;
         }
+
         .copilot-input-hint {
             display: flex;
             justify-content: space-between;
@@ -477,26 +626,75 @@
         }
 
         /* Markdown elements */
-        .copilot-md-h1 { color: #F8FAFC; font-size: 1.2rem; font-weight: 800; margin: 1rem 0 0.5rem 0; }
-        .copilot-md-h2 { color: #F1F5F9; font-size: 1.05rem; font-weight: 700; margin: 0.8rem 0 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.3rem; }
-        .copilot-md-h3 { color: #C084FC; font-size: 0.95rem; font-weight: 600; margin: 0.7rem 0 0.3rem 0; }
-        .copilot-md-h4 { color: #A78BFA; font-size: 0.88rem; font-weight: 600; margin: 0.5rem 0 0.25rem 0; }
-        .copilot-bold { color: #E2E8F0; font-weight: 600; }
-        .copilot-p { margin: 0 0 0.5rem 0; color: #CBD5E1; }
-        .copilot-ul { margin: 0.3rem 0; padding-left: 1.2rem; }
-        .copilot-li { color: #CBD5E1; margin-bottom: 0.25rem; font-size: 0.84rem; }
-        .copilot-hr { border: 0; border-top: 1px solid rgba(255,255,255,0.06); margin: 0.8rem 0; }
+        .copilot-md-h1 {
+            color: #F8FAFC;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .copilot-md-h2 {
+            color: #F1F5F9;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 0.8rem 0 0.4rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 0.3rem;
+        }
+
+        .copilot-md-h3 {
+            color: #C084FC;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin: 0.7rem 0 0.3rem 0;
+        }
+
+        .copilot-md-h4 {
+            color: #A78BFA;
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin: 0.5rem 0 0.25rem 0;
+        }
+
+        .copilot-bold {
+            color: #E2E8F0;
+            font-weight: 600;
+        }
+
+        .copilot-p {
+            margin: 0 0 0.5rem 0;
+            color: #CBD5E1;
+        }
+
+        .copilot-ul {
+            margin: 0.3rem 0;
+            padding-left: 1.2rem;
+        }
+
+        .copilot-li {
+            color: #CBD5E1;
+            margin-bottom: 0.25rem;
+            font-size: 0.84rem;
+        }
+
+        .copilot-hr {
+            border: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            margin: 0.8rem 0;
+        }
+
         .copilot-inline-code {
-            background: rgba(255,255,255,0.06);
+            background: rgba(255, 255, 255, 0.06);
             padding: 0.12rem 0.35rem;
             border-radius: 4px;
             font-family: 'Fira Code', monospace;
             color: #F472B6;
             font-size: 0.8rem;
         }
+
         .copilot-code-block {
             background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 8px;
             padding: 0.75rem 1rem;
             overflow-x: auto;
@@ -506,17 +704,20 @@
             color: #E2E8F0;
             margin: 0.5rem 0;
         }
+
         .copilot-table-wrap {
             overflow-x: auto;
             margin: 0.5rem 0;
             border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
+
         .copilot-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.78rem;
         }
+
         .copilot-table th {
             background: rgba(124, 58, 237, 0.08);
             color: #C4B5FD;
@@ -526,11 +727,13 @@
             border-bottom: 1px solid rgba(124, 58, 237, 0.15);
             white-space: nowrap;
         }
+
         .copilot-table td {
             padding: 0.45rem 0.75rem;
             color: #CBD5E1;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
+
         .copilot-table tr:hover td {
             background: rgba(124, 58, 237, 0.04);
         }
@@ -542,76 +745,95 @@
         html.light-theme {
             background: #F8FAFC;
         }
+
         html.light-theme body {
             background: #F8FAFC;
             color: #334155;
         }
+
         html.light-theme .tv-header {
             background: rgba(255, 255, 255, 0.85);
-            border-bottom: 1px solid rgba(0,0,0,0.08);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
         }
+
         html.light-theme .tv-nav a {
             color: #1e293b;
         }
+
         html.light-theme .tv-nav a:hover {
             text-shadow: 0 0 8px rgba(124, 58, 237, 0.2);
         }
+
         html.light-theme .copilot-header {
             background: linear-gradient(135deg, #FFFFFF 0%, #F1F5F9 100%);
             border: 1px solid rgba(124, 58, 237, 0.2);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
         }
+
         html.light-theme .copilot-title {
             color: #0F172A;
             text-shadow: none;
         }
+
         html.light-theme .copilot-subtitle {
             color: #475569;
         }
+
         html.light-theme .copilot-chat-wrapper {
             background: #FFFFFF;
             border: 1px solid rgba(124, 58, 237, 0.2);
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
         }
+
         html.light-theme .copilot-input-bar {
             background: #F8FAFC;
             border-top: 1px solid rgba(0, 0, 0, 0.06);
         }
+
         html.light-theme .copilot-input {
             background: #FFFFFF;
             color: #0F172A;
             border: 1px solid rgba(124, 58, 237, 0.25);
         }
+
         html.light-theme .copilot-input::placeholder {
             color: #94A3B8;
         }
+
         html.light-theme .copilot-input:focus {
             border-color: #7C3AED;
             box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
         }
+
         html.light-theme .copilot-welcome-title {
             color: #0F172A;
         }
+
         html.light-theme .copilot-welcome-desc {
             color: #475569;
         }
+
         html.light-theme .copilot-msg-label {
             color: #7C3AED;
         }
+
         html.light-theme .copilot-msg-assistant .copilot-msg-body {
             background: #F8FAFC;
             border: 1px solid rgba(0, 0, 0, 0.06);
             color: #334155;
         }
+
         html.light-theme .copilot-msg-user .copilot-msg-body {
             background: rgba(124, 58, 237, 0.05);
             border: 1px solid rgba(124, 58, 237, 0.2);
             color: #334155;
         }
+
         html.light-theme .copilot-p,
         html.light-theme .copilot-li {
             color: #334155;
         }
+
         html.light-theme .copilot-md-h1,
         html.light-theme .copilot-md-h2,
         html.light-theme .copilot-md-h3,
@@ -619,41 +841,51 @@
         html.light-theme .copilot-bold {
             color: #0F172A;
         }
+
         html.light-theme .copilot-inline-code {
-            background: rgba(0,0,0,0.04);
+            background: rgba(0, 0, 0, 0.04);
             color: #D946EF;
         }
+
         html.light-theme .copilot-code-block {
             background: #F8FAFC;
-            border: 1px solid rgba(0,0,0,0.06);
+            border: 1px solid rgba(0, 0, 0, 0.06);
             color: #334155;
         }
+
         html.light-theme .copilot-table-wrap {
-            border: 1px solid rgba(0,0,0,0.06);
+            border: 1px solid rgba(0, 0, 0, 0.06);
         }
+
         html.light-theme .copilot-table th {
             background: rgba(124, 58, 237, 0.05);
             color: #7C3AED;
             border-bottom: 1px solid rgba(124, 58, 237, 0.1);
         }
+
         html.light-theme .copilot-table td {
             color: #334155;
-            border-bottom: 1px solid rgba(0,0,0,0.04);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
         }
+
         html.light-theme .copilot-table tr:hover td {
             background: rgba(124, 58, 237, 0.02);
         }
+
         html.light-theme .copilot-thinking-text {
             color: #64748B;
         }
+
         html.light-theme .lock-card {
             background: #FFFFFF;
             border: 1px solid rgba(168, 85, 247, 0.3);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
         }
+
         html.light-theme .lock-title {
             color: #0F172A;
         }
+
         html.light-theme .lock-desc {
             color: #475569;
         }
@@ -662,7 +894,7 @@
             display: none !important;
         }
     </style>
-    
+
     <!-- Access synchronization header script -->
     <script>
         (function () {
@@ -673,6 +905,7 @@
         })();
     </script>
 </head>
+
 <body>
 
     <header class="tv-header" id="mainHeader">
@@ -692,7 +925,8 @@
             <li class="nav-item"><a href="../index.html">Trang chủ</a></li>
             <li class="nav-item"><a href="../index.html#panel-hoivien">Hội viên</a></li>
             <li class="nav-item dropdown" id="dropdown-fintop-data">
-                <a href="javascript:void(0)" class="active-page" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
+                <a href="javascript:void(0)" class="active-page"
+                    onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
                     <a href="../index.html#panel-tracuu">📊 Tra cứu cổ phiếu</a>
@@ -703,10 +937,11 @@
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-stock-data">
-                <a href="../index.html#panel-stock-quant">Dữ liệu <span style="font-size: 0.7em;">▼</span></a>
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-stock-data')">Dữ liệu <span style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
                     <a href="../index.html#panel-stock-quant">Tổng quan</a>
-                    <a href="../index.html#panel-stock-pro">PRO Data <span style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../index.html#panel-stock-pro">PRO Data <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="../index.html#panel-stock-sector">Định lượng</a>
                     <a href="../index.html#panel-stock-reports">Báo cáo</a>
                 </div>
@@ -738,16 +973,22 @@
             <!-- Notification Bell Icon (separate from user dropdown) -->
             <div class="notif-bell-container" id="notifBellContainer" style="display: none;">
                 <button class="notif-bell-btn" id="notifBellBtn" type="button" aria-label="Thông báo">
-                    <svg class="notif-bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <svg class="notif-bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
                     <span class="notif-bell-badge" id="notifBellBadge"></span>
                 </button>
                 <div class="notif-bell-dropdown" id="notifBellDropdown">
                     <div class="notif-bell-dropdown-header">
                         <span>🔔 Thông báo</span>
-                        <span class="fintop-notif-unread-indicator" style="font-size: 0.7rem; background: #ef4444; color: white; padding: 1px 6px; border-radius: 99px; display: none;"></span>
+                        <span class="fintop-notif-unread-indicator"
+                            style="font-size: 0.7rem; background: #ef4444; color: white; padding: 1px 6px; border-radius: 99px; display: none;"></span>
                     </div>
                     <div class="fintop-notifications-list" style="display: flex; flex-direction: column; gap: 2px;">
-                        <div style="font-size: 0.8rem; color: #64748b; text-align: center; padding: 24px 0;">Không có thông báo mới</div>
+                        <div style="font-size: 0.8rem; color: #64748b; text-align: center; padding: 24px 0;">Không có
+                            thông báo mới</div>
                     </div>
                 </div>
             </div>
@@ -759,7 +1000,8 @@
                     <a href="../index.html" class="user-dropdown-item">Có gì mới</a>
                 </div>
             </div>
-            <button class="btn-tv-blue" id="fintopStartBtn" type="button" onclick="window.location.href='../index.html#panel-hoivien'">Bắt đầu</button>
+            <button class="btn-tv-blue" id="fintopStartBtn" type="button"
+                onclick="window.location.href='../index.html#panel-hoivien'">Bắt đầu</button>
         </div>
     </header>
 
@@ -833,7 +1075,8 @@
             <div class="lock-card">
                 <div class="lock-icon">🔒</div>
                 <h2 class="lock-title">Trợ Lý AI VIP</h2>
-                <p class="lock-desc">Tính năng FINTop AI Copilot yêu cầu bạn đăng nhập tài khoản VIP để có quyền truy cập hệ thống phân tích định lượng chuyên sâu.</p>
+                <p class="lock-desc">Tính năng FINTop AI Copilot yêu cầu bạn đăng nhập tài khoản VIP để có quyền truy
+                    cập hệ thống phân tích định lượng chuyên sâu.</p>
                 <button class="lock-btn" id="lock-login-btn">Đăng nhập ngay</button>
                 <a href="../index.html" class="lock-home-link">Về trang chủ</a>
             </div>
@@ -846,7 +1089,8 @@
                 <div>
                     <div class="copilot-eyebrow">FINTOP AI</div>
                     <h2 class="copilot-title">⚡ AI Copilot</h2>
-                    <p class="copilot-subtitle">Trợ lý thông minh cho nghiên cứu & phân tích thị trường chứng khoán Việt Nam</p>
+                    <p class="copilot-subtitle">Trợ lý thông minh cho nghiên cứu & phân tích thị trường chứng khoán Việt
+                        Nam</p>
                 </div>
                 <div style="display:flex; gap:0.75rem; align-items:center;">
                     <button class="copilot-btn-ghost" id="btn-copilot-clear" title="Xóa cuộc trò chuyện">
@@ -862,14 +1106,22 @@
                     <div class="copilot-welcome" id="copilot-welcome">
                         <div class="copilot-welcome-icon">🔮</div>
                         <h3 class="copilot-welcome-title">Xin chào! Tôi là FINTop AI Copilot</h3>
-                        <p class="copilot-welcome-desc">Tôi có thể tra cứu dữ liệu cổ phiếu, phân tích thị trường, kiểm tra dòng tiền, danh mục đầu tư và nhiều hơn nữa - tất cả từ dữ liệu thực trên nền tảng FINTop.</p>
+                        <p class="copilot-welcome-desc">Tôi có thể tra cứu dữ liệu cổ phiếu, phân tích thị trường, kiểm
+                            tra dòng tiền, danh mục đầu tư và nhiều hơn nữa - tất cả từ dữ liệu thực trên nền tảng
+                            FINTop.</p>
                         <div class="copilot-suggestions" id="copilot-suggestions">
-                            <button class="copilot-chip" data-prompt="Phân tích cổ phiếu FPT">📈 Phân tích cổ phiếu FPT</button>
-                            <button class="copilot-chip" data-prompt="Thị trường hôm nay thế nào?">📊 Thị trường hôm nay</button>
-                            <button class="copilot-chip" data-prompt="Top ngành dẫn dắt tháng này?">🚀 Top ngành dẫn dắt</button>
-                            <button class="copilot-chip" data-prompt="Dòng tiền khối ngoại đang chảy vào đâu?">💸 Dòng tiền khối ngoại</button>
-                            <button class="copilot-chip" data-prompt="Market breadth hiện tại cho thấy gì?">⚖️ Market Breadth</button>
-                            <button class="copilot-chip" data-prompt="Chế độ thị trường hiện tại là gì? Bull hay Bear?">🐃 Market Regime</button>
+                            <button class="copilot-chip" data-prompt="Phân tích cổ phiếu FPT">📈 Phân tích cổ phiếu
+                                FPT</button>
+                            <button class="copilot-chip" data-prompt="Thị trường hôm nay thế nào?">📊 Thị trường hôm
+                                nay</button>
+                            <button class="copilot-chip" data-prompt="Top ngành dẫn dắt tháng này?">🚀 Top ngành dẫn
+                                dắt</button>
+                            <button class="copilot-chip" data-prompt="Dòng tiền khối ngoại đang chảy vào đâu?">💸 Dòng
+                                tiền khối ngoại</button>
+                            <button class="copilot-chip" data-prompt="Market breadth hiện tại cho thấy gì?">⚖️ Market
+                                Breadth</button>
+                            <button class="copilot-chip"
+                                data-prompt="Chế độ thị trường hiện tại là gì? Bull hay Bear?">🐃 Market Regime</button>
                         </div>
                     </div>
                 </div>
@@ -877,14 +1129,9 @@
                 <!-- Input Bar -->
                 <div class="copilot-input-bar">
                     <div class="copilot-input-wrapper">
-                        <input
-                            type="text"
-                            id="copilot-input"
-                            class="copilot-input"
-                            placeholder="Hỏi AI Copilot về thị trường, cổ phiếu, danh mục..."
-                            maxlength="2000"
-                            autocomplete="off"
-                        />
+                        <input type="text" id="copilot-input" class="copilot-input"
+                            placeholder="Hỏi AI Copilot về thị trường, cổ phiếu, danh mục..." maxlength="2000"
+                            autocomplete="off" />
                         <button class="copilot-send-btn" id="copilot-send" title="Gửi (Enter)">
                             <span id="copilot-send-icon">🚀</span>
                         </button>
@@ -903,7 +1150,7 @@
     <script type="module" src="../assets/js/core/index.js"></script>
 
     <script>
-        (function() {
+        (function () {
             let sessionId = null;
             let isLoading = false;
             let Infra = null;
@@ -915,7 +1162,7 @@
                     await new Promise(r => setTimeout(r, 100));
                     attempts++;
                 }
-                
+
                 Infra = window.FintopInfra;
                 if (!Infra) return;
 
@@ -1252,4 +1499,5 @@
         });
     </script>
 </body>
+
 </html>

@@ -166,6 +166,7 @@
         .dropdown-content {
             visibility: hidden;
             opacity: 0;
+            pointer-events: none;
             position: fixed;
             top: 72px;
             left: 0;
@@ -183,7 +184,7 @@
             align-items: center;
             gap: 0;
             transform: translateY(-8px);
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.15s;
             padding: 0;
             z-index: 999;
         }
@@ -191,6 +192,7 @@
         .dropdown-content.pinned {
             visibility: visible;
             opacity: 1;
+            pointer-events: auto;
             transform: translateY(0);
         }
 
@@ -4564,7 +4566,8 @@
                     <a href="javascript:void(0)" data-panel="panel-boloc" onclick="openPanel('panel-boloc', this)">🔍 Bộ
                         lọc cổ phiếu <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
-                    <a href="fintop-ai/index.html">🤖 FinTop AI</a>
+                    <a href="fintop-ai/index.html"
+                        onclick="sessionStorage.setItem('pinnedDropdown', 'dropdown-fintop-data')">🤖 FinTop AI</a>
                     <a href="javascript:void(0)" data-panel="panel-tinhieu"
                         onclick="openPanel('panel-tinhieu', this)">📡 Copy Trade Chuyên gia</a>
                 </div>
@@ -4941,7 +4944,8 @@
         <section class="coming-soon-shell coming-soon-shell--copy" aria-labelledby="copy-coming-soon-title">
             <article class="coming-soon-card">
                 <div class="coming-soon-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round"
+                        stroke-linejoin="round">
                         <path d="M4 18V10"></path>
                         <path d="M9 18V6"></path>
                         <path d="M14 18v-5"></path>
@@ -4962,19 +4966,22 @@
                 </p>
                 <div class="coming-soon-highlights" aria-label="Định hướng hoàn thiện Copy Trade">
                     <span class="coming-soon-highlight">
-                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
                             <path d="m5 12 4 4L19 6"></path>
                         </svg>
                         Minh bạch thông tin
                     </span>
                     <span class="coming-soon-highlight">
-                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
                             <path d="m5 12 4 4L19 6"></path>
                         </svg>
                         Dễ dàng theo dõi
                     </span>
                     <span class="coming-soon-highlight">
-                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
                             <path d="m5 12 4 4L19 6"></path>
                         </svg>
                         Quản trị rủi ro
@@ -4982,7 +4989,8 @@
                 </div>
                 <div class="coming-soon-update">
                     <span class="coming-soon-update-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <path d="M12 8v4l2.5 2.5"></path>
                             <circle cx="12" cy="12" r="9"></circle>
                         </svg>
@@ -6054,8 +6062,10 @@
     <div class="submenu-panel" id="panel-guide-ta">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Kiến Thức Phân Tích Kỹ Thuật (TA)</h2>
-            <p>Tổng hợp 19 tài liệu và video hướng dẫn đọc xu hướng, nến Nhật, hỗ trợ kháng cự, MA, RSI, MACD, Fibonacci, Ichimoku và Elliott.</p>
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Kiến Thức Phân Tích Kỹ Thuật (TA)
+            </h2>
+            <p>Tổng hợp 19 tài liệu và video hướng dẫn đọc xu hướng, nến Nhật, hỗ trợ kháng cự, MA, RSI, MACD,
+                Fibonacci, Ichimoku và Elliott.</p>
         </div>
         <div class="function-shell">
             <div class="function-table-card">
@@ -6068,25 +6078,140 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td class="stt-cell">1</td><td class="content-cell">TA1: Hướng dẫn đọc đồ thị nến Candelstick</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=kSTFPbaopgc&amp;list=LLt0u" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">2</td><td class="content-cell">TA2: 10 mẫu nến cơ bản sử dụng trong dự đoán giá tăng giảm</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=j_WM8iYm50w" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">3</td><td class="content-cell">TA3: 11 mô hình nến đảo chiều P1</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=zsasLAmvJMI" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">4</td><td class="content-cell">TA4: 11 mô hình nến đảo chiều P2</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=EEHw8qQx3H4" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">5</td><td class="content-cell">TA5: Hướng dẫn sử dụng BB (BollingerBand) trong PTKT</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=9vRZKA_-A5I" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">6</td><td class="content-cell">TA6: Hướng dẫn sử dụng MA trong phân tích kỹ thuật (PTKT)</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=xRWoicbS0vI&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=11" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">7</td><td class="content-cell">TA7: Sử dụng đường trung bình EMA làm mức hỗ trợ và kháng cự</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=FrvIetAUZaY&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=13" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">8</td><td class="content-cell">TA8: Hướng dẫn sử dụng RSI trong xu hướng giá</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=DV09GlX9100&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=6" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">9</td><td class="content-cell">TA9: Phương pháp DCA trung bình giá</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=Z2Uw0HpHYaQ&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=28" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">10</td><td class="content-cell">TA10: Hướng dẫn sử dụng MACD</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=YrOkTkgi1Zo&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=14" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">11</td><td class="content-cell">TA11: Hướng dẫn sử dụng Finbonaci</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=WB3XirugOXc&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=17" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">12</td><td class="content-cell">TA12: Hướng dẫn sử dụng Mây Ichimoku</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=C6icpoSDaL8&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=19" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">13</td><td class="content-cell">TA13: Lý thuyết Supply Demand | Cách vẽ kháng cự hỗ trợ và Trendline</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=Bd7z5BCCICs&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=7" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">14</td><td class="content-cell">TA14: Mô hình giá Vai - Đầu - Vai thuận và ngược</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=tuflpQHeTLk&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=16" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">15</td><td class="content-cell">TA15: Mô hình giá 3 đỉnh 3 đáy và 2 đỉnh 2 đáy</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=P3cWP9zg0Ww&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=10" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">16</td><td class="content-cell">TA16: Điểm Break-out là gì? Phân biệt điểm phá ngưỡng thật giả?</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=vQwS1mixc6A&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=18" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">17</td><td class="content-cell">TA nâng cao P1 | Phân tích đa khung thời gian 1.1 | Trader phải biết</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=BnC7mjhvmNU&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=21" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">18</td><td class="content-cell">TA nâng cao P2 | Phân tích đa khung thời gian 1.2 | Thực hành Trade</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=la9_TymCvj0&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=15" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">19</td><td class="content-cell">TA nâng cao P3 | Elliott nâng cao | Đặc điểm và chiến thuật trade</td><td><a class="library-detail-link" href="https://www.youtube.com/watch?v=z2Gjv8OerK0&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=5" target="_blank" rel="noopener">Chi tiết</a></td></tr>
+                        <tr>
+                            <td class="stt-cell">1</td>
+                            <td class="content-cell">TA1: Hướng dẫn đọc đồ thị nến Candelstick</td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=kSTFPbaopgc&amp;list=LLt0u" target="_blank"
+                                    rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">2</td>
+                            <td class="content-cell">TA2: 10 mẫu nến cơ bản sử dụng trong dự đoán giá tăng giảm</td>
+                            <td><a class="library-detail-link" href="https://www.youtube.com/watch?v=j_WM8iYm50w"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">3</td>
+                            <td class="content-cell">TA3: 11 mô hình nến đảo chiều P1</td>
+                            <td><a class="library-detail-link" href="https://www.youtube.com/watch?v=zsasLAmvJMI"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">4</td>
+                            <td class="content-cell">TA4: 11 mô hình nến đảo chiều P2</td>
+                            <td><a class="library-detail-link" href="https://www.youtube.com/watch?v=EEHw8qQx3H4"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">5</td>
+                            <td class="content-cell">TA5: Hướng dẫn sử dụng BB (BollingerBand) trong PTKT</td>
+                            <td><a class="library-detail-link" href="https://www.youtube.com/watch?v=9vRZKA_-A5I"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">6</td>
+                            <td class="content-cell">TA6: Hướng dẫn sử dụng MA trong phân tích kỹ thuật (PTKT)</td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=xRWoicbS0vI&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=11"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">7</td>
+                            <td class="content-cell">TA7: Sử dụng đường trung bình EMA làm mức hỗ trợ và kháng cự</td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=FrvIetAUZaY&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=13"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">8</td>
+                            <td class="content-cell">TA8: Hướng dẫn sử dụng RSI trong xu hướng giá</td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=DV09GlX9100&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=6"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">9</td>
+                            <td class="content-cell">TA9: Phương pháp DCA trung bình giá</td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=Z2Uw0HpHYaQ&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=28"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">10</td>
+                            <td class="content-cell">TA10: Hướng dẫn sử dụng MACD</td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=YrOkTkgi1Zo&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=14"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">11</td>
+                            <td class="content-cell">TA11: Hướng dẫn sử dụng Finbonaci</td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=WB3XirugOXc&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=17"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">12</td>
+                            <td class="content-cell">TA12: Hướng dẫn sử dụng Mây Ichimoku</td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=C6icpoSDaL8&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=19"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">13</td>
+                            <td class="content-cell">TA13: Lý thuyết Supply Demand | Cách vẽ kháng cự hỗ trợ và
+                                Trendline</td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=Bd7z5BCCICs&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=7"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">14</td>
+                            <td class="content-cell">TA14: Mô hình giá Vai - Đầu - Vai thuận và ngược</td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=tuflpQHeTLk&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=16"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">15</td>
+                            <td class="content-cell">TA15: Mô hình giá 3 đỉnh 3 đáy và 2 đỉnh 2 đáy</td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=P3cWP9zg0Ww&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=10"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">16</td>
+                            <td class="content-cell">TA16: Điểm Break-out là gì? Phân biệt điểm phá ngưỡng thật giả?
+                            </td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=vQwS1mixc6A&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=18"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">17</td>
+                            <td class="content-cell">TA nâng cao P1 | Phân tích đa khung thời gian 1.1 | Trader phải
+                                biết</td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=BnC7mjhvmNU&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=21"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">18</td>
+                            <td class="content-cell">TA nâng cao P2 | Phân tích đa khung thời gian 1.2 | Thực hành Trade
+                            </td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=la9_TymCvj0&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=15"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">19</td>
+                            <td class="content-cell">TA nâng cao P3 | Elliott nâng cao | Đặc điểm và chiến thuật trade
+                            </td>
+                            <td><a class="library-detail-link"
+                                    href="https://www.youtube.com/watch?v=z2Gjv8OerK0&amp;list=RDCMUCL9RiCSlIhu6f1JbK943CgQ&amp;index=5"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -6096,8 +6221,10 @@
     <div class="submenu-panel" id="panel-guide-fa">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Kiến Thức Phân Tích Cơ Bản (FA)</h2>
-            <p>Tổng hợp 4 bài viết chuyên sâu hướng dẫn phân tích báo cáo tài chính, chiến lược nắm giữ cổ phiếu, định giá dòng tiền.</p>
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Kiến Thức Phân Tích Cơ Bản (FA)
+            </h2>
+            <p>Tổng hợp 4 bài viết chuyên sâu hướng dẫn phân tích báo cáo tài chính, chiến lược nắm giữ cổ phiếu, định
+                giá dòng tiền.</p>
         </div>
         <div class="function-shell">
             <div class="function-table-card">
@@ -6110,10 +6237,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td class="stt-cell">1</td><td class="content-cell">Tìm hiểu cơ hội đầu tư khi đọc Báo cáo tài chính</td><td><a class="library-detail-link" href="https://chienthangthitruong.com/tim-kiem-co-hoi-dau-tu-khi-doc-bao-cao-tai-chinh/" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">2</td><td class="content-cell">Chiến lược đầu tư nắm giữ cổ phiếu tốt</td><td><a class="library-detail-link" href="https://chienthangthitruong.com/chien-luoc-dau-tu-nam-giu-co-phieu-tot/" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">3</td><td class="content-cell">Phương pháp chiết khấu dòng tiền</td><td><a class="library-detail-link" href="https://chienthangthitruong.com/phuong-phap-chiet-khau-dong-tien/" target="_blank" rel="noopener">Chi tiết</a></td></tr>
-                        <tr><td class="stt-cell">4</td><td class="content-cell">Phương pháp phân tích dòng tiền đơn giản</td><td><a class="library-detail-link" href="https://chienthangthitruong.com/phuong-phap-phan-tich-dong-tien-don-gian/" target="_blank" rel="noopener">Chi tiết</a></td></tr>
+                        <tr>
+                            <td class="stt-cell">1</td>
+                            <td class="content-cell">Tìm hiểu cơ hội đầu tư khi đọc Báo cáo tài chính</td>
+                            <td><a class="library-detail-link"
+                                    href="https://chienthangthitruong.com/tim-kiem-co-hoi-dau-tu-khi-doc-bao-cao-tai-chinh/"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">2</td>
+                            <td class="content-cell">Chiến lược đầu tư nắm giữ cổ phiếu tốt</td>
+                            <td><a class="library-detail-link"
+                                    href="https://chienthangthitruong.com/chien-luoc-dau-tu-nam-giu-co-phieu-tot/"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">3</td>
+                            <td class="content-cell">Phương pháp chiết khấu dòng tiền</td>
+                            <td><a class="library-detail-link"
+                                    href="https://chienthangthitruong.com/phuong-phap-chiet-khau-dong-tien/"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">4</td>
+                            <td class="content-cell">Phương pháp phân tích dòng tiền đơn giản</td>
+                            <td><a class="library-detail-link"
+                                    href="https://chienthangthitruong.com/phuong-phap-phan-tich-dong-tien-don-gian/"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -7216,6 +7367,10 @@
 
         function syncPinnedSubmenuOffset() {
             const pinnedSubmenu = document.querySelector('.dropdown-content.pinned');
+            const hasPinned = !!pinnedSubmenu;
+            if (document.body) document.body.classList.toggle('has-pinned-menu', hasPinned);
+            document.documentElement.classList.toggle('has-pinned-menu', hasPinned);
+
             const submenuHeight = pinnedSubmenu
                 ? Math.ceil(pinnedSubmenu.getBoundingClientRect().height)
                 : 0;
@@ -7292,12 +7447,23 @@
             if (clickedLink) clickedLink.classList.add('active-submenu');
 
             // Keep the parent submenu pinned when opening a panel from a submenu item.
-            const parentDropdownContent = clickedLink ? clickedLink.closest('.dropdown-content') : null;
+            let linkEl = clickedLink;
+            if (!linkEl && panelId) {
+                linkEl = document.querySelector(`.dropdown-content a[data-panel="${panelId}"]`);
+            }
+            const parentDropdownContent = linkEl ? linkEl.closest('.dropdown-content') : null;
             if (parentDropdownContent) {
                 document.querySelectorAll('.dropdown-content.pinned').forEach((d) => {
                     if (d !== parentDropdownContent) d.classList.remove('pinned');
                 });
                 parentDropdownContent.classList.add('pinned');
+                const parentNav = parentDropdownContent.closest('.nav-item.dropdown');
+                if (parentNav && parentNav.id) {
+                    sessionStorage.setItem('pinnedDropdown', parentNav.id);
+                }
+            } else {
+                document.querySelectorAll('.dropdown-content.pinned').forEach((d) => d.classList.remove('pinned'));
+                sessionStorage.setItem('pinnedDropdown', 'closed');
             }
             syncPinnedSubmenuOffset();
             window.requestAnimationFrame(() => {
@@ -9569,6 +9735,7 @@
             }
         };
 
+        let hashDebounceTimer = null;
         function openPanelFromHash() {
             const panelId = window.location.hash.replace('#', '');
             const allowedPanels = [
@@ -9593,9 +9760,10 @@
             if (!allowedPanels.includes(panelId)) return;
 
             const panelLink = document.querySelector(`[data-panel="${panelId}"]`);
-            if (panelLink) {
-                setTimeout(() => openPanel(panelId, panelLink), 80);
-            }
+            if (hashDebounceTimer) clearTimeout(hashDebounceTimer);
+            hashDebounceTimer = setTimeout(() => {
+                openPanel(panelId, panelLink);
+            }, 10);
         }
 
         window.addEventListener('DOMContentLoaded', openPanelFromHash);
@@ -9900,9 +10068,11 @@
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li class="highlight diamond-feature-callout"><span class="diamond-feature-callout-text">Full Đặc
+                        <li class="highlight diamond-feature-callout"><span class="diamond-feature-callout-text">Full
+                                Đặc
                                 quyền PRO (miễn phí)</span></li>
-                        <li class="highlight diamond-feature-callout"><span class="diamond-feature-callout-text">Full Đặc
+                        <li class="highlight diamond-feature-callout"><span class="diamond-feature-callout-text">Full
+                                Đặc
                                 quyền V.I.P (miễn phí)</span></li>
                         <li class="highlight diamond-feature-callout"><span class="diamond-feature-callout-text">Chuyên
                                 gia Cao cấp Công ty Chứng khoán</span></li>

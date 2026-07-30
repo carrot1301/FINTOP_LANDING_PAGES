@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,36 +11,126 @@
     <link rel="stylesheet" href="../assets/css/demo-pages.css">
     <link rel="stylesheet" href="../assets/css/modals.css">
     <link rel="stylesheet" href="../assets/css/auth.css">
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Be Vietnam Pro', sans-serif; background: #07070D; color: #e2e8f0; min-height: 100vh; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        .page-wrapper { min-height: 100vh; padding-top: 80px; }
-        .page-container { max-width: 95%; margin: 0 auto; padding: 0 2% 4rem; }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: #07070D;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page-container {
+            max-width: 95%;
+            margin: 0 auto;
+            padding: 0 2% 4rem;
+        }
 
         /* Header */
         .tv-header {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 1rem 5%; height: 72px;
-            background: rgba(10,10,15,0.85); backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+            height: 72px;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .tv-left { display: flex; align-items: center; gap: 2rem; }
-        .neon-logo { height: 70px; width: auto; filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 15px rgba(168,85,247,0.8)); transition: all 0.3s ease; }
-        .neon-logo:hover { filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 25px rgba(192,132,252,1)); transform: scale(1.05); }
-        .tv-nav { display: flex; gap: 2rem; align-items: center; list-style: none; }
-        .tv-nav a { font-size: 0.9rem; font-weight: 600; color: #fff; opacity: 0.8; transition: opacity 0.2s; text-decoration: none; white-space: nowrap; }
-        .tv-nav a:hover { opacity: 1; text-shadow: 0 0 8px rgba(255,255,255,0.5); }
-        .tv-right { display: flex; align-items: center; gap: 1rem; }
-        .btn-tv-blue { background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; border: none; border-radius: 8px; padding: 8px 20px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+
+        .tv-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .neon-logo {
+            height: 70px;
+            width: auto;
+            filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 15px rgba(168, 85, 247, 0.8));
+            transition: all 0.3s ease;
+        }
+
+        .neon-logo:hover {
+            filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 25px rgba(192, 132, 252, 1));
+            transform: scale(1.05);
+        }
+
+        .tv-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .tv-nav a {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .tv-nav a:hover {
+            opacity: 1;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        .tv-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-tv-blue {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
 
         /* Breadcrumb */
-        .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 2rem; font-size: 0.85rem; color: #475569; }
-        .breadcrumb a { color: #94A3B8; text-decoration: none; }
-        .breadcrumb a:hover { color: #c084fc; }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 2rem;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .breadcrumb a {
+            color: #94A3B8;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: #c084fc;
+        }
 
         /* Article Wrapper */
         .article-card {
@@ -99,7 +190,8 @@
             flex-grow: 1;
             text-align: center;
             margin: 0;
-            padding-right: 140px; /* offset the logo to center it visually */
+            padding-right: 140px;
+            /* offset the logo to center it visually */
         }
 
         /* Red Publication Date Bar */
@@ -162,30 +254,39 @@
                 text-align: center;
                 gap: 1.2rem;
             }
+
             .article-banner-logo-box {
                 width: 110px;
                 height: 110px;
             }
+
             .article-banner-title {
                 font-size: 1.45rem;
                 padding-right: 0;
             }
+
             .article-date-bar {
                 padding: 10px 1.5rem;
                 font-size: 0.85rem;
                 text-align: center;
             }
+
             .article-body-wrapper {
                 padding: 2rem 1.5rem;
             }
+
             .back-button-container {
                 top: 15px;
                 right: 15px;
             }
+
             .back-button-container i {
                 font-size: 20px;
             }
-            .tv-nav { display: none; }
+
+            .tv-nav {
+                display: none;
+            }
         }
 
         .article-content {
@@ -202,7 +303,7 @@
             color: #000000;
         }
 
-        .article-content ul, 
+        .article-content ul,
         .article-content ol {
             padding-left: 1.75rem;
             margin-bottom: 1.5rem;
@@ -286,20 +387,25 @@
             background: #ffffff;
             border: 1px solid #dddddd;
         }
-        .article-content th, .article-content td {
+
+        .article-content th,
+        .article-content td {
             border: 1px solid #dddddd;
             padding: 12px 15px;
             text-align: left;
             font-size: 0.92rem;
         }
+
         .article-content th {
             background-color: #f2f2f2;
             color: #333333;
             font-weight: bold;
         }
+
         .article-content td {
             color: #264451;
         }
+
         .article-content tr:nth-child(even) {
             background-color: #f9f9f9;
         }
@@ -311,6 +417,7 @@
             gap: 10px;
             flex-wrap: wrap;
         }
+
         .tag-pill {
             background: #f1f5f9;
             border: 1px solid #e2e8f0;
@@ -322,6 +429,7 @@
             text-decoration: none;
             transition: all 0.2s;
         }
+
         .tag-pill:hover {
             background: rgba(124, 58, 237, 0.08);
             border-color: rgba(124, 58, 237, 0.3);
@@ -331,8 +439,11 @@
         /* Lock Screen Overlay */
         .article-lock-screen {
             position: absolute;
-            bottom: 0; left: 0; right: 0; top: 120px;
-            background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.96) 15%, #ffffff 40%);
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 120px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.96) 15%, #ffffff 40%);
             backdrop-filter: blur(4px);
             z-index: 10;
             display: flex;
@@ -344,18 +455,27 @@
             border-bottom-left-radius: 16px;
             border-bottom-right-radius: 16px;
         }
+
         .lock-card {
             max-width: 440px;
             background: #ffffff;
             border: 1px solid rgba(124, 58, 237, 0.3);
             border-radius: 16px;
             padding: 2.5rem;
-            box-shadow: 0 15px 45px rgba(0,0,0,0.1), 0 0 30px rgba(124, 58, 237, 0.05);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1), 0 0 30px rgba(124, 58, 237, 0.05);
             animation: float 4s ease-in-out infinite;
         }
+
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
         }
 
         .lock-icon {
@@ -381,36 +501,84 @@
 
         /* Loading Skeleton */
         .skeleton {
-            background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 37%, rgba(255,255,255,0.03) 63%);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.08) 37%, rgba(255, 255, 255, 0.03) 63%);
             background-size: 400% 100%;
             animation: shimmer 1.4s ease infinite;
             border-radius: 8px;
         }
+
         @keyframes shimmer {
-            0% { background-position: 100% 50%; }
-            100% { background-position: 0 50%; }
+            0% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0 50%;
+            }
         }
 
-        .sk-badge { width: 80px; height: 24px; margin-bottom: 1rem; }
-        .sk-title { width: 100%; height: 36px; margin-bottom: 1rem; }
-        .sk-title-2 { width: 70%; height: 36px; margin-bottom: 1.5rem; }
-        .sk-meta { width: 250px; height: 20px; margin-bottom: 2rem; }
-        .sk-line { width: 100%; height: 16px; margin-bottom: 0.8rem; }
-        .sk-line-short { width: 40%; height: 16px; margin-bottom: 2rem; }
+        .sk-badge {
+            width: 80px;
+            height: 24px;
+            margin-bottom: 1rem;
+        }
+
+        .sk-title {
+            width: 100%;
+            height: 36px;
+            margin-bottom: 1rem;
+        }
+
+        .sk-title-2 {
+            width: 70%;
+            height: 36px;
+            margin-bottom: 1.5rem;
+        }
+
+        .sk-meta {
+            width: 250px;
+            height: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .sk-line {
+            width: 100%;
+            height: 16px;
+            margin-bottom: 0.8rem;
+        }
+
+        .sk-line-short {
+            width: 40%;
+            height: 16px;
+            margin-bottom: 2rem;
+        }
 
         /* Page footer */
         .page-footer {
-            background: #07070D; border-top: 1px solid rgba(255,255,255,0.08);
-            padding: 2rem 5%; text-align: center; color: #475569; font-size: 0.8rem;
+            background: #07070D;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2rem 5%;
+            text-align: center;
+            color: #475569;
+            font-size: 0.8rem;
         }
 
         @media (max-width: 768px) {
-            .page-container { padding: 0 3% 3rem; }
-            .article-card { padding: 1.5rem; }
-            .tv-nav { display: none; }
+            .page-container {
+                padding: 0 3% 3rem;
+            }
+
+            .article-card {
+                padding: 1.5rem;
+            }
+
+            .tv-nav {
+                display: none;
+            }
         }
     </style>
 </head>
+
 <body>
     <header class="tv-header" id="mainHeader">
         <div class="tv-left">
@@ -438,10 +606,12 @@
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-stock-data">
-                <a href="../index.html#panel-stock-quant">Dữ liệu <span style="font-size: 0.7em;">▼</span></a>
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-stock-data')">Dữ liệu <span
+                        style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
                     <a href="../index.html#panel-stock-quant">Tổng quan</a>
-                    <a href="../index.html#panel-stock-pro">PRO Data <span style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="../index.html#panel-stock-pro">PRO Data <span
+                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="../index.html#panel-stock-sector">Định lượng</a>
                     <a href="../index.html#panel-stock-reports">Báo cáo</a>
                 </div>
@@ -474,16 +644,22 @@
             <!-- Notification Bell Icon (separate from user dropdown) -->
             <div class="notif-bell-container" id="notifBellContainer" style="display: none;">
                 <button class="notif-bell-btn" id="notifBellBtn" type="button" aria-label="Thông báo">
-                    <svg class="notif-bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <svg class="notif-bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
                     <span class="notif-bell-badge" id="notifBellBadge"></span>
                 </button>
                 <div class="notif-bell-dropdown" id="notifBellDropdown">
                     <div class="notif-bell-dropdown-header">
                         <span>🔔 Thông báo</span>
-                        <span class="fintop-notif-unread-indicator" style="font-size: 0.7rem; background: #ef4444; color: white; padding: 1px 6px; border-radius: 99px; display: none;"></span>
+                        <span class="fintop-notif-unread-indicator"
+                            style="font-size: 0.7rem; background: #ef4444; color: white; padding: 1px 6px; border-radius: 99px; display: none;"></span>
                     </div>
                     <div class="fintop-notifications-list" style="display: flex; flex-direction: column; gap: 2px;">
-                        <div style="font-size: 0.8rem; color: #64748b; text-align: center; padding: 24px 0;">Không có thông báo mới</div>
+                        <div style="font-size: 0.8rem; color: #64748b; text-align: center; padding: 24px 0;">Không có
+                            thông báo mới</div>
                     </div>
                 </div>
             </div>
@@ -495,7 +671,8 @@
                     <a href="../index.html" class="user-dropdown-item">Có gì mới</a>
                 </div>
             </div>
-            <button class="btn-tv-blue" id="fintopStartBtn" onclick="location.href='../index.html#panel-hoivien'">Bắt đầu</button>
+            <button class="btn-tv-blue" id="fintopStartBtn" onclick="location.href='../index.html#panel-hoivien'">Bắt
+                đầu</button>
         </div>
     </header>
 
@@ -536,7 +713,8 @@
                     </div>
 
                     <!-- Red Publication Date Bar -->
-                    <div class="article-date-bar" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 3rem; flex-wrap: wrap; gap: 10px;">
+                    <div class="article-date-bar"
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 12px 3rem; flex-wrap: wrap; gap: 10px;">
                         <span><i class="fa-regular fa-eye"></i> Lượt xem: <span id="art-views">0</span></span>
                         <span>Ngày xuất bản: <span id="art-date">...</span></span>
                     </div>
@@ -563,9 +741,13 @@
                                 <div class="lock-icon">🔒</div>
                                 <div class="lock-title">Bài Viết Phân Tích Premium</div>
                                 <div class="lock-desc">
-                                    Bài viết chiến lược này dành riêng cho hội viên gói <strong id="art-required-tier" style="color: #c084fc;">GOLD</strong> trở lên. Hãy nâng cấp tài khoản của bạn để xem đầy đủ nhận định chuyên sâu và hành động kỹ thuật chi tiết từ Chuyên gia VPS.
+                                    Bài viết chiến lược này dành riêng cho hội viên gói <strong id="art-required-tier"
+                                        style="color: #c084fc;">GOLD</strong> trở lên. Hãy nâng cấp tài khoản của bạn để
+                                    xem đầy đủ nhận định chuyên sâu và hành động kỹ thuật chi tiết từ Chuyên gia VPS.
                                 </div>
-                                <button class="btn-tv-blue" style="width: 100%; padding: 12px;" onclick="location.href='../index.html#panel-hoivien'">Nâng cấp Hội viên ngay</button>
+                                <button class="btn-tv-blue" style="width: 100%; padding: 12px;"
+                                    onclick="location.href='../index.html#panel-hoivien'">Nâng cấp Hội viên
+                                    ngay</button>
                             </div>
                         </div>
                     </div>
@@ -575,7 +757,9 @@
         </div>
     </div>
 
-    <footer class="page-footer"><p>&copy; 2026 FinTop DATA. All rights reserved.</p></footer>
+    <footer class="page-footer">
+        <p>&copy; 2026 FinTop DATA. All rights reserved.</p>
+    </footer>
 
     <!-- Bootstrap Infrastructure -->
     <script src="../assets/js/modals.js" defer></script>
@@ -583,177 +767,177 @@
     <script src="../assets/js/demo-nav.js"></script>
     <script type="module" src="../assets/js/core/index.js"></script>
     <script>
-    (function(){
-        function getRelativeTimeString(date) {
-            var now = new Date();
-            var diffMs = now - date;
-            var diffMins = Math.floor(diffMs / 60000);
-            var diffHours = Math.floor(diffMins / 60);
-            var diffDays = Math.floor(diffHours / 24);
-            var diffMonths = Math.floor(diffDays / 30);
-            var diffYears = Math.floor(diffDays / 365);
+        (function () {
+            function getRelativeTimeString(date) {
+                var now = new Date();
+                var diffMs = now - date;
+                var diffMins = Math.floor(diffMs / 60000);
+                var diffHours = Math.floor(diffMins / 60);
+                var diffDays = Math.floor(diffHours / 24);
+                var diffMonths = Math.floor(diffDays / 30);
+                var diffYears = Math.floor(diffDays / 365);
 
-            if (diffMins < 1) return 'vừa xong';
-            if (diffMins < 60) return diffMins + ' phút trước';
-            if (diffHours < 24) return diffHours + ' giờ trước';
-            if (diffDays < 30) return diffDays + ' ngày trước';
-            if (diffMonths < 12) return diffMonths + ' tháng trước';
-            return diffYears + ' năm trước';
-        }
-
-        function formatFullDate(date) {
-            var hh = String(date.getHours()).padStart(2, '0');
-            var mm = String(date.getMinutes()).padStart(2, '0');
-            var dd = String(date.getDate()).padStart(2, '0');
-            var mmonth = String(date.getMonth() + 1).padStart(2, '0');
-            var yyyy = date.getFullYear();
-            return hh + ':' + mm + ' ' + dd + '/' + mmonth + '/' + yyyy;
-        }
-
-        function formatSimpleDate(date) {
-            var dd = String(date.getDate()).padStart(2, '0');
-            var mmonth = String(date.getMonth() + 1).padStart(2, '0');
-            var yyyy = date.getFullYear();
-            return dd + '/' + mmonth + '/' + yyyy;
-        }
-
-        function checkInfra() {
-            if (window.FintopInfra) {
-                initReader(window.FintopInfra);
-            } else {
-                setTimeout(checkInfra, 50);
+                if (diffMins < 1) return 'vừa xong';
+                if (diffMins < 60) return diffMins + ' phút trước';
+                if (diffHours < 24) return diffHours + ' giờ trước';
+                if (diffDays < 30) return diffDays + ' ngày trước';
+                if (diffMonths < 12) return diffMonths + ' tháng trước';
+                return diffYears + ' năm trước';
             }
-        }
 
-        function initReader(infra) {
-            // Re-fetch article on auth state change
-            infra.AppState.on(infra.AppState.EVENTS.AUTH_CHANGED, function() {
-                loadArticle(infra);
-            });
+            function formatFullDate(date) {
+                var hh = String(date.getHours()).padStart(2, '0');
+                var mm = String(date.getMinutes()).padStart(2, '0');
+                var dd = String(date.getDate()).padStart(2, '0');
+                var mmonth = String(date.getMonth() + 1).padStart(2, '0');
+                var yyyy = date.getFullYear();
+                return hh + ':' + mm + ' ' + dd + '/' + mmonth + '/' + yyyy;
+            }
 
-            loadArticle(infra);
-        }
+            function formatSimpleDate(date) {
+                var dd = String(date.getDate()).padStart(2, '0');
+                var mmonth = String(date.getMonth() + 1).padStart(2, '0');
+                var yyyy = date.getFullYear();
+                return dd + '/' + mmonth + '/' + yyyy;
+            }
 
-        async function loadArticle(infra) {
-            var urlParams = new URLSearchParams(window.location.search);
-            var slug = urlParams.get('slug');
-            if (!slug) {
-                var pathParts = window.location.pathname.split('/');
-                var lastPart = pathParts[pathParts.length - 1];
-                if (lastPart && lastPart !== 'index.html' && lastPart.endsWith('.html')) {
-                    slug = lastPart.substring(0, lastPart.length - 5);
-                } else if (lastPart && lastPart !== 'index.html' && lastPart !== '') {
-                    slug = lastPart;
+            function checkInfra() {
+                if (window.FintopInfra) {
+                    initReader(window.FintopInfra);
+                } else {
+                    setTimeout(checkInfra, 50);
                 }
             }
 
-            if (!slug) {
-                document.getElementById('article-loader').innerHTML = `
+            function initReader(infra) {
+                // Re-fetch article on auth state change
+                infra.AppState.on(infra.AppState.EVENTS.AUTH_CHANGED, function () {
+                    loadArticle(infra);
+                });
+
+                loadArticle(infra);
+            }
+
+            async function loadArticle(infra) {
+                var urlParams = new URLSearchParams(window.location.search);
+                var slug = urlParams.get('slug');
+                if (!slug) {
+                    var pathParts = window.location.pathname.split('/');
+                    var lastPart = pathParts[pathParts.length - 1];
+                    if (lastPart && lastPart !== 'index.html' && lastPart.endsWith('.html')) {
+                        slug = lastPart.substring(0, lastPart.length - 5);
+                    } else if (lastPart && lastPart !== 'index.html' && lastPart !== '') {
+                        slug = lastPart;
+                    }
+                }
+
+                if (!slug) {
+                    document.getElementById('article-loader').innerHTML = `
                     <div class="article-card" style="text-align: center; padding: 3rem; color: #f87171;">
                         <h2>⚠️ Không tìm thấy bài viết</h2>
                         <p style="margin-top: 10px; color: #94a3b8;">Đường dẫn bài viết không hợp lệ hoặc thiếu tham số slug.</p>
                         <button class="btn-tv-blue" style="margin-top: 20px;" onclick="location.href='../index.html'">Quay lại Trang chủ</button>
                     </div>`;
-                document.getElementById('breadcrumb-title').textContent = 'Lỗi';
-                return;
-            }
+                    document.getElementById('breadcrumb-title').textContent = 'Lỗi';
+                    return;
+                }
 
-            // Show loader, hide content
-            document.getElementById('article-loader').style.display = 'block';
-            document.getElementById('article-container').style.display = 'none';
-            document.getElementById('art-lock-overlay').style.display = 'none';
+                // Show loader, hide content
+                document.getElementById('article-loader').style.display = 'block';
+                document.getElementById('article-container').style.display = 'none';
+                document.getElementById('art-lock-overlay').style.display = 'none';
 
-            try {
-                // ApiClient automatically handles access token injection
-                var response = await infra.ApiClient.get('/blogs/' + encodeURIComponent(slug));
-                var article = response?.data || response;
-                
-                if (!article) throw new Error('Không nhận được dữ liệu bài viết.');
+                try {
+                    // ApiClient automatically handles access token injection
+                    var response = await infra.ApiClient.get('/blogs/' + encodeURIComponent(slug));
+                    var article = response?.data || response;
 
-                // Hydrate details
-                document.getElementById('breadcrumb-title').textContent = article.title;
-                document.getElementById('art-title').textContent = article.title;
-                
-                var pubDate = article.publishedAt ? new Date(article.publishedAt) : new Date();
-                
-                var dateEl = document.getElementById('art-date');
-                if (dateEl) dateEl.textContent = formatSimpleDate(pubDate);
-                
-                var relTimeEl = document.getElementById('art-relative-time');
-                if (relTimeEl) relTimeEl.textContent = getRelativeTimeString(pubDate);
+                    if (!article) throw new Error('Không nhận được dữ liệu bài viết.');
 
-                var featuredImgEl = document.getElementById('art-featured-image');
-                if (featuredImgEl) {
-                    // Extract featured image from article content
-                    var featuredImgSrc = '';
-                    if (article.content) {
-                        var tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = article.content;
-                        var firstImg = tempDiv.querySelector('img');
-                        if (firstImg) {
-                            featuredImgSrc = firstImg.src;
+                    // Hydrate details
+                    document.getElementById('breadcrumb-title').textContent = article.title;
+                    document.getElementById('art-title').textContent = article.title;
+
+                    var pubDate = article.publishedAt ? new Date(article.publishedAt) : new Date();
+
+                    var dateEl = document.getElementById('art-date');
+                    if (dateEl) dateEl.textContent = formatSimpleDate(pubDate);
+
+                    var relTimeEl = document.getElementById('art-relative-time');
+                    if (relTimeEl) relTimeEl.textContent = getRelativeTimeString(pubDate);
+
+                    var featuredImgEl = document.getElementById('art-featured-image');
+                    if (featuredImgEl) {
+                        // Extract featured image from article content
+                        var featuredImgSrc = '';
+                        if (article.content) {
+                            var tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = article.content;
+                            var firstImg = tempDiv.querySelector('img');
+                            if (firstImg) {
+                                featuredImgSrc = firstImg.src;
+                            }
                         }
+                        if (!featuredImgSrc) {
+                            featuredImgSrc = '../assets/images/fintop-logo.png';
+                        }
+                        featuredImgEl.src = featuredImgSrc;
                     }
-                    if (!featuredImgSrc) {
-                        featuredImgSrc = '../assets/images/fintop-logo.png';
+
+                    var viewsEl = document.getElementById('art-views');
+                    if (viewsEl) {
+                        var viewCount = article.views !== undefined ? article.views : 0;
+                        viewsEl.textContent = viewCount;
                     }
-                    featuredImgEl.src = featuredImgSrc;
-                }
 
-                var viewsEl = document.getElementById('art-views');
-                if (viewsEl) {
-                    var viewCount = article.views !== undefined ? article.views : 0;
-                    viewsEl.textContent = viewCount;
-                }
-
-                if (article.locked) {
-                    // obfuscate / show lock screen
-                    document.getElementById('art-content').innerHTML = `
+                    if (article.locked) {
+                        // obfuscate / show lock screen
+                        document.getElementById('art-content').innerHTML = `
                         <p style="filter: blur(4px); user-select: none; opacity: 0.5;">
                             Phân tích chi tiết xu hướng thị trường đang diễn biến cực kỳ phức tạp. Các hoạt động dòng tiền ngoại đang gia tăng mạnh mẽ ở vùng hỗ trợ kỹ thuật trọng yếu của VN-INDEX.
                         </p>
                         <p style="filter: blur(5px); user-select: none; opacity: 0.3;">
                             Chi tiết hành động giải ngân, danh mục và điểm chốt lời kỳ vọng của các mã cổ phiếu leader thép, chứng khoán và bất động sản khu công nghiệp được chuyên gia đề xuất.
                         </p>`;
-                    document.getElementById('art-required-tier').textContent = article.minTierAccess || 'GOLD';
-                    document.getElementById('art-lock-overlay').style.display = 'flex';
-                } else {
-                    document.getElementById('art-content').innerHTML = article.content || 'Nội dung trống.';
-                    document.getElementById('art-lock-overlay').style.display = 'none';
-                }
+                        document.getElementById('art-required-tier').textContent = article.minTierAccess || 'GOLD';
+                        document.getElementById('art-lock-overlay').style.display = 'flex';
+                    } else {
+                        document.getElementById('art-content').innerHTML = article.content || 'Nội dung trống.';
+                        document.getElementById('art-lock-overlay').style.display = 'none';
+                    }
 
-                // Tags
-                var tagsContainer = document.getElementById('art-tags');
-                if (article.tags && article.tags.length > 0) {
-                    tagsContainer.innerHTML = article.tags.map(function(t) {
-                        return '<a href="#" class="tag-pill">#' + t + '</a>';
-                    }).join('');
-                    tagsContainer.style.display = 'flex';
-                } else {
-                    tagsContainer.style.display = 'none';
-                }
+                    // Tags
+                    var tagsContainer = document.getElementById('art-tags');
+                    if (article.tags && article.tags.length > 0) {
+                        tagsContainer.innerHTML = article.tags.map(function (t) {
+                            return '<a href="#" class="tag-pill">#' + t + '</a>';
+                        }).join('');
+                        tagsContainer.style.display = 'flex';
+                    } else {
+                        tagsContainer.style.display = 'none';
+                    }
 
-                // Show container
-                document.getElementById('article-loader').style.display = 'none';
-                document.getElementById('article-container').style.display = 'block';
+                    // Show container
+                    document.getElementById('article-loader').style.display = 'none';
+                    document.getElementById('article-container').style.display = 'block';
 
-            } catch (err) {
-                console.error('[CMS Reader] Failed to load strategy article:', err);
-                var is404 = err.status === 404 || (err.message && (err.message.includes('404') || err.message.toLowerCase().includes('not found') || err.message.toLowerCase().includes('không tìm thấy')));
-                var errorTitle = is404 ? '⚠️ Không tìm thấy bài viết' : '⚠️ Không thể tải bài viết';
-                var errorDesc = is404 ? 'Bài viết không tồn tại hoặc đã bị xóa.' : (err.message || 'Lỗi kết nối máy chủ.');
-                document.getElementById('article-loader').innerHTML = `
+                } catch (err) {
+                    console.error('[CMS Reader] Failed to load strategy article:', err);
+                    var is404 = err.status === 404 || (err.message && (err.message.includes('404') || err.message.toLowerCase().includes('not found') || err.message.toLowerCase().includes('không tìm thấy')));
+                    var errorTitle = is404 ? '⚠️ Không tìm thấy bài viết' : '⚠️ Không thể tải bài viết';
+                    var errorDesc = is404 ? 'Bài viết không tồn tại hoặc đã bị xóa.' : (err.message || 'Lỗi kết nối máy chủ.');
+                    document.getElementById('article-loader').innerHTML = `
                     <div class="article-card" style="text-align: center; padding: 3rem; color: #f87171;">
                         <h2>${errorTitle}</h2>
                         <p style="margin-top: 10px; color: #94a3b8;">${errorDesc}</p>
                         <button class="btn-tv-blue" style="margin-top: 20px;" onclick="location.href='../index.html'">Quay lại Trang chủ</button>
                     </div>`;
-                document.getElementById('breadcrumb-title').textContent = 'Lỗi';
+                    document.getElementById('breadcrumb-title').textContent = 'Lỗi';
+                }
             }
-        }
 
-        checkInfra();
-    })();
+            checkInfra();
+        })();
 
         // scroll header change
         window.addEventListener('scroll', () => {
@@ -769,4 +953,5 @@
 
     </script>
 </body>
+
 </html>

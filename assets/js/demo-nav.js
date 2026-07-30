@@ -7,23 +7,22 @@
     // Mark document so CSS can differentiate subpages from the main SPA
     document.documentElement.classList.add('subpage-nav');
 
-    // Inject CSS to suppress hover-open and enable smooth content push
+    // Inject CSS to suppress hover-triggered dropdown on subpages — only click (pinned) works
     var style = document.createElement('style');
     style.textContent =
-        /* Suppress hover-triggered dropdown on subpages — only click (pinned) works */
         '.subpage-nav .dropdown:hover > .dropdown-content:not(.pinned) {' +
         '  visibility: hidden !important;' +
         '  opacity: 0 !important;' +
+        '  pointer-events: none !important;' +
         '  transform: translateY(-8px) !important;' +
         '}' +
-        /* Smooth transition for page content push-down */
-        '.page-wrapper, .demo-main {' +
-        '  transition: padding-top 0.35s cubic-bezier(0.16, 1, 0.3, 1);' +
+        '.page-wrapper, .demo-main, .main-container {' +
+        '  transition: padding-top 0.15s cubic-bezier(0.16, 1, 0.3, 1);' +
         '}';
     document.head.appendChild(style);
 
     function getMainContent() {
-        return document.querySelector('.page-wrapper') || document.querySelector('.demo-main');
+        return document.querySelector('.main-container') || document.querySelector('.page-wrapper') || document.querySelector('.demo-main');
     }
 
     function getBaseTopPadding() {
@@ -37,6 +36,10 @@
 
     function syncSubmenuOffset() {
         var pinned = document.querySelector('.dropdown-content.pinned');
+        var hasPinned = !!pinned;
+        if (document.body) document.body.classList.toggle('has-pinned-menu', hasPinned);
+        document.documentElement.classList.toggle('has-pinned-menu', hasPinned);
+
         var submenuH = pinned ? Math.ceil(pinned.getBoundingClientRect().height) : 0;
 
         var wrapper = getMainContent();
@@ -72,32 +75,37 @@
     window.toggleDropdownPin = toggleDropdownPin;
 
     function initNavState() {
-        var savedPinned = sessionStorage.getItem('pinnedDropdown');
+        // Priority 1: If subpage has a defined active link (active-page / active-submenu), enforce its parent dropdown
+        var activeLink = document.querySelector('.dropdown-content a.active-page') || document.querySelector('.dropdown-content a.active-submenu');
+        if (activeLink) {
+            var parentDropdown = activeLink.closest('.nav-item.dropdown');
+            if (parentDropdown && parentDropdown.id) {
+                var parentDc = parentDropdown.querySelector('.dropdown-content');
+                if (parentDc) {
+                    document.querySelectorAll('.dropdown-content.pinned').forEach(function (d) { d.classList.remove('pinned'); });
+                    parentDc.classList.add('pinned');
+                    sessionStorage.setItem('pinnedDropdown', parentDropdown.id);
+                    syncSubmenuOffset();
+                    return;
+                }
+            }
+        }
 
+        // Priority 2: Fall back to sessionStorage if user toggled a menu
+        var savedPinned = sessionStorage.getItem('pinnedDropdown');
         if (savedPinned === 'closed') {
-            // User explicitly closed the dropdown menu
+            document.querySelectorAll('.dropdown-content.pinned').forEach(function (d) { d.classList.remove('pinned'); });
             syncSubmenuOffset();
             return;
         }
 
         if (savedPinned) {
-            // Restore saved pinned dropdown
             var savedTarget = document.getElementById(savedPinned);
             if (savedTarget) {
                 var dc = savedTarget.querySelector('.dropdown-content');
-                if (dc) dc.classList.add('pinned');
-            }
-        } else {
-            // Default behavior: if page has an active subpage item in a dropdown, pin that parent dropdown
-            var activeLink = document.querySelector('.dropdown-content a.active-page');
-            if (activeLink) {
-                var parentDropdown = activeLink.closest('.nav-item.dropdown');
-                if (parentDropdown && parentDropdown.id) {
-                    var parentDc = parentDropdown.querySelector('.dropdown-content');
-                    if (parentDc) {
-                        parentDc.classList.add('pinned');
-                        sessionStorage.setItem('pinnedDropdown', parentDropdown.id);
-                    }
+                if (dc) {
+                    document.querySelectorAll('.dropdown-content.pinned').forEach(function (d) { d.classList.remove('pinned'); });
+                    dc.classList.add('pinned');
                 }
             }
         }
@@ -111,6 +119,5 @@
         initNavState();
     }
 
-    // Re-sync on window resize
     window.addEventListener('resize', syncSubmenuOffset);
 })();

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,15 @@
     <link rel="stylesheet" href="../../assets/css/variables.css">
     <link rel="stylesheet" href="../../assets/css/base.css">
     <link rel="stylesheet" href="../../assets/css/auth.css">
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
             background: #07070D;
@@ -18,14 +25,29 @@
             display: flex;
             flex-direction: column;
         }
+
         .tv-header {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 1rem 5%; height: 72px;
-            background: rgba(10,10,15,0.85); backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+            height: 72px;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .tv-left { display: flex; align-items: center; gap: 2rem; }
+
+        .tv-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
         .neon-logo {
             font-size: 1.5rem;
             font-weight: 900;
@@ -36,12 +58,30 @@
             background: linear-gradient(90deg, #c084fc, #6366f1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 8px rgba(192,132,252,0.6));
+            filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.6));
         }
-        .tv-nav { display: flex; gap: 2rem; align-items: center; list-style: none; }
-        .tv-nav a { font-size: 0.9rem; font-weight: 600; color: #fff; opacity: 0.8; transition: opacity 0.2s; text-decoration: none; }
-        .tv-nav a:hover { opacity: 1; text-shadow: 0 0 8px rgba(255,255,255,0.5); }
-        
+
+        .tv-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .tv-nav a {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            text-decoration: none;
+        }
+
+        .tv-nav a:hover {
+            opacity: 1;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
         .main-container {
             flex: 1;
             padding-top: 120px;
@@ -52,6 +92,7 @@
             padding-left: 5%;
             padding-right: 5%;
         }
+
         .placeholder-card {
             max-width: 600px;
             width: 100%;
@@ -61,8 +102,9 @@
             padding: 3rem 2rem;
             text-align: center;
             backdrop-filter: blur(12px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 30px rgba(168, 85, 247, 0.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 30px rgba(168, 85, 247, 0.05);
         }
+
         .glowing-icon {
             font-size: 4rem;
             margin-bottom: 1.5rem;
@@ -70,10 +112,21 @@
             filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
             animation: pulse 2s infinite ease-in-out;
         }
+
         @keyframes pulse {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6)); }
-            50% { transform: scale(1.08); filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.9)); }
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
+            }
+
+            50% {
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.9));
+            }
         }
+
         .status-badge {
             display: inline-block;
             background: rgba(168, 85, 247, 0.15);
@@ -87,19 +140,22 @@
             margin-bottom: 1.5rem;
             border: 1px solid rgba(168, 85, 247, 0.3);
         }
+
         .card-title {
             font-size: 1.8rem;
             font-weight: 800;
             color: #ffffff;
             margin-bottom: 1rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
+
         .card-desc {
             font-size: 1rem;
             line-height: 1.6;
             color: #94a3b8;
             margin-bottom: 2rem;
         }
+
         .btn-home {
             display: inline-block;
             background: linear-gradient(135deg, #7c3aed, #a855f7);
@@ -114,6 +170,7 @@
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
         }
+
         .btn-home:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
@@ -195,32 +252,41 @@
             font-weight: 800;
             cursor: pointer;
         }
-        
+
         .page-footer {
             background: #07070D;
-            border-top: 1px solid rgba(255,255,255,0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             padding: 2rem 5%;
             text-align: center;
             color: #475569;
             font-size: 0.8rem;
         }
+
         @media (max-width: 768px) {
-            .tv-nav { display: none; }
+            .tv-nav {
+                display: none;
+            }
         }
 
         /* ── Guide Popup Modal ── */
         .guide-overlay {
-            position: fixed; inset: 0; z-index: 9999;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
             display: none;
-            align-items: flex-start; justify-content: center;
+            align-items: flex-start;
+            justify-content: center;
             padding-top: max(32px, 4vh);
             padding-bottom: 24px;
-            background: rgba(0,0,0,0.72);
+            background: rgba(0, 0, 0, 0.72);
             backdrop-filter: blur(6px);
             opacity: 1;
             overflow-y: auto;
         }
-        .guide-overlay[hidden] { display: none; }
+
+        .guide-overlay[hidden] {
+            display: none;
+        }
 
         .guide-card {
             width: min(560px, calc(100vw - 32px));
@@ -229,7 +295,7 @@
             border-radius: 16px;
             border: 1px solid rgba(168, 85, 247, 0.35);
             background: rgba(12, 12, 22, 0.96);
-            box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 40px rgba(168, 85, 247, 0.08);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(168, 85, 247, 0.08);
             padding: 2.2rem 2rem 2rem;
             text-align: center;
         }
@@ -242,6 +308,7 @@
             letter-spacing: 1px;
             margin-bottom: 1.5rem;
         }
+
         .guide-card .guide-section {
             text-align: left;
             margin-bottom: 1.5rem;
@@ -249,14 +316,17 @@
             color: #cbd5e1;
             font-size: 0.92rem;
         }
+
         .guide-card .guide-section strong {
             color: #fff;
         }
+
         .guide-card .guide-divider {
             border: none;
             border-top: 1px solid rgba(168, 85, 247, 0.2);
             margin: 1.5rem 0;
         }
+
         .guide-card .guide-disclaimer-title {
             color: #ef4444;
             font-size: 1.05rem;
@@ -264,6 +334,7 @@
             text-transform: uppercase;
             margin-bottom: 0.75rem;
         }
+
         .guide-card .guide-disclaimer {
             text-align: center;
             font-size: 0.92rem;
@@ -272,6 +343,7 @@
             font-style: italic;
             margin-bottom: 1.5rem;
         }
+
         .guide-agree-btn {
             display: inline-block;
             background: linear-gradient(135deg, #16a34a, #22c55e);
@@ -287,6 +359,7 @@
             transition: all 0.25s;
             box-shadow: 0 4px 18px rgba(34, 197, 94, 0.3);
         }
+
         .guide-agree-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 24px rgba(34, 197, 94, 0.45);
@@ -294,6 +367,7 @@
         }
     </style>
 </head>
+
 <body>
     <header class="tv-header">
         <div class="tv-left">
@@ -319,23 +393,29 @@
                     <a href="../../index.html" class="user-dropdown-item">Có gì mới</a>
                 </div>
             </div>
-            <button class="btn-tv-blue" id="fintopStartBtn" type="button" onclick="location.href='../../index.html#panel-hoivien'">Bắt đầu</button>
+            <button class="btn-tv-blue" id="fintopStartBtn" type="button"
+                onclick="location.href='../../index.html#panel-hoivien'">Bắt đầu</button>
         </div>
     </header>
 
-    <main class="main-container" style="flex-direction: column; align-items: stretch; justify-content: flex-start; max-width: 1200px; margin: 0 auto; width: 100%; padding-top: 92px;">
+    <main class="main-container"
+        style="flex-direction: column; align-items: stretch; justify-content: flex-start; max-width: 1200px; margin: 0 auto; width: 100%; padding-top: 92px;">
         <!-- Filter Toolbar -->
-        <div class="filter-toolbar" style="display: flex; gap: 12px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center;">
-            <input type="text" id="stockFilterSearch" placeholder="Tìm mã cổ phiếu..." style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #fff; width: 220px; outline: none; font-size: 0.95rem; transition: border-color 0.2s;">
-            
-            <select id="filterSan" style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #cbd5e1; outline: none; font-size: 0.95rem; cursor: pointer; transition: border-color 0.2s;">
+        <div class="filter-toolbar"
+            style="display: flex; gap: 12px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center;">
+            <input type="text" id="stockFilterSearch" placeholder="Tìm mã cổ phiếu..."
+                style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #fff; width: 220px; outline: none; font-size: 0.95rem; transition: border-color 0.2s;">
+
+            <select id="filterSan"
+                style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #cbd5e1; outline: none; font-size: 0.95rem; cursor: pointer; transition: border-color 0.2s;">
                 <option value="">Tất cả các sàn</option>
                 <option value="HOSE">HOSE</option>
                 <option value="HNX">HNX</option>
                 <option value="UPCOM">UPCOM</option>
             </select>
 
-            <select id="filterAct" style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #cbd5e1; outline: none; font-size: 0.95rem; cursor: pointer; transition: border-color 0.2s;">
+            <select id="filterAct"
+                style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #cbd5e1; outline: none; font-size: 0.95rem; cursor: pointer; transition: border-color 0.2s;">
                 <option value="">Tất cả hành động</option>
                 <option value="RẤT TÍCH CỰC">RẤT TÍCH CỰC</option>
                 <option value="TÍCH CỰC">TÍCH CỰC</option>
@@ -346,29 +426,56 @@
             </select>
         </div>
 
-        <div class="data-table-wrapper" style="background: rgba(15, 15, 25, 0.6); border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px; overflow-x: auto; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <div style="min-width: 950px; padding: 14px 18px; background: linear-gradient(135deg, #C000FF 0%, #A100F2 48%, #8200D6 100%); color: #fff; text-align: center; font-size: clamp(1rem, 2vw, 1.55rem); font-weight: 900; line-height: 1.25;">
+        <div class="data-table-wrapper"
+            style="background: rgba(15, 15, 25, 0.6); border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px; overflow-x: auto; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div
+                style="min-width: 950px; padding: 14px 18px; background: linear-gradient(135deg, #C000FF 0%, #A100F2 48%, #8200D6 100%); color: #fff; text-align: center; font-size: clamp(1rem, 2vw, 1.55rem); font-weight: 900; line-height: 1.25;">
                 [FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ
             </div>
-            <table class="data-table" style="width: 100%; min-width: 950px; table-layout: fixed; border-collapse: collapse; text-align: center; font-size: 0.78rem; color: #cbd5e1;">
+            <table class="data-table"
+                style="width: 100%; min-width: 950px; table-layout: fixed; border-collapse: collapse; text-align: center; font-size: 0.78rem; color: #cbd5e1;">
                 <thead>
-                    <tr style="background: rgba(168, 85, 247, 0.08); border-bottom: 1px solid rgba(168, 85, 247, 0.15);">
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 35px;">STT</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 65px;">Mã CP</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 50px;">Sàn</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">Ngành HĐKD</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 80px;">Cập nhật</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 200px;">Mô tả Model</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">Trạng thái Model</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">Sức mạnh xu hướng<br>RSI/MFI</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 90px;">Vùng kiểm định<br>kỹ thuật</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">Vùng kháng cự<br>kỹ thuật</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">Vùng hỗ trợ<br>kỹ thuật</th>
+                    <tr
+                        style="background: rgba(168, 85, 247, 0.08); border-bottom: 1px solid rgba(168, 85, 247, 0.15);">
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 35px;">
+                            STT</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 65px;">
+                            Mã CP</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 50px;">
+                            Sàn</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
+                            Ngành HĐKD</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 80px;">
+                            Cập nhật</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 200px;">
+                            Mô tả Model</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
+                            Trạng thái Model</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
+                            Sức mạnh xu hướng<br>RSI/MFI</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 90px;">
+                            Vùng kiểm định<br>kỹ thuật</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">
+                            Vùng kháng cự<br>kỹ thuật</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">
+                            Vùng hỗ trợ<br>kỹ thuật</th>
                     </tr>
                 </thead>
                 <tbody id="bolocBody">
                     <tr>
-                        <td colspan="11" style="text-align:center; padding: 2rem; color: #64748b;">Đang tải dữ liệu bộ lọc cổ phiếu...</td>
+                        <td colspan="11" style="text-align:center; padding: 2rem; color: #64748b;">Đang tải dữ liệu bộ
+                            lọc cổ phiếu...</td>
                     </tr>
                 </tbody>
             </table>
@@ -388,10 +495,15 @@
         <div class="guide-card">
             <h2>HƯỚNG DẪN SỬ DỤNG BỘ LỌC</h2>
             <div class="guide-section">
-                Bảng tổng hợp danh mục cổ phiếu theo <strong>Trạng thái</strong> và <strong>Kết quả thuật toán của Mô hình (Model)</strong> theo phương pháp phân tích định lượng được trích xuất hoàn toàn tự động và tổng hợp theo các nhóm ngành. Đây là công cụ <strong>lọc</strong> và <strong>phân loại dữ liệu</strong> khách quan, hỗ trợ người dùng có thêm góc nhìn tổng quan về thị trường.
+                Bảng tổng hợp danh mục cổ phiếu theo <strong>Trạng thái</strong> và <strong>Kết quả thuật toán của Mô
+                    hình (Model)</strong> theo phương pháp phân tích định lượng được trích xuất hoàn toàn tự động và
+                tổng hợp theo các nhóm ngành. Đây là công cụ <strong>lọc</strong> và <strong>phân loại dữ liệu</strong>
+                khách quan, hỗ trợ người dùng có thêm góc nhìn tổng quan về thị trường.
             </div>
             <div class="guide-section">
-                Thuật toán Mô hình (Model) sử dụng AI phân tích và các <strong>Indicators</strong> (MA, Bollinger Band - Kênh xu hướng, RSI, Nến, ...) trên các khung thời gian để hiển thị các <strong>Trạng thái Mô hình (Model)</strong>.
+                Thuật toán Mô hình (Model) sử dụng AI phân tích và các <strong>Indicators</strong> (MA, Bollinger Band -
+                Kênh xu hướng, RSI, Nến, ...) trên các khung thời gian để hiển thị các <strong>Trạng thái Mô hình
+                    (Model)</strong>.
             </div>
             <hr class="guide-divider">
             <div class="guide-disclaimer-title">MIỄN TRỪ TRÁCH NHIỆM !</div>
@@ -405,75 +517,148 @@
 
     <style>
         @keyframes bolocFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
+
         @keyframes bolocScaleIn {
-            from { transform: scale(0.94); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from {
+                transform: scale(0.94);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
+
         .tier-popup-overlay {
-            position: fixed; inset: 0; z-index: 9998;
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.72); backdrop-filter: blur(6px);
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(6px);
             animation: bolocFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        .tier-popup-overlay[hidden] { display: none; }
+
+        .tier-popup-overlay[hidden] {
+            display: none;
+        }
+
         .tier-popup-card {
             width: min(460px, calc(100vw - 32px));
             border-radius: 16px;
             border: 1px solid rgba(168, 85, 247, 0.35);
             background: rgba(12, 12, 22, 0.96);
-            box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 40px rgba(168, 85, 247, 0.08);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(168, 85, 247, 0.08);
             padding: 2.5rem 2rem 2rem;
             text-align: center;
             animation: bolocScaleIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
-        .tier-popup-card .popup-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+        .tier-popup-card .popup-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
         .tier-popup-card h2 {
-            color: #fff; font-size: 1.2rem; font-weight: 800; margin-bottom: 0.75rem;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
         }
+
         .tier-popup-card p {
-            color: #94a3b8; font-size: 0.92rem; line-height: 1.65; margin-bottom: 1.5rem;
+            color: #94a3b8;
+            font-size: 0.92rem;
+            line-height: 1.65;
+            margin-bottom: 1.5rem;
         }
+
         .tier-popup-card .popup-actions {
-            display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
+
         .tier-popup-card .popup-btn-primary {
-            border: 0; border-radius: 10px; padding: 12px 28px; color: #fff;
+            border: 0;
+            border-radius: 10px;
+            padding: 12px 28px;
+            color: #fff;
             background: linear-gradient(135deg, #7c3aed, #a855f7);
-            font-weight: 800; font-size: 0.95rem; cursor: pointer;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
             box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
             transition: all 0.25s;
         }
+
         .tier-popup-card .popup-btn-primary:hover {
-            transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
         }
+
         .tier-popup-card .popup-btn-secondary {
-            border: 1px solid rgba(148,163,184,0.3); border-radius: 10px; padding: 12px 28px;
-            color: #94a3b8; background: transparent; font-weight: 700; font-size: 0.95rem;
-            cursor: pointer; transition: all 0.25s;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            border-radius: 10px;
+            padding: 12px 28px;
+            color: #94a3b8;
+            background: transparent;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s;
         }
+
         .tier-popup-card .popup-btn-secondary:hover {
-            border-color: rgba(148,163,184,0.6); color: #fff;
+            border-color: rgba(148, 163, 184, 0.6);
+            color: #fff;
         }
+
         /* ── Eye reveal button in table cells ── */
         .reveal-eye-btn {
-            display: inline-flex; align-items: center; gap: 4px;
-            background: none; border: 1px solid rgba(168, 85, 247, 0.3);
-            border-radius: 6px; padding: 3px 8px; cursor: pointer;
-            color: #a78bfa; font-size: 0.78rem; font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 6px;
+            padding: 3px 8px;
+            cursor: pointer;
+            color: #a78bfa;
+            font-size: 0.78rem;
+            font-weight: 600;
             transition: all 0.2s;
         }
+
         .reveal-eye-btn:hover {
-            background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.5);
+            background: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.5);
             color: #c4b5fd;
         }
+
         .masked-cell {
-            display: inline-flex; align-items: center; gap: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
+
         .masked-text {
-            color: #475569; font-weight: 700; letter-spacing: 2px; user-select: none;
+            color: #475569;
+            font-weight: 700;
+            letter-spacing: 2px;
+            user-select: none;
         }
     </style>
 
@@ -485,7 +670,7 @@
     <script src="../../assets/js/auth.js" defer></script>
     <script type="module" src="../../assets/js/core/index.js"></script>
     <script>
-        (function() {
+        (function () {
             let filterData = [];
 
             // ── DOM Elements ──
@@ -513,7 +698,7 @@
                 return tier && PRO_TIERS.includes(tier.toUpperCase());
             }
 
-            window.continueBolocAuth = function(view) {
+            window.continueBolocAuth = function (view) {
                 const authView = view === 'register' ? 'register' : 'login';
                 sessionStorage.setItem('fintop_auth_choice_confirmed', authView);
                 sessionStorage.setItem('fintop_login_redirect', window.location.href);
@@ -751,7 +936,7 @@
                 guideAgreeBtn.addEventListener('click', () => {
                     hideGuidePopup();
                     if (isLoggedIn()) {
-                        try { localStorage.setItem(GUIDE_STORAGE_KEY, 'true'); } catch(e) {}
+                        try { localStorage.setItem(GUIDE_STORAGE_KEY, 'true'); } catch (e) { }
                     }
                 });
             }
@@ -760,7 +945,7 @@
                 if (!isLoggedIn()) return true; // Guest -> ALWAYS show
                 try {
                     return localStorage.getItem(GUIDE_STORAGE_KEY) !== 'true';
-                } catch(e) {
+                } catch (e) {
                     return true;
                 }
             }
@@ -776,4 +961,5 @@
         })();
     </script>
 </body>
+
 </html>
