@@ -542,17 +542,17 @@
         }
 
         #panel-boloc {
-            --boloc-title-bg: linear-gradient(135deg, #7C3AED 0%, #A855F7 45%, #0891B2 100%);
+            --boloc-title-bg: linear-gradient(135deg, #7C3AED, #A855F7);
             --boloc-title-text: #F8FAFC;
-            --boloc-header-bg: linear-gradient(180deg, rgba(54, 43, 118, 0.98), rgba(38, 31, 82, 0.98));
+            --boloc-header-bg: rgba(168, 85, 247, 0.12);
             --boloc-header-text: #F8FAFC;
-            --boloc-row-bg: rgba(8, 22, 48, 0.96);
-            --boloc-row-alt-bg: rgba(11, 28, 58, 0.96);
-            --boloc-row-hover-bg: rgba(17, 39, 75, 0.98);
-            --boloc-row-text: #DCE7F7;
-            --boloc-border: rgba(148, 163, 184, 0.18);
-            --boloc-border-strong: rgba(168, 85, 247, 0.34);
-            --boloc-cyan: #67E8F9;
+            --boloc-row-bg: rgba(15, 15, 25, 0.96);
+            --boloc-row-alt-bg: rgba(18, 18, 30, 0.96);
+            --boloc-row-hover-bg: rgba(168, 85, 247, 0.08);
+            --boloc-row-text: #E2E8F0;
+            --boloc-border: rgba(255, 255, 255, 0.06);
+            --boloc-border-strong: rgba(168, 85, 247, 0.2);
+            --boloc-cyan: #FFFFFF;
             --boloc-purple: #C084FC;
             --boloc-gold: #FBBF24;
             padding-top: 28px;
@@ -563,8 +563,8 @@
         }
 
         #panel-boloc .boloc-filter-select {
-            background: rgba(11, 18, 36, 0.9);
-            border-color: rgba(103, 232, 249, 0.24);
+            background: rgba(15, 15, 25, 0.82);
+            border-color: rgba(168, 85, 247, 0.3);
             color: #e2e8f0;
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
         }
@@ -581,13 +581,9 @@
             position: relative;
             border-radius: 14px;
             border: 1px solid var(--boloc-border-strong);
-            background:
-                radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.16), transparent 42%),
-                rgba(7, 10, 22, 0.84);
+            background: rgba(15, 15, 25, 0.6);
             backdrop-filter: blur(12px);
-            box-shadow:
-                0 18px 48px rgba(0, 0, 0, 0.42),
-                0 0 30px rgba(168, 85, 247, 0.12);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
 
         #panel-boloc .boloc-filter-bar.is-locked {
@@ -761,9 +757,9 @@
             font-weight: 900;
             line-height: 1.25;
             text-transform: none;
-            border-bottom: 1px solid rgba(103, 232, 249, 0.28);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.22);
             letter-spacing: 0.01em;
-            text-shadow: 0 0 18px rgba(255, 255, 255, 0.28);
+            text-shadow: none;
         }
 
         #bolocTable {
@@ -782,7 +778,8 @@
         #bolocTable th {
             background: var(--boloc-header-bg);
             color: var(--boloc-header-text);
-            border: 1px solid rgba(216, 180, 254, 0.18);
+            border: 0;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.2);
             text-align: center;
             font-weight: 900;
             letter-spacing: 0;
@@ -868,7 +865,8 @@
         #bolocTable td {
             background: var(--boloc-row-bg);
             color: var(--boloc-row-text);
-            border: 1px solid var(--boloc-border);
+            border: 0;
+            border-bottom: 1px solid var(--boloc-border);
             text-align: center;
             font-weight: 600;
             vertical-align: middle;
@@ -885,7 +883,6 @@
 
         #bolocTable tbody tr:hover td {
             background: var(--boloc-row-hover-bg);
-            filter: brightness(1.05);
         }
 
         #bolocTable .ticker-cell {
@@ -894,7 +891,7 @@
         }
 
         #bolocTable .desc-cell {
-            color: #C9D7EA;
+            color: #E2E8F0;
             max-width: 240px;
             text-align: left;
             font-weight: 600;
@@ -904,7 +901,7 @@
 
         #bolocTable .time-cell,
         #bolocTable .price-cell {
-            color: #EAF2FF;
+            color: #E2E8F0;
             font-weight: 700;
             white-space: nowrap;
         }
@@ -939,12 +936,11 @@
         }
 
         #bolocTable td:nth-child(9) {
-            color: #D7E7FF;
+            color: #E2E8F0;
             font-weight: 800;
         }
 
         #bolocTable td:nth-child(10) {
-            background: linear-gradient(135deg, rgba(54, 36, 94, 0.68), rgba(13, 28, 56, 0.82));
             color: var(--boloc-purple);
             font-weight: 900;
         }
@@ -956,9 +952,9 @@
         }
 
         #bolocTable .table-filter-btn {
-            background: rgba(103, 232, 249, 0.1);
-            border-color: rgba(103, 232, 249, 0.34);
-            color: #E0F2FE;
+            background: rgba(168, 85, 247, 0.12);
+            border-color: rgba(168, 85, 247, 0.35);
+            color: #C084FC;
         }
 
         .boloc-disclaimer {
@@ -4666,13 +4662,13 @@
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
             <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Tra Cứu Cổ Phiếu</h2>
-            <p>Dữ liệu tổng hợp theo mô hình AI định lượng FinTop DATA — Tối đa 10 mã gần nhất</p>
+            <p>Dữ liệu tổng hợp theo mô hình AI định lượng FinTop DATA</p>
         </div>
         <div class="stock-search-box">
             <input type="text" class="stock-search-input" id="stockSearchInput"
                 placeholder="Nhập mã CP (VD: FPT, VNM...)" maxlength="10" autocomplete="off">
             <button class="stock-search-btn" onclick="addStockTicker()">⚡ Tra cứu</button>
-            <span class="stock-search-hint" id="stockSearchHint">Nhấn Enter hoặc nút Tra cứu • Tối đa 10 mã</span>
+            <span class="stock-search-hint" id="stockSearchHint">Nhấn Enter hoặc nút Tra cứu</span>
             <span id="stockSearchError"
                 style="color: #f87171; font-size: 0.82rem; font-weight: 600; display: none; align-items: center; gap: 4px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 6px 12px; border-radius: 8px;">
                 ⚠️ Dữ liệu cổ phiếu này đang được cập nhật
