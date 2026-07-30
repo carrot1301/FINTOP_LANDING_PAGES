@@ -363,6 +363,16 @@ async function initShell() {
     dropdown?.classList.remove('active');
   });
 
+  // Sidebar collapse toggle handler
+  document.getElementById('admin-sidebar-toggle')?.addEventListener('click', () => {
+    const sidebar = document.getElementById('admin-sidebar');
+    const shell = document.getElementById('admin-app');
+    const btn = document.getElementById('admin-sidebar-toggle');
+    const isCollapsed = sidebar?.classList.toggle('is-collapsed');
+    shell?.classList.toggle('is-collapsed', isCollapsed);
+    if (btn) btn.textContent = isCollapsed ? '▶' : '◀';
+  });
+
   // Logout handler
   document.getElementById('admin-logout-btn')?.addEventListener('click', async () => {
     if (Infra.AuthManager && typeof Infra.AuthManager.logout === 'function') {

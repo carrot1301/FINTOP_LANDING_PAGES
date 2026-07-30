@@ -31,7 +31,49 @@
   bottom: 0;
   z-index: 100;
   overflow-y: auto;
-  transition: transform 0.3s ease;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.admin-sidebar.is-collapsed {
+  width: 68px !important;
+  min-width: 68px !important;
+}
+
+.admin-sidebar.is-collapsed .admin-sidebar-title,
+.admin-sidebar.is-collapsed .admin-sidebar-subtitle,
+.admin-sidebar.is-collapsed .admin-nav-section,
+.admin-sidebar.is-collapsed .admin-nav-item span:not(.nav-icon),
+.admin-sidebar.is-collapsed .admin-user-info {
+  display: none !important;
+}
+
+.admin-sidebar.is-collapsed .admin-nav-item {
+  justify-content: center;
+  padding: 0.6rem 0;
+}
+
+.admin-sidebar.is-collapsed + .admin-main,
+.admin-shell.is-collapsed .admin-main {
+  margin-left: 68px !important;
+}
+
+.admin-sidebar-toggle-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--purple-border);
+  color: var(--text-secondary);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.admin-sidebar-toggle-btn:hover {
+  background: rgba(124, 58, 237, 0.2);
+  color: #ffffff;
+  border-color: var(--purple-core);
 }
 
 .admin-sidebar-header {
