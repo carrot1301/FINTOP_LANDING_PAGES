@@ -407,7 +407,7 @@
         }
 
         #bolocTable {
-            min-width: 1180px;
+            min-width: 1090px;
         }
 
         .dark-table thead {
@@ -657,7 +657,7 @@
         }
 
         .boloc-table-title {
-            min-width: 950px;
+            min-width: 1090px;
             padding: 16px 18px;
             background: var(--boloc-title-bg);
             color: var(--boloc-title-text);
@@ -673,7 +673,7 @@
         }
 
         #bolocTable {
-            min-width: 950px;
+            min-width: 1090px;
             table-layout: fixed;
             width: 100%;
             background: var(--boloc-row-bg);
@@ -709,10 +709,11 @@
         #bolocTable th:nth-child(5) { width: 80px; } /* Update time */
         #bolocTable th:nth-child(6) { width: 200px; } /* Dữ liệu kỹ thuật lịch sử */
         #bolocTable th:nth-child(7) { width: 110px; } /* Trạng thái Model */
-        #bolocTable th:nth-child(8) { width: 110px; } /* Sức mạnh xu hướng */
-        #bolocTable th:nth-child(9) { width: 90px; } /* Vùng kiểm định */
-        #bolocTable th:nth-child(10) { width: 85px; } /* Vùng kháng cự */
-        #bolocTable th:nth-child(11) { width: 85px; } /* Vùng hỗ trợ */
+        #bolocTable th:nth-child(8) { width: 70px; } /* Delta RSI */
+        #bolocTable th:nth-child(9) { width: 110px; } /* Sức mạnh xu hướng */
+        #bolocTable th:nth-child(10) { width: 90px; } /* Vùng kiểm định */
+        #bolocTable th:nth-child(11) { width: 85px; } /* Vùng kháng cự */
+        #bolocTable th:nth-child(12) { width: 85px; } /* Vùng hỗ trợ */
 
         #bolocTable td {
             background: var(--boloc-row-bg);
@@ -787,12 +788,73 @@
             white-space: nowrap;
         }
 
-        #bolocTable td:nth-child(9),
         #bolocTable td:nth-child(10),
+        #bolocTable td:nth-child(11),
         #bolocTable .boloc-support-cell {
             color: var(--boloc-row-text);
             font-weight: 500;
             white-space: nowrap;
+        }
+
+        #bolocTable .boloc-delta-rsi-header {
+            color: rgba(148, 163, 184, 0.82);
+            font-size: 0.66rem;
+            font-weight: 600;
+        }
+
+        #bolocTable .boloc-delta-rsi-cell {
+            color: #94A3B8;
+            font-size: 0.68rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .delta-rsi-heading {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            white-space: nowrap;
+        }
+
+        .delta-rsi-info-button {
+            appearance: none;
+            border: 0;
+            background: transparent;
+            color: rgba(148, 163, 184, 0.72);
+            padding: 1px 2px;
+            font: inherit;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .delta-rsi-info-button:hover,
+        .delta-rsi-info-button:focus-visible {
+            color: #CBD5E1;
+            outline: 1px solid rgba(148, 163, 184, 0.5);
+            outline-offset: 2px;
+            border-radius: 3px;
+        }
+
+        .delta-rsi-tooltip {
+            position: fixed;
+            z-index: 10020;
+            width: min(300px, calc(100vw - 24px));
+            padding: 9px 11px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            border-radius: 7px;
+            background: #171522;
+            color: #CBD5E1;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
+            font-size: 0.72rem;
+            font-weight: 400;
+            line-height: 1.45;
+            text-align: left;
+            transform: translateX(-50%);
+        }
+
+        .delta-rsi-tooltip[hidden] {
+            display: none;
         }
 
         #bolocTable .table-filter-btn {
@@ -838,10 +900,10 @@
             #bolocTable td:nth-child(5),
             #bolocTable th:nth-child(6),
             #bolocTable td:nth-child(6),
-            #bolocTable th:nth-child(9),
-            #bolocTable td:nth-child(9),
             #bolocTable th:nth-child(10),
-            #bolocTable td:nth-child(10) {
+            #bolocTable td:nth-child(10),
+            #bolocTable th:nth-child(11),
+            #bolocTable td:nth-child(11) {
                 display: none;
             }
 
@@ -4669,6 +4731,13 @@
                         <th>Update time</th>
                         <th>Dữ liệu kỹ thuật lịch sử (Model)</th>
                         <th><span class="filterable-heading">Trạng thái Model <button class="table-filter-btn" type="button" title="Lọc Trạng thái Model" onclick="focusBolocFilter('status')">▾</button></span></th>
+                        <th class="boloc-delta-rsi-header">
+                            <span class="delta-rsi-heading">ΔRSI
+                                <button class="delta-rsi-info-button" id="bolocDeltaRsiInfoButton" type="button"
+                                    aria-label="Giải thích cột Delta RSI" aria-controls="bolocDeltaRsiTooltip"
+                                    aria-expanded="false">(i)</button>
+                            </span>
+                        </th>
                         <th><span class="filterable-heading">Sức mạnh xu hướng<br>Dòng tiền - RSI/MFI <button class="table-filter-btn" type="button" title="Lọc Sức mạnh xu hướng" onclick="focusBolocFilter('strength')">▾</button></span></th>
                         <th>Vùng kiểm định<br>kỹ thuật</th>
                         <th>Vùng kháng cự<br>kỹ thuật</th>
@@ -4679,6 +4748,9 @@
                 </tbody>
             </table>
             <!-- Removed old lock overlay — tier popups are now triggered per-cell -->
+        </div>
+        <div class="delta-rsi-tooltip" id="bolocDeltaRsiTooltip" role="tooltip" hidden>
+            Biên độ dao động RSI, ghi nhận giá trị trong khoảng RSI 35-65 trên thang điểm 100.
         </div>
 
 
@@ -7338,6 +7410,63 @@
             return row.trend || row.strength || row.strengthText || row.rsiMfi || row.rsi_mfi || '';
         }
 
+        function closeBolocDeltaRsiTooltip() {
+            const button = document.getElementById('bolocDeltaRsiInfoButton');
+            const tooltip = document.getElementById('bolocDeltaRsiTooltip');
+            if (!button || !tooltip) return;
+            tooltip.hidden = true;
+            button.setAttribute('aria-expanded', 'false');
+        }
+
+        function toggleBolocDeltaRsiTooltip() {
+            const button = document.getElementById('bolocDeltaRsiInfoButton');
+            const tooltip = document.getElementById('bolocDeltaRsiTooltip');
+            if (!button || !tooltip) return;
+
+            const shouldOpen = tooltip.hidden;
+            closeBolocDeltaRsiTooltip();
+            if (!shouldOpen) return;
+
+            tooltip.hidden = false;
+            button.setAttribute('aria-expanded', 'true');
+
+            const buttonRect = button.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const halfWidth = tooltipRect.width / 2;
+            const centerX = Math.min(
+                window.innerWidth - halfWidth - 12,
+                Math.max(halfWidth + 12, buttonRect.left + (buttonRect.width / 2))
+            );
+            const belowTop = buttonRect.bottom + 8;
+            const top = belowTop + tooltipRect.height <= window.innerHeight - 12
+                ? belowTop
+                : Math.max(12, buttonRect.top - tooltipRect.height - 8);
+
+            tooltip.style.left = `${centerX}px`;
+            tooltip.style.top = `${top}px`;
+        }
+
+        const bolocDeltaRsiInfoButton = document.getElementById('bolocDeltaRsiInfoButton');
+        bolocDeltaRsiInfoButton?.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            toggleBolocDeltaRsiTooltip();
+        });
+        document.addEventListener('click', (event) => {
+            const tooltip = document.getElementById('bolocDeltaRsiTooltip');
+            if (!bolocDeltaRsiInfoButton?.contains(event.target) && !tooltip?.contains(event.target)) {
+                closeBolocDeltaRsiTooltip();
+            }
+        });
+        document.addEventListener('keydown', (event) => {
+            const tooltip = document.getElementById('bolocDeltaRsiTooltip');
+            if (event.key === 'Escape' && tooltip && !tooltip.hidden) {
+                closeBolocDeltaRsiTooltip();
+                bolocDeltaRsiInfoButton?.focus();
+            }
+        });
+        window.addEventListener('resize', closeBolocDeltaRsiTooltip);
+
         function getBolocStatusColors(statusText) {
             return BOLOC_STATUS_COLORS[normalizeBolocLabel(statusText)] || {
                 bg: 'rgba(148, 163, 184, 0.14)',
@@ -7567,7 +7696,7 @@
             if (BOLOC_DATA.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="11" style="text-align: center; color: #E2E8F0; padding: 24px;">
+                        <td colspan="12" style="text-align: center; color: #E2E8F0; padding: 24px;">
                             Chưa tải được dữ liệu bộ lọc cổ phiếu.
                         </td>
                     </tr>
@@ -7578,7 +7707,7 @@
             if (rows.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="11" style="text-align: center; color: #E2E8F0; padding: 24px;">
+                        <td colspan="12" style="text-align: center; color: #E2E8F0; padding: 24px;">
                             Không có dữ liệu phù hợp với bộ lọc hiện tại.
                         </td>
                     </tr>
@@ -7623,6 +7752,7 @@
                     <td class="boloc-status-cell">
                         <span class="boloc-status-badge" style="--status-bg: ${statusColors.bg}; --status-text: ${statusColors.text}; --status-border: ${statusColors.border}; --status-shadow: ${statusColors.shadow};">${escapeHtml(statusText)}</span>
                     </td>
+                    <td class="boloc-delta-rsi-cell">${escapeHtml(d.deltaRsi || '—')}</td>
                     <td class="boloc-strength-cell" style="--strength-text: ${strengthTextColor};">${escapeHtml(strengthText)}</td>
                     <td class="price-cell">${escapeHtml(d.vungKiemDinh)}</td>
                     <td class="price-cell">${escapeHtml(d.khangCu)}</td>
@@ -8282,6 +8412,7 @@
                 status: row.model_status || row.status || 'neutral',
                 statusText: row.model_status_text || row.statusText || 'TRUNG LẬP',
                 modelResult: row.model_result_text || row.modelResult || row.resultText || row.model_status_text || row.statusText || 'TRUNG LẬP',
+                deltaRsi: row.delta_rsi ?? row.deltaRsi ?? '',
                 trend: row.trend || row.strength || row.strength_text || row.rsi_mfi || '',
                 vungKiemDinh: row.validation_zone || row.vungKiemDinh || row.test_zone || '',
                 khangCu: row.resistance_zone || row.khangCu || row.resistance || '',

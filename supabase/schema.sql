@@ -73,6 +73,7 @@ create table if not exists public.stock_prices (
     model_status text,
     model_status_text text,
     trend text,
+    delta_rsi varchar(50),
     validation_zone text,
     resistance_zone text,
     support_zone text,

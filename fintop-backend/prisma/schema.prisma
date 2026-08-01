@@ -660,6 +660,7 @@ model Stock {
   identify_trend      String?  @db.Text
   act                 String?  @db.VarChar(50)
   rsi_mfi             String?  @db.VarChar(50)
+  delta_rsi           String?  @db.VarChar(50)
   trading_price_range String?  @db.VarChar(100)
   resistance_range    String?  @db.VarChar(100)
   support_range       String?  @db.VarChar(100)
