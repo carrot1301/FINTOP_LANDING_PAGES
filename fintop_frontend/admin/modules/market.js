@@ -19,6 +19,7 @@ import { esc, formatDate, showToast } from '../admin-shell.js';
 
 const API = () => window.FintopInfra.ApiClient;
 const EP = () => window.FintopInfra.FintopEnv.API_ENDPOINTS;
+const DELTA_RSI_HELP_TEXT = 'Biên độ dao động RSI, ghi nhận giá trị trong khoảng RSI 35-65 trên thang điểm 100.';
 
 // ─────────────────────────────────────────────────────────────
 // CONSTANTS
@@ -210,6 +211,7 @@ async function loadStockData() {
       ratings_TA: '',
       identify_trend: s.model_desc || '',
       act: s.statusText || '',
+      delta_rsi: s.delta_rsi || '',
       rsi_mfi: s.trend || '',
       trading_price_range: s.validation_zone || '',
       resistance_range: s.resistance_zone || '',
@@ -233,6 +235,7 @@ async function saveStockField(sid, field, value) {
       analyst: 'analyst',
       identify_trend: 'identify_trend',
       act: 'act',
+      delta_rsi: 'delta_rsi',
       rsi_mfi: 'rsi_mfi',
       trading_price_range: 'trading_price_range',
       resistance_range: 'resistance_range',
@@ -260,6 +263,7 @@ async function syncUserPageData() {
         top_status: s.top_status,
         identify_trend: s.identify_trend,
         act: s.act,
+        delta_rsi: s.delta_rsi,
         rsi_mfi: s.rsi_mfi,
         trading_price_range: s.trading_price_range,
         resistance_range: s.resistance_range,
@@ -278,6 +282,7 @@ async function syncUserPageData() {
       status: getStatusClass(s.act),
       statusText: s.act || 'TRUNG LẬP',
       modelResult: s.act || 'TRUNG LẬP',
+      deltaRsi: s.delta_rsi || '',
       trend: s.rsi_mfi || 'ĐI NGANG',
       vungKiemDinh: s.trading_price_range || '',
       khangCu: s.resistance_range || '',
@@ -375,6 +380,61 @@ function renderAll() {
       .df-table input[type=number] {
         -moz-appearance: textfield;
       }
+      .df-table .df-delta-rsi-header {
+        color: rgba(148, 163, 184, 0.82);
+        font-size: 0.68rem;
+        font-weight: 600;
+      }
+      .df-delta-rsi-heading {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        white-space: nowrap;
+      }
+      .df-delta-rsi-info {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        color: rgba(148, 163, 184, 0.72);
+        padding: 1px 2px;
+        font: inherit;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .df-delta-rsi-info:hover,
+      .df-delta-rsi-info:focus-visible {
+        color: #cbd5e1;
+        outline: 1px solid rgba(148, 163, 184, 0.5);
+        outline-offset: 2px;
+        border-radius: 3px;
+      }
+      .df-delta-rsi-input {
+        width: 78px;
+        color: #94a3b8 !important;
+        font-size: 0.68rem !important;
+        font-weight: 500 !important;
+      }
+      .df-delta-rsi-tooltip {
+        position: fixed;
+        z-index: 1200;
+        width: min(300px, calc(100vw - 24px));
+        padding: 9px 11px;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 7px;
+        background: #171522;
+        color: #cbd5e1;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+        font-size: 0.72rem;
+        font-weight: 400;
+        line-height: 1.45;
+        text-align: left;
+        transform: translateX(-50%);
+      }
+      .df-delta-rsi-tooltip[hidden] {
+        display: none;
+      }
     `;
     document.head.appendChild(dragStyle);
   }
@@ -468,6 +528,13 @@ function renderAll() {
             <th style="width:5.5%;text-align:center;">Update time</th>
             <th style="width:14%;text-align:center;">Dữ liệu kỹ thuật lịch sử (Model)</th>
             <th style="width:10%;text-align:center;">Trạng thái Model</th>
+            <th class="df-delta-rsi-header" style="width:5.5%;text-align:center;">
+              <span class="df-delta-rsi-heading">ΔRSI
+                <button class="df-delta-rsi-info" id="df-delta-rsi-info" type="button"
+                  aria-label="Giải thích cột Delta RSI" aria-controls="df-delta-rsi-tooltip"
+                  aria-expanded="false">(i)</button>
+              </span>
+            </th>
             <th style="width:7.5%;text-align:center;">Sức mạnh xu hướng<br/>Dòng tiền - RSI/MFI</th>
             <th style="width:13%;text-align:center;">Vùng kiểm định<br/>kỹ thuật</th>
             <th style="width:13%;text-align:center;">Vùng kháng cự<br/>kỹ thuật</th>
@@ -479,7 +546,7 @@ function renderAll() {
         </thead>
         <tbody id="df-table-body">
           ${filtered.length === 0 ? `
-            <tr><td colspan="14" style="text-align:center;padding:2rem;color:var(--text-muted);">Không có dữ liệu phù hợp.</td></tr>
+            <tr><td colspan="15" style="text-align:center;padding:2rem;color:var(--text-muted);">Không có dữ liệu phù hợp.</td></tr>
           ` : filtered.map((s, idx) => renderStockRow(s, idx)).join('')}
         </tbody>
       </table>
@@ -488,6 +555,9 @@ function renderAll() {
     <!-- Footer info -->
     <div style="padding:0.5rem 0;font-size:0.78rem;color:var(--text-muted);">
       Có ${filtered.length}/${stockData.length} bản ghi
+    </div>
+    <div class="df-delta-rsi-tooltip" id="df-delta-rsi-tooltip" role="tooltip" hidden>
+      ${esc(DELTA_RSI_HELP_TEXT)}
     </div>
   `;
 
@@ -540,6 +610,11 @@ function renderStockRow(s, idx) {
         </select>
       </td>
       <td style="text-align:center;vertical-align:middle;">
+        <input type="text" class="df-direct-input df-premium-input df-delta-rsi-input" data-field="delta_rsi"
+          data-sid="${s.id}" value="${esc(s.delta_rsi || '')}" placeholder="RSI 40-52"
+          aria-label="Delta RSI của ${esc(s.code_cp)}" />
+      </td>
+      <td style="text-align:center;vertical-align:middle;">
         <select class="df-direct-input df-premium-select" data-field="rsi_mfi" data-sid="${s.id}" style="width:95px;">
           ${(() => {
             const opts = [...TREND_STRENGTH_OPTIONS];
@@ -564,6 +639,44 @@ function renderStockRow(s, idx) {
       </td>
     </tr>
   `;
+}
+
+function closeDeltaRsiTooltip() {
+  if (!container) return;
+  const button = container.querySelector('#df-delta-rsi-info');
+  const tooltip = container.querySelector('#df-delta-rsi-tooltip');
+  if (!button || !tooltip) return;
+  tooltip.hidden = true;
+  button.setAttribute('aria-expanded', 'false');
+}
+
+function toggleDeltaRsiTooltip() {
+  if (!container) return;
+  const button = container.querySelector('#df-delta-rsi-info');
+  const tooltip = container.querySelector('#df-delta-rsi-tooltip');
+  if (!button || !tooltip) return;
+
+  const shouldOpen = tooltip.hidden;
+  closeDeltaRsiTooltip();
+  if (!shouldOpen) return;
+
+  tooltip.hidden = false;
+  button.setAttribute('aria-expanded', 'true');
+
+  const buttonRect = button.getBoundingClientRect();
+  const tooltipRect = tooltip.getBoundingClientRect();
+  const halfWidth = tooltipRect.width / 2;
+  const centerX = Math.min(
+    window.innerWidth - halfWidth - 12,
+    Math.max(halfWidth + 12, buttonRect.left + (buttonRect.width / 2)),
+  );
+  const belowTop = buttonRect.bottom + 8;
+  const top = belowTop + tooltipRect.height <= window.innerHeight - 12
+    ? belowTop
+    : Math.max(12, buttonRect.top - tooltipRect.height - 8);
+
+  tooltip.style.left = `${centerX}px`;
+  tooltip.style.top = `${top}px`;
 }
 
 let dragRowEl = null;
@@ -636,6 +749,19 @@ async function syncNewOrderToBackend() {
 
 function bindEvents() {
   if (!container) return;
+
+  const deltaRsiInfoButton = container.querySelector('#df-delta-rsi-info');
+  deltaRsiInfoButton?.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    toggleDeltaRsiTooltip();
+  });
+  deltaRsiInfoButton?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeDeltaRsiTooltip();
+      deltaRsiInfoButton.focus();
+    }
+  });
 
   // Drag & Drop Row Reordering
   const dragRows = container.querySelectorAll('#df-table-body tr');
@@ -963,6 +1089,11 @@ function showAddStockModal() {
             </select>
           </div>
           <div class="admin-form-group">
+            <label>ΔRSI</label>
+            <input type="text" class="admin-input" id="add-delta-rsi" placeholder="VD: RSI 40-52"
+              title="${esc(DELTA_RSI_HELP_TEXT)}" />
+          </div>
+          <div class="admin-form-group">
             <label>Sức mạnh xu hướng Dòng tiền - RSI/MFI</label>
             <input type="text" class="admin-input" id="add-rsi-mfi" placeholder="VD: TĂNG MẠNH" />
           </div>
@@ -1045,6 +1176,7 @@ function showAddStockModal() {
       analyst: overlay.querySelector('#add-analyst').value || '',
       identify_trend: overlay.querySelector('#add-trend').value || '',
       act: overlay.querySelector('#add-act').value,
+      delta_rsi: overlay.querySelector('#add-delta-rsi').value || '',
       rsi_mfi: overlay.querySelector('#add-rsi-mfi').value || '',
       trading_price_range: overlay.querySelector('#add-price-range').value || '',
       resistance_range: overlay.querySelector('#add-resistance').value || '',
@@ -1123,6 +1255,11 @@ function showEditStockModal(sid) {
             </select>
           </div>
           <div class="admin-form-group">
+            <label>ΔRSI</label>
+            <input type="text" class="admin-input" id="es-delta-rsi" value="${esc(stock.delta_rsi || '')}"
+              placeholder="VD: RSI 40-52" title="${esc(DELTA_RSI_HELP_TEXT)}" />
+          </div>
+          <div class="admin-form-group">
             <label>Sức mạnh xu hướng Dòng tiền - RSI/MFI</label>
             <input type="text" class="admin-input" id="es-rsi-mfi" value="${esc(stock.rsi_mfi || '')}" />
           </div>
@@ -1195,6 +1332,7 @@ function showEditStockModal(sid) {
       analyst: overlay.querySelector('#es-analyst').value,
       act: overlay.querySelector('#es-act').value,
       identify_trend: overlay.querySelector('#es-trend').value,
+      delta_rsi: overlay.querySelector('#es-delta-rsi').value,
       rsi_mfi: overlay.querySelector('#es-rsi-mfi').value,
       trading_price_range: overlay.querySelector('#es-price-range').value,
       resistance_range: overlay.querySelector('#es-resistance').value,
@@ -1238,6 +1376,8 @@ export default {
             renderAll();
           }
         }
+        const isClickInsideDeltaRsi = e.target.closest('#df-delta-rsi-info') || e.target.closest('#df-delta-rsi-tooltip');
+        if (!isClickInsideDeltaRsi) closeDeltaRsiTooltip();
       };
       document.addEventListener('click', documentClickHandler);
     }
