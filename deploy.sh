@@ -10,7 +10,7 @@ systemctl start postgresql && systemctl enable postgresql
 systemctl start redis-server && systemctl enable redis-server
 
 # Cấu hình Mật khẩu Postgres và Tạo Database fintop
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD '123';"
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD '123';" 2>/dev/null || true
 sudo -u postgres createdb fintop 2>/dev/null || true
 
 # 3. Tạo cấu hình Nginx kép cho Frontend (fintopdata.vn) và Backend (api.fintopdata.vn)
@@ -62,7 +62,7 @@ rm -f /etc/nginx/sites-enabled/default
 nginx -t
 systemctl reload nginx
 
-# 4. Cấu hình .env & Khởi tạo Schema Database Prisma
+# 4. Cấu hình .env & Nạp Bản Sao Lưu Dữ Liệu Local (fintop_dump.sql)
 cd /var/www/fintop/fintop-backend
 if [ ! -f .env ]; then
     cp .env.example .env
@@ -72,7 +72,11 @@ sed -i 's|NODE_ENV=.*|NODE_ENV="production"|' .env
 grep -q "CORS_ORIGIN" .env || echo 'CORS_ORIGIN="*"' >> .env
 
 npx prisma db push
-npm run seed 2>/dev/null || true
+
+if [ -f fintop_dump.sql ]; then
+    echo "=== ĐANG NẠP DỮ LIỆU LOCAL VÀO DATABASE VPS ==="
+    sudo -u postgres psql -d fintop < fintop_dump.sql 2>/dev/null || true
+fi
 
 pm2 restart fintop-backend --update-env || pm2 start dist/src/main.js --name "fintop-backend"
 pm2 save
@@ -81,5 +85,5 @@ pm2 save
 certbot --nginx -d fintopdata.vn -d www.fintopdata.vn -d api.fintopdata.vn --non-interactive --agree-tos --expand -m fintop.ba@gmail.com 2>/dev/null || true
 
 echo "=========================================="
-echo "=== NGHỆ THUẬT DEPLOY HOÀN HẢO 100%! ==="
+echo "=== NẠP DỮ LIỆU LOCAL VÀ DEPLOY THÀNH CÔNG 100%! ==="
 echo "=========================================="
