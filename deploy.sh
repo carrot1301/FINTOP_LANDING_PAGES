@@ -13,7 +13,12 @@ systemctl start redis-server && systemctl enable redis-server
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD '123';" 2>/dev/null || true
 sudo -u postgres createdb fintop 2>/dev/null || true
 
-# 3. Tạo cấu hình Nginx kép cho Frontend (fintopdata.vn) và Backend (api.fintopdata.vn)
+# 3. Đồng bộ các trang subpage (admin, nghien-cuu, fintop-ai, hoi-vien...) ra root
+if [ -d /var/www/fintop/fintop_frontend ]; then
+    cp -rf /var/www/fintop/fintop_frontend/* /var/www/fintop/ 2>/dev/null || true
+fi
+
+# 4. Tạo cấu hình Nginx kép cho Frontend (fintopdata.vn) và Backend (api.fintopdata.vn)
 cat << 'EOF' > /etc/nginx/sites-available/fintopdata.vn
 server {
     listen 80;
@@ -23,7 +28,7 @@ server {
     index index.html;
 
     location / {
-        try_files $uri $uri/ /index.html;
+        try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ /index.html;
     }
 
     location /api/ {
@@ -62,7 +67,7 @@ rm -f /etc/nginx/sites-enabled/default
 nginx -t
 systemctl reload nginx
 
-# 4. Cấu hình .env & Nạp Bản Sao Lưu Dữ Liệu Local (fintop_dump.sql)
+# 5. Cấu hình .env & Nạp Bản Sao Lưu Dữ Liệu Local (fintop_dump.sql)
 cd /var/www/fintop/fintop-backend
 if [ ! -f .env ]; then
     cp .env.example .env
@@ -81,9 +86,9 @@ fi
 pm2 restart fintop-backend --update-env || pm2 start dist/src/main.js --name "fintop-backend"
 pm2 save
 
-# 5. Tự động kích hoạt SSL HTTPS 443
+# 6. Tự động kích hoạt SSL HTTPS 443
 certbot --nginx -d fintopdata.vn -d www.fintopdata.vn -d api.fintopdata.vn --non-interactive --agree-tos --expand -m fintop.ba@gmail.com 2>/dev/null || true
 
 echo "=========================================="
-echo "=== NẠP DỮ LIỆU LOCAL VÀ DEPLOY THÀNH CÔNG 100%! ==="
+echo "=== ĐỒNG BỘ TOÀN BỘ CÁC TRANG WEB THÀNH CÔNG! ==="
 echo "=========================================="
