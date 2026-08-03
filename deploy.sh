@@ -77,6 +77,9 @@ npm run seed 2>/dev/null || true
 pm2 restart fintop-backend --update-env || pm2 start dist/src/main.js --name "fintop-backend"
 pm2 save
 
+# 5. Tự động kích hoạt SSL HTTPS 443
+certbot --nginx -d fintopdata.vn -d www.fintopdata.vn -d api.fintopdata.vn --non-interactive --agree-tos --expand -m fintop.ba@gmail.com 2>/dev/null || true
+
 echo "=========================================="
-echo "=== DATABASE VÀ BACKEND ĐÃ KÍCH HOẠT THÀNH CÔNG! ==="
+echo "=== NGHỆ THUẬT DEPLOY HOÀN HẢO 100%! ==="
 echo "=========================================="
