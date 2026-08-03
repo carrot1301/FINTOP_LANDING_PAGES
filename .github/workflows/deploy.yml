@@ -1,0 +1,14 @@
+name: FinTop DATA Production Auto Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Server Auto-Deploy Webhook
+        run: |
+          curl -X POST https://api.fintopdata.vn/deploy-webhook
