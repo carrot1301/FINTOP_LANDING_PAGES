@@ -64,11 +64,12 @@ systemctl reload nginx
 
 # 4. Cấu hình .env & Khởi tạo Schema Database Prisma
 cd /var/www/fintop/fintop-backend
-if [ -f .env ]; then
-    sed -i 's|FRONTEND_URL=.*|FRONTEND_URL="https://fintopdata.vn"|' .env
-    sed -i 's|NODE_ENV=.*|NODE_ENV="production"|' .env
-    grep -q "CORS_ORIGIN" .env || echo 'CORS_ORIGIN="*"' >> .env
+if [ ! -f .env ]; then
+    cp .env.example .env
 fi
+sed -i 's|FRONTEND_URL=.*|FRONTEND_URL="https://fintopdata.vn"|' .env
+sed -i 's|NODE_ENV=.*|NODE_ENV="production"|' .env
+grep -q "CORS_ORIGIN" .env || echo 'CORS_ORIGIN="*"' >> .env
 
 npx prisma db push
 npm run seed 2>/dev/null || true
