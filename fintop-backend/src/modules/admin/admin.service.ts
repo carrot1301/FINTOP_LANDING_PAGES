@@ -138,64 +138,57 @@ export class AdminService {
 
   private static readonly CLIENT_ROLE_CODES = ['CLIENT', 'CLIENT_VIP'];
 
-  async getUsers(page = 1, limit = 20, search?: string, status?: string, userType?: string) {
+  async getUsers(page = 1, limit = 20, search?: string, status?: string, userType?: string, tierLevel?: string) {
     const skip = (page - 1) * limit;
     const where: Prisma.UserWhereInput = { deletedAt: null };
-
-    if (search) {
-      where.OR = [
-        { email: { contains: search, mode: 'insensitive' } },
-        { fullName: { contains: search, mode: 'insensitive' } },
-        { phone: { contains: search } },
-      ];
-    }
 
     if (status && Object.values(RECORD_STATUS).includes(status as RECORD_STATUS)) {
       where.status = status as RECORD_STATUS;
     }
 
-    // Filter by user type (staff vs client)
-    if (userType === 'staff') {
-      where.userRoles = {
-        some: {
-          role: { code: { in: AdminService.STAFF_ROLE_CODES as any } },
-        },
-      };
-      where.email = { not: 'admin@fintop.vn' };
-    } else if (userType === 'client') {
-      // Client = has CLIENT/CLIENT_VIP role OR has no roles at all
-      where.OR = where.OR
-        ? [
-            ...where.OR,
-            {
-              AND: [
-                { userRoles: { none: { role: { code: { in: AdminService.STAFF_ROLE_CODES as any } } } } },
-              ],
-            },
-          ]
-        : undefined;
+    if (tierLevel && Object.values(SUBSCRIPTION_TIER).includes(tierLevel.toUpperCase() as SUBSCRIPTION_TIER)) {
+      where.tierLevel = tierLevel.toUpperCase() as SUBSCRIPTION_TIER;
+    }
 
-      if (!where.OR) {
-        where.userRoles = {
+    const andConditions: Prisma.UserWhereInput[] = [];
+
+    if (search && search.trim() !== '') {
+      const query = search.trim();
+      andConditions.push({
+        OR: [
+          { email: { contains: query, mode: 'insensitive' } },
+          { fullName: { contains: query, mode: 'insensitive' } },
+          { phone: { contains: query, mode: 'insensitive' } },
+          { address: { contains: query, mode: 'insensitive' } },
+          { stockCompany: { contains: query, mode: 'insensitive' } },
+          { stockAccount: { contains: query, mode: 'insensitive' } },
+          { referralName: { contains: query, mode: 'insensitive' } },
+          { referralId: { contains: query, mode: 'insensitive' } },
+        ],
+      });
+    }
+
+    if (userType === 'staff') {
+      andConditions.push({
+        userRoles: {
+          some: {
+            role: { code: { in: AdminService.STAFF_ROLE_CODES as any } },
+          },
+        },
+        email: { not: 'admin@fintop.vn' },
+      });
+    } else if (userType === 'client') {
+      andConditions.push({
+        userRoles: {
           none: {
             role: { code: { in: AdminService.STAFF_ROLE_CODES as any } },
           },
-        };
-      } else {
-        // When search + client filter are combined, wrap properly
-        const searchConditions = where.OR;
-        delete where.OR;
-        where.AND = [
-          { OR: searchConditions },
-          {
-            userRoles: {
-              none: {
-                role: { code: { in: AdminService.STAFF_ROLE_CODES as any } },
-              },
-            },
-          },
-        ];
-      }
+        },
+      });
+    }
+
+    if (andConditions.length > 0) {
+      where.AND = andConditions;
     }
 
     const [total, users] = await Promise.all([

@@ -40,6 +40,7 @@ export class AdminController {
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'search', required: false })
   @ApiQuery({ name: 'status', required: false })
+  @ApiQuery({ name: 'tierLevel', required: false })
   @ApiQuery({ name: 'userType', required: false, description: 'Filter by user type: staff | client' })
   async getUsers(
     @Query('page') page?: string,
@@ -47,10 +48,11 @@ export class AdminController {
     @Query('search') search?: string,
     @Query('status') status?: string,
     @Query('userType') userType?: string,
+    @Query('tierLevel') tierLevel?: string,
   ) {
     const p = page ? parseInt(page, 10) : 1;
     const l = limit ? parseInt(limit, 10) : 20;
-    return this.adminService.getUsers(p, l, search, status, userType);
+    return this.adminService.getUsers(p, l, search, status, userType, tierLevel);
   }
 
   @Get('users/:id')

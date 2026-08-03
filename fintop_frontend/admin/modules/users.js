@@ -145,16 +145,53 @@ export default {
         }
       },
       fetchData: async (page, filters) => {
-        const qs = API().toQuery({ page, limit: 15, search: filters.search, status: filters.status, tierLevel: filters.tierLevel, userType: 'client' });
+        const qs = API().toQuery({ page: 1, limit: 1000, search: filters.search, status: filters.status, tierLevel: filters.tierLevel, userType: 'client' });
         const res = await API().get(EP().ADMIN_USERS + qs);
-        const data = res.data || [];
-        const meta = res.meta || { total: data.length, page: 1, limit: 15, totalPages: 1 };
+        let rawData = res.data || [];
+        if (Array.isArray(res)) rawData = res;
 
-        // Inject row index for STT
-        const startIdx = ((meta.page || 1) - 1) * (meta.limit || 15);
-        data.forEach((u, i) => { u._stt = startIdx + i + 1; });
+        // Multi-field search and tier filtering fallback
+        if (filters.tierLevel) {
+          const targetTier = filters.tierLevel.toUpperCase();
+          rawData = rawData.filter(u => {
+            const userTier = (u.tierLevel || u.legacyTier || 'STANDARD').toUpperCase();
+            if (targetTier === 'GOLD' && (userTier === 'VIP' || userTier === 'GOLD')) return true;
+            if (targetTier === 'SILVER' && (userTier === 'PRO' || userTier === 'SILVER')) return true;
+            return userTier === targetTier;
+          });
+        }
 
-        return { data, meta };
+        if (filters.status) {
+          const targetStatus = filters.status.toUpperCase();
+          rawData = rawData.filter(u => (u.status || '').toUpperCase() === targetStatus);
+        }
+
+        if (filters.search && filters.search.trim() !== '') {
+          const q = filters.search.trim().toLowerCase();
+          rawData = rawData.filter(u => {
+            const name = (u.fullName || u.name || '').toLowerCase();
+            const email = (u.email || '').toLowerCase();
+            const phone = (u.phone || u.phoneNumber || '').toLowerCase();
+            const address = (u.address || u.city || '').toLowerCase();
+            const stockAccount = (u.stockAccount || '').toLowerCase();
+            const stockCompany = (u.stockCompany || '').toLowerCase();
+            return name.includes(q) || email.includes(q) || phone.includes(q) || address.includes(q) || stockAccount.includes(q) || stockCompany.includes(q);
+          });
+        }
+
+        const limit = 15;
+        const total = rawData.length;
+        const totalPages = Math.max(1, Math.ceil(total / limit));
+        const currentPage = Math.min(page, totalPages);
+        const start = (currentPage - 1) * limit;
+        const pagedData = rawData.slice(start, start + limit);
+
+        pagedData.forEach((u, i) => { u._stt = start + i + 1; });
+
+        return {
+          data: pagedData,
+          meta: { total, page: currentPage, limit, totalPages }
+        };
       },
       renderRow: (u) => {
         const investDuration = getInvestDurationLabel(u.investmentDuration || u.investment_duration);
