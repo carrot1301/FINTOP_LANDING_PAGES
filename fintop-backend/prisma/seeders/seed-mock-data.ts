@@ -477,7 +477,7 @@ async function main() {
     },
     {
       name: 'GOLD',
-      description: 'Gói V.I.P - Full PRO + Copy Trade Chuyên gia + Kết nối Chuyên gia',
+      description: 'Gói V.I.P - Full PRO + Copy Trade + Kết nối Chuyên gia',
       features: 'Full đặc quyền PRO;Kết nối chuyên gia;Phân tích chuyên gia;Liên kết tài khoản chứng khoán',
       tierLevel: SUBSCRIPTION_TIER.GOLD,
       price: 5000000,

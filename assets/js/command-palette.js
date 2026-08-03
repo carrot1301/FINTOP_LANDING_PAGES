@@ -21,7 +21,7 @@
         { title: '📊 Tra cứu cổ phiếu', desc: 'Bảng giá, chỉ số và mô hình định lượng', target: 'panel-tracuu', icon: '📊', type: 'panel' },
         { title: '🔍 Bộ lọc cổ phiếu ★', desc: 'Lọc cổ phiếu theo tiêu chí xu hướng & RSI/MFI', target: 'panel-boloc', icon: '🔍', type: 'panel' },
         { title: '🤖 FinTop AI', desc: 'Trợ lý phân tích tài chính AI thông minh', url: '/fintop-ai/index.html', icon: '🤖', type: 'page' },
-        { title: '📡 Copy Trade Chuyên gia', desc: 'Tín hiệu giao dịch và danh mục đầu tư', target: 'panel-tinhieu', icon: '📡', type: 'panel' },
+        { title: '📡 Copy Trade', desc: 'Tín hiệu giao dịch và danh mục đầu tư', target: 'panel-tinhieu', icon: '📡', type: 'panel' },
         { title: '👑 Quyền lợi Hội viên', desc: 'Các gói dịch vụ Standard, Silver, Gold, Diamond', target: 'panel-hoivien', icon: '👑', type: 'panel' },
         { title: '📰 Nghiên cứu Thị trường', desc: 'Báo cáo tổng hợp diễn biến VN-Index', url: '/nghien-cuu/thi-truong/index.html', icon: '📰', type: 'page' },
         { title: '🔬 Nghiên cứu Chuyên sâu', desc: 'Phân tích vĩ mô và mô hình định giá', url: '/nghien-cuu/chuyen-sau/index.html', icon: '🔬', type: 'page' },
