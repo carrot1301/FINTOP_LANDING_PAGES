@@ -54,6 +54,17 @@ ln -sf /etc/nginx/sites-available/fintopdata.vn /etc/nginx/sites-enabled/
 rm -f /etc/nginx/sites-enabled/default
 nginx -t
 systemctl reload nginx
+
+# Cấu hình CORS và Môi trường Production cho Backend NestJS
+cd /var/www/fintop/fintop-backend
+if [ -f .env ]; then
+    sed -i 's|FRONTEND_URL=.*|FRONTEND_URL="https://fintopdata.vn"|' .env
+    sed -i 's|NODE_ENV=.*|NODE_ENV="production"|' .env
+    grep -q "CORS_ORIGIN" .env || echo 'CORS_ORIGIN="*"' >> .env
+fi
+
+pm2 restart fintop-backend || pm2 start dist/src/main.js --name "fintop-backend"
+
 echo "=========================================="
-echo "=== NGINX ĐÃ CẤU HÌNH API.FINTOPDATA.VN! ==="
+echo "=== NGINX VÀ BACKEND CORS ĐÃ CẤU HÌNH THÀNH CÔNG! ==="
 echo "=========================================="
