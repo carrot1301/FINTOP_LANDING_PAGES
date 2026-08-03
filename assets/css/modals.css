@@ -252,6 +252,26 @@
     font-weight: 600;
 }
 
+.theme-diamond .modal-features-list li.diamond-feature-callout {
+    color: #ffffff !important;
+    font-weight: 800;
+}
+
+.theme-diamond .modal-features-list .diamond-feature-callout-text {
+    display: inline-block;
+    margin-left: -0.18rem;
+    padding: 0.14rem 0.46rem;
+    border: 1px solid rgba(255, 190, 55, 0.86);
+    border-radius: 4px;
+    background: linear-gradient(100deg, rgba(188, 91, 8, 0.98), rgba(159, 70, 9, 0.98));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        0 0 16px rgba(255, 174, 23, 0.32);
+    color: #FFFFFF;
+    line-height: 1.35;
+    text-shadow: 0 1px 2px rgba(73, 30, 2, 0.72);
+}
+
 .modal-features-list li.detail,
 .modal-features-list li.subitem,
 .modal-features-list li.diamond-expert {
@@ -587,12 +607,10 @@
 }
 
 .theme-diamond {
-    --modal-card-bg: linear-gradient(180deg, rgba(18, 20, 34, 0.98) 0%, rgba(10, 10, 18, 0.99) 100%);
-    --modal-inner-panel: #12172B;
-    --modal-accent: #F59E0B;
-    --modal-soft: rgba(245, 158, 11, 0.14);
-    --modal-border: rgba(245, 158, 11, 0.42);
-    --modal-btn-gradient: linear-gradient(135deg, #FBBF24, #D9A12E);
+    --modal-accent: #FFAE17;
+    --modal-soft: rgba(255, 174, 23, 0.2);
+    --modal-border: rgba(255, 174, 23, 0.52);
+    --modal-btn-gradient: linear-gradient(135deg, #FFC42D, #FF771A);
     --modal-btn-color: #17110A;
 }
 

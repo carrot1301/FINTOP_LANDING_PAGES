@@ -3428,7 +3428,7 @@
             --membership-accent-standard: #38BDF8;
             --membership-accent-pro: #A855F7;
             --membership-accent-vip: #10B981;
-            --membership-accent-diamond: #F59E0B;
+            --membership-accent-diamond: #FFAE17;
         }
 
         .liquid-glass-card {
@@ -3530,13 +3530,13 @@
 
         .liquid-glass-card.card-diamond {
             --tier-accent: var(--membership-accent-diamond);
-            --tier-soft: rgba(245, 158, 11, 0.2);
-            --tier-border: rgba(245, 158, 11, 0.42);
-            --tier-gradient: linear-gradient(135deg, #FBBF24, #F97316);
+            --tier-soft: rgba(255, 174, 23, 0.22);
+            --tier-border: rgba(255, 174, 23, 0.5);
+            --tier-gradient: linear-gradient(135deg, #FFC42D, #FF771A);
             --tier-button-bg: var(--tier-gradient);
-            --tier-button-border: rgba(251, 191, 36, 0.72);
+            --tier-button-border: rgba(255, 196, 45, 0.8);
             --tier-button-color: #17110A;
-            --tier-button-shadow: 0 12px 28px rgba(245, 158, 11, 0.34);
+            --tier-button-shadow: 0 12px 28px rgba(255, 174, 23, 0.38);
         }
 
         .membership-plan-head {
@@ -4547,7 +4547,7 @@
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="fintop-ai/index.html">🤖 FinTop AI</a>
                     <a href="javascript:void(0)" data-panel="panel-tinhieu"
-                        onclick="openPanel('panel-tinhieu', this)">📡 Copy Trade Chuyên gia</a>
+                        onclick="openPanel('panel-tinhieu', this)">📡 Copy Trade</a>
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-stock-data">
@@ -4917,11 +4917,10 @@
     <!-- ============================================ -->
     <!-- PANEL: TÍN HIỆU TỪ CHUYÊN GIA / COPY TRADE   -->
     <!-- ============================================ -->
-    <div class="submenu-panel" id="panel-tinhieu" aria-label="Copy Trade Chuyên gia">
+    <div class="submenu-panel" id="panel-tinhieu" aria-label="Copy Trade">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header" style="text-align: center; margin-bottom: 2rem;">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">📡 Copy Trade & Tín Hiệu Chuyên Gia
-            </h2>
+            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">📡 Copy Trade</h2>
             <p style="color: #94a3b8; max-width: 650px; margin: 0.5rem auto 0; font-size: 0.95rem; line-height: 1.6;">
                 Tín hiệu ENTRY / EXIT realtime từ đội ngũ Chuyên gia VPS — Cập nhật liên tục theo diễn biến thị trường
                 thực tế.
@@ -6734,7 +6733,7 @@
                     onclick="selectMembershipAction('vip', this)">
                     <div class="membership-plan-head">
                         <div class="pricing-title">V.I.P</div>
-                        <div class="pricing-subtitle">Cao cấp</div>
+                        <div class="pricing-subtitle">Ưu tiên</div>
                     </div>
                     <div class="membership-benefit-panel">
                         <ul class="pricing-features">
@@ -8042,7 +8041,7 @@
                 vip: {
                     id: 'vip',
                     name: 'V.I.P',
-                    subtitle: 'Cao cấp',
+                    subtitle: 'Ưu tiên',
                     price: 'CS hợp tác - không thu phí',
                     cta: 'Liên kết V.I.P',
                     status: 'Đang mở',
@@ -8367,7 +8366,7 @@
                 },
                 vip: {
                     title: 'V.I.P',
-                    subtitle: 'Cao cấp',
+                    subtitle: 'Ưu tiên',
                     features: 'Đặc quyền PRO; Kết nối Chuyên gia; Phân tích Chuyên gia',
                     cta: 'Liên kết V.I.P'
                 },
@@ -8503,10 +8502,15 @@
                         .map((feature, index) => {
                             const classes = [];
                             const highlightCount = modalHighlightCounts[plan.id] ?? 1;
+                            const isDiamondCallout = plan.id === 'diamond' && index < highlightCount;
                             if (index < highlightCount) classes.push('highlight');
+                            if (isDiamondCallout) classes.push('diamond-feature-callout');
                             if (plan.id === 'vip' && (index === 4 || index === 5)) classes.push('subitem');
                             if (plan.id === 'diamond' && (index === 3 || index === 4)) classes.push('diamond-expert');
-                            return `<li class="${classes.join(' ')}">${escapeHtml(feature)}</li>`;
+                            const featureContent = isDiamondCallout
+                                ? `<span class="diamond-feature-callout-text">${escapeHtml(feature)}</span>`
+                                : escapeHtml(feature);
+                            return `<li class="${classes.join(' ')}">${featureContent}</li>`;
                         })
                         .join('');
                 }
@@ -9812,9 +9816,12 @@
                 </div>
                 <div class="modal-hero-right">
                     <ul class="modal-features-list">
-                        <li class="highlight">Full Đặc quyền PRO (miễn phí)</li>
-                        <li class="highlight">Full Đặc quyền V.I.P (miễn phí)</li>
-                        <li class="highlight">Chuyên gia Cao cấp Công ty Chứng khoán</li>
+                        <li class="highlight diamond-feature-callout"><span class="diamond-feature-callout-text">Full
+                                Đặc quyền PRO (miễn phí)</span></li>
+                        <li class="highlight diamond-feature-callout"><span class="diamond-feature-callout-text">Full
+                                Đặc quyền V.I.P (miễn phí)</span></li>
+                        <li class="highlight diamond-feature-callout"><span
+                                class="diamond-feature-callout-text">Chuyên gia Cao cấp Công ty Chứng khoán</span></li>
                         <li class="diamond-expert">Giám đốc Tư vấn đầu tư & Quản lý danh mục</li>
                         <li class="diamond-expert">Chuyên gia Phân tích & Đầu tư (10 năm kinh nghiệm)</li>
                     </ul>

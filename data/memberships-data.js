@@ -24,7 +24,7 @@ window.FINTOP_MEMBERSHIP_DATA = [
     {
         id: 'vip',
         name: 'V.I.P',
-        subtitle: 'Cao cấp',
+        subtitle: 'Ưu tiên',
         price: 'CS hợp tác - không thu phí',
         cta: 'Liên kết V.I.P',
         status: 'Đang mở',
