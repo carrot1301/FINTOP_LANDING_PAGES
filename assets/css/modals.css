@@ -587,10 +587,12 @@
 }
 
 .theme-diamond {
+    --modal-card-bg: linear-gradient(180deg, rgba(18, 20, 34, 0.98) 0%, rgba(10, 10, 18, 0.99) 100%);
+    --modal-inner-panel: #12172B;
     --modal-accent: #F59E0B;
-    --modal-soft: rgba(245, 158, 11, 0.2);
-    --modal-border: rgba(245, 158, 11, 0.5);
-    --modal-btn-gradient: linear-gradient(135deg, #FBBF24, #F97316);
+    --modal-soft: rgba(245, 158, 11, 0.14);
+    --modal-border: rgba(245, 158, 11, 0.42);
+    --modal-btn-gradient: linear-gradient(135deg, #FBBF24, #D9A12E);
     --modal-btn-color: #17110A;
 }
 
