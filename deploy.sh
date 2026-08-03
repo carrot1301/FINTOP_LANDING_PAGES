@@ -1,12 +1,20 @@
 #!/bin/bash
-# Dọn dẹp file rác Nginx
+# 1. Dọn dẹp file rác Nginx
 rm -f /etc/nginx/conf.d/fintop*
 rm -f /etc/nginx/sites-available/fintopdata.vn
 rm -f /etc/nginx/sites-enabled/fintopdata.vn
 
-# Tạo cấu hình Nginx kép cho cả Frontend (fintopdata.vn) và Backend (api.fintopdata.vn)
+# 2. Cài đặt và kích hoạt PostgreSQL + Redis
+apt update && apt install -y postgresql postgresql-contrib redis-server
+systemctl start postgresql && systemctl enable postgresql
+systemctl start redis-server && systemctl enable redis-server
+
+# Cấu hình Mật khẩu Postgres và Tạo Database fintop
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD '123';"
+sudo -u postgres createdb fintop 2>/dev/null || true
+
+# 3. Tạo cấu hình Nginx kép cho Frontend (fintopdata.vn) và Backend (api.fintopdata.vn)
 cat << 'EOF' > /etc/nginx/sites-available/fintopdata.vn
-# 1. Server Block cho Frontend Web chính
 server {
     listen 80;
     server_name fintopdata.vn www.fintopdata.vn;
@@ -31,7 +39,6 @@ server {
     }
 }
 
-# 2. Server Block riêng cho Backend API (api.fintopdata.vn)
 server {
     listen 80;
     server_name api.fintopdata.vn;
@@ -55,7 +62,7 @@ rm -f /etc/nginx/sites-enabled/default
 nginx -t
 systemctl reload nginx
 
-# Cấu hình CORS và Môi trường Production cho Backend NestJS
+# 4. Cấu hình .env & Khởi tạo Schema Database Prisma
 cd /var/www/fintop/fintop-backend
 if [ -f .env ]; then
     sed -i 's|FRONTEND_URL=.*|FRONTEND_URL="https://fintopdata.vn"|' .env
@@ -63,8 +70,12 @@ if [ -f .env ]; then
     grep -q "CORS_ORIGIN" .env || echo 'CORS_ORIGIN="*"' >> .env
 fi
 
-pm2 restart fintop-backend || pm2 start dist/src/main.js --name "fintop-backend"
+npx prisma db push
+npm run seed 2>/dev/null || true
+
+pm2 restart fintop-backend --update-env || pm2 start dist/src/main.js --name "fintop-backend"
+pm2 save
 
 echo "=========================================="
-echo "=== NGINX VÀ BACKEND CORS ĐÃ CẤU HÌNH THÀNH CÔNG! ==="
+echo "=== DATABASE VÀ BACKEND ĐÃ KÍCH HOẠT THÀNH CÔNG! ==="
 echo "=========================================="
