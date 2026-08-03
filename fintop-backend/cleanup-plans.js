@@ -98,7 +98,7 @@ async function main() {
     where: { id: 3 },
     data: {
       name: 'V.I.P',
-      description: 'Gói V.I.P - Full PRO + Copy Trade Chuyên gia + Kết nối Chuyên gia',
+      description: 'Gói V.I.P - Full PRO + Copy Trade + Kết nối Chuyên gia',
       features: 'Đặc quyền PRO;Kết nối Chuyên gia;Phân tích Chuyên gia',
       price: 5000000,
       durationDays: 180,

@@ -51,7 +51,7 @@
                         <a href="${rootIndex}#panel-tracuu" class="mobile-drawer-sublink">📊 Tra cứu cổ phiếu</a>
                         <a href="${rootIndex}#panel-boloc" class="mobile-drawer-sublink">🔍 Bộ lọc cổ phiếu ★</a>
                         <a href="${fintopAiUrl}" class="mobile-drawer-sublink">🤖 FinTop AI</a>
-                        <a href="${rootIndex}#panel-tinhieu" class="mobile-drawer-sublink">📡 Copy Trade Chuyên gia</a>
+                        <a href="${rootIndex}#panel-tinhieu" class="mobile-drawer-sublink">📡 Copy Trade</a>
                     </div>
                 </div>
 
