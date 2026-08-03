@@ -1,4 +1,9 @@
 #!/bin/bash
+# Dọn dẹp file lỗi rác trong /etc/nginx/conf.d/ nếu có
+rm -f /etc/nginx/conf.d/fintopdata*
+rm -f /etc/nginx/conf.d/fintop*
+
+# Tạo lại cấu hình Nginx chuẩn
 cat << 'EOF' > /etc/nginx/sites-available/fintopdata.vn
 server {
     listen 80;
@@ -30,5 +35,5 @@ rm -f /etc/nginx/sites-enabled/default
 nginx -t
 systemctl reload nginx
 echo "=========================================="
-echo "=== NGINX HOÀN TẤT CẤU HÌNH WEB MỚI! ==="
+echo "=== NGINX DỌN DẸP VÀ CẤU HÌNH THÀNH CÔNG! ==="
 echo "=========================================="
