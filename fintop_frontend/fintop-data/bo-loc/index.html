@@ -310,9 +310,9 @@
             filter: none;
         }
         .data-table .boloc-delta-rsi-header {
-            color: rgba(148, 163, 184, 0.82) !important;
-            font-size: 0.66rem !important;
-            font-weight: 600 !important;
+            color: #cbd5e1 !important;
+            font-size: 0.72rem !important;
+            font-weight: 700 !important;
         }
         .boloc-delta-rsi-cell {
             color: #94a3b8 !important;
@@ -331,7 +331,7 @@
             appearance: none;
             border: 0;
             background: transparent;
-            color: rgba(148, 163, 184, 0.72);
+            color: #f59e0b;
             padding: 1px 2px;
             font: inherit;
             line-height: 1;
@@ -339,8 +339,8 @@
         }
         .delta-rsi-info-button:hover,
         .delta-rsi-info-button:focus-visible {
-            color: #cbd5e1;
-            outline: 1px solid rgba(148, 163, 184, 0.5);
+            color: #fbbf24;
+            outline: 1px solid rgba(245, 158, 11, 0.55);
             outline-offset: 2px;
             border-radius: 3px;
         }
@@ -722,7 +722,7 @@
                                 status: item.status,
                                 statusText: item.statusText,
                                 deltaRsi: item.delta_rsi ?? item.deltaRsi ?? '',
-                                trend: item.trend || 'SIDEWAY',
+                                trend: item.trend || '',
                                 vungKiemDinh: item.validation_zone || '—',
                                 khangCu: item.resistance_zone || '—',
                                 hoTro: item.support_zone || '—'
@@ -744,22 +744,30 @@
                 let bg = 'rgba(148, 163, 184, 0.14)';
                 let fg = '#E2E8F0';
                 let border = 'rgba(226, 232, 240, 0.22)';
+                let shadow = 'none';
 
                 if (norm === 'RẤT TÍCH CỰC' || norm === 'VERY-POSITIVE' || norm === 'VERY-POS') {
-                    bg = 'rgba(168, 85, 247, 0.2)'; fg = '#E9D5FF'; border = 'rgba(216, 180, 254, 0.58)';
+                    bg = 'linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3))'; fg = '#FCE7F3'; border = 'rgba(244, 114, 182, 0.78)'; shadow = '0 0 8px rgba(236, 72, 153, 0.55), 0 0 18px rgba(168, 85, 247, 0.42)';
                 } else if (norm === 'TÍCH CỰC' || norm === 'POS' || norm === 'POSITIVE') {
                     bg = 'rgba(16, 185, 129, 0.18)'; fg = '#A7F3D0'; border = 'rgba(52, 211, 153, 0.55)';
                 } else if (norm === 'KHẢ QUAN' || norm === 'OK') {
-                    bg = 'rgba(245, 158, 11, 0.16)'; fg = '#FDE68A'; border = 'rgba(251, 191, 36, 0.52)';
+                    bg = 'rgba(202, 255, 88, 0.14)'; fg = '#FDE047'; border = 'rgba(217, 249, 157, 0.55)';
                 } else if (norm === 'TRUNG LẬP' || norm === 'NEUTRAL') {
                     bg = 'rgba(59, 130, 246, 0.2)'; fg = '#BFDBFE'; border = 'rgba(96, 165, 250, 0.42)';
                 } else if (norm === 'KO TÍCH CỰC') {
-                    bg = 'rgba(249, 115, 22, 0.16)'; fg = '#FDBA74'; border = 'rgba(251, 146, 60, 0.45)';
+                    bg = 'rgba(194, 65, 12, 0.26)'; fg = '#FDBA74'; border = 'rgba(249, 115, 22, 0.62)';
                 } else if (norm === 'TIÊU CỰC' || norm === 'NEG' || norm === 'NEGATIVE') {
-                    bg = 'rgba(239, 68, 68, 0.16)'; fg = '#FCA5A5'; border = 'rgba(248, 113, 113, 0.45)';
+                    bg = 'rgba(127, 29, 29, 0.34)'; fg = '#F87171'; border = 'rgba(220, 38, 38, 0.62)';
                 }
 
-                return `<span class="badge" style="display:inline-flex; justify-content:center; min-width:112px; background:${bg}; color:${fg}; border:1px solid ${border}; font-weight:800; padding:6px 12px; border-radius:999px; font-size:0.75rem;">${statusText || 'TRUNG LẬP'}</span>`;
+                return `<span class="badge" style="display:inline-flex; justify-content:center; min-width:112px; background:${bg}; color:${fg}; border:1px solid ${border}; box-shadow:${shadow}; font-weight:800; padding:6px 12px; border-radius:999px; font-size:0.75rem;">${statusText || 'TRUNG LẬP'}</span>`;
+            }
+
+            const CUSTOMER_STRENGTHS = new Set(['TĂNG MẠNH', 'TĂNG', 'TĂNG DẦN']);
+
+            function getCustomerStrengthText(value) {
+                const label = String(value || '').trim().toUpperCase().replace(/\s+/g, ' ');
+                return CUSTOMER_STRENGTHS.has(label) ? label : '';
             }
 
             // ── Render table ──
@@ -777,6 +785,7 @@
                     tr.style.borderBottom = '1px solid rgba(15, 23, 42, 0.95)';
 
                     const actionBadge = getActionBadgeMarkup(row.statusText, row.status);
+                    const strengthText = getCustomerStrengthText(row.trend);
                     const rowBg = 'rgba(15, 15, 25, 0.96)';
                     const baseCellStyle = `padding: 8px 4px; background: ${rowBg}; color: #CBD5E1; font-weight: 500; font-size: 0.78rem; text-align: center; word-wrap: break-word; overflow-wrap: break-word;`;
 
@@ -815,7 +824,7 @@
                         <td style="${baseCellStyle} line-height: 1.4; text-align: left;">${row.desc}</td>
                         <td style="${baseCellStyle}">${actionBadge}</td>
                         <td class="boloc-delta-rsi-cell" style="${baseCellStyle}">${escapeHtml(row.deltaRsi || '—')}</td>
-                        <td style="${baseCellStyle} color: #C084FC; font-weight: 900; text-transform: uppercase;">${row.trend || '—'}</td>
+                        <td style="${baseCellStyle} color: #67E8F9; font-weight: 900; text-transform: uppercase;">${escapeHtml(strengthText)}</td>
                         <td style="${baseCellStyle}">${row.vungKiemDinh}</td>
                         <td style="${baseCellStyle}">${row.khangCu}</td>
                         <td style="${baseCellStyle}">${row.hoTro}</td>
