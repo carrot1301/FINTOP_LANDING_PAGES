@@ -1023,9 +1023,9 @@
         }
 
         #bolocTable .boloc-delta-rsi-header {
-            color: rgba(148, 163, 184, 0.82);
-            font-size: 0.66rem;
-            font-weight: 600;
+            color: var(--boloc-header-text);
+            font-size: 0.72rem;
+            font-weight: 700;
         }
 
         #bolocTable .boloc-delta-rsi-cell {
@@ -1047,7 +1047,7 @@
             appearance: none;
             border: 0;
             background: transparent;
-            color: rgba(148, 163, 184, 0.72);
+            color: #F59E0B;
             padding: 1px 2px;
             font: inherit;
             line-height: 1;
@@ -1056,8 +1056,8 @@
 
         .delta-rsi-info-button:hover,
         .delta-rsi-info-button:focus-visible {
-            color: #CBD5E1;
-            outline: 1px solid rgba(148, 163, 184, 0.5);
+            color: #FBBF24;
+            outline: 1px solid rgba(245, 158, 11, 0.55);
             outline-offset: 2px;
             border-radius: 3px;
         }
@@ -7448,10 +7448,10 @@
 
         const BOLOC_STATUS_COLORS = {
             'RẤT TÍCH CỰC': {
-                bg: 'rgba(20, 184, 166, 0.18)',
-                text: '#99F6E4',
-                border: 'rgba(45, 212, 191, 0.56)',
-                shadow: '0 0 14px rgba(20, 184, 166, 0.18)'
+                bg: 'linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3))',
+                text: '#FCE7F3',
+                border: 'rgba(244, 114, 182, 0.78)',
+                shadow: '0 0 8px rgba(236, 72, 153, 0.55), 0 0 18px rgba(168, 85, 247, 0.42)'
             },
             'TÍCH CỰC': {
                 bg: 'rgba(16, 185, 129, 0.18)',
@@ -7460,10 +7460,10 @@
                 shadow: '0 0 14px rgba(16, 185, 129, 0.16)'
             },
             'KHẢ QUAN': {
-                bg: 'rgba(245, 158, 11, 0.14)',
-                text: '#FCD34D',
-                border: 'rgba(251, 191, 36, 0.5)',
-                shadow: '0 0 12px rgba(245, 158, 11, 0.14)'
+                bg: 'rgba(202, 255, 88, 0.14)',
+                text: '#FDE047',
+                border: 'rgba(217, 249, 157, 0.55)',
+                shadow: '0 0 12px rgba(250, 204, 21, 0.14)'
             },
             'TRUNG LẬP': {
                 bg: 'rgba(148, 163, 184, 0.12)',
@@ -7472,18 +7472,20 @@
                 shadow: 'none'
             },
             'KO TÍCH CỰC': {
-                bg: 'rgba(249, 115, 22, 0.14)',
-                text: '#FED7AA',
-                border: 'rgba(251, 146, 60, 0.45)',
+                bg: 'rgba(194, 65, 12, 0.26)',
+                text: '#FDBA74',
+                border: 'rgba(249, 115, 22, 0.62)',
                 shadow: 'none'
             },
             'TIÊU CỰC': {
-                bg: 'rgba(244, 63, 94, 0.14)',
-                text: '#FDA4AF',
-                border: 'rgba(248, 113, 113, 0.45)',
+                bg: 'rgba(127, 29, 29, 0.34)',
+                text: '#F87171',
+                border: 'rgba(220, 38, 38, 0.62)',
                 shadow: 'none'
             }
         };
+
+        const BOLOC_BULLISH_STRENGTHS = new Set(['TĂNG MẠNH', 'TĂNG', 'TĂNG DẦN']);
 
         // Toggle dropdown pin
         function toggleDropdownPin(dropdownId) {
@@ -7947,7 +7949,10 @@
         }
 
         function getBolocStrengthText(row) {
-            return row.trend || row.strength || row.strengthText || row.rsiMfi || row.rsi_mfi || '';
+            const label = normalizeBolocLabel(
+                row.trend || row.strength || row.strengthText || row.rsiMfi || row.rsi_mfi || ''
+            );
+            return BOLOC_BULLISH_STRENGTHS.has(label) ? label : '';
         }
 
         function closeBolocDeltaRsiTooltip() {
@@ -8018,12 +8023,7 @@
 
         function getBolocStrengthTextColor(strengthText) {
             const label = normalizeBolocLabel(strengthText);
-            if (label.includes('UP')) return '#67E8F9';
-            if (label.includes('SIDE')) return '#C084FC';
-            if (label.includes('DOWN')) return '#FDA4AF';
-            if (label.includes('TĂNG')) return '#67E8F9';
-            if (label.includes('GIẢM')) return '#FDA4AF';
-            return '#D8B4FE';
+            return BOLOC_BULLISH_STRENGTHS.has(label) ? '#67E8F9' : 'inherit';
         }
 
         // ── Tier helpers for Bộ Lọc ──
