@@ -274,14 +274,14 @@ export class AdminController {
   // ─────────────────────────────────────────────────────
 
   @Get('billing/plans')
-  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @Permissions('PLAN:READ')
   @ApiOperation({ summary: 'List all subscription plans' })
   async getSubscriptionPlans() {
     return this.adminService.getSubscriptionPlans();
   }
 
   @Post('billing/plans')
-  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @Permissions('PLAN:CREATE')
   @ApiOperation({ summary: 'Create a new subscription plan' })
   async createPlan(
     @Body() dto: CreatePlanDto,
@@ -291,7 +291,7 @@ export class AdminController {
   }
 
   @Patch('billing/plans/:id')
-  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @Permissions('PLAN:UPDATE')
   @ApiOperation({ summary: 'Update a subscription plan' })
   async updatePlan(
     @Param('id') id: string,
@@ -302,7 +302,7 @@ export class AdminController {
   }
 
   @Delete('billing/plans/:id')
-  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @Permissions('PLAN:DELETE')
   @ApiOperation({ summary: 'Delete a subscription plan (Soft delete)' })
   async deletePlan(
     @Param('id') id: string,
