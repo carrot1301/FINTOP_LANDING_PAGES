@@ -131,12 +131,62 @@ export class AdminService {
 
   // Staff role codes — used for userType filtering
   private static readonly STAFF_ROLE_CODES = [
-    'SUPER_ADMIN', 'CEO', 'ASSISTANT_CEO',
+    'CEO', 'DEVELOPER', 'SUPER_ADMIN', 'ASSISTANT_CEO',
     'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR',
     'SALE_ADMIN', 'SALE', 'EXPERT',
   ];
 
   private static readonly CLIENT_ROLE_CODES = ['CLIENT', 'CLIENT_VIP'];
+
+  private static readonly ROLE_HIERARCHY_RANK: Record<string, number> = {
+    CEO: 1,           // Rank 1: Top Level Executive (fintop.ba@gmail.com)
+    DEVELOPER: 2,     // Rank 2: Developer (fintop.bashare@gmail.com)
+    SUPER_ADMIN: 2,   // Legacy rank 2
+    ASSISTANT_CEO: 3,
+    EDITOR_ADMIN: 3,
+    SALE_ADMIN: 3,
+    EDITOR_PRO: 4,
+    EDITOR: 4,
+    SALE: 4,
+    EXPERT: 4,
+    CLIENT_VIP: 5,
+    CLIENT: 5,
+  };
+
+  private async enforceRoleHierarchy(operatorUserId: number, targetUserId: number, actionName: string) {
+    if (!operatorUserId || operatorUserId === targetUserId) {
+      return;
+    }
+
+    const [operatorUser, targetUser] = await Promise.all([
+      this.prisma.user.findUnique({
+        where: { id: operatorUserId },
+        include: { userRoles: { include: { role: true } } },
+      }),
+      this.prisma.user.findUnique({
+        where: { id: targetUserId },
+        include: { userRoles: { include: { role: true } } },
+      }),
+    ]);
+
+    if (!targetUser) return;
+
+    // Rule 1: NO ONE except fintop.ba@gmail.com (CEO) can modify fintop.ba@gmail.com
+    if (targetUser.email === 'fintop.ba@gmail.com' && operatorUser?.email !== 'fintop.ba@gmail.com') {
+      throw new BadRequestException('Tài khoản CEO cấp cao nhất (fintop.ba@gmail.com) được bảo vệ tuyệt đối! Không ai có quyền chỉnh sửa, khóa hoặc gán lại vai trò của tài khoản này.');
+    }
+
+    // Rule 2: Rank enforcement
+    const operatorRanks = operatorUser?.userRoles.map(ur => AdminService.ROLE_HIERARCHY_RANK[ur.role.code] ?? 99) || [99];
+    const operatorMinRank = Math.min(...operatorRanks);
+
+    const targetRanks = targetUser.userRoles.map(ur => AdminService.ROLE_HIERARCHY_RANK[ur.role.code] ?? 99);
+    const targetMinRank = Math.min(...targetRanks);
+
+    if (operatorMinRank >= targetMinRank && operatorUser?.email !== 'fintop.ba@gmail.com') {
+      throw new BadRequestException(`Bạn không có quyền thực hiện hành động "${actionName}" trên tài khoản có cấp bậc tương đương hoặc cao hơn!`);
+    }
+  }
 
   async getUsers(page = 1, limit = 20, search?: string, status?: string, userType?: string, tierLevel?: string) {
     const skip = (page - 1) * limit;
@@ -328,6 +378,7 @@ export class AdminService {
   }
 
   async updateUserStatus(userId: number, newStatus: RECORD_STATUS, adminId: number) {
+    await this.enforceRoleHierarchy(adminId, userId, 'thay đổi trạng thái');
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user || user.deletedAt) {
       throw new NotFoundException('User not found');
@@ -357,6 +408,7 @@ export class AdminService {
   }
 
   async assignRole(userId: number, roleCode: string, adminId: number) {
+    await this.enforceRoleHierarchy(adminId, userId, 'gán vai trò');
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user || user.deletedAt) {
       throw new NotFoundException('User not found');
@@ -367,6 +419,19 @@ export class AdminService {
     });
     if (!role) {
       throw new NotFoundException(`Role "${roleCode}" not found`);
+    }
+
+    // Check if operator has rank to assign this role
+    const operatorUser = await this.prisma.user.findUnique({
+      where: { id: adminId },
+      include: { userRoles: { include: { role: true } } },
+    });
+    const operatorRanks = operatorUser?.userRoles.map(ur => AdminService.ROLE_HIERARCHY_RANK[ur.role.code] ?? 99) || [99];
+    const operatorMinRank = Math.min(...operatorRanks);
+    const targetRoleRank = AdminService.ROLE_HIERARCHY_RANK[roleCode] ?? 99;
+
+    if (operatorMinRank >= targetRoleRank && operatorUser?.email !== 'fintop.ba@gmail.com') {
+      throw new BadRequestException(`Bạn không có quyền gán vai trò "${roleCode}" (cấp bậc tương đương hoặc cao hơn vai trò của bạn)!`);
     }
 
     // Check if already assigned
@@ -395,6 +460,7 @@ export class AdminService {
   }
 
   async removeRole(userId: number, roleCode: string, adminId: number) {
+    await this.enforceRoleHierarchy(adminId, userId, 'gỡ vai trò');
     const role = await this.prisma.role.findFirst({
       where: { code: roleCode as any, deletedAt: null },
     });
@@ -427,6 +493,7 @@ export class AdminService {
   }
 
   async deleteUser(userId: number, adminId: number) {
+    await this.enforceRoleHierarchy(adminId, userId, 'xóa tài khoản');
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user || user.deletedAt) {
       throw new NotFoundException('User not found');
@@ -451,6 +518,7 @@ export class AdminService {
   }
 
   async updateUser(userId: number, dto: any, adminId: number) {
+    await this.enforceRoleHierarchy(adminId, userId, 'chỉnh sửa thông tin');
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user || user.deletedAt) {
       throw new NotFoundException('User not found');

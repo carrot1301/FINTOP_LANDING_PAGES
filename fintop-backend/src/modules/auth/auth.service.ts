@@ -236,6 +236,7 @@ export class AuthService {
     const ROLE_TIER_MAPPING = {
       SUPER_ADMIN: 'DIAMOND',
       CEO: 'DIAMOND',
+      DEVELOPER: 'DIAMOND',
       ASSISTANT_CEO: 'DIAMOND',
       ADMIN: 'DIAMOND',
       EDITOR_ADMIN: 'DIAMOND',
