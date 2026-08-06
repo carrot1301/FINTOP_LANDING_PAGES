@@ -51,18 +51,21 @@ const INVESTMENT_STYLE_LABELS = {
 };
 
 const TIER_LABELS = {
-  standard: 'Standard',
-  silver:   'PRO',
-  gold:     'V.I.P',
-  diamond:  'DIAMOND',
-  vip:      'V.I.P',
+  standard: 'Khách hàng',
+  silver:   'Khách hàng Pro',
+  gold:     'Khách hàng VIP',
+  diamond:  'Khách hàng Diamond',
+  vip:      'Khách hàng VIP',
 };
 
 const ROLE_DISPLAY = {
   SUPER_ADMIN:    { label: 'Admin',       color: '#ff3b3b' },
   ADMIN:          { label: 'Admin',       color: '#ff3b3b' },
-  EDITOR:         { label: 'Biên tập',    color: '#3b82f6' },
-  SALE_BASIC:     { label: 'Sale',        color: '#22c55e' },
+  EDITOR_ADMIN:   { label: 'Editor Admin',color: '#3b82f6' },
+  EDITOR_PRO:     { label: 'Editor Pro',  color: '#60a5fa' },
+  EDITOR:         { label: 'Editor',      color: '#93c5fd' },
+  SALE_ADMIN:     { label: 'Sales Admin', color: '#22c55e' },
+  SALE:           { label: 'Sale',        color: '#4ade80' },
   USER:           { label: 'Khách hàng',  color: '#ff7c00' },
 };
 
@@ -129,10 +132,10 @@ export default {
         tierLevel: {
           label: 'Gói hội viên',
           options: [
-            { value: 'STANDARD', label: 'Standard' },
-            { value: 'SILVER', label: 'PRO (Silver)' },
-            { value: 'GOLD', label: 'V.I.P (Gold)' },
-            { value: 'DIAMOND', label: 'Diamond' },
+            { value: 'STANDARD', label: 'Khách hàng' },
+            { value: 'SILVER', label: 'Khách hàng Pro' },
+            { value: 'GOLD', label: 'Khách hàng VIP' },
+            { value: 'DIAMOND', label: 'Khách hàng Diamond' },
           ]
         },
         status: {
@@ -553,10 +556,10 @@ function showUpgradeModal(userId, userName, currentTier) {
           <div class="admin-form-group">
             <label>Nâng cấp lên gói</label>
             <select class="admin-select" id="upgrade-tier">
-              <option value="standard" ${currentTier === 'standard' ? 'selected' : ''}>Standard</option>
-              <option value="silver" ${currentTier === 'silver' ? 'selected' : ''}>PRO</option>
-              <option value="gold" ${currentTier === 'gold' ? 'selected' : ''}>V.I.P</option>
-              <option value="diamond" ${currentTier === 'diamond' ? 'selected' : ''}>DIAMOND</option>
+              <option value="standard" ${currentTier === 'standard' ? 'selected' : ''}>Khách hàng</option>
+              <option value="silver" ${currentTier === 'silver' ? 'selected' : ''}>Khách hàng Pro</option>
+              <option value="gold" ${currentTier === 'gold' ? 'selected' : ''}>Khách hàng VIP</option>
+              <option value="diamond" ${currentTier === 'diamond' ? 'selected' : ''}>Khách hàng Diamond</option>
             </select>
           </div>
           <div class="admin-form-group">

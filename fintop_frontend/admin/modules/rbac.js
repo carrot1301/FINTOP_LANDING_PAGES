@@ -24,12 +24,11 @@ const ROLE_DISPLAY = {
   CEO:            { label: 'CEO',                  color: '#ff3b3b' },
   DEVELOPER:      { label: 'Developer',            color: '#a855f7' },
   ASSISTANT_CEO:  { label: 'Trợ lý CEO',           color: '#ff6b6b' },
-  EDITOR_ADMIN:   { label: 'Trưởng phòng BT',      color: '#3b82f6' },
-  EDITOR_PRO:     { label: 'Biên tập Pro',          color: '#60a5fa' },
-  EDITOR:         { label: 'Biên tập viên',         color: '#93c5fd' },
-  SALE_ADMIN:     { label: 'Trưởng khối Sale',      color: '#22c55e' },
-  SALE:           { label: 'Chuyên viên Sale',      color: '#4ade80' },
-  EXPERT:         { label: 'Chuyên gia',            color: '#f59e0b' },
+  EDITOR_ADMIN:   { label: 'Editor Admin',         color: '#3b82f6' },
+  EDITOR_PRO:     { label: 'Editor Pro',           color: '#60a5fa' },
+  EDITOR:         { label: 'Editor',               color: '#93c5fd' },
+  SALE_ADMIN:     { label: 'Sales Admin',          color: '#22c55e' },
+  SALE:           { label: 'Sale',                 color: '#4ade80' },
   CLIENT_VIP:     { label: 'Khách hàng VIP',        color: '#eab308' },
   CLIENT:         { label: 'Khách hàng',            color: '#94a3b8' },
 };
@@ -535,27 +534,23 @@ async function showStaffEditModal(userId) {
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="EDITOR_ADMIN" ${userRoles.includes('EDITOR_ADMIN') ? 'checked' : ''} />
-                  🔵 Trưởng phòng Biên tập
+                  🔵 Editor Admin
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="EDITOR_PRO" ${userRoles.includes('EDITOR_PRO') ? 'checked' : ''} />
-                  🔵 Biên tập Pro
+                  🔵 Editor Pro
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="EDITOR" ${userRoles.includes('EDITOR') ? 'checked' : ''} />
-                  🔵 Biên tập viên
+                  🔵 Editor
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="SALE_ADMIN" ${userRoles.includes('SALE_ADMIN') ? 'checked' : ''} />
-                  🟢 Trưởng khối Sale
+                  🟢 Sales Admin
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="SALE" ${userRoles.includes('SALE') ? 'checked' : ''} />
-                  🟢 Chuyên viên Sale
-                </label>
-                <label class="checkbox-label">
-                  <input type="checkbox" class="checkbox-input edit-role-chk" value="EXPERT" ${userRoles.includes('EXPERT') ? 'checked' : ''} />
-                  🟡 Chuyên gia Cố vấn
+                  🟢 Sale
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="CLIENT_VIP" ${userRoles.includes('CLIENT_VIP') ? 'checked' : ''} />
