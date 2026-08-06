@@ -26,8 +26,15 @@ export class SubscriptionTierGuard implements CanActivate {
       throw new ForbiddenException('User session not found');
     }
 
-    if (user.roles?.includes(ROLE_CODE.SUPER_ADMIN)) {
-      return true; // Super Admin bypasses tier restrictions
+    const staffRoles: string[] = [
+      'SUPER_ADMIN', 'CEO', 'DEVELOPER',
+      'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO',
+      'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT',
+    ];
+
+    const hasStaffRole = user.roles?.some((r: string) => staffRoles.includes(r));
+    if (hasStaffRole) {
+      return true; // All staff roles bypass tier restrictions and get full PRO/VIP access
     }
 
     if (!isFeatureAllowed(user.planFeatures, requiredTier)) {

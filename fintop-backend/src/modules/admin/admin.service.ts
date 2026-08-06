@@ -129,6 +129,14 @@ export class AdminService {
         }
       }
     }
+
+    // ── Rule 3: Only CEO/DEVELOPER/SUPER_ADMIN can modify user role assignments ──
+    const isCeoOrDev = adminRoleCodes.some(c => ['CEO', 'DEVELOPER', 'SUPER_ADMIN'].includes(c)) || adminUser.email === AdminService.CEO_EMAIL;
+    if (action.includes('vai trò') && !isCeoOrDev) {
+      throw new BadRequestException(
+        `Chỉ CEO mới có quyền chỉnh sửa/thay đổi vai trò phân quyền của người dùng.`
+      );
+    }
   }
 
   private async syncClientRoleForTier(userId: number, tierLevel: SUBSCRIPTION_TIER, adminId: number = 1) {
@@ -705,8 +713,9 @@ export class AdminService {
       }
     }
 
-    // Update roles
+    // Update roles (Strictly restricted to CEO/DEVELOPER/SUPER_ADMIN)
     if (dto.roleCodes !== undefined) {
+      await this.enforceRoleHierarchy(userId, adminId, 'chỉnh sửa vai trò');
       await this.prisma.userRole.deleteMany({ where: { userId } });
       if (Array.isArray(dto.roleCodes) && dto.roleCodes.length > 0) {
         const roles = await this.prisma.role.findMany({

@@ -90,14 +90,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const ROLE_TIER_MAPPING = {
       SUPER_ADMIN: 'DIAMOND',
       CEO: 'DIAMOND',
+      DEVELOPER: 'DIAMOND',
       ASSISTANT_CEO: 'DIAMOND',
       ADMIN: 'DIAMOND',
       EDITOR_ADMIN: 'DIAMOND',
       SALE_ADMIN: 'DIAMOND',
-      EXPERT: 'GOLD',
-      EDITOR_PRO: 'GOLD',
-      EDITOR: 'SILVER',
-      SALE: 'SILVER',
+      EDITOR_PRO: 'DIAMOND',
+      EDITOR: 'DIAMOND',
+      SALE: 'DIAMOND',
+      EXPERT: 'DIAMOND',
       CLIENT_VIP: 'GOLD',
     };
 
