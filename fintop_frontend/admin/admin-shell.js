@@ -225,7 +225,7 @@ export function statusBadge(status) {
 
 export function tierBadge(tier) {
   const t = (tier || '').toLowerCase();
-  const labels = { standard: 'Khách hàng Standard', silver: 'Khách hàng Pro', gold: 'Khách hàng Pro', diamond: 'Khách hàng Diamond', vip: 'Khách hàng Pro' };
+  const labels = { standard: 'Khách hàng', silver: 'Khách hàng Pro', gold: 'Khách hàng VIP', diamond: 'Khách hàng Diamond', vip: 'Khách hàng VIP' };
   return badge(labels[t] || tier, `tier-${t}`);
 }
 

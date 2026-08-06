@@ -30,7 +30,7 @@ const ROLE_DISPLAY = {
   SALE_ADMIN:     { label: 'Sales Admin',          color: '#22c55e' },
   SALE:           { label: 'Sale',                 color: '#4ade80' },
   CLIENT_VIP:     { label: 'Khách hàng Diamond',    color: '#eab308' },
-  CLIENT:         { label: 'Khách hàng Standard',   color: '#94a3b8' },
+  CLIENT:         { label: 'Khách hàng',            color: '#94a3b8' },
 };
 
 function getRoleLabels(roles) {
@@ -558,7 +558,7 @@ async function showStaffEditModal(userId) {
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="CLIENT" ${userRoles.includes('CLIENT') ? 'checked' : ''} />
-                  ⚪ Khách hàng Standard
+                  ⚪ Khách hàng
                 </label>
               </div>
             </div>
