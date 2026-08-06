@@ -15,7 +15,6 @@ ALTER TYPE "PERMISSION_ACTION" ADD VALUE IF NOT EXISTS 'LABEL_PRO';
 -- STEP 2: Ensure all roles exist
 INSERT INTO roles (id, name, code, description, "isSystem", status, "createdAt", "updatedAt")
 VALUES
-  (1, 'Quản trị viên Cấp cao (Super Admin)', 'SUPER_ADMIN', 'Legacy System Admin', true, 'ACTIVE', NOW(), NOW()),
   (2, 'Tổng Giám Đốc (CEO)', 'CEO', 'Tổng Giám Đốc (Cấp cao nhất)', true, 'ACTIVE', NOW(), NOW()),
   (3, 'Trợ lý CEO', 'ASSISTANT_CEO', 'Trợ lý Tổng Giám Đốc — Full kinh doanh', true, 'ACTIVE', NOW(), NOW()),
   (4, 'Trưởng phòng Biên tập', 'EDITOR_ADMIN', 'Quản trị Biên tập — Full editing', true, 'ACTIVE', NOW(), NOW()),
@@ -43,7 +42,7 @@ DELETE FROM user_roles WHERE "userId" IN (SELECT id FROM users WHERE email = 'fi
 INSERT INTO user_roles ("userId", "roleId", "assignedAt")
 SELECT id, (SELECT id FROM roles WHERE code = 'DEVELOPER'), NOW() FROM users WHERE email = 'fintop.bashare@gmail.com';
 
--- Migrate any leftover SUPER_ADMIN users to DEVELOPER and soft-delete SUPER_ADMIN role
+-- STEP 3.5: Migrate SUPER_ADMIN users and soft-delete SUPER_ADMIN role
 UPDATE user_roles SET "roleId" = (SELECT id FROM roles WHERE code = 'DEVELOPER')
 WHERE "roleId" = (SELECT id FROM roles WHERE code = 'SUPER_ADMIN')
   AND "userId" NOT IN (SELECT id FROM users WHERE email = 'fintop.ba@gmail.com');
@@ -52,7 +51,7 @@ UPDATE user_roles SET "roleId" = (SELECT id FROM roles WHERE code = 'CEO')
 WHERE "roleId" = (SELECT id FROM roles WHERE code = 'SUPER_ADMIN')
   AND "userId" IN (SELECT id FROM users WHERE email = 'fintop.ba@gmail.com');
 
-UPDATE roles SET "deletedAt" = NOW() WHERE code = 'SUPER_ADMIN';
+UPDATE roles SET "deletedAt" = NOW() WHERE code = 'SUPER_ADMIN' OR id = 1;
 
 -- STEP 4: Create ALL new permissions (INSERT IF NOT EXISTS via ON CONFLICT)
 INSERT INTO permissions (module, action, code, description, status, "createdAt", "updatedAt") VALUES
