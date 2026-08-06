@@ -142,15 +142,15 @@ export class AdminService {
     CEO: 1,           // Rank 1: Top Level Executive (fintop.ba@gmail.com)
     DEVELOPER: 2,     // Rank 2: Developer (fintop.bashare@gmail.com)
     SUPER_ADMIN: 2,   // Legacy rank 2
-    ASSISTANT_CEO: 3,
-    EDITOR_ADMIN: 3,
-    SALE_ADMIN: 3,
-    EDITOR_PRO: 4,
-    EDITOR: 4,
-    SALE: 4,
-    EXPERT: 4,
-    CLIENT_VIP: 5,
-    CLIENT: 5,
+    EDITOR_ADMIN: 3,  // Rank 3: Trưởng phòng Biên tập (Chỉ do CEO/Developer quản lý)
+    SALE_ADMIN: 3,    // Rank 3: Trưởng khối Môi giới (Chỉ do CEO/Developer quản lý)
+    ASSISTANT_CEO: 4, // Rank 4: Trợ lý CEO (Quyền Biên tập Admin + Sale Admin + Duyệt thanh toán, không sửa được Rank 1, 2, 3)
+    EDITOR_PRO: 5,
+    EDITOR: 5,
+    SALE: 5,
+    EXPERT: 5,
+    CLIENT_VIP: 6,
+    CLIENT: 6,
   };
 
   private async enforceRoleHierarchy(operatorUserId: number, targetUserId: number, actionName: string) {
@@ -184,6 +184,11 @@ export class AdminService {
     const targetMinRank = Math.min(...targetRanks);
 
     if (operatorMinRank >= targetMinRank && operatorUser?.email !== 'fintop.ba@gmail.com') {
+      const isAssistantCeo = operatorUser?.userRoles.some(ur => ur.role.code === 'ASSISTANT_CEO');
+      const isTargetAdminHeader = targetUser.userRoles.some(ur => ['EDITOR_ADMIN', 'SALE_ADMIN'].includes(ur.role.code));
+      if (isAssistantCeo && isTargetAdminHeader) {
+        throw new BadRequestException('Trợ lý CEO không được quyền chỉnh sửa, khóa, xóa hoặc thay đổi vai trò của Trưởng phòng Biên tập (EDITOR_ADMIN) và Trưởng khối Môi giới (SALE_ADMIN). Quyền này chỉ do CEO cấp!');
+      }
       throw new BadRequestException(`Bạn không có quyền thực hiện hành động "${actionName}" trên tài khoản có cấp bậc tương đương hoặc cao hơn!`);
     }
   }
