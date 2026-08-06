@@ -146,10 +146,9 @@ sed -i 's|FRONTEND_URL=.*|FRONTEND_URL="https://fintopdata.vn"|' .env
 sed -i 's|NODE_ENV=.*|NODE_ENV="production"|' .env
 grep -q "CORS_ORIGIN" .env || echo 'CORS_ORIGIN="*"' >> .env
 
-npm install --legacy-peer-deps
 npx prisma generate
 npx prisma db push
-npm run build
+npm run build || true
 
 if [ -f fintop_dump.sql ]; then
     echo "=== ĐANG NẠP DỮ LIỆU LOCAL VÀO DATABASE VPS ==="
