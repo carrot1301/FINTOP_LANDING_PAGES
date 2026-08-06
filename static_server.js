@@ -65,6 +65,38 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Legacy Client Routes Redirect Map (HTTP 301 Permanent Redirect)
+  const LEGACY_CLIENT_REDIRECTS = {
+    '/client/home/index': '/',
+    '/client/introduce/index': '/',
+    '/client/datafinancial/index': '/fintop-data/',
+    '/client/datafinancial/signalIndex': '/fintop-data/bo-loc/',
+    '/client/datafinancial/recommendationsIndex': '/fintop-data/bo-loc/',
+    '/client/datafinancial/categoryFintopIndex': '/fintop-data/',
+    '/client/privileges/index': '/index.html#panel-hoivien',
+    '/client/library/index': '/index.html#panel-guide-trading',
+    '/client/about/index': '/nghien-cuu/chuyen-sau/',
+    '/client/des/index': '/index.html#panel-guide-trading',
+  };
+
+  if (LEGACY_CLIENT_REDIRECTS[pathname]) {
+    res.writeHead(301, {
+      'Location': LEGACY_CLIENT_REDIRECTS[pathname],
+      'Cache-Control': 'public, max-age=31536000'
+    });
+    res.end();
+    return;
+  }
+
+  if (pathname.startsWith('/client/')) {
+    res.writeHead(301, {
+      'Location': '/',
+      'Cache-Control': 'public, max-age=31536000'
+    });
+    res.end();
+    return;
+  }
+
   // Determine target physical file path
   let filePath = '';
 

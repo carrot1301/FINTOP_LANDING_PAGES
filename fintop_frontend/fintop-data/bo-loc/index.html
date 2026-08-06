@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bộ Lọc Cổ Phiếu | FinTop DATA - Dữ Liệu Đầu Tư</title>
-    <meta name="description" content="Bộ lọc cổ phiếu thông minh theo trạng thái kỹ thuật, ngành đầu tư và Model AI. Lọc TOP cổ phiếu tích cực, khả quan theo thuật toán định lượng FinTop DATA.">
+    <meta name="description"
+        content="Bộ lọc cổ phiếu thông minh theo trạng thái kỹ thuật, ngành đầu tư và Model AI. Lọc TOP cổ phiếu tích cực, khả quan theo thuật toán định lượng FinTop DATA.">
     <link rel="canonical" href="https://fintopdata.vn/fintop-data/bo-loc/">
     <meta property="og:title" content="Bộ Lọc Cổ Phiếu | FinTop DATA">
-    <meta property="og:description" content="Bộ lọc cổ phiếu thông minh theo trạng thái kỹ thuật, ngành đầu tư và Model AI.">
+    <meta property="og:description"
+        content="Bộ lọc cổ phiếu thông minh theo trạng thái kỹ thuật, ngành đầu tư và Model AI.">
     <meta property="og:url" content="https://fintopdata.vn/fintop-data/bo-loc/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="FinTop DATA">
@@ -365,10 +367,12 @@
             font-style: italic;
             margin-bottom: 1.5rem;
         }
+
         .guide-card .guide-disclaimer strong {
             color: #fff;
             font-weight: 800;
         }
+
         .guide-agree-btn {
             display: inline-block;
             background: #2b2340;
@@ -391,17 +395,20 @@
             box-shadow: none;
             filter: none;
         }
+
         .data-table .boloc-delta-rsi-header {
             color: rgba(148, 163, 184, 0.82) !important;
             font-size: 0.66rem !important;
             font-weight: 600 !important;
         }
+
         .boloc-delta-rsi-cell {
             color: #94a3b8 !important;
             font-size: 0.68rem !important;
             font-weight: 500 !important;
             white-space: nowrap;
         }
+
         .delta-rsi-heading {
             display: inline-flex;
             align-items: center;
@@ -409,6 +416,7 @@
             gap: 3px;
             white-space: nowrap;
         }
+
         .delta-rsi-info-button {
             appearance: none;
             border: 0;
@@ -419,6 +427,7 @@
             line-height: 1;
             cursor: pointer;
         }
+
         .delta-rsi-info-button:hover,
         .delta-rsi-info-button:focus-visible {
             color: #cbd5e1;
@@ -426,6 +435,7 @@
             outline-offset: 2px;
             border-radius: 3px;
         }
+
         .delta-rsi-tooltip {
             position: fixed;
             z-index: 10020;
@@ -442,7 +452,10 @@
             text-align: left;
             transform: translateX(-50%);
         }
-        .delta-rsi-tooltip[hidden] { display: none; }
+
+        .delta-rsi-tooltip[hidden] {
+            display: none;
+        }
     </style>
 </head>
 
@@ -509,16 +522,32 @@
             <div class="boloc-table-title">
                 [FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ
             </div>
-            <table class="data-table" style="width: 100%; min-width: 1090px; table-layout: fixed; border-collapse: collapse; text-align: center; font-size: 0.78rem; color: #cbd5e1;">
+            <table class="data-table"
+                style="width: 100%; min-width: 1090px; table-layout: fixed; border-collapse: collapse; text-align: center; font-size: 0.78rem; color: #cbd5e1;">
                 <thead>
-                    <tr style="background: rgba(168, 85, 247, 0.08); border-bottom: 1px solid rgba(168, 85, 247, 0.15);">
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 35px;">STT</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 65px;">Mã CP</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 50px;">Sàn</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">Ngành HĐKD</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 80px;">Cập nhật</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 200px;">Dữ liệu kỹ thuật lịch sử (Model)</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">Trạng thái Model</th>
+                    <tr
+                        style="background: rgba(168, 85, 247, 0.08); border-bottom: 1px solid rgba(168, 85, 247, 0.15);">
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 35px;">
+                            STT</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 65px;">
+                            Mã CP</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 50px;">
+                            Sàn</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
+                            Ngành HĐKD</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 80px;">
+                            Cập nhật</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 200px;">
+                            Dữ liệu kỹ thuật lịch sử (Model)</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
+                            Trạng thái Model</th>
                         <th class="boloc-delta-rsi-header" style="padding: 8px 4px; text-align: center; width: 70px;">
                             <span class="delta-rsi-heading">ΔRSI
                                 <button class="delta-rsi-info-button" id="deltaRsiInfoButton" type="button"
@@ -526,15 +555,24 @@
                                     aria-expanded="false">(i)</button>
                             </span>
                         </th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">Sức mạnh xu hướng<br>RSI/MFI</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 90px;">Vùng kiểm định<br>kỹ thuật</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">Vùng kháng cự<br>kỹ thuật</th>
-                        <th style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">Vùng hỗ trợ<br>kỹ thuật</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
+                            Sức mạnh xu hướng<br>RSI/MFI</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 90px;">
+                            Vùng kiểm định<br>kỹ thuật</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">
+                            Vùng kháng cự<br>kỹ thuật</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">
+                            Vùng hỗ trợ<br>kỹ thuật</th>
                     </tr>
                 </thead>
                 <tbody id="bolocBody">
                     <tr>
-                        <td colspan="12" style="text-align:center; padding: 2rem; color: #64748b;">Đang tải dữ liệu bộ lọc cổ phiếu...</td>
+                        <td colspan="12" style="text-align:center; padding: 2rem; color: #64748b;">Đang tải dữ liệu bộ
+                            lọc cổ phiếu...</td>
                     </tr>
                 </tbody>
             </table>

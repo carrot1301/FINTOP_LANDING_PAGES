@@ -1,34 +1,38 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tra Cứu Cổ Phiếu | FinTop DATA - Dữ Liệu Đầu Tư</title>
-    <meta name="description" content="Tra cứu dữ liệu cổ phiếu tổng hợp theo mô hình AI định lượng FinTop DATA. Phân tích kỹ thuật, vùng giá tham chiếu, kháng cự và điểm quản trị rủi ro.">
+    <meta name="description"
+        content="Tra cứu dữ liệu cổ phiếu tổng hợp theo mô hình AI định lượng FinTop DATA. Phân tích kỹ thuật, vùng giá tham chiếu, kháng cự và điểm quản trị rủi ro.">
     <link rel="canonical" href="https://fintopdata.vn/fintop-data/">
     <meta property="og:title" content="Tra Cứu Cổ Phiếu | FinTop DATA">
     <meta property="og:description" content="Tra cứu dữ liệu cổ phiếu tổng hợp theo mô hình AI định lượng FinTop DATA.">
     <meta property="og:url" content="https://fintopdata.vn/fintop-data/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="FinTop DATA">
-    
+
     <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/variables.css">
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/components.css">
     <link rel="stylesheet" href="../assets/css/auth.css">
-    
+
     <!-- Custom JS -->
     <script src="../assets/js/table.js" defer></script>
-    
+
     <style>
         .inner-page-layout {
             padding: 100px 5% 4rem;
             min-height: 100vh;
         }
+
         .page-header {
             margin-bottom: 2rem;
         }
+
         .page-header h1 {
             color: var(--inner-accent);
             font-size: var(--font-h2);
@@ -36,6 +40,7 @@
         }
     </style>
 </head>
+
 <body class="light-mode"> <!-- Kích hoạt màu nền sáng cho inner page -->
 
     <!-- HEADER (Có thể chuyển sang màu tối hoặc màu light tuỳ thích, ở đây giữ nguyên Dark như Spec header sticky) -->
@@ -66,7 +71,8 @@
                     <a href="../index.html" class="user-dropdown-item">Có gì mới</a>
                 </div>
             </div>
-            <button class="btn-tv-blue" id="fintopStartBtn" type="button" onclick="window.location.href='../index.html#panel-hoivien'">Bắt đầu</button>
+            <button class="btn-tv-blue" id="fintopStartBtn" type="button"
+                onclick="window.location.href='../index.html#panel-hoivien'">Bắt đầu</button>
         </div>
     </header>
 
@@ -78,8 +84,11 @@
 
         <!-- Interactive Search Bar -->
         <div class="search-bar-container" style="margin-bottom: 2rem; display: flex; gap: 10px; max-width: 500px;">
-            <input type="text" id="stockSearchInput" placeholder="Nhập mã cổ phiếu hoặc nhóm ngành..." style="flex: 1; padding: 12px 20px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(255,255,255,0.05); color: #fff; font-size: 1rem; font-weight: 600; outline: none; transition: border-color 0.2s;">
-            <button id="btnSearchStock" class="btn-primary" style="padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; background: linear-gradient(135deg, #7c3aed, #a855f7); color: white;">Tra Cứu</button>
+            <input type="text" id="stockSearchInput" placeholder="Nhập mã cổ phiếu hoặc nhóm ngành..."
+                style="flex: 1; padding: 12px 20px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(255,255,255,0.05); color: #fff; font-size: 1rem; font-weight: 600; outline: none; transition: border-color 0.2s;">
+            <button id="btnSearchStock" class="btn-primary"
+                style="padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; background: linear-gradient(135deg, #7c3aed, #a855f7); color: white;">Tra
+                Cứu</button>
         </div>
 
         <div class="data-table-wrapper">
@@ -99,7 +108,8 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="9" style="text-align:center; padding: 2rem; color: var(--text-muted);">Đang tải dữ liệu cổ phiếu...</td>
+                        <td colspan="9" style="text-align:center; padding: 2rem; color: var(--text-muted);">Đang tải dữ
+                            liệu cổ phiếu...</td>
                     </tr>
                 </tbody>
             </table>
@@ -109,7 +119,8 @@
     <!-- FOOTER CHUNG (Nên dùng JS include hoặc SSR, nhưng tĩnh ta copy lại) -->
     <footer style="margin-top: 2rem;">
         <div class="footer-disclaimer" style="padding: 2rem 5%; text-align: center;">
-            <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư. Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
+            <strong>Miễn trừ trách nhiệm:</strong> Dữ liệu chỉ mang tính chất tham khảo, không phải khuyến nghị đầu tư.
+            Người dùng chịu hoàn toàn trách nhiệm trước các quyết định giao dịch của mình.
         </div>
     </footer>
 
@@ -117,7 +128,7 @@
     <script src="../../assets/js/auth.js" defer></script>
     <script type="module" src="../../assets/js/core/index.js"></script>
     <script>
-        (function() {
+        (function () {
             let stockData = [];
 
             // 1. Get elements
@@ -150,7 +161,7 @@
                         console.error('Backend stock fetch failed:', err);
                     }
                 }
-                
+
                 // Show empty/error state when offline or no data
                 stockData = [];
                 renderTable(stockData);
@@ -251,4 +262,5 @@
     </script>
 
 </body>
+
 </html>
