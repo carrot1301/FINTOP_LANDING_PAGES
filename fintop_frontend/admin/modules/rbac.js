@@ -21,15 +21,18 @@ let staffDetailEl = null;
 // ─────────────────────────────────────────────────────────────
 
 const ROLE_DISPLAY = {
-  SUPER_ADMIN:    { label: 'Super Admin',    color: '#ff3b3b' },
-  CEO:            { label: 'CEO',            color: '#ff3b3b' },
-  ASSISTANT_CEO:  { label: 'Trợ lý CEO',     color: '#ff6b6b' },
-  EDITOR_ADMIN:   { label: 'QTV Biên tập',   color: '#3b82f6' },
-  EDITOR_PRO:     { label: 'Biên tập Pro',    color: '#60a5fa' },
-  EDITOR:         { label: 'Biên tập viên',   color: '#93c5fd' },
-  SALE_ADMIN:     { label: 'QTV Sale',       color: '#22c55e' },
-  SALE:           { label: 'Sale',           color: '#4ade80' },
-  EXPERT:         { label: 'Chuyên gia',      color: '#f59e0b' },
+  SUPER_ADMIN:    { label: 'Super Admin',         color: '#ff3b3b' },
+  CEO:            { label: 'CEO',                  color: '#ff3b3b' },
+  DEVELOPER:      { label: 'Developer',            color: '#a855f7' },
+  ASSISTANT_CEO:  { label: 'Trợ lý CEO',           color: '#ff6b6b' },
+  EDITOR_ADMIN:   { label: 'Trưởng phòng BT',      color: '#3b82f6' },
+  EDITOR_PRO:     { label: 'Biên tập Pro',          color: '#60a5fa' },
+  EDITOR:         { label: 'Biên tập viên',         color: '#93c5fd' },
+  SALE_ADMIN:     { label: 'Trưởng khối Sale',      color: '#22c55e' },
+  SALE:           { label: 'Chuyên viên Sale',      color: '#4ade80' },
+  EXPERT:         { label: 'Chuyên gia',            color: '#f59e0b' },
+  CLIENT_VIP:     { label: 'Khách hàng VIP',        color: '#eab308' },
+  CLIENT:         { label: 'Khách hàng',            color: '#94a3b8' },
 };
 
 function getRoleLabels(roles) {
@@ -517,38 +520,51 @@ async function showStaffEditModal(userId) {
 
             <div class="edit-form-group full-width" style="margin-top:1.5rem;">
               <label class="edit-label" style="font-weight:bold;">Quyền <span class="required">*</span></label>
-              <div class="checkbox-grid">
+              <div style="font-size:0.8rem;color:#94a3b8;margin-bottom:0.5rem;">Chọn vai trò phù hợp cho nhân viên</div>
+              <div class="checkbox-grid" style="grid-template-columns:1fr 1fr 1fr;">
                 <label class="checkbox-label">
-                  <input type="checkbox" class="checkbox-input edit-role-chk" value="SUPER_ADMIN" ${userRoles.includes('SUPER_ADMIN') || userRoles.includes('CEO') ? 'checked' : ''} />
-                  CEO - Quản trị hệ thống
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="CEO" ${userRoles.includes('CEO') ? 'checked' : ''} />
+                  🔴 CEO - Admin Tổng
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="DEVELOPER" ${userRoles.includes('DEVELOPER') ? 'checked' : ''} />
+                  🟣 Developer
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="ASSISTANT_CEO" ${userRoles.includes('ASSISTANT_CEO') ? 'checked' : ''} />
-                  Trợ lý CEO
+                  🔴 Trợ lý CEO
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="EDITOR_ADMIN" ${userRoles.includes('EDITOR_ADMIN') ? 'checked' : ''} />
-                  Editor Admin
+                  🔵 Trưởng phòng Biên tập
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="EDITOR_PRO" ${userRoles.includes('EDITOR_PRO') ? 'checked' : ''} />
-                  Editor Pro
+                  🔵 Biên tập Pro
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="EDITOR" ${userRoles.includes('EDITOR') ? 'checked' : ''} />
-                  Editor
+                  🔵 Biên tập viên
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="SALE_ADMIN" ${userRoles.includes('SALE_ADMIN') ? 'checked' : ''} />
-                  Sale - Admin
+                  🟢 Trưởng khối Sale
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="SALE" ${userRoles.includes('SALE') ? 'checked' : ''} />
-                  Sale
+                  🟢 Chuyên viên Sale
                 </label>
                 <label class="checkbox-label">
-                  <input type="checkbox" class="checkbox-input edit-role-chk" value="CLIENT" ${userRoles.includes('CLIENT') || userRoles.includes('CLIENT_VIP') ? 'checked' : ''} />
-                  Người dùng/ Khách hàng
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="EXPERT" ${userRoles.includes('EXPERT') ? 'checked' : ''} />
+                  🟡 Chuyên gia Cố vấn
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="CLIENT_VIP" ${userRoles.includes('CLIENT_VIP') ? 'checked' : ''} />
+                  ⭐ Khách hàng VIP
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="CLIENT" ${userRoles.includes('CLIENT') ? 'checked' : ''} />
+                  ⚪ Khách hàng
                 </label>
               </div>
             </div>

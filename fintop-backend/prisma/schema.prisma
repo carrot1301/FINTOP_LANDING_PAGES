@@ -42,6 +42,8 @@ enum PERMISSION_ACTION {
   PUBLISH
   APPROVE
   EXPORT
+  MANAGE
+  LABEL_PRO
 }
 
 enum RISK_TASTE {
@@ -223,6 +225,10 @@ enum PERMISSION_MODULE {
   WATCHLIST
   REPORT
   SYSTEM
+  PLAN
+  STOCK_DATA
+  HANDBOOK
+  SALES
 }
 
 // -----------------------------------------------------------------------------

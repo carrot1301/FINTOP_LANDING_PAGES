@@ -220,7 +220,7 @@ export class AdminController {
   // ─────────────────────────────────────────────────────
 
   @Get('notifications')
-  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @Permissions('SYSTEM:READ')
   @ApiOperation({ summary: 'List all notifications cross-user' })
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'limit', required: false })
@@ -234,7 +234,7 @@ export class AdminController {
   }
 
   @Post('notifications/broadcast')
-  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @Permissions('SYSTEM:READ')
   @ApiOperation({ summary: 'Broadcast notification to specific users' })
   @ApiBody({ schema: { properties: { title: { type: 'string' }, content: { type: 'string' }, userIds: { type: 'array', items: { type: 'number' } } } } })
   async broadcastNotification(
@@ -343,7 +343,7 @@ export class AdminController {
   // ─────────────────────────────────────────────────────
 
   @Get('market/sync-logs')
-  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @Permissions('STOCK_DATA:READ')
   @ApiOperation({ summary: 'List market data sync logs' })
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'limit', required: false })
@@ -357,7 +357,7 @@ export class AdminController {
   }
 
   @Get('market/stocks')
-  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @Permissions('STOCK_DATA:READ')
   @ApiOperation({ summary: 'List all stocks with exchange and industry' })
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'limit', required: false })
@@ -375,7 +375,7 @@ export class AdminController {
   // ─────────────────────────────────────────────────────
 
   @Get('portfolios')
-  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @Permissions('STOCK_DATA:READ')
   @ApiOperation({ summary: 'List all recommended portfolios' })
   async getPortfolios() {
     return this.adminService.getPortfolios();
@@ -386,7 +386,7 @@ export class AdminController {
   // ─────────────────────────────────────────────────────
 
   @Get('handbooks')
-  @Permissions('USER:READ')
+  @Permissions('HANDBOOK:READ')
   @ApiOperation({ summary: 'List all handbooks with category filter and search' })
   @ApiQuery({ name: 'category', required: false })
   @ApiQuery({ name: 'search', required: false })
@@ -398,7 +398,7 @@ export class AdminController {
   }
 
   @Post('handbooks')
-  @Permissions('USER:UPDATE')
+  @Permissions('HANDBOOK:CREATE')
   @ApiOperation({ summary: 'Create a new handbook' })
   async createHandbook(
     @Body() dto: { title: string; driveLink: string; category: string },
@@ -408,7 +408,7 @@ export class AdminController {
   }
 
   @Patch('handbooks/:id')
-  @Permissions('USER:UPDATE')
+  @Permissions('HANDBOOK:UPDATE')
   @ApiOperation({ summary: 'Update a handbook' })
   async updateHandbook(
     @Param('id') id: string,
@@ -419,7 +419,7 @@ export class AdminController {
   }
 
   @Delete('handbooks/:id')
-  @Permissions('USER:DELETE')
+  @Permissions('HANDBOOK:DELETE')
   @ApiOperation({ summary: 'Delete a handbook' })
   async deleteHandbook(
     @Param('id') id: string,
