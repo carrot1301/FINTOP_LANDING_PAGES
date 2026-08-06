@@ -1,4 +1,16 @@
+const path = require('path');
+const fs = require('fs');
+const backendDir = path.join(__dirname, '../fintop-backend');
+const { Client } = require(path.join(backendDir, 'node_modules/pg'));
 
+const localUri = "postgresql://postgres:123@localhost:5432/fintop";
+
+async function exportSql() {
+  console.log("Exporting local database roles & permissions & users to fintop_dump.sql...");
+  const client = new Client({ connectionString: localUri });
+  await client.connect();
+
+  let sql = `
 -- Fix ROLE_CODE Enum
 ALTER TYPE "ROLE_CODE" ADD VALUE IF NOT EXISTS 'DEVELOPER';
 
@@ -47,3 +59,13 @@ FROM roles r, permissions p
 WHERE r.code IN ('CEO', 'DEVELOPER', 'ASSISTANT_CEO')
   AND p.code IN ('INVOICE:READ', 'INVOICE:APPROVE', 'INVOICE:UPDATE', 'PLAN:READ', 'PLAN:CREATE', 'PLAN:UPDATE', 'PLAN:DELETE', 'USER:READ', 'USER:UPDATE')
 ON CONFLICT ("roleId", "permissionId") DO NOTHING;
+`;
+
+  const dumpPath = path.join(backendDir, 'fintop_dump.sql');
+  fs.writeFileSync(dumpPath, sql, 'utf8');
+  console.log(`✅ Successfully wrote updated seed script to ${dumpPath}`);
+
+  await client.end();
+}
+
+exportSql();

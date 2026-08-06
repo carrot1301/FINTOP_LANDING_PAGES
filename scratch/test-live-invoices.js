@@ -41,7 +41,7 @@ function getJson(urlStr, token) {
   });
 }
 
-async function testLiveInvoices() {
+async function testLiveEndpoints() {
   console.log("1. Login as DEVELOPER on Live (https://api.fintopdata.vn)...");
   const loginRes = await postJson('https://api.fintopdata.vn/auth/login', {
     email: 'fintop.bashare@gmail.com',
@@ -54,8 +54,11 @@ async function testLiveInvoices() {
     console.log("2. GET https://api.fintopdata.vn/admin/billing/invoices?limit=1000...");
     const invRes = await getJson('https://api.fintopdata.vn/admin/billing/invoices?limit=1000', token);
     console.log("   Live Invoices Status:", invRes.status);
-    console.log("   Live Invoices Data Count:", Array.isArray(invRes.data) ? invRes.data.length : invRes.data?.data?.length || JSON.stringify(invRes.data));
+
+    console.log("3. GET https://api.fintopdata.vn/admin/billing/plans...");
+    const planRes = await getJson('https://api.fintopdata.vn/admin/billing/plans', token);
+    console.log("   Live Plans Status:", planRes.status);
   }
 }
 
-testLiveInvoices();
+testLiveEndpoints();
