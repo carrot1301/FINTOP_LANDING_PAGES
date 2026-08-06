@@ -1113,6 +1113,62 @@
             loadData();
             checkInfra();
 
+            // ── ΔRSI Tooltip Hover Logic ──
+            function closeDeltaRsiTooltip() {
+                const button = document.getElementById('deltaRsiInfoButton');
+                const tooltip = document.getElementById('deltaRsiTooltip');
+                if (!button || !tooltip) return;
+                tooltip.hidden = true;
+                button.setAttribute('aria-expanded', 'false');
+            }
+
+            function toggleDeltaRsiTooltip() {
+                const button = document.getElementById('deltaRsiInfoButton');
+                const tooltip = document.getElementById('deltaRsiTooltip');
+                if (!button || !tooltip) return;
+
+                const shouldOpen = tooltip.hidden;
+                closeDeltaRsiTooltip();
+                if (!shouldOpen) return;
+
+                tooltip.hidden = false;
+                button.setAttribute('aria-expanded', 'true');
+
+                const buttonRect = button.getBoundingClientRect();
+                const tooltipRect = tooltip.getBoundingClientRect();
+                const halfWidth = tooltipRect.width / 2;
+                const centerX = Math.min(
+                    window.innerWidth - halfWidth - 12,
+                    Math.max(halfWidth + 12, buttonRect.left + (buttonRect.width / 2))
+                );
+                const belowTop = buttonRect.bottom + 8;
+                const top = belowTop + tooltipRect.height <= window.innerHeight - 12
+                    ? belowTop
+                    : Math.max(12, buttonRect.top - tooltipRect.height - 8);
+
+                tooltip.style.left = `${centerX}px`;
+                tooltip.style.top = `${top}px`;
+            }
+
+            const deltaRsiInfoButton = document.getElementById('deltaRsiInfoButton');
+            deltaRsiInfoButton?.addEventListener('mouseenter', () => {
+                const tooltip = document.getElementById('deltaRsiTooltip');
+                if (tooltip && tooltip.hidden) {
+                    toggleDeltaRsiTooltip();
+                }
+            });
+            deltaRsiInfoButton?.addEventListener('mouseleave', (event) => {
+                const tooltip = document.getElementById('deltaRsiTooltip');
+                if (tooltip && !tooltip.contains(event.relatedTarget)) {
+                    closeDeltaRsiTooltip();
+                }
+            });
+            deltaRsiInfoButton?.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                toggleDeltaRsiTooltip();
+            });
+
             // Show guide popup after a short delay
             setTimeout(() => {
                 if (shouldShowGuide()) showGuidePopup();
