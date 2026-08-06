@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- Trang chủ -->
+    <url>
+        <loc>https://fintopdata.vn/</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- Tra cứu cổ phiếu -->
+    <url>
+        <loc>https://fintopdata.vn/fintop-data/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Bộ lọc cổ phiếu -->
+    <url>
+        <loc>https://fintopdata.vn/fintop-data/bo-loc/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- FinTop AI & Copy Trade -->
+    <url>
+        <loc>https://fintopdata.vn/fintop-ai/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Dữ liệu định lượng -->
+    <url>
+        <loc>https://fintopdata.vn/stock-data/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Nghiên cứu chuyên sâu -->
+    <url>
+        <loc>https://fintopdata.vn/nghien-cuu/chuyen-sau/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Nghiên cứu thị trường -->
+    <url>
+        <loc>https://fintopdata.vn/nghien-cuu/thi-truong/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Nghiên cứu doanh nghiệp -->
+    <url>
+        <loc>https://fintopdata.vn/nghien-cuu/doanh-nghiep/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Nghiên cứu nhóm ngành -->
+    <url>
+        <loc>https://fintopdata.vn/nghien-cuu/nhom-nganh/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Hướng dẫn -->
+    <url>
+        <loc>https://fintopdata.vn/huong-dan/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+</urlset>

@@ -15,9 +15,72 @@
       "source": "/hoi-vien/index.html",
       "destination": "/index.html#panel-hoivien",
       "permanent": false
+    },
+    {
+      "source": "/client/home/index",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/client/introduce/index",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/client/datafinancial/index",
+      "destination": "/fintop-data/",
+      "permanent": true
+    },
+    {
+      "source": "/client/datafinancial/signalIndex",
+      "destination": "/fintop-data/bo-loc/",
+      "permanent": true
+    },
+    {
+      "source": "/client/datafinancial/recommendationsIndex",
+      "destination": "/fintop-data/bo-loc/",
+      "permanent": true
+    },
+    {
+      "source": "/client/datafinancial/categoryFintopIndex",
+      "destination": "/fintop-data/",
+      "permanent": true
+    },
+    {
+      "source": "/client/privileges/index",
+      "destination": "/index.html#panel-hoivien",
+      "permanent": true
+    },
+    {
+      "source": "/client/library/index",
+      "destination": "/index.html#panel-guide-library",
+      "permanent": true
+    },
+    {
+      "source": "/client/about/index",
+      "destination": "/nghien-cuu/chuyen-sau/",
+      "permanent": true
+    },
+    {
+      "source": "/client/des/index",
+      "destination": "/index.html#panel-guide-trading",
+      "permanent": true
+    },
+    {
+      "source": "/client/:path*",
+      "destination": "/",
+      "permanent": false
     }
   ],
   "rewrites": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap.xml"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/robots.txt"
+    },
     {
       "source": "/assets/:path*",
       "destination": "/assets/:path*"
