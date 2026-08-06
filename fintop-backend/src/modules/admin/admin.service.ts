@@ -804,24 +804,25 @@ export class AdminService {
     const roles = await this.prisma.role.findMany({
       where: {
         deletedAt: null,
-        code: { not: 'SUPER_ADMIN' as any },
       },
       include: {
         _count: { select: { permissions: true, users: true } },
       },
     });
 
-    const mapped = roles.map(r => ({
-      id: r.id,
-      name: r.name,
-      code: r.code,
-      description: r.description,
-      isSystem: r.isSystem,
-      status: r.status,
-      permissionCount: r._count.permissions,
-      userCount: r._count.users,
-      sortRank: ROLE_ORDER[r.code] ?? 99,
-    }));
+    const mapped = roles
+      .filter(r => r.code !== ('SUPER_ADMIN' as any))
+      .map(r => ({
+        id: r.id,
+        name: r.name,
+        code: r.code,
+        description: r.description,
+        isSystem: r.isSystem,
+        status: r.status,
+        permissionCount: r._count.permissions,
+        userCount: r._count.users,
+        sortRank: ROLE_ORDER[r.code] ?? 99,
+      }));
 
     mapped.sort((a, b) => a.sortRank - b.sortRank);
 
