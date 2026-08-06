@@ -312,7 +312,7 @@ export class AdminController {
   }
 
   @Get('billing/invoices')
-  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @Permissions('INVOICE:READ')
   @ApiOperation({ summary: 'List all invoices cross-user' })
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'limit', required: false })
@@ -326,7 +326,7 @@ export class AdminController {
   }
 
   @Post('billing/invoices/:id/approve')
-  @Roles(ROLE_CODE.SUPER_ADMIN)
+  @Permissions('INVOICE:APPROVE')
   @ApiOperation({ summary: 'Approve invoice and activate subscription manually' })
   @ApiBody({ schema: { properties: { isPermanent: { type: 'boolean' }, endDate: { type: 'string' } } } })
   async approveInvoice(

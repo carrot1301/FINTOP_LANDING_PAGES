@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fintopdata.vn/sitemap.xml
+
+# Block old Laravel URLs that no longer exist
+Disallow: /client/
+Disallow: /login
+Disallow: /register
+Disallow: /admin/
+Disallow: /dist/
