@@ -43,16 +43,16 @@ server {
     index index.html;
 
     # 301 Permanent Redirects cho các đường dẫn cũ từ Google Sitelinks
-    location = /client/datafinancial/index { return 301 /fintop-data/; }
+    location = /client/datafinancial/index { return 301 /index.html#panel-tracuu; }
     location = /client/datafinancial/signalIndex { return 301 /fintop-data/bo-loc/; }
     location = /client/datafinancial/recommendationsIndex { return 301 /fintop-data/bo-loc/; }
-    location = /client/datafinancial/categoryFintopIndex { return 301 /fintop-data/; }
+    location = /client/datafinancial/categoryFintopIndex { return 301 /index.html#panel-tracuu; }
     location = /client/home/index { return 301 /; }
     location = /client/introduce/index { return 301 /; }
-    location = /client/privileges/index { return 301 /#panel-hoivien; }
-    location = /client/library/index { return 301 /#panel-guide-trading; }
+    location = /client/privileges/index { return 301 /index.html#panel-hoivien; }
+    location = /client/library/index { return 301 /index.html#panel-guide-trading; }
     location = /client/about/index { return 301 /nghien-cuu/chuyen-sau/; }
-    location = /client/des/index { return 301 /#panel-guide-trading; }
+    location = /client/des/index { return 301 /index.html#panel-guide-trading; }
     location /client/ { return 301 /; }
 
     location / {
@@ -110,16 +110,16 @@ server {
     index index.html;
 
     # 301 Permanent Redirects cho các đường dẫn cũ từ Google Sitelinks
-    location = /client/datafinancial/index { return 301 /fintop-data/; }
+    location = /client/datafinancial/index { return 301 /index.html#panel-tracuu; }
     location = /client/datafinancial/signalIndex { return 301 /fintop-data/bo-loc/; }
     location = /client/datafinancial/recommendationsIndex { return 301 /fintop-data/bo-loc/; }
-    location = /client/datafinancial/categoryFintopIndex { return 301 /fintop-data/; }
+    location = /client/datafinancial/categoryFintopIndex { return 301 /index.html#panel-tracuu; }
     location = /client/home/index { return 301 /; }
     location = /client/introduce/index { return 301 /; }
-    location = /client/privileges/index { return 301 /#panel-hoivien; }
-    location = /client/library/index { return 301 /#panel-guide-trading; }
+    location = /client/privileges/index { return 301 /index.html#panel-hoivien; }
+    location = /client/library/index { return 301 /index.html#panel-guide-trading; }
     location = /client/about/index { return 301 /nghien-cuu/chuyen-sau/; }
-    location = /client/des/index { return 301 /#panel-guide-trading; }
+    location = /client/des/index { return 301 /index.html#panel-guide-trading; }
     location /client/ { return 301 /; }
 
     location / {

@@ -69,10 +69,10 @@ const server = http.createServer((req, res) => {
   const LEGACY_CLIENT_REDIRECTS = {
     '/client/home/index': '/',
     '/client/introduce/index': '/',
-    '/client/datafinancial/index': '/fintop-data/',
+    '/client/datafinancial/index': '/index.html#panel-tracuu',
     '/client/datafinancial/signalIndex': '/fintop-data/bo-loc/',
     '/client/datafinancial/recommendationsIndex': '/fintop-data/bo-loc/',
-    '/client/datafinancial/categoryFintopIndex': '/fintop-data/',
+    '/client/datafinancial/categoryFintopIndex': '/index.html#panel-tracuu',
     '/client/privileges/index': '/index.html#panel-hoivien',
     '/client/library/index': '/index.html#panel-guide-trading',
     '/client/about/index': '/nghien-cuu/chuyen-sau/',
