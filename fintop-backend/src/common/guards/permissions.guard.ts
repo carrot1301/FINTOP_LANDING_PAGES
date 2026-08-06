@@ -23,8 +23,8 @@ export class PermissionsGuard implements CanActivate {
       throw new ForbiddenException('User permissions not found');
     }
 
-    // CEO, DEVELOPER, and SUPER_ADMIN implicitly pass all permission checks
-    if (user.roles?.includes(ROLE_CODE.SUPER_ADMIN) || user.roles?.includes(ROLE_CODE.CEO) || user.roles?.includes('DEVELOPER' as any)) {
+    // SUPER_ADMIN implicitly passes all permission checks
+    if (user.roles?.includes(ROLE_CODE.SUPER_ADMIN)) {
       return true;
     }
 

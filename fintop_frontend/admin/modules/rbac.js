@@ -21,9 +21,8 @@ let staffDetailEl = null;
 // ─────────────────────────────────────────────────────────────
 
 const ROLE_DISPLAY = {
-  CEO:            { label: 'CEO',            color: '#ff3b3b' },
-  DEVELOPER:      { label: 'Developer',      color: '#38bdf8' },
   SUPER_ADMIN:    { label: 'Super Admin',    color: '#ff3b3b' },
+  CEO:            { label: 'CEO',            color: '#ff3b3b' },
   ASSISTANT_CEO:  { label: 'Trợ lý CEO',     color: '#ff6b6b' },
   EDITOR_ADMIN:   { label: 'QTV Biên tập',   color: '#3b82f6' },
   EDITOR_PRO:     { label: 'Biên tập Pro',    color: '#60a5fa' },
@@ -520,12 +519,8 @@ async function showStaffEditModal(userId) {
               <label class="edit-label" style="font-weight:bold;">Quyền <span class="required">*</span></label>
               <div class="checkbox-grid">
                 <label class="checkbox-label">
-                  <input type="checkbox" class="checkbox-input edit-role-chk" value="CEO" ${userRoles.includes('CEO') ? 'checked' : ''} />
-                  CEO - Tổng Giám Đốc (Cấp cao nhất)
-                </label>
-                <label class="checkbox-label">
-                  <input type="checkbox" class="checkbox-input edit-role-chk" value="DEVELOPER" ${userRoles.includes('DEVELOPER') ? 'checked' : ''} />
-                  Developer - Quản trị Kỹ thuật
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="SUPER_ADMIN" ${userRoles.includes('SUPER_ADMIN') || userRoles.includes('CEO') ? 'checked' : ''} />
+                  CEO - Quản trị hệ thống
                 </label>
                 <label class="checkbox-label">
                   <input type="checkbox" class="checkbox-input edit-role-chk" value="ASSISTANT_CEO" ${userRoles.includes('ASSISTANT_CEO') ? 'checked' : ''} />
