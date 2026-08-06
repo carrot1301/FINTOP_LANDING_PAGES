@@ -1,0 +1,280 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var BlogService_1;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BlogService = void 0;
+const common_1 = require("@nestjs/common");
+const prisma_service_1 = require("../../common/database/prisma.service");
+const redis_service_1 = require("../../common/redis/redis.service");
+const audit_service_1 = require("../../common/audit/audit.service");
+const client_1 = require("@prisma/client");
+const subscription_helper_1 = require("../../common/utils/subscription-helper");
+let BlogService = BlogService_1 = class BlogService {
+    prisma;
+    redisService;
+    auditService;
+    logger = new common_1.Logger(BlogService_1.name);
+    constructor(prisma, redisService, auditService) {
+        this.prisma = prisma;
+        this.redisService = redisService;
+        this.auditService = auditService;
+    }
+    async createArticle(authorId, dto) {
+        return this.prisma.$transaction(async (tx) => {
+            const blog = await tx.blog.create({
+                data: {
+                    authorId,
+                    categoryId: dto.categoryId,
+                    slug: dto.slug,
+                    title: dto.title,
+                    excerpt: dto.excerpt,
+                    content: dto.content,
+                    visibility: dto.visibility || client_1.CONTENT_VISIBILITY.PUBLIC,
+                    minTierAccess: dto.minTierAccess || client_1.SUBSCRIPTION_TIER.STANDARD,
+                    status: client_1.BLOG_STATUS.DRAFT,
+                }
+            });
+            await tx.contentRevision.create({
+                data: {
+                    blogId: blog.id,
+                    editorId: authorId,
+                    action: client_1.REVISION_ACTION.CREATED,
+                    snapshotData: { title: blog.title, excerpt: blog.excerpt, content: blog.content },
+                    reason: 'Initial Draft'
+                }
+            });
+            await this.auditService.log({
+                userId: authorId,
+                source: client_1.AUDIT_SOURCE.SYSTEM,
+                action: 'ARTICLE_CREATED',
+                tableName: 'blogs',
+                recordId: blog.id.toString(),
+            });
+            return blog;
+        });
+    }
+    async updateArticleStatus(blogId, editorId, status) {
+        return this.prisma.$transaction(async (tx) => {
+            const blog = await tx.blog.findUnique({ where: { id: blogId } });
+            if (!blog)
+                throw new common_1.NotFoundException('Blog not found');
+            if (blog.status === status)
+                return blog;
+            const updated = await tx.blog.update({
+                where: { id: blogId },
+                data: {
+                    status,
+                    publishedAt: status === client_1.BLOG_STATUS.PUBLISHED ? new Date() : null,
+                }
+            });
+            await tx.contentRevision.create({
+                data: {
+                    blogId,
+                    editorId,
+                    action: client_1.REVISION_ACTION.STATUS_CHANGED,
+                    snapshotData: { status },
+                    reason: `Status changed to ${status}`
+                }
+            });
+            await this.auditService.log({
+                userId: editorId,
+                source: client_1.AUDIT_SOURCE.SYSTEM,
+                action: `ARTICLE_${status}`,
+                tableName: 'blogs',
+                recordId: blogId.toString(),
+            });
+            await this.redisService.getClient().del('blogs:list');
+            await this.redisService.getClient().del(`blogs:detail:${blog.slug}`);
+            if (updated.visibility === client_1.CONTENT_VISIBILITY.PREMIUM) {
+                await this.redisService.getClient().del('reports:vip');
+            }
+            return updated;
+        });
+    }
+    async getArticle(slug) {
+        const cacheKey = `blogs:detail:${slug}`;
+        const cached = await this.redisService.getClient().get(cacheKey);
+        if (cached)
+            return JSON.parse(cached);
+        const blog = await this.prisma.blog.findUnique({
+            where: { slug },
+            include: { category: true, tags: { include: { tag: true } } }
+        });
+        if (!blog || blog.status !== client_1.BLOG_STATUS.PUBLISHED) {
+            throw new common_1.NotFoundException('Article not found');
+        }
+        await this.redisService.getClient().set(cacheKey, JSON.stringify(blog), 'EX', 3600);
+        return blog;
+    }
+    async listArticles(userFeatures, page = 1, limit = 10, categorySlug) {
+        const skip = (page - 1) * limit;
+        const whereClause = {
+            status: client_1.BLOG_STATUS.PUBLISHED,
+        };
+        if (categorySlug && categorySlug !== 'all') {
+            whereClause.category = {
+                slug: categorySlug,
+            };
+        }
+        const total = await this.prisma.blog.count({
+            where: whereClause,
+        });
+        const articles = await this.prisma.blog.findMany({
+            where: whereClause,
+            include: { category: true, tags: { include: { tag: true } } },
+            orderBy: { publishedAt: 'desc' },
+            skip,
+            take: limit,
+        });
+        const mapped = articles.map(b => {
+            const locked = b.visibility === client_1.CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userFeatures, b.minTierAccess);
+            const baseViews = 200 + ((b.id * 97 + 123) % 1801);
+            return {
+                id: b.id,
+                title: b.title,
+                slug: b.slug,
+                excerpt: b.excerpt,
+                content: locked ? '' : b.content,
+                visibility: b.visibility,
+                minTierAccess: b.minTierAccess,
+                publishedAt: b.publishedAt,
+                locked,
+                category: b.category,
+                tags: b.tags.map(t => t.tag.name),
+                views: b.views + baseViews,
+            };
+        });
+        return {
+            data: mapped,
+            meta: {
+                total,
+                page,
+                limit,
+                totalPages: Math.ceil(total / limit),
+            }
+        };
+    }
+    async getArticleForUser(slug, userFeatures) {
+        try {
+            await this.prisma.blog.update({
+                where: { slug },
+                data: { views: { increment: 1 } }
+            });
+            await this.redisService.getClient().del(`blogs:detail:${slug}`);
+        }
+        catch (err) {
+            this.logger.warn(`Could not increment article views: ${err.message}`);
+        }
+        const b = await this.getArticle(slug);
+        const locked = b.visibility === client_1.CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userFeatures, b.minTierAccess);
+        const baseViews = 200 + ((b.id * 97 + 123) % 1801);
+        return {
+            id: b.id,
+            title: b.title,
+            slug: b.slug,
+            excerpt: b.excerpt,
+            content: locked ? 'Nội dung V.I.P - Vui lòng nâng cấp tài khoản để đọc bài viết chiến lược này.' : b.content,
+            visibility: b.visibility,
+            minTierAccess: b.minTierAccess,
+            publishedAt: b.publishedAt,
+            locked,
+            category: b.category,
+            tags: b.tags.map((t) => t.tag.name),
+            views: b.views + baseViews,
+        };
+    }
+    isTierAllowed(userFeatures, minTier) {
+        return (0, subscription_helper_1.isFeatureAllowed)(userFeatures, minTier || 'STANDARD');
+    }
+    async updateArticle(blogId, editorId, dto) {
+        return this.prisma.$transaction(async (tx) => {
+            const blog = await tx.blog.findUnique({ where: { id: blogId } });
+            if (!blog)
+                throw new common_1.NotFoundException('Blog not found');
+            const updated = await tx.blog.update({
+                where: { id: blogId },
+                data: {
+                    categoryId: dto.categoryId !== undefined ? dto.categoryId : undefined,
+                    slug: dto.slug !== undefined ? dto.slug : undefined,
+                    title: dto.title !== undefined ? dto.title : undefined,
+                    excerpt: dto.excerpt !== undefined ? dto.excerpt : undefined,
+                    content: dto.content !== undefined ? dto.content : undefined,
+                    visibility: dto.visibility !== undefined ? dto.visibility : undefined,
+                    minTierAccess: dto.minTierAccess !== undefined ? dto.minTierAccess : undefined,
+                }
+            });
+            await tx.contentRevision.create({
+                data: {
+                    blogId,
+                    editorId,
+                    action: client_1.REVISION_ACTION.UPDATED,
+                    snapshotData: { title: updated.title, excerpt: updated.excerpt, content: updated.content },
+                    reason: 'Article Updated'
+                }
+            });
+            await this.auditService.log({
+                userId: editorId,
+                source: client_1.AUDIT_SOURCE.SYSTEM,
+                action: 'ARTICLE_UPDATED',
+                tableName: 'blogs',
+                recordId: blogId.toString(),
+            });
+            try {
+                await this.redisService.getClient().del('blogs:list');
+                await this.redisService.getClient().del(`blogs:detail:${blog.slug}`);
+                if (blog.slug !== updated.slug) {
+                    await this.redisService.getClient().del(`blogs:detail:${updated.slug}`);
+                }
+            }
+            catch (err) {
+                this.logger.warn(`Redis cache clearing failed: ${err.message}`);
+            }
+            return updated;
+        });
+    }
+    async deleteArticle(blogId, editorId) {
+        const blog = await this.prisma.blog.findUnique({ where: { id: blogId } });
+        if (!blog)
+            throw new common_1.NotFoundException('Blog not found');
+        await this.prisma.blog.update({
+            where: { id: blogId },
+            data: { deletedAt: new Date() }
+        });
+        await this.auditService.log({
+            userId: editorId,
+            source: client_1.AUDIT_SOURCE.SYSTEM,
+            action: 'ARTICLE_DELETED',
+            tableName: 'blogs',
+            recordId: blogId.toString(),
+        });
+        try {
+            await this.redisService.getClient().del('blogs:list');
+            await this.redisService.getClient().del(`blogs:detail:${blog.slug}`);
+        }
+        catch (err) {
+            this.logger.warn(`Redis cache clearing failed: ${err.message}`);
+        }
+        return { message: 'Blog deleted successfully' };
+    }
+    async getAllCategories() {
+        return this.prisma.category.findMany({
+            orderBy: { id: 'asc' },
+        });
+    }
+};
+exports.BlogService = BlogService;
+exports.BlogService = BlogService = BlogService_1 = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        redis_service_1.RedisService,
+        audit_service_1.AuditService])
+], BlogService);
+//# sourceMappingURL=blog.service.js.map

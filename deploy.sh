@@ -148,7 +148,6 @@ grep -q "CORS_ORIGIN" .env || echo 'CORS_ORIGIN="*"' >> .env
 
 npx prisma generate
 npx prisma db push
-npm run build || true
 
 if [ -f fintop_dump.sql ]; then
     echo "=== ĐANG NẠP DỮ LIỆU LOCAL VÀO DATABASE VPS ==="
