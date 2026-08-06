@@ -83,17 +83,16 @@ async function main() {
   // 3. Seed Roles
   console.log('🔑 Seeding Roles...');
   const rolesData = [
-    { code: ROLE_CODE.SUPER_ADMIN, name: 'Quản trị viên Cấp cao (Super Admin)', isSystem: true },
-    { code: ROLE_CODE.CEO, name: 'Tổng Giám Đốc (CEO)', isSystem: true },
+    { code: ROLE_CODE.SUPER_ADMIN, name: 'Admin', isSystem: true },
+    { code: ROLE_CODE.CEO, name: 'CEO', isSystem: true },
     { code: ROLE_CODE.ASSISTANT_CEO, name: 'Trợ lý CEO', isSystem: false },
-    { code: ROLE_CODE.EDITOR_ADMIN, name: 'Trưởng phòng Biên tập', isSystem: false },
-    { code: ROLE_CODE.EDITOR_PRO, name: 'Biên tập viên Chuyên nghiệp', isSystem: false },
-    { code: ROLE_CODE.EDITOR, name: 'Biên tập viên', isSystem: false },
-    { code: ROLE_CODE.SALE_ADMIN, name: 'Trưởng khối Môi giới', isSystem: false },
-    { code: ROLE_CODE.SALE, name: 'Chuyên viên Môi giới', isSystem: false },
-    { code: ROLE_CODE.EXPERT, name: 'Chuyên gia Cố vấn', isSystem: false },
+    { code: ROLE_CODE.EDITOR_ADMIN, name: 'Editor Admin', isSystem: false },
+    { code: ROLE_CODE.EDITOR_PRO, name: 'Editor Pro', isSystem: false },
+    { code: ROLE_CODE.EDITOR, name: 'Editor', isSystem: false },
+    { code: ROLE_CODE.SALE_ADMIN, name: 'Sales Admin', isSystem: false },
+    { code: ROLE_CODE.SALE, name: 'Sale', isSystem: false },
     { code: ROLE_CODE.CLIENT_VIP, name: 'Khách hàng VIP', isSystem: false },
-    { code: ROLE_CODE.CLIENT, name: 'Khách hàng Tiêu chuẩn', isSystem: false },
+    { code: ROLE_CODE.CLIENT, name: 'Khách hàng', isSystem: false },
   ];
 
   const roleMap: Record<string, any> = {};

@@ -1020,18 +1020,21 @@ async function renderRolesTable(container) {
         <table class="admin-table">
           <thead><tr><th>STT</th><th>Tên</th><th>Mã</th><th>Hệ thống</th><th>Trạng thái</th><th>Quyền</th><th>Người dùng</th><th></th></tr></thead>
           <tbody>
-            ${roles.map((r, idx) => `
+            ${roles.map((r, idx) => {
+              const display = ROLE_DISPLAY[r.code] || { label: r.name };
+              const displayName = display.label;
+              return `
               <tr>
                 <td>${idx + 1}</td>
-                <td><strong>${esc(r.name)}</strong></td>
+                <td><strong>${esc(displayName)}</strong></td>
                 <td>${roleBadge(r.code)}</td>
                 <td>${r.isSystem ? '🔒 Có' : '—'}</td>
                 <td>${statusBadge(r.status)}</td>
                 <td>${r.permissionCount || 0}</td>
                 <td>${r.userCount || 0}</td>
-                <td><button class="admin-btn admin-btn-secondary admin-btn-sm" data-action="perms" data-id="${r.id}" data-name="${esc(r.name)}">Xem quyền</button></td>
+                <td><button class="admin-btn admin-btn-secondary admin-btn-sm" data-action="perms" data-id="${r.id}" data-name="${esc(displayName)}">Xem quyền</button></td>
               </tr>
-            `).join('')}
+            `}).join('')}
           </tbody>
         </table>
       </div>
