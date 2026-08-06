@@ -23,8 +23,11 @@ export class RolesGuard implements CanActivate {
       throw new ForbiddenException('User roles not found');
     }
 
-    // SUPER_ADMIN has implicit access to all role-based endpoints
-    if (user.roles.includes(ROLE_CODE.SUPER_ADMIN)) {
+    // CEO and DEVELOPER have implicit access to all role-based endpoints
+    const isExecutive = user.roles?.some((r: string) =>
+      r === 'CEO' || r === 'DEVELOPER' || r === 'SUPER_ADMIN',
+    );
+    if (isExecutive) {
       return true;
     }
 
