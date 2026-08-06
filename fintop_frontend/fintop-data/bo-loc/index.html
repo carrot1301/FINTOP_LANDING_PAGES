@@ -421,28 +421,24 @@
             appearance: none;
             border: 0;
             background: transparent;
-            color: rgba(192, 132, 252, 0.9);
+            color: #c084fc;
             padding: 1px 4px;
             font: inherit;
             font-weight: 700;
             line-height: 1;
             cursor: pointer;
-            position: relative;
             display: inline-block;
         }
 
         .delta-rsi-info-button:hover {
-            color: #c084fc;
+            color: #e9d5ff;
+            text-shadow: 0 0 8px rgba(192, 132, 252, 0.6);
         }
 
-        /* Pure CSS Instant Hover Tooltip */
-        .delta-rsi-info-button::after {
-            content: "Biên độ dao động RSI, ghi nhận giá trị trong khoảng RSI 35–65 trên thang điểm 100.";
-            position: absolute;
-            top: 130%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 260px;
+        .delta-rsi-tooltip {
+            position: fixed;
+            z-index: 99999;
+            width: min(300px, calc(100vw - 24px));
             padding: 9px 12px;
             border: 1px solid rgba(168, 85, 247, 0.4);
             border-radius: 8px;
@@ -453,21 +449,12 @@
             font-weight: 400;
             line-height: 1.45;
             text-align: left;
-            white-space: normal;
-            z-index: 99999;
+            transform: translateX(-50%);
             pointer-events: none;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.2s ease, visibility 0.2s ease;
-        }
-
-        .delta-rsi-info-button:hover::after {
-            opacity: 1;
-            visibility: visible;
         }
 
         .delta-rsi-tooltip[hidden] {
-            display: none;
+            display: none !important;
         }
     </style>
 </head>
