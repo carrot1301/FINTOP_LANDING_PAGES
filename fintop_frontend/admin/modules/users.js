@@ -51,7 +51,7 @@ const INVESTMENT_STYLE_LABELS = {
 };
 
 const TIER_LABELS = {
-  standard: 'Khách hàng',
+  standard: 'Khách hàng Standard',
   silver:   'Khách hàng Pro',
   gold:     'Khách hàng Pro',
   diamond:  'Khách hàng Diamond',
@@ -132,7 +132,7 @@ export default {
         tierLevel: {
           label: 'Gói hội viên',
           options: [
-            { value: 'STANDARD', label: 'Khách hàng' },
+            { value: 'STANDARD', label: 'Khách hàng Standard' },
             { value: 'SILVER', label: 'Khách hàng Pro' },
             { value: 'DIAMOND', label: 'Khách hàng Diamond' },
           ]
@@ -555,7 +555,7 @@ function showUpgradeModal(userId, userName, currentTier) {
           <div class="admin-form-group">
             <label>Nâng cấp lên gói</label>
             <select class="admin-select" id="upgrade-tier">
-              <option value="standard" ${currentTier === 'standard' ? 'selected' : ''}>Khách hàng</option>
+              <option value="standard" ${currentTier === 'standard' ? 'selected' : ''}>Khách hàng Standard</option>
               <option value="silver" ${currentTier === 'silver' ? 'selected' : ''}>Khách hàng Pro</option>
               <option value="diamond" ${currentTier === 'diamond' ? 'selected' : ''}>Khách hàng Diamond</option>
             </select>
