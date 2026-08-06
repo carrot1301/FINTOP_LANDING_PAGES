@@ -1135,14 +1135,10 @@
                 button.setAttribute('aria-expanded', 'false');
             }
 
-            function toggleDeltaRsiTooltip() {
+            function openDeltaRsiTooltip() {
                 const button = document.getElementById('deltaRsiInfoButton');
                 const tooltip = document.getElementById('deltaRsiTooltip');
                 if (!button || !tooltip) return;
-
-                const shouldOpen = tooltip.hidden;
-                closeDeltaRsiTooltip();
-                if (!shouldOpen) return;
 
                 tooltip.hidden = false;
                 button.setAttribute('aria-expanded', 'true');
@@ -1163,26 +1159,22 @@
                 tooltip.style.top = `${top}px`;
             }
 
+            function toggleDeltaRsiTooltip() {
+                const tooltip = document.getElementById('deltaRsiTooltip');
+                if (tooltip && !tooltip.hidden) {
+                    closeDeltaRsiTooltip();
+                } else {
+                    openDeltaRsiTooltip();
+                }
+            }
+
             const deltaRsiHeading = document.querySelector('.delta-rsi-heading');
             const deltaRsiInfoButton = document.getElementById('deltaRsiInfoButton');
             
-            const openTooltip = () => {
-                const tooltip = document.getElementById('deltaRsiTooltip');
-                if (tooltip && tooltip.hidden) {
-                    toggleDeltaRsiTooltip();
-                }
-            };
-            const closeTooltip = (event) => {
-                const tooltip = document.getElementById('deltaRsiTooltip');
-                if (tooltip && !tooltip.contains(event.relatedTarget)) {
-                    closeDeltaRsiTooltip();
-                }
-            };
-
-            deltaRsiHeading?.addEventListener('mouseenter', openTooltip);
-            deltaRsiHeading?.addEventListener('mouseleave', closeTooltip);
-            deltaRsiInfoButton?.addEventListener('mouseenter', openTooltip);
-            deltaRsiInfoButton?.addEventListener('mouseleave', closeTooltip);
+            deltaRsiHeading?.addEventListener('mouseenter', openDeltaRsiTooltip);
+            deltaRsiHeading?.addEventListener('mouseleave', closeDeltaRsiTooltip);
+            deltaRsiInfoButton?.addEventListener('mouseenter', openDeltaRsiTooltip);
+            deltaRsiInfoButton?.addEventListener('mouseleave', closeDeltaRsiTooltip);
             deltaRsiInfoButton?.addEventListener('click', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
