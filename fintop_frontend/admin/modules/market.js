@@ -385,55 +385,40 @@ function renderAll() {
         font-size: 0.68rem;
         font-weight: 600;
       }
-      .df-delta-rsi-heading {
+      .df-delta-rsi-wrapper {
         position: relative;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 3px;
-        white-space: nowrap;
-      }
-      .df-delta-rsi-info {
-        appearance: none;
-        border: 0;
-        background: transparent;
-        color: rgba(148, 163, 184, 0.72);
-        padding: 1px 2px;
-        font: inherit;
-        line-height: 1;
         cursor: pointer;
       }
-      .df-delta-rsi-info:hover,
-      .df-delta-rsi-info:focus-visible {
-        color: #cbd5e1;
-        outline: 1px solid rgba(148, 163, 184, 0.5);
-        outline-offset: 2px;
-        border-radius: 3px;
-      }
-      .df-delta-rsi-input {
-        width: 78px;
-        color: #94a3b8 !important;
-        font-size: 0.68rem !important;
-        font-weight: 500 !important;
-      }
-      .df-delta-rsi-tooltip {
-        position: fixed;
-        z-index: 1200;
-        width: min(300px, calc(100vw - 24px));
-        padding: 9px 11px;
-        border: 1px solid rgba(148, 163, 184, 0.28);
-        border-radius: 7px;
-        background: #171522;
-        color: #cbd5e1;
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
-        font-size: 0.72rem;
+      .df-delta-rsi-hover-box {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 240px;
+        padding: 9px 12px;
+        border: 1px solid rgba(168, 85, 247, 0.4);
+        border-radius: 8px;
+        background: #12101d;
+        color: #e2e8f0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+        font-size: 0.75rem;
         font-weight: 400;
         line-height: 1.45;
         text-align: left;
-        transform: translateX(-50%);
+        white-space: normal;
+        z-index: 999999;
+        pointer-events: none;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
       }
-      .df-delta-rsi-tooltip[hidden] {
-        display: none;
+      .df-delta-rsi-wrapper:hover .df-delta-rsi-hover-box {
+        opacity: 1;
+        visibility: visible;
       }
     `;
     document.head.appendChild(dragStyle);
@@ -528,12 +513,14 @@ function renderAll() {
             <th style="width:5.5%;text-align:center;">Update time</th>
             <th style="width:14%;text-align:center;">Dữ liệu kỹ thuật lịch sử (Model)</th>
             <th style="width:10%;text-align:center;">Trạng thái Model</th>
-            <th class="df-delta-rsi-header" style="width:5.5%;text-align:center;">
-              <span class="df-delta-rsi-heading">ΔRSI
-                <button class="df-delta-rsi-info" id="df-delta-rsi-info" type="button"
-                  aria-label="Giải thích cột Delta RSI" aria-controls="df-delta-rsi-tooltip"
-                  aria-expanded="false">(i)</button>
-              </span>
+            <th class="df-delta-rsi-header" style="width:5.5%;text-align:center;position:relative;">
+              <div class="df-delta-rsi-wrapper" style="position:relative;display:inline-flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;">
+                <span class="df-delta-rsi-heading">ΔRSI</span>
+                <span class="df-delta-rsi-info" id="df-delta-rsi-info">(i)</span>
+                <div class="df-delta-rsi-hover-box">
+                  ${esc(DELTA_RSI_HELP_TEXT)}
+                </div>
+              </div>
             </th>
             <th style="width:7.5%;text-align:center;">Sức mạnh xu hướng<br/>Dòng tiền - RSI/MFI</th>
             <th style="width:13%;text-align:center;">Vùng kiểm định<br/>kỹ thuật</th>

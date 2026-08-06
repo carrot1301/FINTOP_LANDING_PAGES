@@ -409,52 +409,43 @@
             white-space: nowrap;
         }
 
-        .delta-rsi-heading {
+        .delta-rsi-wrapper {
+            position: relative;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 3px;
-            white-space: nowrap;
-        }
-
-        .delta-rsi-info-button {
-            appearance: none;
-            border: 0;
-            background: transparent;
-            color: #c084fc;
-            padding: 1px 4px;
-            font: inherit;
-            font-weight: 700;
-            line-height: 1;
             cursor: pointer;
-            display: inline-block;
         }
 
-        .delta-rsi-info-button:hover {
-            color: #e9d5ff;
-            text-shadow: 0 0 8px rgba(192, 132, 252, 0.6);
-        }
-
-        .delta-rsi-tooltip {
-            position: fixed;
-            z-index: 99999;
-            width: min(300px, calc(100vw - 24px));
-            padding: 9px 12px;
+        .delta-rsi-hover-box {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            padding: 10px 14px;
             border: 1px solid rgba(168, 85, 247, 0.4);
             border-radius: 8px;
             background: #12101d;
-            color: #cbd5e1;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            font-size: 0.76rem;
+            color: #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+            font-size: 0.75rem;
             font-weight: 400;
-            line-height: 1.45;
+            line-height: 1.5;
             text-align: left;
-            transform: translateX(-50%);
+            white-space: normal;
+            z-index: 999999;
             pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
         }
 
-        .delta-rsi-tooltip[hidden] {
-            display: none !important;
+        .delta-rsi-wrapper:hover .delta-rsi-hover-box,
+        .delta-rsi-hover-box:hover {
+            opacity: 1;
+            visibility: visible;
         }
     </style>
 </head>
@@ -548,12 +539,14 @@
                         <th
                             style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
                             Trạng thái Model</th>
-                        <th class="boloc-delta-rsi-header" style="padding: 8px 4px; text-align: center; width: 70px;">
-                            <span class="delta-rsi-heading">ΔRSI
-                                <button class="delta-rsi-info-button" id="deltaRsiInfoButton" type="button"
-                                    aria-label="Giải thích cột Delta RSI" aria-controls="deltaRsiTooltip"
-                                    aria-expanded="false">(i)</button>
-                            </span>
+                        <th class="boloc-delta-rsi-header" style="padding: 8px 4px; text-align: center; width: 70px; position: relative;">
+                            <div class="delta-rsi-wrapper" style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
+                                <span class="delta-rsi-heading" style="color: #c084fc; font-weight: 700; font-size: 0.72rem;">ΔRSI</span>
+                                <span class="delta-rsi-info-button" id="deltaRsiInfoButton" style="color: #c084fc; font-weight: 700; font-size: 0.72rem;">(i)</span>
+                                <div class="delta-rsi-hover-box">
+                                    Biên độ dao động RSI, ghi nhận giá trị trong khoảng RSI 35–65 trên thang điểm 100.
+                                </div>
+                            </div>
                         </th>
                         <th
                             style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
