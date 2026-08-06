@@ -151,7 +151,7 @@ npx prisma db push
 
 if [ -f fintop_dump.sql ]; then
     echo "=== ĐANG NẠP DỮ LIỆU LOCAL VÀO DATABASE VPS ==="
-    sudo -u postgres psql -d fintop < fintop_dump.sql 2>/dev/null || true
+    PGPASSWORD=123 psql -h 127.0.0.1 -U postgres -d fintop -f fintop_dump.sql 2>/dev/null || true
 fi
 
 pm2 restart fintop-backend --update-env || pm2 start dist/src/main.js --name "fintop-backend"
