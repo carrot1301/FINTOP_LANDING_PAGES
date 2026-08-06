@@ -1064,6 +1064,12 @@
             border-radius: 3px;
         }
 
+        .delta-rsi-heading:hover + .delta-rsi-tooltip,
+        .delta-rsi-info-button:hover + .delta-rsi-tooltip,
+        .delta-rsi-heading:hover ~ .delta-rsi-tooltip {
+            display: block !important;
+        }
+
         .delta-rsi-tooltip {
             position: fixed;
             z-index: 10020;

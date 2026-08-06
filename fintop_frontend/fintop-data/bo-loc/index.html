@@ -436,6 +436,12 @@
             border-radius: 3px;
         }
 
+        .delta-rsi-heading:hover + .delta-rsi-tooltip,
+        .delta-rsi-info-button:hover + .delta-rsi-tooltip,
+        .delta-rsi-heading:hover ~ .delta-rsi-tooltip {
+            display: block !important;
+        }
+
         .delta-rsi-tooltip {
             position: fixed;
             z-index: 10020;
@@ -1150,19 +1156,26 @@
                 tooltip.style.top = `${top}px`;
             }
 
+            const deltaRsiHeading = document.querySelector('.delta-rsi-heading');
             const deltaRsiInfoButton = document.getElementById('deltaRsiInfoButton');
-            deltaRsiInfoButton?.addEventListener('mouseenter', () => {
+            
+            const openTooltip = () => {
                 const tooltip = document.getElementById('deltaRsiTooltip');
                 if (tooltip && tooltip.hidden) {
                     toggleDeltaRsiTooltip();
                 }
-            });
-            deltaRsiInfoButton?.addEventListener('mouseleave', (event) => {
+            };
+            const closeTooltip = (event) => {
                 const tooltip = document.getElementById('deltaRsiTooltip');
                 if (tooltip && !tooltip.contains(event.relatedTarget)) {
                     closeDeltaRsiTooltip();
                 }
-            });
+            };
+
+            deltaRsiHeading?.addEventListener('mouseenter', openTooltip);
+            deltaRsiHeading?.addEventListener('mouseleave', closeTooltip);
+            deltaRsiInfoButton?.addEventListener('mouseenter', openTooltip);
+            deltaRsiInfoButton?.addEventListener('mouseleave', closeTooltip);
             deltaRsiInfoButton?.addEventListener('click', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
