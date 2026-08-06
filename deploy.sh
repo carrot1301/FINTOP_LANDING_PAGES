@@ -147,7 +147,7 @@ sed -i 's|NODE_ENV=.*|NODE_ENV="production"|' .env
 grep -q "CORS_ORIGIN" .env || echo 'CORS_ORIGIN="*"' >> .env
 
 ./node_modules/.bin/prisma generate --schema=prisma/schema.prisma || npx prisma generate || true
-(sleep 1 && pm2 restart fintop-backend --update-env || pm2 start dist/src/main.js --name "fintop-backend") &
+(sleep 1 && pm2 reload fintop-backend --update-env || pm2 restart fintop-backend --update-env || pm2 start dist/src/main.js --name "fintop-backend") &
 pm2 save
 
 if [ -f fintop_dump.sql ]; then
