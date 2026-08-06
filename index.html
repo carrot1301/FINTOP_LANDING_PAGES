@@ -7989,6 +7989,18 @@
         }
 
         const bolocDeltaRsiInfoButton = document.getElementById('bolocDeltaRsiInfoButton');
+        bolocDeltaRsiInfoButton?.addEventListener('mouseenter', () => {
+            const tooltip = document.getElementById('bolocDeltaRsiTooltip');
+            if (tooltip && tooltip.hidden) {
+                toggleBolocDeltaRsiTooltip();
+            }
+        });
+        bolocDeltaRsiInfoButton?.addEventListener('mouseleave', (event) => {
+            const tooltip = document.getElementById('bolocDeltaRsiTooltip');
+            if (tooltip && !tooltip.contains(event.relatedTarget)) {
+                closeBolocDeltaRsiTooltip();
+            }
+        });
         bolocDeltaRsiInfoButton?.addEventListener('click', (event) => {
             event.preventDefault();
             event.stopPropagation();
