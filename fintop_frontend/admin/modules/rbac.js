@@ -1001,9 +1001,21 @@ async function renderRolesTable(container) {
   const rolesArea = container.querySelector('#roles-table-area');
   rolesArea.innerHTML = '<div class="admin-loading"><div class="admin-spinner"></div> Đang tải phân quyền...</div>';
 
+  // Hierarchy rank order: CEO highest (1) → CLIENT lowest (11)
+  const ROLE_RANK_ORDER = {
+    CEO: 1, DEVELOPER: 2, ASSISTANT_CEO: 3, EDITOR_ADMIN: 4,
+    EDITOR_PRO: 5, EDITOR: 6, SALE_ADMIN: 7, SALE: 8,
+    EXPERT: 9, CLIENT_VIP: 10, CLIENT: 11,
+  };
+
   try {
     const res = await API().get(EP().ADMIN_ROLES);
-    const roles = res.data || res;
+    let roles = res.data || res;
+
+    // Filter out SUPER_ADMIN — CEO is the highest visible role
+    roles = (Array.isArray(roles) ? roles : [])
+      .filter(r => r.code !== 'SUPER_ADMIN')
+      .sort((a, b) => (ROLE_RANK_ORDER[a.code] ?? 99) - (ROLE_RANK_ORDER[b.code] ?? 99));
 
     rolesArea.innerHTML = `
       <div class="admin-table-container">
@@ -1011,11 +1023,11 @@ async function renderRolesTable(container) {
           <div class="admin-table-title">🔑 Vai trò hệ thống</div>
         </div>
         <table class="admin-table">
-          <thead><tr><th>ID</th><th>Tên</th><th>Mã</th><th>Hệ thống</th><th>Trạng thái</th><th>Quyền</th><th>Người dùng</th><th></th></tr></thead>
+          <thead><tr><th>STT</th><th>Tên</th><th>Mã</th><th>Hệ thống</th><th>Trạng thái</th><th>Quyền</th><th>Người dùng</th><th></th></tr></thead>
           <tbody>
-            ${(Array.isArray(roles) ? roles : []).map(r => `
+            ${roles.map((r, idx) => `
               <tr>
-                <td>${r.id}</td>
+                <td>${idx + 1}</td>
                 <td><strong>${esc(r.name)}</strong></td>
                 <td>${roleBadge(r.code)}</td>
                 <td>${r.isSystem ? '🔒 Có' : '—'}</td>

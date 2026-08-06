@@ -146,14 +146,17 @@ sed -i 's|FRONTEND_URL=.*|FRONTEND_URL="https://fintopdata.vn"|' .env
 sed -i 's|NODE_ENV=.*|NODE_ENV="production"|' .env
 grep -q "CORS_ORIGIN" .env || echo 'CORS_ORIGIN="*"' >> .env
 
-./node_modules/.bin/prisma generate --schema=prisma/schema.prisma || npx prisma generate || true
-(sleep 1 && pm2 reload fintop-backend --update-env || pm2 restart fintop-backend --update-env || pm2 start dist/src/main.js --name "fintop-backend") &
-pm2 save
+npx prisma generate
+npx prisma db push
+npm run build
 
 if [ -f fintop_dump.sql ]; then
     echo "=== ĐANG NẠP DỮ LIỆU LOCAL VÀO DATABASE VPS ==="
-    psql -U postgres -d fintop -f fintop_dump.sql 2>/dev/null || sudo -u postgres psql -d fintop -f fintop_dump.sql 2>/dev/null || true
+    sudo -u postgres psql -d fintop < fintop_dump.sql 2>/dev/null || true
 fi
+
+pm2 restart fintop-backend --update-env || pm2 start dist/src/main.js --name "fintop-backend"
+pm2 save
 
 echo "=========================================="
 echo "=== KÍCH HOẠT NGINX HTTPS 443 THÀNH CÔNG 100%! ==="
