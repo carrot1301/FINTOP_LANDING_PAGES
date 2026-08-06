@@ -59,9 +59,14 @@ async function bootstrap() {
         swagger_1.SwaggerModule.setup('docs', app, document);
         logger.log('📚 Swagger documentation available at /docs');
     }
-    const redisIoAdapter = new redis_io_adapter_1.RedisIoAdapter(app);
-    await redisIoAdapter.connectToRedis();
-    app.useWebSocketAdapter(redisIoAdapter);
+    try {
+        const redisIoAdapter = new redis_io_adapter_1.RedisIoAdapter(app);
+        await redisIoAdapter.connectToRedis();
+        app.useWebSocketAdapter(redisIoAdapter);
+    }
+    catch (err) {
+        logger.warn(`⚠️ Redis WebSocket Adapter connection deferred/failed (${err.message}). Defaulting to in-memory adapter.`);
+    }
     const port = process.env.PORT ?? 3000;
     await app.listen(port);
     logger.log(`🚀 FinTop Platform running on port ${port} [${process.env.NODE_ENV || 'development'}]`);

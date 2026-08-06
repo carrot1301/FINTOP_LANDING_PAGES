@@ -80,9 +80,13 @@ async function bootstrap() {
   }
 
   // ── WebSocket Redis Adapter ──────────────────────────────────
-  const redisIoAdapter = new RedisIoAdapter(app);
-  await redisIoAdapter.connectToRedis();
-  app.useWebSocketAdapter(redisIoAdapter);
+  try {
+    const redisIoAdapter = new RedisIoAdapter(app);
+    await redisIoAdapter.connectToRedis();
+    app.useWebSocketAdapter(redisIoAdapter);
+  } catch (err: any) {
+    logger.warn(`⚠️ Redis WebSocket Adapter connection deferred/failed (${err.message}). Defaulting to in-memory adapter.`);
+  }
 
   // ── Start ─────────────────────────────────────────────────────
   const port = process.env.PORT ?? 3000;
