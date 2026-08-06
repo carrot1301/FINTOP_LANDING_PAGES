@@ -787,15 +787,31 @@ export class AdminService {
   // ─────────────────────────────────────────────────────
 
   async getRoles() {
+    const ROLE_ORDER: Record<string, number> = {
+      CEO: 1,
+      DEVELOPER: 2,
+      ASSISTANT_CEO: 3,
+      EDITOR_ADMIN: 4,
+      EDITOR_PRO: 5,
+      EDITOR: 6,
+      SALE_ADMIN: 7,
+      SALE: 8,
+      EXPERT: 9,
+      CLIENT_VIP: 10,
+      CLIENT: 11,
+    };
+
     const roles = await this.prisma.role.findMany({
-      where: { deletedAt: null },
+      where: {
+        deletedAt: null,
+        code: { not: 'SUPER_ADMIN' as any },
+      },
       include: {
         _count: { select: { permissions: true, users: true } },
       },
-      orderBy: { id: 'asc' },
     });
 
-    return roles.map(r => ({
+    const mapped = roles.map(r => ({
       id: r.id,
       name: r.name,
       code: r.code,
@@ -804,7 +820,12 @@ export class AdminService {
       status: r.status,
       permissionCount: r._count.permissions,
       userCount: r._count.users,
+      sortRank: ROLE_ORDER[r.code] ?? 99,
     }));
+
+    mapped.sort((a, b) => a.sortRank - b.sortRank);
+
+    return mapped;
   }
 
   async getRolePermissions(roleId: number) {

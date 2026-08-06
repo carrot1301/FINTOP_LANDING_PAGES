@@ -21,7 +21,6 @@ let staffDetailEl = null;
 // ─────────────────────────────────────────────────────────────
 
 const ROLE_DISPLAY = {
-  SUPER_ADMIN:    { label: 'Super Admin',         color: '#ff3b3b' },
   CEO:            { label: 'CEO',                  color: '#ff3b3b' },
   DEVELOPER:      { label: 'Developer',            color: '#a855f7' },
   ASSISTANT_CEO:  { label: 'Trợ lý CEO',           color: '#ff6b6b' },

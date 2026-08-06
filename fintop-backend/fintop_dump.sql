@@ -43,6 +43,17 @@ DELETE FROM user_roles WHERE "userId" IN (SELECT id FROM users WHERE email = 'fi
 INSERT INTO user_roles ("userId", "roleId", "assignedAt")
 SELECT id, (SELECT id FROM roles WHERE code = 'DEVELOPER'), NOW() FROM users WHERE email = 'fintop.bashare@gmail.com';
 
+-- Migrate any leftover SUPER_ADMIN users to DEVELOPER and soft-delete SUPER_ADMIN role
+UPDATE user_roles SET "roleId" = (SELECT id FROM roles WHERE code = 'DEVELOPER')
+WHERE "roleId" = (SELECT id FROM roles WHERE code = 'SUPER_ADMIN')
+  AND "userId" NOT IN (SELECT id FROM users WHERE email = 'fintop.ba@gmail.com');
+
+UPDATE user_roles SET "roleId" = (SELECT id FROM roles WHERE code = 'CEO')
+WHERE "roleId" = (SELECT id FROM roles WHERE code = 'SUPER_ADMIN')
+  AND "userId" IN (SELECT id FROM users WHERE email = 'fintop.ba@gmail.com');
+
+UPDATE roles SET "deletedAt" = NOW() WHERE code = 'SUPER_ADMIN';
+
 -- STEP 4: Create ALL new permissions (INSERT IF NOT EXISTS via ON CONFLICT)
 INSERT INTO permissions (module, action, code, description, status, "createdAt", "updatedAt") VALUES
   ('INVOICE', 'READ', 'INVOICE:READ', 'Xem hóa đơn', 'ACTIVE', NOW(), NOW()),
