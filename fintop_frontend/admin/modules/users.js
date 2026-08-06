@@ -731,7 +731,10 @@ async function showUserDetail(userId) {
                 <div style="display:flex; gap:0.5rem; align-items:center;">
                   <select class="admin-select" id="assign-role-select" style="min-width:180px;">
                     <option value="">-- Chọn vai trò --</option>
-                    ${unassignedRoles.map(r => `<option value="${esc(r.code)}">${esc(r.name)}</option>`).join('')}
+                    ${unassignedRoles.map(r => {
+                      const display = ROLE_DISPLAY[r.code] || { label: r.name || r.code };
+                      return `<option value="${esc(r.code)}">${esc(display.label)}</option>`;
+                    }).join('')}
                   </select>
                   <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-assign-role">Gán vai trò</button>
                 </div>
