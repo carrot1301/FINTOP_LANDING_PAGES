@@ -53,9 +53,9 @@ const INVESTMENT_STYLE_LABELS = {
 const TIER_LABELS = {
   standard: 'Khách hàng',
   silver:   'Khách hàng Pro',
-  gold:     'Khách hàng VIP',
+  gold:     'Khách hàng Pro',
   diamond:  'Khách hàng Diamond',
-  vip:      'Khách hàng VIP',
+  vip:      'Khách hàng Pro',
 };
 
 const ROLE_DISPLAY = {
@@ -134,7 +134,6 @@ export default {
           options: [
             { value: 'STANDARD', label: 'Khách hàng' },
             { value: 'SILVER', label: 'Khách hàng Pro' },
-            { value: 'GOLD', label: 'Khách hàng VIP' },
             { value: 'DIAMOND', label: 'Khách hàng Diamond' },
           ]
         },
@@ -558,7 +557,6 @@ function showUpgradeModal(userId, userName, currentTier) {
             <select class="admin-select" id="upgrade-tier">
               <option value="standard" ${currentTier === 'standard' ? 'selected' : ''}>Khách hàng</option>
               <option value="silver" ${currentTier === 'silver' ? 'selected' : ''}>Khách hàng Pro</option>
-              <option value="gold" ${currentTier === 'gold' ? 'selected' : ''}>Khách hàng VIP</option>
               <option value="diamond" ${currentTier === 'diamond' ? 'selected' : ''}>Khách hàng Diamond</option>
             </select>
           </div>
