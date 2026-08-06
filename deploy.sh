@@ -146,6 +146,7 @@ sed -i 's|FRONTEND_URL=.*|FRONTEND_URL="https://fintopdata.vn"|' .env
 sed -i 's|NODE_ENV=.*|NODE_ENV="production"|' .env
 grep -q "CORS_ORIGIN" .env || echo 'CORS_ORIGIN="*"' >> .env
 
+npx prisma generate
 (sleep 1 && pm2 restart fintop-backend --update-env || pm2 start dist/src/main.js --name "fintop-backend") &
 pm2 save
 
