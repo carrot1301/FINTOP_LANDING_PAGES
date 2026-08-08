@@ -13,7 +13,7 @@ export class MailService {
     this.frontendUrl = this.config.get<string>('FRONTEND_URL', 'https://fintop-frontend-staging.onrender.com');
 
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
-    const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
+    const brevoApiKey = (this.config.get<string>('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
 
     // Always try to initialize SMTP transporter as fallback
     const smtpHost = this.config.get<string>('SMTP_HOST', 'smtp.gmail.com');
@@ -101,7 +101,7 @@ export class MailService {
       this.logger.warn(`Resend failed for ${to}, falling back to SMTP...`);
     }
 
-    const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
+    const brevoApiKey = (this.config.get<string>('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
     if (brevoApiKey) {
       const ok = await this.sendMailViaBrevo(to, subject, html, brevoApiKey);
       if (ok) return true;
@@ -340,14 +340,14 @@ export class MailService {
   /** Returns true if SMTP, Resend or Brevo credentials are configured */
   isConfigured(): boolean {
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
-    const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
+    const brevoApiKey = (this.config.get<string>('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
     return !!resendApiKey || !!brevoApiKey || !!this.transporter;
   }
 
   /** Returns mail sender status info for health checks */
   getStatus(): { status: 'up' | 'down'; configured: boolean; provider: 'resend' | 'brevo' | 'smtp' | 'none'; host: string; user: string; frontendUrl: string } {
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
-    const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
+    const brevoApiKey = (this.config.get<string>('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
     const hasResend = !!resendApiKey;
     const hasBrevo = !!brevoApiKey;
     const hasSmtp = !!this.transporter;
