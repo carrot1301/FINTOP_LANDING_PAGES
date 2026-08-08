@@ -200,8 +200,8 @@ class NamespaceSocket {
         reject(err);
       };
       const cleanup = () => {
-        this._socket.off('connect', onConnect);
-        this._socket.off('connect_error', onError);
+        this._socket?.off('connect', onConnect);
+        this._socket?.off('connect_error', onError);
       };
       this._socket.once('connect', onConnect);
       this._socket.once('connect_error', onError);
