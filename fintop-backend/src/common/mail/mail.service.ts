@@ -15,41 +15,42 @@ export class MailService {
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
     const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
 
+    // Always try to initialize SMTP transporter as fallback
+    const smtpHost = this.config.get<string>('SMTP_HOST', 'smtp.gmail.com');
+    const smtpPort = this.config.get<number>('SMTP_PORT', 587);
+    const smtpUser = this.config.get<string>('SMTP_USER', '');
+    const smtpPass = this.config.get<string>('SMTP_PASS', '');
+
+    if (smtpUser && smtpPass) {
+      this.transporter = nodemailer.createTransport({
+        host: smtpHost,
+        port: smtpPort,
+        secure: smtpPort === 465,
+        auth: { user: smtpUser, pass: smtpPass },
+      });
+      this.transporter.verify().then(() => {
+        this.logger.log(`SMTP fallback ready: ${smtpHost}:${smtpPort} as ${smtpUser}`);
+      }).catch((err) => {
+        this.logger.warn(`SMTP fallback connection failed: ${err.message}`);
+      });
+    } else {
+      this.transporter = null as any;
+    }
+
     if (resendApiKey) {
       this.fromAddress = this.config.get<string>('RESEND_FROM', 'FinTop DATA <no-reply@fintopdata.vn>');
-      this.logger.log('Resend API key configured — emails will be sent via Resend HTTPS API.');
-      this.transporter = null as any;
+      this.logger.log('Resend API key configured — emails will be sent via Resend HTTPS API.' + (this.transporter ? ' SMTP fallback available.' : ''));
     } else if (brevoApiKey) {
       const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
       const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
       this.fromAddress = `${fromName} <${fromEmail}>`;
-      this.logger.log('Brevo API key configured — emails will be sent via Brevo HTTPS API.');
-      this.transporter = null as any;
+      this.logger.log('Brevo API key configured — emails will be sent via Brevo HTTPS API.' + (this.transporter ? ' SMTP fallback available.' : ''));
+    } else if (this.transporter) {
+      this.fromAddress = this.config.get<string>('SMTP_FROM', `FinTop DATA <${smtpUser}>`);
+      this.logger.log(`SMTP configured as primary email provider: ${smtpHost}:${smtpPort}`);
     } else {
-      const host = this.config.get<string>('SMTP_HOST', 'smtp.gmail.com');
-      const port = this.config.get<number>('SMTP_PORT', 587);
-      const user = this.config.get<string>('SMTP_USER', '');
-      const pass = this.config.get<string>('SMTP_PASS', '');
-      this.fromAddress = this.config.get<string>('SMTP_FROM', `FinTop DATA <${user}>`);
-
-      if (!user || !pass) {
-        this.logger.warn('Neither Resend, Brevo API Key nor SMTP credentials configured — emails will be logged but not sent.');
-        this.transporter = null as any;
-      } else {
-        this.transporter = nodemailer.createTransport({
-          host,
-          port,
-          secure: port === 465,
-          auth: { user, pass },
-        });
-
-        // Verify SMTP connection on startup
-        this.transporter.verify().then(() => {
-          this.logger.log(`SMTP connected: ${host}:${port} as ${user}`);
-        }).catch((err) => {
-          this.logger.error(`SMTP connection failed: ${err.message}`);
-        });
-      }
+      this.fromAddress = 'FinTop DATA <noreply@fintopdata.vn>';
+      this.logger.warn('Neither Resend, Brevo API Key nor SMTP credentials configured — emails will be logged but not sent.');
     }
   }
 
@@ -95,14 +96,19 @@ export class MailService {
   private async sendMail(to: string, subject: string, html: string): Promise<boolean> {
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
     if (resendApiKey) {
-      return this.sendMailViaResend(to, subject, html, resendApiKey);
+      const ok = await this.sendMailViaResend(to, subject, html, resendApiKey);
+      if (ok) return true;
+      this.logger.warn(`Resend failed for ${to}, falling back to SMTP...`);
     }
 
     const brevoApiKey = this.config.get<string>('BREVO_API_KEY', '');
     if (brevoApiKey) {
-      return this.sendMailViaBrevo(to, subject, html, brevoApiKey);
+      const ok = await this.sendMailViaBrevo(to, subject, html, brevoApiKey);
+      if (ok) return true;
+      this.logger.warn(`Brevo failed for ${to}, falling back to SMTP...`);
     }
 
+    // SMTP fallback (or primary if no API provider configured)
     if (!this.transporter) {
       this.logger.warn(`[DRY RUN] Email to ${to}: ${subject}`);
       this.logger.debug(`[DRY RUN] HTML body length: ${html.length}`);
@@ -121,10 +127,10 @@ export class MailService {
         html,
       });
 
-      this.logger.log(`Email sent to ${to}: ${info.messageId}`);
+      this.logger.log(`Email sent to ${to} via SMTP fallback: ${info.messageId}`);
       return true;
     } catch (err) {
-      this.logger.error(`Failed to send email to ${to}: ${err.message}`);
+      this.logger.error(`Failed to send email to ${to} via SMTP: ${err.message}`);
       return false;
     }
   }
