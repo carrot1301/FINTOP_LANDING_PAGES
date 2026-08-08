@@ -42,7 +42,7 @@ export class MailService {
       this.logger.log('Resend API key configured — emails will be sent via Resend HTTPS API.' + (this.transporter ? ' SMTP fallback available.' : ''));
     } else if (brevoApiKey) {
       const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
-      const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+      const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@fintopdata.vn');
       this.fromAddress = `${fromName} <${fromEmail}>`;
       this.logger.log('Brevo API key configured — emails will be sent via Brevo HTTPS API.' + (this.transporter ? ' SMTP fallback available.' : ''));
     } else if (this.transporter) {
@@ -168,7 +168,7 @@ export class MailService {
 
   private async sendMailViaBrevo(to: string, subject: string, html: string, apiKey: string): Promise<boolean> {
     const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
-    const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+    const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@fintopdata.vn');
     const replyTo = this.config.get<string>('MAIL_REPLY_TO', 'fintopdata.info@gmail.com');
     const bccEmail = this.config.get<string>('MAIL_BCC', 'fintopdata.info@gmail.com');
     try {
@@ -301,7 +301,7 @@ export class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <img src="https://raw.githubusercontent.com/carrot1301/FINTOP_LANDING_PAGES/main/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
+        <img src="https://fintopdata.vn/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <div style="text-align:center;margin-bottom:24px;">
@@ -363,7 +363,7 @@ export class MailService {
     } else if (hasBrevo) {
       provider = 'brevo';
       host = 'api.brevo.com';
-      user = this.config.get<string>('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+      user = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@fintopdata.vn');
     } else if (hasSmtp) {
       provider = 'smtp';
       host = this.config.get<string>('SMTP_HOST', '(not set)');
