@@ -1355,12 +1355,20 @@ const AuthUI = {
 
     overlay.innerHTML = `
       <div style="
+        position: relative;
         background: linear-gradient(145deg, #1e1b4b, #0f172a);
         border: 1px solid rgba(139, 92, 246, 0.3);
         border-radius: 16px; padding: 32px; max-width: 440px; width: 90%;
         box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 40px rgba(139,92,246,0.15);
         animation: fintop-scale-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       ">
+        <button id="firstLoginCloseBtn" style="
+          position: absolute; top: 16px; right: 16px;
+          background: transparent; border: none; color: #94a3b8;
+          font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 6px;
+          transition: all 0.2s;
+        " title="Đóng">✕</button>
+
         <div style="text-align: center; margin-bottom: 20px;">
           <div style="font-size: 2.5rem; margin-bottom: 8px;">🔐</div>
           <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff; margin: 0 0 8px;">
@@ -1416,11 +1424,14 @@ const AuthUI = {
         </button>
 
         <button id="firstLoginSkipBtn" style="
-          width: 100%; margin-top: 10px; padding: 10px; border: none;
-          background: transparent; color: #64748b; font-size: 0.82rem;
-          cursor: pointer; transition: color 0.2s;
+          width: 100%; margin-top: 12px; padding: 11px;
+          border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 10px;
+          background: rgba(255, 255, 255, 0.06); color: #e2e8f0;
+          font-size: 0.88rem; font-weight: 600;
+          cursor: pointer; transition: all 0.2s;
+          box-sizing: border-box;
         ">
-          Để sau — tôi sẽ đổi trong phần Thông tin cá nhân
+          ⏰ Để sau — tôi sẽ đổi trong phần Thông tin cá nhân
         </button>
       </div>
     `;
@@ -1434,16 +1445,34 @@ const AuthUI = {
       if (input) input.focus();
     }, 100);
 
-    // Skip button — close modal
-    const skipBtn = document.getElementById('firstLoginSkipBtn');
-    skipBtn.addEventListener('click', () => {
+    const closeModal = () => {
       overlay.style.opacity = '0';
       overlay.style.transition = 'opacity 0.25s ease';
       setTimeout(() => {
         overlay.remove();
         document.body.style.overflow = '';
       }, 250);
-    });
+    };
+
+    // Close button (X)
+    const closeBtn = document.getElementById('firstLoginCloseBtn');
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+    // Skip button — close modal
+    const skipBtn = document.getElementById('firstLoginSkipBtn');
+    if (skipBtn) {
+      skipBtn.addEventListener('mouseover', () => {
+        skipBtn.style.background = 'rgba(255, 255, 255, 0.12)';
+        skipBtn.style.borderColor = 'rgba(139, 92, 246, 0.5)';
+        skipBtn.style.color = '#ffffff';
+      });
+      skipBtn.addEventListener('mouseout', () => {
+        skipBtn.style.background = 'rgba(255, 255, 255, 0.06)';
+        skipBtn.style.borderColor = 'rgba(255, 255, 255, 0.18)';
+        skipBtn.style.color = '#e2e8f0';
+      });
+      skipBtn.addEventListener('click', closeModal);
+    }
 
     // Submit button — change password
     const submitBtn = document.getElementById('firstLoginSubmitBtn');
