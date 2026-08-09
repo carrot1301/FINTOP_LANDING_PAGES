@@ -646,7 +646,7 @@ const AuthUI = {
 
     try {
       console.log('[AuthUI] 🔄 Calling AuthManager.login...');
-      await AuthManager.login(email, password);
+      const result = await AuthManager.login(email, password);
       console.log('[AuthUI] ✅ Login successful!');
 
       // Success → close modal
@@ -657,6 +657,12 @@ const AuthUI = {
       // Clear form fields for security
       emailInput.value = '';
       passwordInput.value = '';
+
+      // Check if this is first login → show password change prompt
+      if (result.requirePasswordChange) {
+        console.log('[AuthUI] 🔑 First login detected — showing password change prompt.');
+        setTimeout(() => this._showFirstLoginPasswordModal(), 500);
+      }
 
       // Check if redirect is needed
       try {
@@ -671,19 +677,7 @@ const AuthUI = {
       console.error('[AuthUI] ❌ Login failed:', err);
       // Translate backend error to Vietnamese message
       const translated = ErrorTranslator.translate(err);
-
-      if (err?.message === 'EMAIL_NOT_VERIFIED') {
-        const verifyEmailInput = document.getElementById('verifyEmailAddress');
-        if (verifyEmailInput) {
-          verifyEmailInput.value = email;
-        }
-        if (typeof switchAuthView === 'function') {
-          switchAuthView('verify');
-        }
-        AuthFormUI.showError('authFormVerify', translated.message);
-      } else {
-        AuthFormUI.showError('authFormLogin', translated.message);
-      }
+      AuthFormUI.showError('authFormLogin', translated.message);
 
       if (FintopEnv.DEBUG) {
         console.error('[AuthUI] Login failed:', err);
@@ -1341,6 +1335,176 @@ const AuthUI = {
   },
 
   // ─────────────────────────────────────────────────────
+  // FIRST LOGIN — PASSWORD CHANGE MODAL
+  // Shows a fullscreen modal prompting first-time users to change their default password.
+  // ─────────────────────────────────────────────────────
+
+  _showFirstLoginPasswordModal() {
+    // Remove existing if any
+    const existing = document.getElementById('fintopFirstLoginModal');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'fintopFirstLoginModal';
+    overlay.style.cssText = `
+      position: fixed; inset: 0; z-index: 99999;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      animation: fintop-fade-in 0.3s ease;
+    `;
+
+    overlay.innerHTML = `
+      <div style="
+        background: linear-gradient(145deg, #1e1b4b, #0f172a);
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        border-radius: 16px; padding: 32px; max-width: 440px; width: 90%;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 40px rgba(139,92,246,0.15);
+        animation: fintop-scale-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      ">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="font-size: 2.5rem; margin-bottom: 8px;">🔐</div>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff; margin: 0 0 8px;">
+            Chào mừng bạn đến FinTop DATA!
+          </h3>
+          <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">
+            Đây là lần đăng nhập đầu tiên của bạn.<br>
+            Vui lòng <strong style="color: #a78bfa;">đổi mật khẩu mới</strong> để bảo mật tài khoản.
+          </p>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 0.8rem; font-weight: 600; color: #a78bfa; margin-bottom: 6px; display: block;">
+            Mật khẩu mới
+          </label>
+          <input type="password" id="firstLoginNewPassword" placeholder="Nhập mật khẩu mới (≥ 6 ký tự)" style="
+            width: 100%; padding: 12px 14px; border-radius: 10px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(139,92,246,0.3);
+            color: #fff; font-size: 0.9rem; outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+          " />
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label style="font-size: 0.8rem; font-weight: 600; color: #a78bfa; margin-bottom: 6px; display: block;">
+            Xác nhận mật khẩu
+          </label>
+          <input type="password" id="firstLoginConfirmPassword" placeholder="Nhập lại mật khẩu mới" style="
+            width: 100%; padding: 12px 14px; border-radius: 10px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(139,92,246,0.3);
+            color: #fff; font-size: 0.9rem; outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+          " />
+        </div>
+
+        <div id="firstLoginError" style="
+          display: none; background: rgba(239,68,68,0.12);
+          border: 1px solid rgba(239,68,68,0.3); border-radius: 8px;
+          padding: 10px 14px; margin-bottom: 14px;
+          color: #fca5a5; font-size: 0.82rem;
+        "></div>
+
+        <button id="firstLoginSubmitBtn" style="
+          width: 100%; padding: 13px; border: none; border-radius: 10px;
+          background: linear-gradient(135deg, #7c3aed, #a855f7);
+          color: #fff; font-size: 0.95rem; font-weight: 700;
+          cursor: pointer; transition: all 0.2s;
+          box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        ">
+          🔑 Đổi mật khẩu
+        </button>
+
+        <button id="firstLoginSkipBtn" style="
+          width: 100%; margin-top: 10px; padding: 10px; border: none;
+          background: transparent; color: #64748b; font-size: 0.82rem;
+          cursor: pointer; transition: color 0.2s;
+        ">
+          Để sau — tôi sẽ đổi trong phần Thông tin cá nhân
+        </button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+
+    // Focus the password input
+    setTimeout(() => {
+      const input = document.getElementById('firstLoginNewPassword');
+      if (input) input.focus();
+    }, 100);
+
+    // Skip button — close modal
+    const skipBtn = document.getElementById('firstLoginSkipBtn');
+    skipBtn.addEventListener('click', () => {
+      overlay.style.opacity = '0';
+      overlay.style.transition = 'opacity 0.25s ease';
+      setTimeout(() => {
+        overlay.remove();
+        document.body.style.overflow = '';
+      }, 250);
+    });
+
+    // Submit button — change password
+    const submitBtn = document.getElementById('firstLoginSubmitBtn');
+    submitBtn.addEventListener('click', async () => {
+      const errorDiv = document.getElementById('firstLoginError');
+      const newPass = document.getElementById('firstLoginNewPassword').value;
+      const confirmPass = document.getElementById('firstLoginConfirmPassword').value;
+
+      // Validation
+      errorDiv.style.display = 'none';
+
+      if (!newPass || newPass.length < 6) {
+        errorDiv.textContent = '⚠️ Mật khẩu phải có ít nhất 6 ký tự.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      if (newPass !== confirmPass) {
+        errorDiv.textContent = '⚠️ Mật khẩu xác nhận không khớp.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Đang đổi mật khẩu...';
+      submitBtn.style.opacity = '0.7';
+
+      try {
+        await ApiClient.patch('/auth/profile', { password: newPass });
+
+        // Success — show success state and close
+        submitBtn.textContent = '✅ Đổi mật khẩu thành công!';
+        submitBtn.style.background = 'linear-gradient(135deg, #059669, #10b981)';
+
+        setTimeout(() => {
+          overlay.style.opacity = '0';
+          overlay.style.transition = 'opacity 0.25s ease';
+          setTimeout(() => {
+            overlay.remove();
+            document.body.style.overflow = '';
+          }, 250);
+        }, 1500);
+
+      } catch (err) {
+        errorDiv.textContent = '❌ ' + (err.message || 'Lỗi khi đổi mật khẩu. Vui lòng thử lại.');
+        errorDiv.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🔑 Đổi mật khẩu';
+        submitBtn.style.opacity = '';
+      }
+    });
+
+    // Enter key to submit
+    const handleEnter = (e) => {
+      if (e.key === 'Enter') submitBtn.click();
+    };
+    document.getElementById('firstLoginNewPassword').addEventListener('keydown', handleEnter);
+    document.getElementById('firstLoginConfirmPassword').addEventListener('keydown', handleEnter);
+  },
+
+  // ─────────────────────────────────────────────────────
   // CSS INJECTION (one-time)
   // ─────────────────────────────────────────────────────
 
@@ -1370,6 +1534,16 @@ const AuthUI = {
       @keyframes fintop-spin {
         from { transform: rotate(0deg); }
         to { transform: rotate(360deg); }
+      }
+
+      @keyframes fintop-fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes fintop-scale-in {
+        from { transform: scale(0.85); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
       }
       
       /* Notification Detail Modal styling */

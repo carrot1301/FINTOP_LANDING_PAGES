@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SubscriptionTierGuard = exports.SubscriptionTier = exports.TIER_KEY = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
-const client_1 = require("@prisma/client");
 const subscription_helper_1 = require("../utils/subscription-helper");
 exports.TIER_KEY = 'subscription_tier';
 const SubscriptionTier = (tier) => (0, common_1.SetMetadata)(exports.TIER_KEY, tier);
@@ -34,7 +33,13 @@ let SubscriptionTierGuard = class SubscriptionTierGuard {
         if (!user) {
             throw new common_1.ForbiddenException('User session not found');
         }
-        if (user.roles?.includes(client_1.ROLE_CODE.SUPER_ADMIN)) {
+        const staffRoles = [
+            'SUPER_ADMIN', 'CEO', 'DEVELOPER',
+            'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO',
+            'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT',
+        ];
+        const hasStaffRole = user.roles?.some((r) => staffRoles.includes(r));
+        if (hasStaffRole) {
             return true;
         }
         if (!(0, subscription_helper_1.isFeatureAllowed)(user.planFeatures, requiredTier)) {

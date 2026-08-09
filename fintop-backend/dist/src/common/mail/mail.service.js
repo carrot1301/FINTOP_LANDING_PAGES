@@ -57,42 +57,44 @@ let MailService = MailService_1 = class MailService {
         this.config = config;
         this.frontendUrl = this.config.get('FRONTEND_URL', 'https://fintop-frontend-staging.onrender.com');
         const resendApiKey = this.config.get('RESEND_API_KEY', '');
-        const brevoApiKey = this.config.get('BREVO_API_KEY', '');
+        const brevoApiKey = (this.config.get('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
+        const smtpHost = this.config.get('SMTP_HOST', 'smtp.gmail.com');
+        const smtpPort = this.config.get('SMTP_PORT', 587);
+        const smtpUser = this.config.get('SMTP_USER', '');
+        const smtpPass = this.config.get('SMTP_PASS', '');
+        if (smtpUser && smtpPass) {
+            this.transporter = nodemailer.createTransport({
+                host: smtpHost,
+                port: smtpPort,
+                secure: smtpPort === 465,
+                auth: { user: smtpUser, pass: smtpPass },
+            });
+            this.transporter.verify().then(() => {
+                this.logger.log(`SMTP fallback ready: ${smtpHost}:${smtpPort} as ${smtpUser}`);
+            }).catch((err) => {
+                this.logger.warn(`SMTP fallback connection failed: ${err.message}`);
+            });
+        }
+        else {
+            this.transporter = null;
+        }
         if (resendApiKey) {
             this.fromAddress = this.config.get('RESEND_FROM', 'FinTop DATA <no-reply@fintopdata.vn>');
-            this.logger.log('Resend API key configured — emails will be sent via Resend HTTPS API.');
-            this.transporter = null;
+            this.logger.log('Resend API key configured — emails will be sent via Resend HTTPS API.' + (this.transporter ? ' SMTP fallback available.' : ''));
         }
         else if (brevoApiKey) {
             const fromName = this.config.get('BREVO_FROM_NAME', 'FinTop DATA');
-            const fromEmail = this.config.get('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+            const fromEmail = this.config.get('BREVO_FROM_EMAIL', 'fintopdata.info@fintopdata.vn');
             this.fromAddress = `${fromName} <${fromEmail}>`;
-            this.logger.log('Brevo API key configured — emails will be sent via Brevo HTTPS API.');
-            this.transporter = null;
+            this.logger.log('Brevo API key configured — emails will be sent via Brevo HTTPS API.' + (this.transporter ? ' SMTP fallback available.' : ''));
+        }
+        else if (this.transporter) {
+            this.fromAddress = this.config.get('SMTP_FROM', `FinTop DATA <${smtpUser}>`);
+            this.logger.log(`SMTP configured as primary email provider: ${smtpHost}:${smtpPort}`);
         }
         else {
-            const host = this.config.get('SMTP_HOST', 'smtp.gmail.com');
-            const port = this.config.get('SMTP_PORT', 587);
-            const user = this.config.get('SMTP_USER', '');
-            const pass = this.config.get('SMTP_PASS', '');
-            this.fromAddress = this.config.get('SMTP_FROM', `FinTop DATA <${user}>`);
-            if (!user || !pass) {
-                this.logger.warn('Neither Resend, Brevo API Key nor SMTP credentials configured — emails will be logged but not sent.');
-                this.transporter = null;
-            }
-            else {
-                this.transporter = nodemailer.createTransport({
-                    host,
-                    port,
-                    secure: port === 465,
-                    auth: { user, pass },
-                });
-                this.transporter.verify().then(() => {
-                    this.logger.log(`SMTP connected: ${host}:${port} as ${user}`);
-                }).catch((err) => {
-                    this.logger.error(`SMTP connection failed: ${err.message}`);
-                });
-            }
+            this.fromAddress = 'FinTop DATA <noreply@fintopdata.vn>';
+            this.logger.warn('Neither Resend, Brevo API Key nor SMTP credentials configured — emails will be logged but not sent.');
         }
     }
     async sendPasswordResetEmail(email, token, fullName) {
@@ -114,11 +116,17 @@ let MailService = MailService_1 = class MailService {
     async sendMail(to, subject, html) {
         const resendApiKey = this.config.get('RESEND_API_KEY', '');
         if (resendApiKey) {
-            return this.sendMailViaResend(to, subject, html, resendApiKey);
+            const ok = await this.sendMailViaResend(to, subject, html, resendApiKey);
+            if (ok)
+                return true;
+            this.logger.warn(`Resend failed for ${to}, falling back to SMTP...`);
         }
-        const brevoApiKey = this.config.get('BREVO_API_KEY', '');
+        const brevoApiKey = (this.config.get('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
         if (brevoApiKey) {
-            return this.sendMailViaBrevo(to, subject, html, brevoApiKey);
+            const ok = await this.sendMailViaBrevo(to, subject, html, brevoApiKey);
+            if (ok)
+                return true;
+            this.logger.warn(`Brevo failed for ${to}, falling back to SMTP...`);
         }
         if (!this.transporter) {
             this.logger.warn(`[DRY RUN] Email to ${to}: ${subject}`);
@@ -136,11 +144,11 @@ let MailService = MailService_1 = class MailService {
                 subject,
                 html,
             });
-            this.logger.log(`Email sent to ${to}: ${info.messageId}`);
+            this.logger.log(`Email sent to ${to} via SMTP fallback: ${info.messageId}`);
             return true;
         }
         catch (err) {
-            this.logger.error(`Failed to send email to ${to}: ${err.message}`);
+            this.logger.error(`Failed to send email to ${to} via SMTP: ${err.message}`);
             return false;
         }
     }
@@ -174,7 +182,7 @@ let MailService = MailService_1 = class MailService {
     }
     async sendMailViaBrevo(to, subject, html, apiKey) {
         const fromName = this.config.get('BREVO_FROM_NAME', 'FinTop DATA');
-        const fromEmail = this.config.get('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+        const fromEmail = this.config.get('BREVO_FROM_EMAIL', 'fintopdata.info@fintopdata.vn');
         const replyTo = this.config.get('MAIL_REPLY_TO', 'fintopdata.info@gmail.com');
         const bccEmail = this.config.get('MAIL_BCC', 'fintopdata.info@gmail.com');
         try {
@@ -232,7 +240,7 @@ let MailService = MailService_1 = class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <img src="https://raw.githubusercontent.com/carrot1301/FINTOP_LANDING_PAGES/main/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
+        <img src="https://fintopdata.vn/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <h2 style="color:#ffffff;font-size:18px;font-weight:600;margin-top:0;margin-bottom:20px;text-align:center;letter-spacing:0.5px;">YÊU CẦU ĐẶT LẠI MẬT KHẨU</h2>
@@ -265,7 +273,7 @@ let MailService = MailService_1 = class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <img src="https://raw.githubusercontent.com/carrot1301/FINTOP_LANDING_PAGES/main/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
+        <img src="https://fintopdata.vn/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <h2 style="color:#ffffff;font-size:18px;font-weight:600;margin-top:0;margin-bottom:20px;text-align:center;letter-spacing:0.5px;">XÁC THỰC TÀI KHOẢN</h2>
@@ -292,7 +300,7 @@ let MailService = MailService_1 = class MailService {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
     <tr><td style="padding:40px 32px 0;">
       <div style="text-align:center;margin-bottom:32px;">
-        <img src="https://raw.githubusercontent.com/carrot1301/FINTOP_LANDING_PAGES/main/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
+        <img src="https://fintopdata.vn/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <div style="text-align:center;margin-bottom:24px;">
@@ -325,12 +333,12 @@ let MailService = MailService_1 = class MailService {
     }
     isConfigured() {
         const resendApiKey = this.config.get('RESEND_API_KEY', '');
-        const brevoApiKey = this.config.get('BREVO_API_KEY', '');
+        const brevoApiKey = (this.config.get('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
         return !!resendApiKey || !!brevoApiKey || !!this.transporter;
     }
     getStatus() {
         const resendApiKey = this.config.get('RESEND_API_KEY', '');
-        const brevoApiKey = this.config.get('BREVO_API_KEY', '');
+        const brevoApiKey = (this.config.get('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
         const hasResend = !!resendApiKey;
         const hasBrevo = !!brevoApiKey;
         const hasSmtp = !!this.transporter;
@@ -345,7 +353,7 @@ let MailService = MailService_1 = class MailService {
         else if (hasBrevo) {
             provider = 'brevo';
             host = 'api.brevo.com';
-            user = this.config.get('BREVO_FROM_EMAIL', 'fintop.bashare@gmail.com');
+            user = this.config.get('BREVO_FROM_EMAIL', 'fintopdata.info@fintopdata.vn');
         }
         else if (hasSmtp) {
             provider = 'smtp';

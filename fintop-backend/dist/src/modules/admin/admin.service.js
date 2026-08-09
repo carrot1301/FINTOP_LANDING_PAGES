@@ -129,6 +129,10 @@ let AdminService = class AdminService {
                 }
             }
         }
+        const isCeoOrDev = adminRoleCodes.some(c => ['CEO', 'DEVELOPER', 'SUPER_ADMIN'].includes(c)) || adminUser.email === AdminService_1.CEO_EMAIL;
+        if (action.includes('vai trò') && !isCeoOrDev) {
+            throw new common_1.BadRequestException(`Chỉ CEO mới có quyền chỉnh sửa/thay đổi vai trò phân quyền của người dùng.`);
+        }
     }
     async syncClientRoleForTier(userId, tierLevel, adminId = 1) {
         try {
@@ -634,6 +638,7 @@ let AdminService = class AdminService {
             }
         }
         if (dto.roleCodes !== undefined) {
+            await this.enforceRoleHierarchy(userId, adminId, 'chỉnh sửa vai trò');
             await this.prisma.userRole.deleteMany({ where: { userId } });
             if (Array.isArray(dto.roleCodes) && dto.roleCodes.length > 0) {
                 const roles = await this.prisma.role.findMany({

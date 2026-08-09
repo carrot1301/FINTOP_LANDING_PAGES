@@ -219,7 +219,7 @@ class AuthManagerSingleton {
       { skipAuth: true }
     );
 
-    const { accessToken, refreshToken } = response.data;
+    const { accessToken, refreshToken, requirePasswordChange } = response.data;
 
     // Validate token format before storing
     if (!accessToken || !refreshToken) {
@@ -247,7 +247,8 @@ class AuthManagerSingleton {
       console.log('%c[AuthManager] Login successful ✓', 'color: #6ee7b7; font-weight: bold;', user);
     }
 
-    return user;
+    // Return user with first-login flag
+    return { user, requirePasswordChange: !!requirePasswordChange };
   }
 
   // ─────────────────────────────────────────────────────

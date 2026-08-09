@@ -195,10 +195,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Check email verification (allow existing users without emailVerifiedAt to pass)
-    if (user.emailVerifiedAt === null && user.createdAt > new Date('2026-06-16')) {
-      throw new ForbiddenException('EMAIL_NOT_VERIFIED');
-    }
+    // Detect first-login: user has never verified email (account created by admin/seed)
+    // Instead of blocking login, we let them in and flag for password change
+    const isFirstLogin = user.emailVerifiedAt === null;
 
     const accessToken = this.jwtService.sign({ sub: user.id, email: user.email });
     const refreshToken = this.generateRefreshToken(user.id);
@@ -263,9 +262,18 @@ export class AuthService {
       }
     }
 
+    // Auto-verify email on first successful login (mark as verified)
+    if (isFirstLogin) {
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: { emailVerifiedAt: new Date() },
+      });
+    }
+
     return {
       accessToken,
       refreshToken,
+      requirePasswordChange: isFirstLogin,
       user: {
         id: user.id,
         email: user.email,
