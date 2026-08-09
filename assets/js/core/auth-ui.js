@@ -1372,11 +1372,11 @@ const AuthUI = {
         <div style="text-align: center; margin-bottom: 20px;">
           <div style="font-size: 2.5rem; margin-bottom: 8px;">🔐</div>
           <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff; margin: 0 0 8px;">
-            Chào mừng bạn đến FinTop DATA!
+            Tăng cường bảo mật tài khoản
           </h3>
           <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">
-            Đây là lần đăng nhập đầu tiên của bạn.<br>
-            Vui lòng <strong style="color: #a78bfa;">đổi mật khẩu mới</strong> để bảo mật tài khoản.
+            Tài khoản của bạn chưa thực hiện đổi mật khẩu cá nhân.<br>
+            Vui lòng <strong style="color: #a78bfa;">thiết lập mật khẩu mới</strong> để bảo mật tài khoản.
           </p>
         </div>
 
