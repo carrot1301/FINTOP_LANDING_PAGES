@@ -497,6 +497,9 @@ let AdminService = class AdminService {
         if (dto.password !== undefined && dto.password !== '') {
             data.passwordHash = await bcrypt.hash(dto.password, 10);
         }
+        if (dto.emailVerifiedAt !== undefined) {
+            data.emailVerifiedAt = dto.emailVerifiedAt ? new Date(dto.emailVerifiedAt) : null;
+        }
         if (dto.fullName !== undefined)
             data.fullName = dto.fullName;
         if (dto.email !== undefined)

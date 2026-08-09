@@ -17,6 +17,7 @@ export declare class AuthController {
     login(loginDto: LoginDto, req: any): Promise<{
         accessToken: string;
         refreshToken: string;
+        requirePasswordChange: boolean;
         user: {
             id: number;
             email: string;

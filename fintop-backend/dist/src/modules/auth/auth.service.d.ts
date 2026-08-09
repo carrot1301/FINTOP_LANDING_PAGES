@@ -28,6 +28,7 @@ export declare class AuthService {
     login(dto: LoginDto, ipAddress: string, userAgent: string): Promise<{
         accessToken: string;
         refreshToken: string;
+        requirePasswordChange: boolean;
         user: {
             id: number;
             email: string;

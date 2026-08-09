@@ -176,9 +176,7 @@ let AuthService = AuthService_1 = class AuthService {
             await this.logAuditFailedLogin(user.email, ipAddress, userAgent, user.id);
             throw new common_1.UnauthorizedException('Invalid credentials');
         }
-        if (user.emailVerifiedAt === null && user.createdAt > new Date('2026-06-16')) {
-            throw new common_1.ForbiddenException('EMAIL_NOT_VERIFIED');
-        }
+        const isFirstLogin = user.emailVerifiedAt === null;
         const accessToken = this.jwtService.sign({ sub: user.id, email: user.email });
         const refreshToken = this.generateRefreshToken(user.id);
         const expiresAt = new Date();
@@ -234,9 +232,16 @@ let AuthService = AuthService_1 = class AuthService {
                 }
             }
         }
+        if (isFirstLogin) {
+            await this.prisma.user.update({
+                where: { id: user.id },
+                data: { emailVerifiedAt: new Date() },
+            });
+        }
         return {
             accessToken,
             refreshToken,
+            requirePasswordChange: isFirstLogin,
             user: {
                 id: user.id,
                 email: user.email,

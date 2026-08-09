@@ -262,13 +262,6 @@ export class AuthService {
       }
     }
 
-    // Auto-verify email on first successful login (mark as verified)
-    if (isFirstLogin) {
-      await this.prisma.user.update({
-        where: { id: user.id },
-        data: { emailVerifiedAt: new Date() },
-      });
-    }
 
     return {
       accessToken,
@@ -360,11 +353,11 @@ export class AuthService {
     // Hash new password
     const passwordHash = await HashUtil.hash(newPassword);
 
-    // Update password and mark token as used
+    // Update password, mark token as used, and clear requirePasswordChange flag
     await this.prisma.$transaction(async (tx) => {
       await tx.user.update({
         where: { id: matchedToken.userId },
-        data: { passwordHash },
+        data: { passwordHash, emailVerifiedAt: new Date() },
       });
 
       await tx.passwordResetToken.update({
@@ -679,6 +672,9 @@ export class AuthService {
 
     if (dto.password) {
       updateData.passwordHash = await HashUtil.hash(dto.password);
+      // Mark email as verified when user actually changes their password
+      // This clears the requirePasswordChange flag on next login
+      updateData.emailVerifiedAt = new Date();
     }
 
     const updatedUser = await this.prisma.user.update({
