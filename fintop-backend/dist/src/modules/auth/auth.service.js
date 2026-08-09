@@ -232,12 +232,6 @@ let AuthService = AuthService_1 = class AuthService {
                 }
             }
         }
-        if (isFirstLogin) {
-            await this.prisma.user.update({
-                where: { id: user.id },
-                data: { emailVerifiedAt: new Date() },
-            });
-        }
         return {
             accessToken,
             refreshToken,
@@ -304,7 +298,7 @@ let AuthService = AuthService_1 = class AuthService {
         await this.prisma.$transaction(async (tx) => {
             await tx.user.update({
                 where: { id: matchedToken.userId },
-                data: { passwordHash },
+                data: { passwordHash, emailVerifiedAt: new Date() },
             });
             await tx.passwordResetToken.update({
                 where: { id: matchedToken.id },
@@ -544,6 +538,7 @@ let AuthService = AuthService_1 = class AuthService {
         }
         if (dto.password) {
             updateData.passwordHash = await hash_util_1.HashUtil.hash(dto.password);
+            updateData.emailVerifiedAt = new Date();
         }
         const updatedUser = await this.prisma.user.update({
             where: { id: userId },
