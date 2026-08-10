@@ -39,7 +39,7 @@ export class MarketService {
     private readonly repository: MarketRepository,
     private readonly redisService: RedisService,
     private readonly prisma: PrismaService,
-  ) {}
+  ) { }
 
   async getStock(symbol: string) {
     const cacheKey = `quotes:latest:${symbol}`;
@@ -49,7 +49,7 @@ export class MarketService {
 
     const stock = await this.repository.findStockBySymbol(symbol);
     if (!stock) throw new NotFoundException('Stock not found');
-    
+
     return {
       ...stock,
       realtimeQuote: cached || null,
@@ -97,14 +97,14 @@ export class MarketService {
         industry: s.industry?.name || 'Đa ngành',
         price: closePrice,
         change_pct: changePct,
-        status: s.act ? actToStatus(s.act) : (cached?.status || (changePct > 1 ? 'very-positive' : (changePct > 0 ? 'positive' : 'neutral'))),
-        statusText: s.act || cached?.statusText || (changePct > 1 ? 'TÍCH CỰC' : (changePct > 0 ? 'KHẢ QUAN' : 'TRUNG LẬP')),
+        status: s.act ? actToStatus(s.act) : (cached?.status || 'neutral'),
+        statusText: s.act || '',
         officer: s.analyst || 'FinTop DATA',
-        trend: s.rsi_mfi || (changePct > 0 ? 'UPTREND' : 'SIDEWAY'),
+        trend: s.rsi_mfi || '',
         delta_rsi: s.delta_rsi || '',
-        validation_zone: s.trading_price_range || `${(closePrice * 0.98).toFixed(0)} - ${(closePrice * 1.01).toFixed(0)}`,
-        resistance_zone: s.resistance_range || `${(closePrice * 1.05).toFixed(0)}`,
-        support_zone: s.support_range || `${(closePrice * 0.95).toFixed(0)}`,
+        validation_zone: s.trading_price_range || '',
+        resistance_zone: s.resistance_range || '',
+        support_zone: s.support_range || '',
         synced_at: s.updatedAt ? s.updatedAt.toISOString() : new Date().toISOString(),
         updated_at: s.updatedAt ? s.updatedAt.toISOString() : new Date().toISOString(),
         order: s.order || 0,
@@ -214,7 +214,7 @@ export class MarketService {
     if (lower.includes('bảo hiểm')) return 'Bảo hiểm';
     if (lower.includes('chứng khoán') || lower.includes('dịch vụ tài chính')) return 'Chứng khoán';
     if (lower.includes('công nghệ') || lower.includes('phần mềm') || lower.includes('máy tính')) return 'Công nghệ thông tin';
-    
+
     if (lower.includes('bất động sản') || lower.includes('địa ốc')) {
       if (lower.includes('khu công nghiệp') || lower.includes('kcn')) {
         return 'BĐS - KCN';
@@ -229,21 +229,21 @@ export class MarketService {
     if (lower.includes('khai khoáng') || lower.includes('than') || lower.includes('quặng') || lower.includes('đá')) return 'Khai khoáng';
     if (lower.includes('điện') || lower.includes('nước') || lower.includes('năng lượng') || lower.includes('nhiệt điện') || lower.includes('thủy điện')) return 'Năng lượng/Điện/Nước';
     if (lower.includes('phân bón') || lower.includes('hóa chất')) return 'Phân bón';
-    
+
     if (lower.includes('nông nghiệp') || lower.includes('lâm nghiệp') || lower.includes('giấy') || lower.includes('cao su') || lower.includes('sản xuất')) {
       return 'Sản xuất NN/CN';
     }
-    
+
     if (lower.includes('thép') || lower.includes('tôn') || lower.includes('kim loại') || lower.includes('sắt') || lower.includes('xi măng') || lower.includes('vật liệu')) {
       return 'Thép - Vật liệu';
     }
-    
+
     if (lower.includes('thực phẩm') || lower.includes('đồ uống') || lower.includes('sữa') || lower.includes('bánh kẹo') || lower.includes('bia')) return 'Thực phẩm';
     if (lower.includes('thủy sản') || lower.includes('tôm') || lower.includes('cá')) return 'Thủy sản';
-    
+
     if (lower.includes('vận tải biển') || lower.includes('cảng biển') || lower.includes('tàu biển')) return 'Vận tải biển';
     if (lower.includes('vận tải') || lower.includes('kho') || lower.includes('logistics') || lower.includes('giao nhận')) return 'Vận tải kho';
-    
+
     if (lower.includes('viễn thông')) return 'Viễn thông';
     if (lower.includes('xây dựng') || lower.includes('công trình') || lower.includes('thầu')) return 'Xây dựng';
     if (lower.includes('xuất nhập khẩu') || lower.includes('thương mại') || lower.includes('xnk')) return 'Xuất nhập khẩu';

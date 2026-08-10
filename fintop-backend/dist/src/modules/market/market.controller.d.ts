@@ -35,7 +35,7 @@ export declare class MarketController {
         price: number;
         change_pct: number;
         status: any;
-        statusText: any;
+        statusText: string;
         officer: string;
         trend: string;
         delta_rsi: string;

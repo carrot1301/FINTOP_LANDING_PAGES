@@ -57,23 +57,9 @@ async function bootstrap() {
     // 3. Apply RBAC gates to current page DOM
     RbacEvaluator.applyAllGates();
 
-    // 4. If authenticated, connect to notification websocket
-    if (AuthManager.isAuthenticated) {
-      try {
-        await SocketManager.subscribeNotifications(
-          (notification) => {
-            if (FintopEnv.DEBUG) console.log('[Bootstrap] New notification:', notification);
-          },
-          (unread) => {
-            if (FintopEnv.DEBUG) console.log('[Bootstrap] Unread count:', unread.count);
-            _updateNotificationBadge(unread.count);
-          }
-        );
-      } catch (wsErr) {
-        // WS connection failure is non-fatal on bootstrap
-        if (FintopEnv.DEBUG) console.warn('[Bootstrap] Notification WS unavailable:', wsErr.message);
-      }
-    }
+    // 4. Notification WebSocket is handled by AuthUI.initialize()
+    //    (auth-ui.js L568) — no need to subscribe here to avoid
+    //    duplicate connections and race-condition warnings.
 
     if (FintopEnv.DEBUG) {
       console.log('%c[FinTop Infrastructure] ✅ Bootstrap complete', 'color: #6ee7b7;');

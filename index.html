@@ -7928,7 +7928,7 @@
 
             // Re-render table
             renderTracuuTable();
-            loadChart(ticker, 'tracuu');
+            loadChart(ticker, 'tracuu', { skipScroll: true });
             input.value = '';
             input.focus();
         }
@@ -9023,7 +9023,7 @@
             return rows.map((row) => ({
                 ticker: row.ticker,
                 san: row.exchange || row.san || '',
-                nganh: row.sector || row.nganh || '',
+                nganh: row.industry || row.nganh || row.sector || '',
                 canBo: row.officer || row.canBo || 'FinTop DATA',
                 time: row.synced_at ? formatStockDisplayTime(new Date(row.synced_at).toLocaleString('vi-VN')) : formatStockDisplayTime(row.time || ''),
                 desc: row.model_desc || row.desc || '',
@@ -9045,7 +9045,7 @@
             return rows.reduce((acc, row) => {
                 acc[row.ticker] = {
                     san: row.exchange || row.san || '',
-                    nganh: row.sector || row.nganh || '',
+                    nganh: row.industry || row.nganh || row.sector || '',
                     time: row.synced_at ? formatStockDisplayTime(new Date(row.synced_at).toLocaleString('vi-VN')) : formatStockDisplayTime(row.time || ''),
                     desc: row.model_desc || row.desc || '',
                     status: row.model_status || row.status || 'neutral',

@@ -280,10 +280,10 @@ async function syncUserPageData() {
       time: formatSyncTime(s.updatedAt),
       desc: s.identify_trend || '',
       status: getStatusClass(s.act),
-      statusText: s.act || 'TRUNG LẬP',
-      modelResult: s.act || 'TRUNG LẬP',
+      statusText: s.act || '',
+      modelResult: s.act || '',
       deltaRsi: s.delta_rsi || '',
-      trend: s.rsi_mfi || 'ĐI NGANG',
+      trend: s.rsi_mfi || '',
       vungKiemDinh: s.trading_price_range || '',
       khangCu: s.resistance_range || '',
       hoTro: s.support_range || ''
@@ -297,7 +297,7 @@ async function syncUserPageData() {
         time: formatSyncTime(s.updatedAt),
         desc: s.identify_trend || '',
         status: getStatusClass(s.act),
-        statusText: s.act || 'TRUNG LẬP'
+        statusText: s.act || ''
       };
     });
 
