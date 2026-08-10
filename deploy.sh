@@ -126,9 +126,11 @@ server {
     ssl_certificate /etc/letsencrypt/live/fintopdata.vn/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/fintopdata.vn/privkey.pem;
 
-    root /var/www/fintop/fintop_web_cu;
+    root /var/www/fintop;
     index index.html;
 
+    location = / { rewrite ^ /data/scraped/static/Trang_chủ.html last; }
+    location = /index.html { rewrite ^ /data/scraped/static/Trang_chủ.html last; }
     location = /client/datafinancial/recommendationsIndex { rewrite ^ /data/scraped/vip/Tín_hiệu_VIP.html last; }
     location = /client/datafinancial/categoryFintopIndex { rewrite ^ /data/scraped/vip/Danh_mục_VIP.html last; }
     location = /client/datafinancial/signalIndex { rewrite ^ /data/scraped/vip/Tín_hiệu_VIP.html last; }
@@ -138,7 +140,7 @@ server {
     location = /client/privileges/index { rewrite ^ /data/scraped/static/Đặc_quyền_hội_viên.html last; }
 
     location / {
-        try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ /index.html;
+        try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ =404;
     }
 
     location /api/ {
@@ -214,9 +216,11 @@ server {
     listen 80;
     server_name old.fintopdata.vn www.old.fintopdata.vn;
 
-    root /var/www/fintop/fintop_web_cu;
+    root /var/www/fintop;
     index index.html;
 
+    location = / { rewrite ^ /data/scraped/static/Trang_chủ.html last; }
+    location = /index.html { rewrite ^ /data/scraped/static/Trang_chủ.html last; }
     location = /client/datafinancial/recommendationsIndex { rewrite ^ /data/scraped/vip/Tín_hiệu_VIP.html last; }
     location = /client/datafinancial/categoryFintopIndex { rewrite ^ /data/scraped/vip/Danh_mục_VIP.html last; }
     location = /client/datafinancial/signalIndex { rewrite ^ /data/scraped/vip/Tín_hiệu_VIP.html last; }
@@ -226,7 +230,7 @@ server {
     location = /client/privileges/index { rewrite ^ /data/scraped/static/Đặc_quyền_hội_viên.html last; }
 
     location / {
-        try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ /index.html;
+        try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ =404;
     }
 
     location /api/ {
