@@ -132,8 +132,31 @@ export class MarketService {
       throw new BadRequestException('Mã cổ phiếu không hợp lệ (phải có ít nhất 3 ký tự)');
     }
 
-    // 1. Check Redis Cache
     const cacheNamespace = 'market:lookup';
+
+    // 0. Priority 1: Check Database FIRST (Returns Admin's saved/custom industry mapping)
+    try {
+      const dbStock = await this.prisma.stock.findFirst({
+        where: { symbol: cleanSymbol, deletedAt: null },
+        include: { exchange: true, industry: true },
+      });
+      if (dbStock && dbStock.industry && dbStock.industry.name) {
+        const result = {
+          symbol: dbStock.symbol,
+          exchange: dbStock.exchange ? dbStock.exchange.code : 'HOSE',
+          industry: dbStock.industry.name,
+          companyName: dbStock.companyName || dbStock.symbol,
+        };
+        try {
+          await this.redisService.setWithTTL(cacheNamespace, cleanSymbol, result, 604800);
+        } catch (err) { /* ignore */ }
+        return result;
+      }
+    } catch (err) {
+      // Don't fail if DB check fails
+    }
+
+    // 1. Check Redis Cache
     try {
       const cached = await this.redisService.get<{ symbol: string; exchange: string; industry: string; companyName: string }>(
         cacheNamespace,
@@ -146,7 +169,7 @@ export class MarketService {
       // Don't fail if Redis has issues
     }
 
-    // 2. Check static directory (instant, no network needed)
+    // 2. Check static directory (instant fallback)
     const staticEntry = VN_STOCK_DIRECTORY[cleanSymbol];
     if (staticEntry) {
       const result = { ...staticEntry };
@@ -329,7 +352,7 @@ export class MarketService {
     const exchangeId = await this.resolveExchangeId(dto.exchange);
     const industryId = await this.resolveIndustryId(dto.industry);
 
-    return this.prisma.stock.create({
+    const createdStock = await this.prisma.stock.create({
       data: {
         symbol,
         companyName: dto.companyName || symbol,
@@ -348,6 +371,12 @@ export class MarketService {
         status: STOCK_STATUS.ACTIVE,
       },
     });
+
+    try {
+      await this.redisService.getClient().del(`market:lookup:${symbol}`);
+    } catch (err) { /* ignore */ }
+
+    return createdStock;
   }
 
   async updateStock(id: number, dto: any) {
@@ -395,10 +424,17 @@ export class MarketService {
       updateData.industryId = await this.resolveIndustryId(dto.industry);
     }
 
-    return this.prisma.stock.update({
+    const updatedStock = await this.prisma.stock.update({
       where: { id },
       data: updateData,
     });
+
+    try {
+      const sym = updatedStock.symbol;
+      await this.redisService.getClient().del(`market:lookup:${sym}`);
+    } catch (err) { /* ignore */ }
+
+    return updatedStock;
   }
 
   async deleteStock(id: number) {
