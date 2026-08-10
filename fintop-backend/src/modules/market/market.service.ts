@@ -4,6 +4,8 @@ import { RedisService } from '../../common/redis/redis.service';
 import { VN_STOCK_DIRECTORY } from './vn-stock-directory';
 import { PrismaService } from '../../common/database/prisma.service';
 import { STOCK_STATUS } from '@prisma/client';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class MarketService {
@@ -122,9 +124,57 @@ export class MarketService {
     return this.repository.getHistoricalOHLCV(stock.id, startDate, endDate);
   }
 
+  private getOverridesFilePath(): string {
+    const defaultPath = path.join(process.cwd(), 'data', 'stock_industry_overrides.json');
+    const parentPath = path.join(process.cwd(), '..', 'data', 'stock_industry_overrides.json');
+    if (fs.existsSync(parentPath)) return parentPath;
+    const dir = path.dirname(defaultPath);
+    if (!fs.existsSync(dir)) {
+      try { fs.mkdirSync(dir, { recursive: true }); } catch (e) { /* ignore */ }
+    }
+    return defaultPath;
+  }
+
+  private readPersistentOverride(symbol: string): any {
+    try {
+      const filePath = this.getOverridesFilePath();
+      if (fs.existsSync(filePath)) {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const data = JSON.parse(content);
+        if (data && data[symbol]) {
+          return data[symbol];
+        }
+      }
+    } catch (e) { /* ignore */ }
+    return null;
+  }
+
+  private writePersistentOverride(symbol: string, exchange: string, industry: string) {
+    if (!symbol) return;
+    const cleanSym = symbol.trim().toUpperCase();
+    try {
+      const filePath = this.getOverridesFilePath();
+      let data: Record<string, any> = {};
+      if (fs.existsSync(filePath)) {
+        try {
+          data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        } catch (e) { data = {}; }
+      }
+      data[cleanSym] = {
+        symbol: cleanSym,
+        exchange: exchange || 'HOSE',
+        industry: industry || 'Đa ngành',
+        updatedAt: new Date().toISOString(),
+      };
+      fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+    } catch (e) {
+      console.warn('Failed to write persistent override:', e);
+    }
+  }
+
   /**
    * Look up stock metadata (Exchange, Industry).
-   * Priority: 1) Redis cache  2) Static directory  3) External API fallback
+   * Priority: 0) Persistent Memory  1) Database active stocks  2) Redis cache  3) Static directory  4) External API fallback
    */
   async lookupStockMetadata(symbol: string) {
     const cleanSymbol = symbol.trim().toUpperCase();
@@ -134,10 +184,21 @@ export class MarketService {
 
     const cacheNamespace = 'market:lookup';
 
-    // 0. Priority 1: Check Database FIRST (Returns Admin's saved/custom industry mapping)
+    // 0. Priority 0: Check Persistent Memory (Survives deletes & reboots!)
+    const persistentOverride = this.readPersistentOverride(cleanSymbol);
+    if (persistentOverride && persistentOverride.industry) {
+      return {
+        symbol: cleanSymbol,
+        exchange: persistentOverride.exchange || 'HOSE',
+        industry: persistentOverride.industry,
+        companyName: cleanSymbol,
+      };
+    }
+
+    // 1. Priority 1: Check Database FIRST (Returns Admin's saved/custom industry mapping)
     try {
       const dbStock = await this.prisma.stock.findFirst({
-        where: { symbol: cleanSymbol, deletedAt: null },
+        where: { symbol: cleanSymbol },
         include: { exchange: true, industry: true },
       });
       if (dbStock && dbStock.industry && dbStock.industry.name) {
@@ -147,6 +208,8 @@ export class MarketService {
           industry: dbStock.industry.name,
           companyName: dbStock.companyName || dbStock.symbol,
         };
+        // Record into persistent memory
+        this.writePersistentOverride(cleanSymbol, result.exchange, result.industry);
         try {
           await this.redisService.setWithTTL(cacheNamespace, cleanSymbol, result, 604800);
         } catch (err) { /* ignore */ }
@@ -372,6 +435,10 @@ export class MarketService {
       },
     });
 
+    if (dto.industry) {
+      this.writePersistentOverride(symbol, dto.exchange, dto.industry);
+    }
+
     try {
       await this.redisService.getClient().del(`market:lookup:${symbol}`);
     } catch (err) { /* ignore */ }
@@ -428,6 +495,11 @@ export class MarketService {
       where: { id },
       data: updateData,
     });
+
+    if (dto.industry) {
+      const sym = updatedStock.symbol;
+      this.writePersistentOverride(sym, dto.exchange, dto.industry);
+    }
 
     try {
       const sym = updatedStock.symbol;
