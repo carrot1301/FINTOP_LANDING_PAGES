@@ -537,6 +537,9 @@ function renderAll() {
           ` : filtered.map((s, idx) => renderStockRow(s, idx)).join('')}
         </tbody>
       </table>
+      <datalist id="industry-datalist">
+        ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}"></option>`).join('')}
+      </datalist>
     </div>
 
     <!-- Footer info -->
@@ -572,9 +575,7 @@ function renderStockRow(s, idx) {
         </select>
       </td>
       <td style="text-align:center;vertical-align:middle;">
-        <select class="df-direct-input df-premium-select" data-field="industry" data-sid="${s.id}" style="width:115px;">
-          ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}" ${s.industry === ig.label ? 'selected' : ''}>${esc(ig.label)}</option>`).join('')}
-        </select>
+        <input type="text" list="industry-datalist" class="df-direct-input df-premium-input" data-field="industry" data-sid="${s.id}" value="${esc(s.industry || '')}" style="width:115px;text-align:left;" placeholder="Tự nhập/chọn..." />
       </td>
       <td style="text-align:center;vertical-align:middle;">
         <input type="text" class="df-direct-input df-premium-input" data-field="analyst" data-sid="${s.id}" value="${esc(s.analyst)}" style="width:75px;" />
@@ -1051,10 +1052,7 @@ function showAddStockModal() {
           </div>
           <div class="admin-form-group">
             <label>Nhóm ngành HĐKD <span id="add-industry-loading" style="display:none;color:#f59e0b;font-size:0.75rem;">⏳ Đang tra cứu...</span></label>
-            <select class="admin-select" id="add-industry">
-              <option value="" selected>-- Chọn ngành --</option>
-              ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}">${esc(ig.label)}</option>`).join('')}
-            </select>
+            <input type="text" list="industry-datalist" class="admin-input" id="add-industry" placeholder="Tự nhập hoặc chọn tên ngành..." />
           </div>
           <div class="admin-form-group">
             <label>Người đảm nhận</label>
@@ -1218,9 +1216,7 @@ function showEditStockModal(sid) {
           </div>
           <div class="admin-form-group">
             <label>Nhóm ngành <span id="es-industry-loading" style="display:none;color:#f59e0b;font-size:0.75rem;">⏳ Đang tra cứu...</span></label>
-            <select class="admin-select" id="es-industry">
-              ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}" ${stock.industry === ig.label ? 'selected' : ''}>${esc(ig.label)}</option>`).join('')}
-            </select>
+            <input type="text" list="industry-datalist" class="admin-input" id="es-industry" value="${esc(stock.industry || '')}" placeholder="Tự nhập hoặc chọn tên ngành..." />
           </div>
           <div class="admin-form-group">
             <label>Người đảm nhận</label>
