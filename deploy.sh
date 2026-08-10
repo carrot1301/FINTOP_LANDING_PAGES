@@ -19,7 +19,7 @@ if [ -d /var/www/fintop/fintop_frontend ]; then
 fi
 
 # 4. Kiểm tra và Tạo chứng chỉ SSL nếu chưa có
-certbot --nginx -d fintopdata.vn -d www.fintopdata.vn -d api.fintopdata.vn --non-interactive --agree-tos --expand -m fintop.ba@gmail.com 2>/dev/null || true
+certbot --nginx -d fintopdata.vn -d www.fintopdata.vn -d api.fintopdata.vn -d old.fintopdata.vn -d www.old.fintopdata.vn --non-interactive --agree-tos --expand -m fintop.ba@gmail.com 2>/dev/null || true
 
 # 5. Tạo cấu hình Nginx chuẩn SSL HTTPS 443 cố định vĩnh viễn
 if [ -f /etc/letsencrypt/live/fintopdata.vn/fullchain.pem ]; then
@@ -110,6 +110,49 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
+
+# HTTP Web Cũ -> Redirect HTTPS
+server {
+    listen 80;
+    server_name old.fintopdata.vn www.old.fintopdata.vn;
+    return 301 https://$host$request_uri;
+}
+
+# 3. Server Block riêng cho Web Cũ (HTTPS 443)
+server {
+    listen 443 ssl http2;
+    server_name old.fintopdata.vn www.old.fintopdata.vn;
+
+    ssl_certificate /etc/letsencrypt/live/fintopdata.vn/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/fintopdata.vn/privkey.pem;
+
+    root /var/www/fintop/fintop_web_cu;
+    index index.html;
+
+    location = /client/datafinancial/recommendationsIndex { rewrite ^ /data/scraped/vip/Tín_hiệu_VIP.html last; }
+    location = /client/datafinancial/categoryFintopIndex { rewrite ^ /data/scraped/vip/Danh_mục_VIP.html last; }
+    location = /client/datafinancial/signalIndex { rewrite ^ /data/scraped/vip/Tín_hiệu_VIP.html last; }
+    location = /client/datafinancial/index { rewrite ^ /data/scraped/static/Trang_chủ.html last; }
+    location = /client/home/index { rewrite ^ /data/scraped/static/Trang_chủ.html last; }
+    location = /client/introduce/index { rewrite ^ /data/scraped/static/Giới_thiệu.html last; }
+    location = /client/privileges/index { rewrite ^ /data/scraped/static/Đặc_quyền_hội_viên.html last; }
+
+    location / {
+        try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:3000/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
 EOF
 else
 cat << 'EOF' > /etc/nginx/sites-available/fintopdata.vn
@@ -156,6 +199,38 @@ server {
 
     location / {
         proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 80;
+    server_name old.fintopdata.vn www.old.fintopdata.vn;
+
+    root /var/www/fintop/fintop_web_cu;
+    index index.html;
+
+    location = /client/datafinancial/recommendationsIndex { rewrite ^ /data/scraped/vip/Tín_hiệu_VIP.html last; }
+    location = /client/datafinancial/categoryFintopIndex { rewrite ^ /data/scraped/vip/Danh_mục_VIP.html last; }
+    location = /client/datafinancial/signalIndex { rewrite ^ /data/scraped/vip/Tín_hiệu_VIP.html last; }
+    location = /client/datafinancial/index { rewrite ^ /data/scraped/static/Trang_chủ.html last; }
+    location = /client/home/index { rewrite ^ /data/scraped/static/Trang_chủ.html last; }
+    location = /client/introduce/index { rewrite ^ /data/scraped/static/Giới_thiệu.html last; }
+    location = /client/privileges/index { rewrite ^ /data/scraped/static/Đặc_quyền_hội_viên.html last; }
+
+    location / {
+        try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:3000/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
