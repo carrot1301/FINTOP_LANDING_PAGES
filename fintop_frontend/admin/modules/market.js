@@ -576,8 +576,8 @@ function renderStockRow(s, idx) {
       </td>
       <td style="text-align:center;vertical-align:middle;">
         <select class="df-direct-input df-premium-select df-industry-select" data-field="industry" data-sid="${s.id}" style="width:115px;">
-          ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}" ${s.industry === ig.label ? 'selected' : ''}>${esc(ig.label)}</option>`).join('')}
           <option value="__CUSTOM__" ${!INDUSTRY_GROUPS.some(ig => ig.label === s.industry) && s.industry ? 'selected' : ''}>✍️ Tự nhập khác...</option>
+          ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}" ${s.industry === ig.label ? 'selected' : ''}>${esc(ig.label)}</option>`).join('')}
         </select>
       </td>
       <td style="text-align:center;vertical-align:middle;">
@@ -1067,9 +1067,9 @@ function showAddStockModal() {
           <div class="admin-form-group">
             <label>Nhóm ngành HĐKD <span id="add-industry-loading" style="display:none;color:#f59e0b;font-size:0.75rem;">⏳ Đang tra cứu...</span></label>
             <select class="admin-select" id="add-industry-select">
+              <option value="__CUSTOM__">✍️ Tự nhập tên ngành mới tùy chỉnh...</option>
               <option value="" selected>-- Chọn 1 trong 25 ngành chuẩn --</option>
               ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}">${esc(ig.label)}</option>`).join('')}
-              <option value="__CUSTOM__">✍️ Tự nhập tên ngành mới tùy chỉnh...</option>
             </select>
             <input type="text" class="admin-input" id="add-industry-custom" placeholder="Gõ tên ngành mới tùy chỉnh..." style="display:none;margin-top:6px;border-color:#5e72e4;" />
           </div>
@@ -1262,9 +1262,9 @@ function showEditStockModal(sid) {
           <div class="admin-form-group">
             <label>Nhóm ngành <span id="es-industry-loading" style="display:none;color:#f59e0b;font-size:0.75rem;">⏳ Đang tra cứu...</span></label>
             <select class="admin-select" id="es-industry-select">
+              <option value="__CUSTOM__" ${!INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) && stock.industry ? 'selected' : ''}>✍️ Tự nhập tên ngành mới tùy chỉnh...</option>
               <option value="">-- Chọn 1 trong 25 ngành chuẩn --</option>
               ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}" ${stock.industry === ig.label ? 'selected' : ''}>${esc(ig.label)}</option>`).join('')}
-              <option value="__CUSTOM__" ${!INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) && stock.industry ? 'selected' : ''}>✍️ Tự nhập tên ngành mới tùy chỉnh...</option>
             </select>
             <input type="text" class="admin-input" id="es-industry-custom" value="${!INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) ? esc(stock.industry || '') : ''}" placeholder="Gõ tên ngành mới tùy chỉnh..." style="display:${!INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) && stock.industry ? 'block' : 'none'};margin-top:6px;border-color:#5e72e4;" />
           </div>
