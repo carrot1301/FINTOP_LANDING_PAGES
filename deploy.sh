@@ -129,6 +129,11 @@ server {
     root /var/www/fintop;
     index index.html;
 
+    # Xử lý tự động mọi đường dẫn tương đối CSS/Assets trong các trang /client/
+    location ~ ^/client/.*(clients|assets)/(.*)$ {
+        rewrite ^/client/.*(clients|assets)/(.*)$ /$1/$2 last;
+    }
+
     location = / { rewrite ^ /data/scraped/static/Trang_chủ.html last; }
     location = /index.html { rewrite ^ /data/scraped/static/Trang_chủ.html last; }
     location = /client/datafinancial/recommendationsIndex { rewrite ^ /data/scraped/vip/Tín_hiệu_VIP.html last; }
@@ -218,6 +223,11 @@ server {
 
     root /var/www/fintop;
     index index.html;
+
+    # Xử lý tự động mọi đường dẫn tương đối CSS/Assets trong các trang /client/
+    location ~ ^/client/.*(clients|assets)/(.*)$ {
+        rewrite ^/client/.*(clients|assets)/(.*)$ /$1/$2 last;
+    }
 
     location = / { rewrite ^ /data/scraped/static/Trang_chủ.html last; }
     location = /index.html { rewrite ^ /data/scraped/static/Trang_chủ.html last; }
