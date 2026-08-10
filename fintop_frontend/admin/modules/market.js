@@ -576,7 +576,9 @@ function renderStockRow(s, idx) {
       </td>
       <td style="text-align:center;vertical-align:middle;">
         <select class="df-direct-input df-premium-select df-industry-select" data-field="industry" data-sid="${s.id}" style="width:115px;">
-          <option value="__CUSTOM__" ${!INDUSTRY_GROUPS.some(ig => ig.label === s.industry) && s.industry ? 'selected' : ''}>✍️ Tự nhập khác...</option>
+          <option value="__CUSTOM__" ${!INDUSTRY_GROUPS.some(ig => ig.label === s.industry) && s.industry ? 'selected' : ''}>
+            ${!INDUSTRY_GROUPS.some(ig => ig.label === s.industry) && s.industry ? esc(s.industry) : '✍️ Tự nhập khác...'}
+          </option>
           ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}" ${s.industry === ig.label ? 'selected' : ''}>${esc(ig.label)}</option>`).join('')}
         </select>
       </td>
@@ -1262,7 +1264,9 @@ function showEditStockModal(sid) {
           <div class="admin-form-group">
             <label>Nhóm ngành <span id="es-industry-loading" style="display:none;color:#f59e0b;font-size:0.75rem;">⏳ Đang tra cứu...</span></label>
             <select class="admin-select" id="es-industry-select">
-              <option value="__CUSTOM__" ${!INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) && stock.industry ? 'selected' : ''}>✍️ Tự nhập tên ngành mới tùy chỉnh...</option>
+              <option value="__CUSTOM__" ${!INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) && stock.industry ? 'selected' : ''}>
+                ${!INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) && stock.industry ? `✍️ Tự nhập: ${esc(stock.industry)}` : '✍️ Tự nhập tên ngành mới tùy chỉnh...'}
+              </option>
               <option value="">-- Chọn 1 trong 25 ngành chuẩn --</option>
               ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}" ${stock.industry === ig.label ? 'selected' : ''}>${esc(ig.label)}</option>`).join('')}
             </select>
