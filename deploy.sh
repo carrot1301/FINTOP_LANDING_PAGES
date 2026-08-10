@@ -18,8 +18,8 @@ if [ -d /var/www/fintop/fintop_frontend ]; then
     cp -rf /var/www/fintop/fintop_frontend/* /var/www/fintop/ 2>/dev/null || true
 fi
 
-# 4. Kiểm tra và Tạo chứng chỉ SSL mở rộng cho subdomain old.fintopdata.vn
-certbot --nginx -d fintopdata.vn -d www.fintopdata.vn -d api.fintopdata.vn -d old.fintopdata.vn --non-interactive --agree-tos --expand -m fintop.ba@gmail.com 2>/dev/null || true
+# 4. Kiểm tra và Tạo chứng chỉ SSL mở rộng cho cả subdomain old.fintopdata.vn
+certbot --nginx -d fintopdata.vn -d www.fintopdata.vn -d api.fintopdata.vn -d old.fintopdata.vn -d www.old.fintopdata.vn --non-interactive --agree-tos --expand -m fintop.ba@gmail.com
 
 # 5. Tạo cấu hình Nginx chuẩn SSL HTTPS 443 cố định vĩnh viễn
 if [ -f /etc/letsencrypt/live/fintopdata.vn/fullchain.pem ]; then
