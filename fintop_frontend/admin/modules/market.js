@@ -575,7 +575,10 @@ function renderStockRow(s, idx) {
         </select>
       </td>
       <td style="text-align:center;vertical-align:middle;">
-        <input type="text" list="industry-datalist" class="df-direct-input df-premium-input" data-field="industry" data-sid="${s.id}" value="${esc(s.industry || '')}" style="width:115px;text-align:left;" placeholder="Tự nhập/chọn..." />
+        <select class="df-direct-input df-premium-select df-industry-select" data-field="industry" data-sid="${s.id}" style="width:115px;">
+          ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}" ${s.industry === ig.label ? 'selected' : ''}>${esc(ig.label)}</option>`).join('')}
+          <option value="__CUSTOM__" ${!INDUSTRY_GROUPS.some(ig => ig.label === s.industry) && s.industry ? 'selected' : ''}>✍️ Tự nhập khác...</option>
+        </select>
       </td>
       <td style="text-align:center;vertical-align:middle;">
         <input type="text" class="df-direct-input df-premium-input" data-field="analyst" data-sid="${s.id}" value="${esc(s.analyst)}" style="width:75px;" />
@@ -908,7 +911,18 @@ function bindEvents() {
       const stock = stockData.find(s => String(s.id) === String(sid));
       if (!stock) return;
 
-      const newValue = input.value.trim();
+      let newValue = input.value.trim();
+      if (field === 'industry' && newValue === '__CUSTOM__') {
+        const promptVal = prompt(`Nhập tên ngành mới tùy chỉnh cho mã ${stock.code_cp}:`, stock.industry || '');
+        if (promptVal && promptVal.trim()) {
+          newValue = promptVal.trim();
+        } else {
+          // Revert back if cancelled
+          input.value = INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) ? stock.industry : '__CUSTOM__';
+          return;
+        }
+      }
+
       const typedVal = field === 'order' || field === 'top_status' ? parseInt(newValue) || 0 : newValue;
 
       if (stock[field] !== typedVal) {
@@ -1052,7 +1066,12 @@ function showAddStockModal() {
           </div>
           <div class="admin-form-group">
             <label>Nhóm ngành HĐKD <span id="add-industry-loading" style="display:none;color:#f59e0b;font-size:0.75rem;">⏳ Đang tra cứu...</span></label>
-            <input type="text" list="industry-datalist" class="admin-input" id="add-industry" placeholder="Tự nhập hoặc chọn tên ngành..." />
+            <select class="admin-select" id="add-industry-select">
+              <option value="" selected>-- Chọn 1 trong 25 ngành chuẩn --</option>
+              ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}">${esc(ig.label)}</option>`).join('')}
+              <option value="__CUSTOM__">✍️ Tự nhập tên ngành mới tùy chỉnh...</option>
+            </select>
+            <input type="text" class="admin-input" id="add-industry-custom" placeholder="Gõ tên ngành mới tùy chỉnh..." style="display:none;margin-top:6px;border-color:#5e72e4;" />
           </div>
           <div class="admin-form-group">
             <label>Người đảm nhận</label>
@@ -1112,11 +1131,23 @@ function showAddStockModal() {
 
   const addCodeCp = overlay.querySelector('#add-code-cp');
   const addExchange = overlay.querySelector('#add-exchange');
-  const addIndustry = overlay.querySelector('#add-industry');
+  const addIndSelect = overlay.querySelector('#add-industry-select');
+  const addIndCustom = overlay.querySelector('#add-industry-custom');
 
   const addExLoading = overlay.querySelector('#add-exchange-loading');
   const addIndLoading = overlay.querySelector('#add-industry-loading');
   const btnSaveAdd = overlay.querySelector('#btn-save-add-stock');
+
+  if (addIndSelect) {
+    addIndSelect.addEventListener('change', () => {
+      if (addIndSelect.value === '__CUSTOM__') {
+        addIndCustom.style.display = 'block';
+        addIndCustom.focus();
+      } else {
+        addIndCustom.style.display = 'none';
+      }
+    });
+  }
 
   addCodeCp.addEventListener('blur', async () => {
     const symbol = addCodeCp.value.trim().toUpperCase();
@@ -1128,7 +1159,17 @@ function showAddStockModal() {
         const res = await API().get(EP().MARKET_LOOKUP(symbol));
         const info = res.data || res;
         if (info && info.exchange) addExchange.value = info.exchange;
-        if (info && info.industry) addIndustry.value = info.industry;
+        if (info && info.industry) {
+          const isPreset = INDUSTRY_GROUPS.some(ig => ig.label === info.industry);
+          if (isPreset) {
+            addIndSelect.value = info.industry;
+            addIndCustom.style.display = 'none';
+          } else {
+            addIndSelect.value = '__CUSTOM__';
+            addIndCustom.style.display = 'block';
+            addIndCustom.value = info.industry;
+          }
+        }
         if (info && (info.exchange || info.industry)) {
           showToast(`✅ Tự động điền: sàn ${info.exchange || '—'}, ngành ${info.industry || '—'}`);
         }
@@ -1154,10 +1195,14 @@ function showAddStockModal() {
       return;
     }
 
+    const finalIndustry = addIndSelect.value === '__CUSTOM__'
+      ? (addIndCustom.value.trim() || 'Đa ngành')
+      : (addIndSelect.value || 'Đa ngành');
+
     const payload = {
       symbol: code,
       exchange: overlay.querySelector('#add-exchange').value,
-      industry: overlay.querySelector('#add-industry').value,
+      industry: finalIndustry,
       analyst: overlay.querySelector('#add-analyst').value || '',
       identify_trend: overlay.querySelector('#add-trend').value || '',
       act: overlay.querySelector('#add-act').value,
@@ -1216,7 +1261,12 @@ function showEditStockModal(sid) {
           </div>
           <div class="admin-form-group">
             <label>Nhóm ngành <span id="es-industry-loading" style="display:none;color:#f59e0b;font-size:0.75rem;">⏳ Đang tra cứu...</span></label>
-            <input type="text" list="industry-datalist" class="admin-input" id="es-industry" value="${esc(stock.industry || '')}" placeholder="Tự nhập hoặc chọn tên ngành..." />
+            <select class="admin-select" id="es-industry-select">
+              <option value="">-- Chọn 1 trong 25 ngành chuẩn --</option>
+              ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}" ${stock.industry === ig.label ? 'selected' : ''}>${esc(ig.label)}</option>`).join('')}
+              <option value="__CUSTOM__" ${!INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) && stock.industry ? 'selected' : ''}>✍️ Tự nhập tên ngành mới tùy chỉnh...</option>
+            </select>
+            <input type="text" class="admin-input" id="es-industry-custom" value="${!INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) ? esc(stock.industry || '') : ''}" placeholder="Gõ tên ngành mới tùy chỉnh..." style="display:${!INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) && stock.industry ? 'block' : 'none'};margin-top:6px;border-color:#5e72e4;" />
           </div>
           <div class="admin-form-group">
             <label>Người đảm nhận</label>
@@ -1276,11 +1326,23 @@ function showEditStockModal(sid) {
 
   const esCodeCp = overlay.querySelector('#es-code-cp');
   const esExchange = overlay.querySelector('#es-exchange');
-  const esIndustry = overlay.querySelector('#es-industry');
+  const esIndSelect = overlay.querySelector('#es-industry-select');
+  const esIndCustom = overlay.querySelector('#es-industry-custom');
 
   const esExLoading = overlay.querySelector('#es-exchange-loading');
   const esIndLoading = overlay.querySelector('#es-industry-loading');
   const btnSaveEdit = overlay.querySelector('#btn-save-edit-stock');
+
+  if (esIndSelect) {
+    esIndSelect.addEventListener('change', () => {
+      if (esIndSelect.value === '__CUSTOM__') {
+        esIndCustom.style.display = 'block';
+        esIndCustom.focus();
+      } else {
+        esIndCustom.style.display = 'none';
+      }
+    });
+  }
 
   esCodeCp.addEventListener('blur', async () => {
     const symbol = esCodeCp.value.trim().toUpperCase();
@@ -1292,7 +1354,17 @@ function showEditStockModal(sid) {
         const res = await API().get(EP().MARKET_LOOKUP(symbol));
         const info = res.data || res;
         if (info && info.exchange) esExchange.value = info.exchange;
-        if (info && info.industry) esIndustry.value = info.industry;
+        if (info && info.industry) {
+          const isPreset = INDUSTRY_GROUPS.some(ig => ig.label === info.industry);
+          if (isPreset) {
+            esIndSelect.value = info.industry;
+            esIndCustom.style.display = 'none';
+          } else {
+            esIndSelect.value = '__CUSTOM__';
+            esIndCustom.style.display = 'block';
+            esIndCustom.value = info.industry;
+          }
+        }
         if (info && (info.exchange || info.industry)) {
           showToast(`✅ Tự động cập nhật: sàn ${info.exchange || '—'}, ngành ${info.industry || '—'}`);
         }
@@ -1308,10 +1380,14 @@ function showEditStockModal(sid) {
   });
 
   overlay.querySelector('#btn-save-edit-stock').addEventListener('click', async () => {
+    const finalIndustry = esIndSelect.value === '__CUSTOM__'
+      ? (esIndCustom.value.trim() || 'Đa ngành')
+      : (esIndSelect.value || 'Đa ngành');
+
     const updatedFields = {
       symbol: (overlay.querySelector('#es-code-cp').value || '').trim().toUpperCase(),
       exchange: overlay.querySelector('#es-exchange').value,
-      industry: overlay.querySelector('#es-industry').value,
+      industry: finalIndustry,
       analyst: overlay.querySelector('#es-analyst').value,
       act: overlay.querySelector('#es-act').value,
       identify_trend: overlay.querySelector('#es-trend').value,
