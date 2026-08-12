@@ -24,9 +24,11 @@ async function loadCategories() {
     console.error('Failed to load categories from database, using fallback:', err);
     AVAILABLE_CATEGORIES = [
       { id: 1, slug: 'thi-truong', name: 'Thị trường' },
-      { id: 2, slug: 'pro-research', name: 'PRO Research' },
+      { id: 2, slug: 'pro-research', name: 'Chuyên sâu' },
       { id: 3, slug: 'doanh-nghiep', name: 'Doanh nghiệp' },
-      { id: 4, slug: 'ncpt-nganh', name: 'NCPT Ngành' }
+      { id: 4, slug: 'ncpt-nganh', name: 'Nhóm ngành' },
+      { id: 5, slug: 'pro-data', name: 'PRO Data' },
+      { id: 6, slug: 'dinh-luong', name: 'Định lượng' }
     ];
   }
 }
@@ -1267,8 +1269,8 @@ function renderCreateForm(container, blogToEdit = null) {
   const currentTier = blogToEdit ? (blogToEdit.minTierAccess || 'STANDARD') : 'STANDARD';
   const isPublished = blogToEdit ? blogToEdit.status === 'PUBLISHED' : true;
 
-  // Only keep the 4 categories corresponding to the 4 research pages
-  const ALLOWED_SLUGS = ['thi-truong', 'pro-research', 'doanh-nghiep', 'ncpt-nganh'];
+  // Keep the 6 categories corresponding to research and user data pages
+  const ALLOWED_SLUGS = ['thi-truong', 'pro-research', 'doanh-nghiep', 'ncpt-nganh', 'pro-data', 'dinh-luong'];
   const displayedCategories = AVAILABLE_CATEGORIES.filter(c => ALLOWED_SLUGS.includes(c.slug));
 
   // If editing an existing article with a category outside the 4 allowed, keep/append it so it is pre-selected and preserved

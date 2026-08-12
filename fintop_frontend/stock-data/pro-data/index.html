@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nghiên cứu Nhóm ngành | FinTop DATA</title>
-    <link rel="stylesheet" href="../../assets/css/variables.css">
-    <link rel="stylesheet" href="../../assets/css/base.css">
-    <link rel="stylesheet" href="../../assets/css/components.css">
-    <link rel="stylesheet" href="../../assets/css/demo-pages.css">
-    <link rel="stylesheet" href="../../assets/css/auth.css">
-    <link rel="stylesheet" href="../../assets/css/modals.css">
+    <title>PRO Data | FinTop DATA</title>
+    <link rel="stylesheet" href="/assets/css/variables.css">
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/demo-pages.css">
+    <link rel="stylesheet" href="/assets/css/auth.css">
+    <link rel="stylesheet" href="/assets/css/modals.css">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -142,19 +142,10 @@
             letter-spacing: -0.5px;
         }
 
-        .research-hero p {
-            color: #94a3b8;
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
         /* Featured Article */
         .featured-section {
             margin-bottom: 3rem;
             display: none;
-            /* Shown dynamically */
         }
 
         .featured-card {
@@ -297,7 +288,6 @@
         }
 
         /* Grid */
-        /* Row list layout mapping old web style */
         .articles-grid {
             display: flex;
             flex-direction: column;
@@ -567,8 +557,8 @@
 <body>
     <header class="tv-header" id="mainHeader">
         <div class="tv-left">
-            <a href="../../index.html">
-                <img src="../../assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo">
+            <a href="/index.html">
+                <img src="/assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo">
             </a>
             <div class="tv-search-bar">
                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -579,50 +569,49 @@
             </div>
         </div>
         <ul class="tv-nav">
-            <li class="nav-item"><a href="../../index.html">Trang chủ</a></li>
-            <li class="nav-item"><a href="../../index.html#panel-hoivien">Hội viên</a></li>
+            <li class="nav-item"><a href="/index.html">Trang chủ</a></li>
+            <li class="nav-item"><a href="/index.html#panel-hoivien">Hội viên</a></li>
             <li class="nav-item dropdown" id="dropdown-fintop-data">
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="../../index.html#panel-tracuu">📊 Tra cứu cổ phiếu</a>
-                    <a href="../../index.html#panel-boloc">🔍 Bộ lọc cổ phiếu <span
+                    <a href="/index.html#panel-tracuu">📊 Tra cứu cổ phiếu</a>
+                    <a href="/index.html#panel-boloc">🔍 Bộ lọc cổ phiếu <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
-                    <a href="../../fintop-ai/index.html">🤖 FinTop AI</a>
-                    <a href="../../index.html#panel-tinhieu">📡 Copy Trade</a>
+                    <a href="/fintop-ai/index.html">🤖 FinTop AI</a>
+                    <a href="/index.html#panel-tinhieu">📡 Copy Trade</a>
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-stock-data">
-                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-stock-data')">Dữ liệu <span
+                <a href="javascript:void(0)" class="active-page" onclick="toggleDropdownPin('dropdown-stock-data')">Dữ liệu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="/index.html#panel-stock-quant">Tổng quan</a>
-                    <a href="/stock-data/pro-data/index.html">PRO Data <span
+                    <a href="/stock-data/index.html#quant">Tổng quan</a>
+                    <a href="/stock-data/pro-data/index.html" class="active-page">PRO Data <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="/stock-data/dinh-luong/index.html">Định lượng</a>
-                    <a href="/index.html#panel-stock-reports">Báo cáo</a>
+                    <a href="/stock-data/index.html#reports">Báo cáo</a>
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-phan-tich">
-                <a href="javascript:void(0)" class="active-page"
-                    onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="../thi-truong/index.html">Nghiên cứu thị trường</a>
-                    <a href="../chuyen-sau/index.html">Nghiên cứu chuyên sâu <span
+                    <a href="/nghien-cuu/thi-truong/index.html">Nghiên cứu thị trường</a>
+                    <a href="/nghien-cuu/chuyen-sau/index.html">Nghiên cứu chuyên sâu <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
-                    <a href="../doanh-nghiep/index.html">Nghiên cứu Doanh nghiệp</a>
-                    <a href="../nhom-nganh/index.html" class="active-page">Nghiên cứu nhóm Ngành</a>
+                    <a href="/nghien-cuu/doanh-nghiep/index.html">Nghiên cứu Doanh nghiệp</a>
+                    <a href="/nghien-cuu/nhom-nganh/index.html">Nghiên cứu nhóm Ngành</a>
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-huongdan">
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="../../index.html#panel-guide-trading">📖 Giao dịch & Đầu tư</a>
-                    <a href="../../index.html#panel-guide-ta">📈 Phân tích kỹ thuật (TA)</a>
-                    <a href="../../index.html#panel-guide-fa">📊 Phân tích cơ bản (FA)</a>
-                    <a href="../../index.html#panel-guide-library">📚 Tủ sách đầu tư</a>
+                    <a href="/index.html#panel-guide-trading">📖 Giao dịch & Đầu tư</a>
+                    <a href="/index.html#panel-guide-ta">📈 Phân tích kỹ thuật (TA)</a>
+                    <a href="/index.html#panel-guide-fa">📊 Phân tích cơ bản (FA)</a>
+                    <a href="/index.html#panel-guide-library">📚 Tủ sách đầu tư</a>
                 </div>
             </li>
         </ul>
@@ -653,13 +642,13 @@
             <div class="user-dropdown-container" id="userDropdownContainer">
                 <span class="icon-link" style="cursor: pointer;">👤</span>
                 <div class="user-dropdown-menu">
-                    <a href="../../index.html#login" class="user-dropdown-item login-btn">👤 Đăng nhập</a>
-                    <a href="../../index.html#panel-guide-trading" class="user-dropdown-item">Trung tâm Trợ giúp</a>
-                    <a href="../../index.html" class="user-dropdown-item">Có gì mới</a>
+                    <a href="/index.html#login" class="user-dropdown-item login-btn">👤 Đăng nhập</a>
+                    <a href="/index.html#panel-guide-trading" class="user-dropdown-item">Trung tâm Trợ giúp</a>
+                    <a href="/index.html" class="user-dropdown-item">Có gì mới</a>
                 </div>
             </div>
             <button class="btn-tv-blue" id="fintopStartBtn" type="button"
-                onclick="window.location.href='../../index.html#pricing'">Bắt đầu</button>
+                onclick="window.location.href='/index.html#pricing'">Bắt đầu</button>
         </div>
     </header>
 
@@ -667,7 +656,7 @@
         <div class="page-container">
             <!-- Hero -->
             <section class="research-hero">
-                <h1>Nghiên cứu Nhóm ngành</h1>
+                <h1>PRO Data</h1>
             </section>
 
             <!-- Featured Article -->
@@ -705,14 +694,14 @@
     </main>
 
     <!-- Core infrastructure -->
-    <script src="../../assets/js/demo-nav.js"></script>
-    <script type="module" src="../../assets/js/core/index.js"></script>
+    <script src="/assets/js/demo-nav.js"></script>
+    <script type="module" src="/assets/js/core/index.js"></script>
     <!-- Auth helper -->
-    <script src="../../assets/js/auth.js" defer></script>
+    <script src="/assets/js/auth.js" defer></script>
 
     <script>
         // Category Config
-        const ALLOWED_SLUGS = ['ncpt-nganh', 'phan-tich-nganh', 'nganh'];
+        const ALLOWED_SLUGS = ['pro-data'];
         let currentPage = 1;
         let searchKeyword = '';
         let allArticles = [];
@@ -751,7 +740,6 @@
 
         async function fetchArticles(infra) {
             try {
-                // Fetch all blogs and filter on client side for maximum compatibility with both seeded & imported databases
                 const response = await infra.ApiClient.get(`/blogs?limit=100`);
                 const list = response?.data?.data || response?.data || [];
                 allArticles = list.filter(art => ALLOWED_SLUGS.includes(art.category?.slug));
@@ -792,7 +780,6 @@
                 return;
             }
 
-            // Disable Featured Article, only display all articles in the list
             let displayArticles = [...filtered];
             if (featuredSection) featuredSection.style.display = 'none';
 
@@ -816,7 +803,7 @@
                 const lockClass = art.locked ? 'is-locked' : '';
 
                 // Extract first image from content or use default
-                let imgUrl = '../../assets/images/fintop_terminal_mockup.png';
+                let imgUrl = '/assets/images/fintop_terminal_mockup.png';
                 if (art.content) {
                     const temp = document.createElement('div');
                     temp.innerHTML = art.content;
@@ -827,8 +814,8 @@
                 return `
                     <div class="article-card-item ${lockClass}">
                         <div class="card-thumb">
-                            <img src="${imgUrl}" alt="${art.title}" onerror="this.src='../../assets/images/fintop_terminal_mockup.png'">
-                            <span class="card-badge">${art.category?.name || 'Research'}</span>
+                            <img src="${imgUrl}" alt="${art.title}" onerror="this.src='/assets/images/fintop_terminal_mockup.png'">
+                            <span class="card-badge">${art.category?.name || 'PRO Data'}</span>
                             <div class="lock-overlay">
                                 <div class="lock-icon-box">
                                     <i class="fa-solid fa-lock"></i>
@@ -837,7 +824,7 @@
                             </div>
                         </div>
                         <div class="card-content">
-                            <a class="card-title" href="../../chuyen-gia/index.html?slug=${art.slug}">
+                            <a class="card-title" href="/chuyen-gia/index.html?slug=${art.slug}">
                                 ${art.locked ? '<i class="fa-solid fa-lock" style="color: #eab308; margin-right: 6px; font-size: 0.9rem;"></i>' : ''}
                                 ${art.title}
                             </a>
@@ -846,7 +833,7 @@
                                 <span><i class="fa-regular fa-eye"></i> ${viewsCount}</span>
                             </div>
                             <p class="card-excerpt">${art.excerpt || 'Không có mô tả ngắn cho bài viết này.'}</p>
-                            <a class="card-btn-link" href="../../chuyen-gia/index.html?slug=${art.slug}">
+                            <a class="card-btn-link" href="/chuyen-gia/index.html?slug=${art.slug}">
                                 <span class="btn-xem-chi-tiet">Xem chi tiết</span>
                             </a>
                         </div>
@@ -855,54 +842,6 @@
             }).join('');
 
             renderPaginationControls(totalPages);
-        }
-
-        function renderFeatured(art) {
-            const container = document.getElementById('featuredSection');
-            const pubDate = art.publishedAt ? new Date(art.publishedAt) : new Date();
-            const dateStr = pubDate.toLocaleDateString('vi-VN');
-            const viewsCount = (art.views !== undefined ? art.views : 0) + ' lượt xem';
-
-            let imgUrl = '../../assets/images/fintop_terminal_mockup.png';
-            if (art.content) {
-                const temp = document.createElement('div');
-                temp.innerHTML = art.content;
-                const img = temp.querySelector('img');
-                if (img) imgUrl = img.src;
-            }
-
-            container.innerHTML = `
-                <div class="featured-card">
-                    <div class="featured-image-wrapper">
-                        <img src="${imgUrl}" alt="${art.title}" onerror="this.src='../../assets/images/fintop_terminal_mockup.png'">
-                        ${art.locked ? `
-                        <div class="lock-overlay" style="opacity: 1;">
-                            <div class="lock-icon-box">
-                                <i class="fa-solid fa-lock"></i>
-                            </div>
-                            <span class="lock-text">Đặc quyền VIP</span>
-                        </div>` : ''}
-                    </div>
-                    <div class="featured-info">
-                        <div class="article-kicker">
-                            <i class="fa-solid fa-star"></i>
-                            <span>Bài viết nổi bật</span>
-                        </div>
-                        <a class="featured-title" href="../../chuyen-gia/index.html?slug=${art.slug}">
-                            ${art.locked ? '<i class="fa-solid fa-lock" style="color: #eab308; margin-right: 8px; font-size: 1.2rem;"></i>' : ''}
-                            ${art.title}
-                        </a>
-                        <p class="featured-excerpt">${art.excerpt || 'Không có mô tả ngắn cho bài viết này.'}</p>
-                        <div class="article-meta">
-                            <span><i class="fa-regular fa-calendar"></i> ${dateStr}</span>
-                            <span><i class="fa-regular fa-eye"></i> ${viewsCount}</span>
-                        </div>
-                        <div style="display: flex;">
-                            <a class="btn-tv-blue" style="text-decoration: none;" href="../../chuyen-gia/index.html?slug=${art.slug}">Đọc bài viết</a>
-                        </div>
-                    </div>
-                </div>
-            `;
         }
 
         function renderPaginationControls(totalPages) {

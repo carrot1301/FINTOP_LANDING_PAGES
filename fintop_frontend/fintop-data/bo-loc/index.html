@@ -557,7 +557,7 @@
                             style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 200px;">
                             Dữ liệu kỹ thuật lịch sử (Model)</th>
                         <th
-                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 125px;">
                             Trạng thái Model</th>
                         <th class="boloc-delta-rsi-header" style="padding: 8px 4px; text-align: center; width: 70px; position: relative;">
                             <div class="delta-rsi-wrapper" style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
@@ -568,9 +568,17 @@
                                 </div>
                             </div>
                         </th>
-                        <th
-                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
-                            Sức mạnh xu hướng<br>RSI/MFI</th>
+                        <th style="padding: 8px 4px; text-align: center; width: 170px;">
+                            <div class="delta-rsi-wrapper" style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
+                                <span style="display:inline-block;text-align:center;line-height:1.25;">
+                                    <span style="white-space:nowrap;display:block;color:#c084fc;font-weight:700;font-size:0.72rem;">Sức mạnh xu hướng</span>
+                                    <span style="white-space:nowrap;display:block;color:#c084fc;font-weight:700;font-size:0.72rem;">RSI/MFI - Dòng tiền <span class="delta-rsi-info-button" id="boLocStrengthInfoBtn">(i)</span></span>
+                                </span>
+                                <div class="delta-rsi-hover-box" style="width: 260px;">
+                                    Ghi nhận giá trị khi ΔRSI &gt; 0 và Trạng thái Model thuộc &quot;Khả quan&quot;, &quot;Tích cực&quot;, &quot;Rất tích cực&quot;. Gán nhãn &quot;Tăng&quot;, &quot;Tăng dần&quot;, &quot;Tăng mạnh&quot; theo tốc độ tăng của RSI/MFI - Dòng tiền và biên độ ΔRSI.
+                                </div>
+                            </div>
+                        </th>
                         <th
                             style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 90px;">
                             Vùng kiểm định<br>kỹ thuật</th>
@@ -915,7 +923,7 @@
                 let shadow = 'none';
 
                 if (norm === 'RẤT TÍCH CỰC' || norm === 'VERY-POSITIVE' || norm === 'VERY-POS') {
-                    bg = 'linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3))'; fg = '#FCE7F3'; border = 'rgba(244, 114, 182, 0.78)'; shadow = '0 0 8px rgba(236, 72, 153, 0.55), 0 0 18px rgba(168, 85, 247, 0.42)';
+                    bg = 'rgba(168, 85, 247, 0.2)'; fg = '#c084fc'; border = 'rgba(192, 132, 252, 0.45)'; shadow = '0 0 10px rgba(168, 85, 247, 0.25)';
                 } else if (norm === 'TÍCH CỰC' || norm === 'POS' || norm === 'POSITIVE') {
                     bg = 'rgba(16, 185, 129, 0.18)'; fg = '#A7F3D0'; border = 'rgba(52, 211, 153, 0.55)';
                 } else if (norm === 'KHẢ QUAN' || norm === 'OK') {

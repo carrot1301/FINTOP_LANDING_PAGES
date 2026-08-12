@@ -189,6 +189,8 @@ async function main() {
     { slug: 'pro-research', name: 'PRO Research' },
     { slug: 'doanh-nghiep', name: 'Doanh nghiệp' },
     { slug: 'ncpt-nganh', name: 'NCPT Ngành' },
+    { slug: 'pro-data', name: 'PRO Data' },
+    { slug: 'dinh-luong', name: 'Định lượng' },
     { slug: 'vi-mo', name: 'Vĩ mô & Tiền tệ' },
     { slug: 'kien-thuc', name: 'Kiến thức đầu tư' },
     { slug: 'phan-tich-ky-thuat', name: 'Phân tích kỹ thuật' },

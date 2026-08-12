@@ -20,6 +20,7 @@ import { esc, formatDate, showToast } from '../admin-shell.js';
 const API = () => window.FintopInfra.ApiClient;
 const EP = () => window.FintopInfra.FintopEnv.API_ENDPOINTS;
 const DELTA_RSI_HELP_TEXT = 'Biên độ dao động RSI, ghi nhận giá trị trong khoảng RSI 35-65 trên thang điểm 100.';
+const STRENGTH_HELP_TEXT = 'Ghi nhận giá trị khi ΔRSI > 0 và Trạng thái Model thuộc "Khả quan", "Tích cực", "Rất tích cực". Gán nhãn "Tăng", "Tăng dần", "Tăng mạnh" theo tốc độ tăng của RSI/MFI - Dòng tiền và biên độ ΔRSI.';
 
 // ─────────────────────────────────────────────────────────────
 // CONSTANTS
@@ -66,14 +67,7 @@ const TREND_STRENGTH_OPTIONS = [
   { code: '', label: '—' },
   { code: 'TĂNG MẠNH', label: 'TĂNG MẠNH' },
   { code: 'TĂNG', label: 'TĂNG' },
-  { code: 'TĂNG DẦN', label: 'TĂNG DẦN' },
-  { code: 'ĐI NGANG', label: 'ĐI NGANG' },
-  { code: 'SUY YẾU', label: 'SUY YẾU' },
-  { code: 'GIẢM', label: 'GIẢM' },
-  { code: 'TÍCH LŨY', label: 'TÍCH LŨY' },
-  { code: 'SIDEWAY', label: 'SIDEWAY' },
-  { code: 'UPTREND', label: 'UPTREND' },
-  { code: 'DOWNTREND', label: 'DOWNTREND' }
+  { code: 'TĂNG DẦN', label: 'TĂNG DẦN' }
 ];
 
 function actBadge(act) {
@@ -83,8 +77,8 @@ function actBadge(act) {
   let fg = '#94A3B8';
 
   if (norm === 'RẤT TÍCH CỰC') {
-    bg = 'rgba(236, 72, 153, 0.2)'; // Pink/Magenta soft
-    fg = '#EC4899';
+    bg = 'rgba(168, 85, 247, 0.2)'; // Purple soft
+    fg = '#c084fc';
   } else if (norm === 'TÍCH CỰC') {
     bg = 'rgba(16, 185, 129, 0.2)'; // Green soft
     fg = '#10B981';
@@ -102,20 +96,20 @@ function actBadge(act) {
     fg = '#EF4444';
   }
 
-  return `<span class="admin-badge" style="background:${bg}; color:${fg}; border:1px solid ${fg}33; font-weight:700; padding:4px 8px; border-radius:6px; font-size:0.75rem;">${esc(act)}</span>`;
+  return `<span class="admin-badge" style="background:${bg}; color:${fg}; border:1px solid ${fg}33; font-weight:700; padding:2px 4px; border-radius:6px; font-size:0.72rem; display:inline-block; max-width:100%; box-sizing:border-box; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(act)}</span>`;
 }
 
 function getBadgeSelectStyle(act) {
   if (!act) {
-    return `background: rgba(148, 163, 184, 0.15); color: #94A3B8; border: 1px solid rgba(148, 163, 184, 0.2); width: 95px;`;
+    return `background: rgba(148, 163, 184, 0.15); color: #94A3B8; border: 1px solid rgba(148, 163, 184, 0.2); width: 100%; max-width: 100%; box-sizing: border-box; text-align: center; text-align-last: center; font-size: 0.72rem; padding: 3px 2px;`;
   }
   const norm = act.trim().toUpperCase();
   let bg = 'rgba(148, 163, 184, 0.15)';
   let fg = '#94A3B8';
 
   if (norm === 'RẤT TÍCH CỰC') {
-    bg = 'rgba(236, 72, 153, 0.2)'; // Pink/Magenta soft
-    fg = '#EC4899';
+    bg = 'rgba(168, 85, 247, 0.2)'; // Purple soft
+    fg = '#c084fc';
   } else if (norm === 'TÍCH CỰC') {
     bg = 'rgba(16, 185, 129, 0.2)'; // Green soft
     fg = '#10B981';
@@ -133,7 +127,7 @@ function getBadgeSelectStyle(act) {
     fg = '#EF4444';
   }
 
-  return `background: ${bg}; color: ${fg}; border: 1px solid ${fg}33; width: 95px;`;
+  return `background: ${bg}; color: ${fg}; border: 1px solid ${fg}33; width: 100%; max-width: 100%; box-sizing: border-box; text-align: center; text-align-last: center; font-size: 0.72rem; padding: 3px 2px;`;
 }
 
 
@@ -180,13 +174,46 @@ function formatSyncTime(updatedAtStr) {
 let container = null;
 let showChart = false;
 let selectedActions = new Set();
+let selectedStrengths = new Set();
 let selectedIndustries = new Set();
 let searchQuery = '';
 let dataType = 'DATA'; // DATA or TIN_HIEU
 let actionDropdownVisible = false;
+let strengthDropdownVisible = false;
 let industryDropdownVisible = false;
 let documentClickHandler = null;
 let stockData = []; // Mock/API data
+
+// ─── Column/Row Resize State ───
+let resizeMode = false;
+let pendingColWidths = null; // { colIndex: widthPx, ... } — preview state before OK
+let savedColWidths = loadSavedColWidths(); // confirmed widths from localStorage
+let pendingRowHeights = null; // { rowIndex: heightPx, ... }
+let savedRowHeights = loadSavedRowHeights();
+
+function loadSavedColWidths() {
+  try {
+    const raw = localStorage.getItem('fintop_admin_table_col_widths');
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed && parsed['10'] && parsed['10'] < 155) {
+      delete parsed['10'];
+    }
+    return parsed;
+  } catch { return null; }
+}
+function loadSavedRowHeights() {
+  try {
+    const raw = localStorage.getItem('fintop_admin_table_row_heights');
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+}
+function persistColWidths(widths) {
+  localStorage.setItem('fintop_admin_table_col_widths', JSON.stringify(widths));
+}
+function persistRowHeights(heights) {
+  localStorage.setItem('fintop_admin_table_row_heights', JSON.stringify(heights));
+}
 
 // ─────────────────────────────────────────────────────────────
 // SEED DATA (mock from legacy web scrape)
@@ -244,8 +271,18 @@ async function saveStockField(sid, field, value) {
     };
     const key = backendFieldMap[field];
     if (key) {
-      await API().put(`/market/stocks/${sid}`, { [key]: value });
+      const res = await API().put(`/market/stocks/${sid}`, { [key]: value });
+      const updatedStock = res.data || res;
+      const stock = stockData.find(s => String(s.id) === String(sid));
+      if (stock) {
+        if (updatedStock && updatedStock.updated_at) {
+          stock.updatedAt = new Date(updatedStock.updated_at).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' ' + new Date(updatedStock.updated_at).toLocaleDateString('vi-VN');
+        } else {
+          stock.updatedAt = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' ' + new Date().toLocaleDateString('vi-VN');
+        }
+      }
       showToast('Đã cập nhật thay đổi thành công.');
+      return updatedStock;
     }
   } catch (err) {
     console.error('Error updating stock field:', err);
@@ -332,6 +369,14 @@ function getFilteredData() {
     });
   }
 
+  // Strength filter (Lọc Sức mạnh XH)
+  if (selectedStrengths.size > 0) {
+    filtered = filtered.filter(s => {
+      const rsiMfiNorm = (s.rsi_mfi || '').trim().toUpperCase();
+      return selectedStrengths.has(rsiMfiNorm) || selectedStrengths.has(s.rsi_mfi);
+    });
+  }
+
   // Industry filter
   if (selectedIndustries.size > 0) {
     filtered = filtered.filter(s => {
@@ -353,6 +398,20 @@ function getFilteredData() {
 
 function renderAll() {
   if (!container) return;
+
+  // Preserve scroll position before re-rendering
+  const scrollEl = container.querySelector('.df-table-scroll');
+  const savedScrollTop = scrollEl ? scrollEl.scrollTop : 0;
+  const savedScrollLeft = scrollEl ? scrollEl.scrollLeft : 0;
+  const savedWindowScrollY = window.scrollY || document.documentElement.scrollTop;
+
+  const activeEl = document.activeElement;
+  let activeSid = null;
+  let activeField = null;
+  if (activeEl && activeEl.dataset && activeEl.dataset.sid) {
+    activeSid = activeEl.dataset.sid;
+    activeField = activeEl.dataset.field;
+  }
 
   if (!document.getElementById('market-drag-styles')) {
     const dragStyle = document.createElement('style');
@@ -420,6 +479,138 @@ function renderAll() {
         opacity: 1;
         visibility: visible;
       }
+      /* ── Column / Row Resize Mode ── */
+      .df-table.resize-mode {
+        user-select: none;
+        table-layout: fixed;
+        width: 100%;
+      }
+      .df-table.resize-mode th,
+      .df-table.resize-mode td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .df-table.resize-mode th {
+        position: relative;
+      }
+      .df-col-resize-handle {
+        position: absolute;
+        right: -4px;
+        top: 0;
+        bottom: 0;
+        width: 8px;
+        cursor: col-resize;
+        z-index: 20;
+        background: transparent;
+        transition: background 0.12s;
+      }
+      .df-col-resize-handle::after {
+        content: '';
+        position: absolute;
+        right: 3px;
+        top: 15%;
+        bottom: 15%;
+        width: 2px;
+        background: rgba(168, 85, 247, 0.35);
+        border-radius: 1px;
+      }
+      .df-col-resize-handle:hover,
+      .df-col-resize-handle.active {
+        background: rgba(168, 85, 247, 0.18);
+      }
+      .df-col-resize-handle:hover::after,
+      .df-col-resize-handle.active::after {
+        background: #a855f7;
+        width: 3px;
+      }
+      .df-row-resize-handle {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -4px;
+        height: 8px;
+        cursor: row-resize;
+        z-index: 20;
+        background: transparent;
+        transition: background 0.12s;
+      }
+      .df-row-resize-handle::after {
+        content: '';
+        position: absolute;
+        bottom: 3px;
+        left: 15%;
+        right: 15%;
+        height: 2px;
+        background: rgba(168, 85, 247, 0.35);
+        border-radius: 1px;
+      }
+      .df-row-resize-handle:hover,
+      .df-row-resize-handle.active {
+        background: rgba(168, 85, 247, 0.18);
+      }
+      .df-row-resize-handle:hover::after,
+      .df-row-resize-handle.active::after {
+        background: #a855f7;
+        height: 3px;
+      }
+      .df-table.resize-mode td,
+      .df-table.resize-mode th {
+        border-right: 1px dashed rgba(168,85,247,0.2) !important;
+        border-bottom: 1px dashed rgba(168,85,247,0.15) !important;
+      }
+      .df-table.resize-mode tbody tr {
+        position: relative;
+      }
+      /* When saved widths exist, use fixed layout too */
+      .df-table.has-saved-widths {
+        table-layout: fixed;
+        width: 100%;
+      }
+      .df-resize-toolbar {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        background: rgba(168, 85, 247, 0.12);
+        border: 1px solid rgba(168, 85, 247, 0.35);
+        border-radius: 8px;
+        margin-left: 6px;
+        animation: dfResizePulse 2s infinite;
+      }
+      @keyframes dfResizePulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.18); }
+        50% { box-shadow: 0 0 8px 2px rgba(168, 85, 247, 0.25); }
+      }
+      .df-resize-ok {
+        background: linear-gradient(135deg, #10B981, #059669) !important;
+        border: none !important;
+        color: #fff !important;
+        font-weight: 700;
+        padding: 4px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.78rem;
+      }
+      .df-resize-cancel {
+        background: rgba(239, 68, 68, 0.15) !important;
+        border: 1px solid rgba(239, 68, 68, 0.4) !important;
+        color: #ef4444 !important;
+        font-weight: 600;
+        padding: 4px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.78rem;
+      }
+      .df-resize-reset {
+        background: rgba(148, 163, 184, 0.1) !important;
+        border: 1px solid rgba(148, 163, 184, 0.3) !important;
+        color: #94A3B8 !important;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.72rem;
+      }
     `;
     document.head.appendChild(dragStyle);
   }
@@ -453,15 +644,7 @@ function renderAll() {
       <button class="admin-btn admin-btn-primary admin-btn-sm" id="btn-add-stock" title="Thêm cổ phiếu">➕</button>
       <button class="admin-btn admin-btn-danger admin-btn-sm" id="btn-delete-stock" title="Xóa cổ phiếu đã chọn">🗑️</button>
 
-      <!-- Data Type Select -->
-      <div class="df-dropdown" style="position:relative;">
-        <select class="admin-select" id="df-data-type" style="min-width:160px;">
-          <option value="DATA" ${dataType === 'DATA' ? 'selected' : ''}>Dữ liệu cổ phiếu</option>
-          <option value="TIN_HIEU" ${dataType === 'TIN_HIEU' ? 'selected' : ''}>TOP Cổ Phiếu</option>
-        </select>
-      </div>
-
-      <!-- Action Filter (Multi-select dropdown) -->
+      <!-- 1. Action Filter (Lọc Trạng thái Model) -->
       <div class="df-filter-group" style="position:relative;">
         <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-toggle-action-filter" style="min-width:130px;">
           Lọc Trạng thái Model ${selectedActions.size > 0 ? `<span style="color:#f59e0b">(${selectedActions.size})</span>` : ''}
@@ -476,9 +659,24 @@ function renderAll() {
         </div>
       </div>
 
-      <!-- Industry Filter (Multi-select dropdown) -->
+      <!-- 2. Strength Filter (Lọc Sức mạnh XH) -->
       <div class="df-filter-group" style="position:relative;">
-        <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-toggle-industry-filter" style="min-width:140px;">
+        <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-toggle-strength-filter" style="min-width:130px;">
+          Lọc Sức mạnh XH ${selectedStrengths.size > 0 ? `<span style="color:#f59e0b">(${selectedStrengths.size})</span>` : ''}
+        </button>
+        <div id="strength-filter-dropdown" class="df-filter-dropdown" style="display:${strengthDropdownVisible ? 'block' : 'none'};position:absolute;top:100%;left:0;z-index:1010;width:180px;border:1px solid #5e72e4;background:var(--bg-card);border-radius:0 0 6px 6px;padding:4px 0;max-height:250px;overflow-y:auto;">
+          ${TREND_STRENGTH_OPTIONS.map(st => `
+            <label style="display:block;padding:4px 10px;cursor:pointer;font-size:0.82rem;" class="df-filter-label">
+              <input type="checkbox" class="strength-filter-chk" value="${st.code}" ${selectedStrengths.has(st.code) ? 'checked' : ''} />
+              <span>${esc(st.label)}</span>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- 3. Industry Filter (Lọc nhóm ngành) -->
+      <div class="df-filter-group" style="position:relative;">
+        <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-toggle-industry-filter" style="min-width:130px;">
           Lọc nhóm ngành ${selectedIndustries.size > 0 ? `<span style="color:#f59e0b">(${selectedIndustries.size})</span>` : ''}
         </button>
         <div id="industry-filter-dropdown" class="df-filter-dropdown" style="display:${industryDropdownVisible ? 'block' : 'none'};position:absolute;top:100%;left:0;z-index:1010;width:220px;border:1px solid #5e72e4;background:var(--bg-card);border-radius:0 0 6px 6px;padding:4px 0;max-height:250px;overflow-y:auto;">
@@ -491,6 +689,19 @@ function renderAll() {
         </div>
       </div>
 
+      <!-- Column/Row Resize Toggle -->
+      <button class="admin-btn admin-btn-sm" id="btn-toggle-resize" style="min-width:auto; ${resizeMode ? 'background:rgba(168,85,247,0.25);border-color:#a855f7;color:#c084fc;' : 'background:rgba(148,163,184,0.1);border:1px solid rgba(148,163,184,0.2);color:#94A3B8;'}" title="Bật/tắt chế độ chỉnh kích thước cột & hàng">
+        📐 Chỉnh bảng
+      </button>
+      ${resizeMode ? `
+        <div class="df-resize-toolbar">
+          <span style="color:#c084fc;font-size:0.75rem;font-weight:600;">↔ Kéo viền cột/hàng để chỉnh</span>
+          <button class="df-resize-ok" id="btn-resize-ok" title="Xác nhận kích thước mới">✓ OK</button>
+          <button class="df-resize-cancel" id="btn-resize-cancel" title="Hủy thay đổi">✕ Hủy</button>
+          <button class="df-resize-reset" id="btn-resize-reset" title="Đặt lại kích thước mặc định">↩ Mặc định</button>
+        </div>
+      ` : ''}
+
       <!-- Search -->
       <div style="display:flex;align-items:center;gap:0;margin-left:auto;">
         <input type="text" class="admin-search" id="df-search" placeholder="Tìm kiếm mã CP" value="${esc(searchQuery)}" style="min-width:160px;border-radius:6px 0 0 6px;" />
@@ -501,34 +712,24 @@ function renderAll() {
 
     <!-- Data Table -->
     <div style="overflow-x:auto;max-height:800px;overflow-y:auto;" class="df-table-scroll">
-      <table class="admin-table df-table" style="font-size:0.8rem;">
+      <table class="admin-table df-table${resizeMode ? ' resize-mode' : ''}${savedColWidths ? ' has-saved-widths' : ''}" style="font-size:0.8rem;">
         <thead>
           <tr style="position:sticky;top:0;z-index:5;">
-            <th style="width:2%;text-align:center;"><input type="checkbox" id="chk-all-stocks" /></th>
-            <th style="width:6%;text-align:center;">STT</th>
-            <th style="width:4%;text-align:center;">Mã CP</th>
-            <th style="width:3%;text-align:center;">Sàn</th>
-            <th style="width:7.5%;text-align:center;">Ngành HĐKD</th>
-            <th style="width:5.5%;text-align:center;">Kiểm soát DL</th>
-            <th style="width:5.5%;text-align:center;">Update time</th>
-            <th style="width:14%;text-align:center;">Dữ liệu kỹ thuật lịch sử (Model)</th>
-            <th style="width:10%;text-align:center;">Trạng thái Model</th>
-            <th class="df-delta-rsi-header" style="width:5.5%;text-align:center;position:relative;">
-              <div class="df-delta-rsi-wrapper" style="position:relative;display:inline-flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;">
-                <span class="df-delta-rsi-heading">ΔRSI</span>
-                <span class="df-delta-rsi-info" id="df-delta-rsi-info">(i)</span>
-                <div class="df-delta-rsi-hover-box">
-                  ${esc(DELTA_RSI_HELP_TEXT)}
-                </div>
-              </div>
-            </th>
-            <th style="width:7.5%;text-align:center;">Sức mạnh xu hướng<br/>Dòng tiền - RSI/MFI</th>
-            <th style="width:13%;text-align:center;">Vùng kiểm định<br/>kỹ thuật</th>
-            <th style="width:13%;text-align:center;">Vùng kháng cự<br/>kỹ thuật</th>
-            <th style="width:13%;text-align:center;">Vùng hỗ trợ<br/>kỹ thuật</th>
-            <th style="width:1.5%;text-align:center;">
-              <span id="btn-add-row" style="cursor:pointer;color:var(--purple-glow);" title="Thêm dòng">➕</span>
-            </th>
+            ${buildThCell(0, '2%', '<input type="checkbox" id="chk-all-stocks" />')}
+            ${buildThCell(1, '6%', 'STT')}
+            ${buildThCell(2, '4%', 'Mã CP')}
+            ${buildThCell(3, '3%', 'Sàn')}
+            ${buildThCell(4, '7.5%', 'Ngành HĐKD')}
+            ${buildThCell(5, '5.5%', 'Kiểm soát DL')}
+            ${buildThCell(6, '5.5%', 'Update time')}
+            ${buildThCell(7, '14%', 'Dữ liệu kỹ thuật lịch sử (Model)')}
+            ${buildThCell(8, '10%', 'Trạng thái Model')}
+            ${buildThCell(9, '4.5%', `<div class="df-delta-rsi-wrapper" style="position:relative;display:inline-flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;"><span class="df-delta-rsi-heading">ΔRSI</span><span class="df-delta-rsi-info" id="df-delta-rsi-info">(i)</span><div class="df-delta-rsi-hover-box">${esc(DELTA_RSI_HELP_TEXT)}</div></div>`, 'df-delta-rsi-header')}
+            ${buildThCell(10, '13%', `<div class="df-delta-rsi-wrapper" style="position:relative;display:inline-flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;"><span style="display:inline-block;text-align:center;line-height:1.25;"><span style="white-space:nowrap;display:block;">Sức mạnh xu hướng</span><span style="white-space:nowrap;display:block;">RSI/MFI - Dòng tiền <span class="df-delta-rsi-info">(i)</span></span></span><div class="df-delta-rsi-hover-box" style="width:260px;">${esc(STRENGTH_HELP_TEXT)}</div></div>`)}
+            ${buildThCell(11, '13%', 'Vùng kiểm định<br/>kỹ thuật')}
+            ${buildThCell(12, '13%', 'Vùng kháng cự<br/>kỹ thuật')}
+            ${buildThCell(13, '13%', 'Vùng hỗ trợ<br/>kỹ thuật')}
+            ${buildThCell(14, '1.5%', '<span id="btn-add-row" style="cursor:pointer;color:var(--purple-glow);" title="Thêm dòng">➕</span>')}
           </tr>
         </thead>
         <tbody id="df-table-body">
@@ -552,46 +753,90 @@ function renderAll() {
   `;
 
   bindEvents();
+
+  // Apply saved row heights after render
+  if (savedRowHeights) {
+    const rows = container.querySelectorAll('#df-table-body tr');
+    rows.forEach((row, i) => {
+      if (savedRowHeights[String(i)] !== undefined) {
+        const h = savedRowHeights[String(i)];
+        row.querySelectorAll('td').forEach(td => {
+          td.style.height = h + 'px';
+        });
+      }
+    });
+  }
+
+  // If resize mode is active, attach interactive resize handlers after DOM paint
+  if (resizeMode) {
+    requestAnimationFrame(() => attachResizeHandlers());
+  }
+
+  // Restore scroll position & focus
+  const restoreScroll = () => {
+    const newScrollEl = container.querySelector('.df-table-scroll');
+    if (newScrollEl) {
+      newScrollEl.scrollTop = savedScrollTop;
+      newScrollEl.scrollLeft = savedScrollLeft;
+    }
+    window.scrollTo({ top: savedWindowScrollY, behavior: 'instant' });
+  };
+
+  restoreScroll();
+  requestAnimationFrame(restoreScroll);
+
+  if (activeSid && activeField) {
+    const targetInput = container.querySelector(`[data-sid="${activeSid}"][data-field="${activeField}"]`);
+    if (targetInput) {
+      try { targetInput.focus(); } catch (e) {}
+    }
+  }
 }
 
 function renderStockRow(s, idx) {
   return `
     <tr data-stock-id="${s.id}" draggable="false">
-      <td style="text-align:center;vertical-align:middle;"><input type="checkbox" class="chk-stock-item" value="${s.id}" /></td>
-      <td style="text-align:center;vertical-align:middle;">
-        <div style="display:flex;align-items:center;justify-content:center;gap:6px;">
-          <span class="df-drag-handle" style="cursor:move;color:#7c3aed;font-size:1.1rem;user-select:none;padding:0 2px;" title="Kéo thả để sắp xếp">☰</span>
-          <input type="number" class="df-direct-input df-premium-input" data-field="order" data-sid="${s.id}" value="${s.order}" style="width:35px;text-align:center;padding:4px 2px;" />
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;"><input type="checkbox" class="chk-stock-item" value="${s.id}" /></td>
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
+        <div style="display:flex;align-items:center;justify-content:center;gap:4px;width:100%;box-sizing:border-box;">
+          <span class="df-drag-handle" style="cursor:move;color:#7c3aed;font-size:1rem;user-select:none;padding:0 2px;" title="Kéo thả để sắp xếp">☰</span>
+          <input type="number" class="df-direct-input df-premium-input" data-field="order" data-sid="${s.id}" value="${s.order}" style="width:100%;max-width:35px;text-align:center;padding:3px 2px;box-sizing:border-box;font-size:0.75rem;" />
         </div>
       </td>
-      <td style="text-align:center;vertical-align:middle;">
-        <input type="text" class="df-direct-input df-premium-input" data-field="code_cp" data-sid="${s.id}" value="${esc(s.code_cp)}" style="width:50px;color:var(--purple-glow);font-weight:600;text-transform:uppercase;" />
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
+        <input type="text" class="df-direct-input df-premium-input" data-field="code_cp" data-sid="${s.id}" value="${esc(s.code_cp)}" style="width:100%;max-width:100%;box-sizing:border-box;color:var(--purple-glow);font-weight:600;text-transform:uppercase;text-align:center;padding:3px 2px;font-size:0.75rem;" />
       </td>
-      <td style="text-align:center;vertical-align:middle;">
-        <select class="df-direct-input df-premium-select" data-field="exchange" data-sid="${s.id}" style="width:65px;">
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
+        <select class="df-direct-input df-premium-select" data-field="exchange" data-sid="${s.id}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;">
           <option value="HOSE" ${s.exchange === 'HOSE' ? 'selected' : ''}>HOSE</option>
           <option value="HNX" ${s.exchange === 'HNX' ? 'selected' : ''}>HNX</option>
           <option value="UPCOM" ${s.exchange === 'UPCOM' ? 'selected' : ''}>UPCOM</option>
         </select>
       </td>
-      <td style="text-align:center;vertical-align:middle;">
-        <select class="df-direct-input df-premium-select df-industry-select" data-field="industry" data-sid="${s.id}" style="width:115px;">
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
+        <select class="df-direct-input df-premium-select df-industry-select" data-field="industry" data-sid="${s.id}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;">
           <option value="__CUSTOM__" ${!INDUSTRY_GROUPS.some(ig => ig.label === s.industry) && s.industry ? 'selected' : ''}>
             ${!INDUSTRY_GROUPS.some(ig => ig.label === s.industry) && s.industry ? esc(s.industry) : '✍️ Tự nhập khác...'}
           </option>
           ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}" ${s.industry === ig.label ? 'selected' : ''}>${esc(ig.label)}</option>`).join('')}
         </select>
       </td>
-      <td style="text-align:center;vertical-align:middle;">
-        <input type="text" class="df-direct-input df-premium-input" data-field="analyst" data-sid="${s.id}" value="${esc(s.analyst)}" style="width:75px;" />
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
+        <input type="text" class="df-direct-input df-premium-input" data-field="analyst" data-sid="${s.id}" value="${esc(s.analyst)}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;text-align:center;" />
       </td>
-      <td style="text-align:center;vertical-align:middle;color:var(--text-muted);font-size:0.72rem;">
-        ${esc(s.updatedAt)}
+      <td style="text-align:center;vertical-align:middle;color:var(--text-muted);font-size:0.72rem;padding:3px 2px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;max-width:100%;box-sizing:border-box;">
+        ${s.updatedAt ? (() => {
+          const parts = String(s.updatedAt).trim().split(' ');
+          if (parts.length >= 2) {
+            return `<div style="font-weight:600;color:#e2e8f0;font-size:0.72rem;line-height:1.1;">${esc(parts[0])}</div><div style="font-size:0.68rem;color:#94a3b8;line-height:1.1;margin-top:2px;">${esc(parts[1])}</div>`;
+          }
+          return esc(s.updatedAt);
+        })() : '—'}
       </td>
-      <td style="vertical-align:middle;max-width:180px;">
-        <textarea class="df-direct-input df-premium-input" data-field="identify_trend" data-sid="${s.id}" rows="2" style="text-align:left;resize:vertical;line-height:1.3;">${esc(s.identify_trend)}</textarea>
+      <td style="vertical-align:middle;padding:4px 2px;">
+        <textarea class="df-direct-input df-premium-input" data-field="identify_trend" data-sid="${s.id}" rows="2" style="width:100%;max-width:100%;box-sizing:border-box;text-align:left;resize:vertical;line-height:1.3;padding:3px 4px;font-size:0.75rem;">${esc(s.identify_trend)}</textarea>
       </td>
-      <td style="text-align:center;vertical-align:middle;">
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
         <select class="df-direct-input df-premium-select-badge" data-field="act" data-sid="${s.id}" style="${getBadgeSelectStyle(s.act)}">
           <option value="" ${s.act === '' ? 'selected' : ''}>—</option>
           <option value="RẤT TÍCH CỰC" ${s.act === 'RẤT TÍCH CỰC' ? 'selected' : ''}>RẤT TÍCH CỰC</option>
@@ -602,30 +847,24 @@ function renderStockRow(s, idx) {
           <option value="TIÊU CỰC" ${s.act === 'TIÊU CỰC' ? 'selected' : ''}>TIÊU CỰC</option>
         </select>
       </td>
-      <td style="text-align:center;vertical-align:middle;">
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
         <input type="text" class="df-direct-input df-premium-input df-delta-rsi-input" data-field="delta_rsi"
-          data-sid="${s.id}" value="${esc(s.delta_rsi || '')}" placeholder="RSI 40-52"
-          aria-label="Delta RSI của ${esc(s.code_cp)}" />
+          data-sid="${s.id}" value="${esc(s.delta_rsi || '')}" placeholder=""
+          aria-label="Delta RSI của ${esc(s.code_cp)}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;text-align:center;" />
       </td>
-      <td style="text-align:center;vertical-align:middle;">
-        <select class="df-direct-input df-premium-select" data-field="rsi_mfi" data-sid="${s.id}" style="width:95px;">
-          ${(() => {
-            const opts = [...TREND_STRENGTH_OPTIONS];
-            if (s.rsi_mfi && !opts.some(o => o.code === s.rsi_mfi)) {
-              opts.push({ code: s.rsi_mfi, label: s.rsi_mfi });
-            }
-            return opts.map(opt => `<option value="${esc(opt.code)}" ${s.rsi_mfi === opt.code ? 'selected' : ''}>${esc(opt.label)}</option>`).join('');
-          })()}
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
+        <select class="df-direct-input df-premium-select" data-field="rsi_mfi" data-sid="${s.id}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;">
+          ${TREND_STRENGTH_OPTIONS.map(opt => `<option value="${esc(opt.code)}" ${s.rsi_mfi === opt.code ? 'selected' : ''}>${esc(opt.label)}</option>`).join('')}
         </select>
       </td>
-      <td style="text-align:center;vertical-align:middle;">
-        <input type="text" class="df-direct-input df-premium-input" data-field="trading_price_range" data-sid="${s.id}" value="${esc(s.trading_price_range || '')}" />
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
+        <input type="text" class="df-direct-input df-premium-input" data-field="trading_price_range" data-sid="${s.id}" value="${esc(s.trading_price_range || '')}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;text-align:center;" />
       </td>
-      <td style="text-align:center;vertical-align:middle;">
-        <input type="text" class="df-direct-input df-premium-input" data-field="resistance_range" data-sid="${s.id}" value="${esc(s.resistance_range || '')}" />
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
+        <input type="text" class="df-direct-input df-premium-input" data-field="resistance_range" data-sid="${s.id}" value="${esc(s.resistance_range || '')}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;text-align:center;" />
       </td>
-      <td style="text-align:center;vertical-align:middle;">
-        <input type="text" class="df-direct-input df-premium-input" data-field="support_range" data-sid="${s.id}" value="${esc(s.support_range || '')}" />
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
+        <input type="text" class="df-direct-input df-premium-input" data-field="support_range" data-sid="${s.id}" value="${esc(s.support_range || '')}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;text-align:center;" />
       </td>
       <td style="text-align:center;vertical-align:middle;">
         <span class="df-edit-row-btn" data-sid="${s.id}" style="cursor:pointer;color:#f59e0b;" title="Sửa dòng">✏️</span>
@@ -800,14 +1039,6 @@ function bindEvents() {
     }
   });
 
-  // Data type
-  container.querySelector('#df-data-type')?.addEventListener('change', (e) => {
-    dataType = e.target.value;
-    renderAll();
-  });
-
-
-
   // Search
   const searchInput = container.querySelector('#df-search');
   searchInput?.addEventListener('keydown', (e) => {
@@ -822,10 +1053,11 @@ function bindEvents() {
     renderAll();
   });
 
-  // Action filter toggle
+  // 1. Action filter toggle (Lọc Trạng thái Model)
   container.querySelector('#btn-toggle-action-filter')?.addEventListener('click', (e) => {
     e.stopPropagation();
     actionDropdownVisible = !actionDropdownVisible;
+    strengthDropdownVisible = false;
     industryDropdownVisible = false;
     renderAll();
   });
@@ -837,11 +1069,28 @@ function bindEvents() {
     });
   });
 
-  // Industry filter toggle
+  // 2. Strength filter toggle (Lọc Sức mạnh XH)
+  container.querySelector('#btn-toggle-strength-filter')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    strengthDropdownVisible = !strengthDropdownVisible;
+    actionDropdownVisible = false;
+    industryDropdownVisible = false;
+    renderAll();
+  });
+  container.querySelectorAll('.strength-filter-chk').forEach(chk => {
+    chk.addEventListener('change', () => {
+      if (chk.checked) selectedStrengths.add(chk.value);
+      else selectedStrengths.delete(chk.value);
+      renderAll();
+    });
+  });
+
+  // 3. Industry filter toggle (Lọc nhóm ngành)
   container.querySelector('#btn-toggle-industry-filter')?.addEventListener('click', (e) => {
     e.stopPropagation();
     industryDropdownVisible = !industryDropdownVisible;
     actionDropdownVisible = false;
+    strengthDropdownVisible = false;
     renderAll();
   });
   container.querySelectorAll('.industry-filter-chk').forEach(chk => {
@@ -856,9 +1105,24 @@ function bindEvents() {
   container.querySelector('#action-filter-dropdown')?.addEventListener('click', (e) => {
     e.stopPropagation();
   });
+  container.querySelector('#strength-filter-dropdown')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
   container.querySelector('#industry-filter-dropdown')?.addEventListener('click', (e) => {
     e.stopPropagation();
   });
+
+  // Close dropdowns on click outside
+  if (documentClickHandler) document.removeEventListener('click', documentClickHandler);
+  documentClickHandler = () => {
+    if (actionDropdownVisible || strengthDropdownVisible || industryDropdownVisible) {
+      actionDropdownVisible = false;
+      strengthDropdownVisible = false;
+      industryDropdownVisible = false;
+      renderAll();
+    }
+  };
+  document.addEventListener('click', documentClickHandler);
 
   // Select all checkbox
   container.querySelector('#chk-all-stocks')?.addEventListener('change', (e) => {
@@ -968,10 +1232,10 @@ function bindEvents() {
         stock[field] = typedVal;
         try {
           await saveStockField(sid, field, typedVal);
-          if (field === 'order' || field === 'act' || field === 'exchange' || field === 'industry' || field === 'code_cp') {
-            await loadStockData();
-            renderAll();
+          if (field === 'act') {
+            input.style.cssText = getBadgeSelectStyle(typedVal);
           }
+          renderAll();
         } catch (err) {
           // Revert on save failure
           stock[field] = oldValue;
@@ -999,6 +1263,72 @@ function bindEvents() {
       const sid = btn.dataset.sid;
       showEditStockModal(sid);
     });
+  });
+
+  // ── Resize mode buttons ──
+  container.querySelector('#btn-toggle-resize')?.addEventListener('click', () => {
+    if (!resizeMode) {
+      // Snapshot current pixel widths from DOM BEFORE re-rendering
+      const table = container.querySelector('.df-table');
+      if (table) {
+        const ths = table.querySelectorAll('thead th');
+        const widths = {};
+        ths.forEach((th, i) => {
+          widths[String(i)] = th.offsetWidth;
+        });
+        pendingColWidths = widths;
+      }
+      resizeMode = true;
+      pendingRowHeights = null;
+      renderAll();
+    }
+  });
+
+  container.querySelector('#btn-resize-ok')?.addEventListener('click', () => {
+    // Commit current DOM widths/heights
+    const table = container.querySelector('.df-table');
+    if (table) {
+      const ths = table.querySelectorAll('thead th');
+      const widths = {};
+      ths.forEach((th, i) => {
+        widths[String(i)] = Math.round(th.getBoundingClientRect().width);
+      });
+      savedColWidths = widths;
+      persistColWidths(widths);
+
+      // Save row heights from first td of each row
+      const rows = table.querySelectorAll('tbody tr');
+      const heights = {};
+      rows.forEach((row, i) => {
+        heights[String(i)] = Math.round(row.getBoundingClientRect().height);
+      });
+      savedRowHeights = heights;
+      persistRowHeights(heights);
+    }
+    pendingColWidths = null;
+    pendingRowHeights = null;
+    resizeMode = false;
+    showToast('✅ Đã lưu kích thước bảng thành công!');
+    renderAll();
+  });
+
+  container.querySelector('#btn-resize-cancel')?.addEventListener('click', () => {
+    pendingColWidths = null;
+    pendingRowHeights = null;
+    resizeMode = false;
+    renderAll();
+  });
+
+  container.querySelector('#btn-resize-reset')?.addEventListener('click', () => {
+    savedColWidths = null;
+    savedRowHeights = null;
+    pendingColWidths = null;
+    pendingRowHeights = null;
+    localStorage.removeItem('fintop_admin_table_col_widths');
+    localStorage.removeItem('fintop_admin_table_row_heights');
+    resizeMode = false;
+    showToast('↩ Đã đặt lại kích thước bảng mặc định.');
+    renderAll();
   });
 }
 
@@ -1031,6 +1361,109 @@ async function moveStock(sid, direction) {
     console.error('Error reordering stocks:', err);
     showToast('Lỗi đồng bộ thứ tự lên backend!', 'error');
   }
+}
+
+// ─────────────────────────────────────────────────────────────
+// COLUMN / ROW RESIZE — Helper Functions
+// ─────────────────────────────────────────────────────────────
+
+function buildThCell(colIndex, defaultWidth, content, extraClass) {
+  // Determine actual width: pending (preview from DOM snapshot) > saved (localStorage) > default %
+  let w = defaultWidth;
+  if (pendingColWidths && pendingColWidths[String(colIndex)] !== undefined) {
+    w = pendingColWidths[String(colIndex)] + 'px';
+  } else if (savedColWidths && savedColWidths[String(colIndex)] !== undefined) {
+    w = savedColWidths[String(colIndex)] + 'px';
+  }
+  const cls = extraClass ? ` class="${extraClass}"` : '';
+  const resHandle = resizeMode ? `<div class="df-col-resize-handle" data-col="${colIndex}"></div>` : '';
+  return `<th${cls} style="width:${w};min-width:30px;text-align:center;position:relative;">${content}${resHandle}</th>`;
+}
+
+function attachResizeHandlers() {
+  if (!container) return;
+  const table = container.querySelector('.df-table');
+  if (!table) return;
+
+  // ── Column resize: drag the right-edge handle of each <th> ──
+  const colHandles = table.querySelectorAll('.df-col-resize-handle');
+  colHandles.forEach(handle => {
+    handle.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const th = handle.parentElement;
+      const startX = e.clientX;
+      const startW = th.getBoundingClientRect().width;
+      handle.classList.add('active');
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+
+      const onMouseMove = (me) => {
+        me.preventDefault();
+        const diff = me.clientX - startX;
+        const newW = Math.max(30, startW + diff);
+        th.style.width = newW + 'px';
+        th.style.minWidth = newW + 'px';
+        th.style.maxWidth = newW + 'px';
+      };
+
+      const onMouseUp = () => {
+        handle.classList.remove('active');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
+  });
+
+  // ── Row resize: inject handle at bottom of each row's last-child td ──
+  const bodyRows = table.querySelectorAll('tbody tr');
+  bodyRows.forEach((row, rowIndex) => {
+    if (row.querySelector('.df-row-resize-handle')) return;
+    // Use the first visible td
+    const targetTd = row.querySelector('td');
+    if (!targetTd) return;
+    targetTd.style.position = 'relative';
+    const rowHandle = document.createElement('div');
+    rowHandle.className = 'df-row-resize-handle';
+    rowHandle.dataset.row = String(rowIndex);
+    targetTd.appendChild(rowHandle);
+
+    rowHandle.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const startY = e.clientY;
+      const startH = row.getBoundingClientRect().height;
+      rowHandle.classList.add('active');
+      document.body.style.cursor = 'row-resize';
+      document.body.style.userSelect = 'none';
+
+      const onMouseMove = (me) => {
+        me.preventDefault();
+        const diff = me.clientY - startY;
+        const newH = Math.max(28, startH + diff);
+        // Set height on every td in the row so it actually sticks
+        row.querySelectorAll('td').forEach(td => {
+          td.style.height = newH + 'px';
+        });
+      };
+
+      const onMouseUp = () => {
+        rowHandle.classList.remove('active');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
+  });
 }
 
 function reorderStocks() {
@@ -1076,8 +1509,8 @@ function showAddStockModal() {
             <input type="text" class="admin-input" id="add-industry-custom" placeholder="Gõ tên ngành mới tùy chỉnh..." style="display:none;margin-top:6px;border-color:#5e72e4;" />
           </div>
           <div class="admin-form-group">
-            <label>Người đảm nhận</label>
-            <input type="text" class="admin-input" id="add-analyst" placeholder="VD: Đình Hải" />
+            <label>Kiểm soát DL</label>
+            <input type="text" class="admin-input" id="add-analyst" placeholder="VD: FinTop DATA" />
           </div>
           <div class="admin-form-group">
             <label>Dữ liệu kỹ thuật lịch sử (Model)</label>
@@ -1096,12 +1529,14 @@ function showAddStockModal() {
           </div>
           <div class="admin-form-group">
             <label>ΔRSI</label>
-            <input type="text" class="admin-input" id="add-delta-rsi" placeholder="VD: RSI 40-52"
+            <input type="text" class="admin-input" id="add-delta-rsi" placeholder=""
               title="${esc(DELTA_RSI_HELP_TEXT)}" />
           </div>
           <div class="admin-form-group">
-            <label>Sức mạnh xu hướng Dòng tiền - RSI/MFI</label>
-            <input type="text" class="admin-input" id="add-rsi-mfi" placeholder="VD: TĂNG MẠNH" />
+            <label>Sức mạnh xu hướng RSI/MFI - Dòng tiền</label>
+            <select class="admin-select" id="add-rsi-mfi">
+              ${TREND_STRENGTH_OPTIONS.map(opt => `<option value="${esc(opt.code)}">${esc(opt.label)}</option>`).join('')}
+            </select>
           </div>
           <div class="admin-form-group">
             <label>Vùng kiểm định kỹ thuật</label>
@@ -1273,7 +1708,7 @@ function showEditStockModal(sid) {
             <input type="text" class="admin-input" id="es-industry-custom" value="${!INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) ? esc(stock.industry || '') : ''}" placeholder="Gõ tên ngành mới tùy chỉnh..." style="display:${!INDUSTRY_GROUPS.some(ig => ig.label === stock.industry) && stock.industry ? 'block' : 'none'};margin-top:6px;border-color:#5e72e4;" />
           </div>
           <div class="admin-form-group">
-            <label>Người đảm nhận</label>
+            <label>Kiểm soát DL</label>
             <input type="text" class="admin-input" id="es-analyst" value="${esc(stock.analyst || '')}" />
           </div>
           <div class="admin-form-group" style="grid-column: span 2;">
@@ -1294,11 +1729,13 @@ function showEditStockModal(sid) {
           <div class="admin-form-group">
             <label>ΔRSI</label>
             <input type="text" class="admin-input" id="es-delta-rsi" value="${esc(stock.delta_rsi || '')}"
-              placeholder="VD: RSI 40-52" title="${esc(DELTA_RSI_HELP_TEXT)}" />
+              placeholder="" title="${esc(DELTA_RSI_HELP_TEXT)}" />
           </div>
           <div class="admin-form-group">
-            <label>Sức mạnh xu hướng Dòng tiền - RSI/MFI</label>
-            <input type="text" class="admin-input" id="es-rsi-mfi" value="${esc(stock.rsi_mfi || '')}" />
+            <label>Sức mạnh xu hướng RSI/MFI - Dòng tiền</label>
+            <select class="admin-select" id="es-rsi-mfi">
+              ${TREND_STRENGTH_OPTIONS.map(opt => `<option value="${esc(opt.code)}" ${stock.rsi_mfi === opt.code ? 'selected' : ''}>${esc(opt.label)}</option>`).join('')}
+            </select>
           </div>
           <div class="admin-form-group">
             <label>Vùng kiểm định kỹ thuật</label>

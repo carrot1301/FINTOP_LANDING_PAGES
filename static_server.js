@@ -47,6 +47,10 @@ const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://localhost:${PORT}`);
   let pathname = parsedUrl.pathname;
 
+  if (pathname.startsWith('/fintop_frontend/')) {
+    pathname = pathname.replace('/fintop_frontend', '');
+  }
+
   if (pathname === '/data/stock-filter-data.js') {
     res.writeHead(403, {
       'Content-Type': 'text/plain; charset=utf-8',

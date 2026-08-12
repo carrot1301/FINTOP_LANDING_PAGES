@@ -913,22 +913,23 @@
 
         /* Dữ liệu kỹ thuật lịch sử */
         #bolocTable th:nth-child(7) {
-            width: 110px;
+            width: 125px;
         }
 
         /* Trạng thái Model */
         #bolocTable th:nth-child(8) {
-            width: 70px;
+            width: 125px;
         }
 
         /* Delta RSI */
         #bolocTable th:nth-child(9) {
-            width: 110px;
+            width: 75px;
         }
 
         /* Sức mạnh xu hướng */
         #bolocTable th:nth-child(10) {
-            width: 90px;
+            width: 170px;
+            min-width: 170px;
         }
 
         /* Vùng kiểm định */
@@ -997,16 +998,20 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-width: 112px;
-            padding: 6px 12px;
+            max-width: 100%;
+            padding: 4px 6px;
             border: 1px solid var(--status-border, rgba(226, 232, 240, 0.22));
             border-radius: 999px;
             background: var(--status-bg, rgba(148, 163, 184, 0.14));
             color: var(--status-text, #E2E8F0);
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             line-height: 1.2;
             letter-spacing: 0;
             box-shadow: var(--status-shadow, none);
+            box-sizing: border-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         #bolocTable .boloc-strength-cell {
@@ -1170,10 +1175,10 @@
         }
 
         .status-badge.very-positive {
-            background: rgba(16, 185, 129, 0.15);
-            color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
+            background: rgba(168, 85, 247, 0.2);
+            color: #c084fc;
+            border: 1px solid rgba(192, 132, 252, 0.45);
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.25);
         }
 
         .status-badge.positive {
@@ -4725,11 +4730,9 @@
                 <div class="dropdown-content" id="dc-stock-data">
                     <a href="javascript:void(0)" data-panel="panel-stock-quant"
                         onclick="openPanel('panel-stock-quant', this)">Tổng quan</a>
-                    <a href="javascript:void(0)" data-panel="panel-stock-pro"
-                        onclick="openPanel('panel-stock-pro', this)">PRO Data <span
+                    <a href="/stock-data/pro-data/index.html">PRO Data <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
-                    <a href="javascript:void(0)" data-panel="panel-stock-sector"
-                        onclick="openPanel('panel-stock-sector', this)">Định lượng</a>
+                    <a href="/stock-data/dinh-luong/index.html">Định lượng</a>
                     <a href="javascript:void(0)" data-panel="panel-stock-reports"
                         onclick="openPanel('panel-stock-reports', this)">Báo cáo</a>
                 </div>
@@ -4991,9 +4994,7 @@
                         <th>Ngành HĐKD</th>
                         <th>Update time</th>
                         <th>Dữ liệu kỹ thuật lịch sử (Model)</th>
-                        <th><span class="filterable-heading">Trạng thái Model <button class="table-filter-btn"
-                                    type="button" title="Lọc Trạng thái Model"
-                                    onclick="focusBolocFilter('status')">▾</button></span></th>
+                        <th>Trạng thái Model</th>
                         <th class="boloc-delta-rsi-header" style="position: relative;">
                             <div class="delta-rsi-wrapper" style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
                                 <span class="delta-rsi-heading">ΔRSI</span>
@@ -5003,9 +5004,17 @@
                                 </div>
                             </div>
                         </th>
-                        <th><span class="filterable-heading">Sức mạnh xu hướng<br>Dòng tiền - RSI/MFI <button
-                                    class="table-filter-btn" type="button" title="Lọc Sức mạnh xu hướng"
-                                    onclick="focusBolocFilter('strength')">▾</button></span></th>
+                        <th style="min-width:170px;">
+                            <div class="delta-rsi-wrapper" style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
+                                <span style="display:inline-block;text-align:center;line-height:1.25;">
+                                    <span style="white-space:nowrap;display:block;">Sức mạnh xu hướng</span>
+                                    <span style="white-space:nowrap;display:block;">RSI/MFI - Dòng tiền <span class="delta-rsi-info-button" id="bolocStrengthInfoButton">(i)</span></span>
+                                </span>
+                                <div class="delta-rsi-hover-box" style="width: 260px;">
+                                    Ghi nhận giá trị khi ΔRSI &gt; 0 và Trạng thái Model thuộc &quot;Khả quan&quot;, &quot;Tích cực&quot;, &quot;Rất tích cực&quot;. Gán nhãn &quot;Tăng&quot;, &quot;Tăng dần&quot;, &quot;Tăng mạnh&quot; theo tốc độ tăng của RSI/MFI - Dòng tiền và biên độ ΔRSI.
+                                </div>
+                            </div>
+                        </th>
                         <th>Vùng kiểm định<br>kỹ thuật</th>
                         <th>Vùng kháng cự<br>kỹ thuật</th>
                         <th>Vùng hỗ trợ<br>kỹ thuật</th>
@@ -7464,10 +7473,10 @@
 
         const BOLOC_STATUS_COLORS = {
             'RẤT TÍCH CỰC': {
-                bg: 'linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3))',
-                text: '#FCE7F3',
-                border: 'rgba(244, 114, 182, 0.78)',
-                shadow: '0 0 8px rgba(236, 72, 153, 0.55), 0 0 18px rgba(168, 85, 247, 0.42)'
+                bg: 'rgba(168, 85, 247, 0.2)',
+                text: '#c084fc',
+                border: 'rgba(192, 132, 252, 0.45)',
+                shadow: '0 0 10px rgba(168, 85, 247, 0.25)'
             },
             'TÍCH CỰC': {
                 bg: 'rgba(16, 185, 129, 0.18)',
