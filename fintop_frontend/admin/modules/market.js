@@ -486,6 +486,7 @@ function renderAll() {
         word-break: break-word !important;
         overflow-wrap: break-word !important;
         vertical-align: middle;
+        overflow: visible !important;
       }
       .df-table.resize-mode {
         user-select: none;
@@ -497,17 +498,26 @@ function renderAll() {
         white-space: normal !important;
         word-break: break-word !important;
         overflow-wrap: break-word !important;
-        overflow: visible;
+        overflow: visible !important;
         text-overflow: clip;
       }
       .df-direct-input,
+      .df-premium-input {
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        height: auto !important;
+        min-height: 28px !important;
+      }
       .df-premium-select,
-      .df-premium-input,
       .df-premium-select-badge,
       .df-industry-select {
         white-space: normal !important;
         word-break: break-word !important;
         overflow-wrap: break-word !important;
+        height: auto !important;
+        min-height: 30px !important;
+        overflow: visible !important;
       }
       .df-table.resize-mode th {
         position: relative;
@@ -825,25 +835,25 @@ function renderStockRow(s, idx) {
       <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
         <input type="text" class="df-direct-input df-premium-input" data-field="code_cp" data-sid="${s.id}" value="${esc(s.code_cp)}" style="width:100%;max-width:100%;box-sizing:border-box;color:var(--purple-glow);font-weight:600;text-transform:uppercase;text-align:center;padding:3px 2px;font-size:0.75rem;" />
       </td>
-      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
-        <select class="df-direct-input df-premium-select" data-field="exchange" data-sid="${s.id}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;">
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;overflow:visible;">
+        <select class="df-direct-input df-premium-select" data-field="exchange" data-sid="${s.id}" style="width:100%;max-width:100%;box-sizing:border-box;padding:4px 3px;font-size:0.75rem;height:auto;min-height:30px;">
           <option value="HOSE" ${s.exchange === 'HOSE' ? 'selected' : ''}>HOSE</option>
           <option value="HNX" ${s.exchange === 'HNX' ? 'selected' : ''}>HNX</option>
           <option value="UPCOM" ${s.exchange === 'UPCOM' ? 'selected' : ''}>UPCOM</option>
         </select>
       </td>
-      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
-        <select class="df-direct-input df-premium-select df-industry-select" data-field="industry" data-sid="${s.id}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;">
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;overflow:visible;">
+        <select class="df-direct-input df-premium-select df-industry-select" data-field="industry" data-sid="${s.id}" style="width:100%;max-width:100%;box-sizing:border-box;padding:4px 3px;font-size:0.75rem;height:auto;min-height:30px;">
           <option value="__CUSTOM__" ${!INDUSTRY_GROUPS.some(ig => ig.label === s.industry) && s.industry ? 'selected' : ''}>
             ${!INDUSTRY_GROUPS.some(ig => ig.label === s.industry) && s.industry ? esc(s.industry) : '✍️ Tự nhập khác...'}
           </option>
           ${INDUSTRY_GROUPS.map(ig => `<option value="${esc(ig.label)}" ${s.industry === ig.label ? 'selected' : ''}>${esc(ig.label)}</option>`).join('')}
         </select>
       </td>
-      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
-        <input type="text" class="df-direct-input df-premium-input" data-field="analyst" data-sid="${s.id}" value="${esc(s.analyst)}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;text-align:center;" />
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;overflow:visible;">
+        <input type="text" class="df-direct-input df-premium-input" data-field="analyst" data-sid="${s.id}" value="${esc(s.analyst)}" style="width:100%;max-width:100%;box-sizing:border-box;padding:4px 3px;font-size:0.75rem;text-align:center;height:auto;min-height:28px;" />
       </td>
-      <td style="text-align:center;vertical-align:middle;color:var(--text-muted);font-size:0.72rem;padding:3px 2px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;max-width:100%;box-sizing:border-box;">
+      <td style="text-align:center;vertical-align:middle;color:var(--text-muted);font-size:0.72rem;padding:3px 2px;line-height:1.2;overflow:visible;max-width:100%;box-sizing:border-box;">
         ${s.updatedAt ? (() => {
           const parts = String(s.updatedAt).trim().split(' ');
           if (parts.length >= 2) {
@@ -866,13 +876,13 @@ function renderStockRow(s, idx) {
           <option value="TIÊU CỰC" ${s.act === 'TIÊU CỰC' ? 'selected' : ''}>TIÊU CỰC</option>
         </select>
       </td>
-      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;overflow:visible;">
         <input type="text" class="df-direct-input df-premium-input df-delta-rsi-input" data-field="delta_rsi"
           data-sid="${s.id}" value="${esc(s.delta_rsi || '')}" placeholder=""
-          aria-label="Delta RSI của ${esc(s.code_cp)}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;text-align:center;" />
+          aria-label="Delta RSI của ${esc(s.code_cp)}" style="width:100%;max-width:100%;box-sizing:border-box;padding:4px 3px;font-size:0.75rem;text-align:center;height:auto;min-height:28px;" />
       </td>
-      <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
-        <select class="df-direct-input df-premium-select" data-field="rsi_mfi" data-sid="${s.id}" style="width:100%;max-width:100%;box-sizing:border-box;padding:3px 2px;font-size:0.75rem;">
+      <td style="text-align:center;vertical-align:middle;padding:4px 2px;overflow:visible;">
+        <select class="df-direct-input df-premium-select" data-field="rsi_mfi" data-sid="${s.id}" style="width:100%;max-width:100%;box-sizing:border-box;padding:4px 3px;font-size:0.75rem;height:auto;min-height:30px;">
           ${TREND_STRENGTH_OPTIONS.map(opt => `<option value="${esc(opt.code)}" ${s.rsi_mfi === opt.code ? 'selected' : ''}>${esc(opt.label)}</option>`).join('')}
         </select>
       </td>
