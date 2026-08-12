@@ -4972,14 +4972,55 @@
         </div>
 
         <div class="boloc-filter-bar">
-            <select class="boloc-filter-select" id="bolocStatusFilter" onchange="setBolocFilter('status', this.value)"
-                aria-label="Lọc Trạng thái Model">
-                <option value="">Tất cả Trạng thái Model</option>
-            </select>
-            <select class="boloc-filter-select" id="bolocStrengthFilter"
-                onchange="setBolocFilter('strength', this.value)" aria-label="Lọc Sức mạnh xu hướng">
-                <option value="">Tất cả Sức mạnh xu hướng</option>
-            </select>
+            <!-- Multi-select: Trạng thái Model -->
+            <div class="boloc-dropdown-group" style="position:relative;display:inline-block;">
+                <button type="button" class="boloc-filter-btn-select" id="btnBolocPanelStatusFilter"
+                    style="padding: 9px 14px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.85); color: #e2e8f0; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                    Lọc Trạng thái Model <span id="bolocPanelStatusBadge" style="color:#c084fc;font-weight:700;">(Tất cả)</span> ▾
+                </button>
+                <div id="dropdownBolocPanelStatus" class="boloc-filter-dropdown"
+                    style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:1010;width:200px;background:#12101d;border:1px solid rgba(168,85,247,0.4);border-radius:10px;padding:6px 0;box-shadow:0 10px 30px rgba(0,0,0,0.85);">
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-status-chk" value="RẤT TÍCH CỰC"> <span>RẤT TÍCH CỰC</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-status-chk" value="TÍCH CỰC"> <span>TÍCH CỰC</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-status-chk" value="KHẢ QUAN"> <span>KHẢ QUAN</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-status-chk" value="TRUNG LẬP"> <span>TRUNG LẬP</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-status-chk" value="KO TÍCH CỰC"> <span>KO TÍCH CỰC</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-status-chk" value="TIÊU CỰC"> <span>TIÊU CỰC</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Multi-select: Sức mạnh xu hướng -->
+            <div class="boloc-dropdown-group" style="position:relative;display:inline-block;">
+                <button type="button" class="boloc-filter-btn-select" id="btnBolocPanelStrengthFilter"
+                    style="padding: 9px 14px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.85); color: #e2e8f0; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                    Lọc Sức mạnh xu hướng <span id="bolocPanelStrengthBadge" style="color:#67e8f9;font-weight:700;">(Tất cả)</span> ▾
+                </button>
+                <div id="dropdownBolocPanelStrength" class="boloc-filter-dropdown"
+                    style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:1010;width:200px;background:#12101d;border:1px solid rgba(168,85,247,0.4);border-radius:10px;padding:6px 0;box-shadow:0 10px 30px rgba(0,0,0,0.85);">
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-strength-chk" value="TĂNG MẠNH"> <span>TĂNG MẠNH</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-strength-chk" value="TĂNG"> <span>TĂNG</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-strength-chk" value="TĂNG DẦN"> <span>TĂNG DẦN</span>
+                    </label>
+                </div>
+            </div>
+
             <button class="boloc-filter-reset" type="button" onclick="resetBolocFilters()">Xóa lọc</button>
         </div>
 
@@ -7444,7 +7485,12 @@
                 const synced = localStorage.getItem('fintop_stock_filter_sync');
                 if (synced) {
                     const parsed = JSON.parse(synced);
-                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        return parsed.filter(item => {
+                            const st = normalizeBolocLabel(item.trend || item.strength || item.rsi_mfi || item.rsiMfi);
+                            return BOLOC_BULLISH_STRENGTHS.has(st);
+                        });
+                    }
                 }
             } catch (e) { }
             return [];
@@ -7469,7 +7515,10 @@
         // Track searched tickers
         let searchedTickers = [];
         let bolocRendered = false;
-        let bolocFilters = { status: '', strength: '' };
+        let bolocFilters = {
+            selectedStatuses: new Set(),
+            selectedStrengths: new Set()
+        };
 
         const BOLOC_STATUS_COLORS = {
             'RẤT TÍCH CỰC': {
@@ -8164,47 +8213,92 @@
 
         function getFilteredBolocData() {
             return BOLOC_DATA.filter((row) => {
-                const statusText = getBolocStatusText(row);
-                const strengthText = getBolocStrengthText(row);
-                const matchesStatus = !bolocFilters.status || statusText === bolocFilters.status;
-                const matchesStrength = !bolocFilters.strength || strengthText === bolocFilters.strength;
+                const statusText = normalizeBolocLabel(getBolocStatusText(row));
+                const strengthText = normalizeBolocLabel(getBolocStrengthText(row));
+
+                const matchesStatus = bolocFilters.selectedStatuses.size === 0 || bolocFilters.selectedStatuses.has(statusText);
+                const matchesStrength = bolocFilters.selectedStrengths.size === 0 || bolocFilters.selectedStrengths.has(strengthText);
+
                 return matchesStatus && matchesStrength;
             });
         }
 
         function populateBolocFilterOptions() {
-            const statusSelect = document.getElementById('bolocStatusFilter');
-            const strengthSelect = document.getElementById('bolocStrengthFilter');
-            if (!statusSelect || !strengthSelect) return;
-
-            const statuses = [...new Set(BOLOC_DATA.map(getBolocStatusText).filter(Boolean))];
-            const strengths = [...new Set(BOLOC_DATA.map(getBolocStrengthText).filter(Boolean))];
-
-            const selectedStatus = bolocFilters.status;
-            const selectedStrength = bolocFilters.strength;
-            statusSelect.innerHTML = '<option value="">Tất cả Trạng thái Model</option>' +
-                statuses.map((status) => `<option value="${escapeHtml(status)}">${escapeHtml(status)}</option>`).join('');
-            strengthSelect.innerHTML = '<option value="">Tất cả Sức mạnh xu hướng</option>' +
-                strengths.map((strength) => `<option value="${escapeHtml(strength)}">${escapeHtml(strength)}</option>`).join('');
-            statusSelect.value = selectedStatus;
-            strengthSelect.value = selectedStrength;
+            // Replaced by multi-select checkboxes UI
         }
 
+        function initBolocPanelMultiSelect() {
+            const btnStatus = document.getElementById('btnBolocPanelStatusFilter');
+            const dropdownStatus = document.getElementById('dropdownBolocPanelStatus');
+            const statusBadge = document.getElementById('bolocPanelStatusBadge');
+
+            btnStatus?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (dropdownStatus) dropdownStatus.style.display = dropdownStatus.style.display === 'block' ? 'none' : 'block';
+                const dropdownStr = document.getElementById('dropdownBolocPanelStrength');
+                if (dropdownStr) dropdownStr.style.display = 'none';
+            });
+
+            document.querySelectorAll('.boloc-panel-status-chk').forEach(chk => {
+                chk.addEventListener('change', () => {
+                    const val = normalizeBolocLabel(chk.value);
+                    if (chk.checked) bolocFilters.selectedStatuses.add(val);
+                    else bolocFilters.selectedStatuses.delete(val);
+
+                    if (statusBadge) {
+                        statusBadge.textContent = bolocFilters.selectedStatuses.size > 0 ? `(${bolocFilters.selectedStatuses.size})` : '(Tất cả)';
+                    }
+                    renderBolocTable();
+                });
+            });
+
+            const btnStrength = document.getElementById('btnBolocPanelStrengthFilter');
+            const dropdownStrength = document.getElementById('dropdownBolocPanelStrength');
+            const strengthBadge = document.getElementById('bolocPanelStrengthBadge');
+
+            btnStrength?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (dropdownStrength) dropdownStrength.style.display = dropdownStrength.style.display === 'block' ? 'none' : 'block';
+                if (dropdownStatus) dropdownStatus.style.display = 'none';
+            });
+
+            document.querySelectorAll('.boloc-panel-strength-chk').forEach(chk => {
+                chk.addEventListener('change', () => {
+                    const val = normalizeBolocLabel(chk.value);
+                    if (chk.checked) bolocFilters.selectedStrengths.add(val);
+                    else bolocFilters.selectedStrengths.delete(val);
+
+                    if (strengthBadge) {
+                        strengthBadge.textContent = bolocFilters.selectedStrengths.size > 0 ? `(${bolocFilters.selectedStrengths.size})` : '(Tất cả)';
+                    }
+                    renderBolocTable();
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#btnBolocPanelStatusFilter') && !e.target.closest('#dropdownBolocPanelStatus')) {
+                    if (dropdownStatus) dropdownStatus.style.display = 'none';
+                }
+                if (!e.target.closest('#btnBolocPanelStrengthFilter') && !e.target.closest('#dropdownBolocPanelStrength')) {
+                    if (dropdownStrength) dropdownStrength.style.display = 'none';
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', initBolocPanelMultiSelect);
+
         function setBolocFilter(type, value) {
-            if (!hasBolocAccess()) {
-                openBolocLogin('login');
-                return;
-            }
-            bolocFilters[type] = value;
             renderBolocTable();
         }
 
         function resetBolocFilters() {
-            if (!hasBolocAccess()) {
-                openBolocLogin('login');
-                return;
-            }
-            bolocFilters = { status: '', strength: '' };
+            bolocFilters.selectedStatuses.clear();
+            bolocFilters.selectedStrengths.clear();
+            document.querySelectorAll('.boloc-panel-status-chk').forEach(c => { c.checked = false; });
+            document.querySelectorAll('.boloc-panel-strength-chk').forEach(c => { c.checked = false; });
+            const statusBadge = document.getElementById('bolocPanelStatusBadge');
+            const strengthBadge = document.getElementById('bolocPanelStrengthBadge');
+            if (statusBadge) statusBadge.textContent = '(Tất cả)';
+            if (strengthBadge) strengthBadge.textContent = '(Tất cả)';
             renderBolocTable();
         }
 
@@ -9029,7 +9123,7 @@
         }
 
         function mapStockPricesToFilter(rows) {
-            return rows.map((row) => ({
+            const mapped = rows.map((row) => ({
                 ticker: row.ticker,
                 san: row.exchange || row.san || '',
                 nganh: row.industry || row.nganh || row.sector || '',
@@ -9048,6 +9142,11 @@
                 change_pct: row.change_pct,
                 updated_at: row.updated_at
             }));
+
+            return mapped.filter(item => {
+                const st = normalizeBolocLabel(item.trend);
+                return BOLOC_BULLISH_STRENGTHS.has(st);
+            });
         }
 
         function mapStockPricesToSearch(rows) {

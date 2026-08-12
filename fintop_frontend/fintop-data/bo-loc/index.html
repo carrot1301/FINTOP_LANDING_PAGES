@@ -505,7 +505,7 @@
         <!-- Filter Toolbar -->
         <div class="filter-toolbar"
             style="display: flex; gap: 12px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center;">
-            <input type="text" id="stockFilterSearch" placeholder="Tìm mã cổ phiếu..."
+            <input type="text" id="stockFilterSearch" placeholder="Tìm mã cổ phiếu / ngành..."
                 style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #fff; width: 220px; outline: none; font-size: 0.95rem; transition: border-color 0.2s;">
 
             <select id="filterSan"
@@ -516,17 +516,643 @@
                 <option value="UPCOM">UPCOM</option>
             </select>
 
-            <select id="filterAct"
-                style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #cbd5e1; outline: none; font-size: 0.95rem; cursor: pointer; transition: border-color 0.2s;">
-                <option value="">Tất cả hành động</option>
-                <option value="RẤT TÍCH CỰC">RẤT TÍCH CỰC</option>
-                <option value="TÍCH CỰC">TÍCH CỰC</option>
-                <option value="KHẢ QUAN">KHẢ QUAN</option>
-                <option value="TRUNG LẬP">TRUNG LẬP</option>
-                <option value="KO TÍCH CỰC">KO TÍCH CỰC</option>
-                <option value="TIÊU CỰC">TIÊU CỰC</option>
-            </select>
+            <!-- Multi-select: Trạng thái Model -->
+            <div class="boloc-dropdown-group" style="position:relative;display:inline-block;">
+                <button type="button" class="boloc-filter-btn-select" id="btnFilterAct"
+                    style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #cbd5e1; outline: none; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                    Lọc Trạng thái Model <span id="actBadgeText" style="color:#c084fc;font-weight:700;">(Tất cả)</span> ▾
+                </button>
+                <div id="dropdownAct" class="boloc-filter-dropdown"
+                    style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:1010;width:200px;background:#12101d;border:1px solid rgba(168,85,247,0.4);border-radius:10px;padding:6px 0;box-shadow:0 10px 30px rgba(0,0,0,0.85);">
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="act-chk" value="RẤT TÍCH CỰC"> <span>RẤT TÍCH CỰC</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="act-chk" value="TÍCH CỰC"> <span>TÍCH CỰC</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="act-chk" value="KHẢ QUAN"> <span>KHẢ QUAN</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="act-chk" value="TRUNG LẬP"> <span>TRUNG LẬP</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="act-chk" value="KO TÍCH CỰC"> <span>KO TÍCH CỰC</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="act-chk" value="TIÊU CỰC"> <span>TIÊU CỰC</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Multi-select: Sức mạnh xu hướng -->
+            <div class="boloc-dropdown-group" style="position:relative;display:inline-block;">
+                <button type="button" class="boloc-filter-btn-select" id="btnFilterStrength"
+                    style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.25); background: rgba(15,15,25,0.7); color: #cbd5e1; outline: none; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                    Lọc Sức mạnh xu hướng <span id="strengthBadgeText" style="color:#67e8f9;font-weight:700;">(Tất cả)</span> ▾
+                </button>
+                <div id="dropdownStrength" class="boloc-filter-dropdown"
+                    style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:1010;width:200px;background:#12101d;border:1px solid rgba(168,85,247,0.4);border-radius:10px;padding:6px 0;box-shadow:0 10px 30px rgba(0,0,0,0.85);">
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="strength-chk" value="TĂNG MẠNH"> <span>TĂNG MẠNH</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="strength-chk" value="TĂNG"> <span>TĂNG</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="strength-chk" value="TĂNG DẦN"> <span>TĂNG DẦN</span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="button" id="btnResetFilters"
+                style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(192, 132, 252, 0.36); background: rgba(168, 85, 247, 0.14); color: #e9d5ff; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.2s;">
+                Xóa lọc
+            </button>
         </div>
+
+        <div class="data-table-wrapper"
+            style="background: rgba(15, 15, 25, 0.6); border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px; overflow-x: auto; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div class="boloc-table-title">
+                [FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ
+            </div>
+            <table class="data-table"
+                style="width: 100%; min-width: 1090px; table-layout: fixed; border-collapse: collapse; text-align: center; font-size: 0.78rem; color: #cbd5e1;">
+                <thead>
+                    <tr
+                        style="background: rgba(168, 85, 247, 0.08); border-bottom: 1px solid rgba(168, 85, 247, 0.15);">
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 35px;">
+                            STT</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 65px;">
+                            Mã CP</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 50px;">
+                            Sàn</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
+                            Ngành HĐKD</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 80px;">
+                            Cập nhật</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 200px;">
+                            Dữ liệu kỹ thuật lịch sử (Model)</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 125px;">
+                            Trạng thái Model</th>
+                        <th class="boloc-delta-rsi-header" style="padding: 8px 4px; text-align: center; width: 70px; position: relative;">
+                            <div class="delta-rsi-wrapper" style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
+                                <span class="delta-rsi-heading">ΔRSI</span>
+                                <span class="delta-rsi-info-button" id="deltaRsiInfoButton">(i)</span>
+                                <div class="delta-rsi-hover-box">
+                                    Biên độ dao động RSI, ghi nhận giá trị trong khoảng RSI 35–65 trên thang điểm 100.
+                                </div>
+                            </div>
+                        </th>
+                        <th style="padding: 8px 4px; text-align: center; width: 170px;">
+                            <div class="delta-rsi-wrapper" style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
+                                <span style="display:inline-block;text-align:center;line-height:1.25;">
+                                    <span style="white-space:nowrap;display:block;color:#c084fc;font-weight:700;font-size:0.72rem;">Sức mạnh xu hướng</span>
+                                    <span style="white-space:nowrap;display:block;color:#c084fc;font-weight:700;font-size:0.72rem;">RSI/MFI - Dòng tiền <span class="delta-rsi-info-button" id="boLocStrengthInfoBtn">(i)</span></span>
+                                </span>
+                                <div class="delta-rsi-hover-box" style="width: 260px;">
+                                    Ghi nhận giá trị khi ΔRSI &gt; 0 và Trạng thái Model thuộc &quot;Khả quan&quot;, &quot;Tích cực&quot;, &quot;Rất tích cực&quot;. Gán nhãn &quot;Tăng&quot;, &quot;Tăng dần&quot;, &quot;Tăng mạnh&quot; theo tốc độ tăng của RSI/MFI - Dòng tiền và biên độ ΔRSI.
+                                </div>
+                            </div>
+                        </th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 90px;">
+                            Vùng kiểm định<br>kỹ thuật</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">
+                            Vùng kháng cự<br>kỹ thuật</th>
+                        <th
+                            style="padding: 8px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">
+                            Vùng hỗ trợ<br>kỹ thuật</th>
+                    </tr>
+                </thead>
+                <tbody id="bolocBody">
+                    <tr>
+                        <td colspan="12" style="text-align:center; padding: 2rem; color: #64748b;">Đang tải dữ liệu bộ
+                            lọc cổ phiếu...</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Removed old lock overlay — access popups are now inline per-cell -->
+        </div>
+        <div class="delta-rsi-tooltip" id="deltaRsiTooltip" role="tooltip" hidden>
+            Biên độ dao động RSI, ghi nhận giá trị trong khoảng RSI 35-65 trên thang điểm 100.
+        </div>
+    </main>
+
+    <!-- Tier Access Popup Modal (shared by both guest + standard) -->
+    <div class="tier-popup-overlay" id="tierPopupOverlay" hidden>
+        <div class="tier-popup-card" id="tierPopupCard">
+            <!-- Content injected dynamically by JS -->
+        </div>
+    </div>
+
+    <!-- Guide Popup Modal -->
+    <div class="guide-overlay" id="guideOverlay" hidden>
+        <div class="guide-card">
+            <h2>HƯỚNG DẪN SỬ DỤNG BỘ LỌC</h2>
+            <div class="guide-section">
+                Bảng tổng hợp danh mục cổ phiếu theo <strong>Trạng thái</strong> và <strong>Kết quả thuật toán của Mô
+                    hình (Model)</strong> theo phương pháp phân tích định lượng được trích xuất hoàn toàn tự động và
+                tổng hợp theo các nhóm ngành. Đây là công cụ <strong>lọc</strong> và <strong>phân loại dữ liệu</strong>
+                khách quan, hỗ trợ người dùng có thêm góc nhìn tổng quan về thị trường.
+            </div>
+            <div class="guide-section">
+                Thuật toán Mô hình (Model) sử dụng AI phân tích và các <strong>Indicators</strong> (MA, Bollinger Band -
+                Kênh xu hướng, RSI, Nến, ...) trên các khung thời gian để hiển thị các <strong>Trạng thái Mô hình
+                    (Model)</strong>.
+            </div>
+            <hr class="guide-divider">
+            <div class="guide-disclaimer-title">MIỄN TRỪ TRÁCH NHIỆM !</div>
+            <div class="guide-disclaimer">
+                Dữ liệu chỉ mang tính chất tham khảo, không khuyến nghị và tư vấn đầu tư.
+                <strong>Người dùng chịu hoàn toàn trách nhiệm trước các quyết định đầu tư của mình.</strong>
+            </div>
+            <button class="guide-agree-btn" id="guideAgreeBtn" type="button">TÔI ĐỒNG Ý</button>
+        </div>
+    </div>
+
+    <style>
+        @keyframes bolocFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes bolocScaleIn {
+            from {
+                transform: scale(0.94);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .tier-popup-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(6px);
+            animation: bolocFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .tier-popup-overlay[hidden] {
+            display: none;
+        }
+
+        .tier-popup-card {
+            width: min(460px, calc(100vw - 32px));
+            border-radius: 16px;
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            background: rgba(12, 12, 22, 0.96);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(168, 85, 247, 0.08);
+            padding: 2.5rem 2rem 2rem;
+            text-align: center;
+            animation: bolocScaleIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .tier-popup-card .popup-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tier-popup-card h2 {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .tier-popup-card p {
+            color: #94a3b8;
+            font-size: 0.92rem;
+            line-height: 1.65;
+            margin-bottom: 1.5rem;
+        }
+
+        .tier-popup-card .popup-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tier-popup-card .popup-btn-primary {
+            border: 0;
+            border-radius: 10px;
+            padding: 12px 28px;
+            color: #fff;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+            transition: all 0.25s;
+        }
+
+        .tier-popup-card .popup-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+        }
+
+        .tier-popup-card .popup-btn-secondary {
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            border-radius: 10px;
+            padding: 12px 28px;
+            color: #94a3b8;
+            background: transparent;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .tier-popup-card .popup-btn-secondary:hover {
+            border-color: rgba(148, 163, 184, 0.6);
+            color: #fff;
+        }
+
+        /* ── Eye reveal button in table cells ── */
+        .reveal-eye-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 6px;
+            padding: 3px 8px;
+            cursor: pointer;
+            color: #a78bfa;
+            font-size: 0.78rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .reveal-eye-btn:hover {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.5);
+            color: #c4b5fd;
+        }
+
+        .masked-cell {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .masked-text {
+            color: #475569;
+            font-weight: 700;
+            letter-spacing: 2px;
+            user-select: none;
+        }
+    </style>
+
+    <footer class="page-footer" style="margin-top: 3rem;">
+        <p>&copy; 2026 FinTop DATA. Bảo lưu mọi quyền.</p>
+    </footer>
+
+    <!-- Core Infrastructure Bootstrap -->
+    <script src="../../assets/js/auth.js" defer></script>
+    <script type="module" src="../../assets/js/core/index.js"></script>
+    <script>
+        (function () {
+            let filterData = [];
+            let selectedActSet = new Set();
+            let selectedStrengthSet = new Set();
+
+            const CUSTOMER_STRENGTHS = new Set(['TĂNG MẠNH', 'TĂNG', 'TĂNG DẦN']);
+
+            function getCustomerStrengthText(value) {
+                const label = String(value || '').trim().toUpperCase().replace(/\s+/g, ' ');
+                return CUSTOMER_STRENGTHS.has(label) ? label : '';
+            }
+
+            // ── DOM Elements ──
+            const tbody = document.getElementById('bolocBody');
+            const searchInput = document.getElementById('stockFilterSearch');
+            const filterSan = document.getElementById('filterSan');
+            const tierPopupOverlay = document.getElementById('tierPopupOverlay');
+            const tierPopupCard = document.getElementById('tierPopupCard');
+
+            function escapeHtml(value) {
+                const element = document.createElement('div');
+                element.textContent = String(value ?? '');
+                return element.innerHTML;
+            }
+
+            // ── Tier helpers ──
+            const PRO_TIERS = ['SILVER', 'GOLD', 'DIAMOND'];
+
+            function isLoggedIn() {
+                return Boolean(window.FintopInfra?.AuthManager?.isAuthenticated);
+            }
+
+            function getUserTier() {
+                if (!isLoggedIn()) return null; // guest
+                return window.FintopInfra?.AuthManager?.tierLevel || 'STANDARD';
+            }
+
+            function hasProAccess() {
+                const tier = getUserTier();
+                return tier && PRO_TIERS.includes(tier.toUpperCase());
+            }
+
+            window.continueBolocAuth = function (view) {
+                const authView = view === 'register' ? 'register' : 'login';
+                sessionStorage.setItem('fintop_auth_choice_confirmed', authView);
+                sessionStorage.setItem('fintop_login_redirect', window.location.href);
+                window.location.href = `../../index.html#${authView}`;
+            };
+
+            // ── Popup logic ──
+            function showGuestLoginPopup() {
+                tierPopupCard.innerHTML = `
+                    <div class="popup-icon">🔒</div>
+                    <h2>Bạn muốn đăng nhập hoặc đăng ký để tiếp tục?</h2>
+                    <p>Mã cổ phiếu và nhóm ngành chỉ hiển thị cho tài khoản đã đăng nhập.<br>Vui lòng đăng nhập hoặc đăng ký tài khoản để tiếp tục.</p>
+                    <div class="popup-actions">
+                        <button class="popup-btn-primary" onclick="continueBolocAuth('login')">Đăng nhập</button>
+                        <button class="popup-btn-secondary" onclick="continueBolocAuth('register')">Đăng ký</button>
+                        <button class="popup-btn-secondary" onclick="closeTierPopup()">Quay lại</button>
+                    </div>
+                `;
+                tierPopupOverlay.hidden = false;
+            }
+
+            function showUpgradePopup() {
+                tierPopupCard.innerHTML = `
+                    <div class="popup-icon">⭐</div>
+                    <h2>Nâng cấp gói PRO để xem chi tiết</h2>
+                    <p>Chức năng <strong>Bộ Lọc Cổ Phiếu</strong> chi tiết (Mã CP, Nhóm ngành) được cung cấp cho các tài khoản <strong>PRO trở lên</strong> (PRO, V.I.P, DIAMOND).<br><br>Hãy nâng cấp gói dịch vụ để xem dữ liệu chi tiết và trải nghiệm đầy đủ công cụ phân tích.</p>
+                    <div class="popup-actions">
+                        <button class="popup-btn-primary" onclick="window.location.href='../../index.html#panel-hoivien'">Nâng cấp gói dịch vụ</button>
+                        <button class="popup-btn-secondary" onclick="closeTierPopup()">Đóng</button>
+                    </div>
+                `;
+                tierPopupOverlay.hidden = false;
+            }
+
+            function closeTierPopup() {
+                tierPopupOverlay.hidden = true;
+            }
+            window.closeTierPopup = closeTierPopup;
+
+            function handleEyeClick() {
+                if (!isLoggedIn()) {
+                    showGuestLoginPopup();
+                } else {
+                    showUpgradePopup();
+                }
+            }
+            window.handleEyeClick = handleEyeClick;
+
+            // Close popup on overlay click (outside card)
+            if (tierPopupOverlay) {
+                tierPopupOverlay.addEventListener('click', (e) => {
+                    if (e.target === tierPopupOverlay) closeTierPopup();
+                });
+            }
+
+            // ── Data loading ──
+            async function loadData() {
+                if (window.FintopInfra) {
+                    try {
+                        const res = await window.FintopInfra.ApiClient.get('/market/stocks');
+                        const list = res.data || res || [];
+                        if (Array.isArray(list)) {
+                            filterData = list.map(item => ({
+                                ticker: item.ticker,
+                                san: item.exchange,
+                                nganh: item.industry,
+                                canBo: item.officer || 'FinTop DATA',
+                                time: item.synced_at ? new Date(item.synced_at).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) : '',
+                                desc: item.model_desc || item.desc || '',
+                                status: item.status,
+                                statusText: item.statusText || item.status || '',
+                                deltaRsi: item.delta_rsi ?? item.deltaRsi ?? '',
+                                trend: item.trend || item.strength || item.rsi_mfi || '',
+                                vungKiemDinh: item.validation_zone || '—',
+                                khangCu: item.resistance_zone || '—',
+                                hoTro: item.support_zone || '—'
+                            })).filter(item => getCustomerStrengthText(item.trend));
+                            applyFilters();
+                            return;
+                        }
+                    } catch (err) {
+                        console.error('Backend stock fetch failed:', err);
+                    }
+                }
+                filterData = [];
+                renderTable(filterData);
+            }
+
+            // ── Badge helpers ──
+            function getActionBadgeMarkup(statusText, status) {
+                const norm = (statusText || status || '').toUpperCase();
+                let bg = 'rgba(148, 163, 184, 0.14)';
+                let fg = '#E2E8F0';
+                let border = 'rgba(226, 232, 240, 0.22)';
+                let shadow = 'none';
+
+                if (norm === 'RẤT TÍCH CỰC' || norm === 'VERY-POSITIVE' || norm === 'VERY-POS') {
+                    bg = 'rgba(168, 85, 247, 0.2)'; fg = '#c084fc'; border = 'rgba(192, 132, 252, 0.45)'; shadow = '0 0 10px rgba(168, 85, 247, 0.25)';
+                } else if (norm === 'TÍCH CỰC' || norm === 'POS' || norm === 'POSITIVE') {
+                    bg = 'rgba(16, 185, 129, 0.18)'; fg = '#A7F3D0'; border = 'rgba(52, 211, 153, 0.55)';
+                } else if (norm === 'KHẢ QUAN' || norm === 'OK') {
+                    bg = 'rgba(202, 255, 88, 0.14)'; fg = '#FDE047'; border = 'rgba(217, 249, 157, 0.55)';
+                } else if (norm === 'TRUNG LẬP' || norm === 'NEUTRAL') {
+                    bg = 'rgba(59, 130, 246, 0.2)'; fg = '#BFDBFE'; border = 'rgba(96, 165, 250, 0.42)';
+                } else if (norm === 'KO TÍCH CỰC') {
+                    bg = 'rgba(194, 65, 12, 0.26)'; fg = '#FDBA74'; border = 'rgba(249, 115, 22, 0.62)';
+                } else if (norm === 'TIÊU CỰC' || norm === 'NEG' || norm === 'NEGATIVE') {
+                    bg = 'rgba(127, 29, 29, 0.34)'; fg = '#F87171'; border = 'rgba(220, 38, 38, 0.62)';
+                }
+
+                return `<span class="badge" style="display:inline-flex; justify-content:center; min-width:112px; background:${bg}; color:${fg}; border:1px solid ${border}; box-shadow:${shadow}; font-weight:800; padding:6px 12px; border-radius:999px; font-size:0.75rem;">${statusText || 'TRUNG LẬP'}</span>`;
+            }
+
+            // ── Render table ──
+            function renderTable(data) {
+                tbody.innerHTML = '';
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding: 3rem; color: #64748b;">Không có dữ liệu phù hợp.</td></tr>`;
+                    return;
+                }
+
+                const canSeeDetails = hasProAccess();
+
+                data.forEach((row, i) => {
+                    const tr = document.createElement('tr');
+                    tr.style.borderBottom = '1px solid rgba(15, 23, 42, 0.95)';
+
+                    const actionBadge = getActionBadgeMarkup(row.statusText, row.status);
+                    const strengthText = getCustomerStrengthText(row.trend);
+                    const rowBg = 'rgba(15, 15, 25, 0.96)';
+                    const baseCellStyle = `padding: 8px 4px; background: ${rowBg}; color: #CBD5E1; font-weight: 500; font-size: 0.78rem; text-align: center; word-wrap: break-word; overflow-wrap: break-word;`;
+
+                    // Ticker cell — masked for non-PRO
+                    let tickerCell;
+                    if (canSeeDetails) {
+                        tickerCell = `<td style="${baseCellStyle} font-weight: 600; letter-spacing: 0.5px;">${row.ticker}</td>`;
+                    } else {
+                        tickerCell = `<td style="${baseCellStyle}">
+                            <span class="masked-cell">
+                                <span class="masked-text">•••</span>
+                                <button class="reveal-eye-btn" onclick="handleEyeClick()" title="Xem mã cổ phiếu">👁 Xem</button>
+                            </span>
+                        </td>`;
+                    }
+
+                    // Industry cell — masked for non-PRO
+                    let nganhCell;
+                    if (canSeeDetails) {
+                        nganhCell = `<td style="${baseCellStyle}">${row.nganh}</td>`;
+                    } else {
+                        nganhCell = `<td style="${baseCellStyle}">
+                            <span class="masked-cell">
+                                <span class="masked-text">••••••</span>
+                                <button class="reveal-eye-btn" onclick="handleEyeClick()" title="Xem nhóm ngành">👁 Xem</button>
+                            </span>
+                        </td>`;
+                    }
+
+                    tr.innerHTML = `
+                        <td style="${baseCellStyle}">${i + 1}</td>
+                        ${tickerCell}
+                        <td style="${baseCellStyle}">${canSeeDetails ? row.san : '—'}</td>
+                        ${nganhCell}
+                        <td style="${baseCellStyle} color: #94a3b8;">${row.time}</td>
+                        <td style="${baseCellStyle} line-height: 1.4; text-align: left;">${row.desc}</td>
+                        <td style="${baseCellStyle}">${actionBadge}</td>
+                        <td class="boloc-delta-rsi-cell" style="${baseCellStyle}">${escapeHtml(row.deltaRsi || '—')}</td>
+                        <td style="${baseCellStyle} color: #67E8F9; font-weight: 900; text-transform: uppercase;">${escapeHtml(strengthText)}</td>
+                        <td style="${baseCellStyle}">${row.vungKiemDinh}</td>
+                        <td style="${baseCellStyle}">${row.khangCu}</td>
+                        <td style="${baseCellStyle}">${row.hoTro}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // ── Filter & Search ──
+            function applyFilters() {
+                const q = (searchInput.value || '').trim().toUpperCase();
+                const san = filterSan.value;
+
+                let filtered = [...filterData];
+                if (q) {
+                    filtered = filtered.filter(s => s.ticker.includes(q) || s.nganh.toUpperCase().includes(q));
+                }
+                if (san) {
+                    filtered = filtered.filter(s => s.san === san);
+                }
+                if (selectedActSet.size > 0) {
+                    filtered = filtered.filter(s => selectedActSet.has((s.statusText || '').toUpperCase()));
+                }
+                if (selectedStrengthSet.size > 0) {
+                    filtered = filtered.filter(s => {
+                        const st = getCustomerStrengthText(s.trend);
+                        return selectedStrengthSet.has(st);
+                    });
+                }
+                renderTable(filtered);
+            }
+
+            [searchInput, filterSan].forEach(el => {
+                if (el) {
+                    el.addEventListener('input', applyFilters);
+                    el.addEventListener('change', applyFilters);
+                }
+            });
+
+            // Toggle Act Dropdown
+            const btnFilterAct = document.getElementById('btnFilterAct');
+            const dropdownAct = document.getElementById('dropdownAct');
+            const actBadgeText = document.getElementById('actBadgeText');
+
+            btnFilterAct?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (dropdownAct) dropdownAct.style.display = dropdownAct.style.display === 'block' ? 'none' : 'block';
+                const dropStr = document.getElementById('dropdownStrength');
+                if (dropStr) dropStr.style.display = 'none';
+            });
+
+            document.querySelectorAll('.act-chk').forEach(chk => {
+                chk.addEventListener('change', () => {
+                    if (chk.checked) selectedActSet.add(chk.value.toUpperCase());
+                    else selectedActSet.delete(chk.value.toUpperCase());
+
+                    if (actBadgeText) {
+                        actBadgeText.textContent = selectedActSet.size > 0 ? `(${selectedActSet.size})` : '(Tất cả)';
+                    }
+                    applyFilters();
+                });
+            });
+
+            // Toggle Strength Dropdown
+            const btnFilterStrength = document.getElementById('btnFilterStrength');
+            const dropdownStrength = document.getElementById('dropdownStrength');
+            const strengthBadgeText = document.getElementById('strengthBadgeText');
+
+            btnFilterStrength?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (dropdownStrength) dropdownStrength.style.display = dropdownStrength.style.display === 'block' ? 'none' : 'block';
+                if (dropdownAct) dropdownAct.style.display = 'none';
+            });
+
+            document.querySelectorAll('.strength-chk').forEach(chk => {
+                chk.addEventListener('change', () => {
+                    if (chk.checked) selectedStrengthSet.add(chk.value.toUpperCase());
+                    else selectedStrengthSet.delete(chk.value.toUpperCase());
+
+                    if (strengthBadgeText) {
+                        strengthBadgeText.textContent = selectedStrengthSet.size > 0 ? `(${selectedStrengthSet.size})` : '(Tất cả)';
+                    }
+                    applyFilters();
+                });
+            });
+
+            // Close dropdowns on outside click
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#btnFilterAct') && !e.target.closest('#dropdownAct')) {
+                    if (dropdownAct) dropdownAct.style.display = 'none';
+                }
+                if (!e.target.closest('#btnFilterStrength') && !e.target.closest('#dropdownStrength')) {
+                    if (dropdownStrength) dropdownStrength.style.display = 'none';
+                }
+            });
+
+            // Reset Filters Button
+            document.getElementById('btnResetFilters')?.addEventListener('click', () => {
+                selectedActSet.clear();
+                selectedStrengthSet.clear();
+                if (searchInput) searchInput.value = '';
+                if (filterSan) filterSan.value = '';
+                document.querySelectorAll('.act-chk').forEach(c => { c.checked = false; });
+                document.querySelectorAll('.strength-chk').forEach(c => { c.checked = false; });
+                if (actBadgeText) actBadgeText.textContent = '(Tất cả)';
+                if (strengthBadgeText) strengthBadgeText.textContent = '(Tất cả)';
+                applyFilters();
+            });
 
         <div class="data-table-wrapper"
             style="background: rgba(15, 15, 25, 0.6); border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px; overflow-x: auto; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
