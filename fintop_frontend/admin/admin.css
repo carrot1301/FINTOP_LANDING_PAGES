@@ -434,7 +434,9 @@ table.admin-table th {
   font-size: 0.85rem;
   text-transform: none;
   letter-spacing: 0.02em;
-  white-space: nowrap;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
   border: 1px solid #3c4c68 !important;
 }
 
@@ -444,6 +446,9 @@ table.admin-table td {
   border: 1px solid #3c4c68 !important;
   vertical-align: middle;
   background-color: #1c283a !important;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 table.admin-table tbody tr {

@@ -101,7 +101,7 @@ function actBadge(act) {
 
 function getBadgeSelectStyle(act) {
   if (!act) {
-    return `background: rgba(148, 163, 184, 0.15); color: #94A3B8; border: 1px solid rgba(148, 163, 184, 0.2); width: 100%; max-width: 100%; box-sizing: border-box; text-align: center; text-align-last: center; font-size: 0.72rem; padding: 3px 2px;`;
+    return `background: rgba(148, 163, 184, 0.15); color: #94A3B8; border: 1px solid rgba(148, 163, 184, 0.2); width: 100%; max-width: 100%; box-sizing: border-box; text-align: center; text-align-last: center; font-size: 0.72rem; padding: 3px 2px; white-space: normal; word-break: break-word;`;
   }
   const norm = act.trim().toUpperCase();
   let bg = 'rgba(148, 163, 184, 0.15)';
@@ -127,7 +127,7 @@ function getBadgeSelectStyle(act) {
     fg = '#EF4444';
   }
 
-  return `background: ${bg}; color: ${fg}; border: 1px solid ${fg}33; width: 100%; max-width: 100%; box-sizing: border-box; text-align: center; text-align-last: center; font-size: 0.72rem; padding: 3px 2px;`;
+  return `background: ${bg}; color: ${fg}; border: 1px solid ${fg}33; width: 100%; max-width: 100%; box-sizing: border-box; text-align: center; text-align-last: center; font-size: 0.72rem; padding: 3px 2px; white-space: normal; word-break: break-word;`;
 }
 
 
@@ -480,6 +480,13 @@ function renderAll() {
         visibility: visible;
       }
       /* ── Column / Row Resize Mode ── */
+      .df-table th,
+      .df-table td {
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        vertical-align: middle;
+      }
       .df-table.resize-mode {
         user-select: none;
         table-layout: fixed;
@@ -487,8 +494,20 @@ function renderAll() {
       }
       .df-table.resize-mode th,
       .df-table.resize-mode td {
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        overflow: visible;
+        text-overflow: clip;
+      }
+      .df-direct-input,
+      .df-premium-select,
+      .df-premium-input,
+      .df-premium-select-badge,
+      .df-industry-select {
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
       }
       .df-table.resize-mode th {
         position: relative;
@@ -725,7 +744,7 @@ function renderAll() {
             ${buildThCell(7, '14%', 'Dữ liệu kỹ thuật lịch sử (Model)')}
             ${buildThCell(8, '10%', 'Trạng thái Model')}
             ${buildThCell(9, '4.5%', `<div class="df-delta-rsi-wrapper" style="position:relative;display:inline-flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;"><span class="df-delta-rsi-heading">ΔRSI</span><span class="df-delta-rsi-info" id="df-delta-rsi-info">(i)</span><div class="df-delta-rsi-hover-box">${esc(DELTA_RSI_HELP_TEXT)}</div></div>`, 'df-delta-rsi-header')}
-            ${buildThCell(10, '13%', `<div class="df-delta-rsi-wrapper" style="position:relative;display:inline-flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;"><span style="display:inline-block;text-align:center;line-height:1.25;"><span style="white-space:nowrap;display:block;">Sức mạnh xu hướng</span><span style="white-space:nowrap;display:block;">RSI/MFI - Dòng tiền <span class="df-delta-rsi-info">(i)</span></span></span><div class="df-delta-rsi-hover-box" style="width:260px;">${esc(STRENGTH_HELP_TEXT)}</div></div>`)}
+            ${buildThCell(10, '13%', `<div class="df-delta-rsi-wrapper" style="position:relative;display:inline-flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;"><span style="display:inline-block;text-align:center;line-height:1.25;"><span style="white-space:normal;word-break:break-word;display:block;">Sức mạnh xu hướng</span><span style="white-space:normal;word-break:break-word;display:block;">RSI/MFI - Dòng tiền <span class="df-delta-rsi-info">(i)</span></span></span><div class="df-delta-rsi-hover-box" style="width:260px;">${esc(STRENGTH_HELP_TEXT)}</div></div>`)}
             ${buildThCell(11, '13%', 'Vùng kiểm định<br/>kỹ thuật')}
             ${buildThCell(12, '13%', 'Vùng kháng cự<br/>kỹ thuật')}
             ${buildThCell(13, '13%', 'Vùng hỗ trợ<br/>kỹ thuật')}
@@ -834,7 +853,7 @@ function renderStockRow(s, idx) {
         })() : '—'}
       </td>
       <td style="vertical-align:middle;padding:4px 2px;">
-        <textarea class="df-direct-input df-premium-input" data-field="identify_trend" data-sid="${s.id}" rows="2" style="width:100%;max-width:100%;box-sizing:border-box;text-align:left;resize:vertical;line-height:1.3;padding:3px 4px;font-size:0.75rem;">${esc(s.identify_trend)}</textarea>
+        <textarea class="df-direct-input df-premium-input" data-field="identify_trend" data-sid="${s.id}" rows="3" style="width:100%;max-width:100%;box-sizing:border-box;text-align:left;resize:vertical;line-height:1.35;padding:4px 5px;font-size:0.75rem;min-height:60px;">${esc(s.identify_trend)}</textarea>
       </td>
       <td style="text-align:center;vertical-align:middle;padding:4px 2px;">
         <select class="df-direct-input df-premium-select-badge" data-field="act" data-sid="${s.id}" style="${getBadgeSelectStyle(s.act)}">
