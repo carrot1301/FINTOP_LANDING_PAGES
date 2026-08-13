@@ -74,6 +74,18 @@
   ],
   "rewrites": [
     {
+      "source": "/favicon-16x16.png",
+      "destination": "/favicon-16x16.png"
+    },
+    {
+      "source": "/favicon-32x32.png",
+      "destination": "/favicon-32x32.png"
+    },
+    {
+      "source": "/favicon-512x512.png",
+      "destination": "/favicon-512x512.png"
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/sitemap.xml"
     },
