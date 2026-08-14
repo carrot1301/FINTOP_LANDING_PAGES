@@ -317,8 +317,10 @@ export class AuthService {
       },
     });
 
-    // Send reset email
-    await this.mailService.sendPasswordResetEmail(email, rawToken, user.fullName);
+    // Send reset email (non-blocking for instant UI response)
+    this.mailService.sendPasswordResetEmail(email, rawToken, user.fullName).catch((err) => {
+      this.logger.error(`Failed to send password reset email to ${email}: ${err.message}`);
+    });
 
     this.logger.log(`Password reset email sent to ${email}`);
     return { message: 'Nếu email tồn tại, link đặt lại mật khẩu đã được gửi.' };
@@ -508,7 +510,10 @@ export class AuthService {
     // Dev mode logging to help local testing when SMTP is delayed/blocked
     this.logger.log(`[DEV ONLY] Verification OTP for ${email} is: ${otp}`);
 
-    await this.mailService.sendVerificationOTP(email, otp, user.fullName);
+    // Send verification OTP (non-blocking for instant UI response)
+    this.mailService.sendVerificationOTP(email, otp, user.fullName).catch((err) => {
+      this.logger.error(`Failed to re-send verification email to ${email}: ${err.message}`);
+    });
 
     this.logger.log(`Verification OTP re-sent to ${email}`);
     return { message: 'Mã xác thực mới đã được gửi vào email.' };
