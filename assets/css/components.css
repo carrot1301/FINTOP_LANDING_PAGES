@@ -451,3 +451,22 @@ footer {
     display: inline-flex !important;
   }
 }
+
+@media (max-width: 480px) {
+  .tv-header {
+    padding-inline: 3% !important;
+  }
+
+  .neon-logo {
+    height: 52px !important;
+    width: auto !important;
+  }
+
+  .tv-right {
+    gap: 0.5rem !important;
+  }
+
+  .tv-right .btn-tv-blue {
+    padding-inline: 12px !important;
+  }
+}
