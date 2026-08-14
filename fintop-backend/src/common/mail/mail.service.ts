@@ -12,7 +12,7 @@ export class MailService {
   private readonly frontendUrl: string;
 
   constructor(private readonly config: ConfigService) {
-    this.frontendUrl = this.config.get<string>('FRONTEND_URL', 'https://fintop-frontend-staging.onrender.com');
+    this.frontendUrl = this.config.get<string>('FRONTEND_URL', 'https://fintopdata.vn');
 
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
     const brevoApiKey = (this.config.get<string>('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
@@ -20,7 +20,7 @@ export class MailService {
     // Always try to initialize SMTP transporter as fallback
     const smtpHost = this.config.get<string>('SMTP_HOST', 'smtp.gmail.com');
     const smtpPort = this.config.get<number>('SMTP_PORT', 587);
-    const smtpUser = this.config.get<string>('SMTP_USER', '');
+    const smtpUser = this.config.get<string>('SMTP_USER', 'fintop.bashare@gmail.com');
     const smtpPass = this.config.get<string>('SMTP_PASS', '');
 
     if (smtpUser && smtpPass) {
@@ -39,8 +39,9 @@ export class MailService {
       this.transporter = null as any;
     }
 
-    // Always force sender address to FinTop DATA <fintopdata.info@gmail.com>
-    this.fromAddress = 'FinTop DATA <fintopdata.info@gmail.com>';
+    // Use authenticated sender for SMTP delivery, with replyTo set to fintopdata.info@gmail.com
+    const smtpFrom = this.config.get<string>('SMTP_FROM', `FinTop DATA <${smtpUser || 'fintop.bashare@gmail.com'}>`);
+    this.fromAddress = smtpFrom;
 
     if (resendApiKey) {
       this.logger.log('Resend API key configured — emails will be sent via Resend HTTPS API.' + (this.transporter ? ' SMTP fallback available.' : ''));
@@ -118,7 +119,7 @@ export class MailService {
       const replyTo = 'fintopdata.info@gmail.com';
       const bcc = this.config.get<string>('MAIL_BCC', 'fintopdata.info@gmail.com');
       const info = await this.transporter.sendMail({
-        from: 'FinTop DATA <fintopdata.info@gmail.com>',
+        from: this.fromAddress,
         to,
         replyTo,
         ...(bcc ? { bcc } : {}),
@@ -144,7 +145,7 @@ export class MailService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'FinTop DATA <fintopdata.info@gmail.com>',
+          from: this.fromAddress,
           to: [to],
           subject,
           html,
@@ -167,7 +168,7 @@ export class MailService {
 
   private async sendMailViaBrevo(to: string, subject: string, html: string, apiKey: string): Promise<boolean> {
     const fromName = 'FinTop DATA';
-    const fromEmail = 'fintopdata.info@gmail.com';
+    const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@gmail.com');
     const replyTo = 'fintopdata.info@gmail.com';
     const bccEmail = this.config.get<string>('MAIL_BCC', 'fintopdata.info@gmail.com');
     try {
