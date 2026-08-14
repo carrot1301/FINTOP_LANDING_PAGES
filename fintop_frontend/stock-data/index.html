@@ -8,10 +8,12 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png">
     <title>Dữ Liệu Định Lượng | FinTop DATA - Dữ Liệu Đầu Tư</title>
-    <meta name="description" content="Dữ liệu định lượng Quant Data, PRO Data, dữ liệu ngành và báo cáo phân tích chuyên sâu. Toàn bộ dữ liệu cổ phiếu được gom về một màn hình hành động.">
+    <meta name="description"
+        content="Dữ liệu định lượng Quant Data, PRO Data, dữ liệu ngành và báo cáo phân tích chuyên sâu. Toàn bộ dữ liệu cổ phiếu được gom về một màn hình hành động.">
     <link rel="canonical" href="https://fintopdata.vn/stock-data/">
     <meta property="og:title" content="Dữ Liệu Định Lượng | FinTop DATA">
-    <meta property="og:description" content="Dữ liệu định lượng Quant Data, PRO Data, dữ liệu ngành và báo cáo phân tích chuyên sâu.">
+    <meta property="og:description"
+        content="Dữ liệu định lượng Quant Data, PRO Data, dữ liệu ngành và báo cáo phân tích chuyên sâu.">
     <meta property="og:url" content="https://fintopdata.vn/stock-data/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="FinTop DATA">
@@ -61,7 +63,8 @@
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-stock-data">
-                <a href="../stock-data/index.html" class="active-page">Dữ liệu <span style="font-size: 0.7em;">▼</span></a>
+                <a href="../stock-data/index.html" class="active-page">Dữ liệu <span
+                        style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
                     <a href="/stock-data/index.html#quant">Tổng quan</a>
                     <a href="/stock-data/pro-data/index.html">PRO Data <span
@@ -97,16 +100,22 @@
             <!-- Notification Bell Icon (separate from user dropdown) -->
             <div class="notif-bell-container" id="notifBellContainer" style="display: none;">
                 <button class="notif-bell-btn" id="notifBellBtn" type="button" aria-label="Thông báo">
-                    <svg class="notif-bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <svg class="notif-bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
                     <span class="notif-bell-badge" id="notifBellBadge"></span>
                 </button>
                 <div class="notif-bell-dropdown" id="notifBellDropdown">
                     <div class="notif-bell-dropdown-header">
                         <span>🔔 Thông báo</span>
-                        <span class="fintop-notif-unread-indicator" style="font-size: 0.7rem; background: #ef4444; color: white; padding: 1px 6px; border-radius: 99px; display: none;"></span>
+                        <span class="fintop-notif-unread-indicator"
+                            style="font-size: 0.7rem; background: #ef4444; color: white; padding: 1px 6px; border-radius: 99px; display: none;"></span>
                     </div>
                     <div class="fintop-notifications-list" style="display: flex; flex-direction: column; gap: 2px;">
-                        <div style="font-size: 0.8rem; color: #64748b; text-align: center; padding: 24px 0;">Không có thông báo mới</div>
+                        <div style="font-size: 0.8rem; color: #64748b; text-align: center; padding: 24px 0;">Không có
+                            thông báo mới</div>
                     </div>
                 </div>
             </div>
@@ -118,7 +127,8 @@
                     <a href="../index.html" class="user-dropdown-item">Có gì mới</a>
                 </div>
             </div>
-            <button class="btn-tv-blue" id="fintopStartBtn" type="button" onclick="window.location.href='../index.html#pricing'">Bắt đầu</button>
+            <button class="btn-tv-blue" id="fintopStartBtn" type="button"
+                onclick="window.location.href='../index.html#pricing'">Bắt đầu</button>
         </div>
     </header>
 
@@ -239,7 +249,8 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="metric-grid" id="stockMetrics" style="grid-template-columns: repeat(2, minmax(0, 1fr));"></div>
+                                <div class="metric-grid" id="stockMetrics"
+                                    style="grid-template-columns: repeat(2, minmax(0, 1fr));"></div>
                                 <div class="bar-list" id="stockBars" style="margin-top: 16px;"></div>
                             </div>
                         </div>
@@ -362,33 +373,44 @@
 
                     <div class="stock-tab-panel" data-stock-panel="portfolio">
                         <h2>Danh mục Chuyên gia khuyến nghị</h2>
-                        <p>Theo dõi cơ cấu tài sản, NAV thực tế và hiệu quả đầu tư của các danh mục khuyến nghị từ đội ngũ chuyên gia FinTop.</p>
-                        
-                        <div style="margin-top: 16px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                        <p>Theo dõi cơ cấu tài sản, NAV thực tế và hiệu quả đầu tư của các danh mục khuyến nghị từ đội
+                            ngũ chuyên gia FinTop.</p>
+
+                        <div
+                            style="margin-top: 16px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
                             <div>
-                                <label for="portfolioSelect" style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 4px; font-weight: 600;">LỰA CHỌN DANH MỤC</label>
-                                <select id="portfolioSelect" style="background: #0f172a; color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; font-weight: 600; outline: none; cursor: pointer; min-width: 220px;">
+                                <label for="portfolioSelect"
+                                    style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 4px; font-weight: 600;">LỰA
+                                    CHỌN DANH MỤC</label>
+                                <select id="portfolioSelect"
+                                    style="background: #0f172a; color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; font-weight: 600; outline: none; cursor: pointer; min-width: 220px;">
                                     <option value="">Vui lòng đăng nhập...</option>
                                 </select>
                             </div>
-                            
+
                             <div style="flex: 1; display: flex; gap: 20px; flex-wrap: wrap; justify-content: flex-end;">
                                 <div style="text-align: right;">
-                                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">GIÁ TRỊ TÀI SẢN (NAV)</div>
+                                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">GIÁ TRỊ TÀI SẢN
+                                        (NAV)</div>
                                     <div id="portNav" style="font-size: 1.15rem; font-weight: 800; color: #fff;">—</div>
                                 </div>
                                 <div style="text-align: right;">
-                                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">TIỀN MẶT CÒN LẠI</div>
-                                    <div id="portCash" style="font-size: 1.15rem; font-weight: 800; color: #94a3b8;">—</div>
+                                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">TIỀN MẶT CÒN LẠI
+                                    </div>
+                                    <div id="portCash" style="font-size: 1.15rem; font-weight: 800; color: #94a3b8;">—
+                                    </div>
                                 </div>
                                 <div style="text-align: right;">
-                                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">HIỆU SUẤT ĐẦU TƯ</div>
+                                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">HIỆU SUẤT ĐẦU TƯ
+                                    </div>
                                     <div id="portPl" style="font-size: 1.15rem; font-weight: 800;">—</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div id="portDesc" style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin-bottom: 16px; font-style: italic;"></div>
+                        <div id="portDesc"
+                            style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin-bottom: 16px; font-style: italic;">
+                        </div>
 
                         <div class="table-wrap">
                             <table class="demo-table" id="portfolioTable">
@@ -403,7 +425,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td colspan="6" style="text-align:center;">Vui lòng đăng nhập để xem danh mục đầu tư khuyến nghị.</td></tr>
+                                    <tr>
+                                        <td colspan="6" style="text-align:center;">Vui lòng đăng nhập để xem danh mục
+                                            đầu tư khuyến nghị.</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -433,7 +458,7 @@
                 }
             }
         });
-</script>
+    </script>
 </body>
 
 </html>

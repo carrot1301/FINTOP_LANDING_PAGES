@@ -299,8 +299,10 @@ function syncAuthBodyScrollLock() {
  * Ask the visitor whether they want to log in, register, or return.
  * Authentication forms are only opened after an explicit choice.
  * @param {string} preferredView - 'login' or 'register'
+ * @param {string} [customKicker] - Optional header text / kicker
+ * @param {string} [customTitle] - Optional title text
  */
-function requestAuthChoice(preferredView = 'login') {
+function requestAuthChoice(preferredView = 'login', customKicker, customTitle) {
     const normalizedView = preferredView === 'register' ? 'register' : 'login';
     const gateOverlay = document.getElementById('authGateOverlay');
 
@@ -308,6 +310,16 @@ function requestAuthChoice(preferredView = 'login') {
     if (!gateOverlay) {
         openAuthModal(normalizedView);
         return;
+    }
+
+    const kickerEl = document.getElementById('authGateKicker') || gateOverlay.querySelector('.auth-gate-kicker');
+    const titleEl = document.getElementById('authGateTitle') || gateOverlay.querySelector('#authGateTitle, h2');
+
+    if (kickerEl) {
+        kickerEl.textContent = customKicker || 'ĐĂNG NHẬP';
+    }
+    if (titleEl) {
+        titleEl.textContent = customTitle || 'Tra cứu cổ phiếu miễn phí!';
     }
 
     const authOverlay = document.getElementById('authModalOverlay');

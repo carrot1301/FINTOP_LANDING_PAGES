@@ -12,15 +12,36 @@
         content="Nơi hội tụ Data - Chuyên gia - Công nghệ & AI. Tinh gọn và hiệu quả. Tra cứu cổ phiếu, bộ lọc cổ phiếu, FinTop AI & Copy Trade, dữ liệu định lượng, nghiên cứu chuyên sâu.">
     <link rel="canonical" href="https://fintopdata.vn/">
 
-    <!-- Open Graph / Facebook -->
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Open Graph / Facebook / Zalo Social Sharing -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fintopdata.vn/">
     <meta property="og:title" content="FinTop DATA - Dữ Liệu Đầu Tư">
     <meta property="og:description"
-        content="Nơi hội tụ Data - Chuyên gia - Công nghệ & AI. Tinh gọn và hiệu quả. Tra cứu cổ phiếu, bộ lọc, FinTop AI & Copy Trade, dữ liệu định lượng.">
-    <meta property="og:image" content="https://fintopdata.vn/assets/images/fintop-logo.png">
+        content="Nơi hội tụ Data - Chuyên gia - Công nghệ & AI. Tinh gọn và hiệu quả. Tra cứu cổ phiếu, bộ lọc cổ phiếu, FinTop AI & Copy Trade, dữ liệu định lượng, nghiên cứu chuyên sâu.">
+    <meta property="og:image" content="https://fintopdata.vn/assets/images/fintop-og-banner.png">
+    <meta property="og:image:url" content="https://fintopdata.vn/assets/images/fintop-og-banner.png">
+    <meta property="og:image:secure_url" content="https://fintopdata.vn/assets/images/fintop-og-banner.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FinTop DATA - Dữ Liệu Đầu Tư">
+    <link rel="image_src" href="https://fintopdata.vn/assets/images/fintop-og-banner.png">
     <meta property="og:site_name" content="FinTop DATA">
     <meta property="og:locale" content="vi_VN">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FinTop DATA - Dữ Liệu Đầu Tư">
+    <meta name="twitter:description"
+        content="Nơi hội tụ Data - Chuyên gia - Công nghệ & AI. Tinh gọn và hiệu quả. Tra cứu cổ phiếu, bộ lọc cổ phiếu, FinTop AI & Copy Trade, dữ liệu định lượng, nghiên cứu chuyên sâu.">
+    <meta name="twitter:image" content="https://fintopdata.vn/assets/images/fintop-og-banner.png">
 
     <!-- JSON-LD Structured Data: WebSite (enables Google Sitelinks Search Box) -->
     <script type="application/ld+json">
@@ -4979,17 +5000,22 @@
             <div class="boloc-dropdown-group" style="position:relative;display:inline-block;">
                 <button type="button" class="boloc-filter-btn-select" id="btnBolocPanelStatusFilter"
                     style="padding: 9px 14px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.85); color: #e2e8f0; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                    Lọc Trạng thái Model <span id="bolocPanelStatusBadge" style="color:#c084fc;font-weight:700;">(Tất cả)</span> ▾
+                    Lọc Trạng thái Model <span id="bolocPanelStatusBadge" style="color:#c084fc;font-weight:700;">(Tất
+                        cả)</span> ▾
                 </button>
                 <div id="dropdownBolocPanelStatus" class="boloc-filter-dropdown"
                     style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:1010;width:200px;background:#12101d;border:1px solid rgba(168,85,247,0.4);border-radius:10px;padding:6px 0;box-shadow:0 10px 30px rgba(0,0,0,0.85);">
-                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
-                        <input type="checkbox" class="boloc-panel-status-chk" value="RẤT TÍCH CỰC"> <span>RẤT TÍCH CỰC</span>
+                    <label
+                        style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-status-chk" value="RẤT TÍCH CỰC"> <span>RẤT TÍCH
+                            CỰC</span>
                     </label>
-                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                    <label
+                        style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
                         <input type="checkbox" class="boloc-panel-status-chk" value="TÍCH CỰC"> <span>TÍCH CỰC</span>
                     </label>
-                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                    <label
+                        style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
                         <input type="checkbox" class="boloc-panel-status-chk" value="KHẢ QUAN"> <span>KHẢ QUAN</span>
                     </label>
                 </div>
@@ -4999,17 +5025,22 @@
             <div class="boloc-dropdown-group" style="position:relative;display:inline-block;">
                 <button type="button" class="boloc-filter-btn-select" id="btnBolocPanelStrengthFilter"
                     style="padding: 9px 14px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.85); color: #e2e8f0; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                    Lọc Sức mạnh xu hướng <span id="bolocPanelStrengthBadge" style="color:#67e8f9;font-weight:700;">(Tất cả)</span> ▾
+                    Lọc Sức mạnh xu hướng <span id="bolocPanelStrengthBadge" style="color:#67e8f9;font-weight:700;">(Tất
+                        cả)</span> ▾
                 </button>
                 <div id="dropdownBolocPanelStrength" class="boloc-filter-dropdown"
                     style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:1010;width:200px;background:#12101d;border:1px solid rgba(168,85,247,0.4);border-radius:10px;padding:6px 0;box-shadow:0 10px 30px rgba(0,0,0,0.85);">
-                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
-                        <input type="checkbox" class="boloc-panel-strength-chk" value="TĂNG MẠNH"> <span>TĂNG MẠNH</span>
+                    <label
+                        style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-strength-chk" value="TĂNG MẠNH"> <span>TĂNG
+                            MẠNH</span>
                     </label>
-                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                    <label
+                        style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
                         <input type="checkbox" class="boloc-panel-strength-chk" value="TĂNG"> <span>TĂNG</span>
                     </label>
-                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                    <label
+                        style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
                         <input type="checkbox" class="boloc-panel-strength-chk" value="TĂNG DẦN"> <span>TĂNG DẦN</span>
                     </label>
                 </div>
@@ -5031,7 +5062,8 @@
                         <th>Dữ liệu kỹ thuật lịch sử (Model)</th>
                         <th>Trạng thái Model</th>
                         <th class="boloc-delta-rsi-header" style="position: relative;">
-                            <div class="delta-rsi-wrapper" style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
+                            <div class="delta-rsi-wrapper"
+                                style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
                                 <span class="delta-rsi-heading">ΔRSI</span>
                                 <span class="delta-rsi-info-button" id="bolocDeltaRsiInfoButton">(i)</span>
                                 <div class="delta-rsi-hover-box">
@@ -5040,13 +5072,18 @@
                             </div>
                         </th>
                         <th style="min-width:170px;">
-                            <div class="delta-rsi-wrapper" style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
+                            <div class="delta-rsi-wrapper"
+                                style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
                                 <span style="display:inline-block;text-align:center;line-height:1.25;">
                                     <span style="white-space:nowrap;display:block;">Sức mạnh xu hướng</span>
-                                    <span style="white-space:nowrap;display:block;">RSI/MFI - Dòng tiền <span class="delta-rsi-info-button" id="bolocStrengthInfoButton">(i)</span></span>
+                                    <span style="white-space:nowrap;display:block;">RSI/MFI - Dòng tiền <span
+                                            class="delta-rsi-info-button" id="bolocStrengthInfoButton">(i)</span></span>
                                 </span>
                                 <div class="delta-rsi-hover-box" style="width: 260px;">
-                                    Ghi nhận giá trị khi ΔRSI &gt; 0 và Trạng thái Model thuộc &quot;Khả quan&quot;, &quot;Tích cực&quot;, &quot;Rất tích cực&quot;. Gán nhãn &quot;Tăng&quot;, &quot;Tăng dần&quot;, &quot;Tăng mạnh&quot; theo tốc độ tăng của RSI/MFI - Dòng tiền và biên độ ΔRSI.
+                                    Ghi nhận giá trị khi ΔRSI &gt; 0 và Trạng thái Model thuộc &quot;Khả quan&quot;,
+                                    &quot;Tích cực&quot;, &quot;Rất tích cực&quot;. Gán nhãn &quot;Tăng&quot;,
+                                    &quot;Tăng dần&quot;, &quot;Tăng mạnh&quot; theo tốc độ tăng của RSI/MFI - Dòng tiền
+                                    và biên độ ΔRSI.
                                 </div>
                             </div>
                         </th>
@@ -7922,9 +7959,15 @@
 
         function addStockTicker() {
             const input = document.getElementById('stockSearchInput');
-            const ticker = input.value.trim().toUpperCase();
+            const ticker = input ? input.value.trim().toUpperCase() : '';
 
             if (!ticker) return;
+
+            // Kiểm tra trạng thái đăng nhập khi tra cứu cổ phiếu
+            if (!isBolocLoggedIn()) {
+                requestAuthChoice('login', 'ĐĂNG NHẬP', 'Tra cứu cổ phiếu miễn phí!');
+                return;
+            }
 
             const errorEl = document.getElementById('stockSearchError');
             const hintEl = document.getElementById('stockSearchHint');
@@ -10465,15 +10508,15 @@
         <div class="auth-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="authGateTitle">
             <button class="auth-gate-close" type="button" onclick="closeAuthChoice()" aria-label="Quay lại">×</button>
             <span class="auth-gate-icon" aria-hidden="true">👤</span>
-            <div class="auth-gate-kicker">Tiếp tục với FinTop DATA</div>
-            <h2 id="authGateTitle">Đăng nhập để tiếp tục</h2>
+            <div class="auth-gate-kicker" id="authGateKicker">ĐĂNG NHẬP</div>
+            <h2 id="authGateTitle">Tra cứu cổ phiếu miễn phí!</h2>
             <div class="auth-gate-actions">
                 <button class="auth-gate-action primary" type="button" data-auth-choice="login"
                     onclick="continueAuthChoice('login')">Đăng nhập</button>
                 <button class="auth-gate-action secondary" type="button" data-auth-choice="register"
                     onclick="continueAuthChoice('register')">Đăng ký</button>
+                <button class="auth-gate-back" type="button" onclick="closeAuthChoice()">Quay lại</button>
             </div>
-            <button class="auth-gate-back" type="button" onclick="closeAuthChoice()">← Quay lại</button>
         </div>
     </div>
 

@@ -11,10 +11,22 @@
     <meta name="description"
         content="Tra cứu dữ liệu cổ phiếu tổng hợp theo mô hình AI định lượng FinTop DATA. Phân tích kỹ thuật, vùng giá tham chiếu, kháng cự và điểm quản trị rủi ro.">
     <link rel="canonical" href="https://fintopdata.vn/fintop-data/">
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
     <meta property="og:title" content="Tra Cứu Cổ Phiếu | FinTop DATA">
     <meta property="og:description" content="Tra cứu dữ liệu cổ phiếu tổng hợp theo mô hình AI định lượng FinTop DATA.">
     <meta property="og:url" content="https://fintopdata.vn/fintop-data/">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="https://fintopdata.vn/assets/images/fintop-og-banner.png">
+    <meta property="og:image:secure_url" content="https://fintopdata.vn/assets/images/fintop-og-banner.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="FinTop DATA">
 
     <!-- CSS -->
@@ -228,6 +240,15 @@
                 const q = (searchInput.value || '').trim().toUpperCase();
                 if (!q) {
                     renderTable(stockData);
+                    return;
+                }
+                const isAuth = Boolean(window.FintopInfra?.AuthManager?.isAuthenticated || localStorage.getItem('fintop_access_token'));
+                if (!isAuth) {
+                    if (typeof requestAuthChoice === 'function') {
+                        requestAuthChoice('login', 'ĐĂNG NHẬP', 'Tra cứu cổ phiếu miễn phí!');
+                    } else {
+                        window.location.href = '../index.html#panel-tracuu';
+                    }
                     return;
                 }
                 const filtered = stockData.filter(s => s.ticker.includes(q) || s.nganh.toUpperCase().includes(q));
