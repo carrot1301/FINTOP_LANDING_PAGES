@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 
-const LOGO_URL = 'https://fintopdata.vn/assets/images/fintop-logo-circle-icon.png';
+const LOGO_URL = 'https://fintopdata.vn/assets/images/LogoFinTop_notbg.jpg';
 
 @Injectable()
 export class MailService {
@@ -231,15 +231,10 @@ export class MailService {
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
 <body style="margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0f0a1e;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.3);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
-    <tr><td style="padding:40px 32px 32px;">
-      <div style="text-align:center;margin-bottom:28px;">
-        <div style="display:inline-block;padding:12px;background:rgba(139,92,246,0.15);border-radius:50%;border:1px solid rgba(139,92,246,0.4);margin-bottom:12px;">
-          <img src="${LOGO_URL}" width="60" height="60" alt="FinTop DATA" style="display:block;width:60px;height:60px;border:0;outline:none;text-decoration:none;margin:0 auto;">
-        </div>
-        <div style="font-size:22px;font-weight:800;letter-spacing:1px;color:#ffffff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin-bottom:4px;">
-          FinTop <span style="color:#c4b5fd;">DATA</span>
-        </div>
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+    <tr><td style="padding:40px 32px 0;">
+      <div style="text-align:center;margin-bottom:32px;">
+        <img src="${LOGO_URL}" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <h2 style="color:#ffffff;font-size:18px;font-weight:600;margin-top:0;margin-bottom:20px;text-align:center;letter-spacing:0.5px;">YÊU CẦU ĐẶT LẠI MẬT KHẨU</h2>
@@ -273,15 +268,10 @@ export class MailService {
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
 <body style="margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0f0a1e;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.3);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
-    <tr><td style="padding:40px 32px 32px;">
-      <div style="text-align:center;margin-bottom:28px;">
-        <div style="display:inline-block;padding:12px;background:rgba(139,92,246,0.15);border-radius:50%;border:1px solid rgba(139,92,246,0.4);margin-bottom:12px;">
-          <img src="${LOGO_URL}" width="60" height="60" alt="FinTop DATA" style="display:block;width:60px;height:60px;border:0;outline:none;text-decoration:none;margin:0 auto;">
-        </div>
-        <div style="font-size:22px;font-weight:800;letter-spacing:1px;color:#ffffff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin-bottom:4px;">
-          FinTop <span style="color:#c4b5fd;">DATA</span>
-        </div>
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+    <tr><td style="padding:40px 32px 0;">
+      <div style="text-align:center;margin-bottom:32px;">
+        <img src="${LOGO_URL}" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <h2 style="color:#ffffff;font-size:18px;font-weight:600;margin-top:0;margin-bottom:20px;text-align:center;letter-spacing:0.5px;">XÁC THỰC TÀI KHOẢN</h2>
@@ -306,15 +296,10 @@ export class MailService {
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
 <body style="margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0f0a1e;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.3);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
-    <tr><td style="padding:40px 32px 32px;">
-      <div style="text-align:center;margin-bottom:28px;">
-        <div style="display:inline-block;padding:12px;background:rgba(139,92,246,0.15);border-radius:50%;border:1px solid rgba(139,92,246,0.4);margin-bottom:12px;">
-          <img src="${LOGO_URL}" width="60" height="60" alt="FinTop DATA" style="display:block;width:60px;height:60px;border:0;outline:none;text-decoration:none;margin:0 auto;">
-        </div>
-        <div style="font-size:22px;font-weight:800;letter-spacing:1px;color:#ffffff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin-bottom:4px;">
-          FinTop <span style="color:#c4b5fd;">DATA</span>
-        </div>
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+    <tr><td style="padding:40px 32px 0;">
+      <div style="text-align:center;margin-bottom:32px;">
+        <img src="${LOGO_URL}" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <div style="text-align:center;margin-bottom:24px;">
