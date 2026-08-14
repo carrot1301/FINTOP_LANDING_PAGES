@@ -78,6 +78,10 @@
       "destination": "/sitemap.xml"
     },
     {
+      "source": "/google7874ac71b25d0e62.html",
+      "destination": "/google7874ac71b25d0e62.html"
+    },
+    {
       "source": "/robots.txt",
       "destination": "/robots.txt"
     },
