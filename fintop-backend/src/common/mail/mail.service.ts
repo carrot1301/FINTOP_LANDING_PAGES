@@ -38,18 +38,18 @@ export class MailService {
     }
 
     if (resendApiKey) {
-      this.fromAddress = this.config.get<string>('RESEND_FROM', 'FinTop DATA <no-reply@fintopdata.vn>');
+      this.fromAddress = this.config.get<string>('RESEND_FROM', 'FinTop DATA <fintopdata.info@gmail.com>');
       this.logger.log('Resend API key configured — emails will be sent via Resend HTTPS API.' + (this.transporter ? ' SMTP fallback available.' : ''));
     } else if (brevoApiKey) {
       const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
-      const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@fintopdata.vn');
+      const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@gmail.com');
       this.fromAddress = `${fromName} <${fromEmail}>`;
       this.logger.log('Brevo API key configured — emails will be sent via Brevo HTTPS API.' + (this.transporter ? ' SMTP fallback available.' : ''));
     } else if (this.transporter) {
-      this.fromAddress = this.config.get<string>('SMTP_FROM', `FinTop DATA <${smtpUser}>`);
+      this.fromAddress = this.config.get<string>('SMTP_FROM', `FinTop DATA <${smtpUser || 'fintopdata.info@gmail.com'}>`);
       this.logger.log(`SMTP configured as primary email provider: ${smtpHost}:${smtpPort}`);
     } else {
-      this.fromAddress = 'FinTop DATA <noreply@fintopdata.vn>';
+      this.fromAddress = 'FinTop DATA <fintopdata.info@gmail.com>';
       this.logger.warn('Neither Resend, Brevo API Key nor SMTP credentials configured — emails will be logged but not sent.');
     }
   }
@@ -168,7 +168,7 @@ export class MailService {
 
   private async sendMailViaBrevo(to: string, subject: string, html: string, apiKey: string): Promise<boolean> {
     const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
-    const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@fintopdata.vn');
+    const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@gmail.com');
     const replyTo = this.config.get<string>('MAIL_REPLY_TO', 'fintopdata.info@gmail.com');
     const bccEmail = this.config.get<string>('MAIL_BCC', 'fintopdata.info@gmail.com');
     try {
@@ -233,15 +233,20 @@ export class MailService {
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
 <body style="margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0f0a1e;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
-    <tr><td style="padding:40px 32px 0;">
-      <div style="text-align:center;margin-bottom:32px;">
-        <img src="https://fintopdata.vn/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.3);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+    <tr><td style="padding:40px 32px 32px;">
+      <div style="text-align:center;margin-bottom:28px;">
+        <div style="display:inline-block;padding:12px;background:rgba(139,92,246,0.15);border-radius:50%;border:1px solid rgba(139,92,246,0.4);margin-bottom:12px;">
+          <img src="https://fintopdata.vn/assets/images/fintop-logo-circle-icon.png" width="60" height="60" alt="FinTop DATA" style="display:block;width:60px;height:60px;border:0;outline:none;text-decoration:none;margin:0 auto;">
+        </div>
+        <div style="font-size:22px;font-weight:800;letter-spacing:1px;color:#ffffff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin-bottom:4px;">
+          FinTop <span style="color:#c4b5fd;">DATA</span>
+        </div>
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <h2 style="color:#ffffff;font-size:18px;font-weight:600;margin-top:0;margin-bottom:20px;text-align:center;letter-spacing:0.5px;">YÊU CẦU ĐẶT LẠI MẬT KHẨU</h2>
       <p style="color:#e2e8f0;font-size:15px;line-height:1.7;margin:0 0 8px;">Xin chào <strong style="color:#c4b5fd;">${this.escapeHtml(fullName)}</strong>,</p>
-      <p style="color:#94a3b8;font-size:14px;line-height:1.7;margin:0 0 24px;">Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn. Nhấn nút bên dưới để tạo mật khẩu mới:</p>
+      <p style="color:#94a3b8;font-size:14px;line-height:1.7;margin:0 0 24px;">Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn tại FinTop DATA. Nhấn nút bên dưới để tạo mật khẩu mới:</p>
       <div style="text-align:center;margin:32px 0;">
         <a href="${resetLink}" style="display:inline-block;padding:14px 40px;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;text-decoration:none;border-radius:10px;font-weight:700;font-size:15px;letter-spacing:0.5px;box-shadow:0 4px 16px rgba(139,92,246,0.3);">
           Đặt lại mật khẩu
@@ -250,7 +255,7 @@ export class MailService {
       <p style="color:#64748b;font-size:13px;line-height:1.6;margin:0 0 8px;">⏱ Link có hiệu lực trong <strong>30 phút</strong>.</p>
       <p style="color:#64748b;font-size:13px;line-height:1.6;margin:0 0 24px;">Nếu bạn không yêu cầu đặt lại mật khẩu, hãy bỏ qua email này. Tài khoản của bạn vẫn an toàn.</p>
       <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:16px;text-align:center;">
-        <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Nếu gặp sự cố, bạn vui lòng phản hồi lại email này hoặc liên hệ hotline: 086.234.8886</p>
+        <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Nếu gặp sự cố, bạn vui lòng phản hồi lại email này (<a href="mailto:fintopdata.info@gmail.com" style="color:#c4b5fd;text-decoration:none;">fintopdata.info@gmail.com</a>) hoặc liên hệ hotline: 086.234.8886</p>
         <p style="color:#475569;font-size:11px;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
       </div>
     </td></tr>
@@ -270,10 +275,15 @@ export class MailService {
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
 <body style="margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0f0a1e;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
-    <tr><td style="padding:40px 32px 0;">
-      <div style="text-align:center;margin-bottom:32px;">
-        <img src="https://fintopdata.vn/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.3);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+    <tr><td style="padding:40px 32px 32px;">
+      <div style="text-align:center;margin-bottom:28px;">
+        <div style="display:inline-block;padding:12px;background:rgba(139,92,246,0.15);border-radius:50%;border:1px solid rgba(139,92,246,0.4);margin-bottom:12px;">
+          <img src="https://fintopdata.vn/assets/images/fintop-logo-circle-icon.png" width="60" height="60" alt="FinTop DATA" style="display:block;width:60px;height:60px;border:0;outline:none;text-decoration:none;margin:0 auto;">
+        </div>
+        <div style="font-size:22px;font-weight:800;letter-spacing:1px;color:#ffffff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin-bottom:4px;">
+          FinTop <span style="color:#c4b5fd;">DATA</span>
+        </div>
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <h2 style="color:#ffffff;font-size:18px;font-weight:600;margin-top:0;margin-bottom:20px;text-align:center;letter-spacing:0.5px;">XÁC THỰC TÀI KHOẢN</h2>
@@ -283,7 +293,7 @@ export class MailService {
       <p style="color:#64748b;font-size:13px;line-height:1.6;margin:0 0 8px;">⏱ Mã có hiệu lực trong <strong>10 phút</strong>.</p>
       <p style="color:#64748b;font-size:13px;line-height:1.6;margin:0 0 24px;">Nếu bạn không yêu cầu mã này, hãy bỏ qua email này.</p>
       <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:16px;text-align:center;">
-        <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Nếu gặp sự cố xác thực, bạn vui lòng phản hồi lại email này hoặc liên hệ hotline: 086.234.8886</p>
+        <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Nếu gặp sự cố xác thực, bạn vui lòng phản hồi lại email này (<a href="mailto:fintopdata.info@gmail.com" style="color:#c4b5fd;text-decoration:none;">fintopdata.info@gmail.com</a>) hoặc liên hệ hotline: 086.234.8886</p>
         <p style="color:#475569;font-size:11px;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
       </div>
     </td></tr>
@@ -298,10 +308,15 @@ export class MailService {
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
 <body style="margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0f0a1e;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
-    <tr><td style="padding:40px 32px 0;">
-      <div style="text-align:center;margin-bottom:32px;">
-        <img src="https://fintopdata.vn/assets/images/fintop-logo.png" alt="FinTop DATA" style="max-height:60px;display:inline-block;vertical-align:middle;margin-bottom:8px;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;background:linear-gradient(145deg,#1a1432,#0d0b1a);border-radius:16px;border:1px solid rgba(139,92,246,0.3);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+    <tr><td style="padding:40px 32px 32px;">
+      <div style="text-align:center;margin-bottom:28px;">
+        <div style="display:inline-block;padding:12px;background:rgba(139,92,246,0.15);border-radius:50%;border:1px solid rgba(139,92,246,0.4);margin-bottom:12px;">
+          <img src="https://fintopdata.vn/assets/images/fintop-logo-circle-icon.png" width="60" height="60" alt="FinTop DATA" style="display:block;width:60px;height:60px;border:0;outline:none;text-decoration:none;margin:0 auto;">
+        </div>
+        <div style="font-size:22px;font-weight:800;letter-spacing:1px;color:#ffffff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin-bottom:4px;">
+          FinTop <span style="color:#c4b5fd;">DATA</span>
+        </div>
         <div style="width:60px;height:3px;background:linear-gradient(90deg,#8b5cf6,#6366f1);margin:12px auto 0;border-radius:4px;"></div>
       </div>
       <div style="text-align:center;margin-bottom:24px;">
@@ -324,7 +339,7 @@ export class MailService {
         </a>
       </div>
       <div style="border-top:1px solid rgba(100,116,139,0.2);padding-top:16px;margin-top:24px;text-align:center;">
-        <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Cần hỗ trợ? Bạn vui lòng phản hồi lại email này hoặc gọi hotline: 086.234.8886</p>
+        <p style="color:#94a3b8;font-size:12px;margin:0 0 8px;">Cần hỗ trợ? Bạn vui lòng phản hồi lại email này (<a href="mailto:fintopdata.info@gmail.com" style="color:#c4b5fd;text-decoration:none;">fintopdata.info@gmail.com</a>) hoặc gọi hotline: 086.234.8886</p>
         <p style="color:#475569;font-size:11px;margin:0;">© 2026 FinTop DATA — Kỷ Nguyên Đầu Tư Mới</p>
       </div>
     </td></tr>
@@ -363,7 +378,7 @@ export class MailService {
     } else if (hasBrevo) {
       provider = 'brevo';
       host = 'api.brevo.com';
-      user = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@fintopdata.vn');
+      user = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@gmail.com');
     } else if (hasSmtp) {
       provider = 'smtp';
       host = this.config.get<string>('SMTP_HOST', '(not set)');
