@@ -237,7 +237,7 @@ export class MailService {
     <tr><td style="padding:40px 32px 32px;">
       <div style="text-align:center;margin-bottom:28px;">
         <div style="display:inline-block;padding:12px;background:rgba(139,92,246,0.15);border-radius:50%;border:1px solid rgba(139,92,246,0.4);margin-bottom:12px;">
-          <img src="${LOGO_BASE64}" width="60" height="60" alt="FinTop DATA" style="display:block;width:60px;height:60px;border:0;outline:none;text-decoration:none;margin:0 auto;">
+          <img src="https://fintopdata.vn/assets/images/fintop-logo-circle.png" width="60" height="60" alt="FinTop DATA" style="display:block;width:60px;height:60px;border:0;outline:none;text-decoration:none;margin:0 auto;">
         </div>
         <div style="font-size:22px;font-weight:800;letter-spacing:1px;color:#ffffff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin-bottom:4px;">
           FinTop <span style="color:#c4b5fd;">DATA</span>
@@ -279,7 +279,7 @@ export class MailService {
     <tr><td style="padding:40px 32px 32px;">
       <div style="text-align:center;margin-bottom:28px;">
         <div style="display:inline-block;padding:12px;background:rgba(139,92,246,0.15);border-radius:50%;border:1px solid rgba(139,92,246,0.4);margin-bottom:12px;">
-          <img src="${LOGO_BASE64}" width="60" height="60" alt="FinTop DATA" style="display:block;width:60px;height:60px;border:0;outline:none;text-decoration:none;margin:0 auto;">
+          <img src="https://fintopdata.vn/assets/images/fintop-logo-circle.png" width="60" height="60" alt="FinTop DATA" style="display:block;width:60px;height:60px;border:0;outline:none;text-decoration:none;margin:0 auto;">
         </div>
         <div style="font-size:22px;font-weight:800;letter-spacing:1px;color:#ffffff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin-bottom:4px;">
           FinTop <span style="color:#c4b5fd;">DATA</span>
@@ -312,7 +312,7 @@ export class MailService {
     <tr><td style="padding:40px 32px 32px;">
       <div style="text-align:center;margin-bottom:28px;">
         <div style="display:inline-block;padding:12px;background:rgba(139,92,246,0.15);border-radius:50%;border:1px solid rgba(139,92,246,0.4);margin-bottom:12px;">
-          <img src="${LOGO_BASE64}" width="60" height="60" alt="FinTop DATA" style="display:block;width:60px;height:60px;border:0;outline:none;text-decoration:none;margin:0 auto;">
+          <img src="https://fintopdata.vn/assets/images/fintop-logo-circle.png" width="60" height="60" alt="FinTop DATA" style="display:block;width:60px;height:60px;border:0;outline:none;text-decoration:none;margin:0 auto;">
         </div>
         <div style="font-size:22px;font-weight:800;letter-spacing:1px;color:#ffffff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin-bottom:4px;">
           FinTop <span style="color:#c4b5fd;">DATA</span>
