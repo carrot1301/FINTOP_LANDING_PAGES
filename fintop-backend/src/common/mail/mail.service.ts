@@ -92,18 +92,18 @@ export class MailService {
   // ─────────────────────────────────────────────────────
 
   private async sendMail(to: string, subject: string, html: string): Promise<boolean> {
-    const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
-    if (resendApiKey) {
-      const ok = await this.sendMailViaResend(to, subject, html, resendApiKey);
-      if (ok) return true;
-      this.logger.warn(`Resend failed for ${to}, falling back to Brevo...`);
-    }
-
     const brevoApiKey = (this.config.get<string>('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
     if (brevoApiKey) {
       const ok = await this.sendMailViaBrevo(to, subject, html, brevoApiKey);
       if (ok) return true;
       this.logger.warn(`Brevo failed for ${to}, falling back to SMTP...`);
+    }
+
+    const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
+    if (resendApiKey) {
+      const ok = await this.sendMailViaResend(to, subject, html, resendApiKey);
+      if (ok) return true;
+      this.logger.warn(`Resend failed for ${to}, falling back to SMTP...`);
     }
 
     // SMTP fallback (or primary if no API provider configured)
