@@ -7919,6 +7919,16 @@
         });
 
         function addStockTicker() {
+            // Kiểm tra tài khoản vãng lai (chưa đăng nhập)
+            if (!isBolocLoggedIn()) {
+                if (typeof requestAuthChoice === 'function') {
+                    requestAuthChoice('login', 'ĐĂNG NHẬP', 'Tra cứu cổ phiếu miễn phí!');
+                } else if (typeof openAuthModal === 'function') {
+                    openAuthModal('login');
+                }
+                return;
+            }
+
             const input = document.getElementById('stockSearchInput');
             const ticker = input.value.trim().toUpperCase();
 
@@ -10463,15 +10473,16 @@
         <div class="auth-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="authGateTitle">
             <button class="auth-gate-close" type="button" onclick="closeAuthChoice()" aria-label="Quay lại">×</button>
             <span class="auth-gate-icon" aria-hidden="true">👤</span>
-            <div class="auth-gate-kicker">Tiếp tục với FinTop DATA</div>
-            <h2 id="authGateTitle">Đăng nhập để tiếp tục</h2>
+            <div class="auth-gate-kicker" id="authGateKicker">ĐĂNG NHẬP</div>
+            <h2 id="authGateTitle">Tra cứu cổ phiếu miễn phí!</h2>
             <div class="auth-gate-actions">
                 <button class="auth-gate-action primary" type="button" data-auth-choice="login"
                     onclick="continueAuthChoice('login')">Đăng nhập</button>
                 <button class="auth-gate-action secondary" type="button" data-auth-choice="register"
                     onclick="continueAuthChoice('register')">Đăng ký</button>
+                <button class="auth-gate-action cancel" type="button" data-auth-choice="cancel"
+                    onclick="closeAuthChoice()">Quay lại</button>
             </div>
-            <button class="auth-gate-back" type="button" onclick="closeAuthChoice()">← Quay lại</button>
         </div>
     </div>
 
