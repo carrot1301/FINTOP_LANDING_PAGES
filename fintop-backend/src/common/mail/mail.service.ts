@@ -39,19 +39,16 @@ export class MailService {
       this.transporter = null as any;
     }
 
+    // Always force sender address to FinTop DATA <fintopdata.info@gmail.com>
+    this.fromAddress = 'FinTop DATA <fintopdata.info@gmail.com>';
+
     if (resendApiKey) {
-      this.fromAddress = this.config.get<string>('RESEND_FROM', 'FinTop DATA <fintopdata.info@gmail.com>');
       this.logger.log('Resend API key configured — emails will be sent via Resend HTTPS API.' + (this.transporter ? ' SMTP fallback available.' : ''));
     } else if (brevoApiKey) {
-      const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
-      const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@gmail.com');
-      this.fromAddress = `${fromName} <${fromEmail}>`;
       this.logger.log('Brevo API key configured — emails will be sent via Brevo HTTPS API.' + (this.transporter ? ' SMTP fallback available.' : ''));
     } else if (this.transporter) {
-      this.fromAddress = this.config.get<string>('SMTP_FROM', `FinTop DATA <${smtpUser || 'fintopdata.info@gmail.com'}>`);
       this.logger.log(`SMTP configured as primary email provider: ${smtpHost}:${smtpPort}`);
     } else {
-      this.fromAddress = 'FinTop DATA <fintopdata.info@gmail.com>';
       this.logger.warn('Neither Resend, Brevo API Key nor SMTP credentials configured — emails will be logged but not sent.');
     }
   }
@@ -118,10 +115,10 @@ export class MailService {
     }
 
     try {
-      const replyTo = this.config.get<string>('MAIL_REPLY_TO', 'fintopdata.info@gmail.com');
+      const replyTo = 'fintopdata.info@gmail.com';
       const bcc = this.config.get<string>('MAIL_BCC', 'fintopdata.info@gmail.com');
       const info = await this.transporter.sendMail({
-        from: this.fromAddress,
+        from: 'FinTop DATA <fintopdata.info@gmail.com>',
         to,
         replyTo,
         ...(bcc ? { bcc } : {}),
@@ -147,7 +144,7 @@ export class MailService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: this.fromAddress,
+          from: 'FinTop DATA <fintopdata.info@gmail.com>',
           to: [to],
           subject,
           html,
@@ -169,9 +166,9 @@ export class MailService {
   }
 
   private async sendMailViaBrevo(to: string, subject: string, html: string, apiKey: string): Promise<boolean> {
-    const fromName = this.config.get<string>('BREVO_FROM_NAME', 'FinTop DATA');
-    const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@gmail.com');
-    const replyTo = this.config.get<string>('MAIL_REPLY_TO', 'fintopdata.info@gmail.com');
+    const fromName = 'FinTop DATA';
+    const fromEmail = 'fintopdata.info@gmail.com';
+    const replyTo = 'fintopdata.info@gmail.com';
     const bccEmail = this.config.get<string>('MAIL_BCC', 'fintopdata.info@gmail.com');
     try {
       this.logger.log(`Sending email to ${to} via Brevo HTTPS API...`);
@@ -380,7 +377,7 @@ export class MailService {
     } else if (hasBrevo) {
       provider = 'brevo';
       host = 'api.brevo.com';
-      user = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@gmail.com');
+      user = 'fintopdata.info@gmail.com';
     } else if (hasSmtp) {
       provider = 'smtp';
       host = this.config.get<string>('SMTP_HOST', '(not set)');
