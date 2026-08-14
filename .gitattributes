@@ -1,0 +1,2 @@
+# Preserve Adobe Illustrator source files byte-for-byte and disable text merges.
+*.ai binary
