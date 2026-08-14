@@ -59,7 +59,7 @@ export class MailService {
   async sendPasswordResetEmail(email: string, token: string, fullName: string): Promise<boolean> {
     const resetLink = `${this.frontendUrl}/reset-password/?token=${encodeURIComponent(token)}`;
 
-    const subject = 'Dữ liệu chứng khoán FinTop DATA';
+    const subject = 'Dữ liệu đầu tư FinTop DATA';
     const html = this.buildPasswordResetTemplate(fullName, resetLink);
 
     return this.sendMail(email, subject, html);
@@ -70,7 +70,7 @@ export class MailService {
   // ─────────────────────────────────────────────────────
 
   async sendVerificationOTP(email: string, code: string, fullName: string): Promise<boolean> {
-    const subject = 'Dữ liệu chứng khoán FinTop DATA';
+    const subject = 'Dữ liệu đầu tư FinTop DATA';
     const html = this.buildOTPTemplate(fullName, code);
 
     return this.sendMail(email, subject, html);
