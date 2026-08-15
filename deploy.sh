@@ -56,8 +56,8 @@ server {
     location /client/ { return 301 /; }
 
     # Referral registration URLs: /dangky/CODE -> serve index.html from root
-    # This ensures relative asset paths (assets/js/*, assets/css/*) resolve correctly
-    location ~ ^/dangky/ {
+    # IMPORTANT: Only match /dangky/<code> (no sub-paths), so /dangky/assets/* falls through to location /
+    location ~ ^/dangky/[A-Za-z0-9_-]+$ {
         rewrite ^ /index.html last;
     }
 
@@ -190,7 +190,8 @@ server {
     location /client/ { return 301 /; }
 
     # Referral registration URLs: /dangky/CODE -> serve index.html from root
-    location ~ ^/dangky/ {
+    # IMPORTANT: Only match /dangky/<code> (no sub-paths), so /dangky/assets/* falls through to location /
+    location ~ ^/dangky/[A-Za-z0-9_-]+$ {
         rewrite ^ /index.html last;
     }
 
