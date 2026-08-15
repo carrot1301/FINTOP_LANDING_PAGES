@@ -108,6 +108,10 @@ const server = http.createServer((req, res) => {
   if (pathname === '/' || pathname === '/index.html') {
     filePath = path.join(PROJECT_ROOT, 'index.html');
   }
+  // 1b. Referral registration URLs: /dangky/CODE -> serve root index.html
+  else if (pathname.startsWith('/dangky/')) {
+    filePath = path.join(PROJECT_ROOT, 'index.html');
+  }
   // 2. /assets/* or /data/* goes to PROJECT_ROOT/*
   else if (pathname.startsWith('/assets/') || pathname.startsWith('/data/')) {
     filePath = path.join(PROJECT_ROOT, pathname);

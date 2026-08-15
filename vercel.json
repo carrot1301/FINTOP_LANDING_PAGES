@@ -114,6 +114,10 @@
       "destination": "/fintop_frontend/chuyen-gia/index.html"
     },
     {
+      "source": "/dangky/:code",
+      "destination": "/index.html"
+    },
+    {
       "source": "/:path*",
       "destination": "/fintop_frontend/:path*"
     }

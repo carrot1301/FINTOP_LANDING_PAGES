@@ -55,6 +55,12 @@ server {
     location = /client/des/index { return 301 /index.html#panel-guide-trading; }
     location /client/ { return 301 /; }
 
+    # Referral registration URLs: /dangky/CODE -> serve index.html from root
+    # This ensures relative asset paths (assets/js/*, assets/css/*) resolve correctly
+    location ~ ^/dangky/ {
+        rewrite ^ /index.html last;
+    }
+
     location / {
         try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ /index.html;
     }
@@ -182,6 +188,11 @@ server {
     location = /client/about/index { return 301 /nghien-cuu/chuyen-sau/; }
     location = /client/des/index { return 301 /index.html#panel-guide-trading; }
     location /client/ { return 301 /; }
+
+    # Referral registration URLs: /dangky/CODE -> serve index.html from root
+    location ~ ^/dangky/ {
+        rewrite ^ /index.html last;
+    }
 
     location / {
         try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ /index.html;

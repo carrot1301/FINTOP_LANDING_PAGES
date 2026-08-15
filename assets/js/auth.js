@@ -27,7 +27,7 @@
  * ============================================================
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+function initAuthScript() {
     // 1. User Dropdown Logic
     const userDropdownContainer = document.getElementById('userDropdownContainer');
     
@@ -237,7 +237,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     handleURLAuthAndReferral();
     window.addEventListener('hashchange', handleURLAuthAndReferral);
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAuthScript);
+} else {
+    initAuthScript();
+}
 
 function showAdminAccessLink(isVisible) {
     const adminLink = document.getElementById('adminAccessLink');
