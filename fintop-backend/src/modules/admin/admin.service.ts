@@ -465,6 +465,21 @@ export class AdminService {
     return updated;
   }
 
+  private static readonly PREDEFINED_12_ROLES = [
+    { code: 'CEO', name: 'CEO - Admin Tổng', description: 'Giám đốc Điều hành tối cao' },
+    { code: 'DEVELOPER', name: 'Developer', description: 'Kỹ sư phát triển hệ thống' },
+    { code: 'ASSISTANT_CEO', name: 'Trợ lý CEO', description: 'Trợ lý ban điều hành' },
+    { code: 'EDITOR_ADMIN', name: 'Editor Admin', description: 'Trưởng ban biên tập' },
+    { code: 'EDITOR_PRO', name: 'Editor Pro', description: 'Biên tập viên chuyên sâu' },
+    { code: 'EDITOR', name: 'Editor', description: 'Biên tập viên nội dung' },
+    { code: 'SALE_ADMIN', name: 'Sales Admin', description: 'Trưởng khối kinh doanh & môi giới' },
+    { code: 'SALE', name: 'Sale', description: 'Chuyên viên môi giới & tư vấn' },
+    { code: 'CLIENT', name: 'Khách hàng Standard', description: 'Tài khoản khách hàng tiêu chuẩn' },
+    { code: 'CLIENT_PRO', name: 'Khách hàng PRO', description: 'Tài khoản hội viên PRO' },
+    { code: 'CLIENT_VIP', name: 'Khách hàng VIP', description: 'Tài khoản hội viên VIP' },
+    { code: 'CLIENT_DIAMOND', name: 'Khách hàng Diamond', description: 'Tài khoản hội viên Diamond' },
+  ];
+
   async assignRole(userId: number, roleCode: string, adminId: number) {
     await this.enforceRoleHierarchy(userId, adminId, 'gán vai trò');
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
@@ -472,11 +487,20 @@ export class AdminService {
       throw new NotFoundException('User not found');
     }
 
-    const role = await this.prisma.role.findFirst({
+    let role = await this.prisma.role.findFirst({
       where: { code: roleCode as any, deletedAt: null },
     });
     if (!role) {
-      throw new NotFoundException(`Role "${roleCode}" not found`);
+      const foundPredefined = AdminService.PREDEFINED_12_ROLES.find(r => r.code === roleCode);
+      role = await this.prisma.role.create({
+        data: {
+          code: roleCode as any,
+          name: foundPredefined?.name || roleCode,
+          description: foundPredefined?.description,
+          isSystem: true,
+          status: 'ACTIVE',
+        },
+      });
     }
 
     // Check if already assigned
@@ -808,6 +832,23 @@ export class AdminService {
   // ─────────────────────────────────────────────────────
 
   async getRoles() {
+    for (const r of AdminService.PREDEFINED_12_ROLES) {
+      const exists = await this.prisma.role.findFirst({
+        where: { code: r.code as any, deletedAt: null },
+      });
+      if (!exists) {
+        await this.prisma.role.create({
+          data: {
+            code: r.code as any,
+            name: r.name,
+            description: r.description,
+            isSystem: true,
+            status: 'ACTIVE',
+          },
+        });
+      }
+    }
+
     const roles = await this.prisma.role.findMany({
       where: { deletedAt: null },
       include: {

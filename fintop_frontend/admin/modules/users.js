@@ -620,21 +620,32 @@ function showUpgradeModal(userId, userName, currentTier) {
 // DETAIL PANEL (Chi tiết & Phân quyền — preserved from original)
 // ─────────────────────────────────────────────────────────────
 
+const ALL_12_ROLES = [
+  { code: 'CEO', label: '🔴 CEO - Admin Tổng' },
+  { code: 'DEVELOPER', label: '🟣 Developer' },
+  { code: 'ASSISTANT_CEO', label: '🔴 Trợ lý CEO' },
+  { code: 'EDITOR_ADMIN', label: '🔵 Editor Admin' },
+  { code: 'EDITOR_PRO', label: '🔵 Editor Pro' },
+  { code: 'EDITOR', label: '🔵 Editor' },
+  { code: 'SALE_ADMIN', label: '🟢 Sales Admin' },
+  { code: 'SALE', label: '🟢 Sale' },
+  { code: 'CLIENT', label: '⚪ Khách hàng Standard' },
+  { code: 'CLIENT_PRO', label: '🔵 Khách hàng PRO' },
+  { code: 'CLIENT_VIP', label: '🟡 Khách hàng VIP' },
+  { code: 'CLIENT_DIAMOND', label: '⭐ Khách hàng Diamond' },
+];
+
 async function showUserDetail(userId) {
   const detailContainer = document.getElementById('user-detail-area');
   if (!detailContainer) return;
   detailContainer.innerHTML = '<div class="admin-loading"><div class="admin-spinner"></div></div>';
 
   try {
-    const [userDetailRes, allRolesRes] = await Promise.all([
-      API().get(EP().ADMIN_USER_DETAIL(userId)),
-      API().get(EP().ADMIN_ROLES),
-    ]);
+    const userDetailRes = await API().get(EP().ADMIN_USER_DETAIL(userId));
     const u = userDetailRes.data || userDetailRes;
-    const allRoles = allRolesRes.data || allRolesRes;
 
-    const assignedCodes = (u.roles || []).map(r => r.code);
-    const unassignedRoles = (allRoles || []).filter(r => !assignedCodes.includes(r.code));
+    const assignedCodes = (u.roles || []).map(r => r.code || r);
+    const unassignedRoles = ALL_12_ROLES.filter(r => !assignedCodes.includes(r.code));
 
     detailContainer.innerHTML = `
       <div class="admin-modal-overlay" id="detail-modal-overlay">
@@ -744,12 +755,9 @@ async function showUserDetail(userId) {
                 <div style="font-size:0.8rem; color:var(--text-muted);">Người dùng đã sở hữu tất cả các vai trò.</div>
               ` : `
                 <div style="display:flex; gap:0.5rem; align-items:center;">
-                  <select class="admin-select" id="assign-role-select" style="min-width:180px;">
+                  <select class="admin-select" id="assign-role-select" style="min-width:240px;">
                     <option value="">-- Chọn vai trò --</option>
-                    ${unassignedRoles.map(r => {
-                      const display = ROLE_DISPLAY[r.code] || { label: r.name || r.code };
-                      return `<option value="${esc(r.code)}">${esc(display.label)}</option>`;
-                    }).join('')}
+                    ${unassignedRoles.map(r => `<option value="${esc(r.code)}">${esc(r.label)}</option>`).join('')}
                   </select>
                   <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-assign-role">Gán vai trò</button>
                 </div>
