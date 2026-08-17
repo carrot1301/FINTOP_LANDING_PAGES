@@ -110,7 +110,7 @@ function renderStaffTable(container) {
     searchPlaceholder: 'Tìm theo tên, email, SĐT...',
     filters: {
       roleCode: {
-        label: 'Tất cả Vai trò',
+        label: 'Vai trò',
         options: [
           { value: 'CEO', label: '🔴 CEO - Admin Tổng' },
           { value: 'DEVELOPER', label: '🟣 Developer' },
@@ -120,11 +120,10 @@ function renderStaffTable(container) {
           { value: 'EDITOR', label: '🔵 Editor' },
           { value: 'SALE_ADMIN', label: '🟢 Sales Admin' },
           { value: 'SALE', label: '🟢 Sale' },
-          { value: 'EXPERT', label: '🟡 Chuyên gia Cố vấn' },
         ],
       },
       status: {
-        label: 'Tất cả Trạng thái',
+        label: 'Trạng thái',
         options: [
           { value: 'ACTIVE', label: 'Hoạt động' },
           { value: 'INACTIVE', label: 'Ngưng' },
