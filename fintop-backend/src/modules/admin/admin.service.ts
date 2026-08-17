@@ -250,7 +250,7 @@ export class AdminService {
 
   private static readonly CLIENT_ROLE_CODES = ['CLIENT', 'CLIENT_VIP'];
 
-  async getUsers(page = 1, limit = 20, search?: string, status?: string, userType?: string, tierLevel?: string) {
+  async getUsers(page = 1, limit = 20, search?: string, status?: string, userType?: string, tierLevel?: string, roleCode?: string) {
     const skip = (page - 1) * limit;
     const where: Prisma.UserWhereInput = { deletedAt: null };
 
@@ -277,6 +277,16 @@ export class AdminService {
           { referralName: { contains: query, mode: 'insensitive' } },
           { referralId: { contains: query, mode: 'insensitive' } },
         ],
+      });
+    }
+
+    if (roleCode && roleCode.trim() !== '') {
+      andConditions.push({
+        userRoles: {
+          some: {
+            role: { code: roleCode.trim() as any },
+          },
+        },
       });
     }
 

@@ -109,8 +109,22 @@ function renderStaffTable(container) {
     searchable: true,
     searchPlaceholder: 'Tìm theo tên, email, SĐT...',
     filters: {
+      roleCode: {
+        label: 'Tất cả Vai trò',
+        options: [
+          { value: 'CEO', label: '🔴 CEO - Admin Tổng' },
+          { value: 'DEVELOPER', label: '🟣 Developer' },
+          { value: 'ASSISTANT_CEO', label: '🔴 Trợ lý CEO' },
+          { value: 'EDITOR_ADMIN', label: '🔵 Editor Admin' },
+          { value: 'EDITOR_PRO', label: '🔵 Editor Pro' },
+          { value: 'EDITOR', label: '🔵 Editor' },
+          { value: 'SALE_ADMIN', label: '🟢 Sales Admin' },
+          { value: 'SALE', label: '🟢 Sale' },
+          { value: 'EXPERT', label: '🟡 Chuyên gia Cố vấn' },
+        ],
+      },
       status: {
-        label: 'trạng thái',
+        label: 'Tất cả Trạng thái',
         options: [
           { value: 'ACTIVE', label: 'Hoạt động' },
           { value: 'INACTIVE', label: 'Ngưng' },
@@ -119,15 +133,41 @@ function renderStaffTable(container) {
       },
     },
     fetchData: async (page, filters) => {
-      const qs = API().toQuery({ page, limit: 15, search: filters.search, status: filters.status, userType: 'staff' });
+      const qs = API().toQuery({
+        page: 1,
+        limit: 1000,
+        search: filters.search,
+        status: filters.status,
+        roleCode: filters.roleCode,
+        userType: 'staff',
+      });
       const res = await API().get(EP().ADMIN_USERS + qs);
-      const data = res.data || [];
-      const meta = res.meta || { total: data.length, page: 1, limit: 15, totalPages: 1 };
+      let rawData = res.data || [];
+      if (Array.isArray(res)) rawData = res;
 
-      const startIdx = ((meta.page || 1) - 1) * (meta.limit || 15);
-      data.forEach((u, i) => { u._stt = startIdx + i + 1; });
+      // Role filter fallback
+      if (filters.roleCode) {
+        const targetRole = filters.roleCode.toUpperCase();
+        rawData = rawData.filter(u => {
+          const userRoles = (u.roles || u.userRoles || []).map(r => (r.code || r).toUpperCase());
+          return userRoles.includes(targetRole);
+        });
+      }
 
-      return { data, meta };
+      // Pagination calculation
+      const limit = 15;
+      const total = rawData.length;
+      const totalPages = Math.ceil(total / limit) || 1;
+      const currentPage = Math.min(page, totalPages);
+      const startIdx = (currentPage - 1) * limit;
+      const pageData = rawData.slice(startIdx, startIdx + limit);
+
+      pageData.forEach((u, i) => { u._stt = startIdx + i + 1; });
+
+      return {
+        data: pageData,
+        meta: { total, page: currentPage, limit, totalPages },
+      };
     },
     renderRow: (u) => {
       const phone = u.phone || u.phoneNumber || '';
