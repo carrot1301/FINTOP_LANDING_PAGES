@@ -840,17 +840,16 @@ async function showStaffDetail(userId) {
 
             <div style="margin-top:1.25rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:1rem;">
               <div class="admin-detail-label" style="margin-bottom:0.5rem;">🔑 Cấp vai trò mới</div>
-              ${unassignedRoles.length === 0 ? `
-                <div style="font-size:0.8rem; color:var(--text-muted);">Nhân viên đã sở hữu tất cả các vai trò.</div>
-              ` : `
-                <div style="display:flex; gap:0.5rem; align-items:center;">
-                  <select class="admin-select" id="staff-assign-role-select" style="min-width:240px;">
-                    <option value="">-- Chọn vai trò --</option>
-                    ${unassignedRoles.map(r => `<option value="${esc(r.code)}">${esc(r.label)}</option>`).join('')}
-                  </select>
-                  <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-staff-assign-role">Gán vai trò</button>
-                </div>
-              `}
+              <div style="display:flex; gap:0.5rem; align-items:center;">
+                <select class="admin-select" id="staff-assign-role-select" style="min-width:260px;">
+                  <option value="">-- Chọn vai trò --</option>
+                  ${ALL_12_ROLES.map(r => {
+                    const isCurrent = assignedCodes.includes(r.code);
+                    return `<option value="${esc(r.code)}">${esc(r.label)}${isCurrent ? ' (Hiện tại)' : ''}</option>`;
+                  }).join('')}
+                </select>
+                <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-staff-assign-role">Gán vai trò</button>
+              </div>
             </div>
 
             ${u.recentSessions && u.recentSessions.length > 0 ? `

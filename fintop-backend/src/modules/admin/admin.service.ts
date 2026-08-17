@@ -487,6 +487,29 @@ export class AdminService {
       throw new NotFoundException('User not found');
     }
 
+    const clientRoleCodes = ['CLIENT', 'CLIENT_PRO', 'CLIENT_VIP', 'CLIENT_DIAMOND'];
+
+    // If assigning a customer role, remove old customer roles so user has exactly 1 customer role tier
+    if (clientRoleCodes.includes(roleCode)) {
+      await this.prisma.userRole.deleteMany({
+        where: {
+          userId,
+          role: { code: { in: clientRoleCodes as any } },
+        },
+      });
+
+      // Update tierLevel matching the customer role
+      let tierLevel: SUBSCRIPTION_TIER = SUBSCRIPTION_TIER.STANDARD;
+      if (roleCode === 'CLIENT_PRO') tierLevel = SUBSCRIPTION_TIER.SILVER;
+      else if (roleCode === 'CLIENT_VIP') tierLevel = SUBSCRIPTION_TIER.GOLD;
+      else if (roleCode === 'CLIENT_DIAMOND') tierLevel = SUBSCRIPTION_TIER.DIAMOND;
+
+      await this.prisma.user.update({
+        where: { id: userId },
+        data: { tierLevel },
+      });
+    }
+
     let role = await this.prisma.role.findFirst({
       where: { code: roleCode as any, deletedAt: null },
     });
