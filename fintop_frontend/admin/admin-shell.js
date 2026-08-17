@@ -469,7 +469,7 @@ async function onHashChange() {
   container.innerHTML = '<div class="admin-loading"><div class="admin-spinner"></div> Đang tải module...</div>';
 
   try {
-    const mod = await import(`./modules/${moduleId}.js`);
+    const mod = await import(`./modules/${moduleId}.js?v=${Date.now()}`);
     const moduleExport = mod.default || mod;
     currentModule = moduleExport;
 
