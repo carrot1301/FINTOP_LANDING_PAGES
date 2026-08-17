@@ -27,6 +27,108 @@ export class AdminService {
     private readonly redisService: RedisService,
   ) { }
 
+  async onModuleInit() {
+    const mockEmails = [
+      'user_silver@fintop.vn',
+      'user_gold@fintop.vn',
+      'user_diamond@fintop.vn',
+      'test_billing@fintop.vn',
+      'test1@fintop.vn',
+      'testuser2026@fintopdata.vn',
+      'api-test@fintop.vn',
+      'alertuser@fintop.vn',
+      'realtime@fintop.vn',
+      'testuser@fintop.vn',
+      'ceo@fintop.vn',
+      'assistant@fintop.vn',
+      'editor.admin@fintop.vn',
+      'editor.pro@fintop.vn',
+      'editor@fintop.vn',
+      'expert@fintop.vn',
+      'sale.admin@fintop.vn',
+      'sale@fintop.vn',
+    ];
+
+    try {
+      // 1. Soft-delete mock accounts
+      await this.prisma.user.updateMany({
+        where: {
+          email: { in: mockEmails },
+          deletedAt: null,
+        },
+        data: {
+          deletedAt: new Date(),
+          status: RECORD_STATUS.INACTIVE,
+        },
+      });
+
+      // 2. Restore client managers for target users on Production DB
+      const managerMappings: Record<string, string> = {
+        'ptu186204@gmail.com': '8043',
+        'xolano8558@gmail.com': '8043',
+        'phuonganh2559@gmail.com': '8043',
+        'huongdn2008@gmail.com': '8043',
+        'thanhcaht38@gmail.com': '8043',
+        'maitiendung210899@gmail.com': '8043',
+        'tuanminh310820@gmail.com': 'BF14',
+        'ltdung.cn4@gmail.com': '5016',
+        'hovanlinh@yahoo.com': '5016',
+        'thuytrangle171024@gmail.com': '6061',
+        'minhorigin2003@gmail.com': '6061',
+        'aiphuong88@gmail.com': '6061',
+        'tuanlong95.nuce@gmail.com': '6061',
+        'haanh.n2211@gmail.com': '6061',
+        'thientu8d@gmail.com': 'BE91',
+        'chuphuongg032@gmail.com': 'BOJE',
+        'hpnguyen1996@gmail.com': 'BOJE',
+        'nguyenthanhan6102004@gmail.com': 'BOJE',
+      };
+
+      for (const [email, staffCode] of Object.entries(managerMappings)) {
+        const staff = await this.prisma.user.findFirst({
+          where: { staffCode, deletedAt: null },
+          select: { id: true, staffCode: true, fullName: true },
+        });
+        if (staff) {
+          await this.prisma.user.updateMany({
+            where: { email, deletedAt: null },
+            data: {
+              brokerId: staff.id,
+              referralId: staff.staffCode,
+              referralName: staff.fullName,
+            },
+          });
+        }
+      }
+
+      // 3. Fallback safety: Ensure no client has brokerId pointing to Developer (BW9B / tuannv7105@gmail.com)
+      const devUser = await this.prisma.user.findFirst({
+        where: { OR: [{ staffCode: 'BW9B' }, { email: 'tuannv7105@gmail.com' }] },
+        select: { id: true },
+      });
+
+      const managerLinh = await this.prisma.user.findFirst({
+        where: { staffCode: '8043', deletedAt: null },
+        select: { id: true, staffCode: true, fullName: true },
+      });
+
+      if (devUser && managerLinh) {
+        await this.prisma.user.updateMany({
+          where: { brokerId: devUser.id, deletedAt: null },
+          data: {
+            brokerId: managerLinh.id,
+            referralId: managerLinh.staffCode,
+            referralName: managerLinh.fullName,
+          },
+        });
+      }
+
+      this.logger.log('Cleaned up mock accounts and restored all original client managers on startup.');
+    } catch (e: any) {
+      this.logger.error(`Error in onModuleInit manager migration: ${e.message}`);
+    }
+  }
+
   private async clearUserPermissionsCache(userId: number) {
     try {
       const cacheKey = `user:permissions:${userId}`;
