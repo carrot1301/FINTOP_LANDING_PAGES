@@ -283,6 +283,27 @@ export class BlogService {
   }
 
   async getAllCategories() {
+    const defaultCategories = [
+      { slug: 'thi-truong', name: 'Thị trường' },
+      { slug: 'pro-research', name: 'PRO Research' },
+      { slug: 'doanh-nghiep', name: 'Doanh nghiệp' },
+      { slug: 'ncpt-nganh', name: 'NCPT Ngành' },
+      { slug: 'pro-data', name: 'PRO Data' },
+      { slug: 'dinh-luong', name: 'Định lượng' },
+    ];
+
+    try {
+      for (const cat of defaultCategories) {
+        await this.prisma.category.upsert({
+          where: { slug: cat.slug },
+          update: {},
+          create: { slug: cat.slug, name: cat.name },
+        });
+      }
+    } catch (err) {
+      this.logger.warn(`Failed to auto-upsert default categories: ${err.message}`);
+    }
+
     return this.prisma.category.findMany({
       orderBy: { id: 'asc' },
     });
