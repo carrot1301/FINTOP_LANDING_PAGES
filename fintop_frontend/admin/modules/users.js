@@ -248,11 +248,13 @@ export default {
         let brokerDisplay = '-';
         if (broker) {
           const bName = broker.fullName || broker.name || (typeof broker === 'string' ? broker : '');
-          const bCode = broker.staffCode || '';
+          const bCode = broker.staffCode || broker.code || broker.team?.code || '';
           if (bCode && bName) {
             brokerDisplay = `${bCode} - ${bName}`;
           } else if (bName) {
             brokerDisplay = bName;
+          } else if (bCode) {
+            brokerDisplay = bCode;
           }
         }
         const phone = u.phone || u.phoneNumber || '';

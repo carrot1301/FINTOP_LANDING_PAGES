@@ -422,6 +422,14 @@ export class AdminService {
         },
         department: true,
         team: true,
+        broker: {
+          select: {
+            id: true,
+            fullName: true,
+            staffCode: true,
+            email: true,
+          },
+        },
       },
     });
 
