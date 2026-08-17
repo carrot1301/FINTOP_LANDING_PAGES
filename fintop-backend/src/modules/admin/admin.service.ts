@@ -258,9 +258,8 @@ export class AdminService {
       where.status = status as RECORD_STATUS;
     }
 
-    if (tierLevel && Object.values(SUBSCRIPTION_TIER).includes(tierLevel.toUpperCase() as SUBSCRIPTION_TIER)) {
-      where.tierLevel = tierLevel.toUpperCase() as SUBSCRIPTION_TIER;
-    }
+    // NOTE: tierLevel filtering is handled client-side to also match by assigned roles
+    // (e.g. users with tierLevel=STANDARD but role=CLIENT_VIP)
 
     const andConditions: Prisma.UserWhereInput[] = [];
 

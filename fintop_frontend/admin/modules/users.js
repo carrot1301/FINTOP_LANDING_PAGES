@@ -29,66 +29,62 @@ let upgradeModalEl = null;
 // ─────────────────────────────────────────────────────────────
 
 const INVESTMENT_DURATION_LABELS = {
-  '0_3':  '0 - 3 tháng',
-  '3_6':  '3 - 6 tháng',
+  '0_3': '0 - 3 tháng',
+  '3_6': '3 - 6 tháng',
   '6_12': '6 - 12 tháng',
-  '12_':  'Trên 12 tháng',
+  '12_': 'Trên 12 tháng',
   // Vietnamese values from registration form
-  '0-3 tháng':  '0 - 3 tháng',
-  '3-6 tháng':  '3 - 6 tháng',
+  '0-3 tháng': '0 - 3 tháng',
+  '3-6 tháng': '3 - 6 tháng',
   '6-12 tháng': '6 - 12 tháng',
   'Trên 1 năm': 'Trên 12 tháng',
 };
 
 const INVESTMENT_STYLE_LABELS = {
-  'short_term':   'Lướt sóng ngắn hạn',
-  'medium_long':  'Trung và dài hạn',
-  'flexible':     'Linh hoạt kết hợp',
+  'short_term': 'Lướt sóng ngắn hạn',
+  'medium_long': 'Trung và dài hạn',
+  'flexible': 'Linh hoạt kết hợp',
   // Vietnamese values from registration form
   'Lướt sóng ngắn hạn': 'Lướt sóng ngắn hạn',
-  'Trung và dài hạn':   'Trung và dài hạn',
-  'Linh hoạt kết hợp':  'Linh hoạt kết hợp',
+  'Trung và dài hạn': 'Trung và dài hạn',
+  'Linh hoạt kết hợp': 'Linh hoạt kết hợp',
 };
 
 const TIER_LABELS = {
-  standard: 'Khách hàng Standard',
-  silver:   'Khách hàng PRO',
-  gold:     'Khách hàng VIP',
-  diamond:  'Khách hàng Diamond',
-  vip:      'Khách hàng VIP',
-  pro:      'Khách hàng PRO',
-  thường:   'Khách hàng Standard',
+  standard: 'Khách hàng',
+  silver: 'Khách hàng Pro',
+  gold: 'Khách hàng VIP',
+  diamond: 'Khách hàng Diamond',
+  vip: 'Khách hàng VIP',
 };
 
 const ROLE_DISPLAY = {
-  CEO:            { label: 'CEO - Admin Tổng',     color: '#ff3b3b' },
-  SUPER_ADMIN:    { label: 'CEO - Admin Tổng',     color: '#ff3b3b' },
-  DEVELOPER:      { label: 'Developer',            color: '#a855f7' },
-  ASSISTANT_CEO:  { label: 'Trợ lý CEO',           color: '#ff6b6b' },
-  EDITOR_ADMIN:   { label: 'Editor Admin',         color: '#3b82f6' },
-  EDITOR_PRO:     { label: 'Editor Pro',           color: '#60a5fa' },
-  EDITOR:         { label: 'Editor',               color: '#93c5fd' },
-  SALE_ADMIN:     { label: 'Sales Admin',          color: '#22c55e' },
-  SALE:           { label: 'Sale',                 color: '#4ade80' },
-  CLIENT_DIAMOND: { label: 'Khách hàng Diamond',    color: '#eab308' },
-  CLIENT_VIP:     { label: 'Khách hàng VIP',        color: '#f59e0b' },
-  CLIENT_PRO:     { label: 'Khách hàng PRO',        color: '#3b82f6' },
-  CLIENT:         { label: 'Khách hàng Standard',   color: '#94a3b8' },
+  CEO: { label: 'CEO - Admin Tổng', color: '#ff3b3b' },
+  SUPER_ADMIN: { label: 'CEO - Admin Tổng', color: '#ff3b3b' },
+  DEVELOPER: { label: 'Developer', color: '#a855f7' },
+  ASSISTANT_CEO: { label: 'Trợ lý CEO', color: '#ff6b6b' },
+  EDITOR_ADMIN: { label: 'Editor Admin', color: '#3b82f6' },
+  EDITOR_PRO: { label: 'Editor Pro', color: '#60a5fa' },
+  EDITOR: { label: 'Editor', color: '#93c5fd' },
+  SALE_ADMIN: { label: 'Sales Admin', color: '#22c55e' },
+  SALE: { label: 'Sale', color: '#4ade80' },
+  CLIENT_DIAMOND: { label: 'Khách hàng Diamond', color: '#eab308' },
+  CLIENT_VIP: { label: 'Khách hàng VIP', color: '#f59e0b' },
+  CLIENT_PRO: { label: 'Khách hàng PRO', color: '#3b82f6' },
+  CLIENT: { label: 'Khách hàng Standard', color: '#94a3b8' },
 };
 
 function getRoleLabel(roles) {
-  if (!roles || roles.length === 0) return `<span style="color:#94a3b8"> Khách hàng Standard </span>`;
+  if (!roles || roles.length === 0) return `<span style="color:#ff7c00"> Khách hàng </span>`;
   const primary = roles[0];
   const code = primary.code || primary;
-  const display = ROLE_DISPLAY[code] || { label: code, color: '#94a3b8' };
+  const display = ROLE_DISPLAY[code] || { label: code, color: '#ff7c00' };
   return `<span style="color:${display.color}"> ${display.label} </span>`;
 }
 
 function getTierLabel(tier) {
-  if (!tier) return 'Khách hàng Standard';
-  const t = String(tier).toLowerCase().trim();
-  if (t === 'thường' || t === 'standard') return 'Khách hàng Standard';
-  return TIER_LABELS[t] || 'Khách hàng Standard';
+  const t = (tier || 'standard').toLowerCase();
+  return TIER_LABELS[t] || tier || 'Thường';
 }
 
 function getInvestDurationLabel(val) {
@@ -157,7 +153,7 @@ export default {
         }
       },
       fetchData: async (page, filters) => {
-        const qs = API().toQuery({ page: 1, limit: 1000, search: filters.search, status: filters.status, tierLevel: filters.tierLevel, userType: 'client' });
+        const qs = API().toQuery({ page: 1, limit: 1000, search: filters.search, status: filters.status, userType: 'client' });
         const res = await API().get(EP().ADMIN_USERS + qs);
         let rawData = res.data || [];
         if (Array.isArray(res)) rawData = res;
@@ -170,12 +166,29 @@ export default {
         });
 
         // Multi-field search and tier filtering fallback
+        // Check BOTH tierLevel AND assigned roles (CLIENT_VIP, CLIENT_PRO, CLIENT_DIAMOND)
         if (filters.tierLevel) {
           const targetTier = filters.tierLevel.toUpperCase();
           rawData = rawData.filter(u => {
             const userTier = (u.tierLevel || u.legacyTier || 'STANDARD').toUpperCase();
-            if (targetTier === 'GOLD' && (userTier === 'VIP' || userTier === 'GOLD')) return true;
-            if (targetTier === 'SILVER' && (userTier === 'PRO' || userTier === 'SILVER')) return true;
+            const userRoles = (u.roles || u.userRoles || []).map(r => (r.code || r).toUpperCase());
+
+            // Map filter value to matching tierLevel values AND role codes
+            if (targetTier === 'GOLD') {
+              return userTier === 'GOLD' || userTier === 'VIP' || userRoles.includes('CLIENT_VIP');
+            }
+            if (targetTier === 'SILVER') {
+              return userTier === 'SILVER' || userTier === 'PRO' || userRoles.includes('CLIENT_PRO');
+            }
+            if (targetTier === 'DIAMOND') {
+              return userTier === 'DIAMOND' || userRoles.includes('CLIENT_DIAMOND');
+            }
+            if (targetTier === 'STANDARD') {
+              // Standard = no premium tier AND no premium role
+              const hasPremiumTier = ['SILVER', 'PRO', 'GOLD', 'VIP', 'DIAMOND'].includes(userTier);
+              const hasPremiumRole = userRoles.some(r => ['CLIENT_VIP', 'CLIENT_PRO', 'CLIENT_DIAMOND'].includes(r));
+              return !hasPremiumTier && !hasPremiumRole;
+            }
             return userTier === targetTier;
           });
         }
@@ -232,14 +245,10 @@ export default {
         const joinDate = formatDate(u.createdAt);
         const stockCompany = u.stockCompany || u.securitiesCompany || u.brokerCompany || '';
         const stockAccount = u.stockAccount || u.securitiesAccount || u.brokerAccount || '';
-        const tierLabel = getTierLabel(u.tierLevel || u.legacyTier);
-        let tierHtml = `<span style="color:#94a3b8;font-weight:600;">${esc(tierLabel)}</span>`;
-        if (tierLabel.includes('PRO') || tierLabel.includes('Pro')) {
-          tierHtml = `<span style="color:#3b82f6;font-weight:bold;">${esc(tierLabel)}</span>`;
-        } else if (tierLabel.includes('VIP')) {
-          tierHtml = `<span style="color:#f59e0b;font-weight:bold;">${esc(tierLabel)}</span>`;
-        } else if (tierLabel.includes('Diamond')) {
-          tierHtml = `<span style="color:#eab308;font-weight:bold;">${esc(tierLabel)}</span>`;
+        const tierLabel = u.legacyTier || getTierLabel(u.tierLevel);
+        let tierHtml = esc(tierLabel);
+        if (tierLabel && tierLabel !== 'Thường') {
+          tierHtml = `<span style="color:#22c55e;font-weight:bold;">${esc(tierLabel)}</span>`;
         }
         const roleLabel = getRoleLabel(u.roles);
         const isActive = (u.status || '').toUpperCase() === 'ACTIVE';
@@ -258,7 +267,7 @@ export default {
           const planName = sub?.plan?.name || (tier === 'silver' ? 'Silver' : 'Gold');
           const isUnlimited = sub?.isPermanent || (sub?.endDate && new Date(sub.endDate).getFullYear() >= 2099);
           const expiryText = isUnlimited ? 'Mặc định (Vĩnh viễn)' : (sub?.endDate ? formatDate(sub.endDate) : 'Chưa kích hoạt');
-          
+
           let proofHtml = '—';
           if (u.paymentProofUrl) {
             proofHtml = `<a href="${esc(u.paymentProofUrl)}" target="_blank" style="color:var(--purple-glow);text-decoration:underline;font-weight:600;">Xem ảnh thanh toán 👁️</a>`;
@@ -361,7 +370,7 @@ export default {
       }
       const ids = Array.from(checked).map(c => parseInt(c.value));
       if (!confirm(`Bạn có chắc chắn muốn xóa ${ids.length} khách hàng đã chọn?`)) return;
-      
+
       try {
         await Promise.all(ids.map(id => API().delete(EP().ADMIN_USER_DETAIL(id))));
         showToast(`Đã xóa thành công ${ids.length} khách hàng!`);
@@ -773,9 +782,9 @@ async function showUserDetail(userId) {
                 <select class="admin-select" id="assign-role-select" style="min-width:260px;" ${isProtectedTarget ? 'disabled' : ''}>
                   <option value="">-- Chọn vai trò --</option>
                   ${ALL_12_ROLES.map(r => {
-                    const isCurrent = assignedCodes.includes(r.code);
-                    return `<option value="${esc(r.code)}">${esc(r.label)}${isCurrent ? ' (Hiện tại)' : ''}</option>`;
-                  }).join('')}
+      const isCurrent = assignedCodes.includes(r.code);
+      return `<option value="${esc(r.code)}">${esc(r.label)}${isCurrent ? ' (Hiện tại)' : ''}</option>`;
+    }).join('')}
                 </select>
                 <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-assign-role" ${isProtectedTarget ? 'disabled' : ''}>Gán vai trò</button>
               </div>
