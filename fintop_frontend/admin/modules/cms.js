@@ -15,22 +15,31 @@ let searchQuery = '';
 
 let AVAILABLE_CATEGORIES = [];
 
+const DEFAULT_CATEGORIES = [
+  { id: 1, slug: 'thi-truong', name: 'Thị trường' },
+  { id: 2, slug: 'pro-research', name: 'PRO Research' },
+  { id: 3, slug: 'doanh-nghiep', name: 'Doanh nghiệp' },
+  { id: 4, slug: 'ncpt-nganh', name: 'NCPT Ngành' },
+  { id: 5, slug: 'pro-data', name: 'PRO Data' },
+  { id: 6, slug: 'dinh-luong', name: 'Định lượng' }
+];
+
 async function loadCategories() {
-  if (AVAILABLE_CATEGORIES.length > 0) return;
   try {
     const res = await API().get(EP().BLOG_CATEGORIES);
-    AVAILABLE_CATEGORIES = res.data || res || [];
+    const list = res.data || res || [];
+    AVAILABLE_CATEGORIES = Array.isArray(list) ? [...list] : [];
   } catch (err) {
     console.error('Failed to load categories from database, using fallback:', err);
-    AVAILABLE_CATEGORIES = [
-      { id: 1, slug: 'thi-truong', name: 'Thị trường' },
-      { id: 2, slug: 'pro-research', name: 'Chuyên sâu' },
-      { id: 3, slug: 'doanh-nghiep', name: 'Doanh nghiệp' },
-      { id: 4, slug: 'ncpt-nganh', name: 'Nhóm ngành' },
-      { id: 5, slug: 'pro-data', name: 'PRO Data' },
-      { id: 6, slug: 'dinh-luong', name: 'Định lượng' }
-    ];
+    AVAILABLE_CATEGORIES = [];
   }
+
+  // Ensure all 6 required categories are present
+  DEFAULT_CATEGORIES.forEach(defCat => {
+    if (!AVAILABLE_CATEGORIES.some(c => c.slug === defCat.slug)) {
+      AVAILABLE_CATEGORIES.push(defCat);
+    }
+  });
 }
 
 function ensureCKEditor(callback) {
