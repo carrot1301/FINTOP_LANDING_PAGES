@@ -937,7 +937,8 @@ async function fetchAndRenderBlogs(contentEl, mainContainer) {
             const img = extractFirstImage(b.content);
             const isPublished = b.status === 'PUBLISHED';
             const dateStr = formatDateStr(b.publishedAt || b.createdAt);
-            const typeStr = b.visibility === 'PUBLIC' ? 'BASIC' : (b.minTierAccess || 'PREMIUM');
+            const tierMap = { STANDARD: 'Standard', SILVER: 'PRO', GOLD: 'VIP', DIAMOND: 'Diamond' };
+            const typeStr = tierMap[b.minTierAccess] || (b.visibility === 'PUBLIC' ? 'Standard' : 'PRO');
             return `
               <tr data-id="${b.id}">
                 <td><input type="checkbox" class="cms-row-checkbox cms-table-checkbox" data-id="${b.id}"></td>
@@ -1343,9 +1344,9 @@ function renderCreateForm(container, blogToEdit = null) {
             <div class="cms-form-group">
               <label class="cms-edit-label">Loại bài viết <span class="cms-required">*</span></label>
               <select id="blog-tier" class="cms-edit-select" required>
-                <option value="STANDARD" ${currentTier === 'STANDARD' ? 'selected' : ''}>Basic</option>
-                <option value="SILVER" ${currentTier === 'SILVER' ? 'selected' : ''}>Silver</option>
-                <option value="GOLD" ${currentTier === 'GOLD' ? 'selected' : ''}>Gold</option>
+                <option value="STANDARD" ${currentTier === 'STANDARD' ? 'selected' : ''}>Standard</option>
+                <option value="SILVER" ${currentTier === 'SILVER' ? 'selected' : ''}>PRO</option>
+                <option value="GOLD" ${currentTier === 'GOLD' ? 'selected' : ''}>VIP</option>
                 <option value="DIAMOND" ${currentTier === 'DIAMOND' ? 'selected' : ''}>Diamond</option>
               </select>
             </div>
