@@ -29,8 +29,10 @@ const ROLE_DISPLAY = {
   EDITOR:         { label: 'Editor',               color: '#93c5fd' },
   SALE_ADMIN:     { label: 'Sales Admin',          color: '#22c55e' },
   SALE:           { label: 'Sale',                 color: '#4ade80' },
-  CLIENT_VIP:     { label: 'Khách hàng Diamond',    color: '#eab308' },
-  CLIENT:         { label: 'Khách hàng',            color: '#94a3b8' },
+  CLIENT_DIAMOND: { label: 'Khách hàng Diamond',    color: '#eab308' },
+  CLIENT_VIP:     { label: 'Khách hàng VIP',        color: '#f59e0b' },
+  CLIENT_PRO:     { label: 'Khách hàng PRO',        color: '#3b82f6' },
+  CLIENT:         { label: 'Khách hàng Standard',   color: '#94a3b8' },
 };
 
 function getRoleLabels(roles) {
@@ -553,12 +555,20 @@ async function showStaffEditModal(userId) {
                   🟢 Sale
                 </label>
                 <label class="checkbox-label">
-                  <input type="checkbox" class="checkbox-input edit-role-chk" value="CLIENT_VIP" ${userRoles.includes('CLIENT_VIP') ? 'checked' : ''} />
-                  ⭐ Khách hàng Diamond
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="CLIENT" ${userRoles.includes('CLIENT') ? 'checked' : ''} />
+                  ⚪ Khách hàng Standard
                 </label>
                 <label class="checkbox-label">
-                  <input type="checkbox" class="checkbox-input edit-role-chk" value="CLIENT" ${userRoles.includes('CLIENT') ? 'checked' : ''} />
-                  ⚪ Khách hàng
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="CLIENT_PRO" ${userRoles.includes('CLIENT_PRO') ? 'checked' : ''} />
+                  🔵 Khách hàng PRO
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="CLIENT_VIP" ${userRoles.includes('CLIENT_VIP') ? 'checked' : ''} />
+                  🟡 Khách hàng VIP
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="checkbox-input edit-role-chk" value="CLIENT_DIAMOND" ${userRoles.includes('CLIENT_DIAMOND') ? 'checked' : ''} />
+                  ⭐ Khách hàng Diamond
                 </label>
               </div>
             </div>
@@ -999,11 +1009,11 @@ async function renderRolesTable(container) {
   const rolesArea = container.querySelector('#roles-table-area');
   rolesArea.innerHTML = '<div class="admin-loading"><div class="admin-spinner"></div> Đang tải phân quyền...</div>';
 
-  // Hierarchy rank order: CEO highest (1) → CLIENT lowest (11)
+  // Hierarchy rank order: CEO highest (1) → CLIENT lowest (13)
   const ROLE_RANK_ORDER = {
     CEO: 1, DEVELOPER: 2, ASSISTANT_CEO: 3, EDITOR_ADMIN: 4,
     EDITOR_PRO: 5, EDITOR: 6, SALE_ADMIN: 7, SALE: 8,
-    EXPERT: 9, CLIENT_VIP: 10, CLIENT: 11,
+    EXPERT: 9, CLIENT_DIAMOND: 10, CLIENT_VIP: 11, CLIENT_PRO: 12, CLIENT: 13,
   };
 
   try {

@@ -59,7 +59,9 @@ export class AdminService {
     EDITOR: 5,
     SALE: 5,
     EXPERT: 5,
+    CLIENT_DIAMOND: 6,
     CLIENT_VIP: 6,
+    CLIENT_PRO: 6,
     CLIENT: 6,
   };
 
@@ -132,7 +134,7 @@ export class AdminService {
     }
 
     // ── Rule 3: Only CEO/DEVELOPER/SUPER_ADMIN can modify user role assignments ──
-    const isCeoOrDev = adminRoleCodes.some(c => ['CEO', 'DEVELOPER', 'SUPER_ADMIN'].includes(c)) || adminUser.email === AdminService.CEO_EMAIL;
+    const isCeoOrDev = adminRoleCodes.some(c => ['CEO', 'DEVELOPER', 'SUPER_ADMIN'].includes(c)) || AdminService.CEO_EMAILS.includes(adminUser.email);
     if (action.includes('vai trò') && !isCeoOrDev) {
       throw new BadRequestException(
         `Chỉ CEO mới có quyền chỉnh sửa/thay đổi vai trò phân quyền của người dùng.`
@@ -152,11 +154,14 @@ export class AdminService {
       );
 
       if (!hasStaffRole) {
-        const isVipTier = tierLevel === SUBSCRIPTION_TIER.GOLD || tierLevel === SUBSCRIPTION_TIER.DIAMOND;
-        const targetRoleCode = isVipTier ? 'CLIENT_VIP' : 'CLIENT';
-        const roleToRemoveCode = isVipTier ? 'CLIENT' : 'CLIENT_VIP';
+        let targetRoleCode = 'CLIENT';
+        if (tierLevel === SUBSCRIPTION_TIER.SILVER) targetRoleCode = 'CLIENT_PRO';
+        else if (tierLevel === SUBSCRIPTION_TIER.GOLD) targetRoleCode = 'CLIENT_VIP';
+        else if (tierLevel === SUBSCRIPTION_TIER.DIAMOND) targetRoleCode = 'CLIENT_DIAMOND';
 
-        if (!currentRoleCodes.includes(targetRoleCode)) {
+        const clientRoleCodes = ['CLIENT', 'CLIENT_PRO', 'CLIENT_VIP', 'CLIENT_DIAMOND'];
+
+        if (!currentRoleCodes.includes(targetRoleCode as any)) {
           const targetRole = await this.prisma.role.findFirst({
             where: { code: targetRoleCode as any, deletedAt: null },
           });
@@ -164,7 +169,7 @@ export class AdminService {
             await this.prisma.userRole.deleteMany({
               where: {
                 userId,
-                role: { code: roleToRemoveCode as any },
+                role: { code: { in: clientRoleCodes.filter(c => c !== targetRoleCode) as any } },
               },
             });
             await this.prisma.userRole.create({
