@@ -934,12 +934,21 @@ async function showStaffDetail(userId) {
 
         if (!confirm(`Bạn có chắc chắn muốn gỡ vai trò "${roleCode}" khỏi nhân viên này không?`)) return;
 
+        const STAFF_ROLES = ['SUPER_ADMIN', 'CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'];
+        const remainingStaff = (u.roles || []).filter(r => (r.code || r) !== roleCode && STAFF_ROLES.includes(r.code || r));
+
         btn.disabled = true;
         try {
           await API().delete(EP().ADMIN_USER_ROLE(uid), { body: { roleCode } });
-          showToast(`Đã gỡ vai trò ${roleCode} thành công!`);
-          if (staffTable) staffTable.refresh();
-          await showStaffDetail(parseInt(uid));
+          if (remainingStaff.length === 0) {
+            showToast(`Đã gỡ vai trò nhân sự. Tài khoản đã tự động được chuyển về trang "Khách hàng"!`, 'info');
+            closeModal();
+            if (staffTable) staffTable.refresh();
+          } else {
+            showToast(`Đã gỡ vai trò ${ROLE_DISPLAY[roleCode]?.label || roleCode} thành công!`);
+            if (staffTable) staffTable.refresh();
+            await showStaffDetail(parseInt(uid));
+          }
         } catch (err) {
           showToast(err.message || 'Lỗi gỡ vai trò', 'error');
           btn.disabled = false;

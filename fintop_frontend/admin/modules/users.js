@@ -59,14 +59,20 @@ const TIER_LABELS = {
 };
 
 const ROLE_DISPLAY = {
-  SUPER_ADMIN:    { label: 'Admin',       color: '#ff3b3b' },
-  ADMIN:          { label: 'Admin',       color: '#ff3b3b' },
-  EDITOR_ADMIN:   { label: 'Editor Admin',color: '#3b82f6' },
-  EDITOR_PRO:     { label: 'Editor Pro',  color: '#60a5fa' },
-  EDITOR:         { label: 'Editor',      color: '#93c5fd' },
-  SALE_ADMIN:     { label: 'Sales Admin', color: '#22c55e' },
-  SALE:           { label: 'Sale',        color: '#4ade80' },
-  USER:           { label: 'Khách hàng',  color: '#ff7c00' },
+  CEO:            { label: 'CEO - Admin Tổng',     color: '#ff3b3b' },
+  SUPER_ADMIN:    { label: 'CEO - Admin Tổng',     color: '#ff3b3b' },
+  DEVELOPER:      { label: 'Developer',            color: '#a855f7' },
+  ASSISTANT_CEO:  { label: 'Trợ lý CEO',           color: '#ff6b6b' },
+  EDITOR_ADMIN:   { label: 'Editor Admin',         color: '#3b82f6' },
+  EDITOR_PRO:     { label: 'Editor Pro',           color: '#60a5fa' },
+  EDITOR:         { label: 'Editor',               color: '#93c5fd' },
+  SALE_ADMIN:     { label: 'Sales Admin',          color: '#22c55e' },
+  SALE:           { label: 'Sale',                 color: '#4ade80' },
+  EXPERT:         { label: 'Chuyên gia Cố vấn',   color: '#eab308' },
+  CLIENT_DIAMOND: { label: 'Khách hàng Diamond',    color: '#eab308' },
+  CLIENT_VIP:     { label: 'Khách hàng VIP',        color: '#f59e0b' },
+  CLIENT_PRO:     { label: 'Khách hàng PRO',        color: '#3b82f6' },
+  CLIENT:         { label: 'Khách hàng Standard',   color: '#94a3b8' },
 };
 
 function getRoleLabel(roles) {
@@ -152,6 +158,13 @@ export default {
         const res = await API().get(EP().ADMIN_USERS + qs);
         let rawData = res.data || [];
         if (Array.isArray(res)) rawData = res;
+
+        // Filter out any users with staff roles (transferred to Staff page)
+        const STAFF_ROLES = ['SUPER_ADMIN', 'CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'];
+        rawData = rawData.filter(u => {
+          const userRoles = u.roles || u.userRoles || [];
+          return !userRoles.some(r => STAFF_ROLES.includes(r.code || r));
+        });
 
         // Multi-field search and tier filtering fallback
         if (filters.tierLevel) {
@@ -809,16 +822,27 @@ async function showUserDetail(userId) {
         return;
       }
 
-      if (!confirm(`Bạn có chắc muốn gán vai trò "${roleCode}" cho người dùng này không?`)) {
+      const roleLabel = ROLE_DISPLAY[roleCode]?.label || roleCode;
+
+      if (!confirm(`Bạn có chắc muốn gán vai trò "${roleLabel}" cho người dùng này không?`)) {
         return;
       }
+
+      const STAFF_ROLES = ['SUPER_ADMIN', 'CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'];
+      const isStaffRole = STAFF_ROLES.includes(roleCode);
 
       assignBtn.disabled = true;
       try {
         await API().patch(EP().ADMIN_USER_ROLE(u.id), { roleCode });
-        showToast(`Đã gán vai trò ${roleCode} thành công!`);
-        if (table) table.refresh();
-        await showUserDetail(u.id);
+        if (isStaffRole) {
+          showToast(`Đã gán vai trò "${roleLabel}". Tài khoản đã tự động được chuyển sang trang "Nhân sự"!`, 'info');
+          closeModal();
+          if (table) table.refresh();
+        } else {
+          showToast(`Đã gán vai trò "${roleLabel}" thành công!`);
+          if (table) table.refresh();
+          await showUserDetail(u.id);
+        }
       } catch (err) {
         showToast(err.message || 'Lỗi gán vai trò', 'error');
         assignBtn.disabled = false;
