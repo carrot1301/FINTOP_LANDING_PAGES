@@ -179,8 +179,9 @@ function renderStaffTable(container) {
       const broker = u.broker || u.manager || u.assignedBroker;
       let brokerText = '—';
       if (broker) {
-        const brokerCode = broker.staffCode || String(broker.id);
-        brokerText = brokerCode ? `${brokerCode} - ${broker.fullName || broker.name || broker}` : (broker.fullName || broker.name || broker);
+        const brokerName = broker.fullName || broker.name || (typeof broker === 'string' ? broker : '');
+        const brokerCode = broker.staffCode || broker.code || broker.team?.code || '';
+        brokerText = (brokerCode && brokerName) ? `${brokerCode} - ${brokerName}` : (brokerName || brokerCode || '—');
       }
 
       // Check if avatar path is relative or absolute, handle properly
@@ -306,7 +307,7 @@ async function showStaffEditModal(userId) {
       })
       .map(s => {
         const code = s.staffCode || String(s.id);
-        const label = code ? `${s.fullName} - ${code}` : s.fullName;
+        const label = code ? `${code} - ${s.fullName}` : s.fullName;
         return `<option value="${s.id}" ${u.brokerId === s.id ? 'selected' : ''}>${esc(label)}</option>`;
       })
       .join('');
