@@ -246,9 +246,14 @@ async function showStaffEditModal(userId) {
       avatarUrl = 'https://fintopdata.vn/file-image/avatar/avatar_default.png';
     }
 
-    // Populate Manager dropdown
+    // Populate Manager dropdown — ONLY CEO, Trợ lý CEO, and Sales Admin
+    const MANAGER_ROLE_CODES = ['CEO', 'SUPER_ADMIN', 'ASSISTANT_CEO', 'SALE_ADMIN'];
     const managerOptions = staffList
-      .filter(s => s.id !== u.id) // Cannot be own manager
+      .filter(s => {
+        if (s.id === u.id) return false; // Cannot be own manager
+        const sRoles = (s.roles || s.userRoles || []).map(r => r.code || r);
+        return sRoles.some(r => MANAGER_ROLE_CODES.includes(r));
+      })
       .map(s => {
         const code = s.staffCode || String(s.id);
         const label = code ? `${s.fullName} - ${code}` : s.fullName;
