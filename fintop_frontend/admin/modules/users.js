@@ -166,28 +166,39 @@ export default {
         });
 
         // Multi-field search and tier filtering fallback
-        // Check BOTH tierLevel AND assigned roles (CLIENT_VIP, CLIENT_PRO, CLIENT_DIAMOND)
+        // Check tierLevel, legacyTier, AND assigned roles (CLIENT_VIP, CLIENT_PRO, CLIENT_DIAMOND)
         if (filters.tierLevel) {
           const targetTier = filters.tierLevel.toUpperCase();
           rawData = rawData.filter(u => {
-            const userTier = (u.tierLevel || u.legacyTier || 'STANDARD').toUpperCase();
+            const userTier = (u.tierLevel || '').toUpperCase();
+            const legacy = (u.legacyTier || '').toUpperCase();
             const userRoles = (u.roles || u.userRoles || []).map(r => (r.code || r).toUpperCase());
 
-            // Map filter value to matching tierLevel values AND role codes
+            // Map filter value to matching tierLevel, legacyTier values AND role codes
             if (targetTier === 'GOLD') {
-              return userTier === 'GOLD' || userTier === 'VIP' || userRoles.includes('CLIENT_VIP');
+              // VIP = tierLevel GOLD/VIP, legacyTier VIP1/VIP2/VIP..., or role CLIENT_VIP
+              return userTier === 'GOLD' || userTier === 'VIP'
+                || legacy.startsWith('VIP')
+                || userRoles.includes('CLIENT_VIP');
             }
             if (targetTier === 'SILVER') {
-              return userTier === 'SILVER' || userTier === 'PRO' || userRoles.includes('CLIENT_PRO');
+              // PRO = tierLevel SILVER/PRO, legacyTier PRO1/PRO2/PRO..., or role CLIENT_PRO
+              return userTier === 'SILVER' || userTier === 'PRO'
+                || legacy.startsWith('PRO')
+                || userRoles.includes('CLIENT_PRO');
             }
             if (targetTier === 'DIAMOND') {
-              return userTier === 'DIAMOND' || userRoles.includes('CLIENT_DIAMOND');
+              // Diamond = tierLevel DIAMOND, legacyTier KIM_CUONG/DIAMOND, or role CLIENT_DIAMOND
+              return userTier === 'DIAMOND'
+                || legacy === 'KIM_CUONG' || legacy === 'DIAMOND'
+                || userRoles.includes('CLIENT_DIAMOND');
             }
             if (targetTier === 'STANDARD') {
-              // Standard = no premium tier AND no premium role
+              // Standard = no premium tier, no premium legacyTier, no premium role
               const hasPremiumTier = ['SILVER', 'PRO', 'GOLD', 'VIP', 'DIAMOND'].includes(userTier);
+              const hasPremiumLegacy = legacy.startsWith('VIP') || legacy.startsWith('PRO') || legacy === 'KIM_CUONG' || legacy === 'DIAMOND';
               const hasPremiumRole = userRoles.some(r => ['CLIENT_VIP', 'CLIENT_PRO', 'CLIENT_DIAMOND'].includes(r));
-              return !hasPremiumTier && !hasPremiumRole;
+              return !hasPremiumTier && !hasPremiumLegacy && !hasPremiumRole;
             }
             return userTier === targetTier;
           });
