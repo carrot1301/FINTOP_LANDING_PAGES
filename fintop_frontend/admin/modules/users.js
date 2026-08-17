@@ -68,7 +68,6 @@ const ROLE_DISPLAY = {
   EDITOR:         { label: 'Editor',               color: '#93c5fd' },
   SALE_ADMIN:     { label: 'Sales Admin',          color: '#22c55e' },
   SALE:           { label: 'Sale',                 color: '#4ade80' },
-  EXPERT:         { label: 'Chuyên gia Cố vấn',   color: '#eab308' },
   CLIENT_DIAMOND: { label: 'Khách hàng Diamond',    color: '#eab308' },
   CLIENT_VIP:     { label: 'Khách hàng VIP',        color: '#f59e0b' },
   CLIENT_PRO:     { label: 'Khách hàng PRO',        color: '#3b82f6' },
@@ -160,7 +159,7 @@ export default {
         if (Array.isArray(res)) rawData = res;
 
         // Filter out any users with staff roles (transferred to Staff page)
-        const STAFF_ROLES = ['SUPER_ADMIN', 'CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'];
+        const STAFF_ROLES = ['SUPER_ADMIN', 'CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE'];
         rawData = rawData.filter(u => {
           const userRoles = u.roles || u.userRoles || [];
           return !userRoles.some(r => STAFF_ROLES.includes(r.code || r));
@@ -846,7 +845,7 @@ async function showUserDetail(userId) {
         return;
       }
 
-      const STAFF_ROLES = ['SUPER_ADMIN', 'CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'];
+      const STAFF_ROLES = ['SUPER_ADMIN', 'CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE'];
       const isStaffRole = STAFF_ROLES.includes(roleCode);
 
       assignBtn.disabled = true;
