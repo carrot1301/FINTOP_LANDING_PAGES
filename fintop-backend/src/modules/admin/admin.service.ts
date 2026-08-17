@@ -344,6 +344,7 @@ export class AdminService {
             select: {
               id: true,
               fullName: true,
+              staffCode: true,
               department: { select: { code: true } },
               team: { select: { code: true } },
             },

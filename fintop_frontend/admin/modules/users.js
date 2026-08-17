@@ -248,7 +248,7 @@ export default {
         let brokerDisplay = '-';
         if (broker) {
           const bName = broker.fullName || broker.name || (typeof broker === 'string' ? broker : '');
-          const bCode = broker.staffCode || broker.team?.code || '';
+          const bCode = broker.staffCode || '';
           if (bCode && bName) {
             brokerDisplay = `${bCode} - ${bName}`;
           } else if (bName) {
