@@ -246,12 +246,23 @@ async function showStaffEditModal(userId) {
       avatarUrl = 'https://fintopdata.vn/file-image/avatar/avatar_default.png';
     }
 
-    // Populate Manager dropdown — ONLY CEO, Trợ lý CEO, and Sales Admin
+    // Populate Manager dropdown — ONLY CEO, Trợ lý CEO, and Sales Admin (EXCLUDE DEVELOPER & Nguyễn Văn Tuấn BW9B)
     const MANAGER_ROLE_CODES = ['CEO', 'SUPER_ADMIN', 'ASSISTANT_CEO', 'SALE_ADMIN'];
     const managerOptions = staffList
       .filter(s => {
         if (s.id === u.id) return false; // Cannot be own manager
-        const sRoles = (s.roles || s.userRoles || []).map(r => r.code || r);
+        const name = (s.fullName || '').toLowerCase();
+        const code = (s.staffCode || '').toUpperCase();
+        const email = (s.email || '').toLowerCase();
+
+        // Explicitly exclude Nguyễn Văn Tuấn / BW9B / Developers
+        if (code === 'BW9B' || email === 'tuannv7105@gmail.com' || email === 'tuanmv7105@gmail.com' || name.includes('nguyễn văn tuấn')) {
+          return false;
+        }
+
+        const sRoles = (s.roles || s.userRoles || []).map(r => (typeof r === 'object' ? r.code : r));
+        if (sRoles.includes('DEVELOPER')) return false;
+
         return sRoles.some(r => MANAGER_ROLE_CODES.includes(r));
       })
       .map(s => {
