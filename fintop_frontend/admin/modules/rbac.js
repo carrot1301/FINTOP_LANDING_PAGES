@@ -739,6 +739,12 @@ async function showStaffDetail(userId) {
     const assignedCodes = (u.roles || []).map(r => r.code || r);
     const unassignedRoles = ALL_12_ROLES.filter(r => !assignedCodes.includes(r.code));
 
+    const CEO_EMAILS = ['fintop.bashare@gmail.com', 'fintop.ba@gmail.com'];
+    const isTargetCeo = CEO_EMAILS.includes(u.email);
+    const currentAdminUser = window.FintopInfra.AppState.getState('user') || {};
+    const isCurrentAdminCeo = CEO_EMAILS.includes(currentAdminUser.email);
+    const isProtectedTarget = isTargetCeo && !isCurrentAdminCeo;
+
     const investDuration = u.investmentDuration || '';
     const investStyle = u.investmentStyle || '';
     const birthDate = formatBirthDate(u.dob || u.birthDate || u.dateOfBirth || u.birthday);
@@ -753,6 +759,11 @@ async function showStaffDetail(userId) {
             <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-close-staff-detail">✕</button>
           </div>
           <div class="admin-modal-body">
+            ${isProtectedTarget ? `
+              <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:10px 14px;border-radius:6px;font-size:0.85rem;font-weight:600;margin-bottom:1rem;">
+                🔒 Tài khoản CEO (Tài khoản Tối cao — Chỉ CEO mới có quyền tác động/chỉnh sửa phân quyền)
+              </div>
+            ` : ''}
             <div class="admin-detail-grid">
               <div class="admin-detail-field">
                 <div class="admin-detail-label">Họ và tên</div>
@@ -828,7 +839,7 @@ async function showStaffDetail(userId) {
                   ${(u.roles || []).map(r => `
                     <div class="admin-badge role-badge" style="display:flex; align-items:center; gap:0.35rem; padding: 0.25rem 0.5rem;">
                       <span>${esc(r.name || r.code || r)}</span>
-                      <button class="admin-btn-remove-role" data-role-code="${esc(r.code || r)}" data-uid="${u.id}" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-weight:bold; font-size:0.85rem; padding:0 0 0 0.35rem; line-height:1;">✕</button>
+                      ${!isProtectedTarget ? `<button class="admin-btn-remove-role" data-role-code="${esc(r.code || r)}" data-uid="${u.id}" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-weight:bold; font-size:0.85rem; padding:0 0 0 0.35rem; line-height:1;">✕</button>` : ''}
                     </div>
                   `).join('') || '—'}
                 </div>
@@ -837,23 +848,23 @@ async function showStaffDetail(userId) {
 
             <div style="margin-top:1.25rem;display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
               <div style="display:flex;gap:0.5rem;">
-                <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="ACTIVE" data-uid="${u.id}" ${u.status === 'ACTIVE' ? 'disabled' : ''}>✅ Kích hoạt</button>
-                <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="INACTIVE" data-uid="${u.id}" ${u.status === 'INACTIVE' ? 'disabled' : ''}>⏸️ Ngưng</button>
-                <button class="admin-btn admin-btn-danger admin-btn-sm" data-status-action="LOCKED" data-uid="${u.id}" ${u.status === 'LOCKED' ? 'disabled' : ''}>🔒 Khóa</button>
+                <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="ACTIVE" data-uid="${u.id}" ${u.status === 'ACTIVE' || isProtectedTarget ? 'disabled' : ''}>✅ Kích hoạt</button>
+                <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="INACTIVE" data-uid="${u.id}" ${u.status === 'INACTIVE' || isProtectedTarget ? 'disabled' : ''}>⏸️ Ngưng</button>
+                <button class="admin-btn admin-btn-danger admin-btn-sm" data-status-action="LOCKED" data-uid="${u.id}" ${u.status === 'LOCKED' || isProtectedTarget ? 'disabled' : ''}>🔒 Khóa</button>
               </div>
             </div>
 
             <div style="margin-top:1.25rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:1rem;">
               <div class="admin-detail-label" style="margin-bottom:0.5rem;">🔑 Cấp vai trò mới</div>
               <div style="display:flex; gap:0.5rem; align-items:center;">
-                <select class="admin-select" id="staff-assign-role-select" style="min-width:260px;">
+                <select class="admin-select" id="staff-assign-role-select" style="min-width:260px;" ${isProtectedTarget ? 'disabled' : ''}>
                   <option value="">-- Chọn vai trò --</option>
                   ${ALL_12_ROLES.map(r => {
                     const isCurrent = assignedCodes.includes(r.code);
                     return `<option value="${esc(r.code)}">${esc(r.label)}${isCurrent ? ' (Hiện tại)' : ''}</option>`;
                   }).join('')}
                 </select>
-                <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-staff-assign-role">Gán vai trò</button>
+                <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-staff-assign-role" ${isProtectedTarget ? 'disabled' : ''}>Gán vai trò</button>
               </div>
             </div>
 
