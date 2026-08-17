@@ -880,11 +880,11 @@
                     <div class="popup-icon">🔒</div>
                     <h2>Bạn muốn đăng nhập hoặc đăng ký để tiếp tục?</h2>
                     <p>Mã cổ phiếu và nhóm ngành chỉ hiển thị cho tài khoản đã đăng nhập.<br>Vui lòng đăng nhập hoặc đăng ký tài khoản để tiếp tục.</p>
-                    <div class="popup-actions">
+                    <div class="popup-actions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                         <button class="popup-btn-primary" onclick="continueBolocAuth('login')">Đăng nhập</button>
                         <button class="popup-btn-secondary" onclick="continueBolocAuth('register')">Đăng ký</button>
-                        <button class="popup-btn-secondary" onclick="closeTierPopup()">Quay lại</button>
                     </div>
+                    <button class="popup-btn-secondary" style="width: 100%;" onclick="closeTierPopup()">← Quay lại</button>
                 `;
                 tierPopupOverlay.hidden = false;
             }
@@ -1455,11 +1455,11 @@
                     <div class="popup-icon">🔒</div>
                     <h2>Bạn muốn đăng nhập hoặc đăng ký để tiếp tục?</h2>
                     <p>Mã cổ phiếu và nhóm ngành chỉ hiển thị cho tài khoản đã đăng nhập.<br>Vui lòng đăng nhập hoặc đăng ký tài khoản để tiếp tục.</p>
-                    <div class="popup-actions">
+                    <div class="popup-actions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                         <button class="popup-btn-primary" onclick="continueBolocAuth('login')">Đăng nhập</button>
                         <button class="popup-btn-secondary" onclick="continueBolocAuth('register')">Đăng ký</button>
-                        <button class="popup-btn-secondary" onclick="closeTierPopup()">Quay lại</button>
                     </div>
+                    <button class="popup-btn-secondary" style="width: 100%;" onclick="closeTierPopup()">← Quay lại</button>
                 `;
                 tierPopupOverlay.hidden = false;
             }
