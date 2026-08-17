@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException, BadRequestException, ConflictException, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
 import { PrismaService } from '../../common/database/prisma.service';
 import { AuditService } from '../../common/audit/audit.service';
 import { NotificationService } from '../notification/notification.service';
@@ -17,7 +17,7 @@ import {
 import { CreatePlanDto, UpdatePlanDto } from './dto/plan.dto';
 
 @Injectable()
-export class AdminService implements OnModuleInit {
+export class AdminService {
   private readonly logger = new Logger(AdminService.name);
 
   constructor(
@@ -25,46 +25,7 @@ export class AdminService implements OnModuleInit {
     private readonly auditService: AuditService,
     private readonly notificationService: NotificationService,
     private readonly redisService: RedisService,
-  ) {}
-
-  async onModuleInit() {
-    const mockEmails = [
-      'user_silver@fintop.vn',
-      'user_gold@fintop.vn',
-      'user_diamond@fintop.vn',
-      'test_billing@fintop.vn',
-      'test1@fintop.vn',
-      'testuser2026@fintopdata.vn',
-      'api-test@fintop.vn',
-      'alertuser@fintop.vn',
-      'realtime@fintop.vn',
-      'testuser@fintop.vn',
-      'ceo@fintop.vn',
-      'assistant@fintop.vn',
-      'editor.admin@fintop.vn',
-      'editor.pro@fintop.vn',
-      'editor@fintop.vn',
-      'expert@fintop.vn',
-      'sale.admin@fintop.vn',
-      'sale@fintop.vn',
-    ];
-
-    try {
-      await this.prisma.user.updateMany({
-        where: {
-          email: { in: mockEmails },
-          deletedAt: null,
-        },
-        data: {
-          deletedAt: new Date(),
-          status: RECORD_STATUS.INACTIVE,
-        },
-      });
-      this.logger.log('Cleaned up remaining mock accounts on database startup.');
-    } catch (e: any) {
-      this.logger.error(`Error cleaning mock accounts on startup: ${e.message}`);
-    }
-  }
+  ) { }
 
   private async clearUserPermissionsCache(userId: number) {
     try {
@@ -192,7 +153,7 @@ export class AdminService implements OnModuleInit {
         include: { role: true },
       });
       const currentRoleCodes = userRoles.map(ur => ur.role.code);
-      const hasStaffRole = currentRoleCodes.some(code => 
+      const hasStaffRole = currentRoleCodes.some(code =>
         ['SUPER_ADMIN', 'CEO', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'].includes(code)
       );
 
@@ -670,7 +631,7 @@ export class AdminService implements OnModuleInit {
     }
 
     const data: Prisma.UserUncheckedUpdateInput = {};
-    
+
     if (dto.password !== undefined && dto.password !== '') {
       data.passwordHash = await bcrypt.hash(dto.password, 10);
     }
@@ -680,14 +641,14 @@ export class AdminService implements OnModuleInit {
       data.emailVerifiedAt = dto.emailVerifiedAt ? new Date(dto.emailVerifiedAt) : null;
     }
 
-    
+
     if (dto.fullName !== undefined) data.fullName = dto.fullName;
     if (dto.email !== undefined) data.email = dto.email;
     if (dto.phone !== undefined) data.phone = dto.phone;
     if (dto.address !== undefined) data.address = dto.address;
     if (dto.status !== undefined) data.status = dto.status;
     if (dto.avatarUrl !== undefined) data.avatarUrl = dto.avatarUrl;
-    
+
     if (dto.birthDate !== undefined) {
       data.dob = dto.birthDate ? new Date(dto.birthDate) : null;
     }
@@ -712,7 +673,7 @@ export class AdminService implements OnModuleInit {
           include: { role: true },
         });
         const currentRoleCodes = userRoles.map(ur => ur.role.code);
-        const hasStaffRole = currentRoleCodes.some(code => 
+        const hasStaffRole = currentRoleCodes.some(code =>
           ['SUPER_ADMIN', 'CEO', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'].includes(code)
         );
 

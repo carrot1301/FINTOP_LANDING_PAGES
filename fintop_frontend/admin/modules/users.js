@@ -51,11 +51,13 @@ const INVESTMENT_STYLE_LABELS = {
 };
 
 const TIER_LABELS = {
-  standard: 'Khách hàng',
-  silver:   'Khách hàng Pro',
+  standard: 'Khách hàng Standard',
+  silver:   'Khách hàng PRO',
   gold:     'Khách hàng VIP',
   diamond:  'Khách hàng Diamond',
   vip:      'Khách hàng VIP',
+  pro:      'Khách hàng PRO',
+  thường:   'Khách hàng Standard',
 };
 
 const ROLE_DISPLAY = {
@@ -75,16 +77,18 @@ const ROLE_DISPLAY = {
 };
 
 function getRoleLabel(roles) {
-  if (!roles || roles.length === 0) return `<span style="color:#ff7c00"> Khách hàng </span>`;
+  if (!roles || roles.length === 0) return `<span style="color:#94a3b8"> Khách hàng Standard </span>`;
   const primary = roles[0];
   const code = primary.code || primary;
-  const display = ROLE_DISPLAY[code] || { label: code, color: '#ff7c00' };
+  const display = ROLE_DISPLAY[code] || { label: code, color: '#94a3b8' };
   return `<span style="color:${display.color}"> ${display.label} </span>`;
 }
 
 function getTierLabel(tier) {
-  const t = (tier || 'standard').toLowerCase();
-  return TIER_LABELS[t] || tier || 'Thường';
+  if (!tier) return 'Khách hàng Standard';
+  const t = String(tier).toLowerCase().trim();
+  if (t === 'thường' || t === 'standard') return 'Khách hàng Standard';
+  return TIER_LABELS[t] || 'Khách hàng Standard';
 }
 
 function getInvestDurationLabel(val) {
@@ -228,10 +232,14 @@ export default {
         const joinDate = formatDate(u.createdAt);
         const stockCompany = u.stockCompany || u.securitiesCompany || u.brokerCompany || '';
         const stockAccount = u.stockAccount || u.securitiesAccount || u.brokerAccount || '';
-        const tierLabel = u.legacyTier || getTierLabel(u.tierLevel);
-        let tierHtml = esc(tierLabel);
-        if (tierLabel && tierLabel !== 'Thường') {
-          tierHtml = `<span style="color:#22c55e;font-weight:bold;">${esc(tierLabel)}</span>`;
+        const tierLabel = getTierLabel(u.tierLevel || u.legacyTier);
+        let tierHtml = `<span style="color:#94a3b8;font-weight:600;">${esc(tierLabel)}</span>`;
+        if (tierLabel.includes('PRO') || tierLabel.includes('Pro')) {
+          tierHtml = `<span style="color:#3b82f6;font-weight:bold;">${esc(tierLabel)}</span>`;
+        } else if (tierLabel.includes('VIP')) {
+          tierHtml = `<span style="color:#f59e0b;font-weight:bold;">${esc(tierLabel)}</span>`;
+        } else if (tierLabel.includes('Diamond')) {
+          tierHtml = `<span style="color:#eab308;font-weight:bold;">${esc(tierLabel)}</span>`;
         }
         const roleLabel = getRoleLabel(u.roles);
         const isActive = (u.status || '').toUpperCase() === 'ACTIVE';
