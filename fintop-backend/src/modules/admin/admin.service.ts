@@ -63,7 +63,8 @@ export class AdminService {
     CLIENT: 6,
   };
 
-  private static readonly CEO_EMAIL = 'fintop.ba@gmail.com';
+  private static readonly CEO_EMAILS = ['fintop.bashare@gmail.com', 'fintop.ba@gmail.com'];
+  private static readonly CEO_EMAIL = 'fintop.bashare@gmail.com';
 
   private async enforceRoleHierarchy(targetUserId: number, adminId: number, action: string) {
     // Load target user roles
@@ -93,9 +94,9 @@ export class AdminService {
 
     // ── Rule 1: CEO Absolute Protection ──
     // Only CEO can edit CEO
-    if (targetUser.email === AdminService.CEO_EMAIL && adminUser.email !== AdminService.CEO_EMAIL) {
+    if (AdminService.CEO_EMAILS.includes(targetUser.email) && !AdminService.CEO_EMAILS.includes(adminUser.email)) {
       throw new BadRequestException(
-        `Không thể ${action} tài khoản CEO (${AdminService.CEO_EMAIL}). Chỉ CEO mới có quyền này.`
+        `Không thể ${action} tài khoản CEO (${targetUser.email}). Chỉ CEO mới có quyền này.`
       );
     }
 
