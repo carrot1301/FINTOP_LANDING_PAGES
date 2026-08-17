@@ -94,11 +94,15 @@ export class AdminService {
     const adminRank = getHighestRank(adminRoleCodes);
     const targetRank = getHighestRank(targetRoleCodes);
 
-    // ── Rule 1: CEO Absolute Protection ──
-    // Only CEO can edit CEO
-    if (AdminService.CEO_EMAILS.includes(targetUser.email) && !AdminService.CEO_EMAILS.includes(adminUser.email)) {
+    // ── Rule 1: Universal CEO Absolute Protection ──
+    // ONLY the CEO account itself can edit or touch the CEO account.
+    // ANY subordinate account (including DEVELOPER, ASSISTANT_CEO, etc.) is strictly forbidden from modifying CEO.
+    const isTargetCeo = AdminService.CEO_EMAILS.includes(targetUser.email) || targetRoleCodes.includes('CEO') || targetRoleCodes.includes('SUPER_ADMIN');
+    const isAdminCeo = AdminService.CEO_EMAILS.includes(adminUser.email);
+
+    if (isTargetCeo && !isAdminCeo) {
       throw new BadRequestException(
-        `Không thể ${action} tài khoản CEO (${targetUser.email}). Chỉ CEO mới có quyền này.`
+        `Không thể ${action} tài khoản CEO (${targetUser.email}). Chỉ chính tài khoản CEO Tối cao mới có quyền thực hiện.`
       );
     }
 
