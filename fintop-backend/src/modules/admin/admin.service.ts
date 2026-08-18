@@ -776,8 +776,7 @@ export class AdminService {
       if (['STANDARD', 'SILVER', 'GOLD', 'DIAMOND'].includes(tierUpper)) {
         data.tierLevel = tierUpper as SUBSCRIPTION_TIER;
 
-        // Auto synchronize roles for CLIENT/CLIENT_VIP to match the tier
-        // First, check if the user is a client (does not have staff roles)
+        // Auto synchronize roles for CLIENT/CLIENT_PRO/CLIENT_VIP/CLIENT_DIAMOND to match the tier
         const userRoles = await this.prisma.userRole.findMany({
           where: { userId },
           include: { role: true },
@@ -788,34 +787,46 @@ export class AdminService {
         );
 
         if (!hasStaffRole) {
-          // It's a client user. Let's sync their role!
-          const isVipTier = tierUpper === 'GOLD' || tierUpper === 'DIAMOND';
-          const targetRoleCode = isVipTier ? 'CLIENT_VIP' : 'CLIENT';
-          const roleToRemoveCode = isVipTier ? 'CLIENT' : 'CLIENT_VIP';
+          let targetRoleCode = 'CLIENT';
+          if (tierUpper === 'SILVER') targetRoleCode = 'CLIENT_PRO';
+          else if (tierUpper === 'GOLD') targetRoleCode = 'CLIENT_VIP';
+          else if (tierUpper === 'DIAMOND') targetRoleCode = 'CLIENT_DIAMOND';
 
-          if (!currentRoleCodes.includes(targetRoleCode)) {
-            // Find target role
-            const targetRole = await this.prisma.role.findFirst({
-              where: { code: targetRoleCode as any, deletedAt: null },
+          const clientRoleCodes = ['CLIENT', 'CLIENT_PRO', 'CLIENT_VIP', 'CLIENT_DIAMOND'];
+
+          // Delete all old client roles to ensure 1:1 match
+          await this.prisma.userRole.deleteMany({
+            where: {
+              userId,
+              role: { code: { in: clientRoleCodes as any } },
+            },
+          });
+
+          // Find or create target role
+          let targetRole = await this.prisma.role.findFirst({
+            where: { code: targetRoleCode as any, deletedAt: null },
+          });
+          if (!targetRole) {
+            const foundPredefined = AdminService.PREDEFINED_12_ROLES.find(r => r.code === targetRoleCode);
+            targetRole = await this.prisma.role.create({
+              data: {
+                code: targetRoleCode as any,
+                name: foundPredefined?.name || targetRoleCode,
+                description: foundPredefined?.description,
+                isSystem: true,
+                status: 'ACTIVE',
+              },
             });
-            if (targetRole) {
-              // Delete old client role
-              await this.prisma.userRole.deleteMany({
-                where: {
-                  userId,
-                  role: { code: roleToRemoveCode as any },
-                },
-              });
-              // Create new client role
-              await this.prisma.userRole.create({
-                data: {
-                  userId,
-                  roleId: targetRole.id,
-                  assignedById: adminId,
-                },
-              });
-            }
           }
+
+          // Assign target role
+          await this.prisma.userRole.create({
+            data: {
+              userId,
+              roleId: targetRole.id,
+              assignedById: adminId,
+            },
+          });
         }
       }
     }

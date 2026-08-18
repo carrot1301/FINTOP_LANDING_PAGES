@@ -279,8 +279,8 @@ export default {
         const refName = u.referralName || '';
 
         const tier = (u.tierLevel || 'standard').toLowerCase();
-        const isPro = tier === 'silver' || tier === 'gold';
-        const isVipDiamond = tier === 'vip' || tier === 'diamond';
+        const isPro = tier === 'silver' || tier === 'pro';
+        const isVipDiamond = tier === 'gold' || tier === 'vip' || tier === 'diamond';
 
         // Approval info details based on tier Level
         let approvalInfoHtml = '';
@@ -592,6 +592,12 @@ async function showEditModal(userId) {
 function showUpgradeModal(userId, userName, currentTier) {
   if (!upgradeModalEl) return;
 
+  const rawTier = String(currentTier || 'standard').toLowerCase().trim();
+  let normTier = 'standard';
+  if (rawTier === 'gold' || rawTier === 'vip') normTier = 'gold';
+  else if (rawTier === 'silver' || rawTier === 'pro') normTier = 'silver';
+  else if (rawTier === 'diamond' || rawTier === 'kim_cuong') normTier = 'diamond';
+
   upgradeModalEl.innerHTML = `
     <div class="admin-modal-overlay" id="upgrade-modal-overlay">
       <div class="admin-modal" style="max-width:450px;">
@@ -602,15 +608,15 @@ function showUpgradeModal(userId, userName, currentTier) {
         <div class="admin-modal-body">
           <div style="margin-bottom:1rem;">
             <strong>Khách hàng:</strong> ${esc(userName)}<br/>
-            <strong>Gói hiện tại:</strong> ${tierBadge(currentTier)}
+            <strong>Gói hiện tại:</strong> ${tierBadge(normTier)}
           </div>
           <div class="admin-form-group">
             <label>Nâng cấp lên gói</label>
             <select class="admin-select" id="upgrade-tier">
-              <option value="standard" ${currentTier === 'standard' ? 'selected' : ''}>Khách hàng</option>
-              <option value="silver" ${currentTier === 'silver' ? 'selected' : ''}>Khách hàng Pro</option>
-              <option value="gold" ${currentTier === 'gold' ? 'selected' : ''}>Khách hàng VIP</option>
-              <option value="diamond" ${currentTier === 'diamond' ? 'selected' : ''}>Khách hàng Diamond</option>
+              <option value="standard" ${normTier === 'standard' ? 'selected' : ''}>Khách hàng</option>
+              <option value="silver" ${normTier === 'silver' ? 'selected' : ''}>Khách hàng Pro</option>
+              <option value="gold" ${normTier === 'gold' ? 'selected' : ''}>Khách hàng VIP</option>
+              <option value="diamond" ${normTier === 'diamond' ? 'selected' : ''}>Khách hàng Diamond</option>
             </select>
           </div>
           <div class="admin-form-group">
@@ -637,8 +643,6 @@ function showUpgradeModal(userId, userName, currentTier) {
     const uid = e.target.dataset.uid;
     const newTier = upgradeModalEl.querySelector('#upgrade-tier').value;
     const broker = upgradeModalEl.querySelector('#upgrade-broker').value;
-
-    if (!confirm(`Xác nhận nâng cấp khách hàng "${userName}" lên gói "${getTierLabel(newTier)}"?`)) return;
 
     e.target.disabled = true;
     try {
