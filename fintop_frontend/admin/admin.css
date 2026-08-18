@@ -1067,7 +1067,7 @@ table.admin-table tbody tr:hover td {
 /* ─── DATA FINANCIAL TABLE ────────────────────────────── */
 .df-table {
   border-collapse: collapse;
-  min-width: 1380px;
+  width: 100% !important;
 }
 
 .df-table thead tr {
@@ -1083,7 +1083,7 @@ table.admin-table tbody tr:hover td {
   position: sticky;
   top: 0;
   z-index: 50;
-  padding: 0.55rem 0.4rem;
+  padding: 0.45rem 0.2rem;
   font-size: 0.72rem;
   white-space: normal;
   word-break: keep-all;

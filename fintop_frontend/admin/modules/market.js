@@ -511,7 +511,7 @@ function renderAll() {
       .df-table.resize-mode {
         user-select: none;
         table-layout: fixed;
-        min-width: 1380px !important;
+        width: 100% !important;
       }
       .df-table.resize-mode th,
       .df-table.resize-mode td {
@@ -613,7 +613,7 @@ function renderAll() {
       /* When saved widths exist, use fixed layout too */
       .df-table.has-saved-widths {
         table-layout: fixed;
-        min-width: 1380px !important;
+        width: 100% !important;
       }
       .df-resize-toolbar {
         display: inline-flex;
@@ -761,7 +761,7 @@ function renderAll() {
 
     <!-- Data Table -->
     <div style="overflow-x:auto;max-height:800px;overflow-y:auto;" class="df-table-scroll">
-      <table class="admin-table df-table${resizeMode ? ' resize-mode' : ''}${savedColWidths ? ' has-saved-widths' : ''}" style="font-size:0.8rem;min-width:1380px;">
+      <table class="admin-table df-table${resizeMode ? ' resize-mode' : ''}${savedColWidths ? ' has-saved-widths' : ''}" style="font-size:0.75rem;width:100%;">
         <thead>
           <tr style="position:sticky;top:0;z-index:50;background-color:#16203b !important;">
             ${buildThCell(0, '2%', '<input type="checkbox" id="chk-all-stocks" />')}
@@ -1437,33 +1437,33 @@ async function moveStock(sid, direction) {
 
 function buildThCell(colIndex, defaultWidth, content, extraClass) {
   const defaultColMinWidths = {
-    0: '35px',
-    1: '50px',
-    2: '65px',
-    3: '55px',
-    4: '100px',
-    5: '90px',
-    6: '90px',
-    7: '180px',
-    8: '120px',
-    9: '65px',
-    10: '145px',
-    11: '130px',
-    12: '130px',
-    13: '130px',
-    14: '35px',
+    0: '24px',
+    1: '32px',
+    2: '42px',
+    3: '45px',
+    4: '70px',
+    5: '55px',
+    6: '55px',
+    7: '110px',
+    8: '80px',
+    9: '40px',
+    10: '85px',
+    11: '70px',
+    12: '70px',
+    13: '70px',
+    14: '24px',
   };
-  const minW = defaultColMinWidths[colIndex] || '50px';
+  const minW = defaultColMinWidths[colIndex] || '30px';
 
   let w = defaultWidth;
   if (pendingColWidths && pendingColWidths[String(colIndex)] !== undefined) {
     w = pendingColWidths[String(colIndex)] + 'px';
   } else if (savedColWidths && savedColWidths[String(colIndex)] !== undefined) {
-    w = Math.max(parseInt(savedColWidths[String(colIndex)], 10) || 0, parseInt(minW, 10) || 50) + 'px';
+    w = Math.max(parseInt(savedColWidths[String(colIndex)], 10) || 0, parseInt(minW, 10) || 30) + 'px';
   }
   const cls = extraClass ? ` class="${extraClass}"` : '';
   const resHandle = resizeMode ? `<div class="df-col-resize-handle" data-col="${colIndex}"></div>` : '';
-  return `<th${cls} style="width:${w};min-width:${minW};text-align:center;position:relative;background-color:#16203b !important;opacity:1 !important;word-break:keep-all;white-space:normal;">${content}${resHandle}</th>`;
+  return `<th${cls} style="width:${w};min-width:${minW};text-align:center;position:relative;background-color:#16203b !important;opacity:1 !important;word-break:keep-all;white-space:normal;padding:0.4rem 0.2rem;font-size:0.72rem;">${content}${resHandle}</th>`;
 }
 
 function attachResizeHandlers() {
