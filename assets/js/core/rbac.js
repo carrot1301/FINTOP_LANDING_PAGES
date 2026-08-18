@@ -37,9 +37,9 @@ import { AppState } from './state.js';
 
 const TIER_HIERARCHY = Object.freeze({
   STANDARD: 1,
-  SILVER:   2,
-  GOLD:     3,
-  DIAMOND:  4,
+  SILVER: 2,
+  GOLD: 3,
+  DIAMOND: 4,
 });
 
 // ─────────────────────────────────────────────────────────────
@@ -48,13 +48,13 @@ const TIER_HIERARCHY = Object.freeze({
 // ─────────────────────────────────────────────────────────────
 
 const PERMISSIONS = Object.freeze({
-  CREATE_SIGNAL:    'VIP_SIGNALS:CREATE',
-  UPDATE_SIGNAL:    'VIP_SIGNALS:UPDATE',
-  CREATE_BLOG:      'BLOG:CREATE',
-  UPDATE_BLOG:      'BLOG:UPDATE',
-  MANAGE_USERS:     'USER:READ',
-  MANAGE_ROLES:     'ROLE:READ',
-  VIEW_AUDIT_LOGS:  'SYSTEM:READ',
+  CREATE_SIGNAL: 'VIP_SIGNALS:CREATE',
+  UPDATE_SIGNAL: 'VIP_SIGNALS:UPDATE',
+  CREATE_BLOG: 'BLOG:CREATE',
+  UPDATE_BLOG: 'BLOG:UPDATE',
+  MANAGE_USERS: 'USER:READ',
+  MANAGE_ROLES: 'ROLE:READ',
+  VIEW_AUDIT_LOGS: 'SYSTEM:READ',
 });
 
 // ─────────────────────────────────────────────────────────────
@@ -66,13 +66,13 @@ const PERMISSIONS = Object.freeze({
 // ─────────────────────────────────────────────────────────────
 
 const DATA_ATTRS = Object.freeze({
-  REQUIRE_ROLE:       'data-require-role',
-  REQUIRE_TIER:       'data-require-tier',
+  REQUIRE_ROLE: 'data-require-role',
+  REQUIRE_TIER: 'data-require-tier',
   REQUIRE_PERMISSION: 'data-require-permission',
-  REQUIRE_AUTH:       'data-require-auth',
-  HIDE_WHEN_AUTH:     'data-hide-when-auth',  // For login/register buttons
-  LOCKED_CLASS:       'fintop-locked',         // CSS class for locked state
-  HIDDEN_CLASS:       'fintop-hidden',          // CSS class for hidden elements
+  REQUIRE_AUTH: 'data-require-auth',
+  HIDE_WHEN_AUTH: 'data-hide-when-auth',  // For login/register buttons
+  LOCKED_CLASS: 'fintop-locked',         // CSS class for locked state
+  HIDDEN_CLASS: 'fintop-hidden',          // CSS class for hidden elements
 });
 
 // ─────────────────────────────────────────────────────────────
@@ -129,12 +129,12 @@ class RbacEvaluatorSingleton {
    */
   isAdminCapable() {
     if (!this.isAuthenticated()) return false;
-    
+
     // Check roles
-    if (this.isSuperAdmin() || 
-        this.hasRole('ADMIN') || 
-        this.hasRole('EDITOR_ADMIN') || 
-        this.hasRole('SALE_ADMIN')) {
+    if (this.isSuperAdmin() ||
+      this.hasRole('ADMIN') ||
+      this.hasRole('EDITOR_ADMIN') ||
+      this.hasRole('SALE_ADMIN')) {
       return true;
     }
 
@@ -171,22 +171,26 @@ class RbacEvaluatorSingleton {
   hasTier(requiredTier) {
     if (this.isSuperAdmin()) return true;
 
-    const userTier = AppState.get('user', 'tierLevel') || 'STANDARD';
+    const userTier = (AppState.get('user', 'tierLevel') || 'STANDARD').toUpperCase();
     let maxUserLevel = TIER_HIERARCHY[userTier] || 1;
+    if (userTier === 'SILVER' || userTier === 'PRO') {
+      maxUserLevel = 4; // Full access for PRO accounts on user site
+    }
 
     const roles = AppState.get('user', 'roles') || [];
     const ROLE_TIER_MAPPING = {
-      SUPER_ADMIN:   'DIAMOND',
-      CEO:           'DIAMOND',
+      SUPER_ADMIN: 'DIAMOND',
+      CEO: 'DIAMOND',
       ASSISTANT_CEO: 'DIAMOND',
-      ADMIN:         'DIAMOND',
-      EDITOR_ADMIN:  'DIAMOND',
-      SALE_ADMIN:    'DIAMOND',
-      EXPERT:        'GOLD',
-      EDITOR_PRO:    'GOLD',
-      EDITOR:        'SILVER',
-      SALE:          'SILVER',
-      CLIENT_VIP:    'GOLD',
+      ADMIN: 'DIAMOND',
+      EDITOR_ADMIN: 'DIAMOND',
+      SALE_ADMIN: 'DIAMOND',
+      EXPERT: 'DIAMOND',
+      EDITOR_PRO: 'DIAMOND',
+      EDITOR: 'DIAMOND',
+      SALE: 'DIAMOND',
+      CLIENT_VIP: 'DIAMOND',
+      CLIENT_PRO: 'DIAMOND',
     };
 
     for (const role of roles) {

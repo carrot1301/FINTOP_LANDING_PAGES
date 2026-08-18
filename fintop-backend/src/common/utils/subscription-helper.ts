@@ -43,9 +43,9 @@ export function isFeatureAllowed(userFeatures: string[] | undefined | null, requ
 
 export function getFeaturesByTier(tier: SUBSCRIPTION_TIER): string[] {
   const standardFeatures = ['Tra cứu cổ phiếu', 'Phân tích cơ bản', 'FinTop AI phân tích', 'Tool & dữ liệu cơ bản'];
-  const silverFeatures = [...standardFeatures, 'Bộ lọc cổ phiếu chuyên nghiệp', 'Nghiên cứu & phân tích chuyên sâu', 'Tool & dữ liệu nâng cao', 'PRO Data và PRO Analysis', 'Full đặc quyền PRO'];
-  const goldFeatures = [...silverFeatures, 'Kết nối chuyên gia', 'Phân tích chuyên gia', 'Liên kết tài khoản chứng khoán', 'Full đặc quyền V.I.P'];
-  const diamondFeatures = [...goldFeatures, 'Cố vấn 1-1 chuyên gia', 'Hỗ trợ chiến lược danh mục'];
+  const silverFeatures = [...standardFeatures, 'Bộ lọc cổ phiếu chuyên nghiệp', 'Nghiên cứu & phân tích chuyên sâu', 'Tool & dữ liệu nâng cao', 'PRO Data và PRO Analysis', 'Full đặc quyền PRO', 'Full đặc quyền V.I.P', 'Kết nối chuyên gia', 'Phân tích chuyên gia', 'Liên kết tài khoản chứng khoán', 'Cố vấn 1-1 chuyên gia', 'Hỗ trợ chiến lược danh mục'];
+  const goldFeatures = [...silverFeatures];
+  const diamondFeatures = [...goldFeatures];
 
   if (tier === SUBSCRIPTION_TIER.DIAMOND) return diamondFeatures;
   if (tier === SUBSCRIPTION_TIER.GOLD) return goldFeatures;

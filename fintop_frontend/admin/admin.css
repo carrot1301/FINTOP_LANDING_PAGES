@@ -899,7 +899,7 @@ table.admin-table tbody tr:hover td {
   background: rgba(124, 58, 237, 0.35);
 }
 
-/* ─── TOGGLE SWITCH (Quản trị khách hàng) ─────────────── */
+/* ─── TOGGLE SWITCH (Quản trị khách hàng & Nhân sự) ─────────────── */
 .toggle-switch {
   position: relative;
   display: inline-block;
@@ -917,9 +917,10 @@ table.admin-table tbody tr:hover td {
   position: absolute;
   cursor: pointer;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(248, 113, 113, 0.4);
+  background: #334155; /* Màu xám khi không tích (OFF) */
   border-radius: 24px;
-  transition: 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.25s ease;
 }
 
 .toggle-slider::before {
@@ -927,19 +928,21 @@ table.admin-table tbody tr:hover td {
   position: absolute;
   height: 18px;
   width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background: white;
+  left: 2px;
+  bottom: 2px;
+  background: #cbd5e1;
   border-radius: 50%;
-  transition: 0.3s;
+  transition: all 0.25s ease;
 }
 
 .toggle-switch input:checked + .toggle-slider {
-  background: rgba(16, 185, 129, 0.6);
+  background: #10b981; /* Màu xanh lá khi tích (ON) */
+  border-color: #059669;
 }
 
 .toggle-switch input:checked + .toggle-slider::before {
   transform: translateX(20px);
+  background: #ffffff;
 }
 
 /* ─── MODAL OVERLAY ───────────────────────────────────── */

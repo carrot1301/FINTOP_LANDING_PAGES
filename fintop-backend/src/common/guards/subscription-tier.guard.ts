@@ -8,7 +8,7 @@ export const SubscriptionTier = (tier: SUBSCRIPTION_TIER) => SetMetadata(TIER_KE
 
 @Injectable()
 export class SubscriptionTierGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(private reflector: Reflector) { }
 
   canActivate(context: ExecutionContext): boolean {
     const requiredTier = this.reflector.getAllAndOverride<SUBSCRIPTION_TIER>(TIER_KEY, [
@@ -26,15 +26,16 @@ export class SubscriptionTierGuard implements CanActivate {
       throw new ForbiddenException('User session not found');
     }
 
-    const staffRoles: string[] = [
+    const premiumRoles: string[] = [
       'SUPER_ADMIN', 'CEO', 'DEVELOPER',
       'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO',
       'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT',
+      'CLIENT_PRO', 'CLIENT_VIP', 'CLIENT_DIAMOND',
     ];
 
-    const hasStaffRole = user.roles?.some((r: string) => staffRoles.includes(r));
-    if (hasStaffRole) {
-      return true; // All staff roles bypass tier restrictions and get full PRO/VIP access
+    const hasPremiumRole = user.roles?.some((r: string) => premiumRoles.includes(r)) || ['SILVER', 'PRO', 'GOLD', 'VIP', 'DIAMOND'].includes((user.tierLevel || '').toUpperCase());
+    if (hasPremiumRole) {
+      return true; // All PRO/VIP/Diamond and staff roles get full access to user site features
     }
 
     if (!isFeatureAllowed(user.planFeatures, requiredTier)) {

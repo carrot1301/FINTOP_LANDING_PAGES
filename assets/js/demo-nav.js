@@ -22,14 +22,18 @@
     document.head.appendChild(style);
 
     function getMainContent() {
-        return document.querySelector('.main-container') || document.querySelector('.page-wrapper') || document.querySelector('.demo-main');
+        return document.querySelector('.rp-page-wrapper') || document.querySelector('.main-container') || document.querySelector('.page-wrapper') || document.querySelector('.demo-main');
     }
 
     function getBaseTopPadding() {
         var wrapper = getMainContent();
         if (!wrapper) return 80;
         if (wrapper._baseTopPadding === undefined) {
-            wrapper._baseTopPadding = parseInt(getComputedStyle(wrapper).paddingTop, 10) || 80;
+            var pt = parseInt(getComputedStyle(wrapper).paddingTop, 10);
+            var pinned = document.querySelector('.dropdown-content.pinned');
+            var submenuH = pinned ? Math.ceil(pinned.getBoundingClientRect().height) : 0;
+            // If paddingTop currently includes submenu height, subtract it to find base
+            wrapper._baseTopPadding = (pt && pt > 80 && submenuH > 0) ? (pt - submenuH) : (pt || 80);
         }
         return wrapper._baseTopPadding;
     }
@@ -41,6 +45,7 @@
         document.documentElement.classList.toggle('has-pinned-menu', hasPinned);
 
         var submenuH = pinned ? Math.ceil(pinned.getBoundingClientRect().height) : 0;
+        document.documentElement.style.setProperty('--pinned-submenu-height', submenuH + 'px');
 
         var wrapper = getMainContent();
         if (wrapper) {

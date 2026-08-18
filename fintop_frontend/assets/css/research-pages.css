@@ -1,0 +1,606 @@
+/* ================================================================
+   RESEARCH PAGES – Shared Styles
+   Used by: thi-truong, chuyen-sau, doanh-nghiep, nhom-nganh
+   Prefix: rp-  (research-page)
+   ================================================================ */
+
+/* ---- Reset & Base ---- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: #07070D;
+    color: #e2e8f0;
+    min-height: 100vh;
+}
+
+/* ---- Header overrides (subpage alignment) ---- */
+.tv-header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 5%; height: 72px;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.tv-left { display: flex; align-items: center; gap: 2rem; }
+.neon-logo {
+    height: 70px; width: auto;
+    filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 15px rgba(168,85,247,0.8));
+    transition: all 0.3s ease;
+}
+.neon-logo:hover {
+    filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 25px rgba(192,132,252,1));
+    transform: scale(1.05);
+}
+.tv-nav { display: flex; gap: 2rem; align-items: center; list-style: none; }
+.tv-nav a {
+    font-size: 0.9rem; font-weight: 600; color: #fff; opacity: 0.8;
+    transition: opacity 0.2s; text-decoration: none; white-space: nowrap;
+}
+.tv-nav a:hover, .tv-nav a.active-page { opacity: 1; text-shadow: 0 0 8px rgba(255,255,255,0.5); }
+.tv-nav a.active-page { color: #c084fc; }
+.tv-right { display: flex; align-items: center; gap: 1rem; }
+.btn-tv-blue {
+    background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;
+    border: none; border-radius: 8px; padding: 8px 20px;
+    font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease;
+}
+.btn-tv-blue:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(168,85,247,0.4); }
+
+/* ---- Page Layout ---- */
+.rp-page-wrapper {
+    min-height: 100vh;
+    padding-top: 80px;
+    transition: padding-top 0.2s cubic-bezier(0.16, 1, 0.3, 1), padding-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.rp-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+    transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Push Layout on Desktop when Drawer is Open */
+@media (min-width: 1025px) {
+    body.rp-drawer-open .rp-page-wrapper {
+        padding-right: 380px;
+    }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+    body.rp-drawer-open .rp-page-wrapper {
+        padding-right: 340px;
+    }
+}
+
+/* ================================================================
+   HERO SECTION – Compact
+   ================================================================ */
+.rp-hero {
+    text-align: center;
+    padding: 1.25rem 0 0.75rem;
+}
+.rp-hero h1 {
+    font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff 30%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: -0.3px;
+}
+.rp-hero p {
+    color: #64748b;
+    font-size: 0.82rem;
+    max-width: 550px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* ================================================================
+   FEATURED ARTICLE – Balanced Research Highlight
+   ================================================================ */
+.rp-featured {
+    margin-bottom: 1.75rem;
+    display: none; /* shown by JS */
+}
+.rp-featured.rp-visible { display: block; }
+
+.rp-featured-card {
+    background: linear-gradient(135deg, rgba(25,25,42,0.65) 0%, rgba(18,18,32,0.55) 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    display: grid;
+    grid-template-columns: 39% 61%;
+    height: 310px;
+    min-height: 280px;
+    max-height: 320px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.rp-featured-card:hover {
+    border-color: rgba(168,85,247,0.28);
+    box-shadow:
+        0 4px 30px rgba(168,85,247,0.12),
+        0 0 0 1px rgba(168,85,247,0.08);
+}
+
+/* Featured thumbnail – 39% width, exact card height */
+.rp-featured-thumb {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+.rp-featured-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    transition: transform 0.5s ease;
+}
+.rp-featured-card:hover .rp-featured-thumb img { transform: scale(1.03); }
+
+/* Lock overlay on featured */
+.rp-featured-lock {
+    position: absolute; inset: 0;
+    background: rgba(10,10,15,0.75);
+    backdrop-filter: blur(4px);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 8px;
+    z-index: 2;
+}
+.rp-featured-lock .rp-lock-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, #eab308, #ca8a04);
+    display: flex; align-items: center; justify-content: center;
+    color: #000; font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(234,179,8,0.3);
+}
+.rp-featured-lock .rp-lock-text {
+    font-size: 0.72rem; font-weight: 700; color: #fef08a; text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Featured content body – 52% width, balanced padding */
+.rp-featured-body {
+    padding: 1.35rem 1.65rem;
+    display: flex; flex-direction: column; justify-content: center; gap: 0.5rem;
+}
+.rp-featured-kicker {
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: inline-flex; align-items: center; gap: 6px;
+}
+.rp-featured-title {
+    font-size: clamp(1.4rem, 1.75vw, 1.65rem);
+    font-weight: 800; line-height: 1.35;
+    color: #fff; text-decoration: none;
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+    transition: color 0.25s ease;
+}
+.rp-featured-title:hover { color: #c084fc; }
+.rp-featured-excerpt {
+    color: #94a3b8; font-size: 0.92rem; line-height: 1.5;
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+}
+.rp-featured-meta {
+    display: flex; align-items: center; gap: 0.85rem;
+    font-size: 0.76rem; color: #64748b; flex-wrap: wrap;
+    margin-top: 0.1rem;
+}
+.rp-featured-meta span {
+    display: flex; align-items: center; gap: 5px;
+}
+.rp-featured-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: #fff; border: none; border-radius: 8px;
+    padding: 7.5px 22px; font-weight: 700; font-size: 0.82rem;
+    cursor: pointer; transition: all 0.3s ease;
+    text-decoration: none; align-self: flex-start;
+    margin-top: 0.25rem;
+    box-shadow: 0 2px 10px rgba(124,58,237,0.2);
+}
+.rp-featured-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(168,85,247,0.38);
+}
+
+/* ================================================================
+   RECENT ARTICLES SECTION – 3×2 Grid
+   ================================================================ */
+.rp-recent-section { margin-bottom: 2rem; }
+.rp-section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 0.75rem;
+}
+.rp-section-header h2 {
+    font-size: 1.1rem; font-weight: 700; color: #fff;
+    display: flex; align-items: center; gap: 8px;
+}
+.rp-section-header h2 i { color: #a855f7; font-size: 0.95rem; }
+
+.rp-recent-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+/* ================================================================
+   ARTICLE CARD – used in recent grid
+   ================================================================ */
+.rp-card {
+    background: rgba(20,20,30,0.5);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex; flex-direction: column;
+}
+.rp-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(168,85,247,0.25);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+}
+
+/* Card thumbnail */
+.rp-card-thumb {
+    position: relative; height: 155px; overflow: hidden;
+    background: #111;
+}
+.rp-card-thumb img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.rp-card:hover .rp-card-thumb img { transform: scale(1.05); }
+
+.rp-card-badge {
+    position: absolute; top: 10px; left: 10px;
+    background: rgba(168,85,247,0.85); color: #fff;
+    font-size: 0.68rem; font-weight: 700;
+    padding: 2px 8px; border-radius: 4px;
+    text-transform: uppercase; z-index: 3;
+}
+
+/* Card lock overlay */
+.rp-card-lock {
+    position: absolute; inset: 0;
+    background: rgba(10,10,15,0.75);
+    backdrop-filter: blur(4px);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 6px;
+    opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    z-index: 2;
+}
+.rp-card.is-locked .rp-card-lock { opacity: 1; pointer-events: auto; }
+.rp-card-lock .rp-lock-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, #eab308, #ca8a04);
+    display: flex; align-items: center; justify-content: center;
+    color: #000; font-size: 0.9rem;
+    box-shadow: 0 3px 8px rgba(234,179,8,0.3);
+}
+.rp-card-lock .rp-lock-text {
+    font-size: 0.68rem; font-weight: 700; color: #fef08a; text-transform: uppercase;
+}
+
+/* Card body */
+.rp-card-body {
+    padding: 0.85rem 1rem 1rem;
+    display: flex; flex-direction: column; gap: 0.35rem; flex: 1;
+}
+.rp-card-title {
+    font-size: 0.92rem; font-weight: 700; line-height: 1.4;
+    color: #fff; text-decoration: none;
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+    transition: color 0.2s;
+}
+.rp-card-title:hover { color: #c084fc; }
+.rp-card-meta {
+    display: flex; align-items: center; gap: 0.75rem;
+    font-size: 0.72rem; color: #64748b;
+}
+.rp-card-meta span {
+    display: flex; align-items: center; gap: 4px;
+}
+.rp-card-excerpt {
+    color: #94a3b8; font-size: 0.8rem; line-height: 1.5;
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+    margin-top: 0.15rem;
+}
+
+/* ================================================================
+   DRAWER – Toggle Button (fixed right edge)
+   ================================================================ */
+.rp-drawer-toggle {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    background: linear-gradient(180deg, #7c3aed, #a855f7);
+    color: #fff;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    padding: 18px 11px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    cursor: pointer;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: -3px 0 18px rgba(168,85,247,0.25);
+}
+.rp-drawer-toggle:hover {
+    padding-right: 16px;
+    box-shadow: -5px 0 25px rgba(168,85,247,0.45);
+    background: linear-gradient(180deg, #6d28d9, #9333ea);
+}
+.rp-drawer-toggle i {
+    writing-mode: horizontal-tb;
+    font-size: 0.85rem;
+}
+
+/* ================================================================
+   DRAWER – Overlay (Disabled for push layout)
+   ================================================================ */
+.rp-drawer-overlay {
+    display: none !important;
+}
+
+/* ================================================================
+   DRAWER – Side Panel (Push Layout, Below Header)
+   ================================================================ */
+.rp-drawer {
+    position: fixed;
+    top: calc(72px + var(--pinned-submenu-height, 0px));
+    right: 0;
+    width: 380px;
+    max-width: 92vw;
+    height: calc(100vh - 72px - var(--pinned-submenu-height, 0px));
+    height: calc(100dvh - 72px - var(--pinned-submenu-height, 0px));
+    background: #0c0c16;
+    border-left: 1px solid rgba(255,255,255,0.08);
+    z-index: 990; /* below header z-index 1000 */
+    display: flex; flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), top 0.2s cubic-bezier(0.16, 1, 0.3, 1), height 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -8px 0 30px rgba(0,0,0,0.4);
+}
+.rp-drawer.rp-active { transform: translateX(0); }
+
+/* Drawer header */
+.rp-drawer-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    flex-shrink: 0;
+}
+.rp-drawer-header h3 {
+    font-size: 1rem; font-weight: 700; color: #fff;
+    display: flex; align-items: center; gap: 8px;
+}
+.rp-drawer-header h3 i { color: #a855f7; }
+.rp-drawer-close {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #94a3b8; font-size: 1rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+}
+.rp-drawer-close:hover {
+    background: rgba(239,68,68,0.15);
+    border-color: rgba(239,68,68,0.3);
+    color: #f87171;
+}
+
+/* Drawer search */
+.rp-drawer-search {
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    position: relative;
+    flex-shrink: 0;
+}
+.rp-drawer-search i {
+    position: absolute; left: 1.75rem; top: 50%;
+    transform: translateY(-50%);
+    color: #475569; font-size: 0.82rem; pointer-events: none;
+}
+.rp-drawer-search input {
+    width: 100%;
+    padding: 9px 14px 9px 34px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(15,15,25,0.6);
+    color: #fff; font-size: 0.82rem;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    outline: none; transition: all 0.2s;
+}
+.rp-drawer-search input:focus {
+    border-color: #a855f7;
+    box-shadow: 0 0 8px rgba(168,85,247,0.2);
+}
+.rp-drawer-search input::placeholder { color: #475569; }
+
+/* Drawer article count */
+.rp-drawer-count {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.72rem; color: #475569; font-weight: 600;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    flex-shrink: 0;
+}
+
+/* Drawer scrollable list */
+.rp-drawer-list {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(168,85,247,0.3) transparent;
+}
+.rp-drawer-list::-webkit-scrollbar { width: 5px; }
+.rp-drawer-list::-webkit-scrollbar-track { background: transparent; }
+.rp-drawer-list::-webkit-scrollbar-thumb {
+    background: rgba(168,85,247,0.25);
+    border-radius: 10px;
+}
+.rp-drawer-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(168,85,247,0.45);
+}
+
+/* ================================================================
+   DRAWER – Article Item
+   ================================================================ */
+.rp-drawer-item {
+    display: flex; gap: 12px;
+    padding: 12px 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    text-decoration: none;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+.rp-drawer-item:hover {
+    background: rgba(168,85,247,0.06);
+}
+.rp-drawer-item-thumb {
+    width: 72px; min-width: 72px; height: 50px;
+    border-radius: 6px; overflow: hidden;
+    background: #111; flex-shrink: 0;
+}
+.rp-drawer-item-thumb img {
+    width: 100%; height: 100%; object-fit: cover;
+}
+.rp-drawer-item-info {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column; justify-content: center; gap: 3px;
+}
+.rp-drawer-item-title {
+    font-size: 0.82rem; font-weight: 600; color: #e2e8f0;
+    line-height: 1.35;
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+    transition: color 0.2s;
+}
+.rp-drawer-item:hover .rp-drawer-item-title { color: #c084fc; }
+.rp-drawer-item-meta {
+    font-size: 0.7rem; color: #475569;
+    display: flex; align-items: center; gap: 6px;
+}
+.rp-drawer-item-meta span {
+    display: flex; align-items: center; gap: 3px;
+}
+.rp-drawer-item-lock {
+    color: #eab308; font-size: 0.7rem; margin-right: 2px;
+}
+
+/* ================================================================
+   STATES – Loading, Empty, Error
+   ================================================================ */
+.rp-loading-state,
+.rp-empty-state {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: rgba(30,30,45,0.15);
+    border-radius: 14px;
+    border: 1px dashed rgba(255,255,255,0.06);
+    grid-column: 1 / -1;
+}
+.rp-loading-state p,
+.rp-empty-state p { color: #64748b; font-size: 0.85rem; }
+.rp-empty-state i {
+    font-size: 2rem; color: #475569; margin-bottom: 0.75rem;
+    display: block;
+}
+.rp-empty-state h3 {
+    font-size: 1.05rem; color: #fff; margin-bottom: 0.35rem;
+}
+
+/* Drawer empty */
+.rp-drawer-empty {
+    text-align: center; padding: 3rem 1.25rem;
+    color: #475569; font-size: 0.85rem;
+}
+.rp-drawer-empty i {
+    font-size: 1.75rem; margin-bottom: 0.75rem; display: block; color: #334155;
+}
+
+/* Spinner */
+@keyframes rp-spin { to { transform: rotate(360deg); } }
+.rp-spinner {
+    width: 28px; height: 28px;
+    border: 3px solid rgba(168,85,247,0.12);
+    border-top-color: #a855f7;
+    border-radius: 50%;
+    animation: rp-spin 0.7s linear infinite;
+    margin: 0 auto 0.75rem;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 1024px) {
+    .rp-recent-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .tv-nav { display: none; }
+
+    .rp-hero { padding: 1rem 0 0.5rem; }
+    .rp-hero h1 { font-size: 1.2rem; }
+    .rp-hero p { font-size: 0.78rem; }
+
+    .rp-featured-card {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+    .rp-featured-thumb { min-height: 200px; max-height: 250px; }
+    .rp-featured-thumb img { object-position: center center; }
+    .rp-featured-body { padding: 1.25rem 1.35rem; gap: 0.65rem; }
+    .rp-featured-title { font-size: 1.2rem; -webkit-line-clamp: 2; }
+
+    .rp-recent-grid { grid-template-columns: 1fr; gap: 1rem; }
+
+    .rp-drawer-toggle {
+        top: auto;
+        bottom: 24px;
+        right: 16px;
+        transform: none;
+        writing-mode: horizontal-tb;
+        text-orientation: initial;
+        border-radius: 12px;
+        padding: 10px 16px;
+        font-size: 0.78rem;
+        box-shadow: 0 4px 20px rgba(168,85,247,0.35);
+    }
+    .rp-drawer-toggle:hover { padding-right: 16px; }
+
+    .rp-drawer {
+        top: calc(72px + var(--pinned-submenu-height, 0px));
+        width: 100%;
+        max-width: 100vw;
+        height: calc(100vh - 72px - var(--pinned-submenu-height, 0px));
+    }
+
+    .rp-section-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+}
+
+@media (max-width: 480px) {
+    .rp-page-container { padding: 0 1rem 2rem; }
+    .rp-card-thumb { height: 130px; }
+    .rp-featured-title { font-size: 1.05rem; }
+    .rp-featured-excerpt { font-size: 0.82rem; }
+    .rp-featured-btn { padding: 8px 20px; font-size: 0.8rem; }
+}

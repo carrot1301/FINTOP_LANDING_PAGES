@@ -108,6 +108,9 @@ function renderStaffTable(container) {
     columns: ['<input type="checkbox" id="chk-all-staff">', 'STT', 'Thông tin người dùng', 'Người quản lý', 'Ảnh đại diện', 'Trạng thái', '#'],
     searchable: true,
     searchPlaceholder: 'Tìm theo tên, email, SĐT...',
+    toolbarExtra: () => `
+      <button class="admin-btn admin-btn-danger admin-btn-sm" id="btn-delete-selected-staff" title="Xóa nhân sự đã chọn">🗑️ Xóa đã chọn</button>
+    `,
     filters: {
       roleCode: {
         label: 'Vai trò',
@@ -215,7 +218,7 @@ function renderStaffTable(container) {
             <span>${esc(brokerText)}</span>
           </td>
           <td style="width:15%;vertical-align:middle;text-align:center;">
-            <img src="${esc(avatarUrl)}" alt="Avatar" style="border-radius:4px;height: 80px;width: 80px;object-fit: cover;border: 1px solid rgba(255,255,255,0.1);" onerror="this.onerror=null; this.src='${DEFAULT_AVATAR}';">
+            <img src="${esc(avatarUrl)}" alt="Avatar" style="border-radius:4px;height: 80px;width: 80px;object-fit: cover;border: 1px solid rgba(255,255,255,0.1);">
           </td>
           <td style="width:10%;vertical-align:middle;text-align:center;">
             <label class="toggle-switch" style="cursor:pointer;">
@@ -230,13 +233,31 @@ function renderStaffTable(container) {
             <button class="admin-btn admin-btn-secondary admin-btn-sm" data-action="view-staff" data-id="${u.id}" title="Chi tiết & Phân quyền" style="padding: 6px 10px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; margin-top: 4px;">
               📋
             </button>
+            <button class="admin-btn admin-btn-danger admin-btn-sm" data-action="delete-staff" data-id="${u.id}" title="Xóa nhân sự" style="padding: 6px 10px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; margin-top: 4px;">
+              🗑️
+            </button>
           </td>
         </tr>
       `;
     },
     onRowAction: async (action, id) => {
-      if (action === 'edit-staff') await showStaffEditModal(parseInt(id));
-      if (action === 'view-staff') await showStaffDetail(parseInt(id));
+      if (action === 'edit-staff') await showStaffEditModal(parseInt(id, 10));
+      if (action === 'view-staff') await showStaffDetail(parseInt(id, 10));
+      if (action === 'delete-staff') {
+        const currentUser = window.FintopInfra?.AppState?.getState('user') || {};
+        if (parseInt(id, 10) === currentUser.id) {
+          showToast('Bạn không thể tự xóa tài khoản của chính mình!', 'error');
+          return;
+        }
+        if (!confirm(`Bạn có chắc chắn muốn xóa nhân sự #${id} này không?`)) return;
+        try {
+          await API().delete(EP().ADMIN_USER_DETAIL(id));
+          showToast(`Đã xóa nhân sự #${id} thành công!`);
+          if (staffTable) staffTable.refresh();
+        } catch (err) {
+          showToast(err.message || 'Lỗi khi xóa nhân sự', 'error');
+        }
+      }
     },
   });
 
@@ -252,6 +273,32 @@ function renderStaffTable(container) {
         showToast(err.message || 'Lỗi cập nhật trạng thái', 'error');
         e.target.checked = !e.target.checked;
       }
+    }
+  });
+
+  // Bind delete selected staff
+  container.querySelector('#btn-delete-selected-staff')?.addEventListener('click', async () => {
+    const checked = container.querySelectorAll('.chk-staff-item:checked');
+    if (checked.length === 0) {
+      showToast('Vui lòng chọn ít nhất một nhân sự để xóa.', 'error');
+      return;
+    }
+    const currentUser = window.FintopInfra?.AppState?.getState('user') || {};
+    const ids = Array.from(checked).map(c => parseInt(c.value, 10)).filter(id => id !== currentUser.id);
+
+    if (ids.length === 0) {
+      showToast('Bạn không thể tự xóa tài khoản của chính mình!', 'error');
+      return;
+    }
+
+    if (!confirm(`Bạn có chắc chắn muốn xóa ${ids.length} nhân sự đã chọn?`)) return;
+
+    try {
+      await Promise.all(ids.map(id => API().delete(EP().ADMIN_USER_DETAIL(id))));
+      showToast(`Đã xóa thành công ${ids.length} nhân sự!`);
+      if (staffTable) staffTable.refresh();
+    } catch (err) {
+      showToast(err.message || 'Lỗi khi xóa nhân sự', 'error');
     }
   });
 }
@@ -901,7 +948,8 @@ async function showStaffDetail(userId) {
               <div style="display:flex;gap:0.5rem;">
                 <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="ACTIVE" data-uid="${u.id}" ${u.status === 'ACTIVE' || isProtectedTarget ? 'disabled' : ''}>✅ Kích hoạt</button>
                 <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="INACTIVE" data-uid="${u.id}" ${u.status === 'INACTIVE' || isProtectedTarget ? 'disabled' : ''}>⏸️ Ngưng</button>
-                <button class="admin-btn admin-btn-danger admin-btn-sm" data-status-action="LOCKED" data-uid="${u.id}" ${u.status === 'LOCKED' || isProtectedTarget ? 'disabled' : ''}>🔒 Khóa</button>
+                <button class="admin-btn admin-btn-secondary admin-btn-sm" data-status-action="LOCKED" data-uid="${u.id}" ${u.status === 'LOCKED' || isProtectedTarget ? 'disabled' : ''}>🔒 Khóa</button>
+                <button class="admin-btn admin-btn-danger admin-btn-sm" id="btn-delete-staff-direct" data-uid="${u.id}" ${isProtectedTarget ? 'disabled' : ''}>🗑️ Xóa nhân sự</button>
               </div>
             </div>
 
@@ -969,6 +1017,26 @@ async function showStaffDetail(userId) {
           showToast(err.message || 'Lỗi cập nhật', 'error');
         }
       });
+    });
+
+    // Direct Delete button
+    staffDetailEl.querySelector('#btn-delete-staff-direct')?.addEventListener('click', async () => {
+      const uid = u.id;
+      const currentUser = window.FintopInfra?.AppState?.getState('user') || {};
+      if (parseInt(uid, 10) === currentUser.id) {
+        showToast('Bạn không thể tự xóa tài khoản của chính mình!', 'error');
+        return;
+      }
+      if (!confirm(`Bạn có chắc chắn muốn xóa trực tiếp nhân sự "${u.fullName}" không?`)) return;
+
+      try {
+        await API().delete(EP().ADMIN_USER_DETAIL(uid));
+        showToast(`Đã xóa nhân sự thành công!`);
+        closeModal();
+        if (staffTable) staffTable.refresh();
+      } catch (err) {
+        showToast(err.message || 'Lỗi xóa nhân sự', 'error');
+      }
     });
 
     // Assign Role button

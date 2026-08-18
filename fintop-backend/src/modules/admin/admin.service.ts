@@ -990,6 +990,7 @@ export class AdminService {
   // ─────────────────────────────────────────────────────
 
   async getRoles() {
+    const staffRoleCodes = ['SUPER_ADMIN', 'CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'];
     for (const r of AdminService.PREDEFINED_12_ROLES) {
       const exists = await this.prisma.role.findFirst({
         where: { code: r.code as any, deletedAt: null },
@@ -1000,7 +1001,7 @@ export class AdminService {
             code: r.code as any,
             name: r.name,
             description: r.description,
-            isSystem: true,
+            isSystem: staffRoleCodes.includes(r.code),
             status: 'ACTIVE',
           },
         });
