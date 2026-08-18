@@ -386,14 +386,32 @@ async function initShell() {
   });
 
   // Sidebar collapse toggle handler
-  document.getElementById('admin-sidebar-toggle')?.addEventListener('click', () => {
+  window.toggleAdminSidebar = function () {
     const sidebar = document.getElementById('admin-sidebar');
     const shell = document.getElementById('admin-app');
     const btn = document.getElementById('admin-sidebar-toggle');
-    const isCollapsed = sidebar?.classList.toggle('is-collapsed');
+    if (!sidebar) return;
+    const isCollapsed = sidebar.classList.toggle('is-collapsed');
     shell?.classList.toggle('is-collapsed', isCollapsed);
     if (btn) btn.textContent = isCollapsed ? '▶' : '◀';
+    try { localStorage.setItem('fintop_admin_sidebar_collapsed', isCollapsed ? '1' : '0'); } catch (e) { }
+  };
+
+  document.getElementById('admin-sidebar-toggle')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.toggleAdminSidebar();
   });
+
+  // Restore sidebar state
+  if (localStorage.getItem('fintop_admin_sidebar_collapsed') === '1') {
+    const sidebar = document.getElementById('admin-sidebar');
+    const shell = document.getElementById('admin-app');
+    const btn = document.getElementById('admin-sidebar-toggle');
+    sidebar?.classList.add('is-collapsed');
+    shell?.classList.add('is-collapsed');
+    if (btn) btn.textContent = '▶';
+  }
 
   // Logout handler
   document.getElementById('admin-logout-btn')?.addEventListener('click', async () => {

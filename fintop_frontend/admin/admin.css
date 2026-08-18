@@ -45,6 +45,7 @@
 }
 
 .admin-sidebar.is-collapsed .admin-logo-link,
+.admin-sidebar.is-collapsed .admin-sidebar-info,
 .admin-sidebar.is-collapsed .admin-sidebar-title,
 .admin-sidebar.is-collapsed .admin-sidebar-subtitle,
 .admin-sidebar.is-collapsed .admin-nav-section,
@@ -249,6 +250,8 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-width: 0 !important;
+  overflow-x: hidden;
 }
 
 .admin-topbar {
@@ -280,6 +283,9 @@
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
 }
 
 /* ─── KPI CARDS ────────────────────────────────────────── */
@@ -1106,6 +1112,11 @@ table.admin-table tbody tr:hover td {
   border: 1px solid var(--purple-border);
   border-radius: 8px;
   background: var(--bg-card);
+  overflow-x: auto !important;
+  overflow-y: auto !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box;
 }
 
 .df-inline-input {

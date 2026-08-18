@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="../../assets/css/base.css">
   <link rel="stylesheet" href="../../assets/css/auth.css">
   <link rel="stylesheet" href="../../assets/css/modals.css">
-  <link rel="stylesheet" href="./admin.css?v=1.0.4">
+  <link rel="stylesheet" href="./admin.css?v=1.0.5">
 
   <style>
     /* Inline critical styles for initial load */
@@ -80,11 +80,11 @@
         <a href="../../index.html" class="admin-logo-link" title="Quay lại trang người dùng">
           <img src="../../assets/images/fintop-logo.png" alt="FinTop DATA" class="neon-logo">
         </a>
-        <div style="flex:1;">
+        <div class="admin-sidebar-info" style="flex:1;">
           <div class="admin-sidebar-title">Admin Console</div>
           <div class="admin-sidebar-subtitle">FINTop DATA</div>
         </div>
-        <button class="admin-sidebar-toggle-btn" id="admin-sidebar-toggle" title="Thu gọn/Mở rộng Sidebar">◀</button>
+        <button class="admin-sidebar-toggle-btn" id="admin-sidebar-toggle" onclick="window.toggleAdminSidebar && window.toggleAdminSidebar()" title="Thu gọn/Mở rộng Sidebar">◀</button>
       </div>
 
       <nav id="admin-nav" class="admin-nav">
@@ -152,7 +152,7 @@
   <script type="module" src="../../assets/js/core/index.js"></script>
 
   <!-- Admin shell controller -->
-  <script type="module" src="./admin-shell.js?v=1.0.4"></script>
+  <script type="module" src="./admin-shell.js?v=1.0.5"></script>
 </body>
 
 </html>
