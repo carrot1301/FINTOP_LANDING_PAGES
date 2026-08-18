@@ -130,12 +130,26 @@ export class AdminTable {
   async loadData() {
     const bodyEl = this.opts.container.querySelector('.at-body');
     if (!bodyEl) return;
-    bodyEl.innerHTML = '<div class="admin-loading"><div class="admin-spinner"></div> Đang tải...</div>';
+
+    // Save scroll position before reload to prevent page jumping to top
+    const savedWindowScroll = window.scrollY || document.documentElement.scrollTop || 0;
+    const savedBodyScroll = bodyEl.scrollTop || 0;
+
+    const isInitial = !bodyEl.querySelector('.admin-table');
+    if (isInitial) {
+      bodyEl.innerHTML = '<div class="admin-loading"><div class="admin-spinner"></div> Đang tải...</div>';
+    } else {
+      bodyEl.style.opacity = '0.6';
+      bodyEl.style.pointerEvents = 'none';
+    }
 
     try {
       const result = await this.opts.fetchData(this.page, { search: this.searchQuery, ...this.filters });
       const data = result.data || [];
       const meta = result.meta || { total: 0, page: 1, limit: 20, totalPages: 1 };
+
+      bodyEl.style.opacity = '1';
+      bodyEl.style.pointerEvents = 'auto';
 
       if (data.length === 0) {
         bodyEl.innerHTML = `
@@ -156,6 +170,12 @@ export class AdminTable {
         ${this._renderPagination(meta)}
       `;
 
+      // Restore scroll position immediately so interface doesn't jump to top
+      requestAnimationFrame(() => {
+        window.scrollTo(0, savedWindowScroll);
+        if (bodyEl) bodyEl.scrollTop = savedBodyScroll;
+      });
+
       // Bind pagination
       bodyEl.querySelectorAll('.admin-page-btn[data-page]').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -174,6 +194,8 @@ export class AdminTable {
         });
       }
     } catch (err) {
+      bodyEl.style.opacity = '1';
+      bodyEl.style.pointerEvents = 'auto';
       bodyEl.innerHTML = `
         <div class="admin-empty-state">
           <div class="empty-icon">⚠️</div>
