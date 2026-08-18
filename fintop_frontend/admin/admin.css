@@ -78,16 +78,23 @@
 }
 
 .admin-sidebar-toggle-btn {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--purple-border);
   color: var(--text-secondary);
   border-radius: 6px;
-  padding: 4px 8px;
-  font-size: 0.75rem;
+  padding: 6px 10px;
+  font-size: 0.8rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease;
   margin-left: auto;
+  position: relative;
+  z-index: 9999;
+  pointer-events: auto !important;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .admin-sidebar-toggle-btn:hover {

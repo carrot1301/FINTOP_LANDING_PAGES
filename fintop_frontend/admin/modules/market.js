@@ -483,21 +483,21 @@ function renderAll() {
       .df-table th,
       .df-table td {
         white-space: normal !important;
-        word-break: break-word !important;
-        overflow-wrap: break-word !important;
+        word-break: keep-all !important;
+        overflow-wrap: normal !important;
         vertical-align: middle;
         overflow: visible !important;
       }
       .df-table.resize-mode {
         user-select: none;
         table-layout: fixed;
-        width: 100%;
+        min-width: 1380px !important;
       }
       .df-table.resize-mode th,
       .df-table.resize-mode td {
         white-space: normal !important;
-        word-break: break-word !important;
-        overflow-wrap: break-word !important;
+        word-break: keep-all !important;
+        overflow-wrap: normal !important;
         overflow: visible !important;
         text-overflow: clip;
       }
@@ -593,7 +593,7 @@ function renderAll() {
       /* When saved widths exist, use fixed layout too */
       .df-table.has-saved-widths {
         table-layout: fixed;
-        width: 100%;
+        min-width: 1380px !important;
       }
       .df-resize-toolbar {
         display: inline-flex;
