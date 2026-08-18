@@ -741,7 +741,7 @@ function renderAll() {
 
     <!-- Data Table -->
     <div style="overflow-x:auto;max-height:800px;overflow-y:auto;" class="df-table-scroll">
-      <table class="admin-table df-table${resizeMode ? ' resize-mode' : ''}${savedColWidths ? ' has-saved-widths' : ''}" style="font-size:0.8rem;">
+      <table class="admin-table df-table${resizeMode ? ' resize-mode' : ''}${savedColWidths ? ' has-saved-widths' : ''}" style="font-size:0.8rem;min-width:1380px;">
         <thead>
           <tr style="position:sticky;top:0;z-index:50;background-color:#16203b !important;">
             ${buildThCell(0, '2%', '<input type="checkbox" id="chk-all-stocks" />')}
@@ -1397,16 +1397,34 @@ async function moveStock(sid, direction) {
 // ─────────────────────────────────────────────────────────────
 
 function buildThCell(colIndex, defaultWidth, content, extraClass) {
-  // Determine actual width: pending (preview from DOM snapshot) > saved (localStorage) > default %
+  const defaultColMinWidths = {
+    0: '35px',
+    1: '50px',
+    2: '65px',
+    3: '55px',
+    4: '100px',
+    5: '90px',
+    6: '90px',
+    7: '180px',
+    8: '120px',
+    9: '65px',
+    10: '145px',
+    11: '130px',
+    12: '130px',
+    13: '130px',
+    14: '35px',
+  };
+  const minW = defaultColMinWidths[colIndex] || '50px';
+
   let w = defaultWidth;
   if (pendingColWidths && pendingColWidths[String(colIndex)] !== undefined) {
     w = pendingColWidths[String(colIndex)] + 'px';
   } else if (savedColWidths && savedColWidths[String(colIndex)] !== undefined) {
-    w = savedColWidths[String(colIndex)] + 'px';
+    w = Math.max(parseInt(savedColWidths[String(colIndex)], 10) || 0, parseInt(minW, 10) || 50) + 'px';
   }
   const cls = extraClass ? ` class="${extraClass}"` : '';
   const resHandle = resizeMode ? `<div class="df-col-resize-handle" data-col="${colIndex}"></div>` : '';
-  return `<th${cls} style="width:${w};min-width:30px;text-align:center;position:relative;background-color:#16203b !important;opacity:1 !important;">${content}${resHandle}</th>`;
+  return `<th${cls} style="width:${w};min-width:${minW};text-align:center;position:relative;background-color:#16203b !important;opacity:1 !important;word-break:keep-all;white-space:normal;">${content}${resHandle}</th>`;
 }
 
 function attachResizeHandlers() {
