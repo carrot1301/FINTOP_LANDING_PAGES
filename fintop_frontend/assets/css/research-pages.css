@@ -50,8 +50,12 @@ body {
 /* ---- Page Layout ---- */
 .rp-page-wrapper {
     min-height: 100vh;
-    padding-top: 80px;
+    padding-top: 85px;
     transition: padding-top 0.2s cubic-bezier(0.16, 1, 0.3, 1), padding-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+body.has-pinned-menu .rp-page-wrapper,
+html.has-pinned-menu .rp-page-wrapper {
+    padding-top: 135px !important;
 }
 .rp-page-container {
     max-width: 1200px;

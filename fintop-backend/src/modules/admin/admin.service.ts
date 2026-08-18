@@ -990,8 +990,23 @@ export class AdminService {
   // ─────────────────────────────────────────────────────
 
   async getRoles() {
-    const staffRoleCodes = ['SUPER_ADMIN', 'CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'];
+    const staffRoleCodes = ['SUPER_ADMIN', 'CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE'];
+
+    // 1. Remove EXPERT role from DB if it exists on production database
+    try {
+      const expertRole = await this.prisma.role.findFirst({ where: { code: 'EXPERT' as any } });
+      if (expertRole) {
+        await this.prisma.rolePermission.deleteMany({ where: { roleId: expertRole.id } });
+        await this.prisma.userRole.deleteMany({ where: { roleId: expertRole.id } });
+        await this.prisma.role.delete({ where: { id: expertRole.id } });
+      }
+    } catch (e) {
+      console.error('Error auto-cleaning EXPERT role:', e);
+    }
+
+    // 2. Ensure predefined roles exist and have correct isSystem flag
     for (const r of AdminService.PREDEFINED_12_ROLES) {
+      const isStaff = staffRoleCodes.includes(r.code);
       const exists = await this.prisma.role.findFirst({
         where: { code: r.code as any, deletedAt: null },
       });
@@ -1001,11 +1016,46 @@ export class AdminService {
             code: r.code as any,
             name: r.name,
             description: r.description,
-            isSystem: staffRoleCodes.includes(r.code),
+            isSystem: isStaff,
             status: 'ACTIVE',
           },
         });
+      } else if (exists.isSystem !== isStaff) {
+        await this.prisma.role.update({
+          where: { id: exists.id },
+          data: { isSystem: isStaff },
+        });
       }
+    }
+
+    // 3. Auto-sync user site permissions for premium customer roles (PRO, VIP, DIAMOND) and all staff roles
+    try {
+      const userPermCodes = ['BLOG:READ', 'REPORT:READ', 'VIP_SIGNALS:READ', 'STOCK_DATA:READ'];
+      const userPerms = await this.prisma.permission.findMany({
+        where: { code: { in: userPermCodes } },
+      });
+
+      if (userPerms.length > 0) {
+        const fullAccessRoles = ['CLIENT_PRO', 'CLIENT_VIP', 'CLIENT_DIAMOND', ...staffRoleCodes];
+        const dbRoles = await this.prisma.role.findMany({
+          where: { code: { in: fullAccessRoles as any }, deletedAt: null },
+        });
+
+        for (const role of dbRoles) {
+          for (const perm of userPerms) {
+            const hasPerm = await this.prisma.rolePermission.findFirst({
+              where: { roleId: role.id, permissionId: perm.id },
+            });
+            if (!hasPerm) {
+              await this.prisma.rolePermission.create({
+                data: { roleId: role.id, permissionId: perm.id },
+              });
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Error auto-syncing permissions in getRoles:', e);
     }
 
     const roles = await this.prisma.role.findMany({
