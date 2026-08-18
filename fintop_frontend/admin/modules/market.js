@@ -743,7 +743,7 @@ function renderAll() {
     <div style="overflow-x:auto;max-height:800px;overflow-y:auto;" class="df-table-scroll">
       <table class="admin-table df-table${resizeMode ? ' resize-mode' : ''}${savedColWidths ? ' has-saved-widths' : ''}" style="font-size:0.8rem;">
         <thead>
-          <tr style="position:sticky;top:0;z-index:5;">
+          <tr style="position:sticky;top:0;z-index:50;background-color:#16203b !important;">
             ${buildThCell(0, '2%', '<input type="checkbox" id="chk-all-stocks" />')}
             ${buildThCell(1, '6%', 'STT')}
             ${buildThCell(2, '4%', 'Mã CP')}
@@ -1406,7 +1406,7 @@ function buildThCell(colIndex, defaultWidth, content, extraClass) {
   }
   const cls = extraClass ? ` class="${extraClass}"` : '';
   const resHandle = resizeMode ? `<div class="df-col-resize-handle" data-col="${colIndex}"></div>` : '';
-  return `<th${cls} style="width:${w};min-width:30px;text-align:center;position:relative;">${content}${resHandle}</th>`;
+  return `<th${cls} style="width:${w};min-width:30px;text-align:center;position:relative;background-color:#16203b !important;opacity:1 !important;">${content}${resHandle}</th>`;
 }
 
 function attachResizeHandlers() {
