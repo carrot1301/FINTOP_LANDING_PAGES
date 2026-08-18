@@ -1340,12 +1340,12 @@ function bindEvents() {
       const ths = table.querySelectorAll('thead th');
       const widths = {};
       const minMap = {
-        0: 35, 1: 50, 2: 65, 3: 55, 4: 100, 5: 90, 6: 90,
-        7: 180, 8: 120, 9: 65, 10: 145, 11: 130, 12: 130, 13: 130, 14: 35
+        0: 24, 1: 32, 2: 42, 3: 45, 4: 70, 5: 55, 6: 55,
+        7: 110, 8: 80, 9: 40, 10: 85, 11: 70, 12: 70, 13: 70, 14: 24
       };
       ths.forEach((th, i) => {
         const w = Math.round(th.getBoundingClientRect().width);
-        const minW = minMap[i] || 50;
+        const minW = minMap[i] || 30;
         widths[String(i)] = Math.max(w, minW);
       });
       savedColWidths = widths;
