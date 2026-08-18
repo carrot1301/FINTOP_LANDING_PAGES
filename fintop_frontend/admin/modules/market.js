@@ -196,17 +196,13 @@ function loadSavedColWidths() {
     const raw = localStorage.getItem('fintop_admin_table_col_widths');
     if (!raw) return null;
     const parsed = JSON.parse(raw);
-    const minMap = {
-      0: 35, 1: 50, 2: 65, 3: 55, 4: 100, 5: 90, 6: 90,
-      7: 180, 8: 120, 9: 65, 10: 145, 11: 130, 12: 130, 13: 130, 14: 35
-    };
     Object.keys(parsed).forEach(k => {
-      const minVal = minMap[k] || 50;
-      if (parsed[k] && parseInt(parsed[k], 10) < minVal) {
-        parsed[k] = minVal;
+      const val = parseInt(parsed[k], 10);
+      if (isNaN(val) || val < 15) {
+        delete parsed[k];
       }
     });
-    return parsed;
+    return Object.keys(parsed).length > 0 ? parsed : null;
   } catch { return null; }
 }
 function loadSavedRowHeights() {
@@ -1339,14 +1335,9 @@ function bindEvents() {
     if (table) {
       const ths = table.querySelectorAll('thead th');
       const widths = {};
-      const minMap = {
-        0: 24, 1: 32, 2: 42, 3: 45, 4: 70, 5: 55, 6: 55,
-        7: 110, 8: 80, 9: 40, 10: 85, 11: 70, 12: 70, 13: 70, 14: 24
-      };
       ths.forEach((th, i) => {
         const w = Math.round(th.getBoundingClientRect().width);
-        const minW = minMap[i] || 30;
-        widths[String(i)] = Math.max(w, minW);
+        widths[String(i)] = Math.max(w, 15);
       });
       savedColWidths = widths;
       persistColWidths(widths);
@@ -1436,30 +1427,13 @@ async function moveStock(sid, direction) {
 // ─────────────────────────────────────────────────────────────
 
 function buildThCell(colIndex, defaultWidth, content, extraClass) {
-  const defaultColMinWidths = {
-    0: '24px',
-    1: '32px',
-    2: '42px',
-    3: '45px',
-    4: '70px',
-    5: '55px',
-    6: '55px',
-    7: '110px',
-    8: '80px',
-    9: '40px',
-    10: '85px',
-    11: '70px',
-    12: '70px',
-    13: '70px',
-    14: '24px',
-  };
-  const minW = defaultColMinWidths[colIndex] || '30px';
-
   let w = defaultWidth;
+  const minW = '15px';
+
   if (pendingColWidths && pendingColWidths[String(colIndex)] !== undefined) {
     w = pendingColWidths[String(colIndex)] + 'px';
   } else if (savedColWidths && savedColWidths[String(colIndex)] !== undefined) {
-    w = Math.max(parseInt(savedColWidths[String(colIndex)], 10) || 0, parseInt(minW, 10) || 30) + 'px';
+    w = Math.max(parseInt(savedColWidths[String(colIndex)], 10) || 0, 15) + 'px';
   }
   const cls = extraClass ? ` class="${extraClass}"` : '';
   const resHandle = resizeMode ? `<div class="df-col-resize-handle" data-col="${colIndex}"></div>` : '';
