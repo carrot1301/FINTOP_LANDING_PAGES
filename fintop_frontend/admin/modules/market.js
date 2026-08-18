@@ -196,16 +196,36 @@ function loadSavedColWidths() {
     const raw = localStorage.getItem('fintop_admin_table_col_widths');
     if (!raw) return null;
     const parsed = JSON.parse(raw);
-    if (parsed && parsed['10'] && parsed['10'] < 155) {
-      delete parsed['10'];
-    }
+    const minMap = {
+      0: 35, 1: 50, 2: 65, 3: 55, 4: 100, 5: 90, 6: 90,
+      7: 180, 8: 120, 9: 65, 10: 145, 11: 130, 12: 130, 13: 130, 14: 35
+    };
+    Object.keys(parsed).forEach(k => {
+      const minVal = minMap[k] || 50;
+      if (parsed[k] && parseInt(parsed[k], 10) < minVal) {
+        parsed[k] = minVal;
+      }
+    });
     return parsed;
   } catch { return null; }
 }
 function loadSavedRowHeights() {
   try {
     const raw = localStorage.getItem('fintop_admin_table_row_heights');
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    let hasInvalid = false;
+    Object.keys(parsed).forEach(k => {
+      const h = parseInt(parsed[k], 10);
+      if (isNaN(h) || h > 90 || h < 28) {
+        delete parsed[k];
+        hasInvalid = true;
+      }
+    });
+    if (hasInvalid) {
+      localStorage.setItem('fintop_admin_table_row_heights', JSON.stringify(parsed));
+    }
+    return Object.keys(parsed).length > 0 ? parsed : null;
   } catch { return null; }
 }
 function persistColWidths(widths) {
@@ -1319,20 +1339,39 @@ function bindEvents() {
     if (table) {
       const ths = table.querySelectorAll('thead th');
       const widths = {};
+      const minMap = {
+        0: 35, 1: 50, 2: 65, 3: 55, 4: 100, 5: 90, 6: 90,
+        7: 180, 8: 120, 9: 65, 10: 145, 11: 130, 12: 130, 13: 130, 14: 35
+      };
       ths.forEach((th, i) => {
-        widths[String(i)] = Math.round(th.getBoundingClientRect().width);
+        const w = Math.round(th.getBoundingClientRect().width);
+        const minW = minMap[i] || 50;
+        widths[String(i)] = Math.max(w, minW);
       });
       savedColWidths = widths;
       persistColWidths(widths);
 
-      // Save row heights from first td of each row
+      // Only save row heights if explicitly resized and <= 90px
       const rows = table.querySelectorAll('tbody tr');
       const heights = {};
+      let hasCustomRowHeights = false;
       rows.forEach((row, i) => {
-        heights[String(i)] = Math.round(row.getBoundingClientRect().height);
+        const firstTd = row.querySelector('td');
+        if (firstTd && firstTd.style.height) {
+          const h = parseInt(firstTd.style.height, 10);
+          if (!isNaN(h) && h >= 28 && h <= 90) {
+            heights[String(i)] = h;
+            hasCustomRowHeights = true;
+          }
+        }
       });
-      savedRowHeights = heights;
-      persistRowHeights(heights);
+      if (hasCustomRowHeights) {
+        savedRowHeights = heights;
+        persistRowHeights(heights);
+      } else {
+        savedRowHeights = null;
+        localStorage.removeItem('fintop_admin_table_row_heights');
+      }
     }
     pendingColWidths = null;
     pendingRowHeights = null;
