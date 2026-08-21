@@ -62,6 +62,12 @@ export class AdminService {
         },
       });
 
+      // Reset mock invoices status to DRAFT so revenue & approved count remain 0
+      await this.prisma.invoice.updateMany({
+        where: { status: 'PAID' },
+        data: { status: INVOICE_STATUS.DRAFT },
+      });
+
       // 2. Restore client managers for target users on Production DB
       const managerMappings: Record<string, string> = {
         'ptu186204@gmail.com': '8043',
