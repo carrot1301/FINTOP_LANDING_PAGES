@@ -1408,6 +1408,55 @@ function renderCreateForm(container, blogToEdit = null) {
   container.querySelector('#cms-btn-close-x').addEventListener('click', handleClose);
   container.querySelector('#cms-btn-close-bottom').addEventListener('click', handleClose);
 
+  // Helper to auto-compress high resolution images (e.g. 5MB-10MB photos down to ~150KB-300KB WebP)
+  async function compressImageFile(file, maxWidth = 1600, quality = 0.82) {
+    if (!file || !file.type.startsWith('image/')) return file;
+    if (file.size < 300 * 1024) return file; // Already under 300KB
+
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => {
+        const img = new Image();
+        img.src = e.target.result;
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob(
+            (blob) => {
+              if (blob && blob.size < file.size) {
+                const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".webp", {
+                  type: 'image/webp',
+                  lastModified: Date.now(),
+                });
+                resolve(compressedFile);
+              } else {
+                resolve(file);
+              }
+            },
+            'image/webp',
+            quality
+          );
+        };
+        img.onerror = () => resolve(file);
+      };
+      reader.onerror = () => resolve(file);
+    });
+  }
+
   // Thumbnail / Featured Image handler
   const thumbnailBtn = container.querySelector('#cms-btn-select-thumbnail');
   const thumbnailInput = container.querySelector('#cms-file-thumbnail');
@@ -1422,9 +1471,12 @@ function renderCreateForm(container, blogToEdit = null) {
   thumbnailInput.addEventListener('change', async () => {
     const file = thumbnailInput.files[0];
     if (file) {
-      const formData = new FormData();
-      formData.append('upload', file);
       try {
+        showToast('Đang tối ưu & nén ảnh đại diện...', 'info');
+        const compressed = await compressImageFile(file);
+        const formData = new FormData();
+        formData.append('upload', compressed);
+
         showToast('Đang tải ảnh đại diện lên máy chủ...', 'info');
         const res = await API().post('/blogs/upload', formData);
         const url = res.url || res.data?.url || res.data;
@@ -1467,9 +1519,12 @@ function renderCreateForm(container, blogToEdit = null) {
   fileInput.addEventListener('change', async () => {
     const file = fileInput.files[0];
     if (file) {
-      const formData = new FormData();
-      formData.append('upload', file);
       try {
+        showToast('Đang tối ưu & nén ảnh nội dung...', 'info');
+        const compressed = await compressImageFile(file);
+        const formData = new FormData();
+        formData.append('upload', compressed);
+
         showToast('Đang tải ảnh nội dung lên máy chủ...', 'info');
         const res = await API().post('/blogs/upload', formData);
         const url = res.url || res.data?.url || res.data;
