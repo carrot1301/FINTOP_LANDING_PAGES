@@ -107,7 +107,7 @@
 
         container.innerHTML =
             '<div class="rp-featured-card">' +
-                '<div class="rp-featured-thumb">' +
+                '<div class="rp-featured-thumb" style="cursor:pointer;" onclick="if(window.ArticleModal){event.preventDefault();ArticleModal.open(\'' + art.slug + '\');}">' +
                     '<img src="' + imgUrl + '" alt="' + escHTML(art.title) + '" onerror="this.src=\'../../assets/images/fintop_terminal_mockup.png\'">' +
                     lockHTML +
                 '</div>' +
@@ -116,7 +116,7 @@
                         '<i class="' + kickerIcon + '"></i>' +
                         '<span>' + kickerText + '</span>' +
                     '</div>' +
-                    '<a class="rp-featured-title" href="' + detailUrl + '">' +
+                    '<a class="rp-featured-title" href="' + detailUrl + '" onclick="if(window.ArticleModal){event.preventDefault();ArticleModal.open(\'' + art.slug + '\');}">' +
                         lockTitleIcon + escHTML(art.title) +
                     '</a>' +
                     '<p class="rp-featured-excerpt">' + escHTML(art.excerpt || '') + '</p>' +
@@ -124,7 +124,7 @@
                         '<span><i class="fa-regular fa-calendar"></i> ' + dateStr + '</span>' +
                         '<span><i class="fa-regular fa-eye"></i> ' + views + '</span>' +
                     '</div>' +
-                    '<a class="rp-featured-btn" href="' + detailUrl + '">Đọc bài viết</a>' +
+                    '<a class="rp-featured-btn" href="' + detailUrl + '" onclick="if(window.ArticleModal){event.preventDefault();ArticleModal.open(\'' + art.slug + '\');}">Đọc bài viết</a>' +
                 '</div>' +
             '</div>';
 
@@ -160,7 +160,7 @@
                 ? '<i class="fa-solid fa-lock" style="color:#eab308;margin-right:4px;font-size:0.78rem;"></i>'
                 : '';
 
-            return '<a class="rp-card' + lockedClass + '" href="' + detailUrl + '">' +
+            return '<a class="rp-card' + lockedClass + '" href="' + detailUrl + '" onclick="if(window.ArticleModal){event.preventDefault();ArticleModal.open(\'' + art.slug + '\');}">' +
                 '<div class="rp-card-thumb">' +
                     '<img src="' + imgUrl + '" alt="' + escHTML(art.title) + '" onerror="this.src=\'../../assets/images/fintop_terminal_mockup.png\'">' +
                     '<span class="rp-card-badge">' + escHTML(art.category?.name || 'Research') + '</span>' +
@@ -263,7 +263,7 @@
                 ? '<i class="fa-solid fa-lock rp-drawer-item-lock"></i>'
                 : '';
 
-            return '<a class="rp-drawer-item" href="' + detailUrl + '">' +
+            return '<a class="rp-drawer-item" href="' + detailUrl + '" onclick="if(window.ArticleModal){event.preventDefault();ArticleModal.open(\'' + art.slug + '\');}">' +
                 '<div class="rp-drawer-item-thumb">' +
                     '<img src="' + imgUrl + '" alt="" onerror="this.src=\'../../assets/images/fintop_terminal_mockup.png\'">' +
                 '</div>' +

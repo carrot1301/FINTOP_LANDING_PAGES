@@ -1,0 +1,422 @@
+/* ================================================================
+   ARTICLE MODAL OVERLAY (FIREANT STYLE)
+   ================================================================ */
+
+/* Backdrop overlay with blur */
+.article-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    background: rgba(7, 7, 13, 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    box-sizing: border-box;
+}
+
+.article-modal-backdrop.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Modal Window Container - Width 880px (Slightly wider than FireAnt) */
+.article-modal-container {
+    width: 100%;
+    max-width: 880px;
+    max-height: 90vh;
+    background: #111420;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.85), 0 0 35px rgba(168, 85, 247, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.96) translateY(12px);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    box-sizing: border-box;
+}
+
+.article-modal-backdrop.is-active .article-modal-container {
+    transform: scale(1) translateY(0);
+}
+
+/* Top Navigation Bar (FireAnt style: ← → Chi tiết | ✕) */
+.article-modal-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: #181c2b;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    font-size: 0.92rem;
+    font-weight: 600;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.article-modal-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.article-modal-back-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+}
+
+.article-modal-back-btn:hover {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: rgba(168, 85, 247, 0.4);
+    color: #c084fc;
+}
+
+.article-modal-topbar-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.article-modal-close-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.article-modal-close-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+}
+
+/* Modal Body Scroll Container */
+.article-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    background: #ffffff;
+    color: #1e293b;
+    position: relative;
+}
+
+/* Custom Scrollbar for Modal Body */
+.article-modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.article-modal-body::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.article-modal-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.article-modal-body::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Article Card Inside Modal */
+.article-modal-card {
+    position: relative;
+    background: #ffffff;
+}
+
+/* Full Width Header Banner */
+.article-modal-card .article-header-banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url("../images/bgctys.jpg");
+    background-size: cover;
+    background-position: center 30%;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 2.5rem;
+    position: relative;
+    gap: 1.5rem;
+}
+
+.article-modal-card .article-banner-logo-box {
+    background: #700e13;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.article-modal-card .article-banner-logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.article-modal-card .article-banner-title {
+    color: #ffffff;
+    font-size: 1.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1.35;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.8);
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+    padding-right: 110px;
+}
+
+/* Date bar */
+.article-modal-card .article-date-bar {
+    background: #700e13;
+    color: #ffffff;
+    padding: 10px 2.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 0.5px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Body Wrapper with Watermark */
+.article-modal-card .article-body-wrapper {
+    padding: 2rem 2.5rem;
+    position: relative;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Ctext x='50%25' y='50%25' fill='rgba(0, 0, 0, 0.025)' font-size='30' font-family='Arial, sans-serif' font-weight='bold' text-anchor='middle' transform='rotate(-32, 140, 140)'%3EFINTOP%3C/text%3E%3C/svg%3E");
+    background-repeat: repeat;
+    min-height: 350px;
+}
+
+/* Article Content Typography & Media */
+.article-modal-card .article-content {
+    font-size: 15.5px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.8;
+    color: #0f172a;
+    text-align: justify;
+}
+
+.article-modal-card .article-content p,
+.article-modal-card .article-content blockquote {
+    margin-bottom: 1.3rem;
+    color: #0f172a;
+}
+
+.article-modal-card .article-content ul,
+.article-modal-card .article-content ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.3rem;
+}
+
+.article-modal-card .article-content li {
+    margin-bottom: 0.5rem;
+    color: #0f172a;
+}
+
+.article-modal-card .article-content a {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.article-modal-card .article-content a:hover {
+    color: #700e13;
+}
+
+.article-modal-card .article-content img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 1.5rem auto;
+    border-radius: 6px;
+}
+
+.article-modal-card .article-content iframe {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 420px;
+    display: block;
+    margin: 1.5rem auto;
+    border: none;
+    border-radius: 6px;
+}
+
+.article-modal-card .article-content h1 {
+    font-size: 1.5rem;
+    color: #000;
+    font-weight: bold;
+    margin-top: 1.8rem;
+    margin-bottom: 0.9rem;
+}
+
+.article-modal-card .article-content h2 {
+    font-size: 1.3rem;
+    color: #000;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.article-modal-card .article-content h3 {
+    font-size: 1.15rem;
+    color: #000;
+    font-weight: bold;
+    margin-top: 1.3rem;
+    margin-bottom: 0.7rem;
+}
+
+.article-modal-card .article-content table {
+    width: 100% !important;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    background: #ffffff;
+    border: 1px solid #dddddd;
+}
+
+.article-modal-card .article-content th,
+.article-modal-card .article-content td {
+    border: 1px solid #dddddd;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.article-modal-card .article-content th {
+    background-color: #f2f2f2;
+    color: #333333;
+    font-weight: bold;
+}
+
+/* Attached file box styling */
+.article-modal-card .cms-original-file-box {
+    margin-bottom: 20px;
+    padding: 14px;
+    background: rgba(168, 85, 247, 0.08);
+    border: 1px dashed #a855f7;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Paywall Lock Overlay inside Modal */
+.article-modal-card .article-lock-screen {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 100px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.96) 15%, #ffffff 40%);
+    backdrop-filter: blur(4px);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1.5rem;
+}
+
+.article-modal-card .lock-card {
+    max-width: 400px;
+    background: #ffffff;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 14px;
+    padding: 2rem;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1), 0 0 30px rgba(124, 58, 237, 0.05);
+}
+
+.article-modal-card .lock-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.article-modal-card .lock-title {
+    font-weight: 800;
+    color: #0f172a;
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
+}
+
+.article-modal-card .lock-desc {
+    font-size: 0.88rem;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive Adjustments for Mobile */
+@media (max-width: 768px) {
+    .article-modal-backdrop {
+        padding: 10px;
+    }
+
+    .article-modal-container {
+        max-height: 95vh;
+        border-radius: 10px;
+    }
+
+    .article-modal-card .article-header-banner {
+        flex-direction: column;
+        padding: 1.5rem 1rem;
+        gap: 1rem;
+    }
+
+    .article-modal-card .article-banner-logo-box {
+        width: 90px;
+        height: 90px;
+    }
+
+    .article-modal-card .article-banner-title {
+        font-size: 1.3rem;
+        padding-right: 0;
+    }
+
+    .article-modal-card .article-date-bar {
+        padding: 8px 1rem;
+        font-size: 0.82rem;
+    }
+
+    .article-modal-card .article-body-wrapper {
+        padding: 1.5rem 1rem;
+    }
+}
