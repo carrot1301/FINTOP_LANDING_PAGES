@@ -113,6 +113,34 @@ export class BlogService {
     return blog;
   }
 
+  private sanitizePlainText(str?: string): string {
+    if (!str) return '';
+    return str
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/&aacute;/gi, 'á')
+      .replace(/&agrave;/gi, 'à')
+      .replace(/&acirc;/gi, 'â')
+      .replace(/&atilde;/gi, 'ã')
+      .replace(/&eacute;/gi, 'é')
+      .replace(/&egrave;/gi, 'è')
+      .replace(/&ecirc;/gi, 'ê')
+      .replace(/&iacute;/gi, 'í')
+      .replace(/&ì/gi, 'ì')
+      .replace(/&oacute;/gi, 'ó')
+      .replace(/&ograve;/gi, 'ò')
+      .replace(/&ocirc;/gi, 'ô')
+      .replace(/&otilde;/gi, 'õ')
+      .replace(/&uacute;/gi, 'ú')
+      .replace(/&ugrave;/gi, 'ù')
+      .replace(/&yacute;/gi, 'ý')
+      .replace(/&nbsp;/gi, ' ')
+      .replace(/&amp;/gi, '&')
+      .replace(/&quot;/gi, '"')
+      .replace(/&#39;/gi, "'")
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
   async listArticles(userFeatures?: string[], page = 1, limit = 10, categorySlug?: string) {
     const skip = (page - 1) * limit;
 
@@ -142,11 +170,13 @@ export class BlogService {
     const mapped = articles.map(b => {
       const locked = b.visibility === CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userFeatures, b.minTierAccess);
       const baseViews = 200 + ((b.id * 97 + 123) % 1801);
+      const rawExcerpt = b.excerpt || b.content || '';
+      const cleanExcerpt = this.sanitizePlainText(rawExcerpt).substring(0, 160);
       return {
         id: b.id,
-        title: b.title,
+        title: this.sanitizePlainText(b.title),
         slug: b.slug,
-        excerpt: b.excerpt,
+        excerpt: cleanExcerpt ? cleanExcerpt + (cleanExcerpt.length >= 160 ? '...' : '') : 'Không có mô tả ngắn.',
         content: locked ? '' : b.content,
         visibility: b.visibility,
         minTierAccess: b.minTierAccess,
@@ -188,9 +218,9 @@ export class BlogService {
 
     return {
       id: b.id,
-      title: b.title,
+      title: this.sanitizePlainText(b.title),
       slug: b.slug,
-      excerpt: b.excerpt,
+      excerpt: this.sanitizePlainText(b.excerpt),
       content: locked ? 'Nội dung V.I.P - Vui lòng nâng cấp tài khoản để đọc bài viết chiến lược này.' : b.content,
       visibility: b.visibility,
       minTierAccess: b.minTierAccess,

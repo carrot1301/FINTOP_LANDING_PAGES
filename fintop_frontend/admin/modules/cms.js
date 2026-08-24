@@ -1677,9 +1677,16 @@ function renderCreateForm(container, blogToEdit = null) {
       content = `<img class="cms-featured-image" src="${featuredImageUrl}" style="display:none;" />` + content;
     }
 
-    // Auto excerpt
-    const plainText = content.replace(/<[^>]*>/g, ' ');
-    const excerpt = plainText.trim().substring(0, 150) + (plainText.trim().length > 150 ? '...' : '');
+    // Auto excerpt - clean HTML tags & decode entities
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = content || '';
+    let plainText = tempDiv.textContent || tempDiv.innerText || content.replace(/<[^>]*>/g, ' ');
+    const txtArea = document.createElement('textarea');
+    txtArea.innerHTML = plainText;
+    plainText = txtArea.value;
+    txtArea.innerHTML = plainText;
+    plainText = txtArea.value.trim().replace(/\s+/g, ' ');
+    const excerpt = plainText.substring(0, 150) + (plainText.length > 150 ? '...' : '');
 
     // Auto slug
     let slug = blogToEdit?.slug || '';
