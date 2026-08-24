@@ -16,26 +16,13 @@
         '  pointer-events: none !important;' +
         '  transform: translateY(-8px) !important;' +
         '}' +
-        '.page-wrapper, .demo-main, .main-container {' +
+        '.page-wrapper, .demo-main, .main-container, .rp-page-wrapper {' +
         '  transition: padding-top 0.15s cubic-bezier(0.16, 1, 0.3, 1);' +
         '}';
     document.head.appendChild(style);
 
     function getMainContent() {
         return document.querySelector('.rp-page-wrapper') || document.querySelector('.main-container') || document.querySelector('.page-wrapper') || document.querySelector('.demo-main');
-    }
-
-    function getBaseTopPadding() {
-        var wrapper = getMainContent();
-        if (!wrapper) return 80;
-        if (wrapper._baseTopPadding === undefined) {
-            var pt = parseInt(getComputedStyle(wrapper).paddingTop, 10);
-            var pinned = document.querySelector('.dropdown-content.pinned');
-            var submenuH = pinned ? Math.ceil(pinned.getBoundingClientRect().height) : 0;
-            // If paddingTop currently includes submenu height, subtract it to find base
-            wrapper._baseTopPadding = (pt && pt > 80 && submenuH > 0) ? (pt - submenuH) : (pt || 80);
-        }
-        return wrapper._baseTopPadding;
     }
 
     function syncSubmenuOffset() {
@@ -49,7 +36,17 @@
 
         var wrapper = getMainContent();
         if (wrapper) {
-            wrapper.style.paddingTop = (getBaseTopPadding() + submenuH) + 'px';
+            // Get the base padding from the original CSS (without submenu offset)
+            if (wrapper._cssBasePadding === undefined) {
+                // Read computed style before any JS manipulation
+                var cs = parseInt(getComputedStyle(wrapper).paddingTop, 10) || 80;
+                // If we already have a pinned menu open at init time, subtract it
+                var existingPinned = document.querySelector('.dropdown-content.pinned');
+                var existingH = existingPinned ? Math.ceil(existingPinned.getBoundingClientRect().height) : 0;
+                wrapper._cssBasePadding = cs - existingH;
+                if (wrapper._cssBasePadding < 72) wrapper._cssBasePadding = 90; // minimum safe clearance
+            }
+            wrapper.style.paddingTop = (wrapper._cssBasePadding + submenuH) + 'px';
         }
     }
 
