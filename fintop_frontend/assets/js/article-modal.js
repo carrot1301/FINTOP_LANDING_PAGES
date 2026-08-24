@@ -72,6 +72,20 @@
         });
     }
 
+    function cleanTitle(str) {
+        if (!str) return 'Bài viết';
+        try {
+            const tmp = document.createElement('div');
+            tmp.innerHTML = str;
+            let text = tmp.textContent || tmp.innerText || str;
+            const txt = document.createElement('textarea');
+            txt.innerHTML = text;
+            return txt.value;
+        } catch (_) {
+            return str;
+        }
+    }
+
     function formatSimpleDate(dateStr) {
         if (!dateStr) return '...';
         try {
@@ -161,7 +175,7 @@
                         <div class="article-banner-logo-box">
                             <img src="/assets/images/LogoFinTop_notbg.jpg" alt="FinTop Logo" onerror="this.src='../../assets/images/LogoFinTop_notbg.jpg'">
                         </div>
-                        <h1 class="article-banner-title">${article.title || 'Bài viết'}</h1>
+                        <h1 class="article-banner-title">${cleanTitle(article.title)}</h1>
                     </div>
 
                     <div class="article-date-bar">

@@ -309,11 +309,32 @@
         return n + ' lượt xem';
     }
 
+    function decodeEntities(str) {
+        if (!str) return '';
+        try {
+            var txt = document.createElement('textarea');
+            txt.innerHTML = str;
+            var val = txt.value;
+            txt.innerHTML = val;
+            return txt.value;
+        } catch (_) {
+            return str;
+        }
+    }
+
     function escHTML(str) {
         if (!str) return '';
-        var div = document.createElement('div');
-        div.appendChild(document.createTextNode(str));
-        return div.innerHTML;
+        try {
+            var tmp = document.createElement('div');
+            tmp.innerHTML = str;
+            var plainText = tmp.textContent || tmp.innerText || str;
+            var decoded = decodeEntities(plainText);
+            var div = document.createElement('div');
+            div.appendChild(document.createTextNode(decoded));
+            return div.innerHTML;
+        } catch (_) {
+            return str;
+        }
     }
 
     function emptyStateHTML(title, desc) {

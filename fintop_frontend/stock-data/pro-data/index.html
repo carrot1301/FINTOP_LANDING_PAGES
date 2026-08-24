@@ -724,6 +724,20 @@
             }, 100);
         });
 
+        function cleanText(str) {
+            if (!str) return '';
+            try {
+                const tmp = document.createElement('div');
+                tmp.innerHTML = str;
+                let text = tmp.textContent || tmp.innerText || str;
+                const txt = document.createElement('textarea');
+                txt.innerHTML = text;
+                return txt.value;
+            } catch (_) {
+                return str;
+            }
+        }
+
         function initPage(infra) {
             // Load articles
             fetchArticles(infra);
@@ -829,13 +843,13 @@
                         <div class="card-content">
                             <a class="card-title" href="/chuyen-gia/index.html?slug=${art.slug}">
                                 ${art.locked ? '<i class="fa-solid fa-lock" style="color: #eab308; margin-right: 6px; font-size: 0.9rem;"></i>' : ''}
-                                ${art.title}
+                                ${cleanText(art.title)}
                             </a>
                             <div class="article-meta">
                                 <span><i class="fa-regular fa-calendar"></i> ${dateStr}</span>
                                 <span><i class="fa-regular fa-eye"></i> ${viewsCount}</span>
                             </div>
-                            <p class="card-excerpt">${art.excerpt || 'Không có mô tả ngắn cho bài viết này.'}</p>
+                            <p class="card-excerpt">${cleanText(art.excerpt) || 'Không có mô tả ngắn cho bài viết này.'}</p>
                             <a class="card-btn-link" href="/chuyen-gia/index.html?slug=${art.slug}">
                                 <span class="btn-xem-chi-tiet">Xem chi tiết</span>
                             </a>
