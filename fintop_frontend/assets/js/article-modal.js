@@ -57,17 +57,22 @@
         if (backBtn) backBtn.addEventListener('click', closeModal);
         if (shareBtn) {
             shareBtn.addEventListener('click', function () {
-                const currentUrl = window.location.href;
+                // Extract slug from URL and build short share link for best social media preview
+                const urlParams = new URLSearchParams(window.location.search);
+                const slug = urlParams.get('slug');
+                const shareUrl = slug
+                    ? window.location.origin + '/b/' + slug
+                    : window.location.href;
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(currentUrl).then(() => {
+                    navigator.clipboard.writeText(shareUrl).then(() => {
                         const originalHTML = shareBtn.innerHTML;
                         shareBtn.innerHTML = '<i class="fa-solid fa-check" style="color:#10b981;"></i><span style="color:#10b981;">Đã chép link!</span>';
                         setTimeout(() => { shareBtn.innerHTML = originalHTML; }, 2000);
                     }).catch(() => {
-                        alert('Đã sao chép link bài viết: ' + currentUrl);
+                        prompt('Sao chép link bài viết:', shareUrl);
                     });
                 } else {
-                    alert('Đã sao chép link bài viết: ' + currentUrl);
+                    prompt('Sao chép link bài viết:', shareUrl);
                 }
             });
         }
