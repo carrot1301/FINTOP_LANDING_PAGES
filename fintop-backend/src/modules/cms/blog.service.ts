@@ -105,7 +105,7 @@ export class BlogService {
       include: { category: true, tags: { include: { tag: true } } }
     });
 
-    if (!blog || blog.status !== BLOG_STATUS.PUBLISHED) {
+    if (!blog || blog.status !== BLOG_STATUS.PUBLISHED || blog.deletedAt !== null) {
       throw new NotFoundException('Article not found');
     }
 
@@ -118,6 +118,7 @@ export class BlogService {
 
     const whereClause: any = {
       status: BLOG_STATUS.PUBLISHED,
+      deletedAt: null,
     };
 
     if (categorySlug && categorySlug !== 'all') {

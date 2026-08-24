@@ -663,9 +663,12 @@ function injectStyles() {
       background-repeat: repeat;
       min-height: 400px;
     }
+    .cms-preview-article-content,
+    .cms-preview-article-content * {
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    }
     .cms-preview-article-content {
       font-size: 16px;
-      font-family: Arial, Helvetica, sans-serif;
       line-height: 1.8;
       color: #000000;
       text-align: justify;
