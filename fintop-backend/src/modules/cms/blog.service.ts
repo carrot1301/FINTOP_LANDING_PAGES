@@ -145,18 +145,31 @@ export class BlogService implements OnModuleInit {
 
   extractFirstImage(content?: string, defaultImage = 'https://fintopdata.vn/assets/images/fintop-og-banner.png'): string {
     if (!content) return defaultImage;
-    const match = content.match(/<img[^>]+src=["']([^"']+)["']/i);
-    if (match && match[1]) {
-      let src = match[1].trim();
-      if (src.startsWith('//')) {
-        return 'https:' + src;
+    try {
+      const decoded = content
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>');
+
+      const match = decoded.match(/<img[^>]+src=["']([^"']+)["']/i)
+        || decoded.match(/<img[^>]+src=([^\s>]+)/i)
+        || decoded.match(/(https?:\/\/[^\s"'<>]+?\.(?:jpg|jpeg|png|webp|gif|svg))/i);
+
+      if (match && match[1]) {
+        let src = match[1].trim();
+        if (src.startsWith('//')) {
+          return 'https:' + src;
+        }
+        if (src.startsWith('/')) {
+          return 'https://fintopdata.vn' + src;
+        }
+        if (src.startsWith('http://') || src.startsWith('https://')) {
+          return src;
+        }
       }
-      if (src.startsWith('/')) {
-        return 'https://fintopdata.vn' + src;
-      }
-      if (src.startsWith('http://') || src.startsWith('https://')) {
-        return src;
-      }
+    } catch (err) {
+      this.logger.warn(`extractFirstImage error: ${err.message}`);
     }
     return defaultImage;
   }
@@ -209,12 +222,11 @@ export class BlogService implements OnModuleInit {
     <!-- Open Graph / Facebook / Zalo / Telegram / iMessage -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="FinTop DATA">
+    <meta property="og:locale" content="vi_VN">
     <meta property="og:title" content="${esc(title)}">
     <meta property="og:description" content="${esc(description)}">
     <meta property="og:image" content="${esc(imageUrl)}">
     <meta property="og:image:secure_url" content="${esc(imageUrl)}">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
     <meta property="og:url" content="${esc(targetUrl)}">
 
     <!-- Twitter Card -->

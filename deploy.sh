@@ -31,6 +31,17 @@ server {
     return 301 https://$host$request_uri;
 }
 
+# Map User-Agent to detect social bots / crawlers
+map $http_user_agent $is_social_bot {
+    default 0;
+    ~*(facebookexternalhit|facebook|zalo|telegram|twitter|whatsapp|linkedin|slack|skype|bot|crawler|spider) 1;
+}
+
+map $arg_slug $has_slug {
+    default 0;
+    "~.+" 1;
+}
+
 # 1. Server Block cho Frontend Web chính (HTTPS 443)
 server {
     listen 443 ssl http2;
@@ -71,17 +82,27 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
+    # Intercept social crawler requests with ?slug= for article preview
+    location /_social_share {
+        internal;
+        proxy_pass http://127.0.0.1:3000/cms/blogs/share-og?slug=$arg_slug;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
     location / {
-        set $bot_req "";
-        if ($http_user_agent ~* "(facebookexternalhit|ZaloBot|TelegramBot|Twitterbot|WhatsApp|LinkedInBot|Slackbot|SkypeUriPreview)") {
-            set $bot_req 1;
+        set $do_social "";
+        if ($is_social_bot) {
+            set $do_social 1;
         }
-        if ($arg_slug != "") {
-            set $bot_req "${bot_req}1";
+        if ($has_slug) {
+            set $do_social "${do_social}1";
         }
-        if ($bot_req = "11") {
-            proxy_pass http://127.0.0.1:3000/cms/blogs/share-og?slug=$arg_slug;
-            break;
+        if ($do_social = "11") {
+            rewrite ^ /_social_share last;
         }
 
         try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ /index.html;
@@ -227,17 +248,27 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
+    # Intercept social crawler requests with ?slug= for article preview
+    location /_social_share {
+        internal;
+        proxy_pass http://127.0.0.1:3000/cms/blogs/share-og?slug=$arg_slug;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
     location / {
-        set $bot_req "";
-        if ($http_user_agent ~* "(facebookexternalhit|ZaloBot|TelegramBot|Twitterbot|WhatsApp|LinkedInBot|Slackbot|SkypeUriPreview)") {
-            set $bot_req 1;
+        set $do_social "";
+        if ($is_social_bot) {
+            set $do_social 1;
         }
-        if ($arg_slug != "") {
-            set $bot_req "${bot_req}1";
+        if ($has_slug) {
+            set $do_social "${do_social}1";
         }
-        if ($bot_req = "11") {
-            proxy_pass http://127.0.0.1:3000/cms/blogs/share-og?slug=$arg_slug;
-            break;
+        if ($do_social = "11") {
+            rewrite ^ /_social_share last;
         }
 
         try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ /index.html;
