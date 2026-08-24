@@ -209,6 +209,7 @@ export class BlogService implements OnModuleInit {
       }
     }
 
+    const redirectUrl = targetUrl + (targetUrl.includes('?') ? '&' : '?') + 'direct=1';
     const esc = (str: string) => str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
     return `<!DOCTYPE html>
@@ -236,14 +237,14 @@ export class BlogService implements OnModuleInit {
     <meta name="twitter:image" content="${esc(imageUrl)}">
 
     <script>
-        window.location.replace("${targetUrl}");
+        window.location.replace("${redirectUrl}");
     </script>
 </head>
 <body>
     <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
         <h2>${esc(title)}</h2>
         <p>${esc(description)}</p>
-        <p>Đang chuyển hướng tới <a href="${esc(targetUrl)}">FinTop DATA</a>...</p>
+        <p>Đang chuyển hướng tới <a href="${esc(redirectUrl)}">FinTop DATA</a>...</p>
     </div>
 </body>
 </html>`;

@@ -94,14 +94,14 @@ server {
     }
 
     location / {
-        set $do_social "";
-        if ($is_social_bot) {
-            set $do_social 1;
+        set $serve_og "";
+        if ($arg_slug != "") {
+            set $serve_og 1;
         }
-        if ($has_slug) {
-            set $do_social "${do_social}1";
+        if ($arg_direct != "") {
+            set $serve_og 0;
         }
-        if ($do_social = "11") {
+        if ($serve_og = 1) {
             rewrite ^ /_social_share last;
         }
 
@@ -260,14 +260,14 @@ server {
     }
 
     location / {
-        set $do_social "";
-        if ($is_social_bot) {
-            set $do_social 1;
+        set $serve_og "";
+        if ($arg_slug != "") {
+            set $serve_og 1;
         }
-        if ($has_slug) {
-            set $do_social "${do_social}1";
+        if ($arg_direct != "") {
+            set $serve_og 0;
         }
-        if ($do_social = "11") {
+        if ($serve_og = 1) {
             rewrite ^ /_social_share last;
         }
 
