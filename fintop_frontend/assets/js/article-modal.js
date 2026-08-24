@@ -142,7 +142,8 @@
             const pubDateStr = formatSimpleDate(article.publishedAt || article.createdAt);
             const viewCount = article.views !== undefined ? article.views : 0;
 
-            let contentHTML = article.content || '<p>Nội dung trống.</p>';
+            let contentHTML = (article.content || '<p>Nội dung trống.</p>')
+                .replace(/font-family\s*:\s*[^;"]+;?/gi, '');
             let lockScreenHTML = '';
 
             if (article.locked) {
