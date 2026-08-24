@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Query, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Query, UseInterceptors, UploadedFile, BadRequestException, Res } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { JwtAuthGuard, OptionalJwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { PermissionsGuard } from '../../common/guards/permissions.guard';
@@ -40,6 +40,22 @@ export class BlogController {
   @ApiOperation({ summary: 'Get all categories' })
   async getCategories() {
     return this.blogService.getAllCategories();
+  }
+
+  @Get('share-og')
+  @ApiOperation({ summary: 'Generate dynamic Open Graph HTML for social media sharing' })
+  async getShareOgMeta(@Query('slug') slug: string, @Res() res: any) {
+    const html = await this.blogService.generateShareOgHtml(slug);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.send(html);
+  }
+
+  @Get('share/:slug')
+  @ApiOperation({ summary: 'Generate dynamic Open Graph HTML by slug param' })
+  async getShareOgMetaByParam(@Param('slug') slug: string, @Res() res: any) {
+    const html = await this.blogService.generateShareOgHtml(slug);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.send(html);
   }
 
   @Get(':slug')

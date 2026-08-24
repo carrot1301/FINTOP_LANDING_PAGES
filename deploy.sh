@@ -61,7 +61,29 @@ server {
         rewrite ^ /index.html last;
     }
 
+    # Short share links for social media previews: /b/slug or /share/slug
+    location ~ ^/(b|share)/([A-Za-z0-9_-]+)$ {
+        proxy_pass http://127.0.0.1:3000/cms/blogs/share-og?slug=$2;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
     location / {
+        set $bot_req "";
+        if ($http_user_agent ~* "(facebookexternalhit|ZaloBot|TelegramBot|Twitterbot|WhatsApp|LinkedInBot|Slackbot|SkypeUriPreview)") {
+            set $bot_req 1;
+        }
+        if ($arg_slug != "") {
+            set $bot_req "${bot_req}1";
+        }
+        if ($bot_req = "11") {
+            proxy_pass http://127.0.0.1:3000/cms/blogs/share-og?slug=$arg_slug;
+            break;
+        }
+
         try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ /index.html;
     }
 
@@ -195,7 +217,29 @@ server {
         rewrite ^ /index.html last;
     }
 
+    # Short share links for social media previews: /b/slug or /share/slug
+    location ~ ^/(b|share)/([A-Za-z0-9_-]+)$ {
+        proxy_pass http://127.0.0.1:3000/cms/blogs/share-og?slug=$2;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
     location / {
+        set $bot_req "";
+        if ($http_user_agent ~* "(facebookexternalhit|ZaloBot|TelegramBot|Twitterbot|WhatsApp|LinkedInBot|Slackbot|SkypeUriPreview)") {
+            set $bot_req 1;
+        }
+        if ($arg_slug != "") {
+            set $bot_req "${bot_req}1";
+        }
+        if ($bot_req = "11") {
+            proxy_pass http://127.0.0.1:3000/cms/blogs/share-og?slug=$arg_slug;
+            break;
+        }
+
         try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ /index.html;
     }
 

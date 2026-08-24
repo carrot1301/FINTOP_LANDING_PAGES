@@ -30,9 +30,15 @@
                             <span>Chi tiết bài viết</span>
                         </div>
                     </div>
-                    <button type="button" class="article-modal-close-btn" id="articleModalCloseBtn" title="Đóng (Esc)">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <button type="button" class="article-modal-share-btn" id="articleModalShareBtn" title="Sao chép link chia sẻ bài viết" style="background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; border-radius: 8px; padding: 6px 14px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s;">
+                            <i class="fa-solid fa-share-nodes"></i>
+                            <span>Chia sẻ link</span>
+                        </button>
+                        <button type="button" class="article-modal-close-btn" id="articleModalCloseBtn" title="Đóng (Esc)">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="article-modal-body" id="articleModalBody">
                     <!-- Content injected dynamically -->
@@ -45,9 +51,26 @@
         // Event Listeners
         const closeBtn = backdropEl.querySelector('#articleModalCloseBtn');
         const backBtn = backdropEl.querySelector('#articleModalBackBtn');
+        const shareBtn = backdropEl.querySelector('#articleModalShareBtn');
         
         if (closeBtn) closeBtn.addEventListener('click', closeModal);
         if (backBtn) backBtn.addEventListener('click', closeModal);
+        if (shareBtn) {
+            shareBtn.addEventListener('click', function () {
+                const currentUrl = window.location.href;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(currentUrl).then(() => {
+                        const originalHTML = shareBtn.innerHTML;
+                        shareBtn.innerHTML = '<i class="fa-solid fa-check" style="color:#10b981;"></i><span style="color:#10b981;">Đã chép link!</span>';
+                        setTimeout(() => { shareBtn.innerHTML = originalHTML; }, 2000);
+                    }).catch(() => {
+                        alert('Đã sao chép link bài viết: ' + currentUrl);
+                    });
+                } else {
+                    alert('Đã sao chép link bài viết: ' + currentUrl);
+                }
+            });
+        }
 
         backdropEl.addEventListener('click', function (e) {
             if (e.target === backdropEl) {

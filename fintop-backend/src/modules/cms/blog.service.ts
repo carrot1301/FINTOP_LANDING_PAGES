@@ -143,6 +143,100 @@ export class BlogService implements OnModuleInit {
       .replace(/<\/font>/gi, '</span>');
   }
 
+  extractFirstImage(content?: string, defaultImage = 'https://fintopdata.vn/assets/images/fintop-og-banner.png'): string {
+    if (!content) return defaultImage;
+    const match = content.match(/<img[^>]+src=["']([^"']+)["']/i);
+    if (match && match[1]) {
+      let src = match[1].trim();
+      if (src.startsWith('//')) {
+        return 'https:' + src;
+      }
+      if (src.startsWith('/')) {
+        return 'https://fintopdata.vn' + src;
+      }
+      if (src.startsWith('http://') || src.startsWith('https://')) {
+        return src;
+      }
+    }
+    return defaultImage;
+  }
+
+  async generateShareOgHtml(slug: string): Promise<string> {
+    let title = 'Bài viết nghiên cứu | FinTop DATA';
+    let description = 'Dữ liệu phân tích và nghiên cứu chiến lược đầu tư cổ phiếu tại FinTop DATA.';
+    let imageUrl = 'https://fintopdata.vn/assets/images/fintop-og-banner.png';
+    let targetUrl = `https://fintopdata.vn/nghien-cuu/thi-truong/index.html?slug=${encodeURIComponent(slug || '')}`;
+
+    if (slug) {
+      try {
+        const article = await this.prisma.blog.findUnique({
+          where: { slug },
+          include: { category: true }
+        });
+
+        if (article) {
+          title = this.sanitizePlainText(article.title) || title;
+          const rawExcerpt = article.excerpt || article.content || '';
+          description = this.sanitizePlainText(rawExcerpt).substring(0, 200) || description;
+          imageUrl = this.extractFirstImage(article.content, imageUrl);
+
+          if (article.category?.slug) {
+            const catSlug = article.category.slug;
+            if (catSlug.includes('nganh')) {
+              targetUrl = `https://fintopdata.vn/nghien-cuu/nhom-nganh/index.html?slug=${encodeURIComponent(slug)}`;
+            } else if (catSlug.includes('chuyen-sau')) {
+              targetUrl = `https://fintopdata.vn/nghien-cuu/chuyen-sau/index.html?slug=${encodeURIComponent(slug)}`;
+            } else if (catSlug.includes('doanh-nghiep')) {
+              targetUrl = `https://fintopdata.vn/nghien-cuu/doanh-nghiep/index.html?slug=${encodeURIComponent(slug)}`;
+            }
+          }
+        }
+      } catch (err) {
+        this.logger.warn(`Failed to fetch article for OG HTML generation: ${err.message}`);
+      }
+    }
+
+    const esc = (str: string) => str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    return `<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${esc(title)} | FinTop DATA</title>
+    <meta name="description" content="${esc(description)}">
+
+    <!-- Open Graph / Facebook / Zalo / Telegram / iMessage -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="FinTop DATA">
+    <meta property="og:title" content="${esc(title)}">
+    <meta property="og:description" content="${esc(description)}">
+    <meta property="og:image" content="${esc(imageUrl)}">
+    <meta property="og:image:secure_url" content="${esc(imageUrl)}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="${esc(targetUrl)}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${esc(title)}">
+    <meta name="twitter:description" content="${esc(description)}">
+    <meta name="twitter:image" content="${esc(imageUrl)}">
+
+    <script>
+        window.location.replace("${targetUrl}");
+    </script>
+</head>
+<body>
+    <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
+        <h2>${esc(title)}</h2>
+        <p>${esc(description)}</p>
+        <p>Đang chuyển hướng tới <a href="${esc(targetUrl)}">FinTop DATA</a>...</p>
+    </div>
+</body>
+</html>`;
+  }
+
   private sanitizePlainText(str?: string): string {
     if (!str) return '';
     return str
