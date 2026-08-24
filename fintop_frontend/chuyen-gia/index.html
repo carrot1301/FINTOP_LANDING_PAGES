@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="../assets/css/modals.css">
     <link rel="stylesheet" href="../assets/css/auth.css">
     <link rel="stylesheet" href="../assets/css/command-palette.css">
-    <link rel="stylesheet" href="../assets/css/article-modal.css?v=4.0">
+    <link rel="stylesheet" href="../assets/css/article-modal.css?v=22.0">
     <script src="../assets/js/command-palette.js" defer></script>
     <script src="../assets/js/mobile-nav.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -172,53 +172,59 @@
             gap: 2rem;
         }
 
-        /* Gold Logo in Crimson Box */
+        /* Vibrant Deep Purple Circular Logo Box */
         .article-banner-logo-box {
-            background: #700e13;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            padding: 12px;
-            width: 140px;
-            height: 140px;
+            background: transparent;
+            border: 3px solid rgba(216, 180, 254, 0.85);
+            padding: 0;
+            width: 135px;
+            height: 135px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            border-radius: 6px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(168, 85, 247, 0.6);
+            border-radius: 50%;
             flex-shrink: 0;
+            overflow: hidden;
         }
 
         .article-banner-logo-box img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
         }
 
         /* Centered White Uppercase Title */
         .article-banner-title {
             color: #ffffff;
-            font-size: 2.1rem;
+            font-size: 1.8rem;
             font-weight: 800;
             text-transform: uppercase;
             line-height: 1.35;
             font-family: 'Be Vietnam Pro', sans-serif;
-            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.9);
             flex-grow: 1;
             text-align: center;
             margin: 0;
-            padding-right: 140px;
-            /* offset the logo to center it visually */
+            padding-right: 65px;
         }
 
-        /* Red Publication Date Bar */
+        /* Vibrant Deep Purple Date Bar */
         .article-date-bar {
-            background: #700e13;
+            background: linear-gradient(90deg, #4a006c, #620986, #4a006c);
             color: #ffffff;
-            padding: 12px 3rem;
-            font-size: 0.95rem;
+            padding: 10px 2.5rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            text-align: right;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid rgba(216, 180, 254, 0.3);
             letter-spacing: 0.5px;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
         /* Watermarked Content Wrapper */
@@ -251,7 +257,7 @@
         }
 
         .back-button-container i:hover {
-            color: #700e13;
+            color: #a855f7;
             transform: scale(1.1);
         }
 
@@ -785,7 +791,7 @@
     <script src="../assets/js/auth.js" defer></script>
     <script src="../assets/js/demo-nav.js"></script>
     <script type="module" src="../assets/js/core/index.js"></script>
-    <script src="../assets/js/article-modal.js?v=5.0"></script>
+    <script src="../assets/js/article-modal.js?v=22.0"></script>
     <script>
         (function () {
             function getRelativeTimeString(date) {

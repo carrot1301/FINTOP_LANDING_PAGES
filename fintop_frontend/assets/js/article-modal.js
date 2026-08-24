@@ -52,7 +52,7 @@
         const closeBtn = backdropEl.querySelector('#articleModalCloseBtn');
         const backBtn = backdropEl.querySelector('#articleModalBackBtn');
         const shareBtn = backdropEl.querySelector('#articleModalShareBtn');
-        
+
         if (closeBtn) closeBtn.addEventListener('click', closeModal);
         if (backBtn) backBtn.addEventListener('click', closeModal);
         if (shareBtn) {
@@ -233,7 +233,7 @@
                 <article class="article-modal-card">
                     <div class="article-header-banner">
                         <div class="article-banner-logo-box">
-                            <img src="/assets/images/LogoFinTop_notbg.jpg" alt="FinTop Logo" onerror="this.src='../../assets/images/LogoFinTop_notbg.jpg'">
+                            <img src="/assets/images/fintop-logo-circle.png?v=5.0" alt="FinTop DATA" onerror="this.src='../../assets/images/fintop-logo-circle.png?v=5.0'">
                         </div>
                         <h1 class="article-banner-title">${cleanTitle(article.title)}</h1>
                     </div>

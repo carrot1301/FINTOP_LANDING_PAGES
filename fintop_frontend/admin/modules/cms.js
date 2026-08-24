@@ -595,45 +595,49 @@ function injectStyles() {
       padding: 0;
     }
     .cms-preview-header-banner {
-      background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url("../assets/images/bgctys.jpg");
+      background-image: linear-gradient(135deg, rgba(20, 5, 38, 0.9), rgba(55, 10, 85, 0.82)), url("../assets/images/bgctys.jpg");
       background-size: cover;
       background-position: center 30%;
-      min-height: 200px;
+      min-height: 175px;
       display: flex;
       align-items: center;
-      padding: 1.5rem 3rem;
+      padding: 1.25rem 2.5rem;
       position: relative;
-      gap: 2rem;
+      gap: 1.5rem;
+      border-bottom: 2px solid rgba(168, 85, 247, 0.45);
     }
     .cms-preview-banner-logo-box {
-      background: #700e13;
-      border: 3px solid rgba(255, 255, 255, 0.2);
-      padding: 10px;
-      width: 120px;
-      height: 120px;
+      background: transparent;
+      border: 3px solid rgba(216, 180, 254, 0.85);
+      padding: 0;
+      width: 135px;
+      height: 135px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      border-radius: 6px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(168, 85, 247, 0.6);
+      border-radius: 50%;
       flex-shrink: 0;
+      overflow: hidden;
     }
     .cms-preview-banner-logo-box img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
     }
     .cms-preview-banner-title {
       color: #ffffff;
-      font-size: 1.9rem;
+      font-size: 1.75rem;
       font-weight: 800;
       text-transform: uppercase;
       line-height: 1.35;
-      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.8);
+      text-shadow: 0 3px 8px rgba(0, 0, 0, 0.9);
       flex-grow: 1;
       text-align: center;
       margin: 0;
-      padding-right: 120px;
+      padding-right: 65px;
     }
     @media (max-width: 768px) {
       .cms-preview-banner-title {
@@ -646,13 +650,13 @@ function injectStyles() {
       }
     }
     .cms-preview-date-bar {
-      background: #700e13;
+      background: linear-gradient(90deg, #4a006c, #620986, #4a006c);
       color: #ffffff;
       padding: 10px 3rem;
       font-size: 0.92rem;
       font-weight: 600;
       text-align: right;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 2px solid rgba(216, 180, 254, 0.3);
       letter-spacing: 0.5px;
     }
     .cms-preview-body-wrapper {
@@ -692,7 +696,7 @@ function injectStyles() {
       text-decoration: underline;
     }
     .cms-preview-article-content a:hover {
-      color: #700e13;
+      color: #a855f7;
     }
     .cms-preview-article-content img {
       width: 100% !important;
