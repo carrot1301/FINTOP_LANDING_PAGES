@@ -134,6 +134,15 @@ export class BlogService implements OnModuleInit {
     return blog;
   }
 
+  private cleanArticleContent(html?: string): string {
+    if (!html) return '';
+    return html
+      .replace(/font-family\s*:\s*&quot;[^&]*&quot;[^\s;`'">]*;?/gi, '')
+      .replace(/font-family\s*:\s*[^;`'">\\]+;?/gi, '')
+      .replace(/<font[^>]*>/gi, '<span>')
+      .replace(/<\/font>/gi, '</span>');
+  }
+
   private sanitizePlainText(str?: string): string {
     if (!str) return '';
     return str
@@ -197,7 +206,7 @@ export class BlogService implements OnModuleInit {
         title: this.sanitizePlainText(b.title),
         slug: b.slug,
         excerpt: cleanExcerpt ? cleanExcerpt + (cleanExcerpt.length >= 160 ? '...' : '') : 'Không có mô tả ngắn.',
-        content: locked ? '' : b.content,
+        content: locked ? '' : this.cleanArticleContent(b.content),
         visibility: b.visibility,
         minTierAccess: b.minTierAccess,
         publishedAt: b.publishedAt,
@@ -240,7 +249,7 @@ export class BlogService implements OnModuleInit {
       title: this.sanitizePlainText(b.title),
       slug: b.slug,
       excerpt: this.sanitizePlainText(b.excerpt),
-      content: locked ? 'Nội dung V.I.P - Vui lòng nâng cấp tài khoản để đọc bài viết chiến lược này.' : b.content,
+      content: locked ? 'Nội dung V.I.P - Vui lòng nâng cấp tài khoản để đọc bài viết chiến lược này.' : this.cleanArticleContent(b.content),
       visibility: b.visibility,
       minTierAccess: b.minTierAccess,
       publishedAt: b.publishedAt,

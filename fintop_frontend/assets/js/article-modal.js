@@ -142,8 +142,39 @@
             const pubDateStr = formatSimpleDate(article.publishedAt || article.createdAt);
             const viewCount = article.views !== undefined ? article.views : 0;
 
-            let contentHTML = (article.content || '<p>Nội dung trống.</p>')
-                .replace(/font-family\s*:\s*[^;"]+;?/gi, '');
+            let rawContent = (article.content || '<p>Nội dung trống.</p>')
+                .replace(/font-family\s*:\s*&quot;[^&]*&quot;[^\s;`'">]*;?/gi, '')
+                .replace(/font-family\s*:\s*[^;`'">\\]+;?/gi, '')
+                .replace(/<font[^>]*>/gi, '<span>')
+                .replace(/<\/font>/gi, '</span>');
+
+            let contentHTML = rawContent;
+
+            if (!article.locked) {
+                try {
+                    const tmpContainer = document.createElement('div');
+                    tmpContainer.innerHTML = rawContent;
+                    const allEls = tmpContainer.querySelectorAll('*');
+                    allEls.forEach(el => {
+                        if (el.style && el.style.fontFamily) {
+                            el.style.fontFamily = '';
+                        }
+                        if (el.hasAttribute('face')) {
+                            el.removeAttribute('face');
+                        }
+                        if (el.hasAttribute('style')) {
+                            let s = el.getAttribute('style') || '';
+                            if (/font-family/i.test(s)) {
+                                s = s.replace(/font-family\s*:\s*[^;]+;?/gi, '');
+                                el.setAttribute('style', s);
+                            }
+                        }
+                    });
+                    contentHTML = tmpContainer.innerHTML;
+                } catch (_) {
+                    contentHTML = rawContent;
+                }
+            }
             let lockScreenHTML = '';
 
             if (article.locked) {
