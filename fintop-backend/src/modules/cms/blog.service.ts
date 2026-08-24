@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, BadRequestException, OnModuleInit } from '@nestjs/common';
 import { PrismaService } from '../../common/database/prisma.service';
 import { RedisService } from '../../common/redis/redis.service';
 import { AuditService } from '../../common/audit/audit.service';
@@ -6,7 +6,7 @@ import { BLOG_STATUS, REVISION_ACTION, AUDIT_SOURCE, CONTENT_VISIBILITY, SUBSCRI
 import { isFeatureAllowed } from '../../common/utils/subscription-helper';
 
 @Injectable()
-export class BlogService {
+export class BlogService implements OnModuleInit {
   private readonly logger = new Logger(BlogService.name);
 
   constructor(
@@ -14,6 +14,27 @@ export class BlogService {
     private readonly redisService: RedisService,
     private readonly auditService: AuditService,
   ) {}
+
+  async onModuleInit() {
+    try {
+      const resetFlagKey = 'system:views_reset_zero_v3';
+      const isReset = await this.redisService.getClient().get(resetFlagKey);
+      if (!isReset) {
+        const updateResult = await this.prisma.blog.updateMany({
+          data: { views: 0 }
+        });
+        this.logger.log(`Successfully reset article views to 0 for ${updateResult.count} articles.`);
+        await this.redisService.getClient().set(resetFlagKey, 'true');
+
+        const keys = await this.redisService.getClient().keys('blogs:*');
+        if (keys && keys.length > 0) {
+          await this.redisService.getClient().del(...keys);
+        }
+      }
+    } catch (err) {
+      this.logger.warn(`Automated article views reset error: ${err.message}`);
+    }
+  }
 
   async createArticle(authorId: number, dto: any) {
     return this.prisma.$transaction(async (tx) => {
@@ -169,7 +190,6 @@ export class BlogService {
 
     const mapped = articles.map(b => {
       const locked = b.visibility === CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userFeatures, b.minTierAccess);
-      const baseViews = 200 + ((b.id * 97 + 123) % 1801);
       const rawExcerpt = b.excerpt || b.content || '';
       const cleanExcerpt = this.sanitizePlainText(rawExcerpt).substring(0, 160);
       return {
@@ -184,7 +204,7 @@ export class BlogService {
         locked,
         category: b.category,
         tags: b.tags.map(t => t.tag.name),
-        views: b.views + baseViews,
+        views: b.views || 0,
       };
     });
 
@@ -201,7 +221,7 @@ export class BlogService {
 
   async getArticleForUser(slug: string, userFeatures?: string[]) {
     try {
-      // Increment views count directly in the database
+      // Increment views count directly in the database when article is accessed
       await this.prisma.blog.update({
         where: { slug },
         data: { views: { increment: 1 } }
@@ -214,7 +234,6 @@ export class BlogService {
 
     const b = await this.getArticle(slug);
     const locked = b.visibility === CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userFeatures, b.minTierAccess);
-    const baseViews = 200 + ((b.id * 97 + 123) % 1801);
 
     return {
       id: b.id,
@@ -228,7 +247,7 @@ export class BlogService {
       locked,
       category: b.category,
       tags: b.tags.map((t: any) => t.tag.name),
-      views: b.views + baseViews,
+      views: b.views || 0,
     };
   }
 
