@@ -15,6 +15,8 @@
     let allArticles = [];
     let drawerSearchKeyword = '';
     let config = null;
+    let currentPage = 1;
+    const PAGE_SIZE = 6;
 
     /* ---- Bootstrap ---- */
     document.addEventListener('DOMContentLoaded', function () {
@@ -63,6 +65,7 @@
         if (!allArticles.length) {
             if (featuredEl) featuredEl.classList.remove('rp-visible');
             if (recentGrid) recentGrid.innerHTML = emptyStateHTML('Chưa có bài viết', 'Chưa có bài viết nào trong danh mục này.');
+            renderPagination(0, 1, PAGE_SIZE);
             return;
         }
 
@@ -70,12 +73,22 @@
         var featured = allArticles[0];
         renderFeatured(featured, featuredEl);
 
-        // Recent = next 6 articles (skip featured)
-        var recent = allArticles.slice(1, 7);
-        renderRecentGrid(recent, recentGrid);
+        // Recent = next articles (skip featured)
+        var recentArticles = allArticles.slice(1);
+        var totalPages = Math.ceil(recentArticles.length / PAGE_SIZE) || 1;
+        if (currentPage > totalPages) currentPage = 1;
 
-        // Open drawer by default on page load
-        openDrawer();
+        var startIndex = (currentPage - 1) * PAGE_SIZE;
+        var currentPageArticles = recentArticles.slice(startIndex, startIndex + PAGE_SIZE);
+
+        renderRecentGrid(currentPageArticles, recentGrid);
+        renderPagination(recentArticles.length, currentPage, PAGE_SIZE);
+
+        // Open drawer by default on page load (only once)
+        if (!window._rpDrawerOpenedOnce) {
+            window._rpDrawerOpenedOnce = true;
+            openDrawer();
+        }
     }
 
     /* ================================================================
@@ -177,6 +190,90 @@
             '</a>';
         }).join('');
     }
+
+    /* ================================================================
+       RENDER – Pagination Controls (Center Aligned)
+       ================================================================ */
+    function renderPagination(totalItems, page, pageSize) {
+        var container = document.getElementById('rpPagination');
+        var recentSection = document.querySelector('.rp-recent-section');
+
+        if (!container && recentSection) {
+            container = document.createElement('div');
+            container.className = 'rp-pagination';
+            container.id = 'rpPagination';
+            recentSection.appendChild(container);
+        }
+
+        if (!container) return;
+
+        var totalPages = Math.ceil(totalItems / pageSize);
+        if (totalPages <= 1) {
+            container.innerHTML = '';
+            container.style.display = 'none';
+            return;
+        }
+
+        container.style.display = 'flex';
+
+        var html = [];
+
+        // Previous button
+        if (page > 1) {
+            html.push('<button type="button" class="rp-page-btn" onclick="window.rpGoToPage(' + (page - 1) + ')" title="Trang trước"><i class="fa-solid fa-chevron-left"></i></button>');
+        } else {
+            html.push('<button type="button" class="rp-page-btn disabled" disabled title="Trang trước"><i class="fa-solid fa-chevron-left"></i></button>');
+        }
+
+        // Page Numbers
+        var pageNumbers = getPaginationRange(page, totalPages);
+        for (var i = 0; i < pageNumbers.length; i++) {
+            var p = pageNumbers[i];
+            if (p === '...') {
+                html.push('<span class="rp-page-dots">...</span>');
+            } else if (p === page) {
+                html.push('<button type="button" class="rp-page-btn active" disabled>' + p + '</button>');
+            } else {
+                html.push('<button type="button" class="rp-page-btn" onclick="window.rpGoToPage(' + p + ')">' + p + '</button>');
+            }
+        }
+
+        // Next button
+        if (page < totalPages) {
+            html.push('<button type="button" class="rp-page-btn" onclick="window.rpGoToPage(' + (page + 1) + ')" title="Trang sau"><i class="fa-solid fa-chevron-right"></i></button>');
+        } else {
+            html.push('<button type="button" class="rp-page-btn disabled" disabled title="Trang sau"><i class="fa-solid fa-chevron-right"></i></button>');
+        }
+
+        container.innerHTML = html.join('');
+    }
+
+    function getPaginationRange(current, total) {
+        if (total <= 7) {
+            var range = [];
+            for (var i = 1; i <= total; i++) range.push(i);
+            return range;
+        }
+
+        if (current <= 4) {
+            return [1, 2, 3, 4, 5, '...', total];
+        }
+
+        if (current >= total - 3) {
+            return [1, '...', total - 4, total - 3, total - 2, total - 1, total];
+        }
+
+        return [1, '...', current - 1, current, current + 1, '...', total];
+    }
+
+    window.rpGoToPage = function (newPage) {
+        currentPage = newPage;
+        renderPage();
+        var recentSection = document.querySelector('.rp-recent-section');
+        if (recentSection) {
+            recentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
 
     /* ================================================================
        DRAWER – Events
