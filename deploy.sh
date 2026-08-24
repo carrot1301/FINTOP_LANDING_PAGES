@@ -74,7 +74,7 @@ server {
 
     # Short share links for social media previews: /b/slug or /share/slug
     location ~ ^/(b|share)/([A-Za-z0-9_-]+)$ {
-        proxy_pass http://127.0.0.1:3000/cms/blogs/share-og?slug=$2;
+        proxy_pass http://127.0.0.1:3000/blogs/share-og?slug=$2;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -85,7 +85,7 @@ server {
     # Intercept social crawler requests with ?slug= for article preview
     location /_social_share {
         internal;
-        proxy_pass http://127.0.0.1:3000/cms/blogs/share-og?slug=$arg_slug;
+        proxy_pass http://127.0.0.1:3000/blogs/share-og?slug=$arg_slug;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -240,7 +240,7 @@ server {
 
     # Short share links for social media previews: /b/slug or /share/slug
     location ~ ^/(b|share)/([A-Za-z0-9_-]+)$ {
-        proxy_pass http://127.0.0.1:3000/cms/blogs/share-og?slug=$2;
+        proxy_pass http://127.0.0.1:3000/blogs/share-og?slug=$2;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -251,7 +251,7 @@ server {
     # Intercept social crawler requests with ?slug= for article preview
     location /_social_share {
         internal;
-        proxy_pass http://127.0.0.1:3000/cms/blogs/share-og?slug=$arg_slug;
+        proxy_pass http://127.0.0.1:3000/blogs/share-og?slug=$arg_slug;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
