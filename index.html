@@ -958,14 +958,14 @@
             width: 50px;
         }
 
-        /* Sàn */
+        /* Ngành HĐKD */
         #bolocTable th:nth-child(4) {
             width: 110px;
         }
 
-        /* Ngành HĐKD */
+        /* Update time */
         #bolocTable th:nth-child(5) {
-            width: 80px;
+            width: 110px;
         }
 
         /* Dữ liệu kỹ thuật lịch sử (Model) */
@@ -1013,7 +1013,7 @@
             font-weight: 500;
             vertical-align: middle;
             transition: background 0.2s ease, color 0.2s ease, filter 0.2s ease;
-            padding: 12px 6px;
+            padding: 12px 8px;
             font-size: 0.82rem;
             line-height: 1.45;
             word-wrap: break-word;
@@ -1043,6 +1043,8 @@
             word-break: break-word;
             overflow-wrap: break-word;
             line-height: 1.5;
+            padding-left: 20px;
+            padding-right: 12px;
         }
 
         #bolocTable .time-cell,
@@ -8603,7 +8605,7 @@
 
         function getBolocStrengthText(row) {
             const label = normalizeBolocLabel(
-                row.trend || row.strength || row.strengthText || row.rsiMfi || row.rsi_mfi || ''
+                row.strengthText || row.trend || row.strength || row.rsiMfi || row.rsi_mfi || ''
             );
             return BOLOC_BULLISH_STRENGTHS.has(label) ? label : '';
         }
@@ -8792,30 +8794,21 @@
 
         function getMockBolocData() {
             return [
-                { ticker: "MWG", exchange: "HOSE", sector: "Bán lẻ", updateTime: "20:58 24/08", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", status: "TÍCH CỰC", deltaRsi: "RSI 49-57", strength: "TĂNG DẦN", testZone: "74.5 - 75.5", resistanceZone: "77 - 80", supportZone: "72" },
-                { ticker: "MSN", exchange: "HOSE", sector: "Bán lẻ", updateTime: "21:05 24/08", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", status: "TÍCH CỰC", deltaRsi: "RSI 46-61", strength: "TĂNG", testZone: "69.5 - 70.7", resistanceZone: "72 - 74", supportZone: "68.5" },
-                { ticker: "PLX", exchange: "HOSE", sector: "Bán lẻ", updateTime: "21:07 24/08", historicalData: "Nền giá đi ngang > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", status: "TÍCH CỰC", deltaRsi: "RSI 60-63", strength: "TĂNG DẦN", testZone: "38 - 39", resistanceZone: "40 - 42.5", supportZone: "36" },
-                { ticker: "KDH", exchange: "HOSE", sector: "Bất động sản", updateTime: "21:24 24/08", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", status: "TÍCH CỰC", deltaRsi: "RSI 40-53", strength: "TĂNG", testZone: "18.2 - 18.8", resistanceZone: "19.4 - 20.3", supportZone: "17.8" },
-                { ticker: "HDC", exchange: "HOSE", sector: "Bất động sản", updateTime: "21:53 24/08", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng biên trên.", status: "RẤT TÍCH CỰC", deltaRsi: "RSI 38 - 55", strength: "TĂNG MẠNH", testZone: "12.5 - 12.8", resistanceZone: "13.3 - 14", supportZone: "12.2" },
-                { ticker: "HDG", exchange: "HOSE", sector: "Bất động sản", updateTime: "22:04 24/08", historicalData: "Giá tăng > MA20. MA5 tăng dần. Kênh xu hướng Bollinger Band tăng dần.", status: "KHẢ QUAN", deltaRsi: "RSI 42-48", strength: "TĂNG DẦN", testZone: "16.5 - 17", resistanceZone: "18.1 - 19.2", supportZone: "16.3" },
-                { ticker: "DXG", exchange: "HOSE", sector: "Bất động sản", updateTime: "21:52 24/08", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng.", status: "TÍCH CỰC", deltaRsi: "RSI 54-58", strength: "TĂNG DẦN", testZone: "11.7 - 12", resistanceZone: "12.3 - 12.7", supportZone: "11" },
-                { ticker: "FPT", exchange: "HOSE", sector: "Công nghệ thông tin", updateTime: "22:15 24/08", historicalData: "Dòng tiền lớn vào mạnh, vượt đỉnh lịch sử thành công.", status: "RẤT TÍCH CỰC", deltaRsi: "RSI 62-71", strength: "TĂNG MẠNH", testZone: "132 - 134", resistanceZone: "140 - 145", supportZone: "128" },
-                { ticker: "VNM", exchange: "HOSE", sector: "Thực phẩm & Đồ uống", updateTime: "22:20 24/08", historicalData: "Tạo đáy 2 thành công, bật tăng vượt đường MA50.", status: "TÍCH CỰC", deltaRsi: "RSI 51-59", strength: "TĂNG", testZone: "67.5 - 68.2", resistanceZone: "70 - 72", supportZone: "65.5" },
-                { ticker: "SAB", exchange: "HOSE", sector: "Thực phẩm & Đồ uống", updateTime: "22:25 24/08", historicalData: "Đi ngang tích lũy dải hẹp xung quanh MA20.", status: "KHẢ QUAN", deltaRsi: "RSI 45-50", strength: "TĂNG DẦN", testZone: "57 - 58", resistanceZone: "60 - 62", supportZone: "55" },
-                { ticker: "VCB", exchange: "HOSE", sector: "Ngân hàng", updateTime: "22:30 24/08", historicalData: "Giữ vững nền giá hỗ trợ cứng, lực cầu gia tăng.", status: "RẤT TÍCH CỰC", deltaRsi: "RSI 58-64", strength: "TĂNG MẠNH", testZone: "91 - 92.5", resistanceZone: "96 - 98", supportZone: "89" },
-                { ticker: "SSI", exchange: "HOSE", sector: "Chứng khoán", updateTime: "22:35 24/08", historicalData: "Bật tăng mạnh mẽ cùng nhóm ngành chứng khoán.", status: "RẤT TÍCH CỰC", deltaRsi: "RSI 60-68", strength: "TĂNG MẠNH", testZone: "34.5 - 35.2", resistanceZone: "37 - 39", supportZone: "33" },
-                { ticker: "VND", exchange: "HOSE", sector: "Chứng khoán", updateTime: "22:40 24/08", historicalData: "Vượt mây Ichimoku, khối lượng giao dịch đột biến.", status: "TÍCH CỰC", deltaRsi: "RSI 53-61", strength: "TĂNG", testZone: "15.8 - 16.2", resistanceZone: "17.5 - 18.5", supportZone: "15" },
-                { ticker: "HPG", exchange: "HOSE", sector: "Thép & Vật liệu", updateTime: "22:45 24/08", historicalData: "Tích lũy nền chặt chẽ trên MA20, chờ dứt điểm bứt phá.", status: "TÍCH CỰC", deltaRsi: "RSI 50-56", strength: "TĂNG DẦN", testZone: "27.2 - 27.8", resistanceZone: "29.5 - 31", supportZone: "26.5" },
-                { ticker: "NLG", exchange: "HOSE", sector: "Bất động sản", updateTime: "22:50 24/08", historicalData: "Mô hình 2 đáy ngắn hạn phát huy tác dụng tích cực.", status: "KHẢ QUAN", deltaRsi: "RSI 47-53", strength: "TĂNG DẦN", testZone: "41.5 - 42", resistanceZone: "44.5 - 46", supportZone: "40" },
-                { ticker: "KBC", exchange: "HOSE", sector: "Bất động sản KCN", updateTime: "22:55 24/08", historicalData: "Dòng tiền ngoại quay lại mua ròng mạnh.", status: "TÍCH CỰC", deltaRsi: "RSI 52-58", strength: "TĂNG", testZone: "28.5 - 29.2", resistanceZone: "31 - 32.5", supportZone: "27.5" },
-                { ticker: "STB", exchange: "HOSE", sector: "Ngân hàng", updateTime: "23:00 24/08", historicalData: "Vượt kháng cự ngắn hạn với thanh khoản thuyết phục.", status: "RẤT TÍCH CỰC", deltaRsi: "RSI 61-67", strength: "TĂNG MẠNH", testZone: "32.8 - 33.5", resistanceZone: "36 - 38", supportZone: "31.5" },
-                { ticker: "MBB", exchange: "HOSE", sector: "Ngân hàng", updateTime: "23:05 24/08", historicalData: "Xu hướng tăng duy trì ổn định trên các đường trung bình.", status: "TÍCH CỰC", deltaRsi: "RSI 55-62", strength: "TĂNG", testZone: "24.5 - 25", resistanceZone: "26.5 - 28", supportZone: "23.5" },
-                { ticker: "TCB", exchange: "HOSE", sector: "Ngân hàng", updateTime: "23:10 24/08", historicalData: "Sức mạnh giá tăng vượt trội so với chỉ số chung.", status: "RẤT TÍCH CỰC", deltaRsi: "RSI 64-70", strength: "TĂNG MẠNH", testZone: "23.8 - 24.3", resistanceZone: "26 - 27.5", supportZone: "22.8" },
-                { ticker: "VPB", exchange: "HOSE", sector: "Ngân hàng", updateTime: "23:15 24/08", historicalData: "Nền giá hồi phục từ vùng hỗ trợ dài hạn.", status: "KHẢ QUAN", deltaRsi: "RSI 48-54", strength: "TĂNG DẦN", testZone: "18.6 - 19.1", resistanceZone: "20.5 - 21.5", supportZone: "18" },
-                { ticker: "REE", exchange: "HOSE", sector: "Năng lượng & Cơ điện", updateTime: "23:20 24/08", historicalData: "Duy trì đà tăng bền vững, cổ tức tiền mặt đều đặn.", status: "TÍCH CỰC", deltaRsi: "RSI 53-59", strength: "TĂNG", testZone: "64.5 - 65.5", resistanceZone: "69 - 71", supportZone: "63" },
-                { ticker: "GAS", exchange: "HOSE", sector: "Dầu khí", updateTime: "23:25 24/08", historicalData: "Sức mạnh dòng tiền duy trì tốt theo giá năng lượng thế giới.", status: "KHẢ QUAN", deltaRsi: "RSI 49-55", strength: "TĂNG DẦN", testZone: "73.5 - 74.5", resistanceZone: "78 - 80", supportZone: "71.5" },
-                { ticker: "VIC", exchange: "HOSE", sector: "Tập đoàn đa ngành", updateTime: "23:30 24/08", historicalData: "Tạo nền giá tích lũy vùng đáy thành công.", status: "KHẢ QUAN", deltaRsi: "RSI 44-51", strength: "TĂNG DẦN", testZone: "42.5 - 43.2", resistanceZone: "46 - 48", supportZone: "41.5" },
-                { ticker: "VHM", exchange: "HOSE", sector: "Bất động sản", updateTime: "23:35 24/08", historicalData: "Lực cầu gia tăng mạnh vùng giá thấp.", status: "TÍCH CỰC", deltaRsi: "RSI 51-57", strength: "TĂNG", testZone: "40.8 - 41.5", resistanceZone: "44 - 46", supportZone: "39.5" }
+                { ticker: "MWG", san: "HOSE", exchange: "HOSE", nganh: "Bán lẻ", sector: "Bán lẻ", time: "18:16 25/08", updateTime: "18:16 25/08", desc: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", status: "KHẢ QUAN", statusText: "KHẢ QUAN", deltaRsi: "RSI 49–53", strength: "TĂNG DẦN", strengthText: "TĂNG DẦN", vungKiemDinh: "74.5 – 75.5", testZone: "74.5 – 75.5", khangCu: "77 – 80", resistanceZone: "77 – 80", hoTro: "72", supportZone: "72" },
+                { ticker: "MSN", san: "HOSE", exchange: "HOSE", nganh: "Bán lẻ", sector: "Bán lẻ", time: "18:18 25/08", updateTime: "18:18 25/08", desc: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", status: "TÍCH CỰC", statusText: "TÍCH CỰC", deltaRsi: "RSI 46–58", strength: "TĂNG", strengthText: "TĂNG", vungKiemDinh: "69.5 – 70.7", testZone: "69.5 – 70.7", khangCu: "72 – 74", resistanceZone: "72 – 74", hoTro: "68.5", supportZone: "68.5" },
+                { ticker: "KDH", san: "HOSE", exchange: "HOSE", nganh: "Bất động sản", sector: "Bất động sản", time: "18:22 25/08", updateTime: "18:22 25/08", desc: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", status: "TÍCH CỰC", statusText: "TÍCH CỰC", deltaRsi: "RSI 40–49", strength: "TĂNG DẦN", strengthText: "TĂNG DẦN", vungKiemDinh: "18.2 – 18.8", testZone: "18.2 – 18.8", khangCu: "19.4 – 20.3", resistanceZone: "19.4 – 20.3", hoTro: "17.8", supportZone: "17.8" },
+                { ticker: "HDC", san: "HOSE", exchange: "HOSE", nganh: "Bất động sản", sector: "Bất động sản", time: "18:22 25/08", updateTime: "18:22 25/08", desc: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng biên trên.", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng biên trên.", status: "RẤT TÍCH CỰC", statusText: "RẤT TÍCH CỰC", deltaRsi: "RSI 38 – 51", strength: "TĂNG MẠNH", strengthText: "TĂNG MẠNH", vungKiemDinh: "12.5 – 12.8", testZone: "12.5 – 12.8", khangCu: "13.3 – 14", resistanceZone: "13.3 – 14", hoTro: "12.2", supportZone: "12.2" },
+                { ticker: "HDG", san: "HOSE", exchange: "HOSE", nganh: "Bất động sản", sector: "Bất động sản", time: "18:22 25/08", updateTime: "18:22 25/08", desc: "Giá tăng > MA20. MA5 tăng dần. Kênh xu hướng Bollinger Band tăng dần.", historicalData: "Giá tăng > MA20. MA5 tăng dần. Kênh xu hướng Bollinger Band tăng dần.", status: "KHẢ QUAN", statusText: "KHẢ QUAN", deltaRsi: "RSI 40–46", strength: "TĂNG DẦN", strengthText: "TĂNG DẦN", vungKiemDinh: "16.5 – 17", testZone: "16.5 – 17", khangCu: "18.1 – 19.2", resistanceZone: "18.1 – 19.2", hoTro: "16.3", supportZone: "16.3" },
+                { ticker: "DXG", san: "HOSE", exchange: "HOSE", nganh: "Bất động sản", sector: "Bất động sản", time: "21:52 24/08", updateTime: "21:52 24/08", desc: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng.", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng.", status: "TÍCH CỰC", statusText: "TÍCH CỰC", deltaRsi: "RSI 54–58", strength: "TĂNG DẦN", strengthText: "TĂNG DẦN", vungKiemDinh: "11.7 – 12", testZone: "11.7 – 12", khangCu: "12.3 – 12.7", resistanceZone: "12.3 – 12.7", hoTro: "11", supportZone: "11" },
+                { ticker: "DIG", san: "HOSE", exchange: "HOSE", nganh: "Bất động sản", sector: "Bất động sản", time: "18:23 25/08", updateTime: "18:23 25/08", desc: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng biên trên.", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng biên trên.", status: "RẤT TÍCH CỰC", statusText: "RẤT TÍCH CỰC", deltaRsi: "RSI 40–56", strength: "TĂNG MẠNH", strengthText: "TĂNG MẠNH", vungKiemDinh: "11.2 – 11.4", testZone: "11.2 – 11.4", khangCu: "11.8 – 12.7", resistanceZone: "11.8 – 12.7", hoTro: "10.6", supportZone: "10.6" },
+                { ticker: "NLG", san: "HOSE", exchange: "HOSE", nganh: "Bất động sản", sector: "Bất động sản", time: "18:25 25/08", updateTime: "18:25 25/08", desc: "Nền giá đi ngang > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", historicalData: "Nền giá đi ngang > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", status: "KHẢ QUAN", statusText: "KHẢ QUAN", deltaRsi: "RSI 50–56", strength: "TĂNG DẦN", strengthText: "TĂNG DẦN", vungKiemDinh: "24 – 24.5", testZone: "24 – 24.5", khangCu: "25.2 – 26.6", resistanceZone: "25.2 – 26.6", hoTro: "23.1", supportZone: "23.1" },
+                { ticker: "PDR", san: "HOSE", exchange: "HOSE", nganh: "Bất động sản", sector: "Bất động sản", time: "18:27 25/08", updateTime: "18:27 25/08", desc: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng biên trên.", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng biên trên.", status: "RẤT TÍCH CỰC", statusText: "RẤT TÍCH CỰC", deltaRsi: "RSI 40–55", strength: "TĂNG MẠNH", strengthText: "TĂNG MẠNH", vungKiemDinh: "12.7 – 12.9", testZone: "12.7 – 12.9", khangCu: "13.2 – 14", resistanceZone: "13.2 – 14", hoTro: "12.1", supportZone: "12.1" },
+                { ticker: "CEO", san: "HNX", exchange: "HNX", nganh: "Bất động sản", sector: "Bất động sản", time: "18:28 25/08", updateTime: "18:28 25/08", desc: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng biên trên.", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng biên trên.", status: "TÍCH CỰC", statusText: "TÍCH CỰC", deltaRsi: "RSI 55–61", strength: "TĂNG DẦN", strengthText: "TĂNG DẦN", vungKiemDinh: "13.2 – 13.4", testZone: "13.2 – 13.4", khangCu: "14 – 14.9", resistanceZone: "14 – 14.9", hoTro: "12.2", supportZone: "12.2" },
+                { ticker: "TCH", san: "HOSE", exchange: "HOSE", nganh: "Bất động sản", sector: "Bất động sản", time: "18:32 25/08", updateTime: "18:32 25/08", desc: "Nền giá đi ngang > MA5 tăng. Kênh xu hướng Bollinger Band mở tăng biên trên.", historicalData: "Nền giá đi ngang > MA5 tăng. Kênh xu hướng Bollinger Band mở tăng biên trên.", status: "TÍCH CỰC", statusText: "TÍCH CỰC", deltaRsi: "RSI 50–59", strength: "TĂNG", strengthText: "TĂNG", vungKiemDinh: "212.9 – 13.3", testZone: "212.9 – 13.3", khangCu: "13 – 14.2", resistanceZone: "13 – 14.2", hoTro: "12.1", supportZone: "12.1" },
+                { ticker: "PHR", san: "HOSE", exchange: "HOSE", nganh: "BĐS - KCN", sector: "BĐS - KCN", time: "18:33 25/08", updateTime: "18:33 25/08", desc: "Giá tăng > MA5 > MA20. Kênh xu hướng Bollinger Band tăng dần.", historicalData: "Giá tăng > MA5 > MA20. Kênh xu hướng Bollinger Band tăng dần.", status: "KHẢ QUAN", statusText: "KHẢ QUAN", deltaRsi: "RSI 48–54", strength: "TĂNG DẦN", strengthText: "TĂNG DẦN", vungKiemDinh: "60.5 – 61", testZone: "60.5 – 61", khangCu: "63 – 65.5", resistanceZone: "63 – 65.5", hoTro: "58.9", supportZone: "58.9" },
+                { ticker: "GVR", san: "HOSE", exchange: "HOSE", nganh: "BĐS - KCN", sector: "BĐS - KCN", time: "18:35 25/08", updateTime: "18:35 25/08", desc: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.", status: "KHẢ QUAN", statusText: "KHẢ QUAN", deltaRsi: "RSI 55–61", strength: "TĂNG DẦN", strengthText: "TĂNG DẦN", vungKiemDinh: "32 – 32.5", testZone: "32 – 32.5", khangCu: "34.4 – 36", resistanceZone: "34.4 – 36", hoTro: "30.9", supportZone: "30.9" },
+                { ticker: "PVD", san: "HOSE", exchange: "HOSE", nganh: "Dầu khí", sector: "Dầu khí", time: "18:50 25/08", updateTime: "18:50 25/08", desc: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng biên trên.", historicalData: "Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng biên trên.", status: "RẤT TÍCH CỰC", statusText: "RẤT TÍCH CỰC", deltaRsi: "RSI 50–57", strength: "TĂNG", strengthText: "TĂNG", vungKiemDinh: "19 – 19.3", testZone: "19 – 19.3", khangCu: "20 – 21", resistanceZone: "20 – 21", hoTro: "18.8", supportZone: "18.8" },
+                { ticker: "FPT", san: "HOSE", exchange: "HOSE", nganh: "Công nghệ thông tin", sector: "Công nghệ thông tin", time: "22:15 24/08", updateTime: "22:15 24/08", desc: "Dòng tiền lớn vào mạnh, vượt đỉnh lịch sử thành công.", historicalData: "Dòng tiền lớn vào mạnh, vượt đỉnh lịch sử thành công.", status: "RẤT TÍCH CỰC", statusText: "RẤT TÍCH CỰC", deltaRsi: "RSI 62–71", strength: "TĂNG MẠNH", strengthText: "TĂNG MẠNH", vungKiemDinh: "132 – 134", testZone: "132 – 134", khangCu: "140 – 145", resistanceZone: "140 – 145", hoTro: "128", supportZone: "128" }
             ];
         }
 
@@ -9044,6 +9037,14 @@
                 const statusColors = getBolocStatusColors(statusText);
                 const strengthTextColor = getBolocStrengthTextColor(strengthText);
 
+                const exchangeVal = d.san || d.exchange || 'HOSE';
+                const sectorVal = d.nganh || d.sector || 'Bất động sản';
+                const timeVal = d.time || d.updateTime || '18:16 25/08';
+                const descVal = d.desc || d.historicalData || 'Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band mở tăng.';
+                const testZoneVal = d.vungKiemDinh || d.testZone || '—';
+                const resistanceZoneVal = d.khangCu || d.resistanceZone || '—';
+                const supportZoneVal = d.hoTro || d.supportZone || '—';
+
                 // Ticker cell — masked for non-PRO
                 let tickerCell;
                 if (canSeeDetails) {
@@ -9055,7 +9056,7 @@
                 // Industry cell — masked for non-PRO
                 let nganhCell;
                 if (canSeeDetails) {
-                    nganhCell = `<td>${escapeHtml(d.nganh)}</td>`;
+                    nganhCell = `<td>${escapeHtml(sectorVal)}</td>`;
                 } else {
                     nganhCell = `<td><span class="boloc-masked-cell"><span class="boloc-masked-text">••••••</span><button class="boloc-reveal-eye-btn" title="Xem nhóm ngành">👁 Xem</button></span></td>`;
                 }
@@ -9063,18 +9064,18 @@
                 tr.innerHTML = `
                     <td>${i + 1}</td>
                     ${tickerCell}
-                    <td>${canSeeDetails ? escapeHtml(d.san) : '—'}</td>
+                    <td>${canSeeDetails ? escapeHtml(exchangeVal) : '—'}</td>
                     ${nganhCell}
-                    <td class="time-cell">${escapeHtml(formatStockDisplayTime(d.time))}</td>
-                    <td class="desc-cell">${escapeHtml(d.desc)}</td>
+                    <td class="time-cell">${escapeHtml(formatStockDisplayTime(timeVal))}</td>
+                    <td class="desc-cell">${escapeHtml(descVal)}</td>
                     <td class="boloc-status-cell">
                         <span class="boloc-status-badge" style="--status-bg: ${statusColors.bg}; --status-text: ${statusColors.text}; --status-border: ${statusColors.border}; --status-shadow: ${statusColors.shadow};">${escapeHtml(statusText)}</span>
                     </td>
                     <td class="boloc-delta-rsi-cell">${escapeHtml(d.deltaRsi || '—')}</td>
                     <td class="boloc-strength-cell" style="--strength-text: ${strengthTextColor};">${escapeHtml(strengthText)}</td>
-                    <td class="price-cell">${escapeHtml(d.vungKiemDinh)}</td>
-                    <td class="price-cell">${escapeHtml(d.khangCu)}</td>
-                    <td class="boloc-support-cell">${escapeHtml(d.hoTro)}</td>
+                    <td class="price-cell">${escapeHtml(testZoneVal)}</td>
+                    <td class="price-cell">${escapeHtml(resistanceZoneVal)}</td>
+                    <td class="boloc-support-cell">${escapeHtml(supportZoneVal)}</td>
                 `;
 
                 // Bind reveal action to eye buttons dynamically
