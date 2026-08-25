@@ -1043,7 +1043,9 @@ model ReportFile {
   id         Int         @id @default(autoincrement())
   uploaderId Int
   title      String      @db.VarChar(255)
-  reportType REPORT_TYPE
+  reportType REPORT_TYPE @default(MARKET_SUMMARY)
+  source     String?     @default("FINTOP") @db.VarChar(100)
+  language   String?     @default("Tiếng Việt") @db.VarChar(50)
   fileUrl    String      @db.VarChar(1024)
   fileSize   Int // in bytes
 

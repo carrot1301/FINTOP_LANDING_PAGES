@@ -1300,6 +1300,8 @@ export class AdminService {
       id: r.id,
       title: r.title,
       reportType: r.reportType,
+      source: (r as any).source || 'FINTOP',
+      language: (r as any).language || 'Tiếng Việt',
       status: r.status,
       minTierAccess: r.minTierAccess,
       fileUrl: r.fileUrl,
@@ -1313,6 +1315,96 @@ export class AdminService {
       data: mapped,
       meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
     };
+  }
+
+  async createReport(dto: any, adminId: number) {
+    const report = await this.prisma.reportFile.create({
+      data: {
+        title: dto.title,
+        reportType: dto.reportType || 'MARKET_SUMMARY',
+        source: dto.source || 'FINTOP',
+        language: dto.language || 'Tiếng Việt',
+        fileUrl: dto.fileUrl || '#',
+        fileSize: dto.fileSize ? parseInt(dto.fileSize, 10) : 0,
+        minTierAccess: dto.minTierAccess || 'STANDARD',
+        status: dto.status || 'PUBLISHED',
+        publishedAt: dto.publishedAt ? new Date(dto.publishedAt) : new Date(),
+        uploaderId: adminId,
+      },
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'REPORT_CREATED',
+      tableName: 'report_files',
+      recordId: report.id.toString(),
+      newValues: { ...dto },
+    });
+
+    return report;
+  }
+
+  async updateReport(id: number, dto: any, adminId: number) {
+    const existing = await this.prisma.reportFile.findUnique({
+      where: { id, deletedAt: null },
+    });
+    if (!existing) {
+      throw new NotFoundException(`Report #${id} not found`);
+    }
+
+    const data: Prisma.ReportFileUpdateInput = {};
+    if (dto.title !== undefined) data.title = dto.title;
+    if (dto.reportType !== undefined) data.reportType = dto.reportType;
+    if (dto.source !== undefined) (data as any).source = dto.source;
+    if (dto.language !== undefined) (data as any).language = dto.language;
+    if (dto.fileUrl !== undefined) data.fileUrl = dto.fileUrl;
+    if (dto.fileSize !== undefined) data.fileSize = parseInt(dto.fileSize, 10);
+    if (dto.minTierAccess !== undefined) data.minTierAccess = dto.minTierAccess;
+    if (dto.status !== undefined) data.status = dto.status;
+    if (dto.publishedAt !== undefined) data.publishedAt = new Date(dto.publishedAt);
+
+    const report = await this.prisma.reportFile.update({
+      where: { id },
+      data,
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'REPORT_UPDATED',
+      tableName: 'report_files',
+      recordId: id.toString(),
+      oldValues: { title: existing.title, status: existing.status },
+      newValues: { ...dto },
+    });
+
+    return report;
+  }
+
+  async deleteReport(id: number, adminId: number) {
+    const existing = await this.prisma.reportFile.findUnique({
+      where: { id, deletedAt: null },
+    });
+    if (!existing) {
+      throw new NotFoundException(`Report #${id} not found`);
+    }
+
+    const report = await this.prisma.reportFile.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+
+    await this.auditService.log({
+      userId: adminId,
+      source: AUDIT_SOURCE.USER,
+      action: 'REPORT_DELETED',
+      tableName: 'report_files',
+      recordId: id.toString(),
+      oldValues: { title: existing.title },
+    });
+
+    return report;
   }
 
   // ─────────────────────────────────────────────────────

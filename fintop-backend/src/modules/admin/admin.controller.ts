@@ -217,6 +217,37 @@ export class AdminController {
     return this.adminService.getReports(p, l);
   }
 
+  @Post('reports')
+  @Permissions('REPORT:CREATE')
+  @ApiOperation({ summary: 'Create a new report file' })
+  async createReport(
+    @Body() dto: any,
+    @CurrentUser() admin: any,
+  ) {
+    return this.adminService.createReport(dto, admin.id);
+  }
+
+  @Patch('reports/:id')
+  @Permissions('REPORT:UPDATE')
+  @ApiOperation({ summary: 'Update a report file' })
+  async updateReport(
+    @Param('id') id: string,
+    @Body() dto: any,
+    @CurrentUser() admin: any,
+  ) {
+    return this.adminService.updateReport(parseInt(id, 10), dto, admin.id);
+  }
+
+  @Delete('reports/:id')
+  @Permissions('REPORT:DELETE')
+  @ApiOperation({ summary: 'Delete a report file' })
+  async deleteReport(
+    @Param('id') id: string,
+    @CurrentUser() admin: any,
+  ) {
+    return this.adminService.deleteReport(parseInt(id, 10), admin.id);
+  }
+
   // ─────────────────────────────────────────────────────
   // NOTIFICATIONS (Admin - cross-user + broadcast)
   // ─────────────────────────────────────────────────────

@@ -33,6 +33,8 @@ export class ReportService {
         id: r.id,
         title: r.title,
         reportType: r.reportType,
+        source: (r as any).source || 'FINTOP',
+        language: (r as any).language || 'Tiếng Việt',
         fileSize: r.fileSize,
         minTierAccess: r.minTierAccess,
         publishedAt: r.publishedAt,

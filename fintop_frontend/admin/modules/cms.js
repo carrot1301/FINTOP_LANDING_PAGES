@@ -1765,29 +1765,261 @@ function renderCreateForm(container, blogToEdit = null) {
   });
 }
 
-function renderReports(contentEl) {
-  new AdminTable({
+function renderReports(contentEl, mainContainer) {
+  let reportsTable;
+
+  reportsTable = new AdminTable({
     container: contentEl,
-    title: 'Báo cáo',
-    columns: ['ID', 'Tiêu đề', 'Loại', 'Trạng thái', 'Gói', 'Kích thước', 'Người tải', 'Ngày'],
-    searchable: false,
-    fetchData: async (page) => {
-      const qs = API().toQuery({ page, limit: 15 });
+    title: '📄 Quản lý Báo cáo Phân tích Doanh nghiệp & Thị trường',
+    searchable: true,
+    searchPlaceholder: 'Tìm theo mã CP, tiêu đề, nguồn...',
+    columns: ['ID', 'Tiêu đề / Mã CP', 'Loại BCPT', 'Nguồn', 'Ngôn ngữ', 'Trạng thái', 'Gói hội viên', 'Kích thước', 'Ngày phát hành', 'Thao tác'],
+    toolbarExtra: () => `
+      <button type="button" class="admin-btn admin-btn-primary" id="btn-create-report" style="background: linear-gradient(135deg, #a855f7, #7e22ce); border: none; color: #fff; font-weight: bold; padding: 6px 14px; border-radius: 6px; cursor: pointer;">
+        ➕ Thêm Báo Cáo Mới
+      </button>
+    `,
+    fetchData: async (page, filters) => {
+      const qs = API().toQuery({ page, limit: 15, search: filters?.search || '' });
       const res = await API().get(EP().ADMIN_REPORTS + qs);
       return res;
     },
-    renderRow: (r) => `
-      <tr>
-        <td>${r.id}</td>
-        <td><strong>${esc(r.title)}</strong></td>
-        <td style="font-size:0.78rem;">${esc(r.reportType)}</td>
-        <td>${statusBadge(r.status)}</td>
-        <td>${tierBadge(r.minTierAccess)}</td>
-        <td style="font-size:0.78rem;color:var(--text-muted);">${r.fileSize ? Math.round(r.fileSize / 1024) + ' KB' : '—'}</td>
-        <td style="font-size:0.78rem;color:var(--text-secondary);">${esc(r.uploader?.fullName) || '—'}</td>
-        <td style="font-size:0.78rem;color:var(--text-muted);">${formatDate(r.publishedAt || r.createdAt)}</td>
-      </tr>
-    `,
+    renderRow: (r) => {
+      const isFintop = (r.source || '').toUpperCase() === 'FINTOP';
+      const sourceBadgeHtml = isFintop
+        ? `<span class="admin-badge" style="background: rgba(217, 70, 239, 0.2); color: #d946ef; font-weight: 800;">FINTOP</span>`
+        : `<span class="admin-badge" style="background: rgba(255, 255, 255, 0.1); color: #e2e8f0; font-weight: 800;">${esc(r.source || 'FINTOP')}</span>`;
+
+      return `
+        <tr>
+          <td>${r.id}</td>
+          <td><strong style="color: #f43f5e; font-size: 0.95rem;">${esc(r.title)}</strong></td>
+          <td style="font-size:0.78rem;">${esc(r.reportType || 'MARKET_SUMMARY')}</td>
+          <td>${sourceBadgeHtml}</td>
+          <td style="font-size:0.8rem; color:#cbd5e1;">${esc(r.language || 'Tiếng Việt')}</td>
+          <td>${statusBadge(r.status)}</td>
+          <td>${tierBadge(r.minTierAccess)}</td>
+          <td style="font-size:0.78rem;color:var(--text-muted);">${r.fileSize ? Math.round(r.fileSize / 1024) + ' KB' : '—'}</td>
+          <td style="font-size:0.78rem;color:var(--text-muted);">${formatDate(r.publishedAt || r.createdAt)}</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button type="button" class="admin-btn admin-btn-sm admin-btn-secondary" data-action="edit-report" data-id="${r.id}" style="padding: 3px 8px; font-size: 0.75rem;">✏️ Sửa</button>
+              <button type="button" class="admin-btn admin-btn-sm admin-btn-danger" data-action="delete-report" data-id="${r.id}" style="padding: 3px 8px; font-size: 0.75rem; background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4);">🗑️ Xóa</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    },
+    onRowAction: async (action, id) => {
+      const reportId = parseInt(id, 10);
+      if (action === 'edit-report') {
+        try {
+          const res = await API().get(EP().ADMIN_REPORTS + `?limit=100`);
+          const list = res?.data || res?.data?.data || [];
+          const target = list.find(r => r.id === reportId);
+          renderReportFormModal(mainContainer, target || { id: reportId }, () => reportsTable.refresh());
+        } catch (err) {
+          showToast(`Lỗi tải chi tiết báo cáo: ${err.message}`, 'error');
+        }
+      } else if (action === 'delete-report') {
+        if (confirm(`Bạn có chắc chắn muốn xóa báo cáo ID #${reportId}?`)) {
+          try {
+            await API().delete(`/admin/reports/${reportId}`);
+            showToast('Đã xóa báo cáo thành công!', 'success');
+            reportsTable.refresh();
+          } catch (err) {
+            showToast(`Lỗi xóa báo cáo: ${err.message}`, 'error');
+          }
+        }
+      }
+    }
+  });
+
+  setTimeout(() => {
+    const addBtn = contentEl.querySelector('#btn-create-report');
+    if (addBtn) {
+      addBtn.addEventListener('click', () => {
+        renderReportFormModal(mainContainer, null, () => reportsTable.refresh());
+      });
+    }
+  }, 100);
+}
+
+function renderReportFormModal(container, reportToEdit = null, onSaved = null) {
+  const isEdit = !!(reportToEdit && reportToEdit.title);
+  document.body.style.overflow = 'hidden';
+
+  const overlay = document.createElement('div');
+  overlay.className = 'cms-edit-overlay';
+  overlay.style.zIndex = '9999';
+
+  const pubDateValue = reportToEdit?.publishedAt 
+    ? new Date(reportToEdit.publishedAt).toISOString().split('T')[0] 
+    : new Date().toISOString().split('T')[0];
+
+  overlay.innerHTML = `
+    <div class="cms-edit-header">
+      <h2 class="cms-edit-title">${isEdit ? 'Cập nhật báo cáo phân tích' : 'Thêm báo cáo mới'}</h2>
+      <button type="button" class="cms-edit-close-btn" id="report-modal-close-x">✕</button>
+    </div>
+    
+    <form id="report-form" class="cms-edit-form">
+      <div class="cms-edit-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <!-- Left Section -->
+        <div>
+          <div class="cms-form-group">
+            <label class="cms-edit-label">Tiêu đề / Mã cổ phiếu / Nội dung BCPT <span class="cms-required">*</span></label>
+            <input type="text" id="report-title" class="cms-edit-input" placeholder="Ví dụ: QNS, FPT, SAB, Báo cáo Vĩ mô Q2..." value="${esc(reportToEdit?.title || '')}" required>
+          </div>
+
+          <div class="cms-form-group">
+            <label class="cms-edit-label">Nguồn phát hành <span class="cms-required">*</span></label>
+            <input type="text" id="report-source" class="cms-edit-input" placeholder="FINTOP, FPTS, Mirae, PHS, KBSV, VNDIRECT..." value="${esc(reportToEdit?.source || 'FINTOP')}" required>
+          </div>
+
+          <div class="cms-form-group">
+            <label class="cms-edit-label">Ngôn ngữ</label>
+            <select id="report-language" class="cms-edit-select">
+              <option value="Tiếng Việt" ${(reportToEdit?.language || 'Tiếng Việt') === 'Tiếng Việt' ? 'selected' : ''}>Tiếng Việt</option>
+              <option value="Tiếng Anh" ${reportToEdit?.language === 'Tiếng Anh' ? 'selected' : ''}>Tiếng Anh</option>
+            </select>
+          </div>
+
+          <div class="cms-form-group">
+            <label class="cms-edit-label">Loại báo cáo</label>
+            <select id="report-type" class="cms-edit-select">
+              <option value="MARKET_SUMMARY" ${(reportToEdit?.reportType || 'MARKET_SUMMARY') === 'MARKET_SUMMARY' ? 'selected' : ''}>Báo cáo Phân tích Doanh nghiệp / Thị trường</option>
+              <option value="VIP_RECOMMENDATION" ${reportToEdit?.reportType === 'VIP_RECOMMENDATION' ? 'selected' : ''}>Báo cáo Khuyến nghị VIP</option>
+              <option value="MACRO_ANALYSIS" ${reportToEdit?.reportType === 'MACRO_ANALYSIS' ? 'selected' : ''}>Báo cáo Phân tích Vĩ mô</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Right Section -->
+        <div>
+          <div class="cms-form-group">
+            <label class="cms-edit-label">Gói Hội viên yêu cầu</label>
+            <select id="report-tier" class="cms-edit-select">
+              <option value="STANDARD" ${(reportToEdit?.minTierAccess || 'STANDARD') === 'STANDARD' ? 'selected' : ''}>Standard (Công khai)</option>
+              <option value="SILVER" ${reportToEdit?.minTierAccess === 'SILVER' ? 'selected' : ''}>PRO (Hội viên Pro)</option>
+              <option value="GOLD" ${reportToEdit?.minTierAccess === 'GOLD' ? 'selected' : ''}>VIP (Hội viên VIP)</option>
+              <option value="DIAMOND" ${reportToEdit?.minTierAccess === 'DIAMOND' ? 'selected' : ''}>Diamond (Hội viên Diamond)</option>
+            </select>
+          </div>
+
+          <div class="cms-form-group">
+            <label class="cms-edit-label">Ngày phát hành</label>
+            <input type="date" id="report-date" class="cms-edit-input" value="${pubDateValue}">
+          </div>
+
+          <div class="cms-form-group">
+            <label class="cms-edit-label">Link tài liệu / File đính kèm</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="report-file-url" class="cms-edit-input" placeholder="https://... hoặc tải file PDF/Doc" value="${esc(reportToEdit?.fileUrl || '')}" style="flex: 1;">
+              <button type="button" class="cms-btn-image" id="report-btn-upload-file" style="margin-bottom:0; font-size: 0.85rem; padding: 6px 12px; white-space: nowrap;">📁 Upload</button>
+            </div>
+            <input type="file" id="report-file-input" style="display:none;" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.txt">
+          </div>
+
+          <div class="cms-form-group" style="margin-top: 1rem;">
+            <label class="cms-edit-label">Trạng thái xuất bản</label>
+            <div class="cms-status-checkbox-wrapper">
+              <input type="checkbox" id="report-status" class="cms-checkbox" ${(reportToEdit ? reportToEdit.status === 'PUBLISHED' : true) ? 'checked' : ''}>
+              <label for="report-status" class="cms-checkbox-label">Xuất bản ngay (Hoạt động)</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cms-edit-actions" style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 12px;">
+        <button type="button" class="cms-btn-close" id="report-modal-cancel">Hủy</button>
+        <button type="submit" class="cms-btn-submit">${isEdit ? 'Cập nhật' : 'Tạo mới'}</button>
+      </div>
+    </form>
+  `;
+
+  container.appendChild(overlay);
+
+  const closeModal = () => {
+    document.body.style.overflow = '';
+    overlay.remove();
+  };
+
+  overlay.querySelector('#report-modal-close-x').addEventListener('click', closeModal);
+  overlay.querySelector('#report-modal-cancel').addEventListener('click', closeModal);
+
+  const uploadBtn = overlay.querySelector('#report-btn-upload-file');
+  const fileInput = overlay.querySelector('#report-file-input');
+  const fileUrlInput = overlay.querySelector('#report-file-url');
+
+  let uploadedFileSize = reportToEdit?.fileSize || 0;
+
+  uploadBtn.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files[0];
+    if (file) {
+      try {
+        uploadedFileSize = file.size;
+        showToast('Đang tải file báo cáo lên server...', 'info');
+        const formData = new FormData();
+        formData.append('upload', file);
+        const res = await API().post('/blogs/upload', formData);
+        const url = res.url || res.data?.url || res.data;
+        if (url) {
+          fileUrlInput.value = url;
+          showToast('Đã tải file báo cáo thành công!', 'success');
+        } else {
+          showToast('Không nhận được URL file.', 'error');
+        }
+      } catch (err) {
+        showToast(`Lỗi upload file: ${err.message}`, 'error');
+      } finally {
+        fileInput.value = '';
+      }
+    }
+  });
+
+  overlay.querySelector('#report-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const title = overlay.querySelector('#report-title').value.trim();
+    const source = overlay.querySelector('#report-source').value.trim() || 'FINTOP';
+    const language = overlay.querySelector('#report-language').value;
+    const reportType = overlay.querySelector('#report-type').value;
+    const minTierAccess = overlay.querySelector('#report-tier').value;
+    const publishedAtStr = overlay.querySelector('#report-date').value;
+    const fileUrl = overlay.querySelector('#report-file-url').value.trim() || '#';
+    const isActive = overlay.querySelector('#report-status').checked;
+
+    if (!title) {
+      showToast('Vui lòng nhập tiêu đề / Mã cổ phiếu.', 'error');
+      return;
+    }
+
+    const payload = {
+      title,
+      source,
+      language,
+      reportType,
+      minTierAccess,
+      publishedAt: publishedAtStr ? new Date(publishedAtStr).toISOString() : new Date().toISOString(),
+      fileUrl,
+      fileSize: uploadedFileSize,
+      status: isActive ? 'PUBLISHED' : 'DRAFT',
+    };
+
+    try {
+      if (isEdit) {
+        await API().patch(`/admin/reports/${reportToEdit.id}`, payload);
+        showToast('Đã cập nhật báo cáo thành công!', 'success');
+      } else {
+        await API().post('/admin/reports', payload);
+        showToast('Đã tạo mới báo cáo thành công!', 'success');
+      }
+      closeModal();
+      if (typeof onSaved === 'function') onSaved();
+    } catch (err) {
+      showToast(`Lỗi lưu báo cáo: ${err.message}`, 'error');
+    }
   });
 }
 

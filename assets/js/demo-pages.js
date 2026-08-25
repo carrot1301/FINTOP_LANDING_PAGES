@@ -349,6 +349,11 @@ function setStockTab(tabId) {
         panel.classList.toggle("is-active", panel.dataset.stockPanel === tabId);
     });
 
+    sessionStorage.setItem("fintop_active_stock_tab", tabId);
+    if (window.location.hash !== '#' + tabId) {
+        history.replaceState(null, '', '#' + tabId);
+    }
+
     if (tabId !== 'portfolio') {
         cleanupPortfolioSubscriptions();
     }
@@ -366,6 +371,9 @@ function setStockTab(tabId) {
 
 function applyDemoHash(shouldScroll = true) {
     const hash = window.location.hash.replace("#", "");
+    const savedTab = sessionStorage.getItem("fintop_active_stock_tab");
+    const validTabs = ["quant", "pro-data", "sector", "reports", "portfolio"];
+    const targetTab = validTabs.includes(hash) ? hash : (validTabs.includes(savedTab) ? savedTab : "quant");
 
     if (document.getElementById("guideTopicTitle")) {
         setGuideTopic(guideTopics[hash] ? hash : "trading");
@@ -375,8 +383,7 @@ function applyDemoHash(shouldScroll = true) {
     }
 
     if (document.getElementById("stockTicker")) {
-        const validTabs = ["quant", "pro-data", "sector", "reports", "portfolio"];
-        setStockTab(validTabs.includes(hash) ? hash : "quant");
+        setStockTab(targetTab);
         if (shouldScroll && validTabs.includes(hash)) {
             setTimeout(() => document.getElementById("stock-workspace")?.scrollIntoView({ block: "start" }), 0);
         }
@@ -513,7 +520,6 @@ function checkProDataAccess() {
             padding: 24px;
             text-align: center;
             border: 1px solid rgba(251, 191, 36, 0.2);
-        `;
         lockOverlay.innerHTML = `
             <div style="font-size: 3rem; margin-bottom: 16px; text-shadow: 0 0 15px rgba(251, 191, 36, 0.5);">★</div>
             <h3 style="color: #fbbf24; margin-bottom: 8px; font-size: 1.5rem; font-weight: bold;">Đặc quyền Hội viên PRO</h3>
@@ -534,68 +540,255 @@ function checkProDataAccess() {
 // ============================================================
 
 function renderReportsTab() {
-    const infra = window.FintopInfra;
-    if (!infra) return;
+    const contentEl = document.querySelector('[data-stock-panel="reports"]');
+    if (!contentEl) return;
 
-    const panel = document.querySelector('[data-stock-panel="reports"]');
-    if (!panel) return;
+    contentEl.innerHTML = `
+        <div class="fintop-report-header-section" style="margin-bottom: 20px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 28px; flex-wrap: wrap;">
+                    <h2 style="color: #fff; font-size: 1.5rem; font-weight: 700; margin: 0;">BÁO CÁO TỔNG HỢP</h2>
+                    <!-- Segmented Glassmorphism Capsule Switcher -->
+                    <div class="fintop-segmented-switcher" style="display: inline-flex; align-items: center; background: rgba(15, 23, 42, 0.85); padding: 4px; border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.35); backdrop-filter: blur(12px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);">
+                        <button class="fintop-tab-item active" id="btn-demo-report-dn" type="button" style="background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%); color: #ffffff; border: none; font-weight: 700; font-size: 0.88rem; padding: 8px 18px; border-radius: 10px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(168, 85, 247, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25); white-space: nowrap;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f0abfc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" id="icon-demo-report-dn"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                            <span>Phân tích Doanh nghiệp</span>
+                        </button>
+                        <button class="fintop-tab-item" id="btn-demo-report-nganh-vimo" type="button" style="background: transparent; color: #94a3b8; border: none; font-weight: 600; font-size: 0.88rem; padding: 8px 18px; border-radius: 10px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 8px; white-space: nowrap;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="icon-demo-report-nganh-vimo"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+                            <span>Ngành & Vĩ mô</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top: 12px; margin-bottom: 16px; color: #94a3b8; font-size: 0.85rem; line-height: 1.5;">
+                Kho báo cáo phân tích tiêu biểu, nguồn tổng hợp từ các Công ty chứng khoán và các Trang/Báo uy tín. Các báo cáo được tổng hợp là tài sản thông tin, dữ liệu thuộc quyền sở hữu trí tuệ của các Đơn vị Chủ sở hữu. <strong style="color: #cbd5e1; font-weight: 600;">Tài liệu chỉ sử dụng cho mục đích tham khảo, FinTop DATA không chịu bất cứ các trách nhiệm nào liên quan!</strong>
+            </p>
+        </div>
 
-    panel.innerHTML = `
-        <h2>Báo cáo chiến lược</h2>
-        <p>Các báo cáo phân tích, nhận định xu hướng dòng tiền và chiến lược hành động chi tiết từ đội ngũ Chuyên gia.</p>
-        <div class="report-grid" style="margin-top: 16px;">
-            <div style="grid-column: span 3; text-align: center; padding: 20px; color: #64748b;">Đang tải danh sách báo cáo...</div>
+        <div class="fintop-report-table-wrapper" style="border-radius: 10px; overflow: hidden; border: 1px solid rgba(168, 85, 247, 0.35); background: #0f172a; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);">
+            <div style="overflow-x: auto;">
+                <table class="fintop-report-table" style="width: 100%; border-collapse: collapse; text-align: center; color: #f8fafc; font-size: 0.95rem;">
+                    <thead id="fintopReportTableHead">
+                        <tr style="background: #4c1d95; color: #ffffff; font-weight: 700; font-size: 0.88rem; text-transform: uppercase; border-bottom: 2px solid #6b21a8;">
+                            <th style="padding: 12px 10px; width: 60px; border-right: 1px solid rgba(255,255,255,0.1);">STT</th>
+                            <th style="padding: 12px 14px; width: 120px; border-right: 1px solid rgba(255,255,255,0.1);">Mã cổ phiếu</th>
+                            <th style="padding: 12px 16px; border-right: 1px solid rgba(255,255,255,0.1); text-align: center;">Nội dung</th>
+                            <th style="padding: 12px 14px; width: 140px; border-right: 1px solid rgba(255,255,255,0.1);">Ngày phát hành</th>
+                            <th style="padding: 12px 14px; width: 120px; border-right: 1px solid rgba(255,255,255,0.1);">Nguồn</th>
+                            <th style="padding: 12px 16px; width: 130px;">Đường dẫn</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fintopReportTableBody">
+                        <tr><td colspan="6" style="padding: 24px; color: #94a3b8;">Đang tải danh sách báo cáo phân tích...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     `;
 
-    infra.ApiClient.get('/cms/reports?limit=10')
-        .then(response => {
-            const reports = response?.data?.data || response?.data || [];
-            const grid = panel.querySelector('.report-grid');
-            if (!grid) return;
+    const SAMPLE_DOANH_NGHIEP = [
+        { id: 1, ticker: 'QNS', title: 'Báo cáo phân tích doanh nghiệp QNS Q2/2026', publishedAt: '2026-05-29', source: 'FINTOP', fileUrl: '#' },
+        { id: 2, ticker: 'FPT', title: 'Cập nhật kết quả kinh doanh FPT & Triển vọng AI', publishedAt: '2026-05-22', source: 'FINTOP', fileUrl: '#' },
+        { id: 3, ticker: 'SAB', title: 'Phân tích hoạt động kinh doanh & Biên lợi nhuận SAB', publishedAt: '2026-05-15', source: 'FINTOP', fileUrl: '#' },
+        { id: 4, ticker: 'VNM', title: 'Đánh giá sức mua ngành sữa & Chiến lược VNM', publishedAt: '2026-05-10', source: 'FINTOP', fileUrl: '#' },
+        { id: 5, ticker: 'VIB', title: 'Báo cáo cập nhật tình hình tăng trưởng tín dụng VIB', publishedAt: '2026-04-17', source: 'FINTOP', fileUrl: '#' },
+        { id: 6, ticker: 'DCM', title: 'Phân tích tác động giá phân bón Ure tới DCM', publishedAt: '2020-11-18', source: 'FPTS', fileUrl: '#' },
+        { id: 7, ticker: 'VCB', title: 'Cập nhật chất lượng tài sản & Nợ xấu VCB', publishedAt: '2020-11-12', source: 'Mirae', fileUrl: '#' },
+        { id: 8, ticker: 'POW', title: 'Phân tích sản lượng điện & Tiến độ nhà máy POW', publishedAt: '2020-11-05', source: 'Mirae', fileUrl: '#' },
+        { id: 9, ticker: 'STK', title: 'Đánh giá đơn hàng dệt may & Phục hồi sản xuất STK', publishedAt: '2020-11-05', source: 'Mirae', fileUrl: '#' },
+        { id: 10, ticker: 'FMC', title: 'Cập nhật kim ngạch xuất khẩu tôm FMC', publishedAt: '2020-10-30', source: 'PHS', fileUrl: '#' },
+        { id: 11, ticker: 'PLC', title: 'Triển vọng đầu tư công & Tiêu thụ nhựa đường PLC', publishedAt: '2020-10-30', source: 'Mirae', fileUrl: '#' },
+        { id: 12, ticker: 'DXG', title: 'Cập nhật tiến độ mở bán các dự án BĐS DXG', publishedAt: '2020-10-27', source: 'KBSV', fileUrl: '#' },
+        { id: 13, ticker: 'VCB', title: 'Báo cáo phân tích chuyên sâu vị thế ngân hàng VCB', publishedAt: '2020-10-27', source: 'VNDIRECT', fileUrl: '#' },
+        { id: 14, ticker: 'PVT', title: 'Phân tích cước vận tải biển & Đội tàu PVT', publishedAt: '2020-10-22', source: 'FPTS', fileUrl: '#' }
+    ];
 
-            if (reports.length === 0) {
-                grid.innerHTML = '<div style="grid-column: span 3; text-align: center; padding: 20px; color: #64748b;">Chưa có báo cáo nào được xuất bản.</div>';
-                return;
+    const SAMPLE_NGANH_VIMO = [
+        { id: 101, industry: 'Vĩ mô', title: 'Báo cáo chiến lược kinh tế vĩ mô Q2/2026', publishedAt: '2026-05-28', source: 'FINTOP', fileUrl: '#' },
+        { id: 102, industry: 'Ngân hàng', title: 'Báo cáo triển vọng nhóm Ngân hàng 2026', publishedAt: '2026-05-20', source: 'FINTOP', fileUrl: '#' },
+        { id: 103, industry: 'Thép', title: 'Phân tích chu kỳ nhóm Thép & Thép XD', publishedAt: '2026-05-14', source: 'FINTOP', fileUrl: '#' },
+        { id: 104, industry: 'Vĩ mô', title: 'Tác động lạm phát & chính sách lãi suất NHNN', publishedAt: '2026-05-08', source: 'FINTOP', fileUrl: '#' },
+        { id: 105, industry: 'Công nghệ', title: 'Báo cáo chuỗi giá trị Công nghệ & Bán dẫn', publishedAt: '2026-04-12', source: 'FINTOP', fileUrl: '#' },
+        { id: 106, industry: 'Bất động sản', title: 'Bất động sản KCN: Làn sóng FDI thế hệ mới', publishedAt: '2020-11-15', source: 'SSI', fileUrl: '#' },
+        { id: 107, industry: 'Tài chính', title: 'Báo cáo xu hướng tỷ giá USD/VND & Dòng tiền ngoại', publishedAt: '2020-11-10', source: 'VNDIRECT', fileUrl: '#' },
+        { id: 108, industry: 'Bán lẻ', title: 'Báo cáo tổng quan ngành Bán lẻ & Tiêu dùng', publishedAt: '2020-11-02', source: 'Mirae', fileUrl: '#' },
+        { id: 109, industry: 'Dầu khí', title: 'Dầu khí: Cập nhật tiến độ dự án Lô B Ô Môn', publishedAt: '2020-10-28', source: 'KBSV', fileUrl: '#' },
+        { id: 110, industry: 'Thị trường', title: 'Báo cáo chiến lược dòng tiền & Thanh khoản thị trường', publishedAt: '2020-10-25', source: 'FPTS', fileUrl: '#' }
+    ];
+
+    let currentCategory = 'doanh-nghiep';
+    let allReports = [];
+
+    const btnDn = document.getElementById('btn-demo-report-dn');
+    const btnNganh = document.getElementById('btn-demo-report-nganh-vimo');
+
+    const updateActiveTabStyles = (cat) => {
+        if (cat === 'doanh-nghiep') {
+            if (btnDn) {
+                btnDn.style.background = 'linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)';
+                btnDn.style.color = '#ffffff';
+                btnDn.style.boxShadow = '0 4px 14px rgba(168, 85, 247, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25)';
+                const icon = document.getElementById('icon-demo-report-dn');
+                if (icon) icon.setAttribute('stroke', '#f0abfc');
             }
-
-            grid.innerHTML = reports.map(r => {
-                const sizeText = r.fileSize ? `(${infra.Formatter.decimal(r.fileSize / 1024, 1)} KB)` : '';
-                const timeText = r.publishedAt ? new Date(r.publishedAt).toLocaleDateString('vi-VN') : '';
-                
-                if (r.locked) {
-                    return `
-                        <article class="report-card" style="position: relative; border: 1px dashed rgba(251, 191, 36, 0.3); background: rgba(15, 23, 42, 0.45);">
-                            <div style="position: absolute; top: 12px; right: 12px; font-size: 1.1rem; filter: drop-shadow(0 0 5px #fbbf24);">🔒</div>
-                            <div style="font-size: 0.7rem; color: #fbbf24; font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px;">BÁO CÁO ${r.minTierAccess}</div>
-                            <h3 style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 8px;">${r.title}</h3>
-                            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 12px;">Đặc quyền Hội viên ${r.minTierAccess} trở lên.</p>
-                            <button class="btn-tv-blue" style="background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; font-weight: bold; border: none; padding: 6px 12px; font-size: 0.75rem;" onclick="window.location.href='../index.html#panel-hoivien'">
-                                Nâng cấp để đọc
-                            </button>
-                        </article>
-                    `;
-                }
-
-                return `
-                    <article class="report-card" style="border: 1px solid rgba(255,255,255,0.06); background: rgba(15, 23, 42, 0.3);">
-                        <div style="font-size: 0.7rem; color: #a78bfa; font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px;">BÁO CÁO PUBLIC</div>
-                        <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 8px;">${r.title}</h3>
-                        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px;">Xuất bản ngày: ${timeText} ${sizeText}</p>
-                        <button class="btn-tv-blue" style="padding: 6px 12px; font-size: 0.75rem;" onclick="downloadCmsReport(${r.id})">
-                            💾 Tải báo cáo
-                        </button>
-                    </article>
-                `;
-            }).join('');
-        })
-        .catch(err => {
-            console.error('[Reports Tab] Error loading reports:', err);
-            const grid = panel.querySelector('.report-grid');
-            if (grid) {
-                grid.innerHTML = `<div style="grid-column: span 3; text-align: center; padding: 20px; color: #ef4444;">Không thể tải danh sách báo cáo. Vui lòng đăng nhập và thử lại.</div>`;
+            if (btnNganh) {
+                btnNganh.style.background = 'transparent';
+                btnNganh.style.color = '#94a3b8';
+                btnNganh.style.boxShadow = 'none';
+                const icon = document.getElementById('icon-demo-report-nganh-vimo');
+                if (icon) icon.setAttribute('stroke', '#64748b');
             }
-        });
+        } else {
+            if (btnNganh) {
+                btnNganh.style.background = 'linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)';
+                btnNganh.style.color = '#ffffff';
+                btnNganh.style.boxShadow = '0 4px 14px rgba(168, 85, 247, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25)';
+                const icon = document.getElementById('icon-demo-report-nganh-vimo');
+                if (icon) icon.setAttribute('stroke', '#f0abfc');
+            }
+            if (btnDn) {
+                btnDn.style.background = 'transparent';
+                btnDn.style.color = '#94a3b8';
+                btnDn.style.boxShadow = 'none';
+                const icon = document.getElementById('icon-demo-report-dn');
+                if (icon) icon.setAttribute('stroke', '#64748b');
+            }
+        }
+    };
+
+    const renderFiltered = (cat) => {
+        currentCategory = cat;
+        updateActiveTabStyles(cat);
+        renderReportTableHead(cat);
+
+        let filtered = [];
+        if (allReports.length > 0) {
+            if (cat === 'doanh-nghiep') {
+                filtered = allReports.filter(r => r.reportType === 'MARKET_SUMMARY' || !r.reportType || (r.title && r.title.length <= 6));
+                if (filtered.length === 0) filtered = SAMPLE_DOANH_NGHIEP;
+            } else {
+                filtered = allReports.filter(r => r.reportType === 'MACRO_ANALYSIS' || r.reportType === 'VIP_RECOMMENDATION' || (r.title && r.title.length > 6));
+                if (filtered.length === 0) filtered = SAMPLE_NGANH_VIMO;
+            }
+        } else {
+            filtered = (cat === 'doanh-nghiep') ? SAMPLE_DOANH_NGHIEP : SAMPLE_NGANH_VIMO;
+        }
+
+        renderReportTableRows(filtered, cat);
+    };
+
+    if (btnDn) btnDn.addEventListener('click', () => renderFiltered('doanh-nghiep'));
+    if (btnNganh) btnNganh.addEventListener('click', () => renderFiltered('nganh-vimo'));
+
+    const infra = window.FintopInfra;
+    if (infra && infra.ApiClient) {
+        infra.ApiClient.get('/cms/reports?limit=50')
+            .then(response => {
+                allReports = response?.data?.data || response?.data || [];
+                renderFiltered(currentCategory);
+            })
+            .catch(err => {
+                console.warn('[Reports Tab] API fetch failed, rendering reference sample dataset:', err.message);
+                renderFiltered(currentCategory);
+            });
+    } else {
+        renderFiltered(currentCategory);
+    }
+}
+
+function renderReportTableHead(cat) {
+    const thead = document.getElementById('fintopReportTableHead');
+    if (!thead) return;
+
+    if (cat === 'doanh-nghiep') {
+        thead.innerHTML = `
+            <tr style="background: #4c1d95; color: #ffffff; font-weight: 700; font-size: 0.88rem; text-transform: uppercase; border-bottom: 2px solid #6b21a8;">
+                <th style="padding: 12px 10px; width: 60px; border-right: 1px solid rgba(255,255,255,0.1);">STT</th>
+                <th style="padding: 12px 14px; width: 160px; white-space: nowrap; border-right: 1px solid rgba(255,255,255,0.1);">Mã cổ phiếu</th>
+                <th style="padding: 12px 16px; border-right: 1px solid rgba(255,255,255,0.1); text-align: center;">Nội dung</th>
+                <th style="padding: 12px 14px; width: 175px; white-space: nowrap; border-right: 1px solid rgba(255,255,255,0.1);">Ngày phát hành</th>
+                <th style="padding: 12px 14px; width: 120px; border-right: 1px solid rgba(255,255,255,0.1);">Nguồn</th>
+                <th style="padding: 12px 16px; width: 130px; color: #ffffff;">Link</th>
+            </tr>
+        `;
+    } else {
+        thead.innerHTML = `
+            <tr style="background: #4c1d95; color: #ffffff; font-weight: 700; font-size: 0.88rem; text-transform: uppercase; border-bottom: 2px solid #6b21a8;">
+                <th style="padding: 12px 10px; width: 60px; border-right: 1px solid rgba(255,255,255,0.1);">STT</th>
+                <th style="padding: 12px 14px; width: 140px; border-right: 1px solid rgba(255,255,255,0.1);">Ngành</th>
+                <th style="padding: 12px 16px; border-right: 1px solid rgba(255,255,255,0.1); text-align: center;">Nội dung</th>
+                <th style="padding: 12px 14px; width: 175px; white-space: nowrap; border-right: 1px solid rgba(255,255,255,0.1);">Ngày phát hành</th>
+                <th style="padding: 12px 14px; width: 120px; border-right: 1px solid rgba(255,255,255,0.1);">Nguồn</th>
+                <th style="padding: 12px 16px; width: 130px; color: #ffffff;">Link</th>
+            </tr>
+        `;
+    }
+}
+
+function renderReportTableRows(reports, cat = 'doanh-nghiep') {
+    const tbody = document.getElementById('fintopReportTableBody');
+    if (!tbody) return;
+
+    if (!reports || reports.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="padding: 24px; color: #94a3b8;">Chưa có báo cáo nào trong hệ thống.</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = reports.map((r, idx) => {
+        const stt = idx + 1;
+        const isFintopSource = (r.source || '').toUpperCase() === 'FINTOP';
+        
+        let dateStr = '—';
+        if (r.publishedAt || r.createdAt) {
+            const d = new Date(r.publishedAt || r.createdAt);
+            if (!isNaN(d.getTime())) {
+                const day = String(d.getDate()).padStart(2, '0');
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const year = d.getFullYear();
+                dateStr = `${day}/${month}/${year}`;
+            } else if (typeof r.publishedAt === 'string') {
+                dateStr = r.publishedAt;
+            }
+        }
+
+        const sourceStyle = 'color: #f8fafc; font-weight: 700; font-size: 0.95rem; font-family: sans-serif;';
+
+        const rowBg = idx % 2 === 0 ? 'rgba(30, 41, 59, 0.4)' : 'rgba(15, 23, 42, 0.6)';
+        const isLocked = !!r.locked;
+
+        const actionBtnHtml = isLocked
+            ? `<button class="btn-tv-blue" style="background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; font-weight: bold; border: none; padding: 4px 10px; font-size: 0.75rem; border-radius: 4px;" onclick="window.location.href='../index.html#panel-hoivien'">🔒 Nâng cấp</button>`
+            : `<a href="${r.fileUrl || 'javascript:void(0)'}" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" ${r.fileUrl && r.fileUrl !== '#' ? `target="_blank" onclick="downloadCmsReport(${r.id})"` : `onclick="downloadCmsReport(${r.id})"`} onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a>`;
+
+        if (cat === 'doanh-nghiep') {
+            const tickerStr = r.ticker || r.symbol || r.code || (r.title && r.title.length <= 6 ? r.title : 'QNS');
+            const contentStr = r.content || r.title || 'Báo cáo phân tích doanh nghiệp';
+            return `
+                <tr style="background: ${rowBg}; border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.2s ease;" onmouseover="this.style.background='rgba(107, 33, 168, 0.25)'" onmouseout="this.style.background='${rowBg}'">
+                    <td style="padding: 12px 10px; font-weight: 800; color: #f8fafc; border-right: 1px solid rgba(255,255,255,0.05);">${stt}</td>
+                    <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem; font-family: sans-serif; border-right: 1px solid rgba(255,255,255,0.05);">${tickerStr}</td>
+                    <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left; border-right: 1px solid rgba(255,255,255,0.05);">${contentStr}</td>
+                    <td style="padding: 12px 14px; font-weight: 700; color: #f1f5f9; border-right: 1px solid rgba(255,255,255,0.05);">${dateStr}</td>
+                    <td style="padding: 12px 14px; ${sourceStyle} border-right: 1px solid rgba(255,255,255,0.05);">${r.source || 'FINTOP'}</td>
+                    <td style="padding: 12px 16px;">${actionBtnHtml}</td>
+                </tr>
+            `;
+        } else {
+            const industryStr = r.industry || r.sector || 'Vĩ mô';
+            const contentStr = r.content || r.title || 'Báo cáo chiến lược ngành, vĩ mô';
+            return `
+                <tr style="background: ${rowBg}; border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.2s ease;" onmouseover="this.style.background='rgba(107, 33, 168, 0.25)'" onmouseout="this.style.background='${rowBg}'">
+                    <td style="padding: 12px 10px; font-weight: 800; color: #f8fafc; border-right: 1px solid rgba(255,255,255,0.05);">${stt}</td>
+                    <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 0.95rem; font-family: sans-serif; border-right: 1px solid rgba(255,255,255,0.05);">${industryStr}</td>
+                    <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left; border-right: 1px solid rgba(255,255,255,0.05);">${contentStr}</td>
+                    <td style="padding: 12px 14px; font-weight: 700; color: #f1f5f9; border-right: 1px solid rgba(255,255,255,0.05);">${dateStr}</td>
+                    <td style="padding: 12px 14px; ${sourceStyle} border-right: 1px solid rgba(255,255,255,0.05);">${r.source || 'FINTOP'}</td>
+                    <td style="padding: 12px 16px;">${actionBtnHtml}</td>
+                </tr>
+            `;
+        }
+    }).join('');
 }
 
 window.downloadCmsReport = function(id) {
