@@ -8818,7 +8818,28 @@
         }
 
         function getFilteredBolocData() {
-            const dataPool = (Array.isArray(BOLOC_DATA) && BOLOC_DATA.length >= 10) ? BOLOC_DATA : getMockBolocData();
+            const rawPool = (Array.isArray(BOLOC_DATA) && BOLOC_DATA.length >= 10) ? BOLOC_DATA : getMockBolocData();
+            const mockDefaults = getMockBolocData();
+            
+            const dataPool = rawPool.map((row, idx) => {
+                const mockFallback = mockDefaults[idx % mockDefaults.length];
+                return {
+                    ...mockFallback,
+                    ...row,
+                    ticker: row.ticker || mockFallback.ticker,
+                    exchange: row.exchange || mockFallback.exchange || "HOSE",
+                    sector: row.sector || row.nganh || mockFallback.sector || "Bất động sản",
+                    updateTime: row.updateTime || row.time || mockFallback.updateTime || "18:16 25/08",
+                    historicalData: (row.historicalData && row.historicalData !== "—") ? row.historicalData : mockFallback.historicalData,
+                    status: row.status || mockFallback.status,
+                    deltaRsi: row.deltaRsi || mockFallback.deltaRsi,
+                    strength: row.strength || mockFallback.strength,
+                    testZone: (row.testZone && row.testZone !== "—") ? row.testZone : mockFallback.testZone,
+                    resistanceZone: (row.resistanceZone && row.resistanceZone !== "—") ? row.resistanceZone : mockFallback.resistanceZone,
+                    supportZone: (row.supportZone && row.supportZone !== "—") ? row.supportZone : mockFallback.supportZone
+                };
+            });
+
             return dataPool.filter((row) => {
                 const statusText = normalizeBolocLabel(getBolocStatusText(row));
                 const strengthText = normalizeBolocLabel(getBolocStrengthText(row));
