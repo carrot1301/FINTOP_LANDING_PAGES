@@ -878,6 +878,7 @@
         .boloc-masked-cell {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
         }
 
@@ -889,7 +890,7 @@
         }
 
         .boloc-table-title {
-            min-width: 1500px;
+            width: 100%;
             height: 62px;
             box-sizing: border-box;
             padding: 0 24px;
@@ -898,7 +899,7 @@
             justify-content: center;
             background: linear-gradient(135deg, rgba(53, 32, 85, 0.98) 0%, rgba(30, 19, 56, 0.99) 100%);
             color: #ffffff;
-            font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
             font-weight: 800;
             line-height: 1.2;
             text-transform: none;
@@ -912,9 +913,8 @@
         }
 
         #bolocTable {
-            min-width: 1500px;
-            table-layout: fixed;
             width: 100%;
+            table-layout: fixed;
             background: var(--boloc-row-bg);
             color: var(--boloc-row-text);
             border-collapse: collapse;
@@ -934,74 +934,30 @@
             letter-spacing: 0;
             text-transform: none;
             vertical-align: middle;
-            padding: 11px 6px;
-            font-size: 0.72rem;
+            padding: 8px 3px;
+            font-size: 0.70rem;
             text-shadow: none;
             position: sticky;
             top: 62px;
             z-index: 30;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            white-space: normal;
+            word-break: break-word;
         }
 
-        /* STT */
-        #bolocTable th:nth-child(1) {
-            width: 40px;
-        }
-
-        /* Mã CP */
-        #bolocTable th:nth-child(2) {
-            width: 70px;
-        }
-
-        /* Sàn */
-        #bolocTable th:nth-child(3) {
-            width: 70px;
-        }
-
-        /* Ngành HĐKD */
-        #bolocTable th:nth-child(4) {
-            width: 130px;
-        }
-
-        /* Update time */
-        #bolocTable th:nth-child(5) {
-            width: 115px;
-        }
-
-        /* Dữ liệu kỹ thuật lịch sử (Model) */
-        #bolocTable th:nth-child(6) {
-            width: 480px;
-        }
-
-        /* Trạng thái Model */
-        #bolocTable th:nth-child(7) {
-            width: 130px;
-        }
-
-        /* Delta RSI */
-        #bolocTable th:nth-child(8) {
-            width: 95px;
-        }
-
-        /* Sức mạnh xu hướng */
-        #bolocTable th:nth-child(9) {
-            width: 145px;
-        }
-
-        /* Vùng kiểm định */
-        #bolocTable th:nth-child(10) {
-            width: 110px;
-        }
-
-        /* Vùng kháng cự */
-        #bolocTable th:nth-child(11) {
-            width: 110px;
-        }
-
-        /* Vùng hỗ trợ */
-        #bolocTable th:nth-child(12) {
-            width: 95px;
-        }
+        /* Set balanced column widths so 100% of columns fit without right overflow */
+        #bolocTable th:nth-child(1) { width: 34px; }  /* STT */
+        #bolocTable th:nth-child(2) { width: 55px; }  /* Mã CP */
+        #bolocTable th:nth-child(3) { width: 52px; white-space: nowrap; }  /* Sàn */
+        #bolocTable th:nth-child(4) { width: 95px; }  /* Ngành HĐKD */
+        #bolocTable th:nth-child(5) { width: 85px; white-space: nowrap; }  /* Update time */
+        #bolocTable th:nth-child(6) { width: 250px; } /* Dữ liệu kỹ thuật lịch sử (Model) */
+        #bolocTable th:nth-child(7) { width: 105px; } /* Trạng thái Model */
+        #bolocTable th:nth-child(8) { width: 75px; }  /* ΔRSI */
+        #bolocTable th:nth-child(9) { width: 105px; } /* Sức mạnh xu hướng */
+        #bolocTable th:nth-child(10) { width: 85px; } /* Vùng kiểm định */
+        #bolocTable th:nth-child(11) { width: 80px; } /* Vùng kháng cự */
+        #bolocTable th:nth-child(12) { width: 72px; } /* Vùng hỗ trợ */
 
         #bolocTable td {
             background: var(--boloc-row-bg);
@@ -1012,11 +968,15 @@
             font-weight: 500;
             vertical-align: middle;
             transition: background 0.2s ease, color 0.2s ease, filter 0.2s ease;
-            padding: 12px 8px;
-            font-size: 0.82rem;
-            line-height: 1.45;
+            padding: 10px 4px;
+            font-size: 0.78rem;
+            line-height: 1.4;
             word-wrap: break-word;
             overflow-wrap: break-word;
+        }
+
+        #bolocTable td:nth-child(3) {
+            white-space: nowrap !important;
         }
 
         #bolocTable tbody tr:nth-child(even) td {
@@ -1035,16 +995,8 @@
 
         #bolocTable .desc-cell {
             color: var(--boloc-row-text);
-            min-width: 440px;
-            max-width: 520px;
-            text-align: left;
-            font-weight: 500;
-            white-space: normal;
-            word-break: break-word;
-            overflow-wrap: break-word;
-            line-height: 1.5;
-            padding-left: 16px;
-            padding-right: 14px;
+            padding-left: 20px;
+            padding-right: 12px;
         }
 
         #bolocTable .time-cell,

@@ -773,21 +773,21 @@ function renderAll() {
       <table class="admin-table df-table${resizeMode ? ' resize-mode' : ''}${savedColWidths ? ' has-saved-widths' : ''}" style="font-size:0.75rem;width:100%;">
         <thead>
           <tr style="position:sticky;top:0;z-index:50;background-color:#16203b !important;">
-            ${buildThCell(0, '35px', '<input type="checkbox" id="chk-all-stocks" />')}
-            ${buildThCell(1, '40px', 'STT')}
-            ${buildThCell(2, '70px', 'Mã CP')}
-            ${buildThCell(3, '70px', 'Sàn')}
-            ${buildThCell(4, '130px', 'Ngành HĐKD')}
-            ${buildThCell(5, '100px', 'Kiểm soát DL')}
-            ${buildThCell(6, '115px', 'Update time')}
-            ${buildThCell(7, '480px', 'Dữ liệu kỹ thuật lịch sử (Model)')}
-            ${buildThCell(8, '130px', 'Trạng thái Model')}
-            ${buildThCell(9, '95px', `<div class="df-delta-rsi-wrapper" style="position:relative;display:inline-flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;"><span class="df-delta-rsi-heading">ΔRSI</span><span class="df-delta-rsi-info" id="df-delta-rsi-info">(i)</span><div class="df-delta-rsi-hover-box">${esc(DELTA_RSI_HELP_TEXT)}</div></div>`, 'df-delta-rsi-header')}
-            ${buildThCell(10, '145px', `<div class="df-delta-rsi-wrapper" style="position:relative;display:inline-flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;"><span style="display:inline-block;text-align:center;line-height:1.25;"><span style="white-space:normal;word-break:break-word;display:block;">Sức mạnh xu hướng</span><span style="white-space:normal;word-break:break-word;display:block;">RSI/MFI - Dòng tiền <span class="df-delta-rsi-info">(i)</span></span></span><div class="df-delta-rsi-hover-box" style="width:260px;">${esc(STRENGTH_HELP_TEXT)}</div></div>`)}
-            ${buildThCell(11, '110px', 'Vùng kiểm định<br/>kỹ thuật')}
-            ${buildThCell(12, '110px', 'Vùng kháng cự<br/>kỹ thuật')}
-            ${buildThCell(13, '95px', 'Vùng hỗ trợ<br/>kỹ thuật')}
-            ${buildThCell(14, '35px', '<span id="btn-add-row" style="cursor:pointer;color:var(--purple-glow);" title="Thêm dòng">➕</span>')}
+            ${buildThCell(0, '2%', '<input type="checkbox" id="chk-all-stocks" />')}
+            ${buildThCell(1, '6%', 'STT')}
+            ${buildThCell(2, '4%', 'Mã CP')}
+            ${buildThCell(3, '3%', 'Sàn')}
+            ${buildThCell(4, '7.5%', 'Ngành HĐKD')}
+            ${buildThCell(5, '5.5%', 'Kiểm soát DL')}
+            ${buildThCell(6, '5.5%', 'Update time')}
+            ${buildThCell(7, '14%', 'Dữ liệu kỹ thuật lịch sử (Model)')}
+            ${buildThCell(8, '10%', 'Trạng thái Model')}
+            ${buildThCell(9, '4.5%', `<div class="df-delta-rsi-wrapper" style="position:relative;display:inline-flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;"><span class="df-delta-rsi-heading">ΔRSI</span><span class="df-delta-rsi-info" id="df-delta-rsi-info">(i)</span><div class="df-delta-rsi-hover-box">${esc(DELTA_RSI_HELP_TEXT)}</div></div>`, 'df-delta-rsi-header')}
+            ${buildThCell(10, '13%', `<div class="df-delta-rsi-wrapper" style="position:relative;display:inline-flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;"><span style="display:inline-block;text-align:center;line-height:1.25;"><span style="white-space:normal;word-break:break-word;display:block;">Sức mạnh xu hướng</span><span style="white-space:normal;word-break:break-word;display:block;">RSI/MFI - Dòng tiền <span class="df-delta-rsi-info">(i)</span></span></span><div class="df-delta-rsi-hover-box" style="width:260px;">${esc(STRENGTH_HELP_TEXT)}</div></div>`)}
+            ${buildThCell(11, '13%', 'Vùng kiểm định<br/>kỹ thuật')}
+            ${buildThCell(12, '13%', 'Vùng kháng cự<br/>kỹ thuật')}
+            ${buildThCell(13, '13%', 'Vùng hỗ trợ<br/>kỹ thuật')}
+            ${buildThCell(14, '1.5%', '<span id="btn-add-row" style="cursor:pointer;color:var(--purple-glow);" title="Thêm dòng">➕</span>')}
           </tr>
         </thead>
         <tbody id="df-table-body">
