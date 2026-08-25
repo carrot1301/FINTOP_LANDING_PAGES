@@ -236,9 +236,8 @@ export class BlogService implements OnModuleInit {
     <meta name="twitter:description" content="${esc(description)}">
     <meta name="twitter:image" content="${esc(imageUrl)}">
 
-    <script>
-        window.location.replace("${redirectUrl}");
-    </script>
+    <meta http-equiv="refresh" content="0;url=${esc(redirectUrl)}">
+    <link rel="canonical" href="${esc(redirectUrl)}">
 </head>
 <body>
     <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
