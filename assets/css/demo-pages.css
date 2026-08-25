@@ -81,12 +81,27 @@ body.demo-page::before {
     padding: 15px 0;
 }
 
-.tv-nav a { font-size: 0.9rem; font-weight: 600; color: #fff; opacity: 0.8; transition: opacity 0.2s; text-decoration: none; white-space: nowrap; }
+.tv-nav a { font-size: 0.9rem; font-weight: 600; color: #fff; opacity: 0.8; transition: opacity 0.2s, color 0.2s, text-shadow 0.2s; text-decoration: none; white-space: nowrap; }
+
+.tv-nav .nav-item.dropdown > a span {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
 
 .tv-nav a:hover,
-.tv-nav a.active-page {
+.tv-nav .nav-item:hover > a {
     opacity: 1;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    color: #c084fc;
+    text-shadow: 0 0 10px rgba(192, 132, 252, 0.8), 0 0 20px rgba(192, 132, 252, 0.4);
+}
+
+.tv-nav a.active-page,
+.tv-nav a.active-nav,
+.tv-nav .nav-item.active-nav > a,
+.tv-nav .nav-item.dropdown.active-nav > a {
+    opacity: 1;
+    color: #c084fc !important;
+    text-shadow: 0 0 10px rgba(192, 132, 252, 0.8), 0 0 20px rgba(192, 132, 252, 0.4) !important;
 }
 
 .dropdown-content {
@@ -155,15 +170,29 @@ body.demo-page::before {
     transition: transform 0.3s ease;
 }
 
-.dropdown-content a:hover,
-.dropdown-content a.active-submenu {
+/* Active submenu item: ONLY text glows purple, NO background box fill */
+.dropdown-content a.active-submenu,
+.dropdown-content a.active-page {
     opacity: 1;
-    background: rgba(168, 85, 247, 0.1);
-    color: #c084fc;
+    color: #c084fc !important;
+    background: transparent !important;
+    text-shadow: 0 0 10px rgba(192, 132, 252, 0.6);
 }
 
-.dropdown-content a:hover::after,
-.dropdown-content a.active-submenu::after {
+.dropdown-content a.active-submenu::after,
+.dropdown-content a.active-page::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+/* Hovering over any submenu item: HIGHLIGHT FULL BOX BACKGROUND */
+.dropdown-content a:hover {
+    opacity: 1;
+    background: rgba(168, 85, 247, 0.1) !important;
+    color: #c084fc !important;
+    text-shadow: 0 0 10px rgba(192, 132, 252, 0.6);
+}
+
+.dropdown-content a:hover::after {
     transform: translateX(-50%) scaleX(1);
 }
 

@@ -25,7 +25,28 @@
         return document.querySelector('.rp-page-wrapper') || document.querySelector('.main-container') || document.querySelector('.page-wrapper') || document.querySelector('.demo-main');
     }
 
+    function updateNavArrows() {
+        document.querySelectorAll('.tv-nav .nav-item.dropdown').forEach(function (dropdown) {
+            var dc = dropdown.querySelector('.dropdown-content');
+            var link = dropdown.querySelector('a');
+            if (!link) return;
+            var arrowSpan = link.querySelector('span');
+            var isPinned = dc && dc.classList.contains('pinned');
+
+            if (arrowSpan) {
+                arrowSpan.style.display = 'inline-block';
+                arrowSpan.style.transition = 'transform 0.2s ease';
+                if (isPinned) {
+                    arrowSpan.style.transform = 'rotate(180deg)';
+                } else {
+                    arrowSpan.style.transform = 'rotate(0deg)';
+                }
+            }
+        });
+    }
+
     function syncSubmenuOffset() {
+        updateNavArrows();
         var pinned = document.querySelector('.dropdown-content.pinned');
         var hasPinned = !!pinned;
         if (document.body) document.body.classList.toggle('has-pinned-menu', hasPinned);

@@ -257,14 +257,25 @@
             font-weight: 600;
             color: #fff;
             opacity: 0.8;
-            transition: opacity 0.2s;
+            transition: opacity 0.2s, color 0.2s, text-shadow 0.2s;
             text-decoration: none;
             white-space: nowrap;
         }
 
-        .tv-nav a:hover {
+        .tv-nav a:hover,
+        .tv-nav .nav-item:hover > a {
             opacity: 1;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+            color: #c084fc;
+            text-shadow: 0 0 10px rgba(192, 132, 252, 0.8), 0 0 20px rgba(192, 132, 252, 0.4);
+        }
+
+        .tv-nav a.active-page,
+        .tv-nav a.active-nav,
+        .tv-nav .nav-item.active-nav > a,
+        .tv-nav .nav-item.dropdown.active-nav > a {
+            opacity: 1;
+            color: #c084fc !important;
+            text-shadow: 0 0 10px rgba(192, 132, 252, 0.8), 0 0 20px rgba(192, 132, 252, 0.4) !important;
         }
 
         /* === MEGA MENU NGANG === */
@@ -333,15 +344,29 @@
             transition: transform 0.3s ease;
         }
 
-        .dropdown-content a:hover,
-        .dropdown-content a.active-submenu {
+        /* Active submenu item: ONLY text glows purple, NO background box fill */
+        .dropdown-content a.active-submenu,
+        .dropdown-content a.active-page {
             opacity: 1;
-            background: rgba(168, 85, 247, 0.1);
-            color: #c084fc;
+            color: #c084fc !important;
+            background: transparent !important;
+            text-shadow: 0 0 10px rgba(192, 132, 252, 0.6);
         }
 
-        .dropdown-content a:hover::after,
-        .dropdown-content a.active-submenu::after {
+        .dropdown-content a.active-submenu::after,
+        .dropdown-content a.active-page::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* Hovering over any submenu item: HIGHLIGHT FULL BOX BACKGROUND */
+        .dropdown-content a:hover {
+            opacity: 1;
+            background: rgba(168, 85, 247, 0.1) !important;
+            color: #c084fc !important;
+            text-shadow: 0 0 10px rgba(192, 132, 252, 0.6);
+        }
+
+        .dropdown-content a:hover::after {
             transform: translateX(-50%) scaleX(1);
         }
 
@@ -6245,26 +6270,76 @@
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
             <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Giao Dịch & Đầu Tư</h2>
-            <p>Lộ trình demo giúp người dùng biến dữ liệu thành kế hoạch giao dịch có kỷ luật.</p>
+            <p>Tổng hợp 11 tài liệu và bài viết hướng dẫn kiến thức chứng khoán nền tảng, đọc bảng giá, phái sinh, chứng quyền và giao dịch ký quỹ (Margin).</p>
         </div>
         <div class="function-shell">
-            <div class="function-grid">
-                <article class="function-mini-card">
-                    <h4>1. Khẩu vị rủi ro</h4>
-                    <p>Xác định tỷ trọng vốn, mức cắt lỗ và số mã tối đa trong danh mục.</p>
-                </article>
-                <article class="function-mini-card">
-                    <h4>2. Watchlist</h4>
-                    <p>Lọc cổ phiếu theo ngành, thanh khoản, Model và trạng thái dòng tiền.</p>
-                </article>
-                <article class="function-mini-card">
-                    <h4>3. Kế hoạch mua</h4>
-                    <p>Đặt vùng mua, vùng xác nhận, điểm hạ rủi ro trước khi hành động.</p>
-                </article>
-                <article class="function-mini-card">
-                    <h4>4. Nhật ký</h4>
-                    <p>Ghi lại lý do mua bán, biến động thực tế và bài học sau giao dịch.</p>
-                </article>
+            <div class="function-table-card">
+                <table class="function-table library-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 60px;">STT</th>
+                            <th>Nội dung bài học / Hướng dẫn (Kiến thức chứng khoán, TTCK)</th>
+                            <th style="width: 100px; text-align: center;">Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="stt-cell">1</td>
+                            <td class="content-cell">Mở tài khoản chứng khoán VPS</td>
+                            <td style="text-align: center;"><a class="library-detail-link" href="https://openaccount.vps.com.vn/?MKTID=U395" target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">2</td>
+                            <td class="content-cell">Hướng dẫn đọc bảng giá chứng khoán</td>
+                            <td style="text-align: center;"><a class="library-detail-link" href="https://youtu.be/TaiZS8-i6L0" target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">3</td>
+                            <td class="content-cell">CafeF - Báo thông tin điện tử tổng hợp</td>
+                            <td style="text-align: center;"><a class="library-detail-link" href="https://cafef.vn/" target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">4</td>
+                            <td class="content-cell">Hướng dẫn sử dụng FireAnt Web Platform</td>
+                            <td style="text-align: center;"><a class="library-detail-link" href="https://youtu.be/Cbd8sHTYhj8?si=TMURi4zCoJwsp9hq" target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">5</td>
+                            <td class="content-cell">Hướng dẫn cài đặt và cập nhật dữ liệu Amibroker</td>
+                            <td style="text-align: center;"><a class="library-detail-link" href="https://chienthangthitruong.com/huong-dan-cai-dat-va-cap-nhat-du-lieu-cho-amibroker/" target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">6</td>
+                            <td class="content-cell">Thị trường chứng khoán phái sinh là gì?</td>
+                            <td style="text-align: center;"><a class="library-detail-link" href="https://chienthangthitruong.com/thi-truong-chung-khoan-phai-sinh-la-gi/" target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">7</td>
+                            <td class="content-cell">Chứng khoán phái sinh hấp dẫn ở điểm gì?</td>
+                            <td style="text-align: center;"><a class="library-detail-link" href="https://chienthangthitruong.com/chung-khoan-phai-sinh-hap-dan-o-diem-gi/" target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">8</td>
+                            <td class="content-cell">Các câu hỏi thường gặp trên Thị trường CK Phái sinh</td>
+                            <td style="text-align: center;"><a class="library-detail-link" href="https://chienthangthitruong.com/thi-truong-phai-sinh-cac-cau-hoi-thuong-gap/" target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">9</td>
+                            <td class="content-cell">Thao túng trên thị trường chứng khoán phái sinh</td>
+                            <td style="text-align: center;"><a class="library-detail-link" href="https://chienthangthitruong.com/thao-tung-tren-thi-truong-chung-khoan-phai-sinh/" target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">10</td>
+                            <td class="content-cell">Chứng quyền là gì? Hướng dẫn đầu tư chứng quyền hiệu quả</td>
+                            <td style="text-align: center;"><a class="library-detail-link" href="https://youtu.be/lxOnP1zzfRQ" target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stt-cell">11</td>
+                            <td class="content-cell">Ký quỹ (Margin) là gì? Khi nào nên sử dụng giao dịch ký quỹ?</td>
+                            <td style="text-align: center;"><a class="library-detail-link" href="https://thuvienchungkhoan.vn/ky-quy-la-gi-khi-nao-nen-su-dung-giao-dich-ky-quy/" target="_blank" rel="noopener">Chi tiết</a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -7563,6 +7638,67 @@
 
         const BOLOC_BULLISH_STRENGTHS = new Set(['TĂNG MẠNH', 'TĂNG', 'TĂNG DẦN']);
 
+        function updateNavArrows() {
+            document.querySelectorAll('.tv-nav .nav-item.dropdown').forEach(dropdown => {
+                const dc = dropdown.querySelector('.dropdown-content');
+                const link = dropdown.querySelector(':scope > a');
+                if (!link) return;
+                const arrowSpan = link.querySelector('span');
+                const isPinned = dc && dc.classList.contains('pinned');
+
+                if (arrowSpan) {
+                    arrowSpan.style.display = 'inline-block';
+                    arrowSpan.style.transition = 'transform 0.2s ease';
+                    if (isPinned) {
+                        arrowSpan.style.transform = 'rotate(180deg)';
+                    } else {
+                        arrowSpan.style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+        }
+
+        // Active navigation glowing update helper
+        function updateHeaderActiveNav() {
+            updateNavArrows();
+            document.querySelectorAll('.tv-nav .nav-item').forEach(item => item.classList.remove('active-nav'));
+            document.querySelectorAll('.tv-nav > .nav-item > a').forEach(a => a.classList.remove('active-page', 'active-nav'));
+
+            const activePanel = document.querySelector('.submenu-panel.active');
+            const pinnedDc = document.querySelector('.dropdown-content.pinned');
+
+            let targetNavEl = null;
+
+            if (activePanel) {
+                const panelId = activePanel.id;
+                const subLink = document.querySelector(`.dropdown-content a[data-panel="${panelId}"], .tv-nav a[data-panel="${panelId}"]`);
+                if (subLink) {
+                    const dropdownParent = subLink.closest('.nav-item.dropdown');
+                    const directNavItem = subLink.closest('.nav-item');
+                    if (dropdownParent) {
+                        targetNavEl = dropdownParent.querySelector(':scope > a');
+                    } else if (directNavItem) {
+                        targetNavEl = directNavItem.querySelector(':scope > a');
+                    }
+                }
+            } else if (pinnedDc) {
+                const dropdownParent = pinnedDc.closest('.nav-item.dropdown');
+                if (dropdownParent) {
+                    targetNavEl = dropdownParent.querySelector(':scope > a');
+                }
+            }
+
+            if (targetNavEl) {
+                const text = targetNavEl.textContent.trim();
+                const href = targetNavEl.getAttribute('href') || '';
+                if (!text.startsWith('Trang chủ') && !href.includes('index.html')) {
+                    targetNavEl.classList.add('active-nav', 'active-page');
+                    const parentNavItem = targetNavEl.closest('.nav-item');
+                    if (parentNavItem) parentNavItem.classList.add('active-nav');
+                }
+            }
+        }
+
         // Toggle dropdown pin
         function toggleDropdownPin(dropdownId) {
             const dropdown = document.getElementById(dropdownId);
@@ -7583,9 +7719,11 @@
                 sessionStorage.setItem('pinnedDropdown', 'closed');
             }
             syncPinnedSubmenuOffset();
+            updateHeaderActiveNav();
         }
 
         function syncPinnedSubmenuOffset() {
+            updateNavArrows();
             const pinnedSubmenu = document.querySelector('.dropdown-content.pinned');
             const hasPinned = !!pinnedSubmenu;
             if (document.body) document.body.classList.toggle('has-pinned-menu', hasPinned);
@@ -7610,6 +7748,7 @@
                     }
                 }
             }
+            updateHeaderActiveNav();
         });
 
         // Open content panel
@@ -7686,6 +7825,7 @@
                 sessionStorage.setItem('pinnedDropdown', 'closed');
             }
             syncPinnedSubmenuOffset();
+            updateHeaderActiveNav();
             window.requestAnimationFrame(() => {
                 window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
             });
@@ -7766,6 +7906,7 @@
             document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('pinned'));
             document.querySelectorAll('.dropdown-content a').forEach(a => a.classList.remove('active-submenu'));
             syncPinnedSubmenuOffset();
+            updateHeaderActiveNav();
 
             // Show homepage content wrapper, restore background video, and refresh GSAP ScrollTrigger
             const homepage = document.getElementById('homepageContent');

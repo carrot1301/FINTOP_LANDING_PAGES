@@ -310,10 +310,10 @@ export class MailService {
       <div style="background:rgba(139,92,246,0.08);border-radius:12px;padding:20px;margin:0 0 24px;border:1px solid rgba(139,92,246,0.15);">
         <p style="color:#c4b5fd;font-size:14px;font-weight:700;margin:0 0 12px;">Bạn có thể:</p>
         <ul style="color:#94a3b8;font-size:13px;line-height:2;margin:0;padding-left:18px;">
-          <li>Tra cứu dữ liệu cổ phiếu</li>
-          <li>Xem phân tích AI & báo cáo thị trường</li>
-          <li>Theo dõi tín hiệu chuyên gia</li>
-          <li>Nâng cấp hội viên GOLD/DIAMOND</li>
+          <li>Tra cứu cổ phiếu miễn phí</li>
+          <li>Dữ liệu Nghiên cứu - Phân tích</li>
+          <li>Dữ liệu thị trường - AI &amp; Định lượng</li>
+          <li>Nâng cấp Hội viên PRO, V.I.P, DIAMOND</li>
         </ul>
       </div>
       <div style="text-align:center;margin:24px 0;">
