@@ -233,7 +233,7 @@
                 <article class="article-modal-card">
                     <div class="article-header-banner">
                         <div class="article-banner-logo-box">
-                            <img src="/assets/images/fintop-logo-circle.png?v=6.0" alt="FinTop DATA" onerror="this.src='../../assets/images/fintop-logo-circle.png?v=6.0'">
+                            <img src="/assets/images/fintop-logo-circle.png?v=7.0" alt="FinTop DATA" onerror="this.src='../../assets/images/fintop-logo-circle.png?v=7.0'">
                         </div>
                         <h1 class="article-banner-title">${cleanTitle(article.title)}</h1>
                     </div>
