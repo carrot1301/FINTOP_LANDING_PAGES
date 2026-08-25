@@ -712,9 +712,9 @@
             background: rgba(15, 15, 25, 0.95);
             backdrop-filter: blur(12px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            height: 850px;
-            min-height: 850px;
-            max-height: 850px;
+            height: 830px;
+            min-height: 830px;
+            max-height: 830px;
             overflow-y: auto;
             overflow-x: auto;
             scrollbar-width: none;
@@ -890,7 +890,7 @@
 
         .boloc-table-title {
             min-width: 1090px;
-            height: 52px;
+            height: 62px;
             box-sizing: border-box;
             padding: 0 24px;
             display: flex;
@@ -898,7 +898,7 @@
             justify-content: center;
             background: linear-gradient(135deg, rgba(53, 32, 85, 0.98) 0%, rgba(30, 19, 56, 0.99) 100%);
             color: #ffffff;
-            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-size: clamp(1.2rem, 2.2vw, 1.7rem);
             font-weight: 800;
             line-height: 1.2;
             text-transform: none;
@@ -934,18 +934,18 @@
             letter-spacing: 0;
             text-transform: none;
             vertical-align: middle;
-            padding: 6px 4px;
+            padding: 11px 6px;
             font-size: 0.72rem;
             text-shadow: none;
             position: sticky;
-            top: 52px;
+            top: 62px;
             z-index: 30;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
         /* Set clean column widths to fit 100% on standard desktop screens */
         #bolocTable th:nth-child(1) {
-            width: 40px;
+            width: 35px;
         }
 
         /* STT */
@@ -960,42 +960,43 @@
 
         /* Sàn */
         #bolocTable th:nth-child(4) {
-            width: 90px;
+            width: 110px;
         }
 
         /* Ngành HĐKD */
         #bolocTable th:nth-child(5) {
-            width: 85px;
+            width: 80px;
         }
 
         /* Update time */
         #bolocTable th:nth-child(6) {
-            width: 300px;
+            width: 200px;
         }
 
-        /* Dữ liệu kỹ thuật lịch sử (Model) */
+        /* Dữ liệu kỹ thuật lịch sử */
         #bolocTable th:nth-child(7) {
-            width: 110px;
+            width: 125px;
         }
 
         /* Trạng thái Model */
         #bolocTable th:nth-child(8) {
-            width: 70px;
+            width: 125px;
         }
 
         /* Delta RSI */
         #bolocTable th:nth-child(9) {
-            width: 145px;
+            width: 75px;
         }
 
         /* Sức mạnh xu hướng */
         #bolocTable th:nth-child(10) {
-            width: 90px;
+            width: 170px;
+            min-width: 170px;
         }
 
         /* Vùng kiểm định */
         #bolocTable th:nth-child(11) {
-            width: 90px;
+            width: 85px;
         }
 
         /* Vùng kháng cự */
@@ -1014,8 +1015,9 @@
             font-weight: 500;
             vertical-align: middle;
             transition: background 0.2s ease, color 0.2s ease, filter 0.2s ease;
-            padding: 5px 4px;
-            font-size: 0.78rem;
+            padding: 12px 6px;
+            font-size: 0.82rem;
+            line-height: 1.45;
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -1035,12 +1037,12 @@
 
         #bolocTable .desc-cell {
             color: var(--boloc-row-text);
-            max-width: 240px;
+            max-width: 250px;
             text-align: left;
             font-weight: 500;
             white-space: normal;
             word-break: break-word;
-            line-height: 1.35;
+            line-height: 1.48;
         }
 
         #bolocTable .time-cell,
@@ -8818,28 +8820,7 @@
         }
 
         function getFilteredBolocData() {
-            const rawPool = (Array.isArray(BOLOC_DATA) && BOLOC_DATA.length >= 10) ? BOLOC_DATA : getMockBolocData();
-            const mockDefaults = getMockBolocData();
-            
-            const dataPool = rawPool.map((row, idx) => {
-                const mockFallback = mockDefaults[idx % mockDefaults.length];
-                return {
-                    ...mockFallback,
-                    ...row,
-                    ticker: row.ticker || mockFallback.ticker,
-                    exchange: row.exchange || mockFallback.exchange || "HOSE",
-                    sector: row.sector || row.nganh || mockFallback.sector || "Bất động sản",
-                    updateTime: row.updateTime || row.time || mockFallback.updateTime || "18:16 25/08",
-                    historicalData: (row.historicalData && row.historicalData !== "—") ? row.historicalData : mockFallback.historicalData,
-                    status: row.status || mockFallback.status,
-                    deltaRsi: row.deltaRsi || mockFallback.deltaRsi,
-                    strength: row.strength || mockFallback.strength,
-                    testZone: (row.testZone && row.testZone !== "—") ? row.testZone : mockFallback.testZone,
-                    resistanceZone: (row.resistanceZone && row.resistanceZone !== "—") ? row.resistanceZone : mockFallback.resistanceZone,
-                    supportZone: (row.supportZone && row.supportZone !== "—") ? row.supportZone : mockFallback.supportZone
-                };
-            });
-
+            const dataPool = (Array.isArray(BOLOC_DATA) && BOLOC_DATA.length >= 10) ? BOLOC_DATA : getMockBolocData();
             return dataPool.filter((row) => {
                 const statusText = normalizeBolocLabel(getBolocStatusText(row));
                 const strengthText = normalizeBolocLabel(getBolocStrengthText(row));
@@ -9030,7 +9011,18 @@
 
             const rows = getFilteredBolocData();
 
-            if (!rows || rows.length === 0) {
+            if (BOLOC_DATA.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="12" style="text-align: center; color: #E2E8F0; padding: 24px;">
+                            Chưa tải được dữ liệu bộ lọc cổ phiếu.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            if (rows.length === 0) {
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="12" style="text-align: center; color: #E2E8F0; padding: 24px;">
@@ -9041,23 +9033,12 @@
                 return;
             }
 
-            const isLocalTest = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || window.location.protocol === 'file:');
-            const canSeeDetails = hasBolocProAccess() || isLocalTest;
+            const canSeeDetails = hasBolocProAccess();
 
             rows.forEach((d, i) => {
                 const tr = document.createElement('tr');
                 tr.className = 'animate-in';
                 tr.style.animationDelay = `${i * 0.04}s`;
-
-                const tickerVal = d.ticker || 'MWG';
-                const sanVal = d.san || d.exchange || 'HOSE';
-                const nganhVal = d.nganh || d.sector || 'Bất động sản';
-                const timeVal = d.time || d.updateTime || '18:16 25/08';
-                const descVal = d.desc || d.historicalData || 'Giá tăng > MA5 tăng > MA20. Kênh xu hướng Bollinger Band tăng dần.';
-                const kiemDinhVal = d.vungKiemDinh || d.testZone || '74.5 - 75.5';
-                const khangCuVal = d.khangCu || d.resistanceZone || '77 - 80';
-                const hoTroVal = d.hoTro || d.supportZone || '72';
-
                 const statusText = getBolocStatusText(d);
                 const strengthText = getBolocStrengthText(d);
                 const statusColors = getBolocStatusColors(statusText);
@@ -9066,7 +9047,7 @@
                 // Ticker cell — masked for non-PRO
                 let tickerCell;
                 if (canSeeDetails) {
-                    tickerCell = `<td class="ticker-cell">${escapeHtml(tickerVal)}</td>`;
+                    tickerCell = `<td class="ticker-cell">${escapeHtml(d.ticker)}</td>`;
                 } else {
                     tickerCell = `<td class="ticker-cell"><span class="boloc-masked-cell"><span class="boloc-masked-text">•••</span><button class="boloc-reveal-eye-btn" title="Xem mã cổ phiếu">👁 Xem</button></span></td>`;
                 }
@@ -9074,7 +9055,7 @@
                 // Industry cell — masked for non-PRO
                 let nganhCell;
                 if (canSeeDetails) {
-                    nganhCell = `<td>${escapeHtml(nganhVal)}</td>`;
+                    nganhCell = `<td>${escapeHtml(d.nganh)}</td>`;
                 } else {
                     nganhCell = `<td><span class="boloc-masked-cell"><span class="boloc-masked-text">••••••</span><button class="boloc-reveal-eye-btn" title="Xem nhóm ngành">👁 Xem</button></span></td>`;
                 }
@@ -9082,18 +9063,18 @@
                 tr.innerHTML = `
                     <td>${i + 1}</td>
                     ${tickerCell}
-                    <td>${canSeeDetails ? escapeHtml(sanVal) : '—'}</td>
+                    <td>${canSeeDetails ? escapeHtml(d.san) : '—'}</td>
                     ${nganhCell}
-                    <td class="time-cell">${escapeHtml(formatStockDisplayTime(timeVal))}</td>
-                    <td class="desc-cell">${escapeHtml(descVal)}</td>
+                    <td class="time-cell">${escapeHtml(formatStockDisplayTime(d.time))}</td>
+                    <td class="desc-cell">${escapeHtml(d.desc)}</td>
                     <td class="boloc-status-cell">
                         <span class="boloc-status-badge" style="--status-bg: ${statusColors.bg}; --status-text: ${statusColors.text}; --status-border: ${statusColors.border}; --status-shadow: ${statusColors.shadow};">${escapeHtml(statusText)}</span>
                     </td>
-                    <td class="boloc-delta-rsi-cell">${escapeHtml(d.deltaRsi || 'RSI 49-57')}</td>
+                    <td class="boloc-delta-rsi-cell">${escapeHtml(d.deltaRsi || '—')}</td>
                     <td class="boloc-strength-cell" style="--strength-text: ${strengthTextColor};">${escapeHtml(strengthText)}</td>
-                    <td class="price-cell">${escapeHtml(kiemDinhVal)}</td>
-                    <td class="price-cell">${escapeHtml(khangCuVal)}</td>
-                    <td class="boloc-support-cell">${escapeHtml(hoTroVal)}</td>
+                    <td class="price-cell">${escapeHtml(d.vungKiemDinh)}</td>
+                    <td class="price-cell">${escapeHtml(d.khangCu)}</td>
+                    <td class="boloc-support-cell">${escapeHtml(d.hoTro)}</td>
                 `;
 
                 // Bind reveal action to eye buttons dynamically
