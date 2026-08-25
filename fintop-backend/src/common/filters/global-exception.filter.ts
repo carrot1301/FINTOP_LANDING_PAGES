@@ -60,6 +60,13 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       this.logger.warn(`[${correlationId}] ${request.method} ${request.url} - Status: ${status} - Message: ${JSON.stringify(message)}`);
     }
 
+    // Ensure CORS headers are attached on error responses
+    const origin = request.headers.origin;
+    if (origin) {
+      response.setHeader('Access-Control-Allow-Origin', origin);
+      response.setHeader('Access-Control-Allow-Credentials', 'true');
+    }
+
     response.status(status).json(errorResponse);
   }
 

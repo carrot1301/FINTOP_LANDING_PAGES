@@ -34,6 +34,11 @@ export class CreateBlogDto {
   @IsOptional()
   @IsEnum(SUBSCRIPTION_TIER)
   minTierAccess?: SUBSCRIPTION_TIER;
+
+  @ApiProperty({ enum: BLOG_STATUS, required: false })
+  @IsOptional()
+  @IsEnum(BLOG_STATUS)
+  status?: BLOG_STATUS;
 }
 
 export class UpdateBlogStatusDto {
@@ -78,5 +83,10 @@ export class UpdateBlogDto {
   @IsOptional()
   @IsEnum(SUBSCRIPTION_TIER)
   minTierAccess?: SUBSCRIPTION_TIER;
+
+  @ApiProperty({ enum: BLOG_STATUS, required: false })
+  @IsOptional()
+  @IsEnum(BLOG_STATUS)
+  status?: BLOG_STATUS;
 }
 

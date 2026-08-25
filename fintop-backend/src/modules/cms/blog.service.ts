@@ -37,6 +37,7 @@ export class BlogService implements OnModuleInit {
   }
 
   async createArticle(authorId: number, dto: any) {
+    const targetStatus = dto.status || BLOG_STATUS.PUBLISHED;
     return this.prisma.$transaction(async (tx) => {
       const blog = await tx.blog.create({
         data: {
@@ -48,7 +49,8 @@ export class BlogService implements OnModuleInit {
           content: dto.content,
           visibility: dto.visibility || CONTENT_VISIBILITY.PUBLIC,
           minTierAccess: dto.minTierAccess || SUBSCRIPTION_TIER.STANDARD,
-          status: BLOG_STATUS.DRAFT,
+          status: targetStatus,
+          publishedAt: targetStatus === BLOG_STATUS.PUBLISHED ? new Date() : null,
         }
       });
 
@@ -57,8 +59,8 @@ export class BlogService implements OnModuleInit {
           blogId: blog.id,
           editorId: authorId,
           action: REVISION_ACTION.CREATED,
-          snapshotData: { title: blog.title, excerpt: blog.excerpt, content: blog.content } as Prisma.JsonObject,
-          reason: 'Initial Draft'
+          snapshotData: { title: blog.title, excerpt: blog.excerpt, content: blog.content, status: targetStatus } as Prisma.JsonObject,
+          reason: 'Initial Article Creation'
         }
       });
 
@@ -69,6 +71,12 @@ export class BlogService implements OnModuleInit {
         tableName: 'blogs',
         recordId: blog.id.toString(),
       });
+
+      try {
+        await this.redisService.getClient().del('blogs:list');
+      } catch (err) {
+        this.logger.warn(`Redis cache clear warning: ${err.message}`);
+      }
 
       return blog;
     });
@@ -416,6 +424,8 @@ export class BlogService implements OnModuleInit {
           content: dto.content !== undefined ? dto.content : undefined,
           visibility: dto.visibility !== undefined ? dto.visibility : undefined,
           minTierAccess: dto.minTierAccess !== undefined ? dto.minTierAccess : undefined,
+          status: dto.status !== undefined ? dto.status : undefined,
+          publishedAt: dto.status === BLOG_STATUS.PUBLISHED ? new Date() : undefined,
         }
       });
 

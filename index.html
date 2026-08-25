@@ -265,7 +265,7 @@
         }
 
         .tv-nav a:hover,
-        .tv-nav .nav-item:hover > a {
+        .tv-nav .nav-item:hover>a {
             opacity: 1;
             color: #c084fc;
             text-shadow: 0 0 10px rgba(192, 132, 252, 0.8), 0 0 20px rgba(192, 132, 252, 0.4);
@@ -273,8 +273,8 @@
 
         .tv-nav a.active-page,
         .tv-nav a.active-nav,
-        .tv-nav .nav-item.active-nav > a,
-        .tv-nav .nav-item.dropdown.active-nav > a {
+        .tv-nav .nav-item.active-nav>a,
+        .tv-nav .nav-item.dropdown.active-nav>a {
             opacity: 1;
             color: #c084fc !important;
             text-shadow: 0 0 10px rgba(192, 132, 252, 0.8), 0 0 20px rgba(192, 132, 252, 0.4) !important;
@@ -682,11 +682,12 @@
             --boloc-cyan: #FFFFFF;
             --boloc-purple: #C084FC;
             --boloc-gold: #FBBF24;
-            padding-top: 28px;
+            padding-top: 12px;
         }
 
         #panel-boloc .boloc-filter-bar {
             max-width: 1540px;
+            margin: 0 auto 0.4rem;
         }
 
         #panel-boloc .boloc-filter-select {
@@ -711,30 +712,19 @@
             background: rgba(15, 15, 25, 0.95);
             backdrop-filter: blur(12px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            height: 600px;
-            max-height: calc(100vh - 160px);
-            min-height: 575px;
+            height: 830px;
+            min-height: 830px;
+            max-height: 830px;
             overflow-y: auto;
             overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
         #panel-boloc .dark-table-wrapper::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        #panel-boloc .dark-table-wrapper::-webkit-scrollbar-track {
-            background: rgba(15, 15, 25, 0.5);
-            border-radius: 4px;
-        }
-
-        #panel-boloc .dark-table-wrapper::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #a855f7, #6366f1);
-            border-radius: 4px;
-        }
-
-        #panel-boloc .dark-table-wrapper::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #c084fc, #818cf8);
+            display: none;
+            width: 0;
+            height: 0;
         }
 
         #panel-boloc .boloc-filter-bar.is-locked {
@@ -900,7 +890,7 @@
 
         .boloc-table-title {
             min-width: 1090px;
-            height: 64px;
+            height: 62px;
             box-sizing: border-box;
             padding: 0 24px;
             display: flex;
@@ -944,11 +934,11 @@
             letter-spacing: 0;
             text-transform: none;
             vertical-align: middle;
-            padding: 10px 4px;
+            padding: 9px 4px;
             font-size: 0.72rem;
             text-shadow: none;
             position: sticky;
-            top: 64px;
+            top: 62px;
             z-index: 30;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
@@ -1025,8 +1015,8 @@
             font-weight: 500;
             vertical-align: middle;
             transition: background 0.2s ease, color 0.2s ease, filter 0.2s ease;
-            padding: 8px 4px;
-            font-size: 0.78rem;
+            padding: 9px 4px;
+            font-size: 0.80rem;
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -1051,6 +1041,7 @@
             font-weight: 500;
             white-space: normal;
             word-break: break-word;
+            line-height: 1.35;
         }
 
         #bolocTable .time-cell,
@@ -1070,13 +1061,14 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            min-width: 100px;
             max-width: 100%;
-            padding: 4px 6px;
+            padding: 5px 10px;
             border: 1px solid var(--status-border, rgba(226, 232, 240, 0.22));
             border-radius: 999px;
             background: var(--status-bg, rgba(148, 163, 184, 0.14));
             color: var(--status-text, #E2E8F0);
-            font-size: 0.72rem;
+            font-size: 0.76rem;
             line-height: 1.2;
             letter-spacing: 0;
             box-shadow: var(--status-shadow, none);
@@ -5023,23 +5015,13 @@
             </div>
         </div>
 
-        <!-- HƯỚNG DẪN SỬ DỤNG -->
+        <!-- HƯỚNG DẪN SỬ DỤNG (Tối ưu chiều cao) -->
         <div
-            style="max-width: 1300px; margin: 0 auto 0.85rem; padding: 0.85rem 1.5rem; border-radius: 14px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(99, 102, 241, 0.04)); border: 1px solid rgba(168, 85, 247, 0.25); border-left: 3px solid #a855f7;">
-            <h4
-                style="color: #c084fc; font-size: 0.9rem; font-weight: 800; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.06em;">
-                <span style="font-size: 1.2rem;">📖</span> Hướng Dẫn Sử Dụng Bộ Lọc
-            </h4>
-            <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.8; margin-bottom: 0.8rem;">
-                Bảng tổng hợp danh mục cổ phiếu theo <strong style="color: #c084fc;">Trạng thái Model</strong>, <strong
-                    style="color: #c084fc;">sức mạnh xu hướng dòng tiền</strong> và các vùng kiểm định kỹ thuật theo
-                phương pháp phân tích
-                định lượng được trích xuất hoàn toàn tự động và tổng hợp theo các nhóm ngành. Đây là công cụ lọc và phân
-                loại dữ liệu khách quan, hỗ trợ người dùng có thêm góc nhìn tổng quan về thị trường.
-            </p>
-            <p style="color: #94A3B8; font-size: 0.84rem; line-height: 1.7; font-style: italic;">
-                Thuật toán Mô hình (Model) sử dụng AI phân tích và các Indicators (MA, Bollinger Band - Kênh xu hướng,
-                RSI, Nến, ...) trên các khung thời gian để hiển thị các Trạng thái Mô hình (Model).
+            style="max-width: 1540px; margin: 0 auto 0.4rem; padding: 0.5rem 1rem; border-radius: 10px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(99, 102, 241, 0.04)); border: 1px solid rgba(168, 85, 247, 0.25); border-left: 3px solid #a855f7;">
+            <p style="color: #cbd5e1; font-size: 0.8rem; line-height: 1.4; margin: 0;">
+                <strong style="color: #c084fc;">📖 HƯỚNG DẪN SỬ DỤNG BỘ LỌC:</strong> Bảng tổng hợp danh mục cổ phiếu
+                theo <strong>Trạng thái Model</strong>, <strong>sức mạnh xu hướng dòng tiền</strong> và các vùng kiểm
+                định kỹ thuật theo phương pháp phân tích định lượng AI.
             </p>
         </div>
 
@@ -5048,17 +5030,22 @@
             <div class="boloc-dropdown-group" style="position:relative;display:inline-block;">
                 <button type="button" class="boloc-filter-btn-select" id="btnBolocPanelStatusFilter"
                     style="padding: 9px 14px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.85); color: #e2e8f0; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                    Lọc Trạng thái Model <span id="bolocPanelStatusBadge" style="color:#c084fc;font-weight:700;">(Tất cả)</span> ▾
+                    Lọc Trạng thái Model <span id="bolocPanelStatusBadge" style="color:#c084fc;font-weight:700;">(Tất
+                        cả)</span> ▾
                 </button>
                 <div id="dropdownBolocPanelStatus" class="boloc-filter-dropdown"
                     style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:1010;width:200px;background:#12101d;border:1px solid rgba(168,85,247,0.4);border-radius:10px;padding:6px 0;box-shadow:0 10px 30px rgba(0,0,0,0.85);">
-                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
-                        <input type="checkbox" class="boloc-panel-status-chk" value="RẤT TÍCH CỰC"> <span>RẤT TÍCH CỰC</span>
+                    <label
+                        style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-status-chk" value="RẤT TÍCH CỰC"> <span>RẤT TÍCH
+                            CỰC</span>
                     </label>
-                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                    <label
+                        style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
                         <input type="checkbox" class="boloc-panel-status-chk" value="TÍCH CỰC"> <span>TÍCH CỰC</span>
                     </label>
-                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                    <label
+                        style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
                         <input type="checkbox" class="boloc-panel-status-chk" value="KHẢ QUAN"> <span>KHẢ QUAN</span>
                     </label>
                 </div>
@@ -5068,17 +5055,22 @@
             <div class="boloc-dropdown-group" style="position:relative;display:inline-block;">
                 <button type="button" class="boloc-filter-btn-select" id="btnBolocPanelStrengthFilter"
                     style="padding: 9px 14px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(15,15,25,0.85); color: #e2e8f0; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                    Lọc Sức mạnh xu hướng <span id="bolocPanelStrengthBadge" style="color:#67e8f9;font-weight:700;">(Tất cả)</span> ▾
+                    Lọc Sức mạnh xu hướng <span id="bolocPanelStrengthBadge" style="color:#67e8f9;font-weight:700;">(Tất
+                        cả)</span> ▾
                 </button>
                 <div id="dropdownBolocPanelStrength" class="boloc-filter-dropdown"
                     style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:1010;width:200px;background:#12101d;border:1px solid rgba(168,85,247,0.4);border-radius:10px;padding:6px 0;box-shadow:0 10px 30px rgba(0,0,0,0.85);">
-                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
-                        <input type="checkbox" class="boloc-panel-strength-chk" value="TĂNG MẠNH"> <span>TĂNG MẠNH</span>
+                    <label
+                        style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                        <input type="checkbox" class="boloc-panel-strength-chk" value="TĂNG MẠNH"> <span>TĂNG
+                            MẠNH</span>
                     </label>
-                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                    <label
+                        style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
                         <input type="checkbox" class="boloc-panel-strength-chk" value="TĂNG"> <span>TĂNG</span>
                     </label>
-                    <label style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
+                    <label
+                        style="display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:0.82rem;color:#e2e8f0;">
                         <input type="checkbox" class="boloc-panel-strength-chk" value="TĂNG DẦN"> <span>TĂNG DẦN</span>
                     </label>
                 </div>
@@ -5100,7 +5092,8 @@
                         <th>Dữ liệu kỹ thuật lịch sử (Model)</th>
                         <th>Trạng thái Model</th>
                         <th class="boloc-delta-rsi-header">
-                            <div class="delta-rsi-wrapper" style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
+                            <div class="delta-rsi-wrapper"
+                                style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
                                 <span class="delta-rsi-heading">ΔRSI</span>
                                 <span class="delta-rsi-info-button" id="bolocDeltaRsiInfoButton">(i)</span>
                                 <div class="delta-rsi-hover-box">
@@ -5109,13 +5102,18 @@
                             </div>
                         </th>
                         <th style="min-width:170px;">
-                            <div class="delta-rsi-wrapper" style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
+                            <div class="delta-rsi-wrapper"
+                                style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
                                 <span style="display:inline-block;text-align:center;line-height:1.25;">
                                     <span style="white-space:nowrap;display:block;">Sức mạnh xu hướng</span>
-                                    <span style="white-space:nowrap;display:block;">RSI/MFI - Dòng tiền <span class="delta-rsi-info-button" id="bolocStrengthInfoButton">(i)</span></span>
+                                    <span style="white-space:nowrap;display:block;">RSI/MFI - Dòng tiền <span
+                                            class="delta-rsi-info-button" id="bolocStrengthInfoButton">(i)</span></span>
                                 </span>
                                 <div class="delta-rsi-hover-box" style="width: 260px;">
-                                    Ghi nhận giá trị khi ΔRSI &gt; 0 và Trạng thái Model thuộc &quot;Khả quan&quot;, &quot;Tích cực&quot;, &quot;Rất tích cực&quot;. Gán nhãn &quot;Tăng&quot;, &quot;Tăng dần&quot;, &quot;Tăng mạnh&quot; theo tốc độ tăng của RSI/MFI - Dòng tiền và biên độ ΔRSI.
+                                    Ghi nhận giá trị khi ΔRSI &gt; 0 và Trạng thái Model thuộc &quot;Khả quan&quot;,
+                                    &quot;Tích cực&quot;, &quot;Rất tích cực&quot;. Gán nhãn &quot;Tăng&quot;,
+                                    &quot;Tăng dần&quot;, &quot;Tăng mạnh&quot; theo tốc độ tăng của RSI/MFI - Dòng tiền
+                                    và biên độ ΔRSI.
                                 </div>
                             </div>
                         </th>
@@ -6275,55 +6273,286 @@
     <div class="submenu-panel" id="panel-stock-reports">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header" style="margin-bottom: 20px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+            <div
+                style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
                 <div style="display: flex; align-items: center; gap: 28px; flex-wrap: wrap;">
-                    <h2 class="gradient-text" id="panelReportTableHeaderTitle" style="font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 0; font-weight: 800;">BÁO CÁO TỔNG HỢP</h2>
-                    
-                    <div class="fintop-segmented-switcher" style="display: inline-flex; align-items: center; background: rgba(15, 23, 42, 0.85); padding: 4px; border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.35); backdrop-filter: blur(12px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);">
-                        <button class="fintop-tab-item active" id="btn-panel-report-dn" type="button" onclick="switchPanelReportTab('doanh-nghiep')" style="background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%); color: #ffffff; border: none; font-weight: 700; font-size: 0.88rem; padding: 8px 18px; border-radius: 10px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(168, 85, 247, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25); white-space: nowrap;">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f0abfc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" id="icon-panel-report-dn"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                    <h2 class="gradient-text" id="panelReportTableHeaderTitle"
+                        style="font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 0; font-weight: 800;">BÁO CÁO TỔNG HỢP
+                    </h2>
+
+                    <div class="fintop-segmented-switcher"
+                        style="display: inline-flex; align-items: center; background: rgba(15, 23, 42, 0.85); padding: 4px; border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.35); backdrop-filter: blur(12px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);">
+                        <button class="fintop-tab-item active" id="btn-panel-report-dn" type="button"
+                            onclick="switchPanelReportTab('doanh-nghiep')"
+                            style="background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%); color: #ffffff; border: none; font-weight: 700; font-size: 0.88rem; padding: 8px 18px; border-radius: 10px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(168, 85, 247, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25); white-space: nowrap;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f0abfc"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                id="icon-panel-report-dn">
+                                <path d="M3 3v18h18" />
+                                <path d="m19 9-5 5-4-4-3 3" />
+                            </svg>
                             <span>Phân tích Doanh nghiệp</span>
                         </button>
-                        <button class="fintop-tab-item" id="btn-panel-report-nganh-vimo" type="button" onclick="switchPanelReportTab('nganh-vimo')" style="background: transparent; color: #94a3b8; border: none; font-weight: 600; font-size: 0.88rem; padding: 8px 18px; border-radius: 10px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 8px; white-space: nowrap;">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="icon-panel-report-nganh-vimo"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"/><path d="M2 12h20"/></svg>
+                        <button class="fintop-tab-item" id="btn-panel-report-nganh-vimo" type="button"
+                            onclick="switchPanelReportTab('nganh-vimo')"
+                            style="background: transparent; color: #94a3b8; border: none; font-weight: 600; font-size: 0.88rem; padding: 8px 18px; border-radius: 10px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 8px; white-space: nowrap;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748b"
+                                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                                id="icon-panel-report-nganh-vimo">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z" />
+                                <path d="M2 12h20" />
+                            </svg>
                             <span>Ngành & Vĩ mô</span>
                         </button>
                     </div>
                 </div>
             </div>
             <p style="margin-top: 12px; margin-bottom: 16px; color: #94a3b8; font-size: 0.85rem; line-height: 1.5;">
-                Kho báo cáo phân tích tiêu biểu, nguồn tổng hợp từ các Công ty chứng khoán và các Trang/Báo uy tín. Các báo cáo được tổng hợp là tài sản thông tin, dữ liệu thuộc quyền sở hữu trí tuệ của các Đơn vị Chủ sở hữu. <strong style="color: #cbd5e1; font-weight: 600;">Tài liệu chỉ sử dụng cho mục đích tham khảo, FinTop DATA không chịu bất cứ các trách nhiệm nào liên quan!</strong>
+                Kho báo cáo phân tích tiêu biểu, nguồn tổng hợp từ các Công ty chứng khoán và các Trang/Báo uy tín. Các
+                báo cáo được tổng hợp là tài sản thông tin, dữ liệu thuộc quyền sở hữu trí tuệ của các Đơn vị Chủ sở
+                hữu. <strong style="color: #cbd5e1; font-weight: 600;">Tài liệu chỉ sử dụng cho mục đích tham khảo,
+                    FinTop DATA không chịu bất cứ các trách nhiệm nào liên quan!</strong>
             </p>
         </div>
         <div class="function-shell">
-            <div class="fintop-report-table-wrapper" style="border-radius: 10px; overflow: hidden; border: 1px solid rgba(168, 85, 247, 0.35); background: #0f172a; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);">
+            <div class="fintop-report-table-wrapper"
+                style="border-radius: 10px; overflow: hidden; border: 1px solid rgba(168, 85, 247, 0.35); background: #0f172a; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);">
                 <div style="overflow-x: auto;">
-                    <table class="fintop-report-table" style="width: 100%; border-collapse: collapse; text-align: center; color: #f8fafc; font-size: 0.95rem;">
+                    <table class="fintop-report-table"
+                        style="width: 100%; border-collapse: collapse; text-align: center; color: #f8fafc; font-size: 0.95rem;">
                         <thead id="panelStockReportsTableHead">
-                            <tr style="background: #4c1d95; color: #ffffff; font-weight: 700; font-size: 0.88rem; text-transform: uppercase; border-bottom: 2px solid #6b21a8;">
-                                <th style="padding: 12px 10px; width: 60px; border-right: 1px solid rgba(255,255,255,0.1);">STT</th>
-                                <th style="padding: 12px 14px; width: 160px; white-space: nowrap; border-right: 1px solid rgba(255,255,255,0.1);">Mã cổ phiếu</th>
-                                <th style="padding: 12px 16px; border-right: 1px solid rgba(255,255,255,0.1); text-align: center;">Nội dung</th>
-                                <th style="padding: 12px 14px; width: 175px; white-space: nowrap; border-right: 1px solid rgba(255,255,255,0.1);">Ngày phát hành</th>
-                                <th style="padding: 12px 14px; width: 120px; border-right: 1px solid rgba(255,255,255,0.1);">Nguồn</th>
+                            <tr
+                                style="background: #4c1d95; color: #ffffff; font-weight: 700; font-size: 0.88rem; text-transform: uppercase; border-bottom: 2px solid #6b21a8;">
+                                <th
+                                    style="padding: 12px 10px; width: 60px; border-right: 1px solid rgba(255,255,255,0.1);">
+                                    STT</th>
+                                <th
+                                    style="padding: 12px 14px; width: 160px; white-space: nowrap; border-right: 1px solid rgba(255,255,255,0.1);">
+                                    Mã cổ phiếu</th>
+                                <th
+                                    style="padding: 12px 16px; border-right: 1px solid rgba(255,255,255,0.1); text-align: center;">
+                                    Nội dung</th>
+                                <th
+                                    style="padding: 12px 14px; width: 175px; white-space: nowrap; border-right: 1px solid rgba(255,255,255,0.1);">
+                                    Ngày phát hành</th>
+                                <th
+                                    style="padding: 12px 14px; width: 120px; border-right: 1px solid rgba(255,255,255,0.1);">
+                                    Nguồn</th>
                                 <th style="padding: 12px 16px; width: 130px; color: #ffffff;">Link</th>
                             </tr>
                         </thead>
                         <tbody id="panelStockReportsTableBody">
-                            <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">1</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">QNS</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Báo cáo phân tích doanh nghiệp QNS Q2/2026</td><td style="padding: 12px 14px; font-weight: 700;">29/05/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">2</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">FPT</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập nhật kết quả kinh doanh FPT & Triển vọng AI</td><td style="padding: 12px 14px; font-weight: 700;">22/05/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">3</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">SAB</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân tích hoạt động kinh doanh & Biên lợi nhuận SAB</td><td style="padding: 12px 14px; font-weight: 700;">15/05/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">4</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">VNM</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Đánh giá sức mua ngành sữa & Chiến lược VNM</td><td style="padding: 12px 14px; font-weight: 700;">10/05/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">5</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">VIB</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Báo cáo cập nhật tình hình tăng trưởng tín dụng VIB</td><td style="padding: 12px 14px; font-weight: 700;">17/04/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">6</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">DCM</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân tích tác động giá phân bón Ure tới DCM</td><td style="padding: 12px 14px; font-weight: 700;">18/11/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FPTS</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">7</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">VCB</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập nhật chất lượng tài sản & Nợ xấu VCB</td><td style="padding: 12px 14px; font-weight: 700;">12/11/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">Mirae</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">8</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">POW</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân tích sản lượng điện & Tiến độ nhà máy POW</td><td style="padding: 12px 14px; font-weight: 700;">05/11/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">Mirae</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">9</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">STK</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Đánh giá đơn hàng dệt may & Phục hồi sản xuất STK</td><td style="padding: 12px 14px; font-weight: 700;">05/11/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">Mirae</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">10</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">FMC</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập nhật kim ngạch xuất khẩu tôm FMC</td><td style="padding: 12px 14px; font-weight: 700;">30/10/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">PHS</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">11</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">PLC</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Triển vọng đầu tư công & Tiêu thụ nhựa đường PLC</td><td style="padding: 12px 14px; font-weight: 700;">30/10/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">Mirae</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">12</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">DXG</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập nhật tiến độ mở bán các dự án BĐS DXG</td><td style="padding: 12px 14px; font-weight: 700;">27/10/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">KBSV</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">13</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">VCB</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Báo cáo phân tích chuyên sâu vị thế ngân hàng VCB</td><td style="padding: 12px 14px; font-weight: 700;">27/10/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">VNDIRECT</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                            <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">14</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">PVT</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân tích cước vận tải biển & Đội tàu PVT</td><td style="padding: 12px 14px; font-weight: 700;">22/10/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FPTS</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
+                            <tr
+                                style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">1</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    QNS</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Báo
+                                    cáo phân tích doanh nghiệp QNS Q2/2026</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">29/05/2026</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">2</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    FPT</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập
+                                    nhật kết quả kinh doanh FPT & Triển vọng AI</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">22/05/2026</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">3</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    SAB</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân
+                                    tích hoạt động kinh doanh & Biên lợi nhuận SAB</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">15/05/2026</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">4</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    VNM</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Đánh
+                                    giá sức mua ngành sữa & Chiến lược VNM</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">10/05/2026</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">5</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    VIB</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Báo
+                                    cáo cập nhật tình hình tăng trưởng tín dụng VIB</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">17/04/2026</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">6</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    DCM</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân
+                                    tích tác động giá phân bón Ure tới DCM</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">18/11/2020</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FPTS</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">7</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    VCB</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập
+                                    nhật chất lượng tài sản & Nợ xấu VCB</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">12/11/2020</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">Mirae</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">8</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    POW</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân
+                                    tích sản lượng điện & Tiến độ nhà máy POW</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">05/11/2020</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">Mirae</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">9</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    STK</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Đánh
+                                    giá đơn hàng dệt may & Phục hồi sản xuất STK</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">05/11/2020</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">Mirae</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">10</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    FMC</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập
+                                    nhật kim ngạch xuất khẩu tôm FMC</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">30/10/2020</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">PHS</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">11</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    PLC</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">
+                                    Triển vọng đầu tư công & Tiêu thụ nhựa đường PLC</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">30/10/2020</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">Mirae</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">12</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    DXG</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập
+                                    nhật tiến độ mở bán các dự án BĐS DXG</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">27/10/2020</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">KBSV</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">13</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    VCB</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Báo
+                                    cáo phân tích chuyên sâu vị thế ngân hàng VCB</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">27/10/2020</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">VNDIRECT</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
+                            <tr
+                                style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">14</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">
+                                    PVT</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân
+                                    tích cước vận tải biển & Đội tàu PVT</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">22/10/2020</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FPTS</td>
+                                <td style="padding: 12px 16px;"><a href="#"
+                                        style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;"
+                                        onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'"
+                                        onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi
+                                        tiết</a></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -6437,7 +6666,8 @@
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
         <div class="panel-header">
             <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Giao Dịch & Đầu Tư</h2>
-            <p>Tổng hợp 11 tài liệu và bài viết hướng dẫn kiến thức chứng khoán nền tảng, đọc bảng giá, phái sinh, chứng quyền và giao dịch ký quỹ (Margin).</p>
+            <p>Tổng hợp 11 tài liệu và bài viết hướng dẫn kiến thức chứng khoán nền tảng, đọc bảng giá, phái sinh, chứng
+                quyền và giao dịch ký quỹ (Margin).</p>
         </div>
         <div class="function-shell">
             <div class="function-table-card">
@@ -6453,57 +6683,76 @@
                         <tr>
                             <td class="stt-cell">1</td>
                             <td class="content-cell">Mở tài khoản chứng khoán VPS</td>
-                            <td style="text-align: center;"><a class="library-detail-link" href="https://openaccount.vps.com.vn/?MKTID=U395" target="_blank" rel="noopener">Chi tiết</a></td>
+                            <td style="text-align: center;"><a class="library-detail-link"
+                                    href="https://openaccount.vps.com.vn/?MKTID=U395" target="_blank" rel="noopener">Chi
+                                    tiết</a></td>
                         </tr>
                         <tr>
                             <td class="stt-cell">2</td>
                             <td class="content-cell">Hướng dẫn đọc bảng giá chứng khoán</td>
-                            <td style="text-align: center;"><a class="library-detail-link" href="https://youtu.be/TaiZS8-i6L0" target="_blank" rel="noopener">Chi tiết</a></td>
+                            <td style="text-align: center;"><a class="library-detail-link"
+                                    href="https://youtu.be/TaiZS8-i6L0" target="_blank" rel="noopener">Chi tiết</a></td>
                         </tr>
                         <tr>
                             <td class="stt-cell">3</td>
                             <td class="content-cell">CafeF - Báo thông tin điện tử tổng hợp</td>
-                            <td style="text-align: center;"><a class="library-detail-link" href="https://cafef.vn/" target="_blank" rel="noopener">Chi tiết</a></td>
+                            <td style="text-align: center;"><a class="library-detail-link" href="https://cafef.vn/"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
                         </tr>
                         <tr>
                             <td class="stt-cell">4</td>
                             <td class="content-cell">Hướng dẫn sử dụng FireAnt Web Platform</td>
-                            <td style="text-align: center;"><a class="library-detail-link" href="https://youtu.be/Cbd8sHTYhj8?si=TMURi4zCoJwsp9hq" target="_blank" rel="noopener">Chi tiết</a></td>
+                            <td style="text-align: center;"><a class="library-detail-link"
+                                    href="https://youtu.be/Cbd8sHTYhj8?si=TMURi4zCoJwsp9hq" target="_blank"
+                                    rel="noopener">Chi tiết</a></td>
                         </tr>
                         <tr>
                             <td class="stt-cell">5</td>
                             <td class="content-cell">Hướng dẫn cài đặt và cập nhật dữ liệu Amibroker</td>
-                            <td style="text-align: center;"><a class="library-detail-link" href="https://chienthangthitruong.com/huong-dan-cai-dat-va-cap-nhat-du-lieu-cho-amibroker/" target="_blank" rel="noopener">Chi tiết</a></td>
+                            <td style="text-align: center;"><a class="library-detail-link"
+                                    href="https://chienthangthitruong.com/huong-dan-cai-dat-va-cap-nhat-du-lieu-cho-amibroker/"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
                         </tr>
                         <tr>
                             <td class="stt-cell">6</td>
                             <td class="content-cell">Thị trường chứng khoán phái sinh là gì?</td>
-                            <td style="text-align: center;"><a class="library-detail-link" href="https://chienthangthitruong.com/thi-truong-chung-khoan-phai-sinh-la-gi/" target="_blank" rel="noopener">Chi tiết</a></td>
+                            <td style="text-align: center;"><a class="library-detail-link"
+                                    href="https://chienthangthitruong.com/thi-truong-chung-khoan-phai-sinh-la-gi/"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
                         </tr>
                         <tr>
                             <td class="stt-cell">7</td>
                             <td class="content-cell">Chứng khoán phái sinh hấp dẫn ở điểm gì?</td>
-                            <td style="text-align: center;"><a class="library-detail-link" href="https://chienthangthitruong.com/chung-khoan-phai-sinh-hap-dan-o-diem-gi/" target="_blank" rel="noopener">Chi tiết</a></td>
+                            <td style="text-align: center;"><a class="library-detail-link"
+                                    href="https://chienthangthitruong.com/chung-khoan-phai-sinh-hap-dan-o-diem-gi/"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
                         </tr>
                         <tr>
                             <td class="stt-cell">8</td>
                             <td class="content-cell">Các câu hỏi thường gặp trên Thị trường CK Phái sinh</td>
-                            <td style="text-align: center;"><a class="library-detail-link" href="https://chienthangthitruong.com/thi-truong-phai-sinh-cac-cau-hoi-thuong-gap/" target="_blank" rel="noopener">Chi tiết</a></td>
+                            <td style="text-align: center;"><a class="library-detail-link"
+                                    href="https://chienthangthitruong.com/thi-truong-phai-sinh-cac-cau-hoi-thuong-gap/"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
                         </tr>
                         <tr>
                             <td class="stt-cell">9</td>
                             <td class="content-cell">Thao túng trên thị trường chứng khoán phái sinh</td>
-                            <td style="text-align: center;"><a class="library-detail-link" href="https://chienthangthitruong.com/thao-tung-tren-thi-truong-chung-khoan-phai-sinh/" target="_blank" rel="noopener">Chi tiết</a></td>
+                            <td style="text-align: center;"><a class="library-detail-link"
+                                    href="https://chienthangthitruong.com/thao-tung-tren-thi-truong-chung-khoan-phai-sinh/"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
                         </tr>
                         <tr>
                             <td class="stt-cell">10</td>
                             <td class="content-cell">Chứng quyền là gì? Hướng dẫn đầu tư chứng quyền hiệu quả</td>
-                            <td style="text-align: center;"><a class="library-detail-link" href="https://youtu.be/lxOnP1zzfRQ" target="_blank" rel="noopener">Chi tiết</a></td>
+                            <td style="text-align: center;"><a class="library-detail-link"
+                                    href="https://youtu.be/lxOnP1zzfRQ" target="_blank" rel="noopener">Chi tiết</a></td>
                         </tr>
                         <tr>
                             <td class="stt-cell">11</td>
                             <td class="content-cell">Ký quỹ (Margin) là gì? Khi nào nên sử dụng giao dịch ký quỹ?</td>
-                            <td style="text-align: center;"><a class="library-detail-link" href="https://thuvienchungkhoan.vn/ky-quy-la-gi-khi-nao-nen-su-dung-giao-dich-ky-quy/" target="_blank" rel="noopener">Chi tiết</a></td>
+                            <td style="text-align: center;"><a class="library-detail-link"
+                                    href="https://thuvienchungkhoan.vn/ky-quy-la-gi-khi-nao-nen-su-dung-giao-dich-ky-quy/"
+                                    target="_blank" rel="noopener">Chi tiết</a></td>
                         </tr>
                     </tbody>
                 </table>

@@ -496,6 +496,10 @@ function injectStyles() {
     .cms-btn-close:hover {
       background-color: #f1f5f9;
     }
+    .cke_notification_warning,
+    .cms-editor-warning-alert {
+      display: none !important;
+    }
     .cms-editor-warning-alert {
       position: absolute;
       top: 150px;
@@ -1632,30 +1636,12 @@ function renderCreateForm(container, blogToEdit = null) {
   // Load and initialize CKEditor
   ensureCKEditor(() => {
     if (!document.getElementById('blog-content')) return;
-    
+    if (window.CKEDITOR && window.CKEDITOR.config) {
+      window.CKEDITOR.config.versionCheck = false;
+    }
     window.CKEDITOR.replace('blog-content', {
       height: 480,
-      on: {
-        instanceReady: function(evt) {
-          // Injected warning alert to replicate the insecure version notice shown in the user's reference
-          const editorContainer = evt.editor.container.$;
-          if (editorContainer) {
-            editorContainer.style.position = 'relative';
-            if (!editorContainer.querySelector('.cms-editor-warning-alert')) {
-              const alertDiv = document.createElement('div');
-              alertDiv.className = 'cms-editor-warning-alert';
-              alertDiv.innerHTML = `
-                <span>This CKEditor 4.22.1 version is not secure. Consider upgrading to the latest one, 4.25.1-lts.</span>
-                <span class="cms-alert-close" style="cursor: pointer; font-weight: bold; font-size: 14px; opacity: 0.8; padding: 2px 6px; margin-left: 10px;">✕</span>
-              `;
-              alertDiv.querySelector('.cms-alert-close').addEventListener('click', () => {
-                alertDiv.remove();
-              });
-              editorContainer.appendChild(alertDiv);
-            }
-          }
-        }
-      }
+      versionCheck: false
     });
   });
 
@@ -1711,9 +1697,8 @@ function renderCreateForm(container, blogToEdit = null) {
     const targetStatus = isActive ? 'PUBLISHED' : 'DRAFT';
 
     try {
-      let savedBlog;
       if (isEdit) {
-        savedBlog = await API().patch(`/blogs/${blogToEdit.id}`, {
+        await API().patch(`/blogs/${blogToEdit.id}`, {
           title,
           slug,
           categoryId,
@@ -1724,10 +1709,11 @@ function renderCreateForm(container, blogToEdit = null) {
         });
 
         if (blogToEdit.status !== targetStatus) {
-          if (isActive) {
-            await API().patch(`/blogs/${blogToEdit.id}/status`, { status: 'PENDING_REVIEW' });
+          try {
+            await API().patch(`/blogs/${blogToEdit.id}/status`, { status: targetStatus });
+          } catch (patchErr) {
+            console.warn('Status update warning:', patchErr);
           }
-          await API().patch(`/blogs/${blogToEdit.id}/status`, { status: targetStatus });
         }
         showToast('Đã cập nhật bài viết thành công!', 'success');
       } else {
@@ -1740,12 +1726,16 @@ function renderCreateForm(container, blogToEdit = null) {
           excerpt,
           content
         });
-        // Backend wraps response: { success, data: { id, ... } }
-        savedBlog = res.data || res;
 
-        if (isActive && savedBlog.id) {
-          await API().patch(`/blogs/${savedBlog.id}/status`, { status: 'PENDING_REVIEW' });
-          await API().patch(`/blogs/${savedBlog.id}/status`, { status: targetStatus });
+        const savedBlog = res?.data || res;
+        const blogId = savedBlog?.id || savedBlog?.data?.id;
+
+        if (blogId && isActive) {
+          try {
+            await API().patch(`/blogs/${blogId}/status`, { status: targetStatus });
+          } catch (statusErr) {
+            console.warn('Status patch notice:', statusErr);
+          }
         }
         showToast('Đã tạo bài viết mới thành công!', 'success');
       }
