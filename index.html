@@ -968,17 +968,17 @@
             width: 80px;
         }
 
-        /* Update time */
+        /* Dữ liệu kỹ thuật lịch sử (Model) */
         #bolocTable th:nth-child(6) {
-            width: 200px;
+            width: 280px;
         }
 
-        /* Dữ liệu kỹ thuật lịch sử */
+        /* Trạng thái Model */
         #bolocTable th:nth-child(7) {
             width: 125px;
         }
 
-        /* Trạng thái Model */
+        /* Delta RSI */
         #bolocTable th:nth-child(8) {
             width: 125px;
         }
@@ -1037,11 +1037,14 @@
 
         #bolocTable .desc-cell {
             color: var(--boloc-row-text);
-            max-width: 250px;
+            min-width: 240px;
+            max-width: 340px;
             text-align: left;
             font-weight: 500;
             white-space: normal;
-            word-break: break-word;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: normal;
             line-height: 1.48;
         }
 
