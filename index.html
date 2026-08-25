@@ -9100,6 +9100,65 @@
             });
         }
 
+        async function fetchBolocDataFromApi() {
+            try {
+                const Api = window.FintopInfra?.ApiClient;
+                if (Api) {
+                    const res = await Api.get('/market/stocks');
+                    const list = res?.data || res;
+                    if (Array.isArray(list) && list.length > 0) {
+                        BOLOC_DATA = list.map(s => ({
+                            ticker: s.ticker || s.code_cp,
+                            san: s.exchange || 'HOSE',
+                            exchange: s.exchange || 'HOSE',
+                            nganh: s.industry || 'Bất động sản',
+                            sector: s.industry || 'Bất động sản',
+                            time: s.updated_at ? formatStockDisplayTime(s.updated_at) : (s.updatedAt || '18:16 25/08'),
+                            updateTime: s.updated_at ? formatStockDisplayTime(s.updated_at) : (s.updatedAt || '18:16 25/08'),
+                            desc: s.model_desc || s.identify_trend || '',
+                            historicalData: s.model_desc || s.identify_trend || '',
+                            status: s.statusText || s.act || 'TÍCH CỰC',
+                            statusText: s.statusText || s.act || 'TÍCH CỰC',
+                            deltaRsi: s.delta_rsi || '',
+                            strength: s.trend || s.rsi_mfi || '',
+                            strengthText: s.trend || s.rsi_mfi || '',
+                            vungKiemDinh: s.validation_zone || s.trading_price_range || '',
+                            testZone: s.validation_zone || s.trading_price_range || '',
+                            khangCu: s.resistance_zone || s.resistance_range || '',
+                            resistanceZone: s.resistance_zone || s.resistance_range || '',
+                            hoTro: s.support_zone || s.support_range || '',
+                            supportZone: s.support_zone || s.support_range || ''
+                        }));
+                        renderBolocTable();
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.warn('API /market/stocks fallback to synced/mock data:', err);
+            }
+            const synced = readSyncedBolocData();
+            if (synced.length > 0) {
+                BOLOC_DATA = synced;
+            } else {
+                BOLOC_DATA = getMockBolocData();
+            }
+            renderBolocTable();
+        }
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'fintop_stock_filter_sync') {
+                const synced = readSyncedBolocData();
+                if (synced.length > 0) {
+                    BOLOC_DATA = synced;
+                    renderBolocTable();
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchBolocDataFromApi();
+        });
+
         // =====================
         // TÍN HIỆU CHUYÊN GIA
         // =====================

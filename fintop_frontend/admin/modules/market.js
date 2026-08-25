@@ -328,27 +328,40 @@ async function syncUserPageData() {
     const filterSyncData = stockData.map(s => ({
       ticker: s.code_cp,
       san: s.exchange,
+      exchange: s.exchange,
       nganh: s.industry,
+      sector: s.industry,
       canBo: s.analyst || 'FinTop DATA',
       time: formatSyncTime(s.updatedAt),
+      updateTime: formatSyncTime(s.updatedAt),
       desc: s.identify_trend || '',
+      historicalData: s.identify_trend || '',
       status: getStatusClass(s.act),
       statusText: s.act || '',
       modelResult: s.act || '',
       deltaRsi: s.delta_rsi || '',
       trend: s.rsi_mfi || '',
+      strength: s.rsi_mfi || '',
+      strengthText: s.rsi_mfi || '',
       vungKiemDinh: s.trading_price_range || '',
+      testZone: s.trading_price_range || '',
       khangCu: s.resistance_range || '',
-      hoTro: s.support_range || ''
+      resistanceZone: s.resistance_range || '',
+      hoTro: s.support_range || '',
+      supportZone: s.support_range || ''
     }));
 
     const searchSyncData = {};
     stockData.forEach(s => {
       searchSyncData[s.code_cp] = {
         san: s.exchange,
+        exchange: s.exchange,
         nganh: s.industry,
+        sector: s.industry,
         time: formatSyncTime(s.updatedAt),
+        updateTime: formatSyncTime(s.updatedAt),
         desc: s.identify_trend || '',
+        historicalData: s.identify_trend || '',
         status: getStatusClass(s.act),
         statusText: s.act || ''
       };
