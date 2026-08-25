@@ -173,6 +173,33 @@ export class BlogService implements OnModuleInit {
     }
     return defaultImage;
   }
+  async buildArticleRedirectUrl(slug: string): Promise<string> {
+    let targetUrl = `https://fintopdata.vn/nghien-cuu/thi-truong/index.html?slug=${encodeURIComponent(slug || '')}`;
+
+    if (slug) {
+      try {
+        const article = await this.prisma.blog.findUnique({
+          where: { slug },
+          include: { category: true }
+        });
+
+        if (article?.category?.slug) {
+          const catSlug = article.category.slug;
+          if (catSlug.includes('nganh')) {
+            targetUrl = `https://fintopdata.vn/nghien-cuu/nhom-nganh/index.html?slug=${encodeURIComponent(slug)}`;
+          } else if (catSlug.includes('chuyen-sau')) {
+            targetUrl = `https://fintopdata.vn/nghien-cuu/chuyen-sau/index.html?slug=${encodeURIComponent(slug)}`;
+          } else if (catSlug.includes('doanh-nghiep')) {
+            targetUrl = `https://fintopdata.vn/nghien-cuu/doanh-nghiep/index.html?slug=${encodeURIComponent(slug)}`;
+          }
+        }
+      } catch (err) {
+        this.logger.warn(`Failed to resolve article category for redirect: ${err.message}`);
+      }
+    }
+
+    return targetUrl + (targetUrl.includes('?') ? '&' : '?') + 'direct=1';
+  }
 
   async generateShareOgHtml(slug: string): Promise<string> {
     let title = 'Bài viết nghiên cứu | FinTop DATA';

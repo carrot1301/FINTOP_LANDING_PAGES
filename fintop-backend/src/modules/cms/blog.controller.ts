@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Query, UseInterceptors, UploadedFile, BadRequestException, Res } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Query, UseInterceptors, UploadedFile, BadRequestException, Res, Req } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { JwtAuthGuard, OptionalJwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { PermissionsGuard } from '../../common/guards/permissions.guard';
@@ -44,18 +44,53 @@ export class BlogController {
 
   @Get('share-og')
   @ApiOperation({ summary: 'Generate dynamic Open Graph HTML for social media sharing' })
-  async getShareOgMeta(@Query('slug') slug: string, @Res() res: any) {
-    const html = await this.blogService.generateShareOgHtml(slug);
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    return res.send(html);
+  async getShareOgMeta(@Query('slug') slug: string, @Req() req: any, @Res() res: any) {
+    if (this.isCrawlerBot(req)) {
+      const html = await this.blogService.generateShareOgHtml(slug);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(html);
+    }
+    const redirectUrl = this.blogService.buildArticleRedirectUrl(slug);
+    return res.redirect(302, redirectUrl);
   }
 
   @Get('share/:slug')
   @ApiOperation({ summary: 'Generate dynamic Open Graph HTML by slug param' })
-  async getShareOgMetaByParam(@Param('slug') slug: string, @Res() res: any) {
-    const html = await this.blogService.generateShareOgHtml(slug);
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    return res.send(html);
+  async getShareOgMetaByParam(@Param('slug') slug: string, @Req() req: any, @Res() res: any) {
+    if (this.isCrawlerBot(req)) {
+      const html = await this.blogService.generateShareOgHtml(slug);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(html);
+    }
+    const redirectUrl = this.blogService.buildArticleRedirectUrl(slug);
+    return res.redirect(302, redirectUrl);
+  }
+
+  private isCrawlerBot(req: any): boolean {
+    const ua = (req.headers?.['user-agent'] || '').toLowerCase();
+    const botPatterns = [
+      'facebookexternalhit', 'facebot', 'facebookcatalog',
+      'zalobot', 'zalo',
+      'telegrambot',
+      'twitterbot',
+      'linkedinbot',
+      'whatsapp',
+      'viber',
+      'line/',
+      'kakaotalk',
+      'slackbot',
+      'discordbot',
+      'googlebot', 'bingbot', 'yandexbot', 'baiduspider',
+      'applebot',
+      'pinterestbot',
+      'redditbot',
+      'embedly',
+      'quora link preview',
+      'outbrain',
+      'vkshare',
+      'skypeuripreview',
+    ];
+    return botPatterns.some(pattern => ua.includes(pattern));
   }
 
   @Get(':slug')
