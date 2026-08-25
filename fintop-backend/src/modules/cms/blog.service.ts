@@ -184,13 +184,17 @@ export class BlogService implements OnModuleInit {
         });
 
         if (article?.category?.slug) {
-          const catSlug = article.category.slug;
-          if (catSlug.includes('nganh')) {
+          const catSlug = article.category.slug.toLowerCase();
+          if (catSlug.includes('nganh') || catSlug.includes('ncpt')) {
             targetUrl = `https://fintopdata.vn/nghien-cuu/nhom-nganh/index.html?slug=${encodeURIComponent(slug)}`;
-          } else if (catSlug.includes('chuyen-sau')) {
+          } else if (catSlug.includes('chuyen-sau') || catSlug.includes('pro-research') || catSlug.includes('research')) {
             targetUrl = `https://fintopdata.vn/nghien-cuu/chuyen-sau/index.html?slug=${encodeURIComponent(slug)}`;
           } else if (catSlug.includes('doanh-nghiep')) {
             targetUrl = `https://fintopdata.vn/nghien-cuu/doanh-nghiep/index.html?slug=${encodeURIComponent(slug)}`;
+          } else if (catSlug.includes('pro-data')) {
+            targetUrl = `https://fintopdata.vn/stock-data/pro-data/index.html?slug=${encodeURIComponent(slug)}`;
+          } else if (catSlug.includes('dinh-luong')) {
+            targetUrl = `https://fintopdata.vn/stock-data/dinh-luong/index.html?slug=${encodeURIComponent(slug)}`;
           }
         }
       } catch (err) {
