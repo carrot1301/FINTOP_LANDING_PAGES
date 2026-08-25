@@ -50,7 +50,7 @@ export class BlogController {
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       return res.send(html);
     }
-    const redirectUrl = this.blogService.buildArticleRedirectUrl(slug);
+    const redirectUrl = await this.blogService.buildArticleRedirectUrl(slug);
     return res.redirect(302, redirectUrl);
   }
 
@@ -62,7 +62,7 @@ export class BlogController {
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       return res.send(html);
     }
-    const redirectUrl = this.blogService.buildArticleRedirectUrl(slug);
+    const redirectUrl = await this.blogService.buildArticleRedirectUrl(slug);
     return res.redirect(302, redirectUrl);
   }
 
