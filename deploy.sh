@@ -95,6 +95,14 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
+    # Serve uploaded images directly from fintop_frontend/uploads/
+    location /uploads/ {
+        alias /var/www/fintop/fintop_frontend/uploads/;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
+    }
+
     location / {
         set $serve_og "";
         if ($is_social_bot = 1) {
@@ -272,6 +280,14 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Serve uploaded images directly from fintop_frontend/uploads/
+    location /uploads/ {
+        alias /var/www/fintop/fintop_frontend/uploads/;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
     }
 
     location / {
