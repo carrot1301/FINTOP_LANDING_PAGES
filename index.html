@@ -742,6 +742,317 @@
             color: rgba(226, 232, 240, 0.58);
         }
 
+        /* ── Fullscreen Mode cho Nhân sự (Stock Filter) ── */
+        body.is-boloc-fullscreen {
+            overflow: hidden !important;
+        }
+
+        body.is-boloc-fullscreen .tv-header,
+        body.is-boloc-fullscreen .video-bg-container,
+        body.is-boloc-fullscreen .submenu-panel:not(#panel-boloc),
+        body.is-boloc-fullscreen .panel-close-btn,
+        body.is-boloc-fullscreen #panel-boloc>div:not(.dark-table-wrapper),
+        body.is-boloc-fullscreen .boloc-filter-bar,
+        body.is-boloc-fullscreen #boloc-default-markets,
+        body.is-boloc-fullscreen .disclaimer-msg {
+            display: none !important;
+        }
+
+        body.is-boloc-fullscreen #panel-boloc {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            z-index: 999999 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            max-width: 100vw !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #07070d !important;
+            display: flex !important;
+            flex-direction: column !important;
+            border-radius: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        body.is-boloc-fullscreen #panel-boloc .dark-table-wrapper {
+            max-width: 100% !important;
+            width: 100% !important;
+            height: 100vh !important;
+            max-height: 100vh !important;
+            min-height: 100vh !important;
+            border-radius: 0 !important;
+            border: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-y: auto !important;
+            overflow-x: auto !important;
+        }
+
+        body.is-boloc-fullscreen .boloc-table-title {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 20 !important;
+            height: 68px !important;
+            min-height: 68px !important;
+            max-height: 68px !important;
+            margin: 0 !important;
+            padding: 0 20px !important;
+            font-size: clamp(1.25rem, 1.8vw, 1.65rem) !important;
+            font-weight: 900 !important;
+            letter-spacing: 0.5px !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable {
+            width: 100% !important;
+            margin: 0 !important;
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+            table-layout: fixed !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable thead tr {
+            margin: 0 !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable th {
+            position: sticky !important;
+            top: 68px !important;
+            z-index: 15 !important;
+            background: #1c1533 !important;
+            padding: 7px 4px !important;
+            font-size: 0.85rem !important;
+            font-weight: 800 !important;
+            color: #E9D5FF !important;
+            line-height: 1.25 !important;
+            vertical-align: middle !important;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.35) !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        /* ── Fullscreen column width distribution ── */
+        /* STT */
+        body.is-boloc-fullscreen #bolocTable th:nth-child(1),
+        body.is-boloc-fullscreen #bolocTable td:nth-child(1) {
+            width: 2.5% !important;
+        }
+
+        /* Mã CP */
+        body.is-boloc-fullscreen #bolocTable th:nth-child(2),
+        body.is-boloc-fullscreen #bolocTable td:nth-child(2) {
+            width: 4.5% !important;
+        }
+
+        /* Sàn */
+        body.is-boloc-fullscreen #bolocTable th:nth-child(3),
+        body.is-boloc-fullscreen #bolocTable td:nth-child(3) {
+            width: 3% !important;
+        }
+
+        /* Ngành HĐKD */
+        body.is-boloc-fullscreen #bolocTable th:nth-child(4),
+        body.is-boloc-fullscreen #bolocTable td:nth-child(4) {
+            width: 8.5% !important;
+            white-space: nowrap !important;
+        }
+
+        /* Update time */
+        body.is-boloc-fullscreen #bolocTable th:nth-child(5),
+        body.is-boloc-fullscreen #bolocTable td:nth-child(5) {
+            width: 4.2% !important;
+        }
+
+        /* Dữ liệu kỹ thuật lịch sử (Model) */
+        body.is-boloc-fullscreen #bolocTable th:nth-child(6),
+        body.is-boloc-fullscreen #bolocTable td:nth-child(6) {
+            width: 24.5% !important;
+        }
+
+        /* Trạng thái Model */
+        body.is-boloc-fullscreen #bolocTable th:nth-child(7),
+        body.is-boloc-fullscreen #bolocTable td:nth-child(7) {
+            width: 7.5% !important;
+        }
+
+        /* ΔRSI */
+        body.is-boloc-fullscreen #bolocTable th:nth-child(8),
+        body.is-boloc-fullscreen #bolocTable td:nth-child(8) {
+            width: 5.5% !important;
+        }
+
+        /* Sức mạnh xu hướng */
+        body.is-boloc-fullscreen #bolocTable th:nth-child(9),
+        body.is-boloc-fullscreen #bolocTable td:nth-child(9) {
+            width: 12.3% !important;
+        }
+
+        /* Vùng kiểm định */
+        body.is-boloc-fullscreen #bolocTable th:nth-child(10),
+        body.is-boloc-fullscreen #bolocTable td:nth-child(10) {
+            width: 7% !important;
+        }
+
+        /* Vùng kháng cự */
+        body.is-boloc-fullscreen #bolocTable th:nth-child(11),
+        body.is-boloc-fullscreen #bolocTable td:nth-child(11) {
+            width: 7% !important;
+        }
+
+        /* Vùng hỗ trợ */
+        body.is-boloc-fullscreen #bolocTable th:nth-child(12),
+        body.is-boloc-fullscreen #bolocTable td:nth-child(12) {
+            width: 7.5% !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable tbody tr {
+            height: calc((100vh - 112px) / 12) !important;
+            margin: 0 !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable td {
+            padding: 5px 6px !important;
+            font-size: 0.92rem !important;
+            font-weight: 700 !important;
+            vertical-align: middle !important;
+            line-height: 1.35 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable .ticker-cell {
+            font-size: 1.15rem !important;
+            font-weight: 900 !important;
+            letter-spacing: 0.5px !important;
+            color: #ffffff !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable .desc-cell {
+            font-size: 0.96rem !important;
+            line-height: 1.4 !important;
+            color: #E2E8F0 !important;
+            font-weight: 700 !important;
+            padding-left: 14px !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable .boloc-status-badge {
+            font-size: 0.85rem !important;
+            font-weight: 900 !important;
+            padding: 5px 12px !important;
+            min-width: 105px !important;
+            border-width: 1.5px !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable .boloc-strength-cell {
+            font-size: 0.95rem !important;
+            font-weight: 900 !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable .time-cell {
+            font-size: 0.82rem !important;
+            color: #CBD5E1 !important;
+            font-weight: 700 !important;
+            white-space: pre-line !important;
+            line-height: 1.2 !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable td:nth-child(8) {
+            font-size: 0.9rem !important;
+            font-weight: 800 !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable td:nth-child(10) {
+            font-size: 0.95rem !important;
+            font-weight: 800 !important;
+            color: #FFFFFF !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable td:nth-child(11) {
+            font-size: 0.95rem !important;
+            font-weight: 900 !important;
+        }
+
+        body.is-boloc-fullscreen #bolocTable .boloc-support-cell {
+            font-size: 0.95rem !important;
+            font-weight: 900 !important;
+        }
+
+        .boloc-fullscreen-title-exit {
+            display: none;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(248, 113, 113, 0.55);
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.25s ease, background 0.2s ease, box-shadow 0.2s ease;
+            text-shadow: none;
+            line-height: 1;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.is-boloc-fullscreen .boloc-fullscreen-title-exit {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.is-boloc-fullscreen .boloc-table-title:hover .boloc-fullscreen-title-exit,
+        body.is-boloc-fullscreen .boloc-fullscreen-title-exit:hover {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .boloc-fullscreen-title-exit:hover {
+            background: rgba(239, 68, 68, 0.4);
+            color: #ffffff;
+            border-color: rgba(248, 113, 113, 0.8);
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+        }
+
+        .boloc-fullscreen-btn {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(168, 85, 247, 0.45);
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(99, 102, 241, 0.15));
+            color: #e9d5ff;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .boloc-fullscreen-btn:hover {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(99, 102, 241, 0.3));
+            border-color: rgba(192, 132, 252, 0.8);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.35);
+        }
+
+        body.is-boloc-fullscreen .boloc-fullscreen-btn {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(220, 38, 38, 0.2));
+            border-color: rgba(248, 113, 113, 0.55);
+            color: #fca5a5;
+        }
+
+        body.is-boloc-fullscreen .boloc-fullscreen-btn:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.45), rgba(220, 38, 38, 0.35));
+            color: #fff;
+        }
+
         /* ── Tier Popup Overlay (Bộ lọc) ── */
         @keyframes bolocFadeIn {
             from {
@@ -891,7 +1202,7 @@
 
         .boloc-table-title {
             width: 100%;
-            height: 62px;
+            height: 68px;
             box-sizing: border-box;
             padding: 0 24px;
             display: flex;
@@ -934,7 +1245,7 @@
             letter-spacing: 0;
             text-transform: none;
             vertical-align: middle;
-            padding: 8px 3px;
+            padding: 6px 3px;
             font-size: 0.70rem;
             text-shadow: none;
             position: sticky;
@@ -946,18 +1257,67 @@
         }
 
         /* Set balanced column widths so 100% of columns fit without right overflow */
-        #bolocTable th:nth-child(1) { width: 34px; }  /* STT */
-        #bolocTable th:nth-child(2) { width: 55px; }  /* Mã CP */
-        #bolocTable th:nth-child(3) { width: 52px; white-space: nowrap; }  /* Sàn */
-        #bolocTable th:nth-child(4) { width: 95px; }  /* Ngành HĐKD */
-        #bolocTable th:nth-child(5) { width: 85px; white-space: nowrap; }  /* Update time */
-        #bolocTable th:nth-child(6) { width: 250px; } /* Dữ liệu kỹ thuật lịch sử (Model) */
-        #bolocTable th:nth-child(7) { width: 105px; } /* Trạng thái Model */
-        #bolocTable th:nth-child(8) { width: 75px; }  /* ΔRSI */
-        #bolocTable th:nth-child(9) { width: 105px; } /* Sức mạnh xu hướng */
-        #bolocTable th:nth-child(10) { width: 85px; } /* Vùng kiểm định */
-        #bolocTable th:nth-child(11) { width: 80px; } /* Vùng kháng cự */
-        #bolocTable th:nth-child(12) { width: 72px; } /* Vùng hỗ trợ */
+        /* STT */
+        #bolocTable th:nth-child(1) {
+            width: 34px;
+        }
+
+        /* Mã CP */
+        #bolocTable th:nth-child(2) {
+            width: 55px;
+        }
+
+        /* Sàn */
+        #bolocTable th:nth-child(3) {
+            width: 52px;
+            white-space: nowrap;
+        }
+
+        /* Ngành HĐKD */
+        #bolocTable th:nth-child(4) {
+            width: 110px;
+            white-space: nowrap;
+        }
+
+        /* Update time */
+        #bolocTable th:nth-child(5) {
+            width: 50px;
+        }
+
+        /* Dữ liệu kỹ thuật lịch sử (Model) */
+        #bolocTable th:nth-child(6) {
+            width: 250px;
+        }
+
+        /* Trạng thái Model */
+        #bolocTable th:nth-child(7) {
+            width: 105px;
+        }
+
+        /* ΔRSI */
+        #bolocTable th:nth-child(8) {
+            width: 75px;
+        }
+
+        /* Sức mạnh xu hướng */
+        #bolocTable th:nth-child(9) {
+            width: 175px;
+        }
+
+        /* Vùng kiểm định */
+        #bolocTable th:nth-child(10) {
+            width: 85px;
+        }
+
+        /* Vùng kháng cự */
+        #bolocTable th:nth-child(11) {
+            width: 80px;
+        }
+
+        /* Vùng hỗ trợ */
+        #bolocTable th:nth-child(12) {
+            width: 90px;
+        }
 
         #bolocTable td {
             background: var(--boloc-row-bg);
@@ -975,8 +1335,14 @@
             overflow-wrap: break-word;
         }
 
-        #bolocTable td:nth-child(3) {
+        #bolocTable td:nth-child(3),
+        #bolocTable td:nth-child(4) {
             white-space: nowrap !important;
+        }
+
+        #bolocTable .time-cell {
+            white-space: pre-line !important;
+            line-height: 1.2 !important;
         }
 
         #bolocTable tbody tr:nth-child(even) td {
@@ -4856,7 +5222,7 @@
                         <th>Mã CP</th>
                         <th>Sàn</th>
                         <th>Ngành HĐKD</th>
-                        <th>Update time</th>
+                        <th>Update<br>time</th>
                         <th>Dữ liệu kỹ thuật lịch sử (Model)</th>
                         <th>Trạng thái Model</th>
                     </tr>
@@ -5033,10 +5399,16 @@
             </div>
 
             <button class="boloc-filter-reset" type="button" onclick="resetBolocFilters()">Xóa lọc</button>
+            <button class="boloc-fullscreen-btn" id="btnBolocFullscreen" type="button" onclick="toggleBolocFullscreen()"
+                style="display:none;">⛶ Full Màn Hình (F11)</button>
         </div>
 
         <div class="dark-table-wrapper">
-            <div class="boloc-table-title">[FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ</div>
+            <div class="boloc-table-title">
+                <span>[FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ</span>
+                <button class="boloc-fullscreen-title-exit" id="btnBolocTitleExit" type="button"
+                    onclick="toggleBolocFullscreen(false)">🗗 Thu nhỏ (Esc / F11)</button>
+            </div>
             <table class="dark-table" id="bolocTable">
                 <thead>
                     <tr>
@@ -5044,7 +5416,7 @@
                         <th>Mã CP</th>
                         <th>Sàn</th>
                         <th>Ngành HĐKD</th>
-                        <th>Update time</th>
+                        <th>Update<br>time</th>
                         <th>Dữ liệu kỹ thuật lịch sử (Model)</th>
                         <th>Trạng thái Model</th>
                         <th class="boloc-delta-rsi-header">
@@ -5057,7 +5429,7 @@
                                 </div>
                             </div>
                         </th>
-                        <th style="min-width:170px;">
+                        <th>
                             <div class="delta-rsi-wrapper"
                                 style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer;">
                                 <span style="display:inline-block;text-align:center;line-height:1.25;">
@@ -8213,6 +8585,9 @@
                     renderBolocTable();
                     bolocRendered = true;
                 }
+                if (typeof updateBolocStaffButtonVisibility === 'function') {
+                    updateBolocStaffButtonVisibility();
+                }
 
                 // Show Guide Popup if needed
                 setTimeout(() => {
@@ -8542,7 +8917,7 @@
                 const minute = match[2];
                 const day = match[3].padStart(2, '0');
                 const month = match[4].padStart(2, '0');
-                return `${hour}:${minute} ${day}/${month}`;
+                return `${hour}:${minute}\n${day}/${month}`;
             }
 
             return compact.replace(/(\d{1,2}:\d{2}):\d{2}/, '$1');
@@ -8669,6 +9044,102 @@
         function hasBolocAccess() {
             return true; // Data is now accessible to everyone — masking is handled in render
         }
+
+        // ── Staff Fullscreen Feature for Bộ Lọc ──
+        function isBolocStaffUser() {
+            try {
+                const Infra = window.FintopInfra;
+                if (Infra?.RbacEvaluator?.isAdminCapable()) return true;
+
+                const authUser = Infra?.AuthManager?.user;
+                const user = authUser || Infra?.AppState?.get('user') || JSON.parse(localStorage.getItem('fintop_user_profile') || '{}');
+                const roles = user.roles || Infra?.AppState?.get('user', 'roles') || [];
+                const staffRoles = ['SUPER_ADMIN', 'ADMIN', 'CEO', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'SALE_ADMIN', 'EXPERT', 'EDITOR_PRO', 'EDITOR', 'SALE'];
+
+                if (Array.isArray(roles) && roles.some(r => staffRoles.includes(r))) return true;
+                if (user.isStaff || user.isEmployee || user.staffCode || user.role === 'admin' || user.role === 'staff') return true;
+                if (sessionStorage.getItem('fintop.admin.unlocked.v1') === 'true') return true;
+            } catch (e) {
+                console.error('Error checking staff permissions:', e);
+            }
+            return false;
+        }
+
+        function updateBolocStaffButtonVisibility() {
+            const btn = document.getElementById('btnBolocFullscreen');
+            if (!btn) return;
+            if (isBolocStaffUser()) {
+                btn.style.display = 'inline-flex';
+            } else {
+                btn.style.display = 'none';
+                if (document.body.classList.contains('is-boloc-fullscreen')) {
+                    toggleBolocFullscreen(false);
+                }
+            }
+        }
+
+        function toggleBolocFullscreen(forceState) {
+            if (!isBolocStaffUser()) return;
+
+            const body = document.body;
+            const isFull = forceState !== undefined ? forceState : !body.classList.contains('is-boloc-fullscreen');
+
+            const btn = document.getElementById('btnBolocFullscreen');
+
+            if (isFull) {
+                body.classList.add('is-boloc-fullscreen');
+                if (btn) btn.innerHTML = '🗗 Thu nhỏ (Esc / F11)';
+                const panel = document.getElementById('panel-boloc');
+                if (panel && panel.requestFullscreen && !document.fullscreenElement) {
+                    panel.requestFullscreen().catch(() => { });
+                }
+            } else {
+                body.classList.remove('is-boloc-fullscreen');
+                if (btn) btn.innerHTML = '⛶ Full Màn Hình (F11)';
+                if (document.fullscreenElement && document.exitFullscreen) {
+                    document.exitFullscreen().catch(() => { });
+                }
+            }
+            if (typeof renderBolocTable === 'function') {
+                renderBolocTable();
+            }
+        }
+
+        // F11 and Esc key handlers for staff users
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F11') {
+                const bolocPanel = document.getElementById('panel-boloc');
+                if (bolocPanel && bolocPanel.classList.contains('active')) {
+                    if (isBolocStaffUser()) {
+                        e.preventDefault();
+                        toggleBolocFullscreen();
+                    }
+                }
+            } else if (e.key === 'Escape') {
+                if (document.body.classList.contains('is-boloc-fullscreen')) {
+                    toggleBolocFullscreen(false);
+                }
+            }
+        });
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement && document.body.classList.contains('is-boloc-fullscreen')) {
+                toggleBolocFullscreen(false);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateBolocStaffButtonVisibility();
+            if (window.FintopInfra?.AppState) {
+                const events = window.FintopInfra.AppState.EVENTS;
+                if (events) {
+                    window.FintopInfra.AppState.on(events.AUTH_CHANGED, updateBolocStaffButtonVisibility);
+                    window.FintopInfra.AppState.on(events.AUTH_LOGIN, updateBolocStaffButtonVisibility);
+                    window.FintopInfra.AppState.on(events.AUTH_LOGOUT, updateBolocStaffButtonVisibility);
+                    window.FintopInfra.AppState.on(events.USER_LOADED, updateBolocStaffButtonVisibility);
+                }
+            }
+        });
 
         function openBolocLogin(view = 'login') {
             if (typeof requestAuthChoice === 'function') {

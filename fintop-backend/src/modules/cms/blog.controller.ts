@@ -69,18 +69,25 @@ export class BlogController {
   private isCrawlerBot(req: any): boolean {
     const ua = (req.headers?.['user-agent'] || '').toLowerCase();
     if (!ua) return true; // Default to bot if no User-Agent header present
+
+    // Real human in-app browsers (Zalo, Facebook, Telegram, etc. mobile webviews)
+    const inAppBrowsers = ['zalomobile', 'zalopc', 'zaloweb', 'fban', 'fb_iab', 'fbios', 'fb4a'];
+    if (inAppBrowsers.some(browser => ua.includes(browser))) {
+      return false;
+    }
+
     const botPatterns = [
-      'facebookexternalhit', 'facebot', 'facebookcatalog', 'facebook',
-      'zalobot', 'zalo', 'zalopc', 'zaloweb', 'zalocall',
-      'telegrambot', 'telegram',
-      'twitterbot', 'twitter',
-      'linkedinbot', 'linkedin',
+      'facebookexternalhit', 'facebot', 'facebookcatalog',
+      'zalobot', 'zalo-crawler',
+      'telegrambot',
+      'twitterbot',
+      'linkedinbot',
       'whatsapp',
       'viber',
       'line/', 'line-poker',
       'kakaotalk',
-      'slackbot', 'slack',
-      'discordbot', 'discord',
+      'slackbot',
+      'discordbot',
       'googlebot', 'bingbot', 'yandexbot', 'baiduspider',
       'applebot',
       'pinterestbot',
@@ -89,7 +96,7 @@ export class BlogController {
       'quora',
       'outbrain',
       'vkshare',
-      'skype',
+      'skypebot',
       'bot', 'crawler', 'spider', 'preview', 'fetch', 'curl', 'wget', 'httpclient', 'axios', 'python-requests'
     ];
     return botPatterns.some(pattern => ua.includes(pattern));

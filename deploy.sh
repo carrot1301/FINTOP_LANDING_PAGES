@@ -31,10 +31,10 @@ server {
     return 301 https://$host$request_uri;
 }
 
-# Map User-Agent to detect social bots / crawlers
+# Map User-Agent to detect social bots / crawlers (ONLY preview bots, NOT mobile in-app browsers)
 map $http_user_agent $is_social_bot {
     default 0;
-    ~*(facebookexternalhit|facebook|zalo|telegram|twitter|whatsapp|linkedin|slack|skype|bot|crawler|spider) 1;
+    ~*(facebookexternalhit|facebot|facebookcatalog|zalobot|telegrambot|twitterbot|linkedinbot|whatsapp|slackbot|discordbot|googlebot|bingbot|yandexbot|baiduspider|applebot|crawler|spider|bot) 1;
 }
 
 map $arg_slug $has_slug {
@@ -93,6 +93,19 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Serve static assets directly (CSS, JS, images, fonts)
+    location /assets/ {
+        try_files $uri /fintop_frontend$uri =404;
+        expires 7d;
+        add_header Cache-Control "public, no-transform";
+    }
+
+    location ~* \.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot|webp)$ {
+        try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ =404;
+        expires 7d;
+        add_header Cache-Control "public, no-transform";
     }
 
     # Serve uploaded images directly from fintop_frontend/uploads/
@@ -280,6 +293,19 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Serve static assets directly (CSS, JS, images, fonts)
+    location /assets/ {
+        try_files $uri /fintop_frontend$uri =404;
+        expires 7d;
+        add_header Cache-Control "public, no-transform";
+    }
+
+    location ~* \.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot|webp)$ {
+        try_files $uri $uri/ /fintop_frontend$uri /fintop_frontend$uri/ =404;
+        expires 7d;
+        add_header Cache-Control "public, no-transform";
     }
 
     # Serve uploaded images directly from fintop_frontend/uploads/
