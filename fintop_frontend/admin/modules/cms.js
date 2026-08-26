@@ -1419,10 +1419,10 @@ function renderCreateForm(container, blogToEdit = null) {
   container.querySelector('#cms-btn-close-x').addEventListener('click', handleClose);
   container.querySelector('#cms-btn-close-bottom').addEventListener('click', handleClose);
 
-  // Helper to auto-compress high resolution images (e.g. 5MB-10MB photos down to ~150KB-300KB WebP)
+  // Helper to auto-compress high resolution images (e.g. 5MB-10MB photos down to ~150KB-300KB JPG)
   async function compressImageFile(file, maxWidth = 1600, quality = 0.82) {
     if (!file || !file.type.startsWith('image/')) return file;
-    if (file.size < 300 * 1024) return file; // Already under 300KB
+    if (file.size < 300 * 1024 && (file.type === 'image/jpeg' || file.type === 'image/png')) return file;
 
     return new Promise((resolve) => {
       const reader = new FileReader();
@@ -1444,13 +1444,15 @@ function renderCreateForm(container, blogToEdit = null) {
           canvas.height = height;
 
           const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, width, height);
           ctx.drawImage(img, 0, 0, width, height);
 
           canvas.toBlob(
             (blob) => {
-              if (blob && blob.size < file.size) {
-                const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".webp", {
-                  type: 'image/webp',
+              if (blob) {
+                const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
+                  type: 'image/jpeg',
                   lastModified: Date.now(),
                 });
                 resolve(compressedFile);
@@ -1458,7 +1460,7 @@ function renderCreateForm(container, blogToEdit = null) {
                 resolve(file);
               }
             },
-            'image/webp',
+            'image/jpeg',
             quality
           );
         };
