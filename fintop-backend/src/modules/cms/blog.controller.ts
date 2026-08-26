@@ -45,42 +45,52 @@ export class BlogController {
   @Get('share-og')
   @ApiOperation({ summary: 'Generate dynamic Open Graph HTML for social media sharing' })
   async getShareOgMeta(@Query('slug') slug: string, @Req() req: any, @Res() res: any) {
-    const html = await this.blogService.generateShareOgHtml(slug);
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    return res.send(html);
+    if (this.isCrawlerBot(req)) {
+      const html = await this.blogService.generateShareOgHtml(slug);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(html);
+    }
+    const redirectUrl = await this.blogService.buildArticleRedirectUrl(slug);
+    return res.redirect(302, redirectUrl);
   }
 
   @Get('share/:slug')
   @ApiOperation({ summary: 'Generate dynamic Open Graph HTML by slug param' })
   async getShareOgMetaByParam(@Param('slug') slug: string, @Req() req: any, @Res() res: any) {
-    const html = await this.blogService.generateShareOgHtml(slug);
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    return res.send(html);
+    if (this.isCrawlerBot(req)) {
+      const html = await this.blogService.generateShareOgHtml(slug);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(html);
+    }
+    const redirectUrl = await this.blogService.buildArticleRedirectUrl(slug);
+    return res.redirect(302, redirectUrl);
   }
 
   private isCrawlerBot(req: any): boolean {
     const ua = (req.headers?.['user-agent'] || '').toLowerCase();
+    if (!ua) return true; // Default to bot if no User-Agent header present
     const botPatterns = [
-      'facebookexternalhit', 'facebot', 'facebookcatalog',
-      'zalobot', 'zalo',
-      'telegrambot',
-      'twitterbot',
-      'linkedinbot',
+      'facebookexternalhit', 'facebot', 'facebookcatalog', 'facebook',
+      'zalobot', 'zalo', 'zalopc', 'zaloweb', 'zalocall',
+      'telegrambot', 'telegram',
+      'twitterbot', 'twitter',
+      'linkedinbot', 'linkedin',
       'whatsapp',
       'viber',
-      'line/',
+      'line/', 'line-poker',
       'kakaotalk',
-      'slackbot',
-      'discordbot',
+      'slackbot', 'slack',
+      'discordbot', 'discord',
       'googlebot', 'bingbot', 'yandexbot', 'baiduspider',
       'applebot',
       'pinterestbot',
       'redditbot',
       'embedly',
-      'quora link preview',
+      'quora',
       'outbrain',
       'vkshare',
-      'skypeuripreview',
+      'skype',
+      'bot', 'crawler', 'spider', 'preview', 'fetch', 'curl', 'wget', 'httpclient', 'axios', 'python-requests'
     ];
     return botPatterns.some(pattern => ua.includes(pattern));
   }

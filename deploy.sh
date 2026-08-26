@@ -97,7 +97,7 @@ server {
 
     location / {
         set $serve_og "";
-        if ($arg_slug != "") {
+        if ($is_social_bot = 1) {
             set $serve_og 1;
         }
         if ($arg_direct != "") {
@@ -276,7 +276,7 @@ server {
 
     location / {
         set $serve_og "";
-        if ($arg_slug != "") {
+        if ($is_social_bot = 1) {
             set $serve_og 1;
         }
         if ($arg_direct != "") {
