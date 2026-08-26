@@ -45,25 +45,17 @@ export class BlogController {
   @Get('share-og')
   @ApiOperation({ summary: 'Generate dynamic Open Graph HTML for social media sharing' })
   async getShareOgMeta(@Query('slug') slug: string, @Req() req: any, @Res() res: any) {
-    if (this.isCrawlerBot(req)) {
-      const html = await this.blogService.generateShareOgHtml(slug);
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      return res.send(html);
-    }
-    const redirectUrl = await this.blogService.buildArticleRedirectUrl(slug);
-    return res.redirect(302, redirectUrl);
+    const html = await this.blogService.generateShareOgHtml(slug);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.send(html);
   }
 
   @Get('share/:slug')
   @ApiOperation({ summary: 'Generate dynamic Open Graph HTML by slug param' })
   async getShareOgMetaByParam(@Param('slug') slug: string, @Req() req: any, @Res() res: any) {
-    if (this.isCrawlerBot(req)) {
-      const html = await this.blogService.generateShareOgHtml(slug);
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      return res.send(html);
-    }
-    const redirectUrl = await this.blogService.buildArticleRedirectUrl(slug);
-    return res.redirect(302, redirectUrl);
+    const html = await this.blogService.generateShareOgHtml(slug);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.send(html);
   }
 
   private isCrawlerBot(req: any): boolean {

@@ -160,21 +160,23 @@ export class BlogService implements OnModuleInit {
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>');
 
-      const match = decoded.match(/<img[^>]+src=["']([^"']+)["']/i)
-        || decoded.match(/<img[^>]+src=([^\s>]+)/i)
-        || decoded.match(/(https?:\/\/[^\s"'<>]+?\.(?:jpg|jpeg|png|webp|gif|svg))/i);
+      const imgRegex = /<img[^>]+src=["']([^"']+)["']/gi;
+      let imgMatch;
+      while ((imgMatch = imgRegex.exec(decoded)) !== null) {
+        if (imgMatch[1]) {
+          let src = imgMatch[1].trim();
+          if (src.startsWith('data:')) continue; // Skip base64 strings
+          if (src.startsWith('//')) return 'https:' + src;
+          if (src.startsWith('/')) return 'https://fintopdata.vn' + src;
+          if (src.startsWith('http://') || src.startsWith('https://')) return src;
+          src = src.replace(/^\.\//, '');
+          if (src.startsWith('uploads/')) return 'https://fintopdata.vn/' + src;
+        }
+      }
 
-      if (match && match[1]) {
-        let src = match[1].trim();
-        if (src.startsWith('//')) {
-          return 'https:' + src;
-        }
-        if (src.startsWith('/')) {
-          return 'https://fintopdata.vn' + src;
-        }
-        if (src.startsWith('http://') || src.startsWith('https://')) {
-          return src;
-        }
+      const urlMatch = decoded.match(/(https?:\/\/[^\s"'<>]+?\.(?:jpg|jpeg|png|webp|gif|svg))/i);
+      if (urlMatch && urlMatch[1]) {
+        return urlMatch[1].trim();
       }
     } catch (err) {
       this.logger.warn(`extractFirstImage error: ${err.message}`);
@@ -217,7 +219,7 @@ export class BlogService implements OnModuleInit {
     let title = 'Bài viết nghiên cứu | FinTop DATA';
     let description = 'Dữ liệu phân tích và nghiên cứu chiến lược đầu tư cổ phiếu tại FinTop DATA.';
     let imageUrl = 'https://fintopdata.vn/assets/images/fintop-og-banner.png';
-    let targetUrl = `https://fintopdata.vn/nghien-cuu/thi-truong/index.html?slug=${encodeURIComponent(slug || '')}`;
+    let targetUrl = await this.buildArticleRedirectUrl(slug);
 
     if (slug) {
       try {
@@ -231,24 +233,13 @@ export class BlogService implements OnModuleInit {
           const rawExcerpt = article.excerpt || article.content || '';
           description = this.sanitizePlainText(rawExcerpt).substring(0, 200) || description;
           imageUrl = this.extractFirstImage(article.content, imageUrl);
-
-          if (article.category?.slug) {
-            const catSlug = article.category.slug;
-            if (catSlug.includes('nganh')) {
-              targetUrl = `https://fintopdata.vn/nghien-cuu/nhom-nganh/index.html?slug=${encodeURIComponent(slug)}`;
-            } else if (catSlug.includes('chuyen-sau')) {
-              targetUrl = `https://fintopdata.vn/nghien-cuu/chuyen-sau/index.html?slug=${encodeURIComponent(slug)}`;
-            } else if (catSlug.includes('doanh-nghiep')) {
-              targetUrl = `https://fintopdata.vn/nghien-cuu/doanh-nghiep/index.html?slug=${encodeURIComponent(slug)}`;
-            }
-          }
         }
       } catch (err) {
         this.logger.warn(`Failed to fetch article for OG HTML generation: ${err.message}`);
       }
     }
 
-    const redirectUrl = targetUrl + (targetUrl.includes('?') ? '&' : '?') + 'direct=1';
+    const redirectUrl = targetUrl;
     const esc = (str: string) => str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
     return `<!DOCTYPE html>
@@ -267,7 +258,7 @@ export class BlogService implements OnModuleInit {
     <meta property="og:description" content="${esc(description)}">
     <meta property="og:image" content="${esc(imageUrl)}">
     <meta property="og:image:secure_url" content="${esc(imageUrl)}">
-    <meta property="og:url" content="${esc(targetUrl)}">
+    <meta property="og:url" content="${esc(redirectUrl)}">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -277,6 +268,9 @@ export class BlogService implements OnModuleInit {
 
     <meta http-equiv="refresh" content="0;url=${esc(redirectUrl)}">
     <link rel="canonical" href="${esc(redirectUrl)}">
+    <script>
+        window.location.replace("${esc(redirectUrl)}");
+    </script>
 </head>
 <body>
     <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
