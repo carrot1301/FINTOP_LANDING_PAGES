@@ -383,6 +383,24 @@ if [ -f fintop_dump.sql ]; then
     sudo -u postgres psql -d fintop < fintop_dump.sql 2>/dev/null || true
 fi
 
+apt install -y python3-pil 2>/dev/null || true
+if command -v python3 >/dev/null 2>&1; then
+    echo "=== TỰ ĐỘNG CHUYỂN ĐỔI ẢNH WEBP SANG JPG CHO ZALO LINK PREVIEW ==="
+    python3 -c "
+import os, glob
+from PIL import Image
+for webp_path in glob.glob('/var/www/fintop/fintop_frontend/uploads/*.webp'):
+    jpg_path = webp_path[:-5] + '.jpg'
+    if not os.path.exists(jpg_path):
+        try:
+            im = Image.open(webp_path).convert('RGB')
+            im.save(jpg_path, 'JPEG', quality=85)
+            print(f'Converted {webp_path} -> {jpg_path}')
+        except Exception as e:
+            print(f'Error converting {webp_path}: {e}')
+" 2>/dev/null || true
+fi
+
 pm2 restart fintop-backend --update-env || pm2 start dist/src/main.js --name "fintop-backend"
 pm2 save
 

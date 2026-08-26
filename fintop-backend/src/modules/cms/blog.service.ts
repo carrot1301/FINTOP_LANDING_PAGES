@@ -162,21 +162,38 @@ export class BlogService implements OnModuleInit {
 
       const imgRegex = /<img[^>]+src=["']([^"']+)["']/gi;
       let imgMatch;
+      let fallbackWebpUrl: string | null = null;
+
       while ((imgMatch = imgRegex.exec(decoded)) !== null) {
         if (imgMatch[1]) {
           let src = imgMatch[1].trim();
           if (src.startsWith('data:')) continue; // Skip base64 strings
-          if (src.startsWith('//')) return 'https:' + src;
-          if (src.startsWith('/')) return 'https://fintopdata.vn' + src;
-          if (src.startsWith('http://') || src.startsWith('https://')) return src;
-          src = src.replace(/^\.\//, '');
-          if (src.startsWith('uploads/')) return 'https://fintopdata.vn/' + src;
+          
+          let fullUrl = src;
+          if (src.startsWith('//')) fullUrl = 'https:' + src;
+          else if (src.startsWith('/')) fullUrl = 'https://fintopdata.vn' + src;
+          else if (src.startsWith('http://') || src.startsWith('https://')) fullUrl = src;
+          else {
+            src = src.replace(/^\.\//, '');
+            if (src.startsWith('uploads/')) fullUrl = 'https://fintopdata.vn/' + src;
+          }
+
+          // Force JPG format for Zalo/FB link preview compatibility
+          if (fullUrl.toLowerCase().endsWith('.webp')) {
+            fullUrl = fullUrl.replace(/\.webp$/i, '.jpg');
+          }
+
+          return fullUrl;
         }
       }
 
       const urlMatch = decoded.match(/(https?:\/\/[^\s"'<>]+?\.(?:jpg|jpeg|png|webp|gif|svg))/i);
       if (urlMatch && urlMatch[1]) {
-        return urlMatch[1].trim();
+        let matchUrl = urlMatch[1].trim();
+        if (matchUrl.toLowerCase().endsWith('.webp')) {
+          matchUrl = matchUrl.replace(/\.webp$/i, '.jpg');
+        }
+        return matchUrl;
       }
     } catch (err) {
       this.logger.warn(`extractFirstImage error: ${err.message}`);
