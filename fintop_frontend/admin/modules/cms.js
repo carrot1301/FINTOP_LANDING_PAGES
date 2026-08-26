@@ -1641,7 +1641,8 @@ function renderCreateForm(container, blogToEdit = null) {
     }
     window.CKEDITOR.replace('blog-content', {
       height: 480,
-      versionCheck: false
+      versionCheck: false,
+      removePlugins: 'exportpdf'
     });
   });
 
@@ -1650,6 +1651,17 @@ function renderCreateForm(container, blogToEdit = null) {
     e.preventDefault();
     const title = container.querySelector('#blog-title').value;
     const categoryId = parseInt(container.querySelector('#blog-category').value, 10);
+
+    if (!title || !title.trim()) {
+      showToast('Vui lòng nhập tiêu đề bài viết.', 'error');
+      return;
+    }
+
+    if (!categoryId || isNaN(categoryId)) {
+      showToast('Vui lòng chọn thể loại bài viết.', 'error');
+      return;
+    }
+
     const tierValue = container.querySelector('#blog-tier').value;
     const visibility = tierValue === 'STANDARD' ? 'PUBLIC' : 'PREMIUM';
     const minTierAccess = tierValue;

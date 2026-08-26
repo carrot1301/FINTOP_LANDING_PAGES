@@ -50,6 +50,8 @@ server {
     ssl_certificate /etc/letsencrypt/live/fintopdata.vn/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/fintopdata.vn/privkey.pem;
 
+    client_max_body_size 50M;
+
     root /var/www/fintop;
     index index.html;
 
@@ -136,6 +138,8 @@ server {
     ssl_certificate /etc/letsencrypt/live/fintopdata.vn/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/fintopdata.vn/privkey.pem;
 
+    client_max_body_size 50M;
+
     location /socket.io/ {
         proxy_pass http://127.0.0.1:3000/socket.io/;
         proxy_http_version 1.1;
@@ -148,6 +152,17 @@ server {
     }
 
     location / {
+        if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Allow-Origin' '$http_origin' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, PATCH, DELETE, OPTIONS' always;
+            add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization, X-Correlation-Id, x-webhook-signature, Accept, X-Requested-With, Cache-Control, Pragma, Origin' always;
+            add_header 'Access-Control-Max-Age' 86400 always;
+            add_header 'Content-Length' 0;
+            add_header 'Content-Type' 'text/plain; charset=UTF-8';
+            return 204;
+        }
+
         proxy_pass http://127.0.0.1:3000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;

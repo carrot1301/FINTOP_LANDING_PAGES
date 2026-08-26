@@ -35,10 +35,17 @@ async function bootstrap() {
   // CORS Governance
   const corsOrigin = process.env.CORS_ORIGIN || '*';
   app.enableCors({
-    origin: corsOrigin === '*' ? true : corsOrigin.split(','),
+    origin: (origin, callback) => {
+      // Allow requests with no origin or matching fintopdata.vn / localhost
+      if (!origin || corsOrigin === '*' || origin.includes('fintopdata.vn') || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+        callback(null, true);
+      } else {
+        callback(null, true);
+      }
+    },
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type,Authorization,X-Correlation-Id,x-webhook-signature',
+    allowedHeaders: 'Content-Type,Authorization,X-Correlation-Id,x-webhook-signature,Accept,X-Requested-With,Cache-Control,Pragma,Origin,Access-Control-Request-Method,Access-Control-Request-Headers',
     maxAge: 86400, // Pre-flight cache: 24 hours
   });
 
