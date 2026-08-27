@@ -210,6 +210,15 @@
             box-shadow: none !important;
         }
 
+        .data-table td:nth-child(2),
+        .ticker-cell {
+            font-weight: 900 !important;
+            color: #ffffff !important;
+            font-size: 0.95rem !important;
+            letter-spacing: 0.05em !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4) !important;
+        }
+
         .boloc-table-title {
             min-width: 1090px;
             padding: 18px 24px;
@@ -481,6 +490,71 @@
             visibility: visible;
         }
 
+        .boloc-table-title {
+            position: relative !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            width: 100% !important;
+        }
+
+        .boloc-table-title>span {
+            text-align: center !important;
+            width: 100% !important;
+            display: block !important;
+        }
+
+        .boloc-fullscreen-title-exit {
+            display: none;
+            position: absolute !important;
+            right: 16px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            width: 34px !important;
+            height: 34px !important;
+            min-width: 34px !important;
+            min-height: 34px !important;
+            padding: 0 !important;
+            border-radius: 8px !important;
+            border: 1px solid rgba(248, 113, 113, 0.65) !important;
+            background: rgba(239, 68, 68, 0.35) !important;
+            color: #ffffff !important;
+            cursor: pointer !important;
+            transition: opacity 0.25s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease !important;
+            text-shadow: none !important;
+            opacity: 0 !important;
+            pointer-events: auto !important;
+            z-index: 40 !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.3) !important;
+        }
+
+        .boloc-fullscreen-title-exit svg {
+            width: 16px;
+            height: 16px;
+            stroke-width: 2.5;
+            display: block;
+        }
+
+        body.is-zalo-mode-active .boloc-fullscreen-title-exit {
+            display: inline-flex !important;
+        }
+
+        body.is-zalo-mode-active .boloc-table-title:hover .boloc-fullscreen-title-exit,
+        body.is-zalo-mode-active .boloc-fullscreen-title-exit:hover {
+            opacity: 1 !important;
+        }
+
+        .boloc-fullscreen-title-exit:hover {
+            background: rgba(239, 68, 68, 0.75) !important;
+            color: #ffffff !important;
+            border-color: rgba(248, 113, 113, 0.95) !important;
+            box-shadow: 0 0 16px rgba(239, 68, 68, 0.7) !important;
+            transform: translateY(-50%) scale(1.08) !important;
+        }
+
         /* ── Zalo Mobile Capture Mode Styles (Compact 12-Column Layout) ── */
         .data-table-wrapper.is-zalo-mode {
             max-width: 1080px !important;
@@ -494,15 +568,26 @@
         }
 
         .data-table-wrapper.is-zalo-mode .boloc-table-title {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 30 !important;
+            height: 68px !important;
+            min-height: 68px !important;
+            max-height: 68px !important;
+            box-sizing: border-box !important;
             min-width: 0 !important;
-            font-size: 1.35rem !important;
+            font-size: 1.28rem !important;
             font-weight: 900 !important;
-            padding: 10px 16px !important;
+            padding: 0 16px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
             background: linear-gradient(135deg, #3b1d70 0%, #1e1338 100%) !important;
             letter-spacing: 0.8px !important;
             border-bottom: 1px solid rgba(168, 85, 247, 0.4) !important;
             color: #ffffff !important;
             text-shadow: 0 2px 12px rgba(168, 85, 247, 0.5) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
         }
 
         .data-table-wrapper.is-zalo-mode table.data-table {
@@ -571,10 +656,11 @@
 
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(2) {
             width: 52px !important;
-            font-size: 0.88rem !important;
+            font-size: 0.90rem !important;
             font-weight: 900 !important;
             color: #ffffff !important;
-            letter-spacing: 0.3px !important;
+            letter-spacing: 0.5px !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5) !important;
         }
 
         /* Cột 3: Sàn (Nới rộng 43px) */
@@ -618,8 +704,8 @@
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(6) {
             width: 257px !important;
             font-size: 0.81rem !important;
-            font-weight: 600 !important;
-            color: #f8fafc !important;
+            font-weight: 400 !important;
+            color: #cbd5e1 !important;
             text-align: left !important;
             line-height: 1.35 !important;
         }
@@ -662,14 +748,14 @@
             justify-content: center !important;
         }
 
-        .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(9) span > span:first-child {
+        .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(9) span>span:first-child {
             font-size: 0.74rem !important;
             white-space: nowrap !important;
             display: block !important;
             line-height: 1.2 !important;
         }
 
-        .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(9) span > span:nth-child(2) {
+        .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(9) span>span:nth-child(2) {
             font-size: 0.63rem !important;
             font-weight: 600 !important;
             white-space: nowrap !important;
@@ -703,19 +789,29 @@
             color: #E9D5FF !important;
         }
 
+        .data-table td:nth-child(10),
+        .data-table td:nth-child(11),
+        .data-table td:nth-child(12),
+        .price-cell,
+        .boloc-support-cell {
+            font-weight: 400 !important;
+        }
+
         /* Cột 10: Vùng kiểm định (92px) */
         .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(10) {
             width: 92px !important;
             text-align: center !important;
             font-weight: 700 !important;
         }
+
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(10) {
             width: 92px !important;
             text-align: center !important;
-            font-weight: 700 !important;
-            font-size: 0.72rem !important;
+            font-weight: 400 !important;
+            font-size: 0.80rem !important;
             color: #e2e8f0 !important;
             white-space: nowrap !important;
+            overflow: hidden !important;
         }
 
         /* Cột 11: Vùng kháng cự (89px) */
@@ -724,13 +820,15 @@
             text-align: center !important;
             font-weight: 700 !important;
         }
+
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(11) {
             width: 89px !important;
             text-align: center !important;
-            font-weight: 700 !important;
-            font-size: 0.72rem !important;
+            font-weight: 400 !important;
+            font-size: 0.80rem !important;
             color: #e2e8f0 !important;
             white-space: nowrap !important;
+            overflow: hidden !important;
         }
 
         /* Cột 12: Vùng hỗ trợ (89px) */
@@ -739,13 +837,15 @@
             text-align: center !important;
             font-weight: 700 !important;
         }
+
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(12) {
             width: 89px !important;
             text-align: center !important;
-            font-weight: 700 !important;
-            font-size: 0.72rem !important;
+            font-weight: 400 !important;
+            font-size: 0.80rem !important;
             color: #e2e8f0 !important;
             white-space: nowrap !important;
+            overflow: hidden !important;
         }
 
         /* ── Khi bật Tối ưu chụp Zalo: Ẩn tất cả menu điều hướng & giao diện phụ ── */
@@ -763,19 +863,7 @@
             padding: 0 !important;
         }
 
-        /* 🟢 Nút chuyển giao diện nổi ở góc phải (fixed), không chiếm chiều cao giúp đẩy bảng sát lên trên */
         body.is-zalo-mode-active .filter-toolbar {
-            position: fixed !important;
-            top: 12px !important;
-            right: 25px !important;
-            z-index: 9999 !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            background: transparent !important;
-            border: none !important;
-        }
-
-        body.is-zalo-mode-active .filter-toolbar > *:not(#btnToggleZaloMode) {
             display: none !important;
         }
 
@@ -792,24 +880,51 @@
 
         .data-table-wrapper.is-zalo-mode table.data-table thead th {
             position: sticky !important;
-            top: 0 !important;
-            z-index: 20 !important;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8) !important;
+            top: 68px !important;
+            z-index: 25 !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7) !important;
         }
 
-        /* Thanh cuộn đẹp mắt nội bộ trong bảng */
-        .data-table-wrapper.is-zalo-mode::-webkit-scrollbar {
-            width: 7px !important;
+        /* 🟢 Thanh cuộn thông minh Zalo Mode: Mặc định ẨN 100% để chụp ảnh sạch đẹp, chỉ HIỆN khi rê chuột vào bảng/thanh cuộn */
+        .data-table-wrapper.is-zalo-mode::-webkit-scrollbar,
+        body.is-zalo-mode-active::-webkit-scrollbar {
+            width: 6px !important;
+            height: 6px !important;
         }
 
-        .data-table-wrapper.is-zalo-mode::-webkit-scrollbar-track {
-            background: #120e24 !important;
-            border-radius: 4px !important;
+        .data-table-wrapper.is-zalo-mode::-webkit-scrollbar-track,
+        body.is-zalo-mode-active::-webkit-scrollbar-track {
+            background: transparent !important;
+            border-radius: 99px !important;
         }
 
-        .data-table-wrapper.is-zalo-mode::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #7c3aed, #a855f7) !important;
-            border-radius: 4px !important;
+        .data-table-wrapper.is-zalo-mode::-webkit-scrollbar-thumb,
+        body.is-zalo-mode-active::-webkit-scrollbar-thumb {
+            background: transparent !important;
+            border-radius: 99px !important;
+            border: none !important;
+            transition: background 0.3s ease !important;
+        }
+
+        .data-table-wrapper.is-zalo-mode:hover::-webkit-scrollbar-thumb,
+        body.is-zalo-mode-active:hover::-webkit-scrollbar-thumb {
+            background: rgba(168, 85, 247, 0.45) !important;
+        }
+
+        .data-table-wrapper.is-zalo-mode::-webkit-scrollbar-thumb:hover,
+        body.is-zalo-mode-active::-webkit-scrollbar-thumb:hover {
+            background: rgba(168, 85, 247, 0.85) !important;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.6) !important;
+        }
+
+        .data-table-wrapper.is-zalo-mode,
+        body.is-zalo-mode-active {
+            scrollbar-width: thin !important;
+            scrollbar-color: transparent transparent !important;
+        }
+
+        .data-table-wrapper.is-zalo-mode:hover {
+            scrollbar-color: rgba(168, 85, 247, 0.45) transparent !important;
         }
     </style>
 </head>
@@ -913,16 +1028,22 @@
                 Xóa lọc
             </button>
 
-            <button type="button" id="btnToggleZaloMode"
-                style="padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.5); background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); color: #fff; font-weight: 800; font-size: 0.95rem; cursor: pointer; display: none; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4); transition: all 0.2s;">
-                📸 Tối ưu chụp Zalo
+            <button class="boloc-fullscreen-btn" type="button" id="btnToggleZaloMode" style="display: none;">
+                ⛶ Full Màn Hình
             </button>
         </div>
 
         <div class="data-table-wrapper"
             style="background: rgba(15, 15, 25, 0.6); border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px; overflow-x: auto; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
             <div class="boloc-table-title">
-                [FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ
+                <span>[FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ</span>
+                <button class="boloc-fullscreen-title-exit" id="btnBolocTitleExit" type="button"
+                    onclick="handleBolocExit()" title="Thu nhỏ (F11 / Esc)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 14h6v6M20 10h-6V4M14 10l7-7M10 14l-7 7" />
+                    </svg>
+                </button>
             </div>
             <table class="data-table"
                 style="width: 100%; min-width: 1090px; table-layout: fixed; border-collapse: collapse; text-align: center; font-size: 0.78rem; color: #cbd5e1;">
@@ -1554,7 +1675,26 @@
                 }
             }
 
-            const btnToggleZaloMode = document.getElementById('btnToggleZaloMode');
+            function handleBolocExit() {
+                const wrapper = document.querySelector('.data-table-wrapper');
+                const body = document.body;
+                if (body.classList.contains('is-zalo-mode-active')) {
+                    if (wrapper) wrapper.classList.remove('is-zalo-mode');
+                    body.classList.remove('is-zalo-mode-active');
+                    isZaloMode = false;
+                }
+            }
+            window.handleBolocExit = handleBolocExit;
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'F11' || e.key === 'Escape') {
+                    if (document.body.classList.contains('is-zalo-mode-active')) {
+                        e.preventDefault();
+                        handleBolocExit();
+                    }
+                }
+            });
+
             if (btnToggleZaloMode) {
                 btnToggleZaloMode.addEventListener('click', () => {
                     if (!isBolocAdvancedUser()) return;
@@ -1563,15 +1703,9 @@
                     const body = document.body;
 
                     if (isZaloMode) {
-                        btnToggleZaloMode.innerHTML = '🖥️ Giao diện thường';
-                        btnToggleZaloMode.style.background = 'rgba(255, 255, 255, 0.15)';
-                        btnToggleZaloMode.style.border = '1px solid rgba(255, 255, 255, 0.3)';
                         if (wrapper) wrapper.classList.add('is-zalo-mode');
                         body.classList.add('is-zalo-mode-active');
                     } else {
-                        btnToggleZaloMode.innerHTML = '📸 Tối ưu chụp Zalo';
-                        btnToggleZaloMode.style.background = 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)';
-                        btnToggleZaloMode.style.border = '1px solid rgba(168, 85, 247, 0.5)';
                         if (wrapper) wrapper.classList.remove('is-zalo-mode');
                         body.classList.remove('is-zalo-mode-active');
                     }
