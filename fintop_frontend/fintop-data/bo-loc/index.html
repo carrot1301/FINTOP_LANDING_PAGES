@@ -200,14 +200,17 @@
 
         .data-table thead tr {
             background: #191524 !important;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.14) !important;
         }
 
         .data-table thead th {
+            position: sticky !important;
+            top: 48px !important;
+            z-index: 25 !important;
+            background: #191524 !important;
             color: #cbd5e1 !important;
             font-weight: 700 !important;
             text-shadow: none !important;
-            box-shadow: none !important;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
         }
 
         .data-table td:nth-child(2),
@@ -220,16 +223,25 @@
         }
 
         .boloc-table-title {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 30 !important;
             min-width: 1090px;
-            padding: 18px 24px;
-            background: linear-gradient(135deg, #33265A 0%, #251D42 100%);
+            padding: 0 24px;
+            height: 48px !important;
+            line-height: 48px;
+            background: linear-gradient(135deg, #33265A 0%, #251D42 100%) !important;
             color: #e2e8f0;
             text-align: center;
-            font-size: clamp(1.1rem, 2vw, 1.6rem);
+            font-size: clamp(1rem, 1.8vw, 1.35rem);
             font-weight: 700;
-            line-height: 1.25;
             text-shadow: none;
-            box-shadow: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+            box-sizing: border-box;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100%;
         }
 
         .filter-toolbar.is-locked {
@@ -239,6 +251,9 @@
 
         .data-table-wrapper {
             position: relative;
+            max-height: calc(100vh - 190px) !important;
+            overflow-y: auto !important;
+            overflow-x: auto !important;
         }
 
         .data-table-wrapper.is-locked tbody {
@@ -488,15 +503,6 @@
         .delta-rsi-wrapper:focus-within .delta-rsi-hover-box {
             opacity: 1;
             visibility: visible;
-        }
-
-        .boloc-table-title {
-            position: relative !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            text-align: center !important;
-            width: 100% !important;
         }
 
         .boloc-table-title>span {
@@ -1034,7 +1040,7 @@
         </div>
 
         <div class="data-table-wrapper"
-            style="background: rgba(15, 15, 25, 0.6); border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px; overflow-x: auto; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            style="background: #0f0f19; border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
             <div class="boloc-table-title">
                 <span>[FINTOP.DATA] - BỘ LỌC CỔ PHIẾU | TOP TRẠNG THÁI KỸ THUẬT NGÀNH ĐẦU TƯ</span>
                 <button class="boloc-fullscreen-title-exit" id="btnBolocTitleExit" type="button"
