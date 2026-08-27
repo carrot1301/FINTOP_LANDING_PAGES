@@ -749,241 +749,7 @@
             color: rgba(226, 232, 240, 0.58);
         }
 
-        /* ── Fullscreen Mode cho Nhân sự (Stock Filter) ── */
-        body.is-boloc-fullscreen {
-            overflow: hidden !important;
-        }
 
-        body.is-boloc-fullscreen .tv-header,
-        body.is-boloc-fullscreen .video-bg-container,
-        body.is-boloc-fullscreen .submenu-panel:not(#panel-boloc),
-        body.is-boloc-fullscreen .panel-close-btn,
-        body.is-boloc-fullscreen #panel-boloc>div:not(.dark-table-wrapper),
-        body.is-boloc-fullscreen .boloc-filter-bar,
-        body.is-boloc-fullscreen #boloc-default-markets,
-        body.is-boloc-fullscreen .disclaimer-msg {
-            display: none !important;
-        }
-
-        body.is-boloc-fullscreen #panel-boloc {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            z-index: 999999 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            max-width: 100vw !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            background: #07070d !important;
-            display: flex !important;
-            flex-direction: column !important;
-            border-radius: 0 !important;
-            box-sizing: border-box !important;
-        }
-
-        body.is-boloc-fullscreen #panel-boloc .dark-table-wrapper {
-            max-width: 100% !important;
-            width: 100% !important;
-            height: 100vh !important;
-            max-height: 100vh !important;
-            min-height: 100vh !important;
-            border-radius: 0 !important;
-            border: none !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            overflow-y: auto !important;
-            overflow-x: auto !important;
-        }
-
-        body.is-boloc-fullscreen .boloc-table-title {
-            position: sticky !important;
-            top: 0 !important;
-            z-index: 20 !important;
-            height: 68px !important;
-            min-height: 68px !important;
-            max-height: 68px !important;
-            margin: 0 !important;
-            padding: 0 20px !important;
-            font-size: clamp(1.25rem, 1.8vw, 1.65rem) !important;
-            font-weight: 900 !important;
-            letter-spacing: 0.5px !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable {
-            width: 100% !important;
-            margin: 0 !important;
-            border-collapse: separate !important;
-            border-spacing: 0 !important;
-            table-layout: fixed !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable thead tr {
-            margin: 0 !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable th {
-            position: sticky !important;
-            top: 68px !important;
-            z-index: 15 !important;
-            background: #1c1533 !important;
-            padding: 7px 4px !important;
-            font-size: 0.85rem !important;
-            font-weight: 800 !important;
-            color: #E9D5FF !important;
-            line-height: 1.25 !important;
-            vertical-align: middle !important;
-            border-bottom: 1px solid rgba(168, 85, 247, 0.35) !important;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
-        }
-
-        /* ── Fullscreen column width distribution ── */
-        /* STT */
-        body.is-boloc-fullscreen #bolocTable th:nth-child(1),
-        body.is-boloc-fullscreen #bolocTable td:nth-child(1) {
-            width: 2.5% !important;
-        }
-
-        /* Mã CP */
-        body.is-boloc-fullscreen #bolocTable th:nth-child(2),
-        body.is-boloc-fullscreen #bolocTable td:nth-child(2) {
-            width: 4.5% !important;
-        }
-
-        /* Sàn */
-        body.is-boloc-fullscreen #bolocTable th:nth-child(3),
-        body.is-boloc-fullscreen #bolocTable td:nth-child(3) {
-            width: 3% !important;
-        }
-
-        /* Ngành HĐKD */
-        body.is-boloc-fullscreen #bolocTable th:nth-child(4),
-        body.is-boloc-fullscreen #bolocTable td:nth-child(4) {
-            width: 8.5% !important;
-            white-space: nowrap !important;
-        }
-
-        /* Update time */
-        body.is-boloc-fullscreen #bolocTable th:nth-child(5),
-        body.is-boloc-fullscreen #bolocTable td:nth-child(5) {
-            width: 4.2% !important;
-        }
-
-        /* Dữ liệu kỹ thuật lịch sử (Model) */
-        body.is-boloc-fullscreen #bolocTable th:nth-child(6),
-        body.is-boloc-fullscreen #bolocTable td:nth-child(6) {
-            width: 24.5% !important;
-        }
-
-        /* Trạng thái Model */
-        body.is-boloc-fullscreen #bolocTable th:nth-child(7),
-        body.is-boloc-fullscreen #bolocTable td:nth-child(7) {
-            width: 7.5% !important;
-        }
-
-        /* ΔRSI */
-        body.is-boloc-fullscreen #bolocTable th:nth-child(8),
-        body.is-boloc-fullscreen #bolocTable td:nth-child(8) {
-            width: 5.5% !important;
-        }
-
-        /* Sức mạnh xu hướng */
-        body.is-boloc-fullscreen #bolocTable th:nth-child(9),
-        body.is-boloc-fullscreen #bolocTable td:nth-child(9) {
-            width: 12.3% !important;
-        }
-
-        /* Vùng kiểm định */
-        body.is-boloc-fullscreen #bolocTable th:nth-child(10),
-        body.is-boloc-fullscreen #bolocTable td:nth-child(10) {
-            width: 7% !important;
-        }
-
-        /* Vùng kháng cự */
-        body.is-boloc-fullscreen #bolocTable th:nth-child(11),
-        body.is-boloc-fullscreen #bolocTable td:nth-child(11) {
-            width: 7% !important;
-        }
-
-        /* Vùng hỗ trợ */
-        body.is-boloc-fullscreen #bolocTable th:nth-child(12),
-        body.is-boloc-fullscreen #bolocTable td:nth-child(12) {
-            width: 7.5% !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable tbody tr {
-            height: calc((100vh - 112px) / 12) !important;
-            margin: 0 !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable td {
-            padding: 5px 6px !important;
-            font-size: 0.92rem !important;
-            font-weight: 700 !important;
-            vertical-align: middle !important;
-            line-height: 1.35 !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable .ticker-cell {
-            font-size: 1.15rem !important;
-            font-weight: 900 !important;
-            letter-spacing: 0.5px !important;
-            color: #ffffff !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable .desc-cell {
-            font-size: 0.96rem !important;
-            line-height: 1.4 !important;
-            color: #E2E8F0 !important;
-            font-weight: 700 !important;
-            padding-left: 14px !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable .boloc-status-badge {
-            font-size: 0.85rem !important;
-            font-weight: 900 !important;
-            padding: 5px 12px !important;
-            min-width: 105px !important;
-            border-width: 1.5px !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable .boloc-strength-cell {
-            font-size: 0.95rem !important;
-            font-weight: 900 !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable .time-cell {
-            font-size: 0.82rem !important;
-            color: #CBD5E1 !important;
-            font-weight: 700 !important;
-            white-space: pre-line !important;
-            line-height: 1.2 !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable td:nth-child(8) {
-            font-size: 0.9rem !important;
-            font-weight: 800 !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable td:nth-child(10) {
-            font-size: 0.95rem !important;
-            font-weight: 800 !important;
-            color: #FFFFFF !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable td:nth-child(11) {
-            font-size: 0.95rem !important;
-            font-weight: 900 !important;
-        }
-
-        body.is-boloc-fullscreen #bolocTable .boloc-support-cell {
-            font-size: 0.95rem !important;
-            font-weight: 900 !important;
-        }
 
         .boloc-table-title {
             position: sticky !important;
@@ -1046,13 +812,10 @@
             display: block;
         }
 
-        body.is-boloc-fullscreen .boloc-fullscreen-title-exit,
         body.is-zalo-mode-active .boloc-fullscreen-title-exit {
             display: inline-flex !important;
         }
 
-        body.is-boloc-fullscreen .boloc-table-title:hover .boloc-fullscreen-title-exit,
-        body.is-boloc-fullscreen .boloc-fullscreen-title-exit:hover,
         body.is-zalo-mode-active .boloc-table-title:hover .boloc-fullscreen-title-exit,
         body.is-zalo-mode-active .boloc-fullscreen-title-exit:hover {
             opacity: 1 !important;
@@ -5448,43 +5211,62 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7) !important;
         }
 
-        /* 🟢 Thanh cuộn kéo trượt thủ công Zalo Mode sát mép ngoài viền tím */
+        /* 🟢 Thanh cuộn thông minh Zalo Mode: Mặc định ẨN HẲN (width 0px), chỉ HIỆN khi rê chuột vào bảng */
         .dark-table-wrapper.is-zalo-mode::-webkit-scrollbar,
         body.is-zalo-mode-active::-webkit-scrollbar {
+            width: 0px !important;
+            height: 0px !important;
+            background: transparent !important;
+            transition: width 0.2s ease !important;
+        }
+
+        .dark-table-wrapper.is-zalo-mode:hover::-webkit-scrollbar,
+        body.is-zalo-mode-active:hover::-webkit-scrollbar {
             width: 7px !important;
             height: 7px !important;
         }
 
         .dark-table-wrapper.is-zalo-mode::-webkit-scrollbar-track,
-        body.is-zalo-mode-active::-webkit-scrollbar-track {
-            background: rgba(12, 9, 25, 0.5) !important;
-            border-radius: 0 10px 10px 0 !important;
+        .dark-table-wrapper.is-zalo-mode::-webkit-scrollbar-track-piece,
+        body.is-zalo-mode-active::-webkit-scrollbar-track,
+        body.is-zalo-mode-active::-webkit-scrollbar-track-piece {
+            background: transparent !important;
+            background-color: transparent !important;
+            border-radius: 99px !important;
+            box-shadow: none !important;
+            border: none !important;
         }
 
+        /* Mặc định di chuột ra ngoài: Ẩn 100% */
         .dark-table-wrapper.is-zalo-mode::-webkit-scrollbar-thumb,
         body.is-zalo-mode-active::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #a855f7 0%, #6366f1 100%) !important;
-            border-radius: 4px !important;
+            background: transparent !important;
+            border-radius: 99px !important;
             border: none !important;
-            box-shadow: 0 0 8px rgba(168, 85, 247, 0.8) !important;
+            transition: background 0.25s ease !important;
         }
 
+        /* Rê chuột vào bảng: Hiện con trượt màu tím */
         .dark-table-wrapper.is-zalo-mode:hover::-webkit-scrollbar-thumb,
-        body.is-zalo-mode-active:hover::-webkit-scrollbar-thumb,
+        body.is-zalo-mode-active:hover::-webkit-scrollbar-thumb {
+            background: rgba(168, 85, 247, 0.8) !important;
+        }
+
+        /* Di chuột trực tiếp lên con trượt: Phát sáng tím */
         .dark-table-wrapper.is-zalo-mode::-webkit-scrollbar-thumb:hover,
         body.is-zalo-mode-active::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #c084fc 0%, #a855f7 100%) !important;
-            box-shadow: 0 0 14px rgba(192, 132, 252, 1) !important;
+            background: rgba(192, 132, 252, 0.98) !important;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.9) !important;
         }
 
         .dark-table-wrapper.is-zalo-mode,
         body.is-zalo-mode-active {
-            scrollbar-width: thin !important;
-            scrollbar-color: transparent transparent !important;
+            scrollbar-width: none !important;
         }
 
         .dark-table-wrapper.is-zalo-mode:hover {
-            scrollbar-color: rgba(168, 85, 247, 0.45) transparent !important;
+            scrollbar-width: thin !important;
+            scrollbar-color: rgba(168, 85, 247, 0.8) transparent !important;
         }
     </style>
 </head>
@@ -5828,8 +5610,6 @@
                 style="display: none;">
                 ⛶ Full Màn Hình
             </button>
-            <button class="boloc-fullscreen-btn" id="btnBolocFullscreen" type="button" onclick="toggleBolocFullscreen()"
-                style="display:none;">⛶ Full Màn Hình</button>
         </div>
 
         <div class="dark-table-wrapper">
@@ -9521,21 +9301,8 @@
         }
 
         function updateBolocStaffButtonVisibility() {
-            const btnFullscreen = document.getElementById('btnBolocFullscreen');
             const btnZalo = document.getElementById('btnToggleZaloMode');
             const isAdvanced = isBolocAdvancedUser();
-
-            // Full Screen button
-            if (btnFullscreen) {
-                if (isAdvanced) {
-                    btnFullscreen.style.display = 'inline-flex';
-                } else {
-                    btnFullscreen.style.display = 'none';
-                    if (document.body.classList.contains('is-boloc-fullscreen')) {
-                        toggleBolocFullscreen(false);
-                    }
-                }
-            }
 
             // Tối ưu chụp Zalo button
             if (btnZalo) {
@@ -9553,48 +9320,6 @@
                 }
             }
         }
-
-        function toggleBolocFullscreen(forceState) {
-            if (!isBolocAdvancedUser()) return;
-
-            const body = document.body;
-            const isFull = forceState !== undefined ? forceState : !body.classList.contains('is-boloc-fullscreen');
-
-            const btn = document.getElementById('btnBolocFullscreen');
-
-            if (isFull) {
-                body.classList.add('is-boloc-fullscreen');
-                if (btn) btn.innerHTML = '🗗 Thu nhỏ (Esc)';
-                const panel = document.getElementById('panel-boloc');
-                if (panel && panel.requestFullscreen && !document.fullscreenElement) {
-                    panel.requestFullscreen().catch(() => { });
-                }
-            } else {
-                body.classList.remove('is-boloc-fullscreen');
-                if (btn) btn.innerHTML = '⛶ Full Màn Hình';
-                if (document.fullscreenElement && document.exitFullscreen) {
-                    document.exitFullscreen().catch(() => { });
-                }
-            }
-            if (typeof renderBolocTable === 'function') {
-                renderBolocTable();
-            }
-        }
-
-        // Esc key handler to exit fullscreen modal (F11 disabled per request)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (document.body.classList.contains('is-boloc-fullscreen')) {
-                    toggleBolocFullscreen(false);
-                }
-            }
-        });
-
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement && document.body.classList.contains('is-boloc-fullscreen')) {
-                toggleBolocFullscreen(false);
-            }
-        });
 
         document.addEventListener('DOMContentLoaded', () => {
             updateBolocStaffButtonVisibility();
