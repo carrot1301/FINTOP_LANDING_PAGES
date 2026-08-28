@@ -809,7 +809,12 @@
         .data-table td:nth-child(12),
         .price-cell,
         .boloc-support-cell {
-            font-weight: 400 !important;
+            font-weight: 700 !important;
+            font-size: 0.86rem !important;
+            color: #ffffff !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
         }
 
         /* Cột 10: Vùng kiểm định (92px) */
@@ -822,11 +827,12 @@
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(10) {
             width: 92px !important;
             text-align: center !important;
-            font-weight: 400 !important;
-            font-size: 0.80rem !important;
-            color: #e2e8f0 !important;
+            font-weight: 900 !important;
+            font-size: 0.96rem !important;
+            color: #ffffff !important;
             white-space: nowrap !important;
             overflow: hidden !important;
+            text-overflow: ellipsis !important;
         }
 
         /* Cột 11: Vùng kháng cự (89px) */
@@ -839,11 +845,12 @@
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(11) {
             width: 89px !important;
             text-align: center !important;
-            font-weight: 400 !important;
-            font-size: 0.80rem !important;
-            color: #e2e8f0 !important;
+            font-weight: 900 !important;
+            font-size: 0.96rem !important;
+            color: #ffffff !important;
             white-space: nowrap !important;
             overflow: hidden !important;
+            text-overflow: ellipsis !important;
         }
 
         /* Cột 12: Vùng hỗ trợ (89px) */
@@ -856,11 +863,12 @@
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(12) {
             width: 89px !important;
             text-align: center !important;
-            font-weight: 400 !important;
-            font-size: 0.80rem !important;
-            color: #e2e8f0 !important;
+            font-weight: 900 !important;
+            font-size: 0.96rem !important;
+            color: #ffffff !important;
             white-space: nowrap !important;
             overflow: hidden !important;
+            text-overflow: ellipsis !important;
         }
 
         /* ── Khi bật Tối ưu chụp Zalo: Ẩn tất cả menu điều hướng & giao diện phụ ── */
@@ -1521,6 +1529,7 @@
                     const strengthText = getCustomerStrengthText(row.trend);
                     const rowBg = 'rgba(15, 15, 25, 0.96)';
                     const baseCellStyle = `padding: 8px 4px; background: ${rowBg}; color: #CBD5E1; font-weight: 500; font-size: 0.78rem; text-align: center; word-wrap: break-word; overflow-wrap: break-word;`;
+                    const priceCellStyle = `padding: 8px 4px; background: ${rowBg}; color: #FFFFFF !important; font-weight: 900 !important; font-size: 0.95rem !important; text-align: center; white-space: nowrap;`;
 
                     // Ticker cell — masked for non-PRO
                     let tickerCell;
@@ -1558,9 +1567,9 @@
                         <td style="${baseCellStyle}">${actionBadge}</td>
                         <td class="boloc-delta-rsi-cell" style="${baseCellStyle}">${escapeHtml(row.deltaRsi || '—')}</td>
                         <td style="${baseCellStyle} color: #67E8F9; font-weight: 900; text-transform: uppercase;">${escapeHtml(strengthText)}</td>
-                        <td style="${baseCellStyle}">${row.vungKiemDinh}</td>
-                        <td style="${baseCellStyle}">${row.khangCu}</td>
-                        <td style="${baseCellStyle}">${row.hoTro}</td>
+                        <td class="price-cell" style="${priceCellStyle}">${row.vungKiemDinh}</td>
+                        <td class="price-cell" style="${priceCellStyle}">${row.khangCu}</td>
+                        <td class="price-cell" style="${priceCellStyle}">${row.hoTro}</td>
                     `;
                     tbody.appendChild(tr);
                 });
