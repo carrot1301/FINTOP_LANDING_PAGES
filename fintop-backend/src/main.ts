@@ -87,9 +87,14 @@ async function bootstrap() {
   }
 
   // ── WebSocket Redis Adapter ──────────────────────────────────
-  const redisIoAdapter = new RedisIoAdapter(app);
-  await redisIoAdapter.connectToRedis();
-  app.useWebSocketAdapter(redisIoAdapter);
+  try {
+    const redisIoAdapter = new RedisIoAdapter(app);
+    await redisIoAdapter.connectToRedis();
+    app.useWebSocketAdapter(redisIoAdapter);
+    logger.log('📡 WebSocket Redis adapter connected.');
+  } catch (err: any) {
+    logger.warn('⚠️ Redis offline: WebSocket using default in-memory adapter.');
+  }
 
   // ── Start ─────────────────────────────────────────────────────
   const port = process.env.PORT ?? 3000;

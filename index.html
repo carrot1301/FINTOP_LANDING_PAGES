@@ -1068,64 +1068,64 @@
         /* Set balanced column widths so 100% of columns fit without right overflow */
         /* STT */
         #bolocTable th:nth-child(1) {
-            width: 34px;
+            width: 28px;
         }
 
         /* Mã CP */
         #bolocTable th:nth-child(2) {
-            width: 55px;
+            width: 45px;
         }
 
         /* Sàn */
         #bolocTable th:nth-child(3) {
-            width: 52px;
+            width: 38px;
             white-space: nowrap;
         }
 
         /* Ngành HĐKD */
         #bolocTable th:nth-child(4) {
-            width: 110px;
+            width: 58px;
             white-space: nowrap;
         }
 
         /* Update time */
         #bolocTable th:nth-child(5) {
-            width: 50px;
+            width: 56px;
         }
 
         /* Dữ liệu kỹ thuật lịch sử (Model) */
         #bolocTable th:nth-child(6) {
-            width: 250px;
+            width: 208px;
         }
 
         /* Trạng thái Model */
         #bolocTable th:nth-child(7) {
-            width: 105px;
+            width: 88px;
         }
 
         /* ΔRSI */
         #bolocTable th:nth-child(8) {
-            width: 75px;
+            width: 42px;
         }
 
         /* Sức mạnh xu hướng */
         #bolocTable th:nth-child(9) {
-            width: 175px;
+            width: 115px;
         }
 
         /* Vùng kiểm định */
         #bolocTable th:nth-child(10) {
-            width: 85px;
+            width: 62px;
         }
 
         /* Vùng kháng cự */
         #bolocTable th:nth-child(11) {
-            width: 80px;
+            width: 62px;
         }
 
         /* Vùng hỗ trợ */
         #bolocTable th:nth-child(12) {
-            width: 90px;
+            width: 62px;
         }
 
         #bolocTable td {
@@ -4875,9 +4875,10 @@
         }
 
         /* ── Zalo Mobile Capture Mode Styles (Compact 12-Column Layout) ── */
+        #panel-boloc .dark-table-wrapper.is-zalo-mode,
         .dark-table-wrapper.is-zalo-mode {
-            max-width: 1080px !important;
-            width: 1080px !important;
+            max-width: calc(100vw - 16px) !important;
+            width: fit-content !important;
             margin: 0 auto !important;
             border: 2px solid rgba(168, 85, 247, 0.7) !important;
             border-radius: 14px !important;
@@ -4909,9 +4910,10 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
         }
 
+        #panel-boloc .dark-table-wrapper.is-zalo-mode #bolocTable,
         .dark-table-wrapper.is-zalo-mode table.dark-table {
-            min-width: 1080px !important;
-            width: 100% !important;
+            min-width: 0 !important;
+            width: auto !important;
             table-layout: fixed !important;
             border-collapse: separate !important;
             border-spacing: 0 !important;
@@ -4924,7 +4926,7 @@
 
         .dark-table-wrapper.is-zalo-mode table.dark-table thead th {
             font-size: 0.74rem !important;
-            padding: 6px 2px !important;
+            padding: 9px 2px !important;
             color: #E9D5FF !important;
             background: #17102b !important;
             border-bottom: 2px solid rgba(168, 85, 247, 0.4) !important;
@@ -4934,8 +4936,8 @@
         }
 
         .dark-table-wrapper.is-zalo-mode table.dark-table tbody tr {
-            height: calc((100vh - 118px) / 12) !important;
-            max-height: calc((100vh - 118px) / 12) !important;
+            height: var(--boloc-zalo-row-height, calc((100vh - 128px) / 12)) !important;
+            min-height: 40px !important;
             box-sizing: border-box !important;
         }
 
@@ -4968,21 +4970,25 @@
 
         /* Tối ưu tỉ lệ ngang từng cột cho chế độ chụp Zalo */
         /* Cột 1: STT */
+        #bolocTable th:nth-child(1),
+        #bolocTable td:nth-child(1),
         .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(1),
         .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(1) {
-            width: 34px !important;
+            width: 28px !important;
             text-align: center !important;
             font-size: 0.78rem !important;
             white-space: nowrap !important;
         }
 
-        /* Cột 2: Mã CP (Nổi bật nhẹ: to đậm 0.88rem, font-weight 900, nới rộng 52px) */
+        /* Cột 2: Mã CP */
+        #bolocTable th:nth-child(2),
         .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(2) {
-            width: 52px !important;
+            width: 45px !important;
         }
 
+        #bolocTable td:nth-child(2),
         .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(2) {
-            width: 52px !important;
+            width: 45px !important;
             font-size: 0.90rem !important;
             font-weight: 900 !important;
             color: #ffffff !important;
@@ -4990,46 +4996,66 @@
             text-shadow: none !important;
         }
 
-        /* Cột 3: Sàn (Nới rộng 43px) */
+        /* Cột 3: Sàn (38px) */
+        #bolocTable th:nth-child(3),
+        #bolocTable td:nth-child(3),
         .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(3),
         .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(3) {
-            width: 43px !important;
+            width: 38px !important;
             text-align: center !important;
         }
 
-        /* Cột 4: Ngành HĐKD (Nới rộng 91px) */
-        .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(4),
-        .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(4) {
-            width: 91px !important;
+        /* Cột 4: Ngành HĐKD (Chế độ thường: 58px) */
+        #bolocTable th:nth-child(4),
+        #bolocTable td:nth-child(4) {
+            width: 58px !important;
             font-size: 0.76rem !important;
             white-space: nowrap !important;
             text-overflow: ellipsis !important;
             overflow: hidden !important;
         }
 
-        /* Cột 5: Update time (Nới rộng 54px) */
+        /* Cột 4: Ngành HĐKD (Chế độ Full màn hình: 90px) */
+        .dark-table-wrapper.is-zalo-mode #bolocTable th:nth-child(4),
+        .dark-table-wrapper.is-zalo-mode #bolocTable td:nth-child(4),
+        .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(4),
+        .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(4) {
+            width: 90px !important;
+            min-width: 90px !important;
+            max-width: 90px !important;
+            font-size: 0.76rem !important;
+            white-space: nowrap !important;
+            text-overflow: ellipsis !important;
+            overflow: hidden !important;
+        }
+
+        /* Cột 5: Update time (56px) */
+        #bolocTable th:nth-child(5),
+        #bolocTable td:nth-child(5),
         .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(5),
         .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(5) {
-            width: 54px !important;
+            width: 56px !important;
             font-size: 0.72rem !important;
             text-align: center !important;
             line-height: 1.15 !important;
         }
 
-        /* Cột 6: Mô tả Model (Rộng 257px thoáng rộng 2 dòng) */
+        /* Cột 6: Mô tả Model (Rộng 208px ngắt dòng chuẩn) */
+        #bolocTable thead th:nth-child(6),
         table.dark-table thead th:nth-child(6) {
             text-align: center !important;
         }
 
+        #bolocTable th:nth-child(6),
         .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(6) {
-            width: 257px !important;
+            width: 208px !important;
             font-size: 0.78rem !important;
             text-align: center !important;
             line-height: 1.35 !important;
         }
 
-        .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(6) {
-            width: 257px !important;
+        #bolocTable td:nth-child(6) {
+            width: 208px !important;
             font-size: 0.80rem !important;
             font-weight: 400 !important;
             color: #cbd5e1 !important;
@@ -5039,23 +5065,46 @@
             overflow: hidden !important;
         }
 
-        /* Cột 7: Trạng thái Model (Mở rộng 96px giúp viền tím bo nhãn "RẤT TÍCH CỰC" rộng rãi, sang đẹp) */
+        .dark-table-wrapper.is-zalo-mode #bolocTable td:nth-child(6),
+        .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(6) {
+            width: 208px !important;
+            font-size: 0.80rem !important;
+            font-weight: 400 !important;
+            color: #e2e8f0 !important;
+            text-align: left !important;
+            line-height: 1.22 !important;
+            vertical-align: middle !important;
+            overflow: hidden !important;
+        }
+
+        /* Cột 7: Trạng thái Model (88px) */
+        #bolocTable th:nth-child(7),
+        #bolocTable td:nth-child(7),
         .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(7),
         .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(7) {
-            width: 96px !important;
+            width: 88px !important;
             text-align: center !important;
         }
 
-        /* Cột 8: ΔRSI (Rộng 47px, font-size nội dung 0.58rem vừa khít 100% không lo tràn) */
-        .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(8) {
-            width: 47px !important;
+        /* Cột 8: ΔRSI (42px) */
+        #bolocTable th:nth-child(8) {
+            width: 42px !important;
             text-align: center !important;
             font-size: 0.70rem !important;
             white-space: nowrap !important;
         }
 
+        .dark-table-wrapper.is-zalo-mode #bolocTable th:nth-child(8),
+        .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(8) {
+            width: 42px !important;
+            text-align: center !important;
+            font-size: 0.60rem !important;
+            white-space: nowrap !important;
+        }
+
+        #bolocTable td:nth-child(8),
         .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(8) {
-            width: 47px !important;
+            width: 42px !important;
             text-align: center !important;
             font-size: 0.58rem !important;
             letter-spacing: -0.1px !important;
@@ -5063,10 +5112,12 @@
             opacity: 0.9 !important;
         }
 
-        /* Cột 9: Sức mạnh xu hướng (Dòng 1: Sức mạnh xu hướng, Dòng 2: RSI/MFI - Dòng tiền (i) nằm cùng 1 hàng không rớt nút i) */
+        /* Cột 9: Sức mạnh xu hướng (115px) */
+        #bolocTable th:nth-child(9),
+        #bolocTable td:nth-child(9),
         .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(9),
         .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(9) {
-            width: 142px !important;
+            width: 115px !important;
             text-align: center !important;
             font-weight: 800 !important;
         }
@@ -5105,17 +5156,31 @@
             color: #fbbf24 !important;
         }
 
-        /* Cho phép tiêu đề th cột 10, 11, 12 tự động ngắt 2 dòng nguyên từ, không bao giờ ngắt đôi chữ */
+        .zalo-only-br {
+            display: none !important;
+        }
+
+        /* Cho phép tiêu đề th cột 10, 11, 12 ở Full màn hình ngắt 3 dòng chuẩn */
         .dark-table-wrapper.is-zalo-mode table.dark-table thead th:nth-child(10),
         .dark-table-wrapper.is-zalo-mode table.dark-table thead th:nth-child(11),
         .dark-table-wrapper.is-zalo-mode table.dark-table thead th:nth-child(12) {
             white-space: normal !important;
-            word-break: normal !important;
+            word-break: keep-all !important;
             overflow-wrap: normal !important;
-            line-height: 1.16 !important;
+            line-height: 1.25 !important;
             padding: 4px 1px !important;
-            font-size: 0.71rem !important;
+            font-size: 0.70rem !important;
             color: #E9D5FF !important;
+        }
+
+        .dark-table-wrapper.is-zalo-mode .zalo-only-br {
+            display: inline !important;
+        }
+
+        .dark-table-wrapper.is-zalo-mode .zalo-model-subtext {
+            font-size: 0.85em !important;
+            font-weight: 500 !important;
+            opacity: 0.88;
         }
 
         .dark-table td:nth-child(10),
@@ -5126,55 +5191,49 @@
             font-weight: 400 !important;
         }
 
-        /* Cột 10: Vùng kiểm định (92px) */
-        .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(10) {
-            width: 92px !important;
+        /* Cột 10: Vùng kiểm định (Chế độ thường 62px, Full màn hình chia đều phần thừa) */
+        #bolocTable th:nth-child(10),
+        #bolocTable td:nth-child(10) {
+            width: 62px !important;
             text-align: center !important;
             font-weight: 700 !important;
         }
-
+        .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(10),
         .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(10) {
-            width: 92px !important;
-            text-align: center !important;
-            font-weight: 400 !important;
-            font-size: 0.80rem !important;
-            color: #e2e8f0 !important;
-            white-space: nowrap !important;
-            overflow: hidden !important;
-        }
-
-        /* Cột 11: Vùng kháng cự (89px) */
-        .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(11) {
-            width: 89px !important;
+            width: calc((100% - 732px) / 3) !important;
+            min-width: 70px !important;
             text-align: center !important;
             font-weight: 700 !important;
         }
 
+        /* Cột 11: Vùng kháng cự (Chế độ thường 62px, Full màn hình chia đều phần thừa) */
+        #bolocTable th:nth-child(11),
+        #bolocTable td:nth-child(11) {
+            width: 62px !important;
+            text-align: center !important;
+            font-weight: 700 !important;
+        }
+        .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(11),
         .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(11) {
-            width: 89px !important;
-            text-align: center !important;
-            font-weight: 400 !important;
-            font-size: 0.80rem !important;
-            color: #e2e8f0 !important;
-            white-space: nowrap !important;
-            overflow: hidden !important;
-        }
-
-        /* Cột 12: Vùng hỗ trợ (89px) */
-        .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(12) {
-            width: 89px !important;
+            width: calc((100% - 732px) / 3) !important;
+            min-width: 70px !important;
             text-align: center !important;
             font-weight: 700 !important;
         }
 
-        .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(12) {
-            width: 89px !important;
+        /* Cột 12: Vùng hỗ trợ (Chế độ thường 62px, Full màn hình chia đều phần thừa) */
+        #bolocTable th:nth-child(12),
+        #bolocTable td:nth-child(12) {
+            width: 62px !important;
             text-align: center !important;
-            font-weight: 400 !important;
-            font-size: 0.80rem !important;
-            color: #e2e8f0 !important;
-            white-space: nowrap !important;
-            overflow: hidden !important;
+            font-weight: 700 !important;
+        }
+        .dark-table-wrapper.is-zalo-mode table.dark-table th:nth-child(12),
+        .dark-table-wrapper.is-zalo-mode table.dark-table td:nth-child(12) {
+            width: calc((100% - 732px) / 3) !important;
+            min-width: 70px !important;
+            text-align: center !important;
+            font-weight: 700 !important;
         }
 
         /* ── Khi bật Tối ưu chụp Zalo: Ẩn tất cả menu điều hướng & giao diện phụ ── */
@@ -5203,7 +5262,12 @@
         }
 
         /* 🟢 Bảng tím ép kéo dài chạm sát mép dưới màn hình 100% (bỏ hẳn khoảng đen đánh dấu X) */
+        #panel-boloc .dark-table-wrapper.is-zalo-mode,
         .dark-table-wrapper.is-zalo-mode {
+            max-width: calc(100vw - 16px) !important;
+            width: fit-content !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
             margin-top: 0 !important;
             margin-bottom: 0 !important;
             height: calc(100vh - 8px) !important;
@@ -5640,7 +5704,7 @@
                         <th>Sàn</th>
                         <th>Ngành HĐKD</th>
                         <th>Update<br>time</th>
-                        <th>Dữ liệu kỹ thuật lịch sử (Model)</th>
+                        <th>Dữ liệu kỹ thuật lịch sử<br class="zalo-only-br"> <span class="zalo-model-subtext">( Model )</span></th>
                         <th>Trạng thái Model</th>
                         <th class="boloc-delta-rsi-header">
                             <div class="delta-rsi-wrapper"
@@ -5668,9 +5732,9 @@
                                 </div>
                             </div>
                         </th>
-                        <th>Vùng kiểm định<br>kỹ thuật</th>
-                        <th>Vùng kháng cự<br>kỹ thuật</th>
-                        <th>Vùng hỗ trợ<br>kỹ thuật</th>
+                        <th>Vùng<br class="zalo-only-br"> kiểm định<br>kỹ thuật</th>
+                        <th>Vùng<br class="zalo-only-br"> kháng cự<br>kỹ thuật</th>
+                        <th>Vùng<br class="zalo-only-br"> hỗ trợ<br>kỹ thuật</th>
                     </tr>
                 </thead>
                 <tbody id="bolocBody">
@@ -9620,6 +9684,32 @@
             });
         }
 
+        let baseZaloDpr = 0;
+        let baseZaloInnerHeight = 0;
+        let initialBolocBaseRowHeight = 0;
+
+        function updateBolocRowHeight() {
+            const tableWrapper = document.querySelector('#panel-boloc .dark-table-wrapper') || document.querySelector('.data-table-wrapper');
+            if (!tableWrapper || !document.body.classList.contains('is-zalo-mode-active')) return;
+
+            const currentDpr = window.devicePixelRatio || 1;
+            const innerH = window.innerHeight;
+
+            if (!baseZaloDpr || currentDpr > baseZaloDpr + 0.05) {
+                baseZaloDpr = currentDpr;
+                baseZaloInnerHeight = innerH;
+                initialBolocBaseRowHeight = (innerH - 128) / 12;
+            }
+
+            const currentCalcHeight = (innerH - 128) / 12;
+            const isZoomedOut = (currentDpr < baseZaloDpr - 0.01) || (innerH > baseZaloInnerHeight + 10);
+            const effectiveRowHeight = isZoomedOut ? initialBolocBaseRowHeight : currentCalcHeight;
+
+            tableWrapper.style.setProperty('--boloc-zalo-row-height', `${effectiveRowHeight}px`);
+        }
+
+        window.addEventListener('resize', updateBolocRowHeight);
+
         let isZaloCaptureMode = false;
 
         function toggleZaloCaptureMode() {
@@ -9630,6 +9720,10 @@
             const body = document.body;
 
             if (isZaloCaptureMode) {
+                baseZaloDpr = window.devicePixelRatio || 1;
+                baseZaloInnerHeight = window.innerHeight;
+                initialBolocBaseRowHeight = (baseZaloInnerHeight - 128) / 12;
+
                 if (btn) {
                     btn.innerHTML = '↩';
                     btn.title = 'Quay lại giao diện thường';
@@ -9637,7 +9731,12 @@
                 }
                 if (tableWrapper) tableWrapper.classList.add('is-zalo-mode');
                 body.classList.add('is-zalo-mode-active');
+                updateBolocRowHeight();
             } else {
+                baseZaloDpr = 0;
+                baseZaloInnerHeight = 0;
+                initialBolocBaseRowHeight = 0;
+
                 if (btn) {
                     btn.innerHTML = '⛶ Full Màn Hình';
                     btn.title = '';

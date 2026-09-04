@@ -33,26 +33,45 @@ echo.
 echo [3/4] Checking Docker / Container services...
 docker -v >nul 2>&1
 if !errorlevel! neq 0 (
-    echo [INFO] Docker is not installed or not in system PATH.
-    echo If PostgreSQL and Redis are running natively, this is fine.
-    echo Proceeding without Docker...
-    goto :check_port
+    echo [INFO] Docker CLI is not installed or not in system PATH.
+) else (
+    echo [OK] Docker CLI is available.
+    echo Checking Docker Daemon status...
+    docker info >nul 2>&1
+    if !errorlevel! neq 0 (
+        echo [WARNING] Docker Desktop / Daemon is NOT running!
+        echo Standard containers PostgreSQL and Redis could not be auto-started by Docker.
+    ) else (
+        echo Launching PostgreSQL and Redis via docker-compose...
+        docker-compose -f fintop-backend\docker-compose.yml up -d >nul 2>&1
+        if !errorlevel! neq 0 (
+            docker compose -f fintop-backend\docker-compose.yml up -d >nul 2>&1
+        )
+        echo [OK] Docker containers launched.
+    )
 )
-echo [OK] Docker CLI is available.
-echo Checking Docker Daemon status...
-docker info >nul 2>&1
-if !errorlevel! neq 0 (
-    echo [WARNING] Docker Daemon is NOT running.
-    echo Please start Docker Desktop if you rely on Docker containers.
-    echo Proceeding anyway...
-    goto :check_port
+
+echo.
+echo Checking Redis service (Port 6379)...
+set REDIS_RUNNING=0
+for /f "tokens=*" %%a in ('netstat -ano ^| findstr "LISTENING" ^| findstr /C:":6379 " 2^>nul') do (
+    set REDIS_RUNNING=1
 )
-echo Launching PostgreSQL and Redis via docker-compose...
-docker-compose -f fintop-backend\docker-compose.yml up -d >nul 2>&1
-if !errorlevel! neq 0 (
-    docker compose -f fintop-backend\docker-compose.yml up -d >nul 2>&1
+if !REDIS_RUNNING! equ 0 (
+    echo [INFO] Redis is not active on port 6379. Attempting to start local Redis...
+    if exist "C:\Program Files\Redis\redis-server.exe" (
+        start "" /b "C:\Program Files\Redis\redis-server.exe" "C:\Program Files\Redis\redis.windows.conf" >nul 2>&1
+        echo [OK] Launched local Redis server executable.
+    ) else (
+        echo [INFO] Local Redis executable not found. Backend will start in fallback mode.
+    )
+) else (
+    echo [OK] Redis is active on port 6379.
 )
-echo [OK] Docker containers checked/started.
+
+if exist "C:\Program Files\Redis\redis-cli.exe" (
+    "C:\Program Files\Redis\redis-cli.exe" config set stop-writes-on-bgsave-error no >nul 2>&1
+)
 
 :check_port
 echo.

@@ -13,33 +13,36 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
       throw new Error('REDIS_URL is not defined');
     }
 
+    let isLoggedOffline = false;
     const options: RedisOptions = {
       retryStrategy: (times: number) => {
-        this.logger.warn(`Redis connection retry attempt #${times}...`);
-        // Exponential backoff up to 3 seconds
-        return Math.min(times * 200, 3000);
+        if (!isLoggedOffline) {
+          this.logger.warn('Redis connection offline. Service running in fallback mode.');
+          isLoggedOffline = true;
+        }
+        return Math.min(times * 1000, 10000);
       },
-      reconnectOnError: (err) => {
-        this.logger.error(`Redis connection error: ${err.message}`);
-        return true;
-      },
+      reconnectOnError: () => true,
       maxRetriesPerRequest: 10,
     };
 
     this.client = new Redis(redisUrl, options);
 
     this.client.on('connect', () => {
+      isLoggedOffline = false;
       this.logger.log('Redis connected successfully.');
     });
 
     this.client.on('error', (err) => {
-      this.logger.error(`Redis client error: ${err.message}`, err.stack);
+      if (!isLoggedOffline) {
+        this.logger.warn(`Redis client notice: ${err.message}`);
+      }
     });
   }
 
   async onModuleInit() {
     this.logger.log('Initializing Redis client...');
-    await this.checkHealth();
+    await this.checkHealth().catch(() => false);
   }
 
   async onModuleDestroy() {

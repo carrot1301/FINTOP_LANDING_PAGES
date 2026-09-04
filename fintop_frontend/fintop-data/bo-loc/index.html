@@ -563,8 +563,8 @@
 
         /* ── Zalo Mobile Capture Mode Styles (Compact 12-Column Layout) ── */
         .data-table-wrapper.is-zalo-mode {
-            max-width: 1080px !important;
-            width: 1080px !important;
+            max-width: calc(100vw - 16px) !important;
+            width: fit-content !important;
             margin: 0 auto !important;
             border: 2px solid rgba(168, 85, 247, 0.7) !important;
             border-radius: 14px !important;
@@ -597,8 +597,8 @@
         }
 
         .data-table-wrapper.is-zalo-mode table.data-table {
-            min-width: 1080px !important;
-            width: 100% !important;
+            min-width: 0 !important;
+            width: auto !important;
             table-layout: fixed !important;
             border-collapse: collapse !important;
         }
@@ -610,7 +610,7 @@
 
         .data-table-wrapper.is-zalo-mode table.data-table thead th {
             font-size: 0.74rem !important;
-            padding: 6px 2px !important;
+            padding: 9px 2px !important;
             color: #E9D5FF !important;
             background: #17102b !important;
             border-bottom: 2px solid rgba(168, 85, 247, 0.4) !important;
@@ -620,8 +620,8 @@
         }
 
         .data-table-wrapper.is-zalo-mode table.data-table tbody tr {
-            height: calc((100vh - 118px) / 12) !important;
-            max-height: calc((100vh - 118px) / 12) !important;
+            height: var(--boloc-zalo-row-height, calc((100vh - 128px) / 12)) !important;
+            min-height: 40px !important;
             box-sizing: border-box !important;
         }
 
@@ -676,72 +676,99 @@
             text-shadow: none !important;
         }
 
-        /* Cột 3: Sàn (Nới rộng 43px) */
+        /* Cột 1: STT */
+        .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(1),
+        .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(1) {
+            width: 28px !important;
+            text-align: center !important;
+            font-size: 0.78rem !important;
+            white-space: nowrap !important;
+        }
+
+        /* Cột 2: Mã CP */
+        .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(2) {
+            width: 45px !important;
+        }
+
+        .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(2) {
+            width: 45px !important;
+            font-size: 0.90rem !important;
+            font-weight: 900 !important;
+            color: #ffffff !important;
+            letter-spacing: 0.5px !important;
+            text-shadow: none !important;
+        }
+
+        /* Cột 3: Sàn (38px) */
         .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(3),
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(3) {
-            width: 43px !important;
+            width: 38px !important;
             text-align: center !important;
         }
 
-        /* Cột 4: Ngành HĐKD (Nới rộng 91px) */
+        /* Cột 4: Ngành HĐKD (Chế độ Full màn hình: 90px) */
+        .data-table-wrapper.is-zalo-mode #bolocTable th:nth-child(4),
+        .data-table-wrapper.is-zalo-mode #bolocTable td:nth-child(4),
         .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(4),
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(4) {
-            width: 91px !important;
+            width: 90px !important;
+            min-width: 90px !important;
+            max-width: 90px !important;
             font-size: 0.76rem !important;
             white-space: nowrap !important;
             text-overflow: ellipsis !important;
             overflow: hidden !important;
         }
 
-        /* Cột 5: Update time (Nới rộng 54px) */
+        /* Cột 5: Update time (56px) */
         .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(5),
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(5) {
-            width: 54px !important;
+            width: 56px !important;
             font-size: 0.72rem !important;
             text-align: center !important;
             line-height: 1.15 !important;
         }
 
-        /* Cột 6: Mô tả Model (Rộng 257px thoáng rộng 2 dòng) */
+        /* Cột 6: Mô tả Model (Rộng 208px ngắt dòng chuẩn) */
         table.data-table thead th:nth-child(6) {
             text-align: center !important;
         }
 
         .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(6) {
-            width: 257px !important;
+            width: 208px !important;
             font-size: 0.78rem !important;
             text-align: center !important;
             line-height: 1.35 !important;
         }
 
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(6) {
-            width: 257px !important;
+            width: 208px !important;
             font-size: 0.80rem !important;
             font-weight: 400 !important;
-            color: #cbd5e1 !important;
+            color: #e2e8f0 !important;
             text-align: left !important;
             line-height: 1.22 !important;
             vertical-align: middle !important;
             overflow: hidden !important;
         }
 
-        /* Cột 7: Trạng thái Model (Mở rộng 96px giúp viền tím bo nhãn "RẤT TÍCH CỰC" rộng rãi, sang đẹp) */
+        /* Cột 7: Trạng thái Model (88px) */
         .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(7),
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(7) {
-            width: 96px !important;
+            width: 88px !important;
             text-align: center !important;
         }
 
-        /* Cột 8: ΔRSI (Rộng 47px, font-size nội dung 0.58rem vừa khít 100% không lo tràn) */
+        /* Cột 8: ΔRSI (42px) */
         .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(8) {
-            width: 47px !important;
+            width: 42px !important;
             text-align: center !important;
-            font-size: 0.70rem !important;
+            font-size: 0.60rem !important;
             white-space: nowrap !important;
         }
 
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(8) {
-            width: 47px !important;
+            width: 42px !important;
             text-align: center !important;
             font-size: 0.58rem !important;
             letter-spacing: -0.1px !important;
@@ -749,10 +776,10 @@
             opacity: 0.9 !important;
         }
 
-        /* Cột 9: Sức mạnh xu hướng (Dòng 1: Sức mạnh xu hướng, Dòng 2: RSI/MFI - Dòng tiền (i) nằm cùng 1 hàng không rớt nút i) */
+        /* Cột 9: Sức mạnh xu hướng (115px) */
         .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(9),
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(9) {
-            width: 142px !important;
+            width: 115px !important;
             text-align: center !important;
             font-weight: 800 !important;
         }
@@ -791,17 +818,31 @@
             color: #fbbf24 !important;
         }
 
-        /* Cho phép tiêu đề th cột 10, 11, 12 tự động ngắt 2 dòng nguyên từ, không bao giờ ngắt đôi chữ */
+        .zalo-only-br {
+            display: none !important;
+        }
+
+        /* Cho phép tiêu đề th cột 10, 11, 12 ở Full màn hình ngắt 3 dòng chuẩn */
         .data-table-wrapper.is-zalo-mode table.data-table thead th:nth-child(10),
         .data-table-wrapper.is-zalo-mode table.data-table thead th:nth-child(11),
         .data-table-wrapper.is-zalo-mode table.data-table thead th:nth-child(12) {
             white-space: normal !important;
-            word-break: normal !important;
+            word-break: keep-all !important;
             overflow-wrap: normal !important;
-            line-height: 1.16 !important;
+            line-height: 1.25 !important;
             padding: 4px 1px !important;
-            font-size: 0.71rem !important;
+            font-size: 0.70rem !important;
             color: #E9D5FF !important;
+        }
+
+        .data-table-wrapper.is-zalo-mode .zalo-only-br {
+            display: inline !important;
+        }
+
+        .data-table-wrapper.is-zalo-mode .zalo-model-subtext {
+            font-size: 0.85em !important;
+            font-weight: 500 !important;
+            opacity: 0.88;
         }
 
         .data-table td:nth-child(10),
@@ -817,55 +858,37 @@
             text-overflow: ellipsis !important;
         }
 
-        /* Cột 10: Vùng kiểm định (92px) */
-        .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(10) {
-            width: 92px !important;
-            text-align: center !important;
-            font-weight: 700 !important;
-        }
-
+        /* Cột 10: Vùng kiểm định (Chia đều phần dư bảng ở Full màn hình) */
+        .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(10),
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(10) {
-            width: 92px !important;
+            width: calc((100% - 732px) / 3) !important;
+            min-width: 70px !important;
             text-align: center !important;
-            font-weight: 900 !important;
-            font-size: 0.96rem !important;
-            color: #ffffff !important;
+            font-weight: 700 !important;
             white-space: nowrap !important;
             overflow: hidden !important;
             text-overflow: ellipsis !important;
         }
 
-        /* Cột 11: Vùng kháng cự (89px) */
-        .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(11) {
-            width: 89px !important;
-            text-align: center !important;
-            font-weight: 700 !important;
-        }
-
+        /* Cột 11: Vùng kháng cự (Chia đều phần dư bảng ở Full màn hình) */
+        .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(11),
         .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(11) {
-            width: 89px !important;
+            width: calc((100% - 732px) / 3) !important;
+            min-width: 70px !important;
             text-align: center !important;
-            font-weight: 900 !important;
-            font-size: 0.96rem !important;
-            color: #ffffff !important;
+            font-weight: 700 !important;
             white-space: nowrap !important;
             overflow: hidden !important;
             text-overflow: ellipsis !important;
         }
 
-        /* Cột 12: Vùng hỗ trợ (89px) */
-        .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(12) {
-            width: 89px !important;
+        /* Cột 12: Vùng hỗ trợ (Chia đều phần dư bảng ở Full màn hình) */
+        .data-table-wrapper.is-zalo-mode table.data-table th:nth-child(12),
+        .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(12) {
+            width: calc((100% - 732px) / 3) !important;
+            min-width: 70px !important;
             text-align: center !important;
             font-weight: 700 !important;
-        }
-
-        .data-table-wrapper.is-zalo-mode table.data-table td:nth-child(12) {
-            width: 89px !important;
-            text-align: center !important;
-            font-weight: 900 !important;
-            font-size: 0.96rem !important;
-            color: #ffffff !important;
             white-space: nowrap !important;
             overflow: hidden !important;
             text-overflow: ellipsis !important;
@@ -892,6 +915,10 @@
 
         /* 🟢 Bảng tím ép kéo dài chạm sát mép dưới màn hình 100% (bỏ hẳn khoảng đen đánh dấu X) */
         .data-table-wrapper.is-zalo-mode {
+            max-width: calc(100vw - 16px) !important;
+            width: fit-content !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
             margin-top: 0 !important;
             margin-bottom: 0 !important;
             height: calc(100vh - 8px) !important;
@@ -1106,7 +1133,7 @@
                             Update<br>time</th>
                         <th
                             style="padding: 7px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 200px;">
-                            Dữ liệu kỹ thuật lịch sử (Model)</th>
+                            Dữ liệu kỹ thuật lịch sử<br class="zalo-only-br"> <span class="zalo-model-subtext">( Model )</span></th>
                         <th
                             style="padding: 7px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 125px;">
                             Trạng thái Model</th>
@@ -1142,14 +1169,14 @@
                             </div>
                         </th>
                         <th
-                            style="padding: 7px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 90px;">
-                            Vùng kiểm định<br>kỹ thuật</th>
+                            style="padding: 7px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
+                            Vùng<br class="zalo-only-br"> kiểm định<br>kỹ thuật</th>
                         <th
-                            style="padding: 7px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 85px;">
-                            Vùng kháng cự<br>kỹ thuật</th>
+                            style="padding: 7px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
+                            Vùng<br class="zalo-only-br"> kháng cự<br>kỹ thuật</th>
                         <th
-                            style="padding: 7px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 95px;">
-                            Vùng hỗ trợ<br>kỹ thuật</th>
+                            style="padding: 7px 4px; color: #c084fc; font-weight: 700; font-size: 0.72rem; text-align: center; width: 110px;">
+                            Vùng<br class="zalo-only-br"> hỗ trợ<br>kỹ thuật</th>
                     </tr>
                 </thead>
                 <tbody id="bolocBody">

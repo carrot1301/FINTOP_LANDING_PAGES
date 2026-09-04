@@ -1,10 +1,11 @@
-import { Injectable, OnModuleDestroy } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, Logger } from '@nestjs/common';
 import { SharedBullConfigurationFactory, BullRootModuleOptions } from '@nestjs/bullmq';
 import { ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
 
 @Injectable()
 export class QueueConfigService implements SharedBullConfigurationFactory, OnModuleDestroy {
+  private readonly logger = new Logger(QueueConfigService.name);
   private connection?: Redis;
 
   constructor(private readonly configService: ConfigService) {}
@@ -18,6 +19,16 @@ export class QueueConfigService implements SharedBullConfigurationFactory, OnMod
     // BullMQ strictly requires maxRetriesPerRequest: null for its Redis connection
     this.connection = new Redis(redisUrl, {
       maxRetriesPerRequest: null,
+      retryStrategy: (times: number) => {
+        if (times === 1) {
+          this.logger.warn('Queue Redis offline. Retrying in background...');
+        }
+        return Math.min(times * 1000, 10000);
+      },
+    });
+
+    this.connection.on('error', () => {
+      // Quietly handle connection errors during offline mode
     });
 
     return {
