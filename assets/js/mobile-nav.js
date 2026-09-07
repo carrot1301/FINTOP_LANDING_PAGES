@@ -69,7 +69,7 @@
                 <div class="mobile-drawer-section">
                     <div class="mobile-drawer-link">Nghiên cứu <span>▼</span></div>
                     <div class="mobile-drawer-sublinks">
-                        <a href="${thiTruongUrl}" class="mobile-drawer-sublink">Nghiên cứu thị trường</a>
+                        <a href="${thiTruongUrl}" class="mobile-drawer-sublink">Kinh tế thị trường</a>
                         <a href="${chuyenSauUrl}" class="mobile-drawer-sublink">Nghiên cứu chuyên sâu ★</a>
                         <a href="${doanhNghiepUrl}" class="mobile-drawer-sublink">Nghiên cứu Doanh nghiệp</a>
                         <a href="${nhomNganhUrl}" class="mobile-drawer-sublink">Nghiên cứu nhóm Ngành</a>
