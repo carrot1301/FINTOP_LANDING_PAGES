@@ -63,33 +63,13 @@ const NavbarAuth = {
     const tierLevel = user?.tierLevel || 'STANDARD';
     const tierInfo = this._getTierInfo(tierLevel);
 
-    // Dynamic VIP/Admin/Editor links based on RBAC & Tier
+    // Dynamic VIP Perks inside dropdown
     let dynamicLinksHTML = '';
-
-    if (RbacEvaluator.isAdminCapable()) {
-      dynamicLinksHTML += `
-        <a href="/admin/" class="user-dropdown-item" style="color: #c084fc; font-weight: bold; border-left: 3px solid #c084fc;">
-          ⚙️ Bảng Quản trị (Admin)
-        </a>
-      `;
-    }
-
-    if (RbacEvaluator.isSuperAdmin() || RbacEvaluator.hasRole('EDITOR') || RbacEvaluator.hasPermission('CREATE_SIGNAL')) {
-      dynamicLinksHTML += `
-        <a href="javascript:void(0)" class="user-dropdown-item" style="color: #60a5fa; font-weight: bold; border-left: 3px solid #60a5fa;" onclick="if (typeof openPanel === 'function') { const trigger = document.querySelector('[data-panel=\\'panel-tinhieu\\']'); openPanel('panel-tinhieu', trigger || this); } else { alert('Mở bảng Đăng tín hiệu'); }">
-          📡 Viết Tín hiệu (Editor)
-        </a>
-      `;
-    }
-
-    if (dynamicLinksHTML) {
-      dynamicLinksHTML += `<div style="margin: 4px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>`;
-    }
 
     // Special Tier Perks inside dropdown
     if (RbacEvaluator.hasTier('SILVER')) {
       dynamicLinksHTML += `
-        <a href="javascript:void(0)" class="user-dropdown-item" style="color: #e2e8f0;" onclick="if (typeof openPanel === 'function') { const trigger = document.querySelector('[data-panel=\\'panel-stock-pro\\']'); openPanel('panel-stock-pro', trigger || this); } else { alert('Mở đặc quyền PRO Data'); }">
+        <a href="/stock-data/pro-data/index.html" class="user-dropdown-item" style="color: #e2e8f0;">
           📊 Đặc quyền PRO Data
         </a>
       `;

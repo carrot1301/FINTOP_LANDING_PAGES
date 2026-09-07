@@ -60,7 +60,7 @@
                     <div class="mobile-drawer-link">Dữ liệu <span>▼</span></div>
                     <div class="mobile-drawer-sublinks">
                         <a href="${stockThiTruongUrl}" class="mobile-drawer-sublink">Thị trường</a>
-                        <a href="${rootIndex}#panel-stock-pro" class="mobile-drawer-sublink">PRO Data ★</a>
+                        <a href="/stock-data/pro-data/index.html" class="mobile-drawer-sublink">PRO Data ★</a>
                         <a href="${rootIndex}#panel-stock-sector" class="mobile-drawer-sublink">Định lượng</a>
                         <a href="${rootIndex}#panel-stock-reports" class="mobile-drawer-sublink">Báo cáo</a>
                     </div>

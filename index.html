@@ -6698,65 +6698,7 @@
     <!-- ============================================ -->
 
 
-    <div class="submenu-panel" id="panel-stock-pro">
-        <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
-        <div class="panel-header">
-            <h2 class="gradient-text" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">PRO Data</h2>
-            <p>Dữ liệu nâng cao dành cho hội viên PRO: trạng thái Model, vùng giá tham chiếu và điểm QTRR.</p>
-        </div>
-        <div class="function-shell">
-            <div class="function-table-card">
-                <table class="function-table">
-                    <thead>
-                        <tr>
-                            <th>Mã</th>
-                            <th>Model</th>
-                            <th>Kết quả</th>
-                            <th>Vùng tham chiếu</th>
-                            <th>QTRR</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>FPT</td>
-                            <td>Kênh xu hướng tăng trung hạn</td>
-                            <td><span class="function-tag good">ENTRY</span></td>
-                            <td>128 - 132</td>
-                            <td>18</td>
-                        </tr>
-                        <tr>
-                            <td>HPG</td>
-                            <td>Tích lũy trên MA50</td>
-                            <td><span class="function-tag watch">SMALL ENTRY</span></td>
-                            <td>29.5 - 31.0</td>
-                            <td>22</td>
-                        </tr>
-                        <tr>
-                            <td>SSI</td>
-                            <td>Dòng tiền cải thiện</td>
-                            <td><span class="function-tag good">ENTRY</span></td>
-                            <td>35 - 36.5</td>
-                            <td>20</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="function-grid three">
-                <article class="function-mini-card">
-                    <h4>Model trạng thái</h4>
-                    <p>Chuẩn hóa tín hiệu kỹ thuật thành nhãn dễ đọc: ENTRY, HOLD, WATCH.</p>
-                </article>
-                <article class="function-mini-card">
-                    <h4>Vùng giá</h4>
-                    <p>Gợi ý vùng tham chiếu và kháng cự để hỗ trợ lập kế hoạch giao dịch.</p>
-                </article>
-                <article class="function-mini-card">
-                    <h4>QTRR</h4>
-                    <p>Điểm rủi ro demo giúp kiểm soát tỷ trọng và điểm dừng lỗ.</p>
-                </article>
-            </div>
-        </div>
-    </div>
+
 
     <div class="submenu-panel" id="panel-stock-sector">
         <button class="panel-close-btn" onclick="closeAllPanels()">✕</button>
@@ -11460,6 +11402,10 @@
         let hashDebounceTimer = null;
         function openPanelFromHash() {
             const hashPanel = window.location.hash.replace('#', '');
+            if (hashPanel === 'panel-stock-pro' || hashPanel === 'pro-data') {
+                window.location.replace('/stock-data/pro-data/index.html');
+                return;
+            }
             const savedPanel = sessionStorage.getItem('fintop_active_panel');
             const panelId = hashPanel || savedPanel;
             const allowedPanels = [
@@ -11471,8 +11417,6 @@
                 'panel-analysis-company',
                 'panel-analysis-sector',
                 'panel-hoivien',
-                'panel-stock-quant',
-                'panel-stock-pro',
                 'panel-stock-sector',
                 'panel-stock-reports',
                 'panel-guide-trading',
