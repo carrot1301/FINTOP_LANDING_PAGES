@@ -63,14 +63,13 @@ const TIER_LABELS = {
 
 const ROLE_DISPLAY = {
   CEO: { label: 'CEO - Admin Tổng', color: '#ff3b3b' },
-  SUPER_ADMIN: { label: 'CEO - Admin Tổng', color: '#ff3b3b' },
   DEVELOPER: { label: 'Developer', color: '#a855f7' },
   ASSISTANT_CEO: { label: 'Trợ lý CEO', color: '#ff6b6b' },
   EDITOR_ADMIN: { label: 'Editor Admin', color: '#3b82f6' },
-  EDITOR_PRO: { label: 'Editor Pro', color: '#60a5fa' },
   EDITOR: { label: 'Editor', color: '#93c5fd' },
   SALE_ADMIN: { label: 'Sales Admin', color: '#22c55e' },
   SALE: { label: 'Sale', color: '#4ade80' },
+  EXPERT: { label: 'Chuyên gia', color: '#c084fc' },
   CLIENT_DIAMOND: { label: 'Khách hàng Diamond', color: '#eab308' },
   CLIENT_VIP: { label: 'Khách hàng VIP', color: '#f59e0b' },
   CLIENT_PRO: { label: 'Khách hàng PRO', color: '#3b82f6' },
@@ -164,10 +163,10 @@ export default {
         if (Array.isArray(res)) rawData = res;
 
         // Filter out any users with staff roles (transferred to Staff page)
-        const STAFF_ROLES = ['SUPER_ADMIN', 'CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE'];
+        const STAFF_ROLES = ['CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'];
         rawData = rawData.filter(u => {
           const userRoles = u.roles || u.userRoles || [];
-          return !userRoles.some(r => STAFF_ROLES.includes(r.code || r));
+          return !userRoles.some(r => STAFF_ROLES.includes(r.code || r.name || r));
         });
 
         // Multi-field search and tier filtering fallback
@@ -351,11 +350,8 @@ export default {
               <button class="admin-btn admin-btn-warning admin-btn-sm" data-action="edit-data" data-id="${u.id}" title="Sửa thông tin">
                 ✏️ Sửa
               </button>
-              <button class="admin-btn admin-btn-secondary admin-btn-sm" data-action="view" data-id="${u.id}" title="Chi tiết & Phân quyền">
-                📋
-              </button>
-              <span class="upgrade-btn" data-action="upgrade" data-id="${u.id}" data-name="${esc(u.fullName || u.name || '')}" data-tier="${esc(u.tierLevel || 'standard')}" style="cursor:pointer;margin-left:4px;" title="Nâng cấp tài khoản">
-                <span style="font-size:1.5rem;color:#00ff10;">⚙️</span>
+              <span data-action="view" data-id="${u.id}" style="cursor:pointer;margin-left:8px;font-size:1.4rem;vertical-align:middle;display:inline-block;line-height:1;" title="Chi tiết & Phân quyền">
+                ⚙️
               </span>
             </td>
           </tr>
@@ -364,7 +360,6 @@ export default {
       onRowAction: async (action, id, dataset) => {
         if (action === 'view') await showUserDetail(parseInt(id));
         if (action === 'edit-data') await showEditModal(parseInt(id));
-        if (action === 'upgrade') showUpgradeModal(parseInt(id), dataset.name, dataset.tier);
       },
     });
 
@@ -667,10 +662,10 @@ const ALL_12_ROLES = [
   { code: 'DEVELOPER', label: '🟣 Developer' },
   { code: 'ASSISTANT_CEO', label: '🔴 Trợ lý CEO' },
   { code: 'EDITOR_ADMIN', label: '🔵 Editor Admin' },
-  { code: 'EDITOR_PRO', label: '🔵 Editor Pro' },
   { code: 'EDITOR', label: '🔵 Editor' },
   { code: 'SALE_ADMIN', label: '🟢 Sales Admin' },
   { code: 'SALE', label: '🟢 Sale' },
+  { code: 'EXPERT', label: '🟣 Chuyên gia' },
   { code: 'CLIENT', label: '⚪ Khách hàng Standard' },
   { code: 'CLIENT_PRO', label: '🔵 Khách hàng PRO' },
   { code: 'CLIENT_VIP', label: '🟡 Khách hàng VIP' },
@@ -690,7 +685,7 @@ async function showUserDetail(userId) {
     const unassignedRoles = ALL_12_ROLES.filter(r => !assignedCodes.includes(r.code));
 
     const CEO_EMAILS = ['fintop.bashare@gmail.com', 'fintop.ba@gmail.com'];
-    const isTargetCeo = CEO_EMAILS.includes(u.email) || (u.roles || []).some(r => ['CEO', 'SUPER_ADMIN'].includes(r.code || r));
+    const isTargetCeo = CEO_EMAILS.includes(u.email) || (u.roles || []).some(r => (r.code || r) === 'CEO');
     const currentAdminUser = window.FintopInfra.AppState.getState('user') || {};
     const isCurrentAdminCeo = CEO_EMAILS.includes(currentAdminUser.email);
     const isProtectedTarget = isTargetCeo && !isCurrentAdminCeo;
@@ -804,14 +799,17 @@ async function showUserDetail(userId) {
 
             <div style="margin-top:1.25rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:1rem;">
               <div class="admin-detail-label" style="margin-bottom:0.5rem;">🔑 Cấp vai trò mới</div>
-              <div style="display:flex; gap:0.5rem; align-items:center;">
-                <select class="admin-select" id="assign-role-select" style="min-width:260px;" ${isProtectedTarget ? 'disabled' : ''}>
+              <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+                <select class="admin-select" id="assign-role-select" style="min-width:240px;" ${isProtectedTarget ? 'disabled' : ''}>
                   <option value="">-- Chọn vai trò --</option>
                   ${ALL_12_ROLES.map(r => {
-      const isCurrent = assignedCodes.includes(r.code);
-      return `<option value="${esc(r.code)}">${esc(r.label)}${isCurrent ? ' (Hiện tại)' : ''}</option>`;
-    }).join('')}
+                    const isCurrent = assignedCodes.includes(r.code);
+                    return `<option value="${esc(r.code)}">${esc(r.label)}${isCurrent ? ' (Hiện tại)' : ''}</option>`;
+                  }).join('')}
                 </select>
+                <div id="staff-id-input-container" style="display:none; align-items:center; gap:0.5rem;">
+                  <input type="text" class="admin-input" id="assign-staff-id-input" placeholder="Nhập ID nhân sự *" style="width:160px;" value="${esc(u.staffCode || '')}" ${isProtectedTarget ? 'disabled' : ''} />
+                </div>
                 <button class="admin-btn admin-btn-secondary admin-btn-sm" id="btn-assign-role" ${isProtectedTarget ? 'disabled' : ''}>Gán vai trò</button>
               </div>
             </div>
@@ -872,14 +870,45 @@ async function showUserDetail(userId) {
       });
     });
 
+    // Toggle Staff ID input dynamically when selecting a Staff Role for a Customer account
+    const selectEl = detailContainer.querySelector('#assign-role-select');
+    const staffIdContainer = detailContainer.querySelector('#staff-id-input-container');
+    const staffIdInput = detailContainer.querySelector('#assign-staff-id-input');
+
+    const STAFF_ROLES = ['CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'];
+    const CUSTOMER_ROLES = ['CLIENT', 'CLIENT_PRO', 'CLIENT_VIP', 'CLIENT_DIAMOND'];
+
+    // Check if user currently holds a customer role / tier (standard, pro, vip, diamond)
+    const isCurrentlyCustomer = assignedCodes.some(c => CUSTOMER_ROLES.includes(c)) || !assignedCodes.some(c => STAFF_ROLES.includes(c));
+
+    selectEl?.addEventListener('change', () => {
+      const selectedRole = selectEl.value;
+      if (STAFF_ROLES.includes(selectedRole) && isCurrentlyCustomer) {
+        if (staffIdContainer) staffIdContainer.style.display = 'flex';
+      } else {
+        if (staffIdContainer) staffIdContainer.style.display = 'none';
+      }
+    });
+
     // Assign Role button
     const assignBtn = detailContainer.querySelector('#btn-assign-role');
     assignBtn?.addEventListener('click', async () => {
-      const selectEl = detailContainer.querySelector('#assign-role-select');
       const roleCode = selectEl?.value;
       if (!roleCode) {
         showToast('Vui lòng chọn vai trò để gán', 'error');
         return;
+      }
+
+      const isStaffRole = STAFF_ROLES.includes(roleCode);
+      let staffCode = '';
+
+      if (isStaffRole && isCurrentlyCustomer) {
+        staffCode = staffIdInput?.value?.trim() || '';
+        if (!staffCode) {
+          showToast('Vui lòng nhập ID nhân sự khi gán vai trò nhân sự!', 'error');
+          staffIdInput?.focus();
+          return;
+        }
       }
 
       const roleLabel = ROLE_DISPLAY[roleCode]?.label || roleCode;
@@ -888,12 +917,9 @@ async function showUserDetail(userId) {
         return;
       }
 
-      const STAFF_ROLES = ['SUPER_ADMIN', 'CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR_PRO', 'EDITOR', 'SALE_ADMIN', 'SALE'];
-      const isStaffRole = STAFF_ROLES.includes(roleCode);
-
       assignBtn.disabled = true;
       try {
-        await API().patch(EP().ADMIN_USER_ROLE(u.id), { roleCode });
+        await API().patch(EP().ADMIN_USER_ROLE(u.id), { roleCode, staffCode });
         if (isStaffRole) {
           showToast(`Đã gán vai trò "${roleLabel}". Tài khoản đã tự động được chuyển sang trang "Nhân sự"!`, 'info');
           closeModal();
@@ -917,8 +943,8 @@ async function showUserDetail(userId) {
 
         // Self-demotion guard
         const currentAdmin = window.FintopInfra.AppState.getState('user') || {};
-        if (parseInt(uid) === currentAdmin.id && roleCode === 'SUPER_ADMIN') {
-          showToast('Bạn không thể tự gỡ vai trò quản trị viên cấp cao của chính mình!', 'error');
+        if (parseInt(uid) === currentAdmin.id && roleCode === 'CEO') {
+          showToast('Bạn không thể tự gỡ vai trò CEO của chính mình!', 'error');
           return;
         }
 

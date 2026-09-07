@@ -103,11 +103,9 @@
         var detailUrl = 'javascript:void(0);';
 
         var lockHTML = '';
+        var lockedClass = art.locked ? ' is-locked' : '';
         if (art.locked) {
-            lockHTML = '<div class="rp-featured-lock">' +
-                '<div class="rp-lock-icon"><i class="fa-solid fa-lock"></i></div>' +
-                '<span class="rp-lock-text">Đặc quyền PRO</span>' +
-                '</div>';
+            lockHTML = '<div class="rp-glass-badge"><span class="rp-glass-icon">👑</span><span class="rp-glass-text">ĐẶC QUYỀN PRO</span></div>';
         }
 
         var kickerColor = config.kickerColor || '#a855f7';
@@ -119,7 +117,7 @@
             : '';
 
         container.innerHTML =
-            '<div class="rp-featured-card">' +
+            '<div class="rp-featured-card' + lockedClass + '">' +
                 '<div class="rp-featured-thumb" style="cursor:pointer;" onclick="if(window.ArticleModal){event.preventDefault();ArticleModal.open(\'' + art.slug + '\');return false;}">' +
                     '<img src="' + imgUrl + '" alt="' + escHTML(art.title) + '" onerror="this.src=\'../../assets/images/fintop_terminal_mockup.png\'">' +
                     lockHTML +
@@ -163,10 +161,7 @@
             var lockedClass = art.locked ? ' is-locked' : '';
 
             var lockOverlay = art.locked
-                ? '<div class="rp-card-lock">' +
-                    '<div class="rp-lock-icon"><i class="fa-solid fa-lock"></i></div>' +
-                    '<span class="rp-lock-text">Đặc quyền PRO</span>' +
-                  '</div>'
+                ? '<div class="rp-glass-badge"><span class="rp-glass-icon">👑</span><span class="rp-glass-text">ĐẶC QUYỀN PRO</span></div>'
                 : '';
 
             var lockTitleIcon = art.locked

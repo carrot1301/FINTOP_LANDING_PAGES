@@ -62,3 +62,5 @@ fintop-backend/node_modules/
 fintop-backend/dist/
 fintop-backend/test-results/
 fintop-backend/coverage/
+dump.rdb
+scratch/

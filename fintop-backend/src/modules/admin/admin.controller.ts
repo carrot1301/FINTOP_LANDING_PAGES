@@ -79,13 +79,14 @@ export class AdminController {
   @Patch('users/:id/role')
   @Permissions('ROLE:UPDATE')
   @ApiOperation({ summary: 'Assign a role to a user' })
-  @ApiBody({ schema: { properties: { roleCode: { type: 'string' } } } })
+  @ApiBody({ schema: { properties: { roleCode: { type: 'string' }, staffCode: { type: 'string' } } } })
   async assignRole(
     @Param('id') id: string,
     @Body('roleCode') roleCode: string,
     @CurrentUser() admin: any,
+    @Body('staffCode') staffCode?: string,
   ) {
-    return this.adminService.assignRole(parseInt(id, 10), roleCode, admin.id);
+    return this.adminService.assignRole(parseInt(id, 10), roleCode, admin.id, staffCode);
   }
 
   @Delete('users/:id/role')

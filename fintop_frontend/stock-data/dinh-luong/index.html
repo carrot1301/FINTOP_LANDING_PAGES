@@ -347,58 +347,48 @@
         }
 
         .card-badge {
+            display: none !important;
+        }
+
+        .glass-badge {
             position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(168, 85, 247, 0.85);
-            color: #fff;
-            font-size: 0.72rem;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #FFFFFF;
+            font-size: 0.7rem;
             font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 4px;
+            padding: 3px 9px;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 10px rgba(124, 58, 237, 0.4);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .glass-badge .glass-icon { font-size: 0.8rem; line-height: 1; }
+        .glass-badge .glass-text {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            letter-spacing: 0.3px;
             text-transform: uppercase;
-            z-index: 3;
+        }
+
+        .article-card-item.is-locked {
+            border-color: rgba(245, 158, 11, 0.4) !important;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);
+        }
+
+        .article-card-item.is-locked:hover {
+            border-color: rgba(245, 158, 11, 0.85) !important;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.25) !important;
         }
 
         .lock-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(10, 10, 15, 0.75);
-            backdrop-filter: blur(4px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            opacity: 0;
-            transition: opacity 0.25s ease;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .article-card-item.is-locked .lock-overlay {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .lock-icon-box {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #eab308, #ca8a04);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 10px rgba(234, 179, 8, 0.3);
-        }
-
-        .lock-text {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #fef08a;
-            text-transform: uppercase;
+            display: none !important;
         }
 
         .card-content {
@@ -596,7 +586,7 @@
                 <a href="javascript:void(0)" class="active-page" onclick="toggleDropdownPin('dropdown-stock-data')">Dữ liệu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="/stock-data/index.html#quant">Tổng quan</a>
+                    <a href="/stock-data/thi-truong/index.html">Thị trường</a>
                     <a href="/stock-data/pro-data/index.html">PRO Data <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="/stock-data/dinh-luong/index.html" class="active-page">Định lượng</a>
@@ -607,7 +597,7 @@
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="/nghien-cuu/thi-truong/index.html">Nghiên cứu thị trường</a>
+                    <a href="/nghien-cuu/thi-truong/index.html">Kinh tế thị trường</a>
                     <a href="/nghien-cuu/chuyen-sau/index.html">Nghiên cứu chuyên sâu <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="/nghien-cuu/doanh-nghiep/index.html">Nghiên cứu Doanh nghiệp</a>
@@ -840,12 +830,7 @@
                         <div class="card-thumb">
                             <img src="${imgUrl}" alt="${art.title}" onerror="this.src='/assets/images/fintop_terminal_mockup.png'">
                             <span class="card-badge">${art.category?.name || 'Định lượng'}</span>
-                            <div class="lock-overlay">
-                                <div class="lock-icon-box">
-                                    <i class="fa-solid fa-lock"></i>
-                                </div>
-                                <span class="lock-text">Đặc quyền PRO</span>
-                            </div>
+                            ${art.locked ? '<div class="glass-badge"><span class="glass-icon">👑</span><span class="glass-text">ĐẶC QUYỀN PRO</span></div>' : ''}
                         </div>
                         <div class="card-content">
                             <a class="card-title" href="/chuyen-gia/index.html?slug=${art.slug}">

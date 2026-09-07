@@ -282,7 +282,17 @@ export function showToast(message, type = 'success') {
 
   const toast = document.createElement('div');
   toast.className = `admin-toast ${type}`;
-  toast.innerHTML = `${type === 'success' ? '✅' : '❌'} ${esc(message)}`;
+
+  let icon = '✅';
+  if (type === 'error') {
+    icon = '❌';
+  } else if (type === 'warning') {
+    icon = '⚠️';
+  } else if (type === 'info') {
+    icon = 'ℹ️';
+  }
+
+  toast.innerHTML = `${icon} ${esc(message)}`;
   document.body.appendChild(toast);
   setTimeout(() => toast.remove(), 3500);
 }

@@ -24,7 +24,7 @@ async function main() {
     SUPER_ADMIN: Array.from(permMap.keys()), // All permissions
     CEO: Array.from(permMap.keys()), // All permissions
     ASSISTANT_CEO: [
-      'USER:READ', 'USER:UPDATE', 'ROLE:READ', 'VIP_SIGNALS:READ', 'BLOG:READ', 'REPORT:READ', 'SYSTEM:READ'
+      'USER:READ', 'USER:UPDATE', 'ROLE:READ', 'ROLE:UPDATE', 'VIP_SIGNALS:READ', 'BLOG:READ', 'REPORT:READ', 'SYSTEM:READ'
     ],
     EDITOR_ADMIN: [
       'BLOG:CREATE', 'BLOG:READ', 'BLOG:UPDATE', 'BLOG:DELETE', 'REPORT:READ', 'VIP_SIGNALS:READ'

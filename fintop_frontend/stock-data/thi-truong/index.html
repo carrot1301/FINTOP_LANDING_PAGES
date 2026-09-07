@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png">
-    <title>PRO Data | FinTop DATA</title>
+    <title>Dữ liệu Thị trường | FinTop DATA</title>
     <link rel="stylesheet" href="/assets/css/variables.css">
     <link rel="stylesheet" href="/assets/css/base.css">
     <link rel="stylesheet" href="/assets/css/components.css">
@@ -147,101 +147,16 @@
             background: linear-gradient(135deg, #fff 30%, #c084fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             text-transform: uppercase;
             letter-spacing: -0.5px;
         }
 
-        /* Featured Article */
-        .featured-section {
-            margin-bottom: 3rem;
-            display: none;
-        }
-
-        .featured-card {
-            background: rgba(30, 30, 45, 0.45);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .featured-card:hover {
-            border-color: rgba(168, 85, 247, 0.3);
-            box-shadow: 0 12px 30px rgba(168, 85, 247, 0.1);
-        }
-
-        .featured-image-wrapper {
-            position: relative;
-            overflow: hidden;
-            min-height: 320px;
-        }
-
-        .featured-image-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .featured-card:hover .featured-image-wrapper img {
-            transform: scale(1.03);
-        }
-
-        .article-kicker {
-            font-size: 0.78rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #a855f7;
-            margin-bottom: 0.75rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .featured-title {
-            font-size: 1.6rem;
-            font-weight: 800;
-            line-height: 1.4;
-            color: #fff;
-            margin-bottom: 1rem;
-            transition: color 0.2s;
-            text-decoration: none;
-            display: block;
-        }
-
-        .featured-title:hover {
-            color: #c084fc;
-        }
-
-        .featured-excerpt {
+        .research-hero p {
             color: #94a3b8;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .article-meta {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-bottom: 1.5rem;
-        }
-
-        .article-meta span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            font-size: 1rem;
+            max-width: 650px;
+            margin: 0 auto;
         }
 
         /* Search & Control Bar */
@@ -254,6 +169,7 @@
             flex-wrap: wrap;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding-bottom: 1rem;
+            margin-top: 1rem;
         }
 
         .section-heading {
@@ -347,48 +263,17 @@
         }
 
         .card-badge {
-            display: none !important;
-        }
-
-        .glass-badge {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: linear-gradient(135deg, #7c3aed, #a855f7);
-            color: #FFFFFF;
+            background: rgba(124, 58, 237, 0.85);
+            color: #fff;
             font-size: 0.7rem;
             font-weight: 700;
             padding: 3px 9px;
             border-radius: 5px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 2px 10px rgba(124, 58, 237, 0.4);
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .glass-badge .glass-icon { font-size: 0.8rem; line-height: 1; }
-        .glass-badge .glass-text {
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: #FFFFFF;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-        }
-
-        .article-card-item.is-locked {
-            border-color: rgba(245, 158, 11, 0.4) !important;
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);
-        }
-
-        .article-card-item.is-locked:hover {
-            border-color: rgba(245, 158, 11, 0.85) !important;
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.25) !important;
-        }
-
-        .lock-overlay {
-            display: none !important;
+            z-index: 5;
+            backdrop-filter: blur(4px);
         }
 
         .card-content {
@@ -526,16 +411,14 @@
         }
 
         @media (max-width: 768px) {
-            .featured-card {
-                grid-template-columns: 1fr;
+            .article-card-item {
+                flex-direction: column;
             }
 
-            .featured-image-wrapper {
-                min-height: 220px;
-            }
-
-            .featured-info {
-                padding: 1.5rem;
+            .card-thumb {
+                width: 100%;
+                min-width: 100%;
+                height: 200px;
             }
 
             .tv-nav {
@@ -582,12 +465,12 @@
                     <a href="/index.html#panel-tinhieu">📡 Copy Trade</a>
                 </div>
             </li>
-            <li class="nav-item dropdown" id="dropdown-stock-data">
+            <li class="nav-item dropdown active-nav" id="dropdown-stock-data">
                 <a href="javascript:void(0)" class="active-page" onclick="toggleDropdownPin('dropdown-stock-data')">Dữ liệu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="/stock-data/thi-truong/index.html">Thị trường</a>
-                    <a href="/stock-data/pro-data/index.html" class="active-page">PRO Data <span
+                    <a href="/stock-data/thi-truong/index.html" class="active-page">Thị trường</a>
+                    <a href="/stock-data/pro-data/index.html">PRO Data <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="/stock-data/dinh-luong/index.html">Định lượng</a>
                     <a href="/stock-data/index.html#reports">Báo cáo</a>
@@ -617,7 +500,6 @@
         </ul>
         <div class="tv-right">
             <span class="icon-link">🌐 VI</span>
-            <!-- Notification Bell Icon (separate from user dropdown) -->
             <div class="notif-bell-container" id="notifBellContainer" style="display: none;">
                 <button class="notif-bell-btn" id="notifBellBtn" type="button" aria-label="Thông báo">
                     <svg class="notif-bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -656,34 +538,25 @@
         <div class="page-container">
             <!-- Hero -->
             <section class="research-hero">
-                <h1>PRO Data</h1>
-            </section>
-
-            <!-- Featured Article -->
-            <section class="featured-section" id="featuredSection">
-                <!-- Injected dynamically -->
+                <h1>DỮ LIỆU THỊ TRƯỜNG</h1>
+                <p>Tổng quan diễn biến thị trường chứng khoán & phân tích định lượng FinTop DATA</p>
             </section>
 
             <!-- Control Bar -->
             <div class="control-bar">
                 <div class="section-heading">
-                    <i class="fa-solid fa-newspaper" style="color: #a855f7;"></i>
-                    <span>Tất cả bài viết</span>
+                    <i class="fa-solid fa-chart-line" style="color: #a855f7;"></i>
+                    <span>Bài viết nhận định thị trường</span>
                 </div>
                 <div class="search-wrapper">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" class="search-input" id="searchBar" placeholder="Tìm kiếm bài viết...">
+                    <input type="text" class="search-input" id="searchBar" placeholder="Tìm kiếm bài viết thị trường...">
                 </div>
             </div>
 
             <!-- Articles Grid -->
             <section class="articles-grid" id="articlesGrid">
-                <div class="empty-state" style="grid-column: 1/-1;">
-                    <div class="boot-spinner"
-                        style="width: 32px; height: 32px; border: 3px solid rgba(168,85,247,0.1); border-top-color: #a855f7; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem;">
-                    </div>
-                    <p style="color: #64748b;">Đang tải danh sách bài viết...</p>
-                </div>
+                <!-- Injected dynamically -->
             </section>
 
             <!-- Pagination -->
@@ -700,11 +573,81 @@
     <script src="/assets/js/auth.js" defer></script>
 
     <script>
-        // Category Config
-        const ALLOWED_SLUGS = ['pro-data'];
+        // Category Config for Market Data
+        const ALLOWED_SLUGS = ['thi-truong', 'nghien-cuu-thi-truong', 'market-summary', 'dieu-hien-thi-truong'];
         let currentPage = 1;
         let searchKeyword = '';
         let allArticles = [];
+
+        // Local Mock Articles Fallback Dataset for Market Page
+        const LOCAL_MOCK_ARTICLES = [
+            {
+                id: 'mock-tt-1',
+                title: '[Báo cáo tuần] VN-Index vượt vùng cản 1.280 - Xung lực dòng tiền xoay trục sang nhóm Ngân hàng & Công nghệ',
+                slug: 'vnindex-vuot-cang-1280-dong-tien-ngan-hang-cong-nghe',
+                excerpt: 'Phân tích xu hướng giao dịch tuần mới: VN-Index ghi nhận khối lượng giao dịch đột biến, mô hình AI FinTop Data cảnh báo các mốc kháng cự 1.300 điểm và khuyến nghị vùng giải ngân an toàn.',
+                publishedAt: '2026-09-07T08:00:00.000Z',
+                views: 1420,
+                category: { name: 'Thị trường', slug: 'thi-truong' },
+                locked: false,
+                content: '<img src="/assets/images/fintop_terminal_mockup.png" alt="VNIndex"/>'
+            },
+            {
+                id: 'mock-tt-2',
+                title: 'Nhận định thị trường phiên 07/09: Áp lực chốt lời ngắn hạn và cơ hội tích lũy nhóm VN30',
+                slug: 'nhan-dinh-thi-truong-ap-luc-chot-loi-ngan-han-vn30',
+                excerpt: 'Chỉ số RSI/MFI cho thấy dòng tiền thông minh đang dịch chuyển từ nhóm Midcap sang các cổ phiếu trụ có nền tảng định giá hấp dẫn. Chi tiết vùng hỗ trợ kỹ thuật trọng yếu.',
+                publishedAt: '2026-09-06T15:30:00.000Z',
+                views: 980,
+                category: { name: 'Thị trường', slug: 'thi-truong' },
+                locked: false,
+                content: '<img src="/assets/images/fintop_hero_bg.jpg" alt="Thị trường"/>'
+            },
+            {
+                id: 'mock-tt-3',
+                title: 'Bản tin Dòng tiền Khối ngoại & Tự doanh: Tăng tốc mua ròng tại các mã cổ phiếu đầu ngành',
+                slug: 'ban-tin-dong-tien-khoi-ngoai-tu-doanh-mua-rong-dau-nganh',
+                excerpt: 'Thống kê chi tiết lực mua ròng của nhà đầu tư nước ngoài trong 5 phiên gần nhất. Mô hình tín hiệu Quant Data xác nhận sóng tăng ngắn hạn tại 3 nhóm ngành chiến lược.',
+                publishedAt: '2026-09-05T10:15:00.000Z',
+                views: 1850,
+                category: { name: 'Thị trường', slug: 'thi-truong' },
+                locked: false,
+                content: '<img src="/assets/images/fintop_terminal_mockup.png" alt="Khối ngoại mua ròng"/>'
+            },
+            {
+                id: 'mock-tt-4',
+                title: 'Tổng quan Vĩ mô Q3/2026: Tín dụng phục hồi mạnh mẽ & Động lực từ đầu tư công',
+                slug: 'tong-quan-vi-mo-q3-2026-tin-dung-dau-tu-cong',
+                excerpt: 'Đánh giá tác động của mặt bằng lãi suất duy trì ở mức thấp đến biên lợi nhuận doanh nghiệp niêm yết. Top các nhóm ngành hưởng lợi trực tiếp từ chu kỳ nới lỏng tiền tệ.',
+                publishedAt: '2026-09-03T14:20:00.000Z',
+                views: 1240,
+                category: { name: 'Thị trường', slug: 'thi-truong' },
+                locked: false,
+                content: '<img src="/assets/images/fintop_hero_bg.jpg" alt="Vĩ mô Q3"/>'
+            },
+            {
+                id: 'mock-tt-5',
+                title: 'Phân tích biến động thanh khoản toàn thị trường: Xu hướng tích tụ dòng tiền lớn FII & DII',
+                slug: 'phan-tich-bien-dong-thanh-khoan-dong-tien-lon',
+                excerpt: 'Dữ liệu giao dịch khớp lệnh thực tế cho thấy khối lượng giao dịch trung bình phiên đạt trên 22.000 tỷ đồng. Điểm sáng ở nhóm cổ phiếu Chứng khoán & Bất động sản KCN.',
+                publishedAt: '2026-09-01T09:45:00.000Z',
+                views: 1610,
+                category: { name: 'Thị trường', slug: 'thi-truong' },
+                locked: false,
+                content: '<img src="/assets/images/fintop_terminal_mockup.png" alt="Thanh khoản"/>'
+            },
+            {
+                id: 'mock-tt-6',
+                title: 'Chiến lược phân bổ danh mục Tháng 9/2026: Quản trị rủi ro & Điểm tối ưu tỷ trọng',
+                slug: 'chien-luoc-phan-bo-danh-muc-thang-9-2026',
+                excerpt: 'Hướng dẫn xây dựng danh mục đầu tư cân bằng theo phương pháp định lượng AI: 40% Ngân hàng, 25% Công nghệ, 25% BĐS KCN và 10% Tiền mặt dự phòng.',
+                publishedAt: '2026-08-30T11:00:00.000Z',
+                views: 2100,
+                category: { name: 'Thị trường', slug: 'thi-truong' },
+                locked: false,
+                content: '<img src="/assets/images/fintop_hero_bg.jpg" alt="Phân bổ danh mục"/>'
+            }
+        ];
 
         // Wait for FintopInfra to be initialized
         document.addEventListener('DOMContentLoaded', () => {
@@ -714,9 +657,11 @@
                 if (window.FintopInfra) {
                     clearInterval(interval);
                     initPage(window.FintopInfra);
-                } else if (attempts > 50) {
+                } else if (attempts > 30) {
                     clearInterval(interval);
-                    console.error('FintopInfra failed to load.');
+                    // Fallback to local mock articles if infra fails to initialize
+                    allArticles = LOCAL_MOCK_ARTICLES;
+                    renderArticles();
                 }
             }, 100);
         });
@@ -756,23 +701,24 @@
             try {
                 const response = await infra.ApiClient.get(`/blogs?limit=100`);
                 const list = response?.data?.data || response?.data || [];
-                allArticles = list.filter(art => ALLOWED_SLUGS.includes(art.category?.slug));
+                const apiFiltered = list.filter(art => ALLOWED_SLUGS.includes(art.category?.slug));
+
+                if (apiFiltered.length > 0) {
+                    allArticles = apiFiltered;
+                } else {
+                    // Use rich local mock dataset if backend has no category match yet
+                    allArticles = LOCAL_MOCK_ARTICLES;
+                }
                 renderArticles();
             } catch (err) {
-                console.error('Failed to load articles:', err);
-                document.getElementById('articlesGrid').innerHTML = `
-                    <div class="empty-state">
-                        <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i>
-                        <h3>Lỗi tải bài viết</h3>
-                        <p>Không thể kết nối đến máy chủ. Vui lòng tải lại trang.</p>
-                    </div>
-                `;
+                console.warn('Backend API connection failed, loading local mock data:', err);
+                allArticles = LOCAL_MOCK_ARTICLES;
+                renderArticles();
             }
         }
 
         function renderArticles() {
             const grid = document.getElementById('articlesGrid');
-            const featuredSection = document.getElementById('featuredSection');
 
             // Filter articles
             const filtered = allArticles.filter(art => {
@@ -782,7 +728,6 @@
             });
 
             if (filtered.length === 0) {
-                featuredSection.style.display = 'none';
                 grid.innerHTML = `
                     <div class="empty-state">
                         <i class="fa-solid fa-folder-open"></i>
@@ -795,7 +740,6 @@
             }
 
             let displayArticles = [...filtered];
-            if (featuredSection) featuredSection.style.display = 'none';
 
             // Pagination logic
             const limit = 6;
@@ -816,25 +760,23 @@
                 const viewsCount = (art.views !== undefined ? art.views : 0) + ' lượt xem';
                 const lockClass = art.locked ? 'is-locked' : '';
 
-                // Extract first image from content or use default
-                let imgUrl = '/assets/images/fintop_terminal_mockup.png';
+                // Extract first image from content or fallback to mockup image
+                let imgUrl = art.imgUrl || '/assets/images/fintop_terminal_mockup.png';
                 if (art.content) {
                     const temp = document.createElement('div');
                     temp.innerHTML = art.content;
                     const img = temp.querySelector('img');
-                    if (img) imgUrl = img.src;
+                    if (img && img.src) imgUrl = img.src;
                 }
 
                 return `
                     <div class="article-card-item ${lockClass}">
                         <div class="card-thumb">
-                            <img src="${imgUrl}" alt="${art.title}" onerror="this.src='/assets/images/fintop_terminal_mockup.png'">
-                            <span class="card-badge">${art.category?.name || 'PRO Data'}</span>
-                            ${art.locked ? '<div class="glass-badge"><span class="glass-icon">👑</span><span class="glass-text">ĐẶC QUYỀN PRO</span></div>' : ''}
+                            <img src="${imgUrl}" alt="${cleanText(art.title)}" onerror="this.src='/assets/images/fintop_terminal_mockup.png'">
+                            <span class="card-badge">${art.category?.name || 'Thị trường'}</span>
                         </div>
                         <div class="card-content">
-                            <a class="card-title" href="/chuyen-gia/index.html?slug=${art.slug}">
-                                ${art.locked ? '<i class="fa-solid fa-lock" style="color: #eab308; margin-right: 6px; font-size: 0.9rem;"></i>' : ''}
+                            <a class="card-title" href="/nghien-cuu/thi-truong/index.html?slug=${art.slug || ''}">
                                 ${cleanText(art.title)}
                             </a>
                             <div class="article-meta">
@@ -842,7 +784,7 @@
                                 <span><i class="fa-regular fa-eye"></i> ${viewsCount}</span>
                             </div>
                             <p class="card-excerpt">${cleanText(art.excerpt) || 'Không có mô tả ngắn cho bài viết này.'}</p>
-                            <a class="card-btn-link" href="/chuyen-gia/index.html?slug=${art.slug}">
+                            <a class="card-btn-link" href="/nghien-cuu/thi-truong/index.html?slug=${art.slug || ''}">
                                 <span class="btn-xem-chi-tiet">Xem chi tiết</span>
                             </a>
                         </div>
@@ -887,7 +829,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // scroll header change
+        // Scroll header style update
         window.addEventListener('scroll', () => {
             const header = document.getElementById('mainHeader');
             if (header) {

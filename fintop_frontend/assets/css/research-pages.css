@@ -158,25 +158,54 @@ body {
 }
 .rp-featured-card:hover .rp-featured-thumb img { transform: scale(1.03); }
 
-/* Lock overlay on featured */
-.rp-featured-lock {
-    position: absolute; inset: 0;
-    background: rgba(10,10,15,0.75);
-    backdrop-filter: blur(4px);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 8px;
-    z-index: 2;
+/* Purple Tag Badge for PRO Articles */
+.rp-glass-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: #FFFFFF;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 10px rgba(124, 58, 237, 0.4);
+    z-index: 10;
+    pointer-events: none;
 }
-.rp-featured-lock .rp-lock-icon {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: linear-gradient(135deg, #eab308, #ca8a04);
-    display: flex; align-items: center; justify-content: center;
-    color: #000; font-size: 1rem;
-    box-shadow: 0 4px 12px rgba(234,179,8,0.3);
+
+.rp-glass-badge .rp-glass-icon {
+    font-size: 0.8rem;
+    line-height: 1;
 }
-.rp-featured-lock .rp-lock-text {
-    font-size: 0.72rem; font-weight: 700; color: #fef08a; text-transform: uppercase;
-    letter-spacing: 0.5px;
+
+.rp-glass-badge .rp-glass-text {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+/* Purple Glow Effect on Hover for PRO Articles */
+.rp-card.is-locked,
+.rp-featured-card.is-locked {
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.rp-card.is-locked:hover,
+.rp-featured-card.is-locked:hover {
+    border-color: rgba(168, 85, 247, 0.5) !important;
+    box-shadow: 0 4px 25px rgba(168, 85, 247, 0.25) !important;
+}
+
+/* Hide legacy lock overlay to keep thumbnail 100% visible */
+.rp-featured-lock,
+.rp-card-lock {
+    display: none !important;
 }
 
 /* Featured content body – 52% width, balanced padding */
@@ -278,11 +307,7 @@ body {
 .rp-card:hover .rp-card-thumb img { transform: scale(1.05); }
 
 .rp-card-badge {
-    position: absolute; top: 10px; left: 10px;
-    background: rgba(168,85,247,0.85); color: #fff;
-    font-size: 0.68rem; font-weight: 700;
-    padding: 2px 8px; border-radius: 4px;
-    text-transform: uppercase; z-index: 3;
+    display: none !important;
 }
 
 /* Card lock overlay */

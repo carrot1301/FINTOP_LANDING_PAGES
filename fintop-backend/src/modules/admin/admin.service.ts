@@ -214,8 +214,11 @@ export class AdminService {
       );
     }
 
-    // ── Rule 2: Cannot edit higher or equal rank (unless CEO) ──
-    if (adminRank > 1 && adminRank >= targetRank) {
+    // ── Rule 2: Cannot edit higher or equal rank (unless CEO or ASSISTANT_CEO changing roles) ──
+    const isRoleAction = action.includes('vai trò');
+    const isAssistantCeoRoleAction = isRoleAction && adminRoleCodes.includes('ASSISTANT_CEO');
+
+    if (adminRank > 1 && adminRank >= targetRank && !isAssistantCeoRoleAction) {
       // Exception: Same rank BUT different role category → allow if CEO/DEV
       // Block same-rank edits for ASSISTANT_CEO ↔ ASSISTANT_CEO, EDITOR_ADMIN ↔ EDITOR_ADMIN
       const isSameRankEqualRole =
@@ -235,7 +238,7 @@ export class AdminService {
         );
       }
 
-      // Block ASSISTANT_CEO from editing EDITOR_ADMIN and SALE_ADMIN
+      // Block ASSISTANT_CEO from editing EDITOR_ADMIN and SALE_ADMIN (for non-role actions)
       if (adminRoleCodes.includes('ASSISTANT_CEO') && !adminRoleCodes.some(c => ['CEO', 'DEVELOPER', 'SUPER_ADMIN'].includes(c))) {
         if (targetRoleCodes.includes('EDITOR_ADMIN') || targetRoleCodes.includes('SALE_ADMIN')) {
           throw new BadRequestException(
@@ -245,11 +248,11 @@ export class AdminService {
       }
     }
 
-    // ── Rule 3: Only CEO/DEVELOPER/SUPER_ADMIN can modify user role assignments ──
-    const isCeoOrDev = adminRoleCodes.some(c => ['CEO', 'DEVELOPER', 'SUPER_ADMIN'].includes(c)) || AdminService.CEO_EMAILS.includes(adminUser.email);
-    if (action.includes('vai trò') && !isCeoOrDev) {
+    // ── Rule 3: Only CEO/DEVELOPER/SUPER_ADMIN/ASSISTANT_CEO can modify user role assignments ──
+    const isAllowedToModifyRoles = adminRoleCodes.some(c => ['CEO', 'DEVELOPER', 'SUPER_ADMIN', 'ASSISTANT_CEO'].includes(c)) || AdminService.CEO_EMAILS.includes(adminUser.email);
+    if (action.includes('vai trò') && !isAllowedToModifyRoles) {
       throw new BadRequestException(
-        `Chỉ CEO mới có quyền chỉnh sửa/thay đổi vai trò phân quyền của người dùng.`
+        `Chỉ CEO, Developer và Trợ lý CEO mới có quyền chỉnh sửa/thay đổi vai trò phân quyền của người dùng.`
       );
     }
   }
@@ -388,10 +391,11 @@ export class AdminService {
     }
 
     if (roleCode && roleCode.trim() !== '') {
+      const targetRoleCode = roleCode.trim().toUpperCase();
       andConditions.push({
         userRoles: {
           some: {
-            role: { code: roleCode.trim() as any },
+            role: { code: targetRoleCode as any },
           },
         },
       });
@@ -610,11 +614,18 @@ export class AdminService {
     { code: 'CLIENT_DIAMOND', name: 'Khách hàng Diamond', description: 'Tài khoản hội viên Diamond' },
   ];
 
-  async assignRole(userId: number, roleCode: string, adminId: number) {
+  async assignRole(userId: number, roleCode: string, adminId: number, staffCode?: string) {
     await this.enforceRoleHierarchy(userId, adminId, 'gán vai trò');
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user || user.deletedAt) {
       throw new NotFoundException('User not found');
+    }
+
+    if (staffCode !== undefined && staffCode !== null && staffCode.trim() !== '') {
+      await this.prisma.user.update({
+        where: { id: userId },
+        data: { staffCode: staffCode.trim() },
+      });
     }
 
     const clientRoleCodes = ['CLIENT', 'CLIENT_PRO', 'CLIENT_VIP', 'CLIENT_DIAMOND'];
@@ -764,6 +775,7 @@ export class AdminService {
     if (dto.address !== undefined) data.address = dto.address;
     if (dto.status !== undefined) data.status = dto.status;
     if (dto.avatarUrl !== undefined) data.avatarUrl = dto.avatarUrl;
+    if (dto.staffCode !== undefined) data.staffCode = dto.staffCode;
 
     if (dto.birthDate !== undefined) {
       data.dob = dto.birthDate ? new Date(dto.birthDate) : null;

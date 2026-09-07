@@ -23,9 +23,9 @@ export class PermissionsGuard implements CanActivate {
       throw new ForbiddenException('User permissions not found');
     }
 
-    // CEO and DEVELOPER implicitly pass all permission checks
+    // CEO, DEVELOPER, SUPER_ADMIN and ASSISTANT_CEO implicitly pass all permission checks
     const isExecutive = user.roles?.some((r: string) =>
-      r === 'CEO' || r === 'DEVELOPER' || r === 'SUPER_ADMIN',
+      r === 'CEO' || r === 'DEVELOPER' || r === 'SUPER_ADMIN' || r === 'ASSISTANT_CEO',
     );
     if (isExecutive) {
       return true;

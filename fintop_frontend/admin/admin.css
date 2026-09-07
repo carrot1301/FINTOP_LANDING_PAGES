@@ -881,6 +881,8 @@ table.admin-table tbody tr:hover td {
 }
 
 .admin-toast.success { border-color: rgba(16, 185, 129, 0.4); }
+.admin-toast.info { border-color: rgba(59, 130, 246, 0.4); }
+.admin-toast.warning { border-color: rgba(245, 158, 11, 0.4); }
 .admin-toast.error { border-color: rgba(248, 113, 113, 0.4); }
 
 @keyframes admin-toast-in {

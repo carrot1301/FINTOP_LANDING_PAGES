@@ -28,6 +28,7 @@
 
         const rootIndex = resolveUrl('/index.html');
         const fintopAiUrl = resolveUrl('/fintop-ai/index.html');
+        const stockThiTruongUrl = resolveUrl('/stock-data/thi-truong/index.html');
         const thiTruongUrl = resolveUrl('/nghien-cuu/thi-truong/index.html');
         const chuyenSauUrl = resolveUrl('/nghien-cuu/chuyen-sau/index.html');
         const doanhNghiepUrl = resolveUrl('/nghien-cuu/doanh-nghiep/index.html');
@@ -58,7 +59,7 @@
                 <div class="mobile-drawer-section">
                     <div class="mobile-drawer-link">Dữ liệu <span>▼</span></div>
                     <div class="mobile-drawer-sublinks">
-                        <a href="${rootIndex}#panel-stock-quant" class="mobile-drawer-sublink">Tổng quan</a>
+                        <a href="${stockThiTruongUrl}" class="mobile-drawer-sublink">Thị trường</a>
                         <a href="${rootIndex}#panel-stock-pro" class="mobile-drawer-sublink">PRO Data ★</a>
                         <a href="${rootIndex}#panel-stock-sector" class="mobile-drawer-sublink">Định lượng</a>
                         <a href="${rootIndex}#panel-stock-reports" class="mobile-drawer-sublink">Báo cáo</a>

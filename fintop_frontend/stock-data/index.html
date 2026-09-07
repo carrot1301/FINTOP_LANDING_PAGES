@@ -18,14 +18,16 @@
     <link rel="stylesheet" href="../assets/css/demo-pages.css">
     <script>
         const hashMap = {
-            'pro-data': 'panel-stock-pro',
-            'sector': 'panel-stock-sector',
-            'reports': 'panel-stock-reports',
-            'quant': 'panel-stock-quant'
+            'pro-data': '../index.html#panel-stock-pro',
+            'sector': '../index.html#panel-stock-sector',
+            'reports': '../index.html#panel-stock-reports'
         };
         const currentHash = window.location.hash.replace('#', '');
-        const targetPanel = hashMap[currentHash] || 'panel-stock-quant';
-        window.location.replace('../index.html#' + targetPanel);
+        if (hashMap[currentHash]) {
+            window.location.replace(hashMap[currentHash]);
+        } else {
+            window.location.replace('/stock-data/thi-truong/index.html');
+        }
     </script>
 </head>
 
@@ -60,7 +62,7 @@
             <li class="nav-item dropdown" id="dropdown-stock-data">
                 <a href="../stock-data/index.html" class="active-page">Dữ liệu <span style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="/stock-data/index.html#quant">Tổng quan</a>
+                    <a href="/stock-data/thi-truong/index.html">Thị trường</a>
                     <a href="/stock-data/pro-data/index.html">PRO Data <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="/stock-data/dinh-luong/index.html">Định lượng</a>
@@ -71,7 +73,7 @@
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="../nghien-cuu/thi-truong/index.html">Nghiên cứu thị trường</a>
+                    <a href="../nghien-cuu/thi-truong/index.html">Kinh tế thị trường</a>
                     <a href="../nghien-cuu/chuyen-sau/index.html">Nghiên cứu chuyên sâu <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="../nghien-cuu/doanh-nghiep/index.html">Nghiên cứu Doanh nghiệp</a>
