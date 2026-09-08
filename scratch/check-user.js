@@ -11,7 +11,7 @@ async function main() {
     paymentProofUrl: user.paymentProofUrl,
     tierLevel: user.tierLevel
   });
-  
+
   const invoices = await prisma.invoice.findMany({
     where: { userId: user.id },
     orderBy: { createdAt: 'desc' },
@@ -23,7 +23,7 @@ async function main() {
     amount: i.amount.toString(),
     createdAt: i.createdAt
   })));
-  
+
   await prisma.$disconnect();
 }
 

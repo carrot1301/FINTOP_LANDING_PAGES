@@ -158,36 +158,152 @@ body {
 }
 .rp-featured-card:hover .rp-featured-thumb img { transform: scale(1.03); }
 
-/* Purple Tag Badge for PRO Articles */
+/* Container query setup on thumbnails for fluid badge scaling */
+.rp-featured-thumb,
+.rp-card-thumb,
+.rp-drawer-item-thumb {
+    container-type: inline-size;
+}
+
+/* Vibrant Jewel PRO Tag Badge - High Contrast & Glossy Rim */
 .rp-glass-badge {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    top: 8px;
+    left: 8px;
+    right: auto;
+    background: linear-gradient(135deg, #6d28d9 0%, #9333ea 55%, #c084fc 100%);
+    border: 1px solid rgba(255, 255, 255, 0.38);
     color: #FFFFFF;
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 3px 9px;
-    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 5px 13px;
+    border-radius: 20px;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
-    box-shadow: 0 2px 10px rgba(124, 58, 237, 0.4);
+    box-shadow: 0 4px 18px rgba(147, 51, 234, 0.55), inset 0 1px 1.5px rgba(255, 255, 255, 0.5);
     z-index: 10;
     pointer-events: none;
+    transition: all 0.25s ease;
 }
 
 .rp-glass-badge .rp-glass-icon {
-    font-size: 0.8rem;
+    color: #fef08a;
+    font-size: 0.82rem;
     line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
 }
 
 .rp-glass-badge .rp-glass-text {
-    font-size: 0.7rem;
-    font-weight: 700;
+    font-size: 0.75rem;
+    font-weight: 800;
     color: #FFFFFF;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.7px;
     text-transform: uppercase;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* 1. Featured Article (Large Thumbnail) - Prominent Badge */
+.rp-featured-card .rp-glass-badge,
+.rp-featured-thumb .rp-glass-badge {
+    top: 12px;
+    left: 12px;
+    right: auto;
+    padding: 7px 17px;
+    border-radius: 22px;
+    gap: 6px;
+    box-shadow: 0 4px 20px rgba(147, 51, 234, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+.rp-featured-card .rp-glass-badge .rp-glass-icon,
+.rp-featured-thumb .rp-glass-badge .rp-glass-icon {
+    font-size: 0.95rem;
+}
+.rp-featured-card .rp-glass-badge .rp-glass-text,
+.rp-featured-thumb .rp-glass-badge .rp-glass-text {
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: 0.9px;
+}
+
+/* 2. Recent Articles Grid (Medium-Small Thumbnail) - Compact Badge */
+.rp-card .rp-glass-badge,
+.rp-card-thumb .rp-glass-badge {
+    top: 8px;
+    left: 8px;
+    right: auto;
+    padding: 5px 12px;
+    border-radius: 20px;
+    gap: 4.5px;
+}
+.rp-card .rp-glass-badge .rp-glass-icon,
+.rp-card-thumb .rp-glass-badge .rp-glass-icon {
+    font-size: 0.8rem;
+}
+.rp-card .rp-glass-badge .rp-glass-text,
+.rp-card-thumb .rp-glass-badge .rp-glass-text {
+    font-size: 0.73rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+}
+
+/* 3. Container Queries for Fluid Scaling on Window / Grid Resize */
+@container (max-width: 250px) {
+    .rp-glass-badge {
+        top: 6px !important;
+        left: 6px !important;
+        right: auto !important;
+        padding: 4px 10px !important;
+        border-radius: 16px !important;
+        gap: 3px !important;
+    }
+    .rp-glass-badge .rp-glass-icon {
+        font-size: 0.72rem !important;
+    }
+    .rp-glass-badge .rp-glass-text {
+        font-size: 0.65rem !important;
+    }
+}
+
+@container (min-width: 251px) and (max-width: 420px) {
+    .rp-card-thumb .rp-glass-badge {
+        top: 8px !important;
+        left: 8px !important;
+        right: auto !important;
+        padding: 5px 12px !important;
+        border-radius: 20px !important;
+        gap: 4.5px !important;
+    }
+    .rp-card-thumb .rp-glass-badge .rp-glass-icon {
+        font-size: 0.8rem !important;
+    }
+    .rp-card-thumb .rp-glass-badge .rp-glass-text {
+        font-size: 0.73rem !important;
+    }
+}
+
+@container (min-width: 421px) {
+    .rp-featured-thumb .rp-glass-badge {
+        top: 12px !important;
+        left: 12px !important;
+        right: auto !important;
+        padding: 7px 17px !important;
+        border-radius: 22px !important;
+        gap: 6px !important;
+    }
+    .rp-featured-thumb .rp-glass-badge .rp-glass-icon {
+        font-size: 0.95rem !important;
+    }
+    .rp-featured-thumb .rp-glass-badge .rp-glass-text {
+        font-size: 0.88rem !important;
+    }
 }
 
 /* Purple Glow Effect on Hover for PRO Articles */
