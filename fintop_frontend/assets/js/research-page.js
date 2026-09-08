@@ -106,7 +106,7 @@
         var lockHTML = '';
         var lockedClass = art.locked ? ' is-locked' : '';
         if (isPro) {
-            lockHTML = '<div class="rp-glass-badge"><span class="rp-glass-icon">👑</span><span class="rp-glass-text">ĐẶC QUYỀN PRO</span></div>';
+            lockHTML = '<div class="rp-glass-badge"><span class="rp-glass-icon">👑</span><span class="rp-glass-text">PRO</span></div>';
         }
 
         var kickerColor = config.kickerColor || '#a855f7';
@@ -163,7 +163,7 @@
             var isPro = art.visibility === 'PREMIUM' || (art.minTierAccess && art.minTierAccess !== 'STANDARD') || (art.category && ['pro-research', 'pro-data'].includes(art.category.slug)) || (config && config.allowedSlugs && (config.allowedSlugs.includes('pro-research') || config.allowedSlugs.includes('pro-data'))) || art.locked;
 
             var lockOverlay = isPro
-                ? '<div class="rp-glass-badge"><span class="rp-glass-icon">👑</span><span class="rp-glass-text">ĐẶC QUYỀN PRO</span></div>'
+                ? '<div class="rp-glass-badge"><span class="rp-glass-icon">👑</span><span class="rp-glass-text">PRO</span></div>'
                 : '';
 
             var lockTitleIcon = art.locked
