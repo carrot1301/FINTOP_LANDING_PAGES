@@ -376,6 +376,8 @@
        ================================================================ */
     function extractImage(art) {
         var fallback = '../../assets/images/fintop_terminal_mockup.png';
+        // Prefer API-provided thumbnailUrl (always available, even for locked articles)
+        if (art.thumbnailUrl) return art.thumbnailUrl;
         if (!art.content) return fallback;
         try {
             var tmp = document.createElement('div');

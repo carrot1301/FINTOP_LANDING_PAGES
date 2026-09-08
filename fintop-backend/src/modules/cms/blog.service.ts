@@ -357,12 +357,15 @@ export class BlogService implements OnModuleInit {
       const locked = b.visibility === CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userFeatures, b.minTierAccess);
       const rawExcerpt = b.excerpt || b.content || '';
       const cleanExcerpt = this.sanitizePlainText(rawExcerpt).substring(0, 160);
+      // Always extract thumbnail from full content BEFORE applying lock masking
+      const thumbnailUrl = this.extractFirstImage(b.content, '');
       return {
         id: b.id,
         title: this.sanitizePlainText(b.title),
         slug: b.slug,
         excerpt: cleanExcerpt ? cleanExcerpt + (cleanExcerpt.length >= 160 ? '...' : '') : 'Không có mô tả ngắn.',
         content: locked ? '' : this.cleanArticleContent(b.content),
+        thumbnailUrl,
         visibility: b.visibility,
         minTierAccess: b.minTierAccess,
         publishedAt: b.publishedAt,
@@ -399,6 +402,8 @@ export class BlogService implements OnModuleInit {
 
     const b = await this.getArticle(slug);
     const locked = b.visibility === CONTENT_VISIBILITY.PREMIUM && !this.isTierAllowed(userFeatures, b.minTierAccess);
+    // Always extract thumbnail from full content BEFORE applying lock masking
+    const thumbnailUrl = this.extractFirstImage(b.content, '');
 
     return {
       id: b.id,
@@ -406,6 +411,7 @@ export class BlogService implements OnModuleInit {
       slug: b.slug,
       excerpt: this.sanitizePlainText(b.excerpt),
       content: locked ? 'Nội dung V.I.P - Vui lòng nâng cấp tài khoản để đọc bài viết chiến lược này.' : this.cleanArticleContent(b.content),
+      thumbnailUrl,
       visibility: b.visibility,
       minTierAccess: b.minTierAccess,
       publishedAt: b.publishedAt,
