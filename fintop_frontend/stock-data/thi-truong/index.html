@@ -766,14 +766,14 @@
                     const temp = document.createElement('div');
                     temp.innerHTML = art.content;
                     const img = temp.querySelector('img');
-                    if (img && img.src) imgUrl = img.src;
-                }
+                const isPro = art.visibility === 'PREMIUM' || (art.minTierAccess && art.minTierAccess !== 'STANDARD') || (art.category && ['pro-data', 'pro-research'].includes(art.category?.slug)) || art.locked;
 
                 return `
                     <div class="article-card-item ${lockClass}">
                         <div class="card-thumb">
                             <img src="${imgUrl}" alt="${cleanText(art.title)}" onerror="this.src='/assets/images/fintop_terminal_mockup.png'">
                             <span class="card-badge">${art.category?.name || 'Thị trường'}</span>
+                            ${isPro ? '<div class="glass-badge"><span class="glass-icon">👑</span><span class="glass-text">ĐẶC QUYỀN PRO</span></div>' : ''}
                         </div>
                         <div class="card-content">
                             <a class="card-title" href="/nghien-cuu/thi-truong/index.html?slug=${art.slug || ''}">

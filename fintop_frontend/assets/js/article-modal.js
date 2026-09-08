@@ -229,13 +229,16 @@
                 `;
             }
 
+            const isPro = article.visibility === 'PREMIUM' || (article.minTierAccess && article.minTierAccess !== 'STANDARD') || ['pro-research', 'pro-data'].includes(article.category?.slug) || article.locked;
+            const proBadge = isPro ? '<span class="article-pro-badge" style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:0.75rem;font-weight:800;padding:3px 10px;border-radius:6px;margin-left:10px;display:inline-flex;align-items:center;gap:4px;"><span style="font-size:0.85rem;">👑</span> ĐẶC QUYỀN PRO</span>' : '';
+
             bodyEl.innerHTML = `
                 <article class="article-modal-card">
                     <div class="article-header-banner">
                         <div class="article-banner-logo-box">
                             <img src="/assets/images/fintop-logo-circle.png?v=7.0" alt="FinTop DATA" onerror="this.src='../../assets/images/fintop-logo-circle.png?v=7.0'">
                         </div>
-                        <h1 class="article-banner-title">${cleanTitle(article.title)}</h1>
+                        <h1 class="article-banner-title">${cleanTitle(article.title)} ${proBadge}</h1>
                     </div>
 
                     <div class="article-date-bar">

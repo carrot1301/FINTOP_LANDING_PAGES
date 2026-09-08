@@ -102,9 +102,10 @@
         var views = formatViews(art.views);
         var detailUrl = 'javascript:void(0);';
 
+        var isPro = art.visibility === 'PREMIUM' || (art.minTierAccess && art.minTierAccess !== 'STANDARD') || (art.category && ['pro-research', 'pro-data'].includes(art.category.slug)) || (config && config.allowedSlugs && (config.allowedSlugs.includes('pro-research') || config.allowedSlugs.includes('pro-data'))) || art.locked;
         var lockHTML = '';
         var lockedClass = art.locked ? ' is-locked' : '';
-        if (art.locked) {
+        if (isPro) {
             lockHTML = '<div class="rp-glass-badge"><span class="rp-glass-icon">👑</span><span class="rp-glass-text">ĐẶC QUYỀN PRO</span></div>';
         }
 
@@ -159,8 +160,9 @@
             var views = formatViews(art.views);
             var detailUrl = 'javascript:void(0);';
             var lockedClass = art.locked ? ' is-locked' : '';
+            var isPro = art.visibility === 'PREMIUM' || (art.minTierAccess && art.minTierAccess !== 'STANDARD') || (art.category && ['pro-research', 'pro-data'].includes(art.category.slug)) || (config && config.allowedSlugs && (config.allowedSlugs.includes('pro-research') || config.allowedSlugs.includes('pro-data'))) || art.locked;
 
-            var lockOverlay = art.locked
+            var lockOverlay = isPro
                 ? '<div class="rp-glass-badge"><span class="rp-glass-icon">👑</span><span class="rp-glass-text">ĐẶC QUYỀN PRO</span></div>'
                 : '';
 

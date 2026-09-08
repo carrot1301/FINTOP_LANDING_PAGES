@@ -10097,11 +10097,14 @@
         }
 
         function buildMarketArticleCard(row) {
+            const isPro = row.visibility === 'PREMIUM' || (row.minTierAccess && row.minTierAccess !== 'STANDARD') || row.section === 'PRO Research' || row.category === 'PRO Research' || String(row.id || '').startsWith('pro-');
+            const proBadge = isPro ? '<div class="glass-badge" style="position:absolute;top:8px;left:8px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:4px;z-index:5;"><span class="glass-icon">👑</span> <span class="glass-text">ĐẶC QUYỀN PRO</span></div>' : '';
             return `
                 <article class="market-article-card" data-market-category="${escapeHtml(getMarketCategory(row))}">
-                    <div class="market-thumb">
+                    <div class="market-thumb" style="position:relative;">
                         <img src="assets/images/fintop_terminal_mockup.png" alt="${escapeHtml(row.title)}">
                         <span class="market-thumb-badge">${escapeHtml(row.category || 'Market')}</span>
+                        ${proBadge}
                     </div>
                     <div class="market-article-body">
                         <h3 class="market-article-title">${escapeHtml(row.title)}</h3>
@@ -10122,9 +10125,13 @@
         }
 
         function buildReportCard(row) {
+            const isPro = row.visibility === 'PREMIUM' || (row.minTierAccess && row.minTierAccess !== 'STANDARD') || row.section === 'PRO Research' || row.category === 'PRO Research' || String(row.id || '').startsWith('pro-');
+            const badgeClass = isPro ? 'analysis-badge good' : 'analysis-badge';
+            const badgeText = isPro ? '👑 ĐẶC QUYỀN PRO' : escapeHtml(row.category || row.section || 'Research');
+            const badgeStyle = isPro ? 'style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; border: 1px solid rgba(168,85,247,0.5);"' : '';
             return `
                 <article class="analysis-report-card">
-                    <span class="analysis-badge good">${escapeHtml(row.category || row.section || 'Research')}</span>
+                    <span class="${badgeClass}" ${badgeStyle}>${badgeText}</span>
                     <h3>${escapeHtml(row.title)}</h3>
                     <p>${escapeHtml(row.excerpt || '')}</p>
                     <a class="market-detail-link" href="${escapeHtml(row.link || 'chuyen-gia/index.html')}">Xem chi tiết</a>
