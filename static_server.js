@@ -104,12 +104,22 @@ const server = http.createServer((req, res) => {
   // Determine target physical file path
   let filePath = '';
 
-  // 1. Root index.html or empty path goes to PROJECT_ROOT/index.html
-  if (pathname === '/' || pathname === '/index.html') {
-    filePath = path.join(PROJECT_ROOT, 'index.html');
-  }
-  // 1b. Referral registration URLs: /dangky/CODE -> serve root index.html
-  else if (pathname.startsWith('/dangky/')) {
+  // 1. Root index.html or clean URL rewrites serve PROJECT_ROOT/index.html
+  const CLEAN_URL_REWRITES = [
+    '/',
+    '/index.html',
+    '/fintop-data',
+    '/fintop-data/',
+    '/fintop-data/index.html',
+    '/fintop-data/bo-loc',
+    '/fintop-data/bo-loc/',
+    '/fintop-data/bo-loc/index.html',
+    '/fintop-ai',
+    '/fintop-ai/',
+    '/fintop-ai/index.html'
+  ];
+
+  if (CLEAN_URL_REWRITES.includes(pathname) || pathname.startsWith('/dangky/')) {
     filePath = path.join(PROJECT_ROOT, 'index.html');
   }
   // 2. /assets/* or /data/* goes to PROJECT_ROOT/*

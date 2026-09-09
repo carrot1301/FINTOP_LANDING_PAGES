@@ -94,7 +94,7 @@
                 "@type": "SiteNavigationElement",
                 "name": "Dữ liệu định lượng",
                 "description": "Dữ liệu định lượng Quant Data, PRO Data, dữ liệu ngành và báo cáo chuyên sâu",
-                "url": "https://fintopdata.vn/stock-data/"
+                "url": "https://fintopdata.vn/stock-data/thi-truong/"
             },
             {
                 "@type": "SiteNavigationElement",
@@ -11412,13 +11412,23 @@
 
         let hashDebounceTimer = null;
         function openPanelFromHash() {
+            let routePanel = null;
+            const normalizedPath = window.location.pathname.replace(/\/$/, '');
+            if (normalizedPath === '/fintop-data') {
+                routePanel = 'panel-tracuu';
+            } else if (normalizedPath === '/fintop-data/bo-loc') {
+                routePanel = 'panel-boloc';
+            } else if (normalizedPath === '/fintop-ai') {
+                routePanel = 'panel-tinhieu';
+            }
+
             const hashPanel = window.location.hash.replace('#', '');
             if (hashPanel === 'panel-stock-pro' || hashPanel === 'pro-data') {
                 window.location.replace('/stock-data/pro-data/index.html');
                 return;
             }
             const savedPanel = sessionStorage.getItem('fintop_active_panel');
-            const panelId = hashPanel || savedPanel;
+            const panelId = routePanel || hashPanel || savedPanel;
             const allowedPanels = [
                 'panel-tracuu',
                 'panel-boloc',

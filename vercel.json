@@ -2,6 +2,16 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "source": "/stock-data",
+      "destination": "/stock-data/thi-truong/",
+      "permanent": true
+    },
+    {
+      "source": "/stock-data/",
+      "destination": "/stock-data/thi-truong/",
+      "permanent": true
+    },
+    {
       "source": "/hoi-vien",
       "destination": "/index.html#panel-hoivien",
       "permanent": false
@@ -115,6 +125,30 @@
     },
     {
       "source": "/dangky/:code",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fintop-data",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fintop-data/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fintop-data/bo-loc",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fintop-data/bo-loc/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fintop-ai",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fintop-ai/",
       "destination": "/index.html"
     },
     {

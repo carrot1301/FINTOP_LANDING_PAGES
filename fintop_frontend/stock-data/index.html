@@ -8,6 +8,7 @@
     <meta name="description"
         content="Dữ liệu định lượng Quant Data, PRO Data, dữ liệu ngành và báo cáo phân tích chuyên sâu. Toàn bộ dữ liệu cổ phiếu được gom về một màn hình hành động.">
     <link rel="canonical" href="https://fintopdata.vn/stock-data/">
+    <meta name="robots" content="index, follow">
     <meta property="og:title" content="Dữ Liệu Định Lượng | FinTop DATA">
     <meta property="og:description"
         content="Dữ liệu định lượng Quant Data, PRO Data, dữ liệu ngành và báo cáo phân tích chuyên sâu.">
@@ -19,17 +20,8 @@
     <link rel="stylesheet" href="../assets/css/components.css">
     <link rel="stylesheet" href="../assets/css/demo-pages.css">
     <script>
-        const hashMap = {
-            'pro-data': '/stock-data/pro-data/index.html',
-            'sector': '../index.html#panel-stock-sector',
-            'reports': '../index.html#panel-stock-reports'
-        };
-        const currentHash = window.location.hash.replace('#', '');
-        if (hashMap[currentHash]) {
-            window.location.replace(hashMap[currentHash]);
-        } else {
-            window.location.replace('/stock-data/thi-truong/index.html');
-        }
+        // Fallback redirect - primary redirect is server-side (vercel.json 301)
+        window.location.replace('/stock-data/thi-truong/');
     </script>
 </head>
 

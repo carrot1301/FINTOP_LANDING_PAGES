@@ -3,6 +3,7 @@
     <!-- Trang chủ -->
     <url>
         <loc>https://fintopdata.vn/</loc>
+        <lastmod>2026-09-09</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -10,6 +11,7 @@
     <!-- Tra cứu cổ phiếu -->
     <url>
         <loc>https://fintopdata.vn/fintop-data/</loc>
+        <lastmod>2026-09-09</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
@@ -17,6 +19,7 @@
     <!-- Bộ lọc cổ phiếu -->
     <url>
         <loc>https://fintopdata.vn/fintop-data/bo-loc/</loc>
+        <lastmod>2026-09-09</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
@@ -24,13 +27,15 @@
     <!-- FinTop AI & Copy Trade -->
     <url>
         <loc>https://fintopdata.vn/fintop-ai/</loc>
+        <lastmod>2026-09-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
 
-    <!-- Dữ liệu định lượng -->
+    <!-- Dữ liệu định lượng (Thị trường) -->
     <url>
-        <loc>https://fintopdata.vn/stock-data/</loc>
+        <loc>https://fintopdata.vn/stock-data/thi-truong/</loc>
+        <lastmod>2026-09-09</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
@@ -38,6 +43,7 @@
     <!-- Nghiên cứu chuyên sâu -->
     <url>
         <loc>https://fintopdata.vn/nghien-cuu/chuyen-sau/</loc>
+        <lastmod>2026-09-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -45,6 +51,7 @@
     <!-- Nghiên cứu thị trường -->
     <url>
         <loc>https://fintopdata.vn/nghien-cuu/thi-truong/</loc>
+        <lastmod>2026-09-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -52,6 +59,7 @@
     <!-- Nghiên cứu doanh nghiệp -->
     <url>
         <loc>https://fintopdata.vn/nghien-cuu/doanh-nghiep/</loc>
+        <lastmod>2026-09-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -59,6 +67,7 @@
     <!-- Nghiên cứu nhóm ngành -->
     <url>
         <loc>https://fintopdata.vn/nghien-cuu/nhom-nganh/</loc>
+        <lastmod>2026-09-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -66,6 +75,7 @@
     <!-- Hướng dẫn -->
     <url>
         <loc>https://fintopdata.vn/huong-dan/</loc>
+        <lastmod>2026-09-09</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
