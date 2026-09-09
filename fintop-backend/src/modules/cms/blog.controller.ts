@@ -45,6 +45,7 @@ export class BlogController {
   @Get('share-og')
   @ApiOperation({ summary: 'Generate dynamic Open Graph HTML for social media sharing' })
   async getShareOgMeta(@Query('slug') slug: string, @Req() req: any, @Res() res: any) {
+    if (this.handleSpecialSeoFiles(slug, res)) return;
     if (this.isCrawlerBot(req)) {
       const html = await this.blogService.generateShareOgHtml(slug);
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -57,6 +58,7 @@ export class BlogController {
   @Get('share/:slug')
   @ApiOperation({ summary: 'Generate dynamic Open Graph HTML by slug param' })
   async getShareOgMetaByParam(@Param('slug') slug: string, @Req() req: any, @Res() res: any) {
+    if (this.handleSpecialSeoFiles(slug, res)) return;
     if (this.isCrawlerBot(req)) {
       const html = await this.blogService.generateShareOgHtml(slug);
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -64,6 +66,64 @@ export class BlogController {
     }
     const redirectUrl = await this.blogService.buildArticleRedirectUrl(slug);
     return res.redirect(302, redirectUrl);
+  }
+
+  private handleSpecialSeoFiles(slug: string, res: any): boolean {
+    if (!slug) return false;
+    const cleanSlug = slug.trim().toLowerCase();
+
+    // 1. Sitemap XML
+    if (cleanSlug === 'sitemap.xml' || cleanSlug.endsWith('/sitemap.xml')) {
+      const pathsToTry = [
+        path.join(process.cwd(), '..', 'sitemap.xml'),
+        path.join(process.cwd(), 'sitemap.xml'),
+        path.join(process.cwd(), '..', 'fintop_frontend', 'sitemap.xml'),
+        path.join(process.cwd(), 'fintop_frontend', 'sitemap.xml'),
+      ];
+      for (const p of pathsToTry) {
+        if (fs.existsSync(p)) {
+          res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+          res.send(fs.readFileSync(p, 'utf-8'));
+          return true;
+        }
+      }
+    }
+
+    // 2. Robots TXT
+    if (cleanSlug === 'robots.txt' || cleanSlug.endsWith('/robots.txt')) {
+      const pathsToTry = [
+        path.join(process.cwd(), '..', 'robots.txt'),
+        path.join(process.cwd(), 'robots.txt'),
+        path.join(process.cwd(), '..', 'fintop_frontend', 'robots.txt'),
+        path.join(process.cwd(), 'fintop_frontend', 'robots.txt'),
+      ];
+      for (const p of pathsToTry) {
+        if (fs.existsSync(p)) {
+          res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+          res.send(fs.readFileSync(p, 'utf-8'));
+          return true;
+        }
+      }
+    }
+
+    // 3. Google Verification HTML files
+    if (cleanSlug.startsWith('google') && cleanSlug.endsWith('.html')) {
+      const pathsToTry = [
+        path.join(process.cwd(), '..', cleanSlug),
+        path.join(process.cwd(), cleanSlug),
+        path.join(process.cwd(), '..', 'fintop_frontend', cleanSlug),
+        path.join(process.cwd(), 'fintop_frontend', cleanSlug),
+      ];
+      for (const p of pathsToTry) {
+        if (fs.existsSync(p)) {
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+          res.send(fs.readFileSync(p, 'utf-8'));
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   private isCrawlerBot(req: any): boolean {
