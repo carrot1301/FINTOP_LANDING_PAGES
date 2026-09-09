@@ -116,6 +116,31 @@ server {
         try_files $uri =404;
     }
 
+    # SEO & Verification files (Exempt from social bot rewrites)
+    location = /sitemap.xml {
+        default_type application/xml;
+        try_files $uri /fintop_frontend$uri @backend_seo;
+    }
+
+    location = /robots.txt {
+        default_type text/plain;
+        try_files $uri /fintop_frontend$uri @backend_seo;
+    }
+
+    location ~ ^/google[a-z0-9]+\.html$ {
+        default_type text/html;
+        try_files $uri /fintop_frontend$uri @backend_seo;
+    }
+
+    location @backend_seo {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
     location / {
         set $serve_og "";
         if ($is_social_bot = 1) {
@@ -314,6 +339,31 @@ server {
         expires 30d;
         add_header Cache-Control "public, immutable";
         try_files $uri =404;
+    }
+
+    # SEO & Verification files (Exempt from social bot rewrites)
+    location = /sitemap.xml {
+        default_type application/xml;
+        try_files $uri /fintop_frontend$uri @backend_seo;
+    }
+
+    location = /robots.txt {
+        default_type text/plain;
+        try_files $uri /fintop_frontend$uri @backend_seo;
+    }
+
+    location ~ ^/google[a-z0-9]+\.html$ {
+        default_type text/html;
+        try_files $uri /fintop_frontend$uri @backend_seo;
+    }
+
+    location @backend_seo {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     location / {

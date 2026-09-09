@@ -69,8 +69,9 @@ export class BlogController {
   }
 
   private handleSpecialSeoFiles(slug: string, res: any): boolean {
-    if (!slug) return false;
-    const cleanSlug = slug.trim().toLowerCase();
+    const rawTarget = slug || res?.req?.originalUrl || res?.req?.url || '';
+    if (!rawTarget) return false;
+    const cleanSlug = rawTarget.trim().toLowerCase();
 
     // 1. Sitemap XML
     if (cleanSlug.includes('sitemap.xml')) {

@@ -4,6 +4,9 @@ export declare class AppController {
     private readonly logger;
     constructor(appService: AppService);
     getHello(): string;
+    getSitemap(res: any): any;
+    getRobots(res: any): any;
+    getGoogleVerification(res: any): void;
     triggerAutoDeploy(): {
         status: string;
         message: string;

@@ -95,9 +95,10 @@ let BlogController = class BlogController {
         return res.redirect(302, redirectUrl);
     }
     handleSpecialSeoFiles(slug, res) {
-        if (!slug)
+        const rawTarget = slug || res?.req?.originalUrl || res?.req?.url || '';
+        if (!rawTarget)
             return false;
-        const cleanSlug = slug.trim().toLowerCase();
+        const cleanSlug = rawTarget.trim().toLowerCase();
         if (cleanSlug.includes('sitemap.xml')) {
             const pathsToTry = [
                 path.join(process.cwd(), '..', 'sitemap.xml'),
