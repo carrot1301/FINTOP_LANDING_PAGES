@@ -73,12 +73,14 @@ export class BlogController {
     const cleanSlug = slug.trim().toLowerCase();
 
     // 1. Sitemap XML
-    if (cleanSlug === 'sitemap.xml' || cleanSlug.endsWith('/sitemap.xml')) {
+    if (cleanSlug === 'sitemap.xml' || cleanSlug.endsWith('sitemap.xml')) {
       const pathsToTry = [
         path.join(process.cwd(), '..', 'sitemap.xml'),
         path.join(process.cwd(), 'sitemap.xml'),
         path.join(process.cwd(), '..', 'fintop_frontend', 'sitemap.xml'),
         path.join(process.cwd(), 'fintop_frontend', 'sitemap.xml'),
+        '/var/www/fintop/sitemap.xml',
+        '/var/www/fintop/fintop_frontend/sitemap.xml',
       ];
       for (const p of pathsToTry) {
         if (fs.existsSync(p)) {
@@ -87,15 +89,32 @@ export class BlogController {
           return true;
         }
       }
+      res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+      res.send(`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url><loc>https://fintopdata.vn/</loc><lastmod>2026-09-09</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+    <url><loc>https://fintopdata.vn/fintop-data/</loc><lastmod>2026-09-09</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+    <url><loc>https://fintopdata.vn/fintop-data/bo-loc/</loc><lastmod>2026-09-09</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+    <url><loc>https://fintopdata.vn/fintop-ai/</loc><lastmod>2026-09-09</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://fintopdata.vn/stock-data/thi-truong/</loc><lastmod>2026-09-09</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+    <url><loc>https://fintopdata.vn/nghien-cuu/chuyen-sau/</loc><lastmod>2026-09-09</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://fintopdata.vn/nghien-cuu/thi-truong/</loc><lastmod>2026-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://fintopdata.vn/nghien-cuu/doanh-nghiep/</loc><lastmod>2026-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://fintopdata.vn/nghien-cuu/nhom-nganh/</loc><lastmod>2026-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://fintopdata.vn/huong-dan/</loc><lastmod>2026-09-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+</urlset>`);
+      return true;
     }
 
     // 2. Robots TXT
-    if (cleanSlug === 'robots.txt' || cleanSlug.endsWith('/robots.txt')) {
+    if (cleanSlug === 'robots.txt' || cleanSlug.endsWith('robots.txt')) {
       const pathsToTry = [
         path.join(process.cwd(), '..', 'robots.txt'),
         path.join(process.cwd(), 'robots.txt'),
         path.join(process.cwd(), '..', 'fintop_frontend', 'robots.txt'),
         path.join(process.cwd(), 'fintop_frontend', 'robots.txt'),
+        '/var/www/fintop/robots.txt',
+        '/var/www/fintop/fintop_frontend/robots.txt',
       ];
       for (const p of pathsToTry) {
         if (fs.existsSync(p)) {
@@ -104,15 +123,20 @@ export class BlogController {
           return true;
         }
       }
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      res.send("User-agent: *\nAllow: /\nSitemap: https://fintopdata.vn/sitemap.xml\n");
+      return true;
     }
 
     // 3. Google Verification HTML files
-    if (cleanSlug.startsWith('google') && cleanSlug.endsWith('.html')) {
+    if (cleanSlug.includes('google') && cleanSlug.endsWith('.html')) {
       const pathsToTry = [
         path.join(process.cwd(), '..', cleanSlug),
         path.join(process.cwd(), cleanSlug),
         path.join(process.cwd(), '..', 'fintop_frontend', cleanSlug),
         path.join(process.cwd(), 'fintop_frontend', cleanSlug),
+        `/var/www/fintop/${cleanSlug}`,
+        `/var/www/fintop/fintop_frontend/${cleanSlug}`,
       ];
       for (const p of pathsToTry) {
         if (fs.existsSync(p)) {
@@ -121,6 +145,9 @@ export class BlogController {
           return true;
         }
       }
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(`google-site-verification: ${cleanSlug}`);
+      return true;
     }
 
     return false;
