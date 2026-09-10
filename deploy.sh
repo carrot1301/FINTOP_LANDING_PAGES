@@ -198,11 +198,12 @@ server {
     }
 
     location / {
+        add_header 'Access-Control-Allow-Origin' '$http_origin' always;
+        add_header 'Access-Control-Allow-Credentials' 'true' always;
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, PATCH, DELETE, OPTIONS' always;
+        add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization, X-Correlation-Id, x-webhook-signature, Accept, X-Requested-With, Cache-Control, Pragma, Origin' always;
+
         if ($request_method = 'OPTIONS') {
-            add_header 'Access-Control-Allow-Origin' '$http_origin' always;
-            add_header 'Access-Control-Allow-Credentials' 'true' always;
-            add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, PATCH, DELETE, OPTIONS' always;
-            add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization, X-Correlation-Id, x-webhook-signature, Accept, X-Requested-With, Cache-Control, Pragma, Origin' always;
             add_header 'Access-Control-Max-Age' 86400 always;
             add_header 'Content-Length' 0;
             add_header 'Content-Type' 'text/plain; charset=UTF-8';
@@ -399,6 +400,18 @@ server {
     server_name api.fintopdata.vn;
 
     location / {
+        add_header 'Access-Control-Allow-Origin' '$http_origin' always;
+        add_header 'Access-Control-Allow-Credentials' 'true' always;
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, PATCH, DELETE, OPTIONS' always;
+        add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization, X-Correlation-Id, x-webhook-signature, Accept, X-Requested-With, Cache-Control, Pragma, Origin' always;
+
+        if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Max-Age' 86400 always;
+            add_header 'Content-Length' 0;
+            add_header 'Content-Type' 'text/plain; charset=UTF-8';
+            return 204;
+        }
+
         proxy_pass http://127.0.0.1:3000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
@@ -495,7 +508,11 @@ for webp_path in glob.glob('/var/www/fintop/fintop_frontend/uploads/*.webp'):
 fi
 
 pm2 delete fintop-backend 2>/dev/null || true
-pm2 start dist/src/main.js --name "fintop-backend" --update-env || pm2 restart fintop-backend --update-env
+if [ -f dist/src/main.js ]; then
+    pm2 start dist/src/main.js --name "fintop-backend" --update-env
+elif [ -f dist/main.js ]; then
+    pm2 start dist/main.js --name "fintop-backend" --update-env
+fi
 pm2 save
 
 echo "=========================================="
