@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Query, Header } from '@nestjs/common';
 import { MarketService } from './market.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import { PaginationDto } from '../../common/dto/pagination.dto';
@@ -20,6 +20,7 @@ export class MarketController {
   }
 
   @Get('stocks')
+  @Header('Cache-Control', 'no-cache, no-store, must-revalidate')
   @ApiOperation({ summary: 'Get all active stocks with basic metadata and quotes' })
   async getStocks() {
     return this.marketService.listActiveStocks();

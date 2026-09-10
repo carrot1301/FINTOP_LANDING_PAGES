@@ -9790,10 +9790,13 @@
         async function fetchBolocDataFromApi() {
             try {
                 let list = null;
+                const cacheBust = `_t=${Date.now()}`;
                 const Api = window.FintopInfra?.ApiClient;
                 if (Api) {
                     try {
-                        const res = await Api.get('/market/stocks');
+                        const res = await Api.get(`/market/stocks?${cacheBust}`, {
+                            headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache' }
+                        });
                         list = res?.data || res;
                     } catch (e) {
                         console.warn('ApiClient.get /market/stocks failed, trying direct fetch:', e);
@@ -9802,7 +9805,10 @@
 
                 if (!Array.isArray(list) || list.length === 0) {
                     try {
-                        const nativeRes = await fetch('/api/v1/market/stocks');
+                        const nativeRes = await fetch(`/api/v1/market/stocks?${cacheBust}`, {
+                            cache: 'no-store',
+                            headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache' }
+                        });
                         if (nativeRes.ok) {
                             const json = await nativeRes.json();
                             list = json?.data || json;
@@ -9859,12 +9865,27 @@
                 if (synced.length > 0) {
                     BOLOC_DATA = synced;
                     renderBolocTable();
+                } else {
+                    fetchBolocDataFromApi();
                 }
             }
         });
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchBolocDataFromApi();
+        });
+        window.addEventListener('pageshow', () => {
+            fetchBolocDataFromApi();
+        });
+        window.addEventListener('hashchange', () => {
+            if (window.location.hash === '#panel-boloc') {
+                fetchBolocDataFromApi();
+            }
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                fetchBolocDataFromApi();
+            }
         });
 
         // =====================
