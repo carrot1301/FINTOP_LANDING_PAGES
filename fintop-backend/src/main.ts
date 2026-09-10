@@ -27,25 +27,23 @@ async function bootstrap() {
 
   // ── Security Hardening ──────────────────────────────────────
   // Helmet: Sets various HTTP security headers (XSS, clickjacking, etc.)
-  app.use(helmet());
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+      crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+    }),
+  );
 
   // Compression: Reduce payload sizes for high-throughput market data
   app.use(compression());
 
   // CORS Governance
-  const corsOrigin = process.env.CORS_ORIGIN || '*';
   app.enableCors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin or matching fintopdata.vn / localhost
-      if (!origin || corsOrigin === '*' || origin.includes('fintopdata.vn') || origin.includes('localhost') || origin.includes('127.0.0.1')) {
-        callback(null, true);
-      } else {
-        callback(null, true);
-      }
-    },
+    origin: true,
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type,Authorization,X-Correlation-Id,x-webhook-signature,Accept,X-Requested-With,Cache-Control,Pragma,Origin,Access-Control-Request-Method,Access-Control-Request-Headers',
+    allowedHeaders:
+      'Content-Type,Authorization,X-Correlation-Id,x-webhook-signature,Accept,X-Requested-With,Cache-Control,Pragma,Origin,Access-Control-Request-Method,Access-Control-Request-Headers',
     maxAge: 86400, // Pre-flight cache: 24 hours
   });
 

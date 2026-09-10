@@ -469,6 +469,7 @@ grep -q "CORS_ORIGIN" .env || echo 'CORS_ORIGIN="*"' >> .env
 npx prisma generate
 npx prisma db push
 npm run build
+echo "require('./src/main.js');" > dist/main.js
 
 if [ -f fintop_dump.sql ]; then
     echo "=== ĐANG NẠP DỮ LIỆU LOCAL VÀO DATABASE VPS ==="
@@ -493,7 +494,8 @@ for webp_path in glob.glob('/var/www/fintop/fintop_frontend/uploads/*.webp'):
 " 2>/dev/null || true
 fi
 
-pm2 restart fintop-backend --update-env || pm2 start dist/src/main.js --name "fintop-backend"
+pm2 delete fintop-backend 2>/dev/null || true
+pm2 start dist/src/main.js --name "fintop-backend" --update-env || pm2 restart fintop-backend --update-env
 pm2 save
 
 echo "=========================================="

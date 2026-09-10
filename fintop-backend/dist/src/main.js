@@ -23,18 +23,13 @@ async function bootstrap() {
         bodyParser: false,
     });
     app.enableShutdownHooks();
-    app.use((0, helmet_1.default)());
+    app.use((0, helmet_1.default)({
+        crossOriginResourcePolicy: { policy: 'cross-origin' },
+        crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+    }));
     app.use((0, compression_1.default)());
-    const corsOrigin = process.env.CORS_ORIGIN || '*';
     app.enableCors({
-        origin: (origin, callback) => {
-            if (!origin || corsOrigin === '*' || origin.includes('fintopdata.vn') || origin.includes('localhost') || origin.includes('127.0.0.1')) {
-                callback(null, true);
-            }
-            else {
-                callback(null, true);
-            }
-        },
+        origin: true,
         credentials: true,
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         allowedHeaders: 'Content-Type,Authorization,X-Correlation-Id,x-webhook-signature,Accept,X-Requested-With,Cache-Control,Pragma,Origin,Access-Control-Request-Method,Access-Control-Request-Headers',
