@@ -8747,9 +8747,11 @@
                 window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
             });
 
-            // Auto-render Bộ lọc table on first open
+            // Auto-render & refresh Bộ lọc table on open
             if (panelId === 'panel-boloc') {
-                if (!bolocRendered) {
+                if (typeof fetchBolocDataFromApi === 'function') {
+                    fetchBolocDataFromApi();
+                } else if (!bolocRendered) {
                     renderBolocTable();
                     bolocRendered = true;
                 }
@@ -9069,13 +9071,29 @@
         }
 
         function formatStockDisplayTime(value) {
+            if (!value) return '';
+            if (value instanceof Date && !isNaN(value.getTime())) {
+                const pad = (n) => String(n).padStart(2, '0');
+                return `${pad(value.getHours())}:${pad(value.getMinutes())}\n${pad(value.getDate())}/${pad(value.getMonth() + 1)}`;
+            }
+
             const raw = String(value || '').trim();
             if (!raw) return '';
+
+            // Handle ISO date strings e.g., 2026-09-10T15:19:00.000Z
+            if (raw.includes('T') && (raw.includes('Z') || raw.includes('+') || raw.includes('-'))) {
+                const parsed = new Date(raw);
+                if (!isNaN(parsed.getTime())) {
+                    const pad = (n) => String(n).padStart(2, '0');
+                    return `${pad(parsed.getHours())}:${pad(parsed.getMinutes())}\n${pad(parsed.getDate())}/${pad(parsed.getMonth() + 1)}`;
+                }
+            }
 
             const compact = raw
                 .replace(/\\n/g, ' ')
                 .replace(/\n/g, ' ')
                 .replace(/\s+/g, ' ')
+                .replace(/,/g, ' ')
                 .replace(/(\d{1,2})h(\d{2})/i, '$1:$2')
                 .trim();
 
@@ -9085,6 +9103,15 @@
                 const minute = match[2];
                 const day = match[3].padStart(2, '0');
                 const month = match[4].padStart(2, '0');
+                return `${hour}:${minute}\n${day}/${month}`;
+            }
+
+            const isoMatch = compact.match(/(\d{4})[/-](\d{1,2})[/-](\d{1,2})(?:[T\s]+(\d{1,2}):(\d{2}))?/);
+            if (isoMatch) {
+                const day = isoMatch[3].padStart(2, '0');
+                const month = isoMatch[2].padStart(2, '0');
+                const hour = (isoMatch[4] || '00').padStart(2, '0');
+                const minute = isoMatch[5] || '00';
                 return `${hour}:${minute}\n${day}/${month}`;
             }
 
@@ -9222,7 +9249,7 @@
                 const authUser = Infra?.AuthManager?.user;
                 const user = authUser || Infra?.AppState?.get('user') || JSON.parse(localStorage.getItem('fintop_user_profile') || '{}');
                 const roles = user.roles || Infra?.AppState?.get('user', 'roles') || [];
-                const staffRoles = ['SUPER_ADMIN', 'ADMIN', 'CEO', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'SALE_ADMIN', 'EXPERT', 'EDITOR_PRO', 'EDITOR', 'SALE'];
+                const staffRoles = ['CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'SALE_ADMIN', 'EDITOR', 'SALE'];
 
                 if (Array.isArray(roles) && roles.some(r => staffRoles.includes(r))) return true;
                 if (user.isStaff || user.isEmployee || user.staffCode || user.role === 'admin' || user.role === 'staff') return true;
@@ -9384,7 +9411,7 @@
         }
 
         function getFilteredBolocData() {
-            const dataPool = (Array.isArray(BOLOC_DATA) && BOLOC_DATA.length >= 10) ? BOLOC_DATA : getMockBolocData();
+            const dataPool = (Array.isArray(BOLOC_DATA) && BOLOC_DATA.length > 0) ? BOLOC_DATA : getMockBolocData();
             return dataPool.filter((row) => {
                 const statusText = normalizeBolocLabel(getBolocStatusText(row));
                 const strengthText = normalizeBolocLabel(getBolocStrengthText(row));

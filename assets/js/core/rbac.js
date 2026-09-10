@@ -50,11 +50,47 @@ const TIER_HIERARCHY = Object.freeze({
 const PERMISSIONS = Object.freeze({
   CREATE_SIGNAL: 'VIP_SIGNALS:CREATE',
   UPDATE_SIGNAL: 'VIP_SIGNALS:UPDATE',
+  READ_SIGNAL: 'VIP_SIGNALS:READ',
   CREATE_BLOG: 'BLOG:CREATE',
   UPDATE_BLOG: 'BLOG:UPDATE',
+  READ_BLOG: 'BLOG:READ',
   MANAGE_USERS: 'USER:READ',
   MANAGE_ROLES: 'ROLE:READ',
   VIEW_AUDIT_LOGS: 'SYSTEM:READ',
+  INVOICE_READ: 'INVOICE:READ',
+  INVOICE_APPROVE: 'INVOICE:APPROVE',
+  STOCK_DATA_READ: 'STOCK_DATA:READ',
+  STOCK_DATA_UPDATE: 'STOCK_DATA:UPDATE',
+  HANDBOOK_READ: 'HANDBOOK:READ',
+  HANDBOOK_CREATE: 'HANDBOOK:CREATE',
+  SALES_READ: 'SALES:READ',
+  SALES_MANAGE: 'SALES:MANAGE',
+});
+
+const ROLE_DEFAULT_PERMISSIONS = Object.freeze({
+  SUPER_ADMIN: ['*'],
+  CEO: ['*'],
+  DEVELOPER: ['*'],
+  ADMIN: ['*'],
+  ASSISTANT_CEO: ['*'],
+  EDITOR_ADMIN: [
+    'BLOG:CREATE', 'BLOG:READ', 'BLOG:UPDATE', 'BLOG:DELETE', 'BLOG:MANAGE', 'BLOG:LABEL_PRO',
+    'REPORT:READ', 'REPORT:CREATE', 'REPORT:UPDATE', 'REPORT:DELETE',
+    'HANDBOOK:READ', 'HANDBOOK:CREATE', 'HANDBOOK:UPDATE', 'HANDBOOK:DELETE',
+    'STOCK_DATA:READ', 'STOCK_DATA:UPDATE',
+    'VIP_SIGNALS:READ',
+    'USER:READ', 'USER:UPDATE',
+    'ROLE:READ', 'ROLE:UPDATE'
+  ],
+  EDITOR: [
+    'BLOG:CREATE', 'BLOG:READ', 'BLOG:UPDATE'
+  ],
+  SALE_ADMIN: [
+    'SALES:READ', 'USER:READ', 'USER:UPDATE', 'VIP_SIGNALS:READ', 'REPORT:READ'
+  ],
+  SALE: [
+    'SALES:READ', 'USER:READ', 'VIP_SIGNALS:READ'
+  ],
 });
 
 // ─────────────────────────────────────────────────────────────
@@ -101,13 +137,13 @@ class RbacEvaluatorSingleton {
   }
 
   /**
-   * Check if user has SUPER_ADMIN role.
-   * SUPER_ADMIN bypasses all tier and permission checks.
+   * Check if user has super admin / executive admin role.
+   * Bypasses all tier and permission checks.
    * @returns {boolean}
    */
   isSuperAdmin() {
     const roles = AppState.get('user', 'roles') || [];
-    return roles.includes('SUPER_ADMIN');
+    return roles.includes('CEO') || roles.includes('DEVELOPER') || roles.includes('ASSISTANT_CEO') || roles.includes('SUPER_ADMIN') || roles.includes('ADMIN');
   }
 
   /**
@@ -186,7 +222,6 @@ class RbacEvaluatorSingleton {
       EDITOR_ADMIN: 'DIAMOND',
       SALE_ADMIN: 'DIAMOND',
       EXPERT: 'DIAMOND',
-      EDITOR_PRO: 'DIAMOND',
       EDITOR: 'DIAMOND',
       SALE: 'DIAMOND',
       CLIENT_VIP: 'DIAMOND',
@@ -210,11 +245,30 @@ class RbacEvaluatorSingleton {
   hasPermission(permissionCode) {
     if (this.isSuperAdmin()) return true;
 
+    const roles = AppState.get('user', 'roles') || [];
+    if (roles.includes('SUPER_ADMIN') || roles.includes('CEO') || roles.includes('DEVELOPER') || roles.includes('ADMIN')) {
+      return true;
+    }
+
     // Resolve known permission mapping if present
     const resolvedCode = PERMISSIONS[permissionCode] || permissionCode;
 
     const permissions = AppState.get('user', 'permissions') || [];
-    return permissions.includes(resolvedCode);
+    if (permissions.includes(resolvedCode) || permissions.includes(permissionCode)) {
+      return true;
+    }
+
+    // Check role default permission fallback
+    for (const role of roles) {
+      const defaultPerms = ROLE_DEFAULT_PERMISSIONS[role];
+      if (defaultPerms) {
+        if (defaultPerms.includes('*') || defaultPerms.includes(resolvedCode) || defaultPerms.includes(permissionCode)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   /**

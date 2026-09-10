@@ -324,6 +324,8 @@ async function syncUserPageData() {
       }))
     };
     await API().post('/market/stocks/bulk', payload);
+    await loadStockData();
+    renderAll();
 
     const filterSyncData = stockData.map(s => ({
       ticker: s.code_cp,

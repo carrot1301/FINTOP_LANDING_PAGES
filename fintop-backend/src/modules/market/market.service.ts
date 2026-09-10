@@ -531,6 +531,7 @@ export class MarketService {
       throw new BadRequestException('Danh sách cập nhật không hợp lệ');
     }
 
+    const now = new Date();
     const updates = dto.stocks.map((s) => {
       const data: any = {
         order: s.order !== undefined ? Number(s.order) : undefined,
@@ -542,6 +543,7 @@ export class MarketService {
         trading_price_range: s.trading_price_range,
         resistance_range: s.resistance_range,
         support_range: s.support_range,
+        updatedAt: now,
       };
 
       return this.prisma.stock.update({

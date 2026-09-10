@@ -23,26 +23,26 @@
 
 const MODULES = [
   { id: 'overview', label: 'Trang Chủ', icon: '🏠', section: 'Chính', permission: null },
-  { id: 'billing', label: 'Phê duyệt', icon: '💵', section: 'Chính', permission: null },
-  { id: 'signals', label: 'Tín Hiệu V.I.P', icon: '📊', section: 'Dữ liệu', permission: 'UPDATE_SIGNAL', hidden: true },
-  { id: 'market', label: 'Dữ liệu', icon: '🪙', section: 'Dữ liệu', permission: null },
-  { id: 'copy-trade', label: 'Copy Trade', icon: '🔄', section: 'Dữ liệu', permission: 'UPDATE_SIGNAL' },
-  { id: 'copilot', label: 'AI Copilot', icon: '🧠', section: 'Dữ liệu', permission: null },
-  { id: 'market-intelligence', label: 'Market Intelligence', icon: '📈', section: 'Dữ liệu', permission: null, hidden: true },
-  { id: 'research-center', label: 'Research Center', icon: '📝', section: 'Dữ liệu', permission: null, hidden: true },
-  { id: 'cms', label: 'Bài viết', icon: '📅', section: 'Nội dung', permission: 'UPDATE_BLOG' },
-  { id: 'rbac', label: 'Nhân sự', icon: '👥', section: 'Quản lý', permission: 'MANAGE_ROLES' },
-  { id: 'users', label: 'Khách hàng', icon: '👥', section: 'Quản lý', permission: 'MANAGE_USERS' },
-  { id: 'portfolio-manager', label: 'Danh mục Web', icon: '📅', section: 'Quản lý', permission: null },
-  { id: 'handbook', label: 'Hướng dẫn', icon: '🏥', section: 'Nội dung', permission: null },
+  { id: 'billing', label: 'Phê duyệt', icon: '💵', section: 'Chính', permission: 'INVOICE:READ' },
+  { id: 'signals', label: 'Tín Hiệu V.I.P', icon: '📊', section: 'Dữ liệu', permission: 'VIP_SIGNALS:READ', hidden: true },
+  { id: 'market', label: 'Dữ liệu', icon: '🪙', section: 'Dữ liệu', permission: 'STOCK_DATA:READ' },
+  { id: 'copy-trade', label: 'Copy Trade', icon: '🔄', section: 'Dữ liệu', permission: 'VIP_SIGNALS:READ' },
+  { id: 'copilot', label: 'AI Copilot', icon: '🧠', section: 'Dữ liệu', permission: 'STOCK_DATA:READ' },
+  { id: 'market-intelligence', label: 'Market Intelligence', icon: '📈', section: 'Dữ liệu', permission: 'STOCK_DATA:READ', hidden: true },
+  { id: 'research-center', label: 'Research Center', icon: '📝', section: 'Dữ liệu', permission: 'REPORT:READ', hidden: true },
+  { id: 'cms', label: 'Bài viết', icon: '📅', section: 'Nội dung', permission: 'BLOG:READ' },
+  { id: 'rbac', label: 'Nhân sự', icon: '👥', section: 'Quản lý', permission: 'ROLE:READ' },
+  { id: 'users', label: 'Khách hàng', icon: '👥', section: 'Quản lý', permission: 'USER:READ' },
+  { id: 'portfolio-manager', label: 'Danh mục Web', icon: '📅', section: 'Quản lý', permission: 'STOCK_DATA:READ' },
+  { id: 'handbook', label: 'Hướng dẫn', icon: '🏥', section: 'Nội dung', permission: 'HANDBOOK:READ' },
   { id: 'profile', label: 'Thông tin cá nhân', icon: '👤', section: 'Tài khoản', permission: null },
 
   // Hidden modules (preserved for code stability, E2E checks and URL routing)
   { id: 'notifications', label: 'Thông báo', icon: '🔔', section: 'Hệ thống', permission: null, hidden: true },
   { id: 'portfolios', label: 'Danh mục cũ', icon: '💼', section: 'Hệ thống', permission: null, hidden: true },
   { id: 'audit', label: 'Nhật ký', icon: '📋', section: 'Hệ thống', permission: 'VIEW_AUDIT_LOGS' },
-  { id: 'system', label: 'Hệ thống', icon: '⚙️', section: 'Hệ thống', permission: null },
-  { id: 'ai-ops', label: 'AI Ops / QA', icon: '🤖', section: 'Hệ thống', permission: null },
+  { id: 'system', label: 'Hệ thống', icon: '⚙️', section: 'Hệ thống', permission: 'VIEW_AUDIT_LOGS' },
+  { id: 'ai-ops', label: 'AI Ops / QA', icon: '🤖', section: 'Hệ thống', permission: 'VIEW_AUDIT_LOGS' },
 ];
 
 let currentModule = null;
@@ -438,29 +438,29 @@ async function initShell() {
 
 function buildSidebar(isSuperAdmin) {
   const nav = document.getElementById('admin-nav');
-  let currentSection = '';
   let html = '';
 
+  const sections = {};
   for (const mod of MODULES) {
-    if (mod.hidden) {
-      continue;
-    }
-    // Permission check for tab visibility
+    if (mod.hidden) continue;
     if (mod.permission && !isSuperAdmin && !Infra.RbacEvaluator.hasPermission(mod.permission)) {
       continue;
     }
+    if (!sections[mod.section]) sections[mod.section] = [];
+    sections[mod.section].push(mod);
+  }
 
-    if (mod.section !== currentSection) {
-      currentSection = mod.section;
-      html += `<div class="admin-nav-section">${esc(mod.section)}</div>`;
+  for (const [sectionName, mods] of Object.entries(sections)) {
+    if (mods.length === 0) continue;
+    html += `<div class="admin-nav-section">${esc(sectionName)}</div>`;
+    for (const mod of mods) {
+      html += `
+        <div class="admin-nav-item" data-module="${mod.id}" id="nav-${mod.id}">
+          <span class="nav-icon">${mod.icon}</span>
+          <span>${esc(mod.label)}</span>
+        </div>
+      `;
     }
-
-    html += `
-      <div class="admin-nav-item" data-module="${mod.id}" id="nav-${mod.id}">
-        <span class="nav-icon">${mod.icon}</span>
-        <span>${esc(mod.label)}</span>
-      </div>
-    `;
   }
 
   nav.innerHTML = html;
@@ -501,6 +501,22 @@ async function onHashChange() {
   const hash = (window.location.hash || '#overview').replace('#', '');
   const moduleConfig = MODULES.find(m => m.id === hash) || MODULES[0];
   const moduleId = moduleConfig.id;
+
+  // Permission check for direct URL hash navigation
+  const isSuperAdmin = Infra.RbacEvaluator.isSuperAdmin();
+  if (moduleConfig.permission && !isSuperAdmin && !Infra.RbacEvaluator.hasPermission(moduleConfig.permission)) {
+    const container = document.getElementById('admin-content');
+    container.innerHTML = `
+      <div class="admin-empty-state">
+        <div class="empty-icon">🔒</div>
+        <div class="empty-title">Truy cập bị từ chối</div>
+        <div class="empty-desc">Tài khoản của bạn không có quyền truy cập chức năng "${esc(moduleConfig.label)}". Vui lòng liên hệ Admin để được cấp quyền.</div>
+      </div>
+    `;
+    document.getElementById('admin-topbar-title').textContent = moduleConfig.label;
+    document.querySelectorAll('.admin-nav-item').forEach(item => item.classList.remove('active'));
+    return;
+  }
 
   // Update active nav
   document.querySelectorAll('.admin-nav-item').forEach(item => {

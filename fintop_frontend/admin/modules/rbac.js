@@ -28,14 +28,13 @@ const ROLE_DISPLAY = {
   EDITOR:         { label: 'Editor',               color: '#93c5fd' },
   SALE_ADMIN:     { label: 'Sales Admin',          color: '#22c55e' },
   SALE:           { label: 'Sale',                 color: '#4ade80' },
-  EXPERT:         { label: 'Chuyên gia',           color: '#c084fc' },
   CLIENT_DIAMOND: { label: 'Khách hàng Diamond',    color: '#eab308' },
   CLIENT_VIP:     { label: 'Khách hàng VIP',        color: '#f59e0b' },
   CLIENT_PRO:     { label: 'Khách hàng PRO',        color: '#3b82f6' },
   CLIENT:         { label: 'Khách hàng Standard',   color: '#94a3b8' },
 };
 
-const STAFF_ROLES_LIST = ['CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'];
+const STAFF_ROLES_LIST = ['CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR', 'SALE_ADMIN', 'SALE'];
 
 function getRoleLabels(roles) {
   if (!roles || roles.length === 0) return '<span style="color:var(--text-muted)">— Chưa gán —</span>';
@@ -143,7 +142,6 @@ function renderStaffTable(container) {
           { value: 'EDITOR', label: '🔵 Editor' },
           { value: 'SALE_ADMIN', label: '🟢 Sales Admin' },
           { value: 'SALE', label: '🟢 Sale' },
-          { value: 'EXPERT', label: '🟣 Chuyên gia' },
         ],
       },
       status: {
@@ -841,7 +839,6 @@ const ALL_12_ROLES = [
   { code: 'EDITOR', label: '🔵 Editor' },
   { code: 'SALE_ADMIN', label: '🟢 Sales Admin' },
   { code: 'SALE', label: '🟢 Sale' },
-  { code: 'EXPERT', label: '🟣 Chuyên gia' },
   { code: 'CLIENT', label: '⚪ Khách hàng Standard' },
   { code: 'CLIENT_PRO', label: '🔵 Khách hàng PRO' },
   { code: 'CLIENT_VIP', label: '🟡 Khách hàng VIP' },
@@ -1069,7 +1066,7 @@ async function showStaffDetail(userId) {
     const staffIdContainer = staffDetailEl.querySelector('#staff-id-input-container-rbac');
     const staffIdInput = staffDetailEl.querySelector('#assign-staff-id-input-rbac');
 
-    const STAFF_ROLES = ['CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'];
+    const STAFF_ROLES = ['CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR', 'SALE_ADMIN', 'SALE'];
     const CUSTOMER_ROLES = ['CLIENT', 'CLIENT_PRO', 'CLIENT_VIP', 'CLIENT_DIAMOND'];
 
     const isCurrentlyCustomer = assignedCodes.some(c => CUSTOMER_ROLES.includes(c)) || !assignedCodes.some(c => STAFF_ROLES.includes(c));
@@ -1132,7 +1129,7 @@ async function showStaffDetail(userId) {
 
         if (!confirm(`Bạn có chắc chắn muốn gỡ vai trò "${roleCode}" khỏi nhân viên này không?`)) return;
 
-        const STAFF_ROLES = ['CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR', 'SALE_ADMIN', 'SALE', 'EXPERT'];
+        const STAFF_ROLES = ['CEO', 'DEVELOPER', 'ASSISTANT_CEO', 'EDITOR_ADMIN', 'EDITOR', 'SALE_ADMIN', 'SALE'];
         const remainingStaff = (u.roles || []).filter(r => (r.code || r) !== roleCode && STAFF_ROLES.includes(r.code || r));
 
         btn.disabled = true;
@@ -1219,8 +1216,8 @@ async function renderRolesTable(container) {
   // Hierarchy rank order: CEO highest (1) → CLIENT lowest (12)
   const ROLE_RANK_ORDER = {
     CEO: 1, DEVELOPER: 2, ASSISTANT_CEO: 3, EDITOR_ADMIN: 4,
-    EDITOR: 5, SALE_ADMIN: 6, SALE: 7, EXPERT: 8,
-    CLIENT_DIAMOND: 9, CLIENT_VIP: 10, CLIENT_PRO: 11, CLIENT: 12,
+    EDITOR: 5, SALE_ADMIN: 6, SALE: 7,
+    CLIENT_DIAMOND: 8, CLIENT_VIP: 9, CLIENT_PRO: 10, CLIENT: 11,
   };
 
   try {
