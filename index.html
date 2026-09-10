@@ -8477,7 +8477,8 @@
                     if (Array.isArray(parsed) && parsed.length > 0) {
                         const hasLegacyMock = parsed.some(item => {
                             const t = String(item.time || item.updateTime || '');
-                            return t.includes('25/08') || t.includes('24/08');
+                            const ticker = String(item.ticker || item.code_cp || '');
+                            return t.includes('25/08') || t.includes('24/08') || (ticker === 'MWG' && t.includes('18:16'));
                         });
                         if (hasLegacyMock) {
                             localStorage.removeItem('fintop_stock_filter_sync');
