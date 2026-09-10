@@ -8762,6 +8762,11 @@
 
             // Auto-render & refresh Bộ lọc table on open
             if (panelId === 'panel-boloc') {
+                const synced = typeof readSyncedBolocData === 'function' ? readSyncedBolocData() : [];
+                if (synced.length > 0) {
+                    BOLOC_DATA = synced;
+                    renderBolocTable();
+                }
                 if (typeof fetchBolocDataFromApi === 'function') {
                     fetchBolocDataFromApi();
                 } else if (!bolocRendered) {
@@ -9870,21 +9875,25 @@
             }
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            readSyncedBolocData();
+        function syncAndFetchBoloc() {
+            const synced = readSyncedBolocData();
+            if (synced.length > 0) {
+                BOLOC_DATA = synced;
+                renderBolocTable();
+            }
             fetchBolocDataFromApi();
-        });
-        window.addEventListener('pageshow', () => {
-            fetchBolocDataFromApi();
-        });
+        }
+
+        document.addEventListener('DOMContentLoaded', syncAndFetchBoloc);
+        window.addEventListener('pageshow', syncAndFetchBoloc);
         window.addEventListener('hashchange', () => {
             if (window.location.hash === '#panel-boloc') {
-                fetchBolocDataFromApi();
+                syncAndFetchBoloc();
             }
         });
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') {
-                fetchBolocDataFromApi();
+                syncAndFetchBoloc();
             }
         });
 
