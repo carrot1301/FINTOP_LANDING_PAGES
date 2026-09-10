@@ -8476,8 +8476,8 @@
                     const parsed = JSON.parse(synced);
                     if (Array.isArray(parsed) && parsed.length > 0) {
                         return parsed.filter(item => {
-                            const st = normalizeBolocLabel(item.trend || item.strength || item.rsi_mfi || item.rsiMfi);
-                            return BOLOC_BULLISH_STRENGTHS.has(st);
+                            const st = normalizeBolocLabel(item.trend || item.strength || item.rsi_mfi || item.rsiMfi || item.strengthText || '');
+                            return !st || BOLOC_BULLISH_STRENGTHS.has(st);
                         });
                     }
                 }
@@ -8548,7 +8548,11 @@
             }
         };
 
-        const BOLOC_BULLISH_STRENGTHS = new Set(['TĂNG MẠNH', 'TĂNG', 'TĂNG DẦN']);
+        const BOLOC_BULLISH_STRENGTHS = new Set([
+            'TĂNG MẠNH', 'TĂNG', 'TĂNG DẦN',
+            'TANG MANH', 'TANG', 'TANG DAN',
+            'RẤT TÍCH CỰC', 'TÍCH CỰC', 'KHẢ QUAN'
+        ]);
 
         function updateNavArrows() {
             document.querySelectorAll('.tv-nav .nav-item.dropdown').forEach(dropdown => {
@@ -9791,7 +9795,9 @@
             try {
                 let list = null;
                 const cacheBust = `_t=${Date.now()}`;
+                const apiBase = window.FintopInfra?.FintopEnv?.API_BASE_URL || 'https://api.fintopdata.vn';
                 const Api = window.FintopInfra?.ApiClient;
+
                 if (Api) {
                     try {
                         const res = await Api.get(`/market/stocks?${cacheBust}`, {
@@ -9805,7 +9811,7 @@
 
                 if (!Array.isArray(list) || list.length === 0) {
                     try {
-                        const nativeRes = await fetch(`/api/v1/market/stocks?${cacheBust}`, {
+                        const nativeRes = await fetch(`${apiBase}/market/stocks?${cacheBust}`, {
                             cache: 'no-store',
                             headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache' }
                         });
@@ -9814,7 +9820,7 @@
                             list = json?.data || json;
                         }
                     } catch (e) {
-                        console.warn('Direct fetch /api/v1/market/stocks failed:', e);
+                        console.warn('Direct fetch /market/stocks failed:', e);
                     }
                 }
 
@@ -9825,15 +9831,15 @@
                         exchange: s.exchange || s.exchangeName || 'HOSE',
                         nganh: s.industry || s.sector || 'Bất động sản',
                         sector: s.industry || s.sector || 'Bất động sản',
-                        time: s.synced_at ? formatStockDisplayTime(s.synced_at) : (s.updated_at ? formatStockDisplayTime(s.updated_at) : (s.updatedAt ? formatStockDisplayTime(s.updatedAt) : '18:16 25/08')),
-                        updateTime: s.synced_at ? formatStockDisplayTime(s.synced_at) : (s.updated_at ? formatStockDisplayTime(s.updated_at) : (s.updatedAt ? formatStockDisplayTime(s.updatedAt) : '18:16 25/08')),
+                        time: s.synced_at ? formatStockDisplayTime(s.synced_at) : (s.updated_at ? formatStockDisplayTime(s.updated_at) : (s.updatedAt ? formatStockDisplayTime(s.updatedAt) : 'Mới cập nhật')),
+                        updateTime: s.synced_at ? formatStockDisplayTime(s.synced_at) : (s.updated_at ? formatStockDisplayTime(s.updated_at) : (s.updatedAt ? formatStockDisplayTime(s.updatedAt) : 'Mới cập nhật')),
                         desc: s.model_desc || s.identify_trend || s.desc || '',
                         historicalData: s.model_desc || s.identify_trend || s.desc || '',
                         status: s.statusText || s.act || s.status || 'TÍCH CỰC',
                         statusText: s.statusText || s.act || s.status || 'TÍCH CỰC',
                         deltaRsi: s.delta_rsi || s.deltaRsi || '',
-                        strength: s.trend || s.rsi_mfi || s.strength || '',
-                        strengthText: s.trend || s.rsi_mfi || s.strength || '',
+                        strength: s.trend || s.rsi_mfi || s.strength || s.strengthText || '',
+                        strengthText: s.trend || s.rsi_mfi || s.strength || s.strengthText || '',
                         vungKiemDinh: s.validation_zone || s.trading_price_range || s.vungKiemDinh || '',
                         testZone: s.validation_zone || s.trading_price_range || s.vungKiemDinh || '',
                         khangCu: s.resistance_zone || s.resistance_range || s.khangCu || '',
@@ -9842,7 +9848,7 @@
                         supportZone: s.support_zone || s.support_range || s.hoTro || ''
                     })).filter(s => {
                         const st = normalizeBolocLabel(s.strengthText || s.strength);
-                        return BOLOC_BULLISH_STRENGTHS.has(st);
+                        return !st || BOLOC_BULLISH_STRENGTHS.has(st);
                     });
                     renderBolocTable();
                     return;
