@@ -8475,6 +8475,14 @@
                 if (synced) {
                     const parsed = JSON.parse(synced);
                     if (Array.isArray(parsed) && parsed.length > 0) {
+                        const hasLegacyMock = parsed.some(item => {
+                            const t = String(item.time || item.updateTime || '');
+                            return t.includes('25/08') || t.includes('24/08');
+                        });
+                        if (hasLegacyMock) {
+                            localStorage.removeItem('fintop_stock_filter_sync');
+                            return [];
+                        }
                         return parsed.filter(item => {
                             const st = normalizeBolocLabel(item.trend || item.strength || item.rsi_mfi || item.rsiMfi || item.strengthText || '');
                             return !st || BOLOC_BULLISH_STRENGTHS.has(st);
@@ -9862,6 +9870,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
+            readSyncedBolocData();
             fetchBolocDataFromApi();
         });
         window.addEventListener('pageshow', () => {
