@@ -9414,7 +9414,13 @@
             const dataPool = (Array.isArray(BOLOC_DATA) && BOLOC_DATA.length > 0) ? BOLOC_DATA : getMockBolocData();
             return dataPool.filter((row) => {
                 const statusText = normalizeBolocLabel(getBolocStatusText(row));
-                const strengthText = normalizeBolocLabel(getBolocStrengthText(row));
+                const rawStrength = row.strengthText || row.trend || row.strength || row.rsiMfi || row.rsi_mfi || '';
+                const strengthText = normalizeBolocLabel(rawStrength);
+
+                // Bắt buộc Sức mạnh xu hướng (RSI/MFI - Dòng tiền) chỉ hiển thị các giá trị: TĂNG MẠNH, TĂNG, TĂNG DẦN
+                if (!BOLOC_BULLISH_STRENGTHS.has(strengthText)) {
+                    return false;
+                }
 
                 const matchesStatus = bolocFilters.selectedStatuses.size === 0 || bolocFilters.selectedStatuses.has(statusText);
                 const matchesStrength = bolocFilters.selectedStrengths.size === 0 || bolocFilters.selectedStrengths.has(strengthText);
@@ -9809,7 +9815,10 @@
                             resistanceZone: s.resistance_zone || s.resistance_range || '',
                             hoTro: s.support_zone || s.support_range || '',
                             supportZone: s.support_zone || s.support_range || ''
-                        }));
+                        })).filter(s => {
+                            const st = normalizeBolocLabel(s.strengthText || s.strength);
+                            return BOLOC_BULLISH_STRENGTHS.has(st);
+                        });
                         renderBolocTable();
                         return;
                     }
