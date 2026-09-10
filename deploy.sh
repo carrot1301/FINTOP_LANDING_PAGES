@@ -142,6 +142,10 @@ server {
     }
 
     location / {
+        add_header Cache-Control "no-cache, no-store, must-revalidate" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
+
         set $serve_og "";
         if ($is_social_bot = 1) {
             set $serve_og 1;
@@ -378,6 +382,10 @@ server {
     }
 
     location / {
+        add_header Cache-Control "no-cache, no-store, must-revalidate" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
+
         set $serve_og "";
         if ($is_social_bot = 1) {
             set $serve_og 1;
