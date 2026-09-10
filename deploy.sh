@@ -204,6 +204,10 @@ server {
         add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization, X-Correlation-Id, x-webhook-signature, Accept, X-Requested-With, Cache-Control, Pragma, Origin' always;
 
         if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Allow-Origin' '$http_origin' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, PATCH, DELETE, OPTIONS' always;
+            add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization, X-Correlation-Id, x-webhook-signature, Accept, X-Requested-With, Cache-Control, Pragma, Origin' always;
             add_header 'Access-Control-Max-Age' 86400 always;
             add_header 'Content-Length' 0;
             add_header 'Content-Type' 'text/plain; charset=UTF-8';
@@ -406,6 +410,10 @@ server {
         add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization, X-Correlation-Id, x-webhook-signature, Accept, X-Requested-With, Cache-Control, Pragma, Origin' always;
 
         if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Allow-Origin' '$http_origin' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, PATCH, DELETE, OPTIONS' always;
+            add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization, X-Correlation-Id, x-webhook-signature, Accept, X-Requested-With, Cache-Control, Pragma, Origin' always;
             add_header 'Access-Control-Max-Age' 86400 always;
             add_header 'Content-Length' 0;
             add_header 'Content-Type' 'text/plain; charset=UTF-8';
