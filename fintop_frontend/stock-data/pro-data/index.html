@@ -382,7 +382,7 @@
         .glass-badge .glass-text {
             font-size: 0.6rem;
             font-weight: 700;
-            color: #FFFFFF;
+            color: #fef08a;
             letter-spacing: 0.2px;
             text-transform: uppercase;
             line-height: 1;
@@ -392,13 +392,13 @@
         }
 
         .article-card-item.is-locked {
-            border-color: rgba(245, 158, 11, 0.4) !important;
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            box-shadow: none !important;
         }
 
         .article-card-item.is-locked:hover {
-            border-color: rgba(245, 158, 11, 0.85) !important;
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.25) !important;
+            border-color: rgba(168, 85, 247, 0.25) !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
         }
 
         .lock-overlay {
@@ -604,7 +604,7 @@
                     <a href="/stock-data/pro-data/index.html" class="active-page">PRO Data <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="/stock-data/dinh-luong/index.html">Định lượng</a>
-                    <a href="/stock-data/index.html#reports">Báo cáo</a>
+                    <a href="/index.html#panel-stock-reports">Báo cáo</a>
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-phan-tich">
@@ -848,7 +848,7 @@
                         </div>
                         <div class="card-content">
                             <a class="card-title" href="/chuyen-gia/index.html?slug=${art.slug}">
-                                ${art.locked ? '<i class="fa-solid fa-lock" style="color: #eab308; margin-right: 6px; font-size: 0.9rem;"></i>' : ''}
+                                
                                 ${cleanText(art.title)}
                             </a>
                             <div class="article-meta">

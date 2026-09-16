@@ -66,6 +66,7 @@ __decorate([
 ], MarketController.prototype, "getSectors", null);
 __decorate([
     (0, common_1.Get)('stocks'),
+    (0, common_1.Header)('Cache-Control', 'no-cache, no-store, must-revalidate'),
     (0, swagger_1.ApiOperation)({ summary: 'Get all active stocks with basic metadata and quotes' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

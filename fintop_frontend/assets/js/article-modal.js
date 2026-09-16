@@ -218,7 +218,6 @@
                 lockScreenHTML = `
                     <div class="article-lock-screen">
                         <div class="lock-card">
-                            <div class="lock-icon">🔒</div>
                             <div class="lock-title">Bài Viết Phân Tích Premium</div>
                             <div class="lock-desc">
                                 Bài viết chiến lược này dành riêng cho hội viên gói <strong style="color: #c084fc;">${article.minTierAccess || 'GOLD'}</strong> trở lên. Hãy nâng cấp tài khoản của bạn để xem đầy đủ nhận định chuyên sâu từ Chuyên gia FinTop.

@@ -201,7 +201,7 @@ body {
 .rp-glass-badge .rp-glass-text {
     font-size: 0.75rem;
     font-weight: 800;
-    color: #FFFFFF;
+    color: #fef08a;
     letter-spacing: 0.7px;
     text-transform: uppercase;
     line-height: 1;
@@ -231,6 +231,7 @@ body {
     font-size: 0.88rem;
     font-weight: 800;
     letter-spacing: 0.9px;
+    color: #fef08a;
 }
 
 /* 2. Recent Articles Grid (Medium-Small Thumbnail) - Compact Badge */
@@ -252,6 +253,7 @@ body {
     font-size: 0.73rem;
     font-weight: 800;
     letter-spacing: 0.6px;
+    color: #fef08a;
 }
 
 /* 3. Container Queries for Fluid Scaling on Window / Grid Resize */

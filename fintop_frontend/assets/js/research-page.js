@@ -113,9 +113,7 @@
         var kickerIcon = config.kickerIcon || 'fa-solid fa-star';
         var kickerText = config.kickerText || 'Bài viết nổi bật';
 
-        var lockTitleIcon = art.locked
-            ? '<i class="fa-solid fa-lock" style="color:#eab308;margin-right:6px;font-size:0.95rem;"></i>'
-            : '';
+        var lockTitleIcon = '';
 
         container.innerHTML =
             '<div class="rp-featured-card' + lockedClass + '">' +
@@ -166,9 +164,7 @@
                 ? '<div class="rp-glass-badge"><i class="fa-solid fa-crown rp-glass-icon"></i><span class="rp-glass-text">PRO</span></div>'
                 : '';
 
-            var lockTitleIcon = art.locked
-                ? '<i class="fa-solid fa-lock" style="color:#eab308;margin-right:4px;font-size:0.78rem;"></i>'
-                : '';
+            var lockTitleIcon = '';
 
             return '<a class="rp-card' + lockedClass + '" href="' + detailUrl + '" onclick="if(window.ArticleModal){event.preventDefault();ArticleModal.open(\'' + art.slug + '\');return false;}">' +
                 '<div class="rp-card-thumb">' +
@@ -353,9 +349,7 @@
             var dateStr = formatDate(art.publishedAt);
             var views = formatViews(art.views);
             var detailUrl = 'javascript:void(0);';
-            var lockIcon = art.locked
-                ? '<i class="fa-solid fa-lock rp-drawer-item-lock"></i>'
-                : '';
+            var lockIcon = '';
 
             return '<a class="rp-drawer-item" href="' + detailUrl + '" onclick="if(window.ArticleModal){event.preventDefault();ArticleModal.open(\'' + art.slug + '\');return false;}">' +
                 '<div class="rp-drawer-item-thumb">' +
