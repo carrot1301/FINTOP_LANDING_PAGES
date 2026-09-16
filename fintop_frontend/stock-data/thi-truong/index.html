@@ -639,76 +639,6 @@
         let searchKeyword = '';
         let allArticles = [];
 
-        // Local Mock Articles Fallback Dataset for Market Page
-        const LOCAL_MOCK_ARTICLES = [
-            {
-                id: 'mock-tt-1',
-                title: '[Báo cáo tuần] VN-Index vượt vùng cản 1.280 - Xung lực dòng tiền xoay trục sang nhóm Ngân hàng & Công nghệ',
-                slug: 'vnindex-vuot-cang-1280-dong-tien-ngan-hang-cong-nghe',
-                excerpt: 'Phân tích xu hướng giao dịch tuần mới: VN-Index ghi nhận khối lượng giao dịch đột biến, mô hình AI FinTop Data cảnh báo các mốc kháng cự 1.300 điểm và khuyến nghị vùng giải ngân an toàn.',
-                publishedAt: '2026-09-07T08:00:00.000Z',
-                views: 1420,
-                category: { name: 'Thị trường', slug: 'thi-truong' },
-                locked: false,
-                content: '<img src="/assets/images/fintop_terminal_mockup.png" alt="VNIndex"/>'
-            },
-            {
-                id: 'mock-tt-2',
-                title: 'Nhận định thị trường phiên 07/09: Áp lực chốt lời ngắn hạn và cơ hội tích lũy nhóm VN30',
-                slug: 'nhan-dinh-thi-truong-ap-luc-chot-loi-ngan-han-vn30',
-                excerpt: 'Chỉ số RSI/MFI cho thấy dòng tiền thông minh đang dịch chuyển từ nhóm Midcap sang các cổ phiếu trụ có nền tảng định giá hấp dẫn. Chi tiết vùng hỗ trợ kỹ thuật trọng yếu.',
-                publishedAt: '2026-09-06T15:30:00.000Z',
-                views: 980,
-                category: { name: 'Thị trường', slug: 'thi-truong' },
-                locked: false,
-                content: '<img src="/assets/images/fintop_hero_bg.jpg" alt="Thị trường"/>'
-            },
-            {
-                id: 'mock-tt-3',
-                title: 'Bản tin Dòng tiền Khối ngoại & Tự doanh: Tăng tốc mua ròng tại các mã cổ phiếu đầu ngành',
-                slug: 'ban-tin-dong-tien-khoi-ngoai-tu-doanh-mua-rong-dau-nganh',
-                excerpt: 'Thống kê chi tiết lực mua ròng của nhà đầu tư nước ngoài trong 5 phiên gần nhất. Mô hình tín hiệu Quant Data xác nhận sóng tăng ngắn hạn tại 3 nhóm ngành chiến lược.',
-                publishedAt: '2026-09-05T10:15:00.000Z',
-                views: 1850,
-                category: { name: 'Thị trường', slug: 'thi-truong' },
-                locked: false,
-                content: '<img src="/assets/images/fintop_terminal_mockup.png" alt="Khối ngoại mua ròng"/>'
-            },
-            {
-                id: 'mock-tt-4',
-                title: 'Tổng quan Vĩ mô Q3/2026: Tín dụng phục hồi mạnh mẽ & Động lực từ đầu tư công',
-                slug: 'tong-quan-vi-mo-q3-2026-tin-dung-dau-tu-cong',
-                excerpt: 'Đánh giá tác động của mặt bằng lãi suất duy trì ở mức thấp đến biên lợi nhuận doanh nghiệp niêm yết. Top các nhóm ngành hưởng lợi trực tiếp từ chu kỳ nới lỏng tiền tệ.',
-                publishedAt: '2026-09-03T14:20:00.000Z',
-                views: 1240,
-                category: { name: 'Thị trường', slug: 'thi-truong' },
-                locked: false,
-                content: '<img src="/assets/images/fintop_hero_bg.jpg" alt="Vĩ mô Q3"/>'
-            },
-            {
-                id: 'mock-tt-5',
-                title: 'Phân tích biến động thanh khoản toàn thị trường: Xu hướng tích tụ dòng tiền lớn FII & DII',
-                slug: 'phan-tich-bien-dong-thanh-khoan-dong-tien-lon',
-                excerpt: 'Dữ liệu giao dịch khớp lệnh thực tế cho thấy khối lượng giao dịch trung bình phiên đạt trên 22.000 tỷ đồng. Điểm sáng ở nhóm cổ phiếu Chứng khoán & Bất động sản KCN.',
-                publishedAt: '2026-09-01T09:45:00.000Z',
-                views: 1610,
-                category: { name: 'Thị trường', slug: 'thi-truong' },
-                locked: false,
-                content: '<img src="/assets/images/fintop_terminal_mockup.png" alt="Thanh khoản"/>'
-            },
-            {
-                id: 'mock-tt-6',
-                title: 'Chiến lược phân bổ danh mục Tháng 9/2026: Quản trị rủi ro & Điểm tối ưu tỷ trọng',
-                slug: 'chien-luoc-phan-bo-danh-muc-thang-9-2026',
-                excerpt: 'Hướng dẫn xây dựng danh mục đầu tư cân bằng theo phương pháp định lượng AI: 40% Ngân hàng, 25% Công nghệ, 25% BĐS KCN và 10% Tiền mặt dự phòng.',
-                publishedAt: '2026-08-30T11:00:00.000Z',
-                views: 2100,
-                category: { name: 'Thị trường', slug: 'thi-truong' },
-                locked: false,
-                content: '<img src="/assets/images/fintop_hero_bg.jpg" alt="Phân bổ danh mục"/>'
-            }
-        ];
-
         // Wait for FintopInfra to be initialized
         document.addEventListener('DOMContentLoaded', () => {
             let attempts = 0;
@@ -719,8 +649,7 @@
                     initPage(window.FintopInfra);
                 } else if (attempts > 30) {
                     clearInterval(interval);
-                    // Fallback to local mock articles if infra fails to initialize
-                    allArticles = LOCAL_MOCK_ARTICLES;
+                    allArticles = [];
                     renderArticles();
                 }
             }, 100);
@@ -762,17 +691,11 @@
                 const response = await infra.ApiClient.get(`/blogs?limit=100`);
                 const list = response?.data?.data || response?.data || [];
                 const apiFiltered = list.filter(art => ALLOWED_SLUGS.includes(art.category?.slug));
-
-                if (apiFiltered.length > 0) {
-                    allArticles = apiFiltered;
-                } else {
-                    // Use rich local mock dataset if backend has no category match yet
-                    allArticles = LOCAL_MOCK_ARTICLES;
-                }
+                allArticles = apiFiltered;
                 renderArticles();
             } catch (err) {
-                console.warn('Backend API connection failed, loading local mock data:', err);
-                allArticles = LOCAL_MOCK_ARTICLES;
+                console.warn('Backend API connection failed:', err);
+                allArticles = [];
                 renderArticles();
             }
         }
