@@ -31,6 +31,7 @@ const MODULES = [
   { id: 'market-intelligence', label: 'Market Intelligence', icon: '📈', section: 'Dữ liệu', permission: 'STOCK_DATA:READ', hidden: true },
   { id: 'research-center', label: 'Research Center', icon: '📝', section: 'Dữ liệu', permission: 'REPORT:READ', hidden: true },
   { id: 'cms', label: 'Bài viết', icon: '📅', section: 'Nội dung', permission: 'BLOG:READ' },
+  { id: 'reports', label: 'Quản lý Báo cáo', icon: '📄', section: 'Nội dung', permission: 'REPORT:READ' },
   { id: 'rbac', label: 'Nhân sự', icon: '👥', section: 'Quản lý', permission: 'ROLE:READ' },
   { id: 'users', label: 'Khách hàng', icon: '👥', section: 'Quản lý', permission: 'USER:READ' },
   { id: 'portfolio-manager', label: 'Danh mục Web', icon: '📅', section: 'Quản lý', permission: 'STOCK_DATA:READ' },

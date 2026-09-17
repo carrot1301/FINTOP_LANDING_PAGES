@@ -223,6 +223,7 @@ const STORAGE_KEYS = Object.freeze({
   USER_PROFILE:  'fintop_user',
   SUBSCRIPTION:  'fintop_subscription',
   SESSION_STATE: 'fintop_session_state',
+  LAST_ACTIVITY: 'fintop_last_activity',
 });
 
 // ─────────────────────────────────────────────────────────────
@@ -234,6 +235,7 @@ const REQUEST_CONFIG = Object.freeze({
   RETRY_MAX_ATTEMPTS:  3,
   RETRY_BASE_DELAY_MS: 500,    // Exponential backoff base
   REFRESH_BUFFER_MS:   60000,  // Refresh token 60s before expiry
+  IDLE_TIMEOUT_MS:     15 * 60 * 1000, // Auto logout after 15 mins of inactivity
 });
 
 // ─────────────────────────────────────────────────────────────

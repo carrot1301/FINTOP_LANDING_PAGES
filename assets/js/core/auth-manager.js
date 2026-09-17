@@ -74,6 +74,22 @@ const TokenStorage = {
     localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN);
     localStorage.removeItem(STORAGE_KEYS.USER_PROFILE);
     localStorage.removeItem(STORAGE_KEYS.SUBSCRIPTION);
+    localStorage.removeItem(STORAGE_KEYS.LAST_ACTIVITY);
+  },
+
+  updateLastActivity() {
+    try {
+      localStorage.setItem(STORAGE_KEYS.LAST_ACTIVITY, Date.now().toString());
+    } catch (e) {}
+  },
+
+  getLastActivity() {
+    try {
+      const val = localStorage.getItem(STORAGE_KEYS.LAST_ACTIVITY);
+      return val ? parseInt(val, 10) : 0;
+    } catch {
+      return 0;
+    }
   },
 
   saveUser(user) {
@@ -147,7 +163,11 @@ function isTokenExpired(token, bufferMs = REQUEST_CONFIG.REFRESH_BUFFER_MS) {
 class AuthManagerSingleton {
   constructor() {
     this._refreshTimer = null;  // setTimeout handle for scheduled refresh
+    this._idleCheckTimer = null; // setInterval handle for checking 15-minute idle inactivity
     this._isInitialized = false;
+    this._onUserActivityBound = null;
+    this._onVisibilityChangeBound = null;
+    this._lastActivityUpdate = 0;
   }
 
   // ─────────────────────────────────────────────────────
@@ -172,6 +192,7 @@ class AuthManagerSingleton {
       if (FintopEnv.DEBUG) console.log('[AuthManager] Access token expired on restore — attempting refresh.');
       try {
         await this.refresh();
+        this._startIdleTimer();
       } catch {
         // Refresh failed → clear and start as guest
         if (FintopEnv.DEBUG) console.log('[AuthManager] Refresh failed on restore — clearing session.');
@@ -183,6 +204,7 @@ class AuthManagerSingleton {
       const expiresAt = getTokenExpiry(accessToken);
       AppState.setAuthenticated({ accessToken, expiresAt });
       this._scheduleRefresh(expiresAt);
+      this._startIdleTimer();
 
       // Restore user profile from localStorage (optimistic)
       const cachedUser = TokenStorage.getUser();
@@ -240,6 +262,9 @@ class AuthManagerSingleton {
     // Schedule proactive token refresh
     this._scheduleRefresh(expiresAt);
 
+    // Start 15-minute idle inactivity timer
+    this._startIdleTimer();
+
     // Load and return user profile
     const user = await this.loadUserProfile();
 
@@ -294,8 +319,9 @@ class AuthManagerSingleton {
       AppState.setAuthenticated({ accessToken: newAccess, expiresAt });
       AppState.emit(AppState.EVENTS.AUTH_TOKEN_REFRESHED, { expiresAt });
 
-      // Reschedule next refresh
+      // Reschedule next refresh & restart idle timer
       this._scheduleRefresh(expiresAt);
+      this._startIdleTimer();
 
       if (FintopEnv.DEBUG) {
         console.log('%c[AuthManager] Token refreshed ✓', 'color: #6ee7b7;');
@@ -320,6 +346,7 @@ class AuthManagerSingleton {
    */
   async logout({ silent = false, all = false } = {}) {
     this._cancelRefreshTimer();
+    this._stopIdleTimer();
 
     const refreshToken = TokenStorage.getRefreshToken();
     
@@ -460,7 +487,81 @@ class AuthManagerSingleton {
     }
   }
 
+  // ─────────────────────────────────────────────────────
+  // IDLE INACTIVITY AUTO-LOGOUT (15 MINUTES)
+  // ─────────────────────────────────────────────────────
+
+  _startIdleTimer() {
+    this._stopIdleTimer();
+
+    // Set initial last activity timestamp
+    TokenStorage.updateLastActivity();
+
+    // Throttled activity event handler (updates at most once every 2 seconds)
+    this._onUserActivityBound = () => {
+      const now = Date.now();
+      if (now - this._lastActivityUpdate > 2000) {
+        this._lastActivityUpdate = now;
+        TokenStorage.updateLastActivity();
+      }
+    };
+
+    const events = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click'];
+    events.forEach(evt => window.addEventListener(evt, this._onUserActivityBound, { passive: true }));
+
+    this._onVisibilityChangeBound = () => {
+      if (!document.hidden) {
+        this._checkIdleTimeout();
+      }
+    };
+    document.addEventListener('visibilitychange', this._onVisibilityChangeBound);
+
+    // Periodically check every 10 seconds
+    this._idleCheckTimer = setInterval(() => {
+      this._checkIdleTimeout();
+    }, 10000);
+  }
+
+  _checkIdleTimeout() {
+    if (!this.isAuthenticated) return;
+
+    const lastActivity = TokenStorage.getLastActivity();
+    if (!lastActivity) return;
+
+    const idleTime = Date.now() - lastActivity;
+    const idleLimit = REQUEST_CONFIG.IDLE_TIMEOUT_MS || (15 * 60 * 1000);
+
+    if (idleTime >= idleLimit) {
+      if (FintopEnv.DEBUG) {
+        console.warn(`[AuthManager] User idle for ${Math.round(idleTime / 1000)}s (>15m) — triggering auto logout.`);
+      }
+      this._stopIdleTimer();
+      AppState.emit(AppState.EVENTS.AUTH_EXPIRED);
+      try {
+        alert('Tài khoản đã tự động đăng xuất do không thao tác trên trang web quá 15 phút. Vui lòng đăng nhập lại.');
+      } catch (e) {}
+      this.logout({ silent: false });
+    }
+  }
+
+  _stopIdleTimer() {
+    if (this._idleCheckTimer) {
+      clearInterval(this._idleCheckTimer);
+      this._idleCheckTimer = null;
+    }
+    if (this._onUserActivityBound) {
+      const events = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click'];
+      events.forEach(evt => window.removeEventListener(evt, this._onUserActivityBound));
+      this._onUserActivityBound = null;
+    }
+    if (this._onVisibilityChangeBound) {
+      document.removeEventListener('visibilitychange', this._onVisibilityChangeBound);
+      this._onVisibilityChangeBound = null;
+    }
+  }
+
   _clearSession() {
+    this._stopIdleTimer();
     TokenStorage.clearTokens();
     AppState.clearAuth();
   }

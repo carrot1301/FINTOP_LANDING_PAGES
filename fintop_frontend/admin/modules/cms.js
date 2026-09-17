@@ -16,12 +16,13 @@ let searchQuery = '';
 let AVAILABLE_CATEGORIES = [];
 
 const DEFAULT_CATEGORIES = [
-  { id: 1, slug: 'thi-truong', name: 'Thị trường' },
-  { id: 2, slug: 'pro-research', name: 'PRO Research' },
-  { id: 3, slug: 'doanh-nghiep', name: 'Doanh nghiệp' },
-  { id: 4, slug: 'ncpt-nganh', name: 'NCPT Ngành' },
-  { id: 5, slug: 'pro-data', name: 'PRO Data' },
-  { id: 6, slug: 'dinh-luong', name: 'Định lượng' }
+  { id: 1, slug: 'thi-truong', name: 'Kinh tế thị trường' },
+  { id: 2, slug: 'pro-research', name: 'Nghiên cứu chuyên sâu' },
+  { id: 3, slug: 'doanh-nghiep', name: 'Nghiên cứu Doanh nghiệp' },
+  { id: 4, slug: 'ncpt-nganh', name: 'Nghiên cứu nhóm Ngành' },
+  { id: 5, slug: 'data-thi-truong', name: 'Thị trường (Dữ liệu)' },
+  { id: 6, slug: 'pro-data', name: 'PRO Data' },
+  { id: 7, slug: 'dinh-luong', name: 'Định lượng' }
 ];
 
 async function loadCategories() {
@@ -34,10 +35,13 @@ async function loadCategories() {
     AVAILABLE_CATEGORIES = [];
   }
 
-  // Ensure all 6 required categories are present
+  // Ensure all 7 required categories are present
   DEFAULT_CATEGORIES.forEach(defCat => {
-    if (!AVAILABLE_CATEGORIES.some(c => c.slug === defCat.slug)) {
+    const existing = AVAILABLE_CATEGORIES.find(c => c.slug === defCat.slug);
+    if (!existing) {
       AVAILABLE_CATEGORIES.push(defCat);
+    } else {
+      existing.name = defCat.name;
     }
   });
 }
@@ -80,6 +84,10 @@ export default {
     container.querySelectorAll('.admin-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         activeTab = tab.dataset.tab;
+        if (activeTab === 'reports') {
+          window.location.hash = '#reports';
+          return;
+        }
         container.querySelectorAll('.admin-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === activeTab));
         renderTab(container.querySelector('#cms-content'), container);
       });
@@ -1290,8 +1298,8 @@ function renderCreateForm(container, blogToEdit = null) {
   const currentTier = blogToEdit ? (blogToEdit.minTierAccess || 'STANDARD') : 'STANDARD';
   const isPublished = blogToEdit ? blogToEdit.status === 'PUBLISHED' : true;
 
-  // Keep the 6 categories corresponding to research and user data pages
-  const ALLOWED_SLUGS = ['thi-truong', 'pro-research', 'doanh-nghiep', 'ncpt-nganh', 'pro-data', 'dinh-luong'];
+  // Keep the 7 categories corresponding to research and user data pages
+  const ALLOWED_SLUGS = ['thi-truong', 'pro-research', 'doanh-nghiep', 'ncpt-nganh', 'data-thi-truong', 'pro-data', 'dinh-luong'];
   const displayedCategories = AVAILABLE_CATEGORIES.filter(c => ALLOWED_SLUGS.includes(c.slug));
 
   // If editing an existing article with a category outside the 4 allowed, keep/append it so it is pre-selected and preserved

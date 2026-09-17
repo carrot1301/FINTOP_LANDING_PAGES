@@ -507,10 +507,11 @@ export class BlogService implements OnModuleInit {
 
   async getAllCategories() {
     const defaultCategories = [
-      { slug: 'thi-truong', name: 'Thị trường' },
-      { slug: 'pro-research', name: 'PRO Research' },
-      { slug: 'doanh-nghiep', name: 'Doanh nghiệp' },
-      { slug: 'ncpt-nganh', name: 'NCPT Ngành' },
+      { slug: 'thi-truong', name: 'Kinh tế thị trường' },
+      { slug: 'pro-research', name: 'Nghiên cứu chuyên sâu' },
+      { slug: 'doanh-nghiep', name: 'Nghiên cứu Doanh nghiệp' },
+      { slug: 'ncpt-nganh', name: 'Nghiên cứu nhóm Ngành' },
+      { slug: 'data-thi-truong', name: 'Thị trường (Dữ liệu)' },
       { slug: 'pro-data', name: 'PRO Data' },
       { slug: 'dinh-luong', name: 'Định lượng' },
     ];
@@ -519,7 +520,7 @@ export class BlogService implements OnModuleInit {
       for (const cat of defaultCategories) {
         await this.prisma.category.upsert({
           where: { slug: cat.slug },
-          update: {},
+          update: { name: cat.name },
           create: { slug: cat.slug, name: cat.name },
         });
       }

@@ -1195,7 +1195,8 @@
             white-space: nowrap;
         }
 
-        #bolocTable .boloc-status-badge {
+        #bolocTable .boloc-status-badge,
+        .boloc-status-badge {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -1208,6 +1209,7 @@
             color: var(--status-text, #E2E8F0);
             font-size: 0.76rem;
             line-height: 1.2;
+            font-weight: 700;
             letter-spacing: 0;
             box-shadow: var(--status-shadow, none);
             box-sizing: border-box;
@@ -1384,21 +1386,23 @@
         }
 
         .status-badge.positive {
-            background: rgba(56, 189, 248, 0.12);
-            color: #38bdf8;
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: rgba(16, 185, 129, 0.18);
+            color: #86EFAC;
+            border: 1px solid rgba(52, 211, 153, 0.55);
+            box-shadow: 0 0 14px rgba(16, 185, 129, 0.16);
         }
 
         .status-badge.ok {
-            background: rgba(251, 191, 36, 0.12);
-            color: #fbbf24;
-            border: 1px solid rgba(251, 191, 36, 0.3);
+            background: rgba(202, 255, 88, 0.14);
+            color: #FDE047;
+            border: 1px solid rgba(217, 249, 157, 0.55);
+            box-shadow: 0 0 12px rgba(250, 204, 21, 0.14);
         }
 
         .status-badge.neutral {
-            background: rgba(148, 163, 184, 0.1);
-            color: #94A3B8;
-            border: 1px solid rgba(148, 163, 184, 0.25);
+            background: rgba(148, 163, 184, 0.12);
+            color: #CBD5E1;
+            border: 1px solid rgba(148, 163, 184, 0.34);
         }
 
         .status-badge.negative {
@@ -3051,6 +3055,55 @@
             color: #fbbf24;
             border-color: rgba(251, 191, 36, 0.3);
             background: rgba(251, 191, 36, 0.1);
+        }
+
+        /* === PRO BADGE (Purple background + Rich Metallic Gold text/icon) === */
+        .glass-badge,
+        .pro-badge,
+        .analysis-badge.pro {
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            background: linear-gradient(135deg, #7c3aed, #a855f7) !important;
+            border: 1px solid rgba(255, 255, 255, 0.35) !important;
+            color: #FFFFFF !important;
+            font-size: 0.65rem !important;
+            font-weight: 800 !important;
+            padding: 4px 10px !important;
+            border-radius: 6px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 4px !important;
+            box-shadow: 0 3px 12px rgba(124, 58, 237, 0.45) !important;
+            z-index: 10 !important;
+            pointer-events: none;
+            letter-spacing: 0.05em;
+        }
+
+        .glass-badge .glass-icon,
+        .pro-badge .glass-icon {
+            color: #FDE047 !important;
+            font-size: 0.72rem;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.5));
+        }
+
+        .glass-badge .glass-text,
+        .pro-badge .glass-text {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: #FDE047 !important;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
         }
 
         .analysis-progress-list {
@@ -6305,7 +6358,7 @@
 
             <div class="analysis-report-grid">
                 <article class="analysis-report-card">
-                    <span class="analysis-badge good">PRO Report</span>
+                    <span class="analysis-badge pro">👑 PRO Report</span>
                     <h3>Chiến lược giải ngân khi VN-Index kiểm định 1,300 điểm</h3>
                     <p>Phân tách vùng mua, vùng chốt lời và cách xử lý tỷ trọng theo nhóm cổ phiếu dẫn dắt.</p>
                     <a class="market-detail-link" href="chuyen-gia/index.html">Xem chi tiết</a>
@@ -7056,6 +7109,25 @@
         </div>
     </div>
     <script>
+        function formatDateStr(dateStr) {
+            if (!dateStr) return '—';
+            try {
+                const d = new Date(dateStr);
+                if (isNaN(d.getTime())) return dateStr;
+                const day = String(d.getDate()).padStart(2, '0');
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const year = d.getFullYear();
+                return `${day}/${month}/${year}`;
+            } catch (e) {
+                return dateStr;
+            }
+        }
+
+        function cleanHtmlStr(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
         function switchPanelReportTab(tabKey) {
             const btnDn = document.getElementById('btn-panel-report-dn');
             const btnNganh = document.getElementById('btn-panel-report-nganh-vimo');
@@ -7067,6 +7139,17 @@
             if (headerTitle) {
                 headerTitle.textContent = 'BÁO CÁO TỔNG HỢP';
             }
+
+            let dynamicReports = [];
+            try {
+                const stored = localStorage.getItem('fintop_admin_reports_v1');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        dynamicReports = parsed.filter(r => (r.status || 'PUBLISHED') === 'PUBLISHED' && r.category === tabKey);
+                    }
+                }
+            } catch (e) {}
 
             if (tabKey === 'doanh-nghiep') {
                 if (btnDn) {
@@ -7095,22 +7178,30 @@
                         </tr>
                     `;
                 }
-                tbody.innerHTML = `
-                    <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">1</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">QNS</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Báo cáo phân tích doanh nghiệp QNS Q2/2026</td><td style="padding: 12px 14px; font-weight: 700;">29/05/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">2</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">FPT</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập nhật kết quả kinh doanh FPT & Triển vọng AI</td><td style="padding: 12px 14px; font-weight: 700;">22/05/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">3</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">SAB</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân tích hoạt động kinh doanh & Biên lợi nhuận SAB</td><td style="padding: 12px 14px; font-weight: 700;">15/05/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">4</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">VNM</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Đánh giá sức mua ngành sữa & Chiến lược VNM</td><td style="padding: 12px 14px; font-weight: 700;">10/05/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">5</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">VIB</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Báo cáo cập nhật tình hình tăng trưởng tín dụng VIB</td><td style="padding: 12px 14px; font-weight: 700;">17/04/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">6</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">DCM</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân tích tác động giá phân bón Ure tới DCM</td><td style="padding: 12px 14px; font-weight: 700;">18/11/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FPTS</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">7</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">VCB</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập nhật chất lượng tài sản & Nợ xấu VCB</td><td style="padding: 12px 14px; font-weight: 700;">12/11/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">Mirae</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">8</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">POW</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân tích sản lượng điện & Tiến độ nhà máy POW</td><td style="padding: 12px 14px; font-weight: 700;">05/11/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">Mirae</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">9</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">STK</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Đánh giá đơn hàng dệt may & Phục hồi sản xuất STK</td><td style="padding: 12px 14px; font-weight: 700;">05/11/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">Mirae</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">10</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">FMC</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập nhật kim ngạch xuất khẩu tôm FMC</td><td style="padding: 12px 14px; font-weight: 700;">30/10/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">PHS</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">11</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">PLC</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Triển vọng đầu tư công & Tiêu thụ nhựa đường PLC</td><td style="padding: 12px 14px; font-weight: 700;">30/10/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">Mirae</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">12</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">DXG</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập nhật tiến độ mở bán các dự án BĐS DXG</td><td style="padding: 12px 14px; font-weight: 700;">27/10/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">KBSV</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">13</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">VCB</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Báo cáo phân tích chuyên sâu vị thế ngân hàng VCB</td><td style="padding: 12px 14px; font-weight: 700;">27/10/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">VNDIRECT</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                    <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">14</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">PVT</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân tích cước vận tải biển & Đội tàu PVT</td><td style="padding: 12px 14px; font-weight: 700;">22/10/2020</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FPTS</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td></tr>
-                `;
+
+                if (dynamicReports.length > 0) {
+                    tbody.innerHTML = dynamicReports.map((rep, idx) => {
+                        const bg = idx % 2 === 0 ? 'rgba(30, 41, 59, 0.4)' : 'rgba(15, 23, 42, 0.6)';
+                        return `
+                            <tr style="background: ${bg}; border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <td style="padding: 12px 10px; font-weight: 800;">${idx + 1}</td>
+                                <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">${cleanHtmlStr(rep.symbol)}</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">${cleanHtmlStr(rep.title)}</td>
+                                <td style="padding: 12px 14px; font-weight: 700;">${formatDateStr(rep.publishedAt)}</td>
+                                <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">${cleanHtmlStr(rep.source)}</td>
+                                <td style="padding: 12px 16px;"><a href="${cleanHtmlStr(rep.fileUrl || '#')}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(168, 85, 247, 0.25)'; this.style.borderColor='#c084fc'; this.style.boxShadow='0 0 10px rgba(168,85,247,0.3)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.45)'; this.style.boxShadow='none'">Chi tiết</a></td>
+                            </tr>
+                        `;
+                    }).join('');
+                } else {
+                    tbody.innerHTML = `
+                        <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">1</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">QNS</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Báo cáo phân tích doanh nghiệp QNS Q2/2026</td><td style="padding: 12px 14px; font-weight: 700;">29/05/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;">Chi tiết</a></td></tr>
+                        <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">2</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">FPT</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Cập nhật kết quả kinh doanh FPT & Triển vọng AI</td><td style="padding: 12px 14px; font-weight: 700;">22/05/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;">Chi tiết</a></td></tr>
+                        <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">3</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">SAB</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Phân tích hoạt động kinh doanh & Biên lợi nhuận SAB</td><td style="padding: 12px 14px; font-weight: 700;">15/05/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;">Chi tiết</a></td></tr>
+                        <tr style="background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">4</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">VNM</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Đánh giá sức mua ngành sữa & Chiến lược VNM</td><td style="padding: 12px 14px; font-weight: 700;">10/05/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;">Chi tiết</a></td></tr>
+                        <tr style="background: rgba(30, 41, 59, 0.4); border-bottom: 1px solid rgba(255,255,255,0.06);"><td style="padding: 12px 10px; font-weight: 800;">5</td><td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: 1.05rem;">VIB</td><td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">Báo cáo cập nhật tình hình tăng trưởng tín dụng VIB</td><td style="padding: 12px 14px; font-weight: 700;">17/04/2026</td><td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">FINTOP</td><td style="padding: 12px 16px;"><a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease;">Chi tiết</a></td></tr>
+                    `;
+                }
             } else {
                 if (btnNganh) {
                     btnNganh.style.background = 'linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)';
@@ -9032,7 +9123,21 @@
             const errorEl = document.getElementById('stockSearchError');
             const hintEl = document.getElementById('stockSearchHint');
 
-            // Check if ticker exists in DB
+            // Check if ticker exists in DB or BOLOC_DATA
+            if (!STOCK_DB[ticker]) {
+                const foundInBoloc = BOLOC_DATA.find(b => (b.ticker || b.symbol || b.code_cp) === ticker);
+                if (foundInBoloc) {
+                    STOCK_DB[ticker] = {
+                        san: foundInBoloc.san || foundInBoloc.exchange || 'HOSE',
+                        nganh: foundInBoloc.nganh || foundInBoloc.sector || foundInBoloc.industry || 'Chứng khoán',
+                        time: foundInBoloc.time || foundInBoloc.updateTime || 'Mới cập nhật',
+                        desc: foundInBoloc.desc || foundInBoloc.historicalData || foundInBoloc.identify_trend || 'Mẫu nến tích lũy.',
+                        status: foundInBoloc.status || getStatusClass(foundInBoloc.statusText || foundInBoloc.act) || 'positive',
+                        statusText: foundInBoloc.statusText || foundInBoloc.act || 'TÍCH CỰC'
+                    };
+                }
+            }
+
             if (!STOCK_DB[ticker]) {
                 // Show tiny warning beside search bar
                 if (errorEl) {
@@ -9553,15 +9658,43 @@
             const isLoggedIn = isBolocLoggedIn();
 
             searchedTickers.forEach((ticker, i) => {
-                const d = STOCK_DB[ticker];
+                let d = STOCK_DB[ticker];
+                if (!d) {
+                    const b = BOLOC_DATA.find(item => (item.ticker || item.symbol || item.code_cp) === ticker);
+                    if (b) {
+                        d = {
+                            san: b.san || b.exchange || 'HOSE',
+                            nganh: b.nganh || b.sector || b.industry || 'Bất động sản',
+                            time: b.time || b.updateTime || 'Mới cập nhật',
+                            desc: b.desc || b.historicalData || b.identify_trend || 'Mẫu nến tích lũy.',
+                            status: b.status || getStatusClass(b.statusText || b.act) || 'positive',
+                            statusText: b.statusText || b.act || 'TÍCH CỰC'
+                        };
+                        STOCK_DB[ticker] = d;
+                    }
+                }
                 if (!d) return;
+
+                let rawStatusText = (d.statusText || d.act || d.status || 'TÍCH CỰC').trim();
+                const statusMap = {
+                    'very-positive': 'RẤT TÍCH CỰC',
+                    'positive': 'TÍCH CỰC',
+                    'ok': 'KHẢ QUAN',
+                    'neutral': 'TRUNG LẬP',
+                    'negative': 'KO TÍCH CỰC'
+                };
+                let statusText = statusMap[rawStatusText] || rawStatusText;
+                if (!statusText || statusText === '') statusText = 'TÍCH CỰC';
+
+                let descText = d.desc || d.historicalData || d.identify_trend || 'Mẫu nến đi ngang tích lũy.';
 
                 let descCell;
                 let statusCell;
 
                 if (isLoggedIn) {
-                    descCell = `<td class="desc-cell">${escapeHtml(d.desc)}</td>`;
-                    statusCell = `<td><span class="status-badge ${escapeHtml(d.status || 'neutral')}">${escapeHtml(d.statusText)}</span></td>`;
+                    descCell = `<td class="desc-cell">${escapeHtml(descText)}</td>`;
+                    const sColors = BOLOC_STATUS_COLORS[normalizeBolocLabel(statusText)] || BOLOC_STATUS_COLORS[d.status] || getBolocStatusColors(statusText);
+                    statusCell = `<td class="boloc-status-cell"><span class="boloc-status-badge" style="--status-bg: ${sColors.bg}; --status-text: ${sColors.text}; --status-border: ${sColors.border}; --status-shadow: ${sColors.shadow};">${escapeHtml(statusText)}</span></td>`;
                 } else {
                     descCell = `<td class="desc-cell"><span class="boloc-masked-cell"><span class="boloc-masked-text">••••••••••</span><button class="boloc-reveal-eye-btn" title="Xem mô tả kỹ thuật">👁 Xem</button></span></td>`;
                     statusCell = `<td><span class="boloc-masked-cell"><span class="boloc-masked-text">••••••</span><button class="boloc-reveal-eye-btn" title="Xem trạng thái model">👁 Xem</button></span></td>`;
@@ -10182,7 +10315,7 @@
 
         function buildMarketArticleCard(row) {
             const isPro = row.visibility === 'PREMIUM' || (row.minTierAccess && row.minTierAccess !== 'STANDARD') || row.section === 'PRO Research' || row.category === 'PRO Research' || String(row.id || '').startsWith('pro-');
-            const proBadge = isPro ? '<div class="glass-badge" style="position:absolute;top:7px;left:7px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:0.6rem;font-weight:700;padding:4.5px 8.5px;border-radius:4px;z-index:5;"><span class="glass-icon">👑</span> <span class="glass-text" style="color:#fef08a;">PRO</span></div>' : '';
+            const proBadge = isPro ? '<div class="glass-badge" style="position:absolute;top:7px;left:7px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:1px solid rgba(255,255,255,0.35);box-shadow:0 3px 12px rgba(124,58,237,0.45);font-size:0.65rem;font-weight:800;padding:4px 10px;border-radius:6px;z-index:5;"><span class="glass-icon" style="color:#FDE047;">👑</span> <span class="glass-text" style="color:#FDE047;font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,0.6);">PRO</span></div>' : '';
             return `
                 <article class="market-article-card" data-market-category="${escapeHtml(getMarketCategory(row))}">
                     <div class="market-thumb" style="position:relative;">
@@ -10210,9 +10343,9 @@
 
         function buildReportCard(row) {
             const isPro = row.visibility === 'PREMIUM' || (row.minTierAccess && row.minTierAccess !== 'STANDARD') || row.section === 'PRO Research' || row.category === 'PRO Research' || String(row.id || '').startsWith('pro-');
-            const badgeClass = isPro ? 'analysis-badge good' : 'analysis-badge';
+            const badgeClass = isPro ? 'analysis-badge pro' : 'analysis-badge';
             const badgeText = isPro ? '👑 PRO' : escapeHtml(row.category || row.section || 'Research');
-            const badgeStyle = isPro ? 'style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; border: 1px solid rgba(168,85,247,0.5);"' : '';
+            const badgeStyle = isPro ? 'style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: #FDE047; border: 1px solid rgba(255,255,255,0.35); box-shadow: 0 3px 12px rgba(124,58,237,0.45); font-weight: 800;"' : '';
             return `
                 <article class="analysis-report-card">
                     <span class="${badgeClass}" ${badgeStyle}>${badgeText}</span>
@@ -10565,13 +10698,25 @@
 
         function mapStockPricesToSearch(rows) {
             return rows.reduce((acc, row) => {
+                const rawStatusText = row.model_status_text || row.statusText || row.act || row.model_result_text || row.modelResult || '';
+                let statusText = String(rawStatusText || '').trim();
+                if (!statusText || statusText === 'neutral') {
+                    const st = row.model_status || row.status || '';
+                    if (st === 'very-positive') statusText = 'RẤT TÍCH CỰC';
+                    else if (st === 'positive') statusText = 'TÍCH CỰC';
+                    else if (st === 'ok') statusText = 'KHẢ QUAN';
+                    else if (st === 'negative') statusText = 'KO TÍCH CỰC';
+                    else if (st === 'neutral') statusText = 'TRUNG LẬP';
+                    else statusText = 'TÍCH CỰC';
+                }
+
                 acc[row.ticker] = {
-                    san: row.exchange || row.san || '',
-                    nganh: row.industry || row.nganh || row.sector || '',
-                    time: row.synced_at ? formatStockDisplayTime(new Date(row.synced_at).toLocaleString('vi-VN')) : formatStockDisplayTime(row.time || ''),
-                    desc: row.model_desc || row.desc || '',
-                    status: row.model_status || row.status || 'neutral',
-                    statusText: row.model_status_text || row.statusText || 'TRUNG LẬP',
+                    san: row.exchange || row.san || row.exchangeName || 'HOSE',
+                    nganh: row.industry || row.nganh || row.sector || 'Bất động sản',
+                    time: row.synced_at ? formatStockDisplayTime(new Date(row.synced_at).toLocaleString('vi-VN')) : formatStockDisplayTime(row.time || row.updated_at || row.updatedAt || ''),
+                    desc: row.model_desc || row.desc || row.identify_trend || row.historicalData || 'Mẫu nến đi ngang tích lũy.',
+                    status: row.model_status || row.status || getStatusClass(statusText),
+                    statusText: statusText,
                     updated_at: row.updated_at
                 };
                 return acc;
