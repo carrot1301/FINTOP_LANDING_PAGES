@@ -52,11 +52,11 @@ let currentRenderToken = 0;
 
 function createSafeContainer(realContainer, token) {
   return new Proxy(realContainer, {
-    get(target, prop, receiver) {
+    get(target, prop) {
       if (prop === 'innerHTML') {
         return target.innerHTML;
       }
-      const val = Reflect.get(target, prop, receiver);
+      const val = Reflect.get(target, prop);
       if (typeof val === 'function') {
         return function (...args) {
           if (currentRenderToken !== token) {
@@ -68,12 +68,13 @@ function createSafeContainer(realContainer, token) {
       }
       return val;
     },
-    set(target, prop, val, receiver) {
+    set(target, prop, val) {
       if (currentRenderToken !== token) {
         console.warn(`[Admin] Cancelled stale DOM property set (${String(prop)}) from render token ${token}`);
         return true;
       }
-      return Reflect.set(target, prop, val, receiver);
+      target[prop] = val;
+      return true;
     }
   });
 }
