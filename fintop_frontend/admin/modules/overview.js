@@ -18,6 +18,9 @@ export default {
       // 1. Load Chart.js dynamically from CDN first
       await loadChartJs();
 
+      // Check if user navigated away while loading Chart.js
+      if (window.location.hash && window.location.hash !== '#overview' && window.location.hash !== '') return;
+
       // 2. Fetch all dashboard data concurrently
       const [overviewRes, invoicesRes, usersRes, auditRes] = await Promise.all([
         API().get(EP().ADMIN_OVERVIEW),
@@ -25,6 +28,9 @@ export default {
         API().get(EP().ADMIN_USERS + '?limit=5'),
         API().get(EP().ADMIN_AUDIT_LOGS + '?limit=5')
       ]);
+
+      // Check if user navigated away while fetching dashboard data
+      if (window.location.hash && window.location.hash !== '#overview' && window.location.hash !== '') return;
 
       const d = overviewRes.data || overviewRes;
       const allInvoices = invoicesRes.data || invoicesRes || [];

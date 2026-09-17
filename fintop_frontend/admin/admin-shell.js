@@ -48,6 +48,35 @@ const MODULES = [
 
 let currentModule = null;
 let Infra = null;
+let currentRenderToken = 0;
+
+function createSafeContainer(realContainer, token) {
+  return new Proxy(realContainer, {
+    get(target, prop, receiver) {
+      if (prop === 'innerHTML') {
+        return target.innerHTML;
+      }
+      const val = Reflect.get(target, prop, receiver);
+      if (typeof val === 'function') {
+        return function (...args) {
+          if (currentRenderToken !== token) {
+            console.warn(`[Admin] Cancelled stale DOM method (${String(prop)}) call from render token ${token}`);
+            return;
+          }
+          return val.apply(target, args);
+        };
+      }
+      return val;
+    },
+    set(target, prop, val, receiver) {
+      if (currentRenderToken !== token) {
+        console.warn(`[Admin] Cancelled stale DOM property set (${String(prop)}) from render token ${token}`);
+        return true;
+      }
+      return Reflect.set(target, prop, val, receiver);
+    }
+  });
+}
 
 // ─────────────────────────────────────────────────────────────
 // ADMIN TABLE UTILITY
@@ -499,6 +528,7 @@ function buildUserBadge() {
 }
 
 async function onHashChange() {
+  const token = ++currentRenderToken;
   const hash = (window.location.hash || '#overview').replace('#', '');
   const moduleConfig = MODULES.find(m => m.id === hash) || MODULES[0];
   const moduleId = moduleConfig.id;
@@ -506,6 +536,7 @@ async function onHashChange() {
   // Permission check for direct URL hash navigation
   const isSuperAdmin = Infra.RbacEvaluator.isSuperAdmin();
   if (moduleConfig.permission && !isSuperAdmin && !Infra.RbacEvaluator.hasPermission(moduleConfig.permission)) {
+    if (token !== currentRenderToken) return;
     const container = document.getElementById('admin-content');
     container.innerHTML = `
       <div class="admin-empty-state">
@@ -537,12 +568,16 @@ async function onHashChange() {
 
   try {
     const mod = await import(`./modules/${moduleId}.js?v=${Date.now()}`);
+    if (token !== currentRenderToken) return;
+
     const moduleExport = mod.default || mod;
     currentModule = moduleExport;
 
     container.innerHTML = '';
-    await moduleExport.render(container);
+    const safeContainer = createSafeContainer(container, token);
+    await moduleExport.render(safeContainer);
   } catch (err) {
+    if (token !== currentRenderToken) return;
     console.error(`[Admin] Failed to load module "${moduleId}":`, err);
     container.innerHTML = `
       <div class="admin-empty-state">
