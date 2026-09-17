@@ -7,492 +7,19 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png">
-    <title>Dữ liệu Thị trường | FinTop DATA</title>
+    <title>Thị trường (Dữ liệu) | FinTop DATA</title>
+    <meta name="description" content="Thị trường (Dữ liệu) chứng khoán, phân tích diễn biến giao dịch, thanh khoản và biến động dòng tiền từ FinTop DATA.">
+    <link rel="canonical" href="https://fintopdata.vn/stock-data/thi-truong/">
     <link rel="stylesheet" href="/assets/css/variables.css">
     <link rel="stylesheet" href="/assets/css/base.css">
     <link rel="stylesheet" href="/assets/css/components.css">
     <link rel="stylesheet" href="/assets/css/demo-pages.css">
     <link rel="stylesheet" href="/assets/css/auth.css">
     <link rel="stylesheet" href="/assets/css/modals.css">
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/research-pages.css?v=2.0">
+    <link rel="stylesheet" href="/assets/css/article-modal.css?v=22.0">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Be Vietnam Pro', sans-serif;
-            background: #07070D;
-            color: #e2e8f0;
-            min-height: 100vh;
-        }
-
-        .page-wrapper {
-            min-height: 100vh;
-            padding-top: 90px;
-            transition: padding-top 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .page-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem 4rem;
-        }
-
-        /* Header overrides to ensure subpage alignment */
-        .tv-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 5%;
-            height: 72px;
-            background: rgba(10, 10, 15, 0.85);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .tv-left {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .neon-logo {
-            height: 70px;
-            width: auto;
-            filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 15px rgba(168, 85, 247, 0.8));
-            transition: all 0.3s ease;
-        }
-
-        .neon-logo:hover {
-            filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 25px rgba(192, 132, 252, 1));
-            transform: scale(1.05);
-        }
-
-        .tv-nav {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            list-style: none;
-        }
-
-        .tv-nav a {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #fff;
-            opacity: 0.8;
-            transition: opacity 0.2s, color 0.2s, text-shadow 0.2s;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .tv-nav a:hover,
-        .tv-nav .nav-item:hover > a {
-            opacity: 1;
-            color: #c084fc;
-            text-shadow: 0 0 10px rgba(192, 132, 252, 0.8), 0 0 20px rgba(192, 132, 252, 0.4);
-        }
-
-        .tv-nav a.active-page,
-        .tv-nav a.active-nav,
-        .tv-nav .nav-item.active-nav > a,
-        .tv-nav .nav-item.dropdown.active-nav > a {
-            opacity: 1;
-            color: #c084fc !important;
-            text-shadow: 0 0 10px rgba(192, 132, 252, 0.8), 0 0 20px rgba(192, 132, 252, 0.4) !important;
-        }
-
-        .tv-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .btn-tv-blue {
-            background: linear-gradient(135deg, #7c3aed, #a855f7);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 8px 20px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-tv-blue:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
-        }
-
-        /* Hero */
-        .research-hero {
-            text-align: center;
-            padding: 3rem 0 2rem;
-            position: relative;
-        }
-
-        .research-hero h1 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, #fff 30%, #c084fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
-
-        .research-hero p {
-            color: #94a3b8;
-            font-size: 1rem;
-            max-width: 650px;
-            margin: 0 auto;
-        }
-
-        /* Search & Control Bar */
-        .control-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            gap: 1rem;
-            flex-wrap: wrap;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 1rem;
-            margin-top: 1rem;
-        }
-
-        .section-heading {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .search-wrapper {
-            position: relative;
-            width: 280px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 8px 16px 8px 36px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(15, 15, 25, 0.6);
-            color: #fff;
-            font-size: 0.85rem;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: #a855f7;
-            box-shadow: 0 0 8px rgba(168, 85, 247, 0.25);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-            font-size: 0.85rem;
-            pointer-events: none;
-        }
-
-        /* Grid */
-        .articles-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .article-card-item {
-            display: flex;
-            flex-direction: row;
-            background: rgba(20, 20, 30, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            padding: 1.25rem;
-            gap: 1.5rem;
-            align-items: flex-start;
-        }
-
-        .article-card-item:hover {
-            transform: translateY(-2px);
-            border-color: rgba(168, 85, 247, 0.25);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-thumb {
-            position: relative;
-            width: 260px;
-            min-width: 260px;
-            height: 150px;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #111;
-            flex-shrink: 0;
-        }
-
-        .card-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .article-card-item:hover .card-thumb img {
-            transform: scale(1.04);
-        }
-
-        .card-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(124, 58, 237, 0.85);
-            color: #fff;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 3px 9px;
-            border-radius: 5px;
-            z-index: 5;
-            backdrop-filter: blur(4px);
-        }
-
-        .glass-badge {
-            position: absolute;
-            top: 7px;
-            left: 7px;
-            background: linear-gradient(135deg, #7c3aed, #a855f7) !important;
-            border: 1px solid rgba(255, 255, 255, 0.35) !important;
-            color: #FFFFFF !important;
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 6px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            box-shadow: 0 3px 12px rgba(124, 58, 237, 0.45);
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .glass-badge .glass-icon {
-            color: #fbbf24 !important;
-            font-size: 0.72rem;
-            line-height: 1;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
-        }
-
-        .glass-badge .glass-text {
-            font-size: 0.65rem;
-            font-weight: 900;
-            color: #fbbf24 !important;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            line-height: 1;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 6px rgba(245, 158, 11, 0.4);
-        }
-
-        .article-card-item.is-locked {
-            border-color: rgba(255, 255, 255, 0.05) !important;
-            box-shadow: none !important;
-        }
-
-        .article-card-item.is-locked:hover {
-            border-color: rgba(168, 85, 247, 0.25) !important;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .card-content {
-            padding: 0;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            line-height: 1.4;
-            color: #fff;
-            margin-bottom: 0;
-            text-decoration: none;
-        }
-
-        .card-title:hover {
-            color: #c084fc;
-        }
-
-        .article-meta {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-size: 0.8rem;
-            color: #64748b;
-        }
-
-        .card-excerpt {
-            color: #94a3b8;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 0.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .card-btn-link {
-            align-self: flex-start;
-        }
-
-        .btn-xem-chi-tiet {
-            display: inline-flex;
-            align-items: center;
-            background: #2e7d32;
-            color: #fff;
-            border: none;
-            border-radius: 20px;
-            padding: 6px 18px;
-            font-weight: 600;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-        }
-
-        .btn-xem-chi-tiet:hover {
-            background: #1b5e20;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
-        }
-
-        /* Pagination */
-        .pagination-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .page-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #cbd5e1;
-            min-width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .page-btn:hover:not(:disabled) {
-            background: rgba(168, 85, 247, 0.15);
-            border-color: rgba(168, 85, 247, 0.4);
-            color: #fff;
-        }
-
-        .page-btn.active {
-            background: #a855f7;
-            border-color: #a855f7;
-            color: #fff;
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
-        }
-
-        .page-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        /* Empty State */
-        .empty-state {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 4rem 2rem;
-            background: rgba(30, 30, 45, 0.2);
-            border-radius: 16px;
-            border: 1px dashed rgba(255, 255, 255, 0.08);
-        }
-
-        .empty-state i {
-            font-size: 2.5rem;
-            color: #475569;
-            margin-bottom: 1rem;
-        }
-
-        .empty-state h3 {
-            font-size: 1.15rem;
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-
-        .empty-state p {
-            color: #64748b;
-            font-size: 0.88rem;
-        }
-
-        @media (max-width: 768px) {
-            .article-card-item {
-                flex-direction: column;
-            }
-
-            .card-thumb {
-                width: 100%;
-                min-width: 100%;
-                height: 200px;
-            }
-
-            .tv-nav {
-                display: none;
-            }
-
-            .control-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .search-wrapper {
-                width: 100%;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -503,8 +30,7 @@
             </a>
             <div class="tv-search-bar">
                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path
-                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
                 </svg>
                 Tìm kiếm (Ctrl+K)
             </div>
@@ -513,43 +39,36 @@
             <li class="nav-item"><a href="/index.html">Trang chủ</a></li>
             <li class="nav-item"><a href="/index.html#panel-hoivien">Hội viên</a></li>
             <li class="nav-item dropdown" id="dropdown-fintop-data">
-                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
-                        style="font-size: 0.7em;">▼</span></a>
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
                     <a href="/index.html#panel-tracuu">📊 Tra cứu cổ phiếu</a>
-                    <a href="/index.html#panel-boloc">🔍 Bộ lọc cổ phiếu <span
-                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="/index.html#panel-boloc">🔍 Bộ lọc cổ phiếu <span style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="/fintop-ai/index.html">🤖 FinTop AI</a>
                     <a href="/index.html#panel-tinhieu">📡 Copy Trade</a>
                 </div>
             </li>
-            <li class="nav-item dropdown active-nav" id="dropdown-stock-data">
-                <a href="javascript:void(0)" class="active-page" onclick="toggleDropdownPin('dropdown-stock-data')">Dữ liệu <span
-                        style="font-size: 0.7em;">▼</span></a>
+            <li class="nav-item dropdown" id="dropdown-stock-data">
+                <a href="javascript:void(0)" class="active-page" onclick="toggleDropdownPin('dropdown-stock-data')">Dữ liệu <span style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
                     <a href="/stock-data/thi-truong/index.html" class="active-page">Thị trường</a>
-                    <a href="/stock-data/pro-data/index.html">PRO Data <span
-                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="/stock-data/pro-data/index.html">PRO Data <span style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="/stock-data/dinh-luong/index.html">Định lượng</a>
                     <a href="/index.html#panel-stock-reports">Báo cáo</a>
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-phan-tich">
-                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
-                        style="font-size: 0.7em;">▼</span></a>
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
                     <a href="/nghien-cuu/thi-truong/index.html">Kinh tế thị trường</a>
-                    <a href="/nghien-cuu/chuyen-sau/index.html">Nghiên cứu chuyên sâu <span
-                            style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
+                    <a href="/nghien-cuu/chuyen-sau/index.html">Nghiên cứu chuyên sâu <span style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="/nghien-cuu/doanh-nghiep/index.html">Nghiên cứu Doanh nghiệp</a>
                     <a href="/nghien-cuu/nhom-nganh/index.html">Nghiên cứu nhóm Ngành</a>
                 </div>
             </li>
             <li class="nav-item dropdown" id="dropdown-huongdan">
-                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span
-                        style="font-size: 0.7em;">▼</span></a>
+                <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-huongdan')">Hướng dẫn <span style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content">
-                    <a href="/index.html#panel-guide-trading">📖 Giao dịch & Đầu tư</a>
+                    <a href="/index.html#panel-guide-trading">📖 Giao dịch &amp; Đầu tư</a>
                     <a href="/index.html#panel-guide-ta">📈 Phân tích kỹ thuật (TA)</a>
                     <a href="/index.html#panel-guide-fa">📊 Phân tích cơ bản (FA)</a>
                     <a href="/index.html#panel-guide-library">📚 Tủ sách đầu tư</a>
@@ -560,8 +79,7 @@
             <span class="icon-link">🌐 VI</span>
             <div class="notif-bell-container" id="notifBellContainer" style="display: none;">
                 <button class="notif-bell-btn" id="notifBellBtn" type="button" aria-label="Thông báo">
-                    <svg class="notif-bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
+                    <svg class="notif-bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                         <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                     </svg>
@@ -570,12 +88,9 @@
                 <div class="notif-bell-dropdown" id="notifBellDropdown">
                     <div class="notif-bell-dropdown-header">
                         <span>🔔 Thông báo</span>
-                        <span class="fintop-notif-unread-indicator"
-                            style="font-size: 0.7rem; background: #ef4444; color: white; padding: 1px 6px; border-radius: 99px; display: none;"></span>
                     </div>
-                    <div class="fintop-notifications-list" style="display: flex; flex-direction: column; gap: 2px;">
-                        <div style="font-size: 0.8rem; color: #64748b; text-align: center; padding: 24px 0;">Không có
-                            thông báo mới</div>
+                    <div class="fintop-notifications-list">
+                        <div style="font-size: 0.8rem; color: #64748b; text-align: center; padding: 24px 0;">Không có thông báo mới</div>
                     </div>
                 </div>
             </div>
@@ -587,252 +102,80 @@
                     <a href="/index.html" class="user-dropdown-item">Có gì mới</a>
                 </div>
             </div>
-            <button class="btn-tv-blue" id="fintopStartBtn" type="button"
-                onclick="window.location.href='/index.html#pricing'">Bắt đầu</button>
+            <button class="btn-tv-blue" id="fintopStartBtn" type="button" onclick="window.location.href='/index.html#pricing'">Bắt đầu</button>
         </div>
     </header>
 
-    <main class="page-wrapper">
-        <div class="page-container">
-            <!-- Hero -->
-            <section class="research-hero">
-                <h1>DỮ LIỆU THỊ TRƯỜNG</h1>
-                <p>Tổng quan diễn biến thị trường chứng khoán & phân tích định lượng FinTop DATA</p>
+    <main class="page-wrapper rp-page-wrapper">
+        <div class="rp-page-container">
+            <!-- Hero – Compact -->
+            <section class="rp-hero">
+                <h1>Thị trường (Dữ liệu)</h1>
+                <p>Báo cáo dữ liệu thị trường, phân tích diễn biến giao dịch, thanh khoản và biến động các nhóm cổ phiếu.</p>
             </section>
 
-            <!-- Control Bar -->
-            <div class="control-bar">
-                <div class="section-heading">
-                    <i class="fa-solid fa-newspaper" style="color: #a855f7;"></i>
-                    <span>Tất cả bài viết</span>
-                </div>
-                <div class="search-wrapper">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" class="search-input" id="searchBar" placeholder="Tìm kiếm bài viết...">
-                </div>
-            </div>
+            <!-- Featured Article (injected by JS) -->
+            <section class="rp-featured" id="rpFeatured"></section>
 
-            <!-- Articles Grid -->
-            <section class="articles-grid" id="articlesGrid">
-                <div class="empty-state" style="grid-column: 1/-1;">
-                    <div class="boot-spinner"
-                        style="width: 32px; height: 32px; border: 3px solid rgba(168,85,247,0.1); border-top-color: #a855f7; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem;">
+            <!-- Recent Articles -->
+            <section class="rp-recent-section">
+                <div class="rp-section-header">
+                    <h2><i class="fa-solid fa-clock-rotate-left"></i> Dữ liệu gần đây</h2>
+                </div>
+                <div class="rp-recent-grid" id="rpRecentGrid">
+                    <div class="rp-loading-state">
+                        <div class="rp-spinner"></div>
+                        <p>Đang tải danh sách dữ liệu thị trường...</p>
                     </div>
-                    <p style="color: #64748b;">Đang tải danh sách bài viết...</p>
                 </div>
+                <div class="rp-pagination" id="rpPagination"></div>
             </section>
-
-            <!-- Pagination -->
-            <div class="pagination-container" id="pagination">
-                <!-- Injected dynamically -->
-            </div>
         </div>
     </main>
+
+    <!-- Drawer Toggle Button (fixed right edge) -->
+    <button class="rp-drawer-toggle" id="rpDrawerToggle">
+        <i class="fa-solid fa-layer-group"></i>
+        <span>Tất cả bài viết</span>
+    </button>
+
+    <!-- Drawer Overlay -->
+    <div class="rp-drawer-overlay" id="rpDrawerOverlay"></div>
+
+    <!-- Drawer Panel -->
+    <aside class="rp-drawer" id="rpDrawer">
+        <div class="rp-drawer-header">
+            <h3><i class="fa-solid fa-newspaper"></i> Tất cả bài viết</h3>
+            <button class="rp-drawer-close" id="rpDrawerClose" aria-label="Đóng">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="rp-drawer-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Tìm kiếm bài viết..." id="rpDrawerSearch">
+        </div>
+        <div class="rp-drawer-count" id="rpDrawerCount"></div>
+        <div class="rp-drawer-list" id="rpDrawerList"></div>
+    </aside>
 
     <!-- Core infrastructure -->
     <script src="/assets/js/demo-nav.js"></script>
     <script type="module" src="/assets/js/core/index.js"></script>
     <!-- Auth helper -->
     <script src="/assets/js/auth.js" defer></script>
+    <script src="/assets/js/article-modal.js?v=22.0"></script>
 
+    <!-- Page-specific config -->
     <script>
-        // Category Config for Market Data
-        const ALLOWED_SLUGS = ['data-thi-truong', 'thi-truong-data'];
-        let currentPage = 1;
-        let searchKeyword = '';
-        let allArticles = [];
-
-        // Wait for FintopInfra to be initialized
-        document.addEventListener('DOMContentLoaded', () => {
-            let attempts = 0;
-            const interval = setInterval(() => {
-                attempts++;
-                if (window.FintopInfra) {
-                    clearInterval(interval);
-                    initPage(window.FintopInfra);
-                } else if (attempts > 30) {
-                    clearInterval(interval);
-                    allArticles = [];
-                    renderArticles();
-                }
-            }, 100);
-        });
-
-        function cleanText(str) {
-            if (!str) return '';
-            try {
-                const tmp = document.createElement('div');
-                tmp.innerHTML = str;
-                let text = tmp.textContent || tmp.innerText || str;
-                const txt = document.createElement('textarea');
-                txt.innerHTML = text;
-                return txt.value;
-            } catch (_) {
-                return str;
-            }
-        }
-
-        function initPage(infra) {
-            // Load articles
-            fetchArticles(infra);
-
-            // Bind search
-            const searchInput = document.getElementById('searchBar');
-            let debounceTimer;
-            searchInput.addEventListener('input', (e) => {
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(() => {
-                    searchKeyword = e.target.value.trim().toLowerCase();
-                    currentPage = 1;
-                    renderArticles();
-                }, 300);
-            });
-        }
-
-        async function fetchArticles(infra) {
-            try {
-                const response = await infra.ApiClient.get(`/blogs?limit=100`);
-                const list = response?.data?.data || response?.data || [];
-                const apiFiltered = list.filter(art => ALLOWED_SLUGS.includes(art.category?.slug));
-                allArticles = apiFiltered;
-                renderArticles();
-            } catch (err) {
-                console.warn('Backend API connection failed:', err);
-                allArticles = [];
-                renderArticles();
-            }
-        }
-
-        function renderArticles() {
-            const grid = document.getElementById('articlesGrid');
-
-            // Filter articles
-            const filtered = allArticles.filter(art => {
-                const titleMatch = art.title?.toLowerCase().includes(searchKeyword);
-                const excerptMatch = art.excerpt?.toLowerCase().includes(searchKeyword);
-                return titleMatch || excerptMatch;
-            });
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fa-solid fa-folder-open"></i>
-                        <h3>Không tìm thấy bài viết</h3>
-                        <p>Không có bài viết nào khớp với từ khóa tìm kiếm của bạn.</p>
-                    </div>
-                `;
-                document.getElementById('pagination').innerHTML = '';
-                return;
-            }
-
-            let displayArticles = [...filtered];
-
-            // Pagination logic
-            const limit = 6;
-            const totalPages = Math.ceil(displayArticles.length / limit) || 1;
-            const start = (currentPage - 1) * limit;
-            const pageArticles = displayArticles.slice(start, start + limit);
-
-            if (pageArticles.length === 0 && currentPage > 1) {
-                currentPage = 1;
-                renderArticles();
-                return;
-            }
-
-            // Render grid
-            grid.innerHTML = pageArticles.map(art => {
-                const pubDate = art.publishedAt ? new Date(art.publishedAt) : new Date();
-                const dateStr = pubDate.toLocaleDateString('vi-VN');
-                const viewsCount = (art.views !== undefined ? art.views : 0) + ' lượt xem';
-                const lockClass = art.locked ? 'is-locked' : '';
-
-                // Extract first image from content or use fallback
-                let imgUrl = '/assets/images/fintop_terminal_mockup.png';
-                if (art.imgUrl) {
-                    imgUrl = art.imgUrl;
-                } else if (art.content) {
-                    const temp = document.createElement('div');
-                    temp.innerHTML = art.content;
-                    const img = temp.querySelector('img');
-                    if (img) imgUrl = img.src;
-                }
-
-                const isPro = art.visibility === 'PREMIUM' || (art.minTierAccess && art.minTierAccess !== 'STANDARD') || (art.category && ['pro-data', 'pro-research'].includes(art.category?.slug)) || art.locked;
-
-                return `
-                    <div class="article-card-item ${lockClass}">
-                        <div class="card-thumb">
-                            <img src="${imgUrl}" alt="${cleanText(art.title)}" onerror="this.src='/assets/images/fintop_terminal_mockup.png'">
-                            <span class="card-badge">${art.category?.name || 'Thị trường'}</span>
-                            ${isPro ? '<div class="glass-badge"><span class="glass-icon">👑</span><span class="glass-text">PRO</span></div>' : ''}
-                        </div>
-                        <div class="card-content">
-                            <a class="card-title" href="/nghien-cuu/thi-truong/index.html?slug=${art.slug || ''}">
-                                
-                                ${cleanText(art.title)}
-                            </a>
-                            <div class="article-meta">
-                                <span><i class="fa-regular fa-calendar"></i> ${dateStr}</span>
-                                <span><i class="fa-regular fa-eye"></i> ${viewsCount}</span>
-                            </div>
-                            <p class="card-excerpt">${cleanText(art.excerpt) || 'Không có mô tả ngắn cho bài viết này.'}</p>
-                            <a class="card-btn-link" href="/nghien-cuu/thi-truong/index.html?slug=${art.slug || ''}">
-                                <span class="btn-xem-chi-tiet">Xem chi tiết</span>
-                            </a>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            renderPaginationControls(totalPages);
-        }
-
-        function renderPaginationControls(totalPages) {
-            const container = document.getElementById('pagination');
-            if (totalPages <= 1) {
-                container.innerHTML = '';
-                return;
-            }
-
-            let html = `
-                <button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-            `;
-
-            for (let i = 1; i <= totalPages; i++) {
-                html += `
-                    <button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>
-                `;
-            }
-
-            html += `
-                <button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-            `;
-
-            container.innerHTML = html;
-        }
-
-        window.changePage = function (page) {
-            currentPage = page;
-            renderArticles();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.RESEARCH_PAGE_CONFIG = {
+            allowedSlugs: ['data-thi-truong', 'thi-truong-data'],
+            kickerIcon: 'fa-solid fa-chart-line',
+            kickerText: 'Dữ liệu nổi bật',
+            kickerColor: '#a855f7'
         };
-
-        // Scroll header style update
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('mainHeader');
-            if (header) {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            }
-        });
     </script>
+    <!-- Shared research page logic -->
+    <script src="/assets/js/research-page.js?v=2.0"></script>
 </body>
 
 </html>

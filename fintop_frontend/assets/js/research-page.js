@@ -118,7 +118,7 @@
         container.innerHTML =
             '<div class="rp-featured-card' + lockedClass + '">' +
                 '<div class="rp-featured-thumb" style="cursor:pointer;" onclick="if(window.ArticleModal){event.preventDefault();ArticleModal.open(\'' + art.slug + '\');return false;}">' +
-                    '<img src="' + imgUrl + '" alt="' + escHTML(art.title) + '" onerror="this.src=\'../../assets/images/fintop_terminal_mockup.png\'">' +
+                    '<img src="' + imgUrl + '" alt="' + escHTML(art.title) + '" onerror="this.src=\'/assets/images/fintop_terminal_mockup.png\'">' +
                     lockHTML +
                 '</div>' +
                 '<div class="rp-featured-body">' +
@@ -168,7 +168,7 @@
 
             return '<a class="rp-card' + lockedClass + '" href="' + detailUrl + '" onclick="if(window.ArticleModal){event.preventDefault();ArticleModal.open(\'' + art.slug + '\');return false;}">' +
                 '<div class="rp-card-thumb">' +
-                    '<img src="' + imgUrl + '" alt="' + escHTML(art.title) + '" onerror="this.src=\'../../assets/images/fintop_terminal_mockup.png\'">' +
+                    '<img src="' + imgUrl + '" alt="' + escHTML(art.title) + '" onerror="this.src=\'/assets/images/fintop_terminal_mockup.png\'">' +
                     '<span class="rp-card-badge">' + escHTML(art.category?.name || 'Research') + '</span>' +
                     lockOverlay +
                 '</div>' +
@@ -353,7 +353,7 @@
 
             return '<a class="rp-drawer-item" href="' + detailUrl + '" onclick="if(window.ArticleModal){event.preventDefault();ArticleModal.open(\'' + art.slug + '\');return false;}">' +
                 '<div class="rp-drawer-item-thumb">' +
-                    '<img src="' + imgUrl + '" alt="" onerror="this.src=\'../../assets/images/fintop_terminal_mockup.png\'">' +
+                    '<img src="' + imgUrl + '" alt="" onerror="this.src=\'/assets/images/fintop_terminal_mockup.png\'">' +
                 '</div>' +
                 '<div class="rp-drawer-item-info">' +
                     '<div class="rp-drawer-item-title">' + lockIcon + escHTML(art.title) + '</div>' +
@@ -371,7 +371,7 @@
        HELPERS
        ================================================================ */
     function extractImage(art) {
-        var fallback = '../../assets/images/fintop_terminal_mockup.png';
+        var fallback = '/assets/images/fintop_terminal_mockup.png';
         // Prefer API-provided thumbnailUrl (always available, even for locked articles)
         if (art.thumbnailUrl) return art.thumbnailUrl;
         if (!art.content) return fallback;
