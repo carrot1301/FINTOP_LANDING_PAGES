@@ -5430,7 +5430,7 @@
                 Tìm kiếm (Ctrl+K)
             </div>
         </div>
-        <ul class="tv-nav">
+        <nav aria-label="Main navigation"><ul class="tv-nav">
             <li class="nav-item"><a href="index.html" onclick="event.preventDefault(); closeAllPanels();">Trang chủ</a>
             </li>
             <li class="nav-item"><a href="javascript:void(0)" data-panel="panel-hoivien"
@@ -5439,13 +5439,13 @@
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-fintop-data')">FinTop Data <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content" id="dc-fintop-data">
-                    <a href="javascript:void(0)" data-panel="panel-tracuu" onclick="openPanel('panel-tracuu', this)">📊
+                    <a href="/fintop-data/" data-panel="panel-tracuu" onclick="event.preventDefault(); openPanel('panel-tracuu', this)">📊
                         Tra cứu cổ phiếu</a>
-                    <a href="javascript:void(0)" data-panel="panel-boloc" onclick="openPanel('panel-boloc', this)">🔍 Bộ
+                    <a href="/fintop-data/bo-loc/" data-panel="panel-boloc" onclick="event.preventDefault(); openPanel('panel-boloc', this)">🔍 Bộ
                         lọc cổ phiếu <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
-                    <a href="fintop-ai/index.html"
-                        onclick="sessionStorage.setItem('pinnedDropdown', 'dropdown-fintop-data')">🤖 FinTop AI</a>
+                    <a href="/fintop-ai/"
+                        onclick="sessionStorage.setItem('pinnedDropdown', 'dropdown-fintop-data')">🤖 FinTop AI & Copy Trade</a>
                     <a href="javascript:void(0)" data-panel="panel-tinhieu"
                         onclick="openPanel('panel-tinhieu', this)">📡 Copy Trade</a>
                 </div>
@@ -5454,7 +5454,7 @@
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-stock-data')">Dữ liệu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content" id="dc-stock-data">
-                    <a href="/stock-data/thi-truong/index.html">Thị trường</a>
+                    <a href="/stock-data/thi-truong/">Dữ liệu thị trường</a>
                     <a href="/stock-data/pro-data/index.html">PRO Data <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="/stock-data/dinh-luong/index.html">Định lượng</a>
@@ -5466,8 +5466,8 @@
                 <a href="javascript:void(0)" onclick="toggleDropdownPin('dropdown-phan-tich')">Nghiên cứu <span
                         style="font-size: 0.7em;">▼</span></a>
                 <div class="dropdown-content" id="dc-phan-tich">
-                    <a href="nghien-cuu/thi-truong/index.html">Kinh tế thị trường</a>
-                    <a href="nghien-cuu/chuyen-sau/index.html">Nghiên cứu chuyên sâu <span
+                    <a href="/nghien-cuu/thi-truong/">Kinh tế thị trường</a>
+                    <a href="/nghien-cuu/chuyen-sau/">Nghiên cứu chuyên sâu <span
                             style="color: #fbbf24; margin-left: 4px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);">★</span></a>
                     <a href="nghien-cuu/doanh-nghiep/index.html">Nghiên cứu Doanh nghiệp</a>
                     <a href="nghien-cuu/nhom-nganh/index.html">Nghiên cứu nhóm Ngành</a>
@@ -5487,7 +5487,7 @@
                         onclick="openPanel('panel-guide-library', this)">📚 Tủ sách đầu tư</a>
                 </div>
             </li>
-        </ul>
+        </ul></nav>
         <div class="tv-right">
             <span class="icon-link">🌐 VI</span>
             <!-- Notification Bell Icon (separate from user dropdown) -->
@@ -8467,11 +8467,12 @@
                 <div>
                     <h4 style="color: #fff; margin-bottom: 1rem; font-size: 0.95rem;">Sản phẩm</h4>
                     <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-                        <a href="javascript:void(0)" onclick="openPanel('panel-hoivien', this)">Hội viên</a>
-                        <a href="javascript:void(0)" onclick="openPanel('panel-tracuu', this)">FinTop Data</a>
-                        <a href="nghien-cuu/thi-truong/index.html">Nghiên cứu</a>
-                        <a href="javascript:void(0)" onclick="openPanel('panel-stock-quant', this)">Dữ liệu</a>
-                        <a href="javascript:void(0)" onclick="openPanel('panel-guide-trading', this)">Hướng dẫn</a>
+                        <a href="/fintop-data/" onclick="event.preventDefault(); openPanel('panel-tracuu', this)">Tra cứu cổ phiếu</a>
+                        <a href="/fintop-data/bo-loc/" onclick="event.preventDefault(); openPanel('panel-boloc', this)">Bộ lọc cổ phiếu</a>
+                        <a href="/fintop-ai/">FinTop AI &amp; Copy Trade</a>
+                        <a href="/stock-data/thi-truong/">Dữ liệu định lượng</a>
+                        <a href="/nghien-cuu/chuyen-sau/">Nghiên cứu chuyên sâu</a>
+                        <a href="/huong-dan/" onclick="event.preventDefault(); openPanel('panel-guide-trading', this)">Hướng dẫn</a>
                     </div>
                 </div>
                 <div>
