@@ -56,12 +56,29 @@ const DEFAULT_REPORTS = [
   { id: 24, category: 'nganh-vimo', symbol: 'Thị trường', title: 'Báo cáo chiến lược dòng tiền & Thanh khoản thị trường', publishedAt: '2020-10-25', source: 'FPTS', fileUrl: '#', minTierAccess: 'STANDARD', status: 'PUBLISHED' },
 ];
 
+function formatReportSymbol(symbol, category) {
+  if (!symbol) return '';
+  const str = String(symbol).trim();
+  if (category === 'doanh-nghiep') {
+    return str.toUpperCase();
+  }
+  if (str === str.toUpperCase() && str.length > 3) {
+    return str.toLowerCase().replace(/(^|\s)\S/g, l => l.toUpperCase());
+  }
+  return str;
+}
+
 function getStoredReports() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed.map(r => ({
+          ...r,
+          symbol: formatReportSymbol(r.symbol, r.category)
+        }));
+      }
     }
   } catch (e) {
     console.warn('Failed to parse stored reports', e);
@@ -352,7 +369,7 @@ async function loadReports(tbody) {
             </span>
           </td>
           <td style="text-align:center; vertical-align:middle; font-weight:800; color:#c084fc; font-size:0.95rem; white-space:nowrap;">
-            ${esc(rep.symbol || '—')}
+            ${esc(formatReportSymbol(rep.symbol, rep.category) || '—')}
           </td>
           <td class="col-content" style="vertical-align:middle; font-weight:600; color:#f8fafc; text-align:left;">
             ${esc(rep.title)}
@@ -551,7 +568,7 @@ function showReportModal(rep, tbody) {
 
     const payload = {
       category,
-      symbol: symbol.toUpperCase(),
+      symbol: formatReportSymbol(symbol, category),
       title,
       publishedAt,
       source,

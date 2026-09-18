@@ -7131,6 +7131,16 @@
         /* Track the currently active tab so we can re-render on storage changes */
         var _panelReportActiveTab = 'doanh-nghiep';
 
+        function formatReportSymbol(symbol, tabKey) {
+            if (!symbol) return '';
+            var str = String(symbol).trim();
+            if (tabKey === 'doanh-nghiep') return str.toUpperCase();
+            if (str === str.toUpperCase() && str.length > 3) {
+                return str.toLowerCase().replace(/(^|\s)\S/g, function(l) { return l.toUpperCase(); });
+            }
+            return str;
+        }
+
         /**
          * Render dynamic report rows from an array into the tbody.
          * Works for both doanh-nghiep and nganh-vimo categories.
@@ -7147,7 +7157,7 @@
                 return `
                     <tr style="background: ${bg}; border-bottom: 1px solid rgba(255,255,255,0.06);">
                         <td style="padding: 12px 10px; font-weight: 800;">${idx + 1}</td>
-                        <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: ${fontSize};">${cleanHtmlStr(rep.symbol)}</td>
+                        <td style="padding: 12px 14px; color: #c084fc; font-weight: 800; font-size: ${fontSize};">${cleanHtmlStr(formatReportSymbol(rep.symbol, tabKey))}</td>
                         <td style="padding: 12px 16px; font-weight: 600; color: #f8fafc; text-align: left;">${cleanHtmlStr(rep.title)}</td>
                         <td style="padding: 12px 14px; font-weight: 700;">${formatDateStr(rep.publishedAt)}</td>
                         <td style="padding: 12px 14px; color: #f8fafc; font-weight: 700;">${cleanHtmlStr(rep.source)}</td>

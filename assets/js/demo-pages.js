@@ -617,6 +617,16 @@ function renderReportsTab() {
         { id: 110, industry: 'Thị trường', title: 'Báo cáo chiến lược dòng tiền & Thanh khoản thị trường', publishedAt: '2020-10-25', source: 'FPTS', fileUrl: '#' }
     ];
 
+    function formatReportSymbol(symbol, category) {
+        if (!symbol) return '';
+        var str = String(symbol).trim();
+        if (category === 'doanh-nghiep') return str.toUpperCase();
+        if (str === str.toUpperCase() && str.length > 3) {
+            return str.toLowerCase().replace(/(^|\s)\S/g, function(l) { return l.toUpperCase(); });
+        }
+        return str;
+    }
+
     /* ===== Override samples with admin-managed reports from localStorage ===== */
     try {
         const storedReports = localStorage.getItem('fintop_admin_reports_v1');
@@ -628,7 +638,7 @@ function renderReportsTab() {
                     .filter(r => r.category === 'doanh-nghiep')
                     .map(r => ({
                         id: r.id,
-                        ticker: r.symbol || 'N/A',
+                        ticker: formatReportSymbol(r.symbol || 'N/A', 'doanh-nghiep'),
                         title: r.title,
                         publishedAt: r.publishedAt,
                         source: r.source || 'FINTOP',
@@ -638,7 +648,7 @@ function renderReportsTab() {
                     .filter(r => r.category === 'nganh-vimo')
                     .map(r => ({
                         id: r.id,
-                        industry: r.symbol || 'Vĩ mô',
+                        industry: formatReportSymbol(r.symbol || 'Vĩ mô', 'nganh-vimo'),
                         title: r.title,
                         publishedAt: r.publishedAt,
                         source: r.source || 'FINTOP',
