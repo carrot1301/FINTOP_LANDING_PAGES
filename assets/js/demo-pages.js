@@ -617,6 +617,47 @@ function renderReportsTab() {
         { id: 110, industry: 'Thị trường', title: 'Báo cáo chiến lược dòng tiền & Thanh khoản thị trường', publishedAt: '2020-10-25', source: 'FPTS', fileUrl: '#' }
     ];
 
+    /* ===== Override samples with admin-managed reports from localStorage ===== */
+    try {
+        const storedReports = localStorage.getItem('fintop_admin_reports_v1');
+        if (storedReports) {
+            const parsed = JSON.parse(storedReports);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                const publishedOnly = parsed.filter(r => (r.status || 'PUBLISHED') === 'PUBLISHED');
+                const adminDN = publishedOnly
+                    .filter(r => r.category === 'doanh-nghiep')
+                    .map(r => ({
+                        id: r.id,
+                        ticker: r.symbol || 'N/A',
+                        title: r.title,
+                        publishedAt: r.publishedAt,
+                        source: r.source || 'FINTOP',
+                        fileUrl: r.fileUrl || '#'
+                    }));
+                const adminNV = publishedOnly
+                    .filter(r => r.category === 'nganh-vimo')
+                    .map(r => ({
+                        id: r.id,
+                        industry: r.symbol || 'Vĩ mô',
+                        title: r.title,
+                        publishedAt: r.publishedAt,
+                        source: r.source || 'FINTOP',
+                        fileUrl: r.fileUrl || '#'
+                    }));
+                if (adminDN.length > 0) {
+                    SAMPLE_DOANH_NGHIEP.length = 0;
+                    adminDN.forEach(r => SAMPLE_DOANH_NGHIEP.push(r));
+                }
+                if (adminNV.length > 0) {
+                    SAMPLE_NGANH_VIMO.length = 0;
+                    adminNV.forEach(r => SAMPLE_NGANH_VIMO.push(r));
+                }
+            }
+        }
+    } catch (e) {
+        console.warn('[Reports Tab] Failed to load admin reports from localStorage:', e);
+    }
+
     let currentCategory = 'doanh-nghiep';
     let allReports = [];
 
