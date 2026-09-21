@@ -94,45 +94,45 @@ export class MailService {
   // ─────────────────────────────────────────────────────
 
   private async sendMail(to: string, subject: string, html: string): Promise<boolean> {
+    // 1. Try Gmail SMTP first if transporter is configured & ready (100% Inbox delivery for @gmail.com)
+    if (this.transporter) {
+      try {
+        const replyTo = 'fintopdata.info@gmail.com';
+        const bcc = this.config.get<string>('MAIL_BCC', '');
+        const info = await this.transporter.sendMail({
+          from: this.fromAddress,
+          to,
+          replyTo,
+          ...(bcc ? { bcc } : {}),
+          subject,
+          html,
+        });
+
+        this.logger.log(`Email sent to ${to} via SMTP: ${info.messageId}`);
+        return true;
+      } catch (err: any) {
+        this.logger.warn(`SMTP failed for ${to}: ${err.message}, falling back to API providers...`);
+      }
+    }
+
+    // 2. Fallback to Brevo HTTPS API
     const brevoApiKey = (this.config.get<string>('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
     if (brevoApiKey) {
       const ok = await this.sendMailViaBrevo(to, subject, html, brevoApiKey);
       if (ok) return true;
-      this.logger.warn(`Brevo failed for ${to}, falling back to SMTP...`);
+      this.logger.warn(`Brevo failed for ${to}, falling back to Resend...`);
     }
 
+    // 3. Fallback to Resend HTTPS API
     const resendApiKey = this.config.get<string>('RESEND_API_KEY', '');
     if (resendApiKey) {
       const ok = await this.sendMailViaResend(to, subject, html, resendApiKey);
       if (ok) return true;
-      this.logger.warn(`Resend failed for ${to}, falling back to SMTP...`);
+      this.logger.warn(`Resend failed for ${to}...`);
     }
 
-    // SMTP fallback (or primary if no API provider configured)
-    if (!this.transporter) {
-      this.logger.warn(`[DRY RUN] Email to ${to}: ${subject}`);
-      this.logger.debug(`[DRY RUN] HTML body length: ${html.length}`);
-      return true; // Pretend success in dev mode
-    }
-
-    try {
-      const replyTo = 'fintopdata.info@gmail.com';
-      const bcc = this.config.get<string>('MAIL_BCC', '');
-      const info = await this.transporter.sendMail({
-        from: this.fromAddress,
-        to,
-        replyTo,
-        ...(bcc ? { bcc } : {}),
-        subject,
-        html,
-      });
-
-      this.logger.log(`Email sent to ${to} via SMTP fallback: ${info.messageId}`);
-      return true;
-    } catch (err) {
-      this.logger.error(`Failed to send email to ${to} via SMTP: ${err.message}`);
-      return false;
-    }
+    this.logger.warn(`[DRY RUN / NO PROVIDER] Email to ${to}: ${subject}`);
+    return false;
   }
 
   private async sendMailViaResend(to: string, subject: string, html: string, apiKey: string): Promise<boolean> {
