@@ -773,11 +773,10 @@
 
                         <div class="article-lock-screen" id="art-lock-overlay" style="display: none;">
                             <div class="lock-card">
-                                <div class="lock-title">Bài Viết Phân Tích Premium</div>
+                                <div class="lock-icon">🔒</div>
+                                <div class="lock-title">Dữ liệu Premium</div>
                                 <div class="lock-desc">
-                                    Bài viết chiến lược này dành riêng cho hội viên gói <strong id="art-required-tier"
-                                        style="color: #c084fc;">GOLD</strong> trở lên. Hãy nâng cấp tài khoản của bạn để
-                                    xem đầy đủ nhận định chuyên sâu và hành động kỹ thuật chi tiết từ Chuyên gia VPS.
+                                    Dữ liệu dành riêng cho <strong style="color: #c084fc; font-weight: 700;">Hội viên PRO, V.I.P và DIAMOND</strong>. Nâng cấp tài khoản để truy cập Dữ liệu nâng cao, chuyên sâu.
                                 </div>
                                 <button class="btn-tv-blue" style="width: 100%; padding: 12px;"
                                     onclick="location.href='../index.html#panel-hoivien'">Nâng cấp Hội viên
@@ -934,7 +933,8 @@
                         <p style="filter: blur(5px); user-select: none; opacity: 0.3;">
                             Chi tiết hành động giải ngân, danh mục và điểm chốt lời kỳ vọng của các mã cổ phiếu leader thép, chứng khoán và bất động sản khu công nghiệp được chuyên gia đề xuất.
                         </p>`;
-                        document.getElementById('art-required-tier').textContent = article.minTierAccess || 'GOLD';
+                        var reqTierEl = document.getElementById('art-required-tier');
+                        if (reqTierEl) reqTierEl.textContent = article.minTierAccess || 'GOLD';
                         document.getElementById('art-lock-overlay').style.display = 'flex';
                     } else {
                         document.getElementById('art-content').innerHTML = article.content || 'Nội dung trống.';
