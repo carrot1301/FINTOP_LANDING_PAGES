@@ -20,7 +20,7 @@ export class MailService {
     // Always try to initialize SMTP transporter as fallback
     const smtpHost = this.config.get<string>('SMTP_HOST', 'smtp.gmail.com');
     const smtpPort = this.config.get<number>('SMTP_PORT', 587);
-    const smtpUser = this.config.get<string>('SMTP_USER', 'fintop.bashare@gmail.com');
+    const smtpUser = this.config.get<string>('SMTP_USER', 'fintopdata.info@gmail.com');
     const smtpPass = this.config.get<string>('SMTP_PASS', '');
 
     if (smtpUser && smtpPass) {
@@ -40,7 +40,7 @@ export class MailService {
     }
 
     const smtpFrom = this.config.get<string>('SMTP_FROM', '');
-    this.fromAddress = smtpFrom || (smtpUser ? `FinTop DATA <${smtpUser}>` : 'FinTop DATA <fintopdata.info@gmail.com>');
+    this.fromAddress = smtpFrom || 'FinTop DATA <fintopdata.info@gmail.com>';
 
 
     if (resendApiKey) {
@@ -169,9 +169,8 @@ export class MailService {
   }
 
   private async sendMailViaBrevo(to: string, subject: string, html: string, apiKey: string): Promise<boolean> {
-    const smtpUser = this.config.get<string>('SMTP_USER', 'fintop.bashare@gmail.com');
     const fromName = 'FinTop DATA';
-    const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', smtpUser || 'fintop.bashare@gmail.com');
+    const fromEmail = this.config.get<string>('BREVO_FROM_EMAIL', 'fintopdata.info@gmail.com');
     const replyTo = 'fintopdata.info@gmail.com';
     const bccEmail = this.config.get<string>('MAIL_BCC', '');
     try {
