@@ -283,27 +283,20 @@ export class AuthService {
   // ─────────────────────────────────────────────────────
 
   async forgotPassword(email: string) {
-    const user = await this.prisma.user.findFirst({
-      where: { email, deletedAt: null },
-    });
-
-    // Always return success to prevent email enumeration
-    if (!user) {
-      this.logger.debug(`Forgot password requested for non-existent email: ${email}`);
-      return { message: 'Nếu email tồn tại, link đặt lại mật khẩu đã được gửi.' };
+    if (!email) {
+      throw new BadRequestException('Vui lòng nhập email.');
     }
 
-    // Rate limit: max 3 reset requests per hour
-    const recentTokens = await this.prisma.passwordResetToken.count({
+    const cleanEmail = email.trim().toLowerCase();
+    const user = await this.prisma.user.findFirst({
       where: {
-        userId: user.id,
-        createdAt: { gt: new Date(Date.now() - 60 * 60 * 1000) },
+        email: { equals: cleanEmail, mode: 'insensitive' },
+        deletedAt: null,
       },
     });
 
-    if (recentTokens >= 3) {
-      this.logger.warn(`Rate limit exceeded for password reset: ${email}`);
-      return { message: 'Nếu email tồn tại, link đặt lại mật khẩu đã được gửi.' };
+    if (!user) {
+      throw new NotFoundException('Email này chưa được đăng ký trên hệ thống FinTop DATA.');
     }
 
     // Generate token
@@ -320,15 +313,11 @@ export class AuthService {
       },
     });
 
-    // Send reset email
-    try {
-      await this.mailService.sendPasswordResetEmail(email, rawToken, user.fullName);
-    } catch (err: any) {
-      this.logger.error(`Failed to send password reset email to ${email}: ${err.message}`);
-    }
+    // Send reset email (await guarantees mail is sent before returning)
+    await this.mailService.sendPasswordResetEmail(user.email, rawToken, user.fullName);
 
-    this.logger.log(`Password reset email sent to ${email}`);
-    return { message: 'Nếu email tồn tại, link đặt lại mật khẩu đã được gửi.' };
+    this.logger.log(`Password reset email sent to ${user.email}`);
+    return { message: 'Link đặt lại mật khẩu đã được gửi vào email.' };
   }
 
   // ─────────────────────────────────────────────────────
