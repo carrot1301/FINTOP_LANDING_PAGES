@@ -145,7 +145,7 @@ export class AuthService {
     // Dev mode logging to help local testing when SMTP is delayed/blocked
     this.logger.log(`[DEV ONLY] Verification OTP for ${dto.email} is: ${otp}`);
 
-    // Send OTP email
+    // Send OTP email (await guarantees email delivery before serverless context terminates)
     try {
       await this.mailService.sendVerificationOTP(dto.email, otp, dto.fullName);
     } catch (err: any) {
