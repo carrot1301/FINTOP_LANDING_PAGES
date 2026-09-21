@@ -145,12 +145,12 @@ export class AuthService {
     // Dev mode logging to help local testing when SMTP is delayed/blocked
     this.logger.log(`[DEV ONLY] Verification OTP for ${dto.email} is: ${otp}`);
 
-    // Dispatch OTP email in background for instant HTTP response (<50ms)
-    setImmediate(() => {
-      this.mailService.sendVerificationOTP(dto.email, otp, dto.fullName).catch((err) => {
-        this.logger.error(`Failed to send verification email to ${dto.email}: ${err.message}`);
-      });
-    });
+    // Send OTP email
+    try {
+      await this.mailService.sendVerificationOTP(dto.email, otp, dto.fullName);
+    } catch (err: any) {
+      this.logger.error(`Failed to send verification email to ${dto.email}: ${err.message}`);
+    }
 
     await this.auditService.log({
       userId: newUser.id,
@@ -320,12 +320,12 @@ export class AuthService {
       },
     });
 
-    // Dispatch reset email in background for instant HTTP response (<50ms)
-    setImmediate(() => {
-      this.mailService.sendPasswordResetEmail(email, rawToken, user.fullName).catch((err) => {
-        this.logger.error(`Failed to send password reset email to ${email}: ${err.message}`);
-      });
-    });
+    // Send reset email
+    try {
+      await this.mailService.sendPasswordResetEmail(email, rawToken, user.fullName);
+    } catch (err: any) {
+      this.logger.error(`Failed to send password reset email to ${email}: ${err.message}`);
+    }
 
     this.logger.log(`Password reset email sent to ${email}`);
     return { message: 'Nếu email tồn tại, link đặt lại mật khẩu đã được gửi.' };
@@ -515,12 +515,12 @@ export class AuthService {
     // Dev mode logging to help local testing when SMTP is delayed/blocked
     this.logger.log(`[DEV ONLY] Verification OTP for ${email} is: ${otp}`);
 
-    // Dispatch verification OTP email in background for instant HTTP response (<50ms)
-    setImmediate(() => {
-      this.mailService.sendVerificationOTP(email, otp, user.fullName).catch((err) => {
-        this.logger.error(`Failed to re-send verification email to ${email}: ${err.message}`);
-      });
-    });
+    // Send verification OTP
+    try {
+      await this.mailService.sendVerificationOTP(email, otp, user.fullName);
+    } catch (err: any) {
+      this.logger.error(`Failed to re-send verification email to ${email}: ${err.message}`);
+    }
 
     this.logger.log(`Verification OTP re-sent to ${email}`);
     return { message: 'Mã xác thực mới đã được gửi vào email.' };
