@@ -690,9 +690,17 @@ async function submitProApproval() {
 /**
  * Gửi yêu cầu liên kết tài khoản chứng khoán hoặc mở tài khoản cho gói V.I.P
  */
-async function submitVIP(type) {
-    if (type === 'open') {
-        alert("Đang chuyển hướng tới trang Mở tài khoản Chứng khoán...");
+async function submitVIP(type, broker = 'vps') {
+    if (type === 'open' || type === 'open_vps' || type === 'open_tcbs') {
+        if (broker === 'tcbs' || type === 'open_tcbs') {
+            alert("Đang chuyển hướng tới trang Mở tài khoản Chứng khoán TCBS...");
+            return;
+        }
+        const vpsUrl = 'https://openaccount.vps.com.vn/?MKTID=BYGY';
+        const newWin = window.open(vpsUrl, '_blank');
+        if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+            window.location.href = vpsUrl;
+        }
         return;
     }
 
@@ -772,9 +780,17 @@ async function submitVIP(type) {
 /**
  * Gửi yêu cầu liên kết tài khoản Diamond.
  */
-async function submitDiamond(type) {
-    if (type === 'open') {
-        alert("Đang chuyển hướng tới trang Mở tài khoản Chứng khoán...");
+async function submitDiamond(type, broker = 'vps') {
+    if (type === 'open' || type === 'open_vps' || type === 'open_tcbs') {
+        if (broker === 'tcbs' || type === 'open_tcbs') {
+            alert("Đang chuyển hướng tới trang Mở tài khoản Chứng khoán TCBS...");
+            return;
+        }
+        const vpsUrl = 'https://openaccount.vps.com.vn/?MKTID=BYGY';
+        const newWin = window.open(vpsUrl, '_blank');
+        if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+            window.location.href = vpsUrl;
+        }
         return;
     }
 
