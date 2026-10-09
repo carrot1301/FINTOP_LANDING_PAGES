@@ -693,7 +693,11 @@ async function submitProApproval() {
 async function submitVIP(type, broker = 'vps') {
     if (type === 'open' || type === 'open_vps' || type === 'open_tcbs') {
         if (broker === 'tcbs' || type === 'open_tcbs') {
-            alert("Đang chuyển hướng tới trang Mở tài khoản Chứng khoán TCBS...");
+            const tcbsUrl = 'https://tcinvest.tcbs.com.vn/guest/login?openAccount=true&IWPCode=105CN48886';
+            const newWin = window.open(tcbsUrl, '_blank');
+            if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+                window.location.href = tcbsUrl;
+            }
             return;
         }
         const vpsUrl = 'https://openaccount.vps.com.vn/?MKTID=BYGY';
@@ -783,7 +787,11 @@ async function submitVIP(type, broker = 'vps') {
 async function submitDiamond(type, broker = 'vps') {
     if (type === 'open' || type === 'open_vps' || type === 'open_tcbs') {
         if (broker === 'tcbs' || type === 'open_tcbs') {
-            alert("Đang chuyển hướng tới trang Mở tài khoản Chứng khoán TCBS...");
+            const tcbsUrl = 'https://tcinvest.tcbs.com.vn/guest/login?openAccount=true&IWPCode=105CN48886';
+            const newWin = window.open(tcbsUrl, '_blank');
+            if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+                window.location.href = tcbsUrl;
+            }
             return;
         }
         const vpsUrl = 'https://openaccount.vps.com.vn/?MKTID=BYGY';

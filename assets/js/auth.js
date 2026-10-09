@@ -889,11 +889,13 @@ const RegisterStepper = {
         if (step === 2) {
             const password = this.value('registerPassword', false);
             const confirm = this.value('registerPasswordConfirm', false);
+            const termsChk = this.els.form.querySelector('#registerTerms');
 
             if (!password) addError('registerPassword', 'Vui lòng đặt mật khẩu.');
             if (password && password.length < 6) addError('registerPassword', 'Mật khẩu phải có ít nhất 6 ký tự.');
             if (!confirm) addError('registerPasswordConfirm', 'Vui lòng nhập lại mật khẩu.');
             if (confirm && password !== confirm) addError('registerPasswordConfirm', 'Mật khẩu nhập lại chưa khớp.');
+            if (termsChk && !termsChk.checked) addError('registerTerms', 'Vui lòng tích chọn đồng ý với Điều khoản & Chính sách.');
         }
 
         if (!silent && errors.length > 0) {

@@ -488,7 +488,8 @@ class AuthManagerSingleton {
   }
 
   // ─────────────────────────────────────────────────────
-  // IDLE INACTIVITY AUTO-LOGOUT (15 MINUTES)
+  // IDLE INACTIVITY AUTO-LOGOUT
+  // Monitors main window + embedded iframes (CKEditor 4)
   // ─────────────────────────────────────────────────────
 
   _startIdleTimer() {
@@ -506,20 +507,120 @@ class AuthManagerSingleton {
       }
     };
 
-    const events = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click'];
+    const events = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click', 'input'];
     events.forEach(evt => window.addEventListener(evt, this._onUserActivityBound, { passive: true }));
+
+    // ── CKEditor 4 iframe detection ──
+    // CKEditor 4 renders its WYSIWYG content inside an <iframe>.
+    // Events inside that iframe (typing, clicking, scrolling) do NOT
+    // bubble up to the parent window, so the idle timer never sees them.
+    // We solve this by:
+    //   1. Hooking into CKEditor's own event system ('change', 'key', 'focus')
+    //   2. Attaching DOM listeners to every same-origin <iframe> we find
+    //   3. Using a MutationObserver to catch iframes added later (lazy-loaded editors)
+    this._trackedIframes = new WeakSet();
+    this._attachIframeListeners();
+    this._hookCKEditorEvents();
+
+    // Watch for dynamically added iframes (CKEditor creates them after init)
+    this._iframeMutationObserver = new MutationObserver(() => {
+      this._attachIframeListeners();
+      this._hookCKEditorEvents();
+    });
+    this._iframeMutationObserver.observe(document.body, { childList: true, subtree: true });
 
     this._onVisibilityChangeBound = () => {
       if (!document.hidden) {
         this._checkIdleTimeout();
+        // Re-attach in case iframe was recreated while tab was hidden
+        this._attachIframeListeners();
+        this._hookCKEditorEvents();
       }
     };
     document.addEventListener('visibilitychange', this._onVisibilityChangeBound);
 
-    // Periodically check every 10 seconds
+    // Periodically check every 30 seconds (increased from 10s)
     this._idleCheckTimer = setInterval(() => {
       this._checkIdleTimeout();
-    }, 10000);
+    }, 30000);
+  }
+
+  /**
+   * Attach activity listeners to all same-origin iframes on the page.
+   * Safe against cross-origin iframes (silently skips them).
+   */
+  _attachIframeListeners() {
+    if (!this._onUserActivityBound) return;
+    const iframes = document.querySelectorAll('iframe');
+    const events = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click', 'input'];
+
+    iframes.forEach(iframe => {
+      if (this._trackedIframes.has(iframe)) return;
+      try {
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+        if (iframeDoc) {
+          events.forEach(evt => {
+            iframeDoc.addEventListener(evt, this._onUserActivityBound, { passive: true });
+          });
+          this._trackedIframes.add(iframe);
+          if (FintopEnv.DEBUG) {
+            console.log('[AuthManager] ✓ Attached activity listeners to iframe:', iframe.className || iframe.id || '(anonymous)');
+          }
+        }
+      } catch (e) {
+        // Cross-origin iframe — silently skip (SecurityError)
+      }
+    });
+  }
+
+  /**
+   * Hook into CKEditor 4's event system so that any editor interaction
+   * (typing, formatting, paste, etc.) is treated as user activity.
+   */
+  _hookCKEditorEvents() {
+    if (!window.CKEDITOR || !this._onUserActivityBound) return;
+    if (this._ckeditorHooked) return;
+
+    const handler = this._onUserActivityBound;
+
+    // Hook existing instances
+    for (const name in window.CKEDITOR.instances) {
+      const editor = window.CKEDITOR.instances[name];
+      if (!editor._fintopIdleHooked) {
+        editor.on('change', handler);
+        editor.on('key', handler);
+        editor.on('focus', handler);
+        editor.on('afterPaste', handler);
+        editor.on('saveSnapshot', handler);
+        editor._fintopIdleHooked = true;
+        if (FintopEnv.DEBUG) {
+          console.log(`[AuthManager] ✓ Hooked CKEditor instance: ${name}`);
+        }
+      }
+    }
+
+    // Hook future instances (CKEditor fires 'instanceReady' globally)
+    if (!window.CKEDITOR._fintopGlobalHooked) {
+      window.CKEDITOR.on('instanceReady', (evt) => {
+        const editor = evt.editor;
+        if (!editor._fintopIdleHooked) {
+          editor.on('change', handler);
+          editor.on('key', handler);
+          editor.on('focus', handler);
+          editor.on('afterPaste', handler);
+          editor.on('saveSnapshot', handler);
+          editor._fintopIdleHooked = true;
+          if (FintopEnv.DEBUG) {
+            console.log(`[AuthManager] ✓ Hooked CKEditor instance (late): ${editor.name}`);
+          }
+        }
+        // Also attach to the iframe CKEditor just created
+        this._attachIframeListeners();
+      });
+      window.CKEDITOR._fintopGlobalHooked = true;
+    }
+
+    this._ckeditorHooked = true;
   }
 
   _checkIdleTimeout() {
@@ -529,16 +630,18 @@ class AuthManagerSingleton {
     if (!lastActivity) return;
 
     const idleTime = Date.now() - lastActivity;
-    const idleLimit = REQUEST_CONFIG.IDLE_TIMEOUT_MS || (15 * 60 * 1000);
+    const idleLimit = REQUEST_CONFIG.IDLE_TIMEOUT_MS || (60 * 60 * 1000);
 
     if (idleTime >= idleLimit) {
+      const idleMinutes = Math.round(idleTime / 60000);
+      const limitMinutes = Math.round(idleLimit / 60000);
       if (FintopEnv.DEBUG) {
-        console.warn(`[AuthManager] User idle for ${Math.round(idleTime / 1000)}s (>15m) — triggering auto logout.`);
+        console.warn(`[AuthManager] User idle for ${idleMinutes}m (>${limitMinutes}m) — triggering auto logout.`);
       }
       this._stopIdleTimer();
       AppState.emit(AppState.EVENTS.AUTH_EXPIRED);
       try {
-        alert('Tài khoản đã tự động đăng xuất do không thao tác trên trang web quá 15 phút. Vui lòng đăng nhập lại.');
+        alert(`Tài khoản đã tự động đăng xuất do không thao tác trên trang web quá ${limitMinutes} phút. Vui lòng đăng nhập lại.`);
       } catch (e) {}
       this.logout({ silent: false });
     }
@@ -550,14 +653,31 @@ class AuthManagerSingleton {
       this._idleCheckTimer = null;
     }
     if (this._onUserActivityBound) {
-      const events = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click'];
+      const events = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click', 'input'];
       events.forEach(evt => window.removeEventListener(evt, this._onUserActivityBound));
+
+      // Also remove from tracked iframes
+      document.querySelectorAll('iframe').forEach(iframe => {
+        try {
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+          if (iframeDoc) {
+            events.forEach(evt => iframeDoc.removeEventListener(evt, this._onUserActivityBound));
+          }
+        } catch (e) {}
+      });
+
       this._onUserActivityBound = null;
     }
     if (this._onVisibilityChangeBound) {
       document.removeEventListener('visibilitychange', this._onVisibilityChangeBound);
       this._onVisibilityChangeBound = null;
     }
+    if (this._iframeMutationObserver) {
+      this._iframeMutationObserver.disconnect();
+      this._iframeMutationObserver = null;
+    }
+    this._trackedIframes = null;
+    this._ckeditorHooked = false;
   }
 
   _clearSession() {

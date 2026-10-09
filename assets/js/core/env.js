@@ -235,7 +235,7 @@ const REQUEST_CONFIG = Object.freeze({
   RETRY_MAX_ATTEMPTS:  3,
   RETRY_BASE_DELAY_MS: 500,    // Exponential backoff base
   REFRESH_BUFFER_MS:   60000,  // Refresh token 60s before expiry
-  IDLE_TIMEOUT_MS:     15 * 60 * 1000, // Auto logout after 15 mins of inactivity
+  IDLE_TIMEOUT_MS:     2 * 60 * 60 * 1000, // Auto logout after 2 hours of inactivity (increased for CMS content editing)
 });
 
 // ─────────────────────────────────────────────────────────────

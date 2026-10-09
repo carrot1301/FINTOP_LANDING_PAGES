@@ -257,9 +257,6 @@ function renderStaffTable(container) {
             <span data-action="view-staff" data-id="${u.id}" style="cursor:pointer;margin-left:6px;font-size:1.4rem;vertical-align:middle;display:inline-block;line-height:1;" title="Chi tiết & Phân quyền">
               ⚙️
             </span>
-            <button class="admin-btn admin-btn-danger admin-btn-sm" data-action="delete-staff" data-id="${u.id}" title="Xóa nhân sự" style="padding: 6px 10px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; margin-top: 4px;">
-              🗑️
-            </button>
           </td>
         </tr>
       `;
@@ -267,26 +264,16 @@ function renderStaffTable(container) {
     onRowAction: async (action, id) => {
       if (action === 'edit-staff') await showStaffEditModal(parseInt(id, 10));
       if (action === 'view-staff') await showStaffDetail(parseInt(id, 10));
-      if (action === 'delete-staff') {
-        const currentUser = window.FintopInfra?.AppState?.getState('user') || {};
-        if (parseInt(id, 10) === currentUser.id) {
-          showToast('Bạn không thể tự xóa tài khoản của chính mình!', 'error');
-          return;
-        }
-        if (!confirm(`Bạn có chắc chắn muốn xóa nhân sự #${id} này không?`)) return;
-        try {
-          await API().delete(EP().ADMIN_USER_DETAIL(id));
-          showToast(`Đã xóa nhân sự #${id} thành công!`);
-          if (staffTable) staffTable.refresh();
-        } catch (err) {
-          showToast(err.message || 'Lỗi khi xóa nhân sự', 'error');
-        }
-      }
     },
   });
 
-  // Bind toggle status
+  // Bind toggle status & select all
   container.querySelector('#staff-table-area').addEventListener('change', async (e) => {
+    if (e.target.id === 'chk-all-staff') {
+      const isChecked = e.target.checked;
+      container.querySelectorAll('.chk-staff-item').forEach(chk => { chk.checked = isChecked; });
+      return;
+    }
     if (e.target.classList.contains('toggle-staff-status')) {
       const uid = e.target.dataset.uid;
       const newStatus = e.target.checked ? 'ACTIVE' : 'INACTIVE';
