@@ -283,17 +283,13 @@ export class BlogService implements OnModuleInit {
     <meta name="twitter:description" content="${esc(description)}">
     <meta name="twitter:image" content="${esc(imageUrl)}">
 
-    <meta http-equiv="refresh" content="0;url=${esc(redirectUrl)}">
     <link rel="canonical" href="${esc(redirectUrl)}">
-    <script>
-        window.location.replace("${esc(redirectUrl)}");
-    </script>
 </head>
 <body>
     <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
         <h2>${esc(title)}</h2>
         <p>${esc(description)}</p>
-        <p>Đang chuyển hướng tới <a href="${esc(redirectUrl)}">FinTop DATA</a>...</p>
+        <p><a href="${esc(redirectUrl)}">Xem bài viết trên FinTop DATA</a></p>
     </div>
 </body>
 </html>`;
@@ -533,4 +529,3 @@ export class BlogService implements OnModuleInit {
     });
   }
 }
-
