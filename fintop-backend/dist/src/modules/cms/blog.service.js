@@ -1,10 +1,43 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
@@ -12,6 +45,8 @@ var BlogService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BlogService = void 0;
 const common_1 = require("@nestjs/common");
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
 const prisma_service_1 = require("../../common/database/prisma.service");
 const redis_service_1 = require("../../common/redis/redis.service");
 const audit_service_1 = require("../../common/audit/audit.service");
@@ -265,6 +300,26 @@ let BlogService = BlogService_1 = class BlogService {
             imageType = 'image/webp';
         else if (imageUrl.toLowerCase().endsWith('.gif'))
             imageType = 'image/gif';
+        let imageWidth = 1200;
+        let imageHeight = 630;
+        const localFile = this.resolveLocalImageFile(imageUrl);
+        if (localFile) {
+            try {
+                const fd = fs.openSync(localFile, 'r');
+                const buf = Buffer.alloc(65536);
+                const bytesRead = fs.readSync(fd, buf, 0, 65536, 0);
+                fs.closeSync(fd);
+                const dim = this.getImageDimensions(buf.subarray(0, bytesRead));
+                if (dim && dim.width >= 200 && dim.height >= 200) {
+                    imageWidth = dim.width;
+                    imageHeight = dim.height;
+                    imageType = dim.type;
+                }
+            }
+            catch (err) {
+                this.logger.debug(`Could not inspect image dimensions for ${localFile}: ${err.message}`);
+            }
+        }
         return `<!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -282,6 +337,8 @@ let BlogService = BlogService_1 = class BlogService {
     <meta property="og:image" content="${esc(imageUrl)}">
     <meta property="og:image:secure_url" content="${esc(imageUrl)}">
     <meta property="og:image:type" content="${imageType}">
+    <meta property="og:image:width" content="${imageWidth}">
+    <meta property="og:image:height" content="${imageHeight}">
     <meta property="og:image:alt" content="${esc(title)}">
     <meta property="og:url" content="${esc(shareUrl)}">
 
@@ -290,6 +347,8 @@ let BlogService = BlogService_1 = class BlogService {
     <meta name="twitter:title" content="${esc(title)}">
     <meta name="twitter:description" content="${esc(description)}">
     <meta name="twitter:image" content="${esc(imageUrl)}">
+    <meta name="twitter:image:width" content="${imageWidth}">
+    <meta name="twitter:image:height" content="${imageHeight}">
 
     <link rel="canonical" href="${esc(shareUrl)}">
 </head>
@@ -301,6 +360,85 @@ let BlogService = BlogService_1 = class BlogService {
     </div>
 </body>
 </html>`;
+    }
+    resolveLocalImageFile(imageUrl) {
+        if (!imageUrl)
+            return null;
+        try {
+            const urlObj = new URL(imageUrl);
+            const pathname = urlObj.pathname;
+            const cleanPath = pathname.replace(/^\/+/, '');
+            const candidates = [
+                path.join(process.cwd(), '..', 'fintop_frontend', cleanPath),
+                path.join(process.cwd(), '..', cleanPath),
+                path.join(process.cwd(), 'fintop_frontend', cleanPath),
+                path.join(process.cwd(), cleanPath),
+                `/var/www/fintop/fintop_frontend/${cleanPath}`,
+                `/var/www/fintop/${cleanPath}`,
+            ];
+            for (const candidate of candidates) {
+                if (fs.existsSync(candidate)) {
+                    return candidate;
+                }
+            }
+        }
+        catch {
+        }
+        return null;
+    }
+    getImageDimensions(buffer) {
+        if (!buffer || buffer.length < 24)
+            return null;
+        if (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4E && buffer[3] === 0x47) {
+            const width = buffer.readUInt32BE(16);
+            const height = buffer.readUInt32BE(20);
+            return { width, height, type: 'image/png' };
+        }
+        if (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46) {
+            const width = buffer.readUInt16LE(6);
+            const height = buffer.readUInt16LE(8);
+            return { width, height, type: 'image/gif' };
+        }
+        if (buffer.toString('ascii', 0, 4) === 'RIFF' && buffer.toString('ascii', 8, 12) === 'WEBP') {
+            const vp8 = buffer.toString('ascii', 12, 16);
+            if (vp8 === 'VP8 ') {
+                const width = buffer.readUInt16LE(26) & 0x3fff;
+                const height = buffer.readUInt16LE(28) & 0x3fff;
+                return { width, height, type: 'image/webp' };
+            }
+            else if (vp8 === 'VP8L') {
+                const b0 = buffer[21], b1 = buffer[22], b2 = buffer[23], b3 = buffer[24];
+                const width = 1 + (((b1 & 0x3f) << 8) | b0);
+                const height = 1 + (((b3 & 0xf) << 10) | (b2 << 2) | ((b1 & 0xc0) >> 6));
+                return { width, height, type: 'image/webp' };
+            }
+            else if (vp8 === 'VP8X') {
+                const width = 1 + buffer.readUIntLE(24, 3);
+                const height = 1 + buffer.readUIntLE(27, 3);
+                return { width, height, type: 'image/webp' };
+            }
+        }
+        if (buffer[0] === 0xFF && buffer[1] === 0xD8) {
+            let offset = 2;
+            while (offset < buffer.length - 8) {
+                if (buffer[offset] !== 0xFF) {
+                    offset++;
+                    continue;
+                }
+                const marker = buffer[offset + 1];
+                if ((marker >= 0xC0 && marker <= 0xC3) ||
+                    (marker >= 0xC5 && marker <= 0xC7) ||
+                    (marker >= 0xC9 && marker <= 0xCB) ||
+                    (marker >= 0xCD && marker <= 0xCF)) {
+                    const height = buffer.readUInt16BE(offset + 5);
+                    const width = buffer.readUInt16BE(offset + 7);
+                    return { width, height, type: 'image/jpeg' };
+                }
+                const length = buffer.readUInt16BE(offset + 2);
+                offset += 2 + length;
+            }
+        }
+        return null;
     }
     sanitizePlainText(str) {
         if (!str)

@@ -108,12 +108,13 @@ server {
         add_header Cache-Control "public, no-transform";
     }
 
-    # Serve uploaded images directly from fintop_frontend/uploads/
-    location /uploads/ {
-        alias /var/www/fintop/fintop_frontend/uploads/;
+    # Serve uploaded images directly from uploads/ or fintop_frontend/uploads/
+    location ^~ /uploads/ {
+        try_files /fintop_frontend$uri $uri =404;
         expires 30d;
         add_header Cache-Control "public, immutable";
-        try_files $uri =404;
+        add_header Access-Control-Allow-Origin "*";
+        add_header Access-Control-Allow-Methods "GET, OPTIONS";
     }
 
     # SEO & Verification files (Exempt from social bot rewrites)
@@ -348,12 +349,13 @@ server {
         add_header Cache-Control "public, no-transform";
     }
 
-    # Serve uploaded images directly from fintop_frontend/uploads/
-    location /uploads/ {
-        alias /var/www/fintop/fintop_frontend/uploads/;
+    # Serve uploaded images directly from uploads/ or fintop_frontend/uploads/
+    location ^~ /uploads/ {
+        try_files /fintop_frontend$uri $uri =404;
         expires 30d;
         add_header Cache-Control "public, immutable";
-        try_files $uri =404;
+        add_header Access-Control-Allow-Origin "*";
+        add_header Access-Control-Allow-Methods "GET, OPTIONS";
     }
 
     # SEO & Verification files (Exempt from social bot rewrites)

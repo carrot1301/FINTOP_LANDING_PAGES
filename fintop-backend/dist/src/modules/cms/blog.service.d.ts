@@ -49,6 +49,8 @@ export declare class BlogService implements OnModuleInit {
     extractFirstImage(content?: string, defaultImage?: string): string;
     buildArticleRedirectUrl(slug: string): Promise<string>;
     generateShareOgHtml(slug: string): Promise<string>;
+    private resolveLocalImageFile;
+    private getImageDimensions;
     private sanitizePlainText;
     listArticles(userFeatures?: string[], page?: number, limit?: number, categorySlug?: string): Promise<{
         data: {
