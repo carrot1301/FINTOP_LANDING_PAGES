@@ -239,6 +239,7 @@ export class BlogService implements OnModuleInit {
     let description = 'Dữ liệu phân tích và nghiên cứu chiến lược đầu tư cổ phiếu tại FinTop DATA.';
     let imageUrl = 'https://fintopdata.vn/assets/images/fintop-og-banner.png';
     let targetUrl = await this.buildArticleRedirectUrl(slug);
+    let version = 1;
 
     if (slug) {
       try {
@@ -252,6 +253,9 @@ export class BlogService implements OnModuleInit {
           const rawExcerpt = article.excerpt || article.content || '';
           description = this.sanitizePlainText(rawExcerpt).substring(0, 200) || description;
           imageUrl = this.extractFirstImage(article.content, imageUrl);
+          version = article.updatedAt
+            ? Math.floor(article.updatedAt.getTime() / 1000)
+            : (article.publishedAt ? Math.floor(article.publishedAt.getTime() / 1000) : 1);
         }
       } catch (err) {
         this.logger.warn(`Failed to fetch article for OG HTML generation: ${err.message}`);
@@ -261,6 +265,13 @@ export class BlogService implements OnModuleInit {
     const shareUrl = `https://fintopdata.vn/b/${encodeURIComponent(slug || '')}`;
     const redirectUrl = targetUrl;
     const esc = (str: string) => str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    // Cache-bust image URL so social platform CDNs (Facebook, etc.) immediately fetch fresh image
+    let shareImageUrl = imageUrl;
+    if (shareImageUrl.includes('/uploads/') || shareImageUrl.includes('/assets/')) {
+      const sep = shareImageUrl.includes('?') ? '&' : '?';
+      shareImageUrl = `${shareImageUrl}${sep}v=${version}`;
+    }
 
     let imageType = 'image/jpeg';
     if (imageUrl.toLowerCase().endsWith('.png')) imageType = 'image/png';
@@ -302,26 +313,30 @@ export class BlogService implements OnModuleInit {
     <meta property="og:locale" content="vi_VN">
     <meta property="og:title" content="${esc(title)}">
     <meta property="og:description" content="${esc(description)}">
-    <meta property="og:image" content="${esc(imageUrl)}">
-    <meta property="og:image:secure_url" content="${esc(imageUrl)}">
+    <meta property="og:image" content="${esc(shareImageUrl)}">
+    <meta property="og:image:secure_url" content="${esc(shareImageUrl)}">
     <meta property="og:image:type" content="${imageType}">
     <meta property="og:image:width" content="${imageWidth}">
     <meta property="og:image:height" content="${imageHeight}">
     <meta property="og:image:alt" content="${esc(title)}">
     <meta property="og:url" content="${esc(shareUrl)}">
 
+    <!-- Fallback image discovery tags -->
+    <link rel="image_src" href="${esc(shareImageUrl)}">
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${esc(title)}">
     <meta name="twitter:description" content="${esc(description)}">
-    <meta name="twitter:image" content="${esc(imageUrl)}">
+    <meta name="twitter:image" content="${esc(shareImageUrl)}">
     <meta name="twitter:image:width" content="${imageWidth}">
     <meta name="twitter:image:height" content="${imageHeight}">
 
     <link rel="canonical" href="${esc(shareUrl)}">
 </head>
 <body>
-    <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
+    <div style="padding: 2rem; font-family: sans-serif; text-align: center; max-width: 700px; margin: 0 auto;">
+        <img src="${esc(shareImageUrl)}" alt="${esc(title)}" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto;">
         <h2>${esc(title)}</h2>
         <p>${esc(description)}</p>
         <p><a href="${esc(redirectUrl)}">Xem bài viết trên FinTop DATA</a></p>
