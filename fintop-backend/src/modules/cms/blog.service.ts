@@ -260,6 +260,11 @@ export class BlogService implements OnModuleInit {
     const redirectUrl = targetUrl;
     const esc = (str: string) => str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+    let imageType = 'image/jpeg';
+    if (imageUrl.toLowerCase().endsWith('.png')) imageType = 'image/png';
+    else if (imageUrl.toLowerCase().endsWith('.webp')) imageType = 'image/webp';
+    else if (imageUrl.toLowerCase().endsWith('.gif')) imageType = 'image/gif';
+
     return `<!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -276,10 +281,12 @@ export class BlogService implements OnModuleInit {
     <meta property="og:description" content="${esc(description)}">
     <meta property="og:image" content="${esc(imageUrl)}">
     <meta property="og:image:secure_url" content="${esc(imageUrl)}">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="${imageType}">
     <meta property="og:image:alt" content="${esc(title)}">
     <meta property="og:url" content="${esc(shareUrl)}">
+
+    <!-- Fallback image discovery tags -->
+    <link rel="image_src" href="${esc(imageUrl)}">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -290,7 +297,8 @@ export class BlogService implements OnModuleInit {
     <link rel="canonical" href="${esc(shareUrl)}">
 </head>
 <body>
-    <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
+    <div style="padding: 2rem; font-family: sans-serif; text-align: center; max-width: 700px; margin: 0 auto;">
+        <img src="${esc(imageUrl)}" alt="${esc(title)}" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto;">
         <h2>${esc(title)}</h2>
         <p>${esc(description)}</p>
         <p><a href="${esc(redirectUrl)}">Xem bài viết trên FinTop DATA</a></p>
