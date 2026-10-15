@@ -285,9 +285,6 @@ export class BlogService implements OnModuleInit {
     <meta property="og:image:alt" content="${esc(title)}">
     <meta property="og:url" content="${esc(shareUrl)}">
 
-    <!-- Fallback image discovery tags -->
-    <link rel="image_src" href="${esc(imageUrl)}">
-
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${esc(title)}">
@@ -297,8 +294,7 @@ export class BlogService implements OnModuleInit {
     <link rel="canonical" href="${esc(shareUrl)}">
 </head>
 <body>
-    <div style="padding: 2rem; font-family: sans-serif; text-align: center; max-width: 700px; margin: 0 auto;">
-        <img src="${esc(imageUrl)}" alt="${esc(title)}" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto;">
+    <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
         <h2>${esc(title)}</h2>
         <p>${esc(description)}</p>
         <p><a href="${esc(redirectUrl)}">Xem bài viết trên FinTop DATA</a></p>
