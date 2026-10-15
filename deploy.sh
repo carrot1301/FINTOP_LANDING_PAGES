@@ -75,7 +75,7 @@ server {
     }
 
     # Short share links for social media previews: /b/slug or /share/slug
-    location ~ ^/(b|share)/([A-Za-z0-9_-]+)$ {
+    location ~ ^/(b|share)/([A-Za-z0-9_-]+)/?$ {
         proxy_pass http://127.0.0.1:3000/blogs/share-og?slug=$2;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
@@ -315,7 +315,7 @@ server {
     }
 
     # Short share links for social media previews: /b/slug or /share/slug
-    location ~ ^/(b|share)/([A-Za-z0-9_-]+)$ {
+    location ~ ^/(b|share)/([A-Za-z0-9_-]+)/?$ {
         proxy_pass http://127.0.0.1:3000/blogs/share-og?slug=$2;
         proxy_http_version 1.1;
         proxy_set_header Host $host;

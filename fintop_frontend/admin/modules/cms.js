@@ -1364,9 +1364,7 @@ function renderCreateForm(container, blogToEdit = null) {
               <label class="cms-edit-label">Loại bài viết <span class="cms-required">*</span></label>
               <select id="blog-tier" class="cms-edit-select" required>
                 <option value="STANDARD" ${currentTier === 'STANDARD' ? 'selected' : ''}>Standard</option>
-                <option value="SILVER" ${currentTier === 'SILVER' ? 'selected' : ''}>PRO</option>
-                <option value="GOLD" ${currentTier === 'GOLD' ? 'selected' : ''}>VIP</option>
-                <option value="DIAMOND" ${currentTier === 'DIAMOND' ? 'selected' : ''}>Diamond</option>
+                <option value="SILVER" ${currentTier !== 'STANDARD' ? 'selected' : ''}>PRO</option>
               </select>
             </div>
             

@@ -134,9 +134,12 @@ let AuthService = AuthService_1 = class AuthService {
             },
         });
         this.logger.log(`[DEV ONLY] Verification OTP for ${dto.email} is: ${otp}`);
-        this.mailService.sendVerificationOTP(dto.email, otp, dto.fullName).catch((err) => {
+        try {
+            await this.mailService.sendVerificationOTP(dto.email, otp, dto.fullName);
+        }
+        catch (err) {
             this.logger.error(`Failed to send verification email to ${dto.email}: ${err.message}`);
-        });
+        }
         await this.auditService.log({
             userId: newUser.id,
             source: client_1.AUDIT_SOURCE.USER,
@@ -245,22 +248,18 @@ let AuthService = AuthService_1 = class AuthService {
         };
     }
     async forgotPassword(email) {
-        const user = await this.prisma.user.findFirst({
-            where: { email, deletedAt: null },
-        });
-        if (!user) {
-            this.logger.debug(`Forgot password requested for non-existent email: ${email}`);
-            return { message: 'Nếu email tồn tại, link đặt lại mật khẩu đã được gửi.' };
+        if (!email) {
+            throw new common_1.BadRequestException('Vui lòng nhập email.');
         }
-        const recentTokens = await this.prisma.passwordResetToken.count({
+        const cleanEmail = email.trim().toLowerCase();
+        const user = await this.prisma.user.findFirst({
             where: {
-                userId: user.id,
-                createdAt: { gt: new Date(Date.now() - 60 * 60 * 1000) },
+                email: { equals: cleanEmail, mode: 'insensitive' },
+                deletedAt: null,
             },
         });
-        if (recentTokens >= 3) {
-            this.logger.warn(`Rate limit exceeded for password reset: ${email}`);
-            return { message: 'Nếu email tồn tại, link đặt lại mật khẩu đã được gửi.' };
+        if (!user) {
+            throw new common_1.NotFoundException('Email này chưa được đăng ký trên hệ thống FinTop DATA.');
         }
         const rawToken = (0, crypto_1.randomBytes)(32).toString('hex');
         const hashedToken = await hash_util_1.HashUtil.hash(rawToken);
@@ -273,11 +272,9 @@ let AuthService = AuthService_1 = class AuthService {
                 expiresAt,
             },
         });
-        this.mailService.sendPasswordResetEmail(email, rawToken, user.fullName).catch((err) => {
-            this.logger.error(`Failed to send password reset email to ${email}: ${err.message}`);
-        });
-        this.logger.log(`Password reset email sent to ${email}`);
-        return { message: 'Nếu email tồn tại, link đặt lại mật khẩu đã được gửi.' };
+        await this.mailService.sendPasswordResetEmail(user.email, rawToken, user.fullName);
+        this.logger.log(`Password reset email sent to ${user.email}`);
+        return { message: 'Link đặt lại mật khẩu đã được gửi vào email.' };
     }
     async resetPassword(rawToken, newPassword) {
         const validTokens = await this.prisma.passwordResetToken.findMany({
@@ -407,9 +404,12 @@ let AuthService = AuthService_1 = class AuthService {
             },
         });
         this.logger.log(`[DEV ONLY] Verification OTP for ${email} is: ${otp}`);
-        this.mailService.sendVerificationOTP(email, otp, user.fullName).catch((err) => {
+        try {
+            await this.mailService.sendVerificationOTP(email, otp, user.fullName);
+        }
+        catch (err) {
             this.logger.error(`Failed to re-send verification email to ${email}: ${err.message}`);
-        });
+        }
         this.logger.log(`Verification OTP re-sent to ${email}`);
         return { message: 'Mã xác thực mới đã được gửi vào email.' };
     }

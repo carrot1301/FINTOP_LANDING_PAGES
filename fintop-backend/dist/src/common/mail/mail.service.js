@@ -61,7 +61,7 @@ let MailService = MailService_1 = class MailService {
         const brevoApiKey = (this.config.get('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
         const smtpHost = this.config.get('SMTP_HOST', 'smtp.gmail.com');
         const smtpPort = this.config.get('SMTP_PORT', 587);
-        const smtpUser = this.config.get('SMTP_USER', 'fintop.bashare@gmail.com');
+        const smtpUser = this.config.get('SMTP_USER', 'fintopdata.info@gmail.com');
         const smtpPass = this.config.get('SMTP_PASS', '');
         if (smtpUser && smtpPass) {
             this.transporter = nodemailer.createTransport({
@@ -79,7 +79,8 @@ let MailService = MailService_1 = class MailService {
         else {
             this.transporter = null;
         }
-        this.fromAddress = 'FinTop DATA <fintopdata.info@gmail.com>';
+        const smtpFrom = this.config.get('SMTP_FROM', '');
+        this.fromAddress = smtpFrom || 'FinTop DATA <fintopdata.info@gmail.com>';
         if (resendApiKey) {
             this.logger.log('Resend API key configured — emails will be sent via Resend HTTPS API.' + (this.transporter ? ' SMTP fallback available.' : ''));
         }
@@ -110,47 +111,46 @@ let MailService = MailService_1 = class MailService {
         return this.sendMail(email, subject, html);
     }
     async sendMail(to, subject, html) {
+        if (this.transporter) {
+            try {
+                const replyTo = 'fintopdata.info@gmail.com';
+                const bcc = this.config.get('MAIL_BCC', '');
+                const info = await this.transporter.sendMail({
+                    from: this.fromAddress,
+                    to,
+                    replyTo,
+                    ...(bcc ? { bcc } : {}),
+                    subject,
+                    html,
+                });
+                this.logger.log(`Email sent to ${to} via SMTP: ${info.messageId}`);
+                return true;
+            }
+            catch (err) {
+                this.logger.warn(`SMTP failed for ${to}: ${err.message}, falling back to API providers...`);
+            }
+        }
         const brevoApiKey = (this.config.get('BREVO_API_KEY', '') || '').replace(/['"\r\n\s]/g, '').trim();
         if (brevoApiKey) {
             const ok = await this.sendMailViaBrevo(to, subject, html, brevoApiKey);
             if (ok)
                 return true;
-            this.logger.warn(`Brevo failed for ${to}, falling back to SMTP...`);
+            this.logger.warn(`Brevo failed for ${to}, falling back to Resend...`);
         }
         const resendApiKey = this.config.get('RESEND_API_KEY', '');
         if (resendApiKey) {
             const ok = await this.sendMailViaResend(to, subject, html, resendApiKey);
             if (ok)
                 return true;
-            this.logger.warn(`Resend failed for ${to}, falling back to SMTP...`);
+            this.logger.warn(`Resend failed for ${to}...`);
         }
-        if (!this.transporter) {
-            this.logger.warn(`[DRY RUN] Email to ${to}: ${subject}`);
-            this.logger.debug(`[DRY RUN] HTML body length: ${html.length}`);
-            return true;
-        }
-        try {
-            const replyTo = 'fintopdata.info@gmail.com';
-            const bcc = this.config.get('MAIL_BCC', 'fintopdata.info@gmail.com');
-            const info = await this.transporter.sendMail({
-                from: this.fromAddress,
-                to,
-                replyTo,
-                ...(bcc ? { bcc } : {}),
-                subject,
-                html,
-            });
-            this.logger.log(`Email sent to ${to} via SMTP fallback: ${info.messageId}`);
-            return true;
-        }
-        catch (err) {
-            this.logger.error(`Failed to send email to ${to} via SMTP: ${err.message}`);
-            return false;
-        }
+        this.logger.warn(`[DRY RUN / NO PROVIDER] Email to ${to}: ${subject}`);
+        return false;
     }
     async sendMailViaResend(to, subject, html, apiKey) {
         try {
             this.logger.log(`Sending email to ${to} via Resend HTTPS API...`);
+            const resendFrom = this.config.get('RESEND_FROM', this.fromAddress);
             const response = await fetch('https://api.resend.com/emails', {
                 method: 'POST',
                 headers: {
@@ -158,7 +158,8 @@ let MailService = MailService_1 = class MailService {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    from: 'FinTop DATA <fintopdata.info@gmail.com>',
+                    from: resendFrom,
+                    reply_to: 'fintopdata.info@gmail.com',
                     to: [to],
                     subject,
                     html,
@@ -178,9 +179,9 @@ let MailService = MailService_1 = class MailService {
     }
     async sendMailViaBrevo(to, subject, html, apiKey) {
         const fromName = 'FinTop DATA';
-        const fromEmail = 'fintopdata.info@gmail.com';
+        const fromEmail = this.config.get('BREVO_FROM_EMAIL', 'fintopdata.info@gmail.com');
         const replyTo = 'fintopdata.info@gmail.com';
-        const bccEmail = this.config.get('MAIL_BCC', 'fintopdata.info@gmail.com');
+        const bccEmail = this.config.get('MAIL_BCC', '');
         try {
             this.logger.log(`Sending email to ${to} via Brevo HTTPS API (from: ${fromEmail})...`);
             const bodyPayload = {

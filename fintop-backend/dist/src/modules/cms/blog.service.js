@@ -255,6 +255,7 @@ let BlogService = BlogService_1 = class BlogService {
                 this.logger.warn(`Failed to fetch article for OG HTML generation: ${err.message}`);
             }
         }
+        const shareUrl = `https://fintopdata.vn/b/${encodeURIComponent(slug || '')}`;
         const redirectUrl = targetUrl;
         const esc = (str) => str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         return `<!DOCTYPE html>
@@ -273,7 +274,10 @@ let BlogService = BlogService_1 = class BlogService {
     <meta property="og:description" content="${esc(description)}">
     <meta property="og:image" content="${esc(imageUrl)}">
     <meta property="og:image:secure_url" content="${esc(imageUrl)}">
-    <meta property="og:url" content="${esc(redirectUrl)}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="${esc(title)}">
+    <meta property="og:url" content="${esc(shareUrl)}">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -281,17 +285,13 @@ let BlogService = BlogService_1 = class BlogService {
     <meta name="twitter:description" content="${esc(description)}">
     <meta name="twitter:image" content="${esc(imageUrl)}">
 
-    <meta http-equiv="refresh" content="0;url=${esc(redirectUrl)}">
-    <link rel="canonical" href="${esc(redirectUrl)}">
-    <script>
-        window.location.replace("${esc(redirectUrl)}");
-    </script>
+    <link rel="canonical" href="${esc(shareUrl)}">
 </head>
 <body>
     <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
         <h2>${esc(title)}</h2>
         <p>${esc(description)}</p>
-        <p>Đang chuyển hướng tới <a href="${esc(redirectUrl)}">FinTop DATA</a>...</p>
+        <p><a href="${esc(redirectUrl)}">Xem bài viết trên FinTop DATA</a></p>
     </div>
 </body>
 </html>`;

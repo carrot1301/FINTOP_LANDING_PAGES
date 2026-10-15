@@ -256,6 +256,7 @@ export class BlogService implements OnModuleInit {
       }
     }
 
+    const shareUrl = `https://fintopdata.vn/b/${encodeURIComponent(slug || '')}`;
     const redirectUrl = targetUrl;
     const esc = (str: string) => str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -275,7 +276,10 @@ export class BlogService implements OnModuleInit {
     <meta property="og:description" content="${esc(description)}">
     <meta property="og:image" content="${esc(imageUrl)}">
     <meta property="og:image:secure_url" content="${esc(imageUrl)}">
-    <meta property="og:url" content="${esc(redirectUrl)}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="${esc(title)}">
+    <meta property="og:url" content="${esc(shareUrl)}">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -283,7 +287,7 @@ export class BlogService implements OnModuleInit {
     <meta name="twitter:description" content="${esc(description)}">
     <meta name="twitter:image" content="${esc(imageUrl)}">
 
-    <link rel="canonical" href="${esc(redirectUrl)}">
+    <link rel="canonical" href="${esc(shareUrl)}">
 </head>
 <body>
     <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
